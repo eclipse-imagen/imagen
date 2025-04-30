@@ -400,7 +400,7 @@ class AffineNearestOpImage extends AffineOpImage {
 					// Last point in the source is
 					// x2 = x1 + width - 1
 					// y2 = y1 + height - 1
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
@@ -576,7 +576,7 @@ class AffineNearestOpImage extends AffineOpImage {
 					// Last point in the source is
 					// x2 = x1 + width - 1
 					// y2 = y1 + height - 1
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
@@ -756,7 +756,7 @@ class AffineNearestOpImage extends AffineOpImage {
 					// Last point in the source is
 					// x2 = x1 + width - 1
 					// y2 = y1 + height - 1
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
@@ -934,7 +934,7 @@ class AffineNearestOpImage extends AffineOpImage {
 					// Last point in the source is
 					// x2 = x1 + width - 1
 					// y2 = y1 + height - 1
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
@@ -1104,7 +1104,7 @@ class AffineNearestOpImage extends AffineOpImage {
 					// Last point in the source is
 					// x2 = x1 + width - 1
 					// y2 = y1 + height - 1
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
@@ -1274,7 +1274,7 @@ class AffineNearestOpImage extends AffineOpImage {
 					// Last point in the source is
 					// x2 = x1 + width - 1
 					// y2 = y1 + height - 1
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
@@ -1437,7 +1437,7 @@ class AffineNearestOpImage extends AffineOpImage {
             // Compute clipMinX, clipMinY
             Range clipRange = 
 		performScanlineClipping(src_rect_x1, src_rect_y1,
-					src_rect_x2 - 1, src_rect_y2 - 1,
+					src_rect_x2, src_rect_y2,
 					s_ix, s_iy,
 					ifracx, ifracy,
 					dst_min_x, dst_max_x,
