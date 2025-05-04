@@ -52,7 +52,7 @@ final class ExpOpImage extends ColormapOpImage {
 
     /**
      * The largest unsigned short to get a non-overflowed exponential result.
-     * i.e. cloeset to 65536.
+     * i.e. cloeset to 65535.
      * exp(11) = 59874.14171, exp(12) = 162754.7914
      */
     private static int USHORT_UP_BOUND = 11;

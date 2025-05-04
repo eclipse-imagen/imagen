@@ -30,7 +30,7 @@ package org.eclipse.imagen.media.codec;
  *
  * <p> For TIFF Palette color images, the colorMap always has entries
  * of short data type, the color Black being represented by 0,0,0 and 
- * White by 65536,65536,65536. In order to display these images, the 
+ * White by 65535,65535,65535. In order to display these images, the
  * default behavior is to dither the short values down to 8 bits. 
  * The dithering is done by calling the <code>decode16BitsTo8Bits</code> 
  * method for each short value that needs to be dithered. The method has

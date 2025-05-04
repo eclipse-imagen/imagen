@@ -1211,7 +1211,7 @@ For an example of reading a TIFF file, see [Listing A-1 on page
 
 For TIFF Palette color images, the `colorMap` always has entries of
 short data type, the color black being represented by 0,0,0 and white
-by 65536,65536,65536. To display these images, the default behavior is
+by 65535,65535,65535. To display these images, the default behavior is
 to dither the short values down to 8 bits. The dithering is done by
 calling the `decode16BitsTo8Bit` method for each short value that
 needs to be dithered. The method has the following implementation:
