@@ -95,7 +95,7 @@ package org.eclipse.imagen;
  */
 public final class InterpolationBicubic2 extends InterpolationTable {
 
-    private static final int PRECISION_BITS = 8;
+    private static final int PRECISION_BITS = 12;
 
     private static float[] dataHelper(int subsampleBits) {
 
