@@ -19,13 +19,11 @@ package org.eclipse.imagen;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -44,23 +42,21 @@ import org.eclipse.imagen.util.CaselessStringKey;
 class RegistryFileParser {
 
     /**
-     * Load the <code>OperationRegistry</code> with the descriptors,
-     * factories and their preferences from the input stream.
+     * Load the <code>OperationRegistry</code> with the descriptors, factories and their preferences from the input
+     * stream.
      */
-    static void loadOperationRegistry(OperationRegistry or,
-		    ClassLoader cl, InputStream is) throws IOException {
+    static void loadOperationRegistry(OperationRegistry or, ClassLoader cl, InputStream is) throws IOException {
 
-	(new RegistryFileParser(or, cl, is)).parseFile();
+        (new RegistryFileParser(or, cl, is)).parseFile();
     }
 
     /**
-     * Load the <code>OperationRegistry</code> with the descriptors,
-     * factories and their preferences from the <code>URL</code>.
+     * Load the <code>OperationRegistry</code> with the descriptors, factories and their preferences from the <code>URL
+     * </code>.
      */
-    static void loadOperationRegistry(OperationRegistry or,
-		    ClassLoader cl, URL url) throws IOException {
+    static void loadOperationRegistry(OperationRegistry or, ClassLoader cl, URL url) throws IOException {
 
-	(new RegistryFileParser(or, cl, url)).parseFile();
+        (new RegistryFileParser(or, cl, url)).parseFile();
     }
 
     private URL url;
@@ -81,702 +77,624 @@ class RegistryFileParser {
     // on a per mode basis.
     private Hashtable localNamesTable;
 
-    /**
-     * Create a JAI registry file parser from an <code>URL</code>
-     */
-    private RegistryFileParser(OperationRegistry or, ClassLoader cl, URL url)
-	    throws IOException {
+    /** Create a JAI registry file parser from an <code>URL</code> */
+    private RegistryFileParser(OperationRegistry or, ClassLoader cl, URL url) throws IOException {
 
-	this(or, cl, url.openStream());
-	this.url = url;
+        this(or, cl, url.openStream());
+        this.url = url;
     }
 
-    /**
-     * Create a JAI registry file parser from the <code>InputStream</code>
-     */
-    private RegistryFileParser(OperationRegistry or, ClassLoader cl, InputStream is)
-	    throws IOException {
+    /** Create a JAI registry file parser from the <code>InputStream</code> */
+    private RegistryFileParser(OperationRegistry or, ClassLoader cl, InputStream is) throws IOException {
 
-	if (or == null)
-	    or = JAI.getDefaultInstance().getOperationRegistry();
+        if (or == null) or = JAI.getDefaultInstance().getOperationRegistry();
 
-	this.is  = is;
-	this.url = null;
-	this.or  = or;
-	this.classLoader  = cl;
+        this.is = is;
+        this.url = null;
+        this.or = or;
+        this.classLoader = cl;
 
-	// Set up streamtokenizer
-	BufferedReader reader =
-	    new BufferedReader(new InputStreamReader(is));
+        // Set up streamtokenizer
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-	st = new StreamTokenizer(reader);
+        st = new StreamTokenizer(reader);
 
-	st.commentChar('#');
-	st.eolIsSignificant(true);
-	st.slashSlashComments(true);
-	st.slashStarComments(true);
+        st.commentChar('#');
+        st.eolIsSignificant(true);
+        st.slashSlashComments(true);
+        st.slashStarComments(true);
 
-	token  = st.ttype;
-	lineno = -1;
+        token = st.ttype;
+        lineno = -1;
 
-	// Initialize a table to map local names to factories.
+        // Initialize a table to map local names to factories.
 
-	localNamesTable = new Hashtable();
+        localNamesTable = new Hashtable();
 
-	String modeNames[] = RegistryMode.getModeNames();
+        String modeNames[] = RegistryMode.getModeNames();
 
-	for (int i = 0; i < modeNames.length; i++)
-	    localNamesTable.put(
-		new CaselessStringKey(modeNames[i]), new Hashtable());
+        for (int i = 0; i < modeNames.length; i++)
+            localNamesTable.put(new CaselessStringKey(modeNames[i]), new Hashtable());
     }
 
-    /**
-     * Skip all the empty tokens generated due to empty lines
-     * and comments.
-     */
+    /** Skip all the empty tokens generated due to empty lines and comments. */
     private int skipEmptyTokens() throws IOException {
 
-	while (st.sval == null) {
-	    if (token == StreamTokenizer.TT_EOF)
-		return token;
+        while (st.sval == null) {
+            if (token == StreamTokenizer.TT_EOF) return token;
 
-	    token = st.nextToken();
-	}
+            token = st.nextToken();
+        }
 
-	return token;
+        return token;
     }
 
-    /**
-     * Get an array of <code>String</code>s of words in the
-     * next line after skipping over empty and comment lines.
-     */
+    /** Get an array of <code>String</code>s of words in the next line after skipping over empty and comment lines. */
     private String[] getNextLine() throws IOException {
 
-	if (skipEmptyTokens() == StreamTokenizer.TT_EOF)
-	    return null;
+        if (skipEmptyTokens() == StreamTokenizer.TT_EOF) return null;
 
-	Vector v = new Vector();
+        Vector v = new Vector();
 
-	lineno = st.lineno();
+        lineno = st.lineno();
 
-	while ((token != StreamTokenizer.TT_EOL) && 
-	       (token != StreamTokenizer.TT_EOF)) {
+        while ((token != StreamTokenizer.TT_EOL) && (token != StreamTokenizer.TT_EOF)) {
 
-	    if (st.sval != null)
-		v.addElement(st.sval);
+            if (st.sval != null) v.addElement(st.sval);
 
-	    token = st.nextToken();
-	}
+            token = st.nextToken();
+        }
 
-	if (v.size() == 0)
-	    return null;
+        if (v.size() == 0) return null;
 
-	return (String[])v.toArray(new String[0]);
+        return (String[]) v.toArray(new String[0]);
     }
 
     // Aliases for backward compatibility
     private static String[][] aliases = {
-	{ "odesc"   , "descriptor"  },
-	{ "rif"	    , "rendered"    },
-	{ "crif"    , "renderable"  },
-	{ "cif"	    , "collection"  },
+        {"odesc", "descriptor"},
+        {"rif", "rendered"},
+        {"crif", "renderable"},
+        {"cif", "collection"},
     };
 
-    /**
-     * Map old keywords to the new keywords
-     */
+    /** Map old keywords to the new keywords */
     private String mapName(String key) {
-	for (int i = 0; i < aliases.length; i++)
-	    if (key.equalsIgnoreCase(aliases[i][0]))
-		return aliases[i][1];
+        for (int i = 0; i < aliases.length; i++) if (key.equalsIgnoreCase(aliases[i][0])) return aliases[i][1];
 
-	return key;
+        return key;
     }
 
-    /**
-     * Create an instance given the class name.
-     */
+    /** Create an instance given the class name. */
     private Object getInstance(String className) {
 
-	try {
-	    Class descriptorClass = null;
-	    String errorMsg = null;
+        try {
+            Class descriptorClass = null;
+            String errorMsg = null;
 
-	    // Since the classes listed in the registryFile can
-	    // reside anywhere (core, ext, classpath or the specified
-	    // classloader) we have to try every place.
+            // Since the classes listed in the registryFile can
+            // reside anywhere (core, ext, classpath or the specified
+            // classloader) we have to try every place.
 
-	    // First try the specified classloader
-	    if (classLoader != null) {
-		try {
-		    descriptorClass = Class.forName(className,
-			    true, classLoader);
-		} catch (Exception e) {
-		    errorMsg = e.getMessage();
-		}
-	    }
+            // First try the specified classloader
+            if (classLoader != null) {
+                try {
+                    descriptorClass = Class.forName(className, true, classLoader);
+                } catch (Exception e) {
+                    errorMsg = e.getMessage();
+                }
+            }
 
-	    // Next try the callee classloader
-	    if (descriptorClass == null) {
-		try {
-		    descriptorClass = Class.forName(className);
-		} catch (Exception e) {
-		    errorMsg = e.getMessage();
-		}
-	    }
+            // Next try the callee classloader
+            if (descriptorClass == null) {
+                try {
+                    descriptorClass = Class.forName(className);
+                } catch (Exception e) {
+                    errorMsg = e.getMessage();
+                }
+            }
 
-	    // Then try the System classloader (because the specified
-	    // classloader might be null and the callee classloader
-	    // might be an ancestor of the SystemClassLoader
-	    if (descriptorClass == null) {
-		try {
-		    descriptorClass = Class.forName(className,
-			    true, ClassLoader.getSystemClassLoader());
-		} catch (Exception e) {
-		    errorMsg = e.getMessage();
-		}
-	    }
+            // Then try the System classloader (because the specified
+            // classloader might be null and the callee classloader
+            // might be an ancestor of the SystemClassLoader
+            if (descriptorClass == null) {
+                try {
+                    descriptorClass = Class.forName(className, true, ClassLoader.getSystemClassLoader());
+                } catch (Exception e) {
+                    errorMsg = e.getMessage();
+                }
+            }
 
-	    if (descriptorClass == null) {
-		registryFileError(errorMsg);
-		return null;
-	    }
+            if (descriptorClass == null) {
+                registryFileError(errorMsg);
+                return null;
+            }
 
-	    return descriptorClass.newInstance();
+            return descriptorClass.newInstance();
 
-	} catch (Exception e) {
-	    registryFileError(e.getMessage());
-	    e.printStackTrace();
-	}
+        } catch (Exception e) {
+            registryFileError(e.getMessage());
+            e.printStackTrace();
+        }
 
-	return null;
+        return null;
     }
 
-    /**
-     * Parse the entire registry file and load internal structures
-     * with the info.
-     */
+    /** Parse the entire registry file and load internal structures with the info. */
     boolean parseFile() throws IOException {
 
-	// If the file has already been parsed do nothing.
-	if (token == StreamTokenizer.TT_EOF)
-	    return true;
+        // If the file has already been parsed do nothing.
+        if (token == StreamTokenizer.TT_EOF) return true;
 
-	String[] keys;
+        String[] keys;
 
-	token = st.nextToken();
+        token = st.nextToken();
 
-	while (token != StreamTokenizer.TT_EOF) {
+        while (token != StreamTokenizer.TT_EOF) {
 
-	    if ((keys = getNextLine()) == null)
-		break;
+            if ((keys = getNextLine()) == null) break;
 
-	    RegistryMode mode;
+            RegistryMode mode;
 
-	    String key = mapName(keys[0]);
+            String key = mapName(keys[0]);
 
-	    // This indicates a new registry mode to be added.
-	    if (key.equalsIgnoreCase("registryMode")) {
+            // This indicates a new registry mode to be added.
+            if (key.equalsIgnoreCase("registryMode")) {
 
-		mode = (RegistryMode)getInstance(keys[1]);
+                mode = (RegistryMode) getInstance(keys[1]);
 
-		if (mode != null) {
-		    if (RegistryMode.addMode(mode) == false)
-			registryFileError(
-			    JaiI18N.getString("RegistryFileParser10"));
-		}
+                if (mode != null) {
+                    if (RegistryMode.addMode(mode) == false)
+                        registryFileError(JaiI18N.getString("RegistryFileParser10"));
+                }
 
-	    // Old format operation-descriptor line OR
-	    // the new generic RegistryElementDescriptor line
-	    } else if (key.equalsIgnoreCase("descriptor")) {
+                // Old format operation-descriptor line OR
+                // the new generic RegistryElementDescriptor line
+            } else if (key.equalsIgnoreCase("descriptor")) {
 
-		registerDescriptor(keys);
+                registerDescriptor(keys);
 
-	    // If it is a registry mode name, then register the
-	    // factory object.
-	    } else if ((mode = RegistryMode.getMode(key)) != null) {
+                // If it is a registry mode name, then register the
+                // factory object.
+            } else if ((mode = RegistryMode.getMode(key)) != null) {
 
-		registerFactory(mode, keys);
+                registerFactory(mode, keys);
 
-	    // If the line starts with a "pref" there are two options
-	    } else if (key.equalsIgnoreCase("pref")) {
+                // If the line starts with a "pref" there are two options
+            } else if (key.equalsIgnoreCase("pref")) {
 
-		key = mapName(keys[1]);
+                key = mapName(keys[1]);
 
-		// If what follows is the keyword "product" then
-		// it is assumed to be setting product preferences
-		// for the "rendered" mode (old file format)
-		if (key.equalsIgnoreCase("product")) {
+                // If what follows is the keyword "product" then
+                // it is assumed to be setting product preferences
+                // for the "rendered" mode (old file format)
+                if (key.equalsIgnoreCase("product")) {
 
-		    setProductPreference(
-			RegistryMode.getMode("rendered"), keys);
+                    setProductPreference(RegistryMode.getMode("rendered"), keys);
 
-		// If it is followed by a modeName then it is
-		// for setting preferences between factory object.
-		} else if ((mode = RegistryMode.getMode(key)) != null) {
+                    // If it is followed by a modeName then it is
+                    // for setting preferences between factory object.
+                } else if ((mode = RegistryMode.getMode(key)) != null) {
 
-		    setFactoryPreference(mode, keys);
+                    setFactoryPreference(mode, keys);
 
-		} else {
-		    registryFileError(JaiI18N.getString("RegistryFileParser4"));
-		}
+                } else {
+                    registryFileError(JaiI18N.getString("RegistryFileParser4"));
+                }
 
-	    // For setting product preferences
-	    } else if (key.equalsIgnoreCase("productPref")) {
+                // For setting product preferences
+            } else if (key.equalsIgnoreCase("productPref")) {
 
-		key = mapName(keys[1]);
+                key = mapName(keys[1]);
 
-		// If it is followed by a modeName then it is
-		// for setting preferences between products
-		if ((mode = RegistryMode.getMode(key)) != null) {
+                // If it is followed by a modeName then it is
+                // for setting preferences between products
+                if ((mode = RegistryMode.getMode(key)) != null) {
 
-		    setProductPreference(mode, keys);
+                    setProductPreference(mode, keys);
 
-		} else {
-		    registryFileError(JaiI18N.getString("RegistryFileParser5"));
-		}
-	    } else {
-		registryFileError(JaiI18N.getString("RegistryFileParser6"));
-	    }
-	}
+                } else {
+                    registryFileError(JaiI18N.getString("RegistryFileParser5"));
+                }
+            } else {
+                registryFileError(JaiI18N.getString("RegistryFileParser6"));
+            }
+        }
 
-	// If this was read in from an URL, we created the InputStream
-	// and so we should close it.
-	if (url != null)
-	    is.close();
+        // If this was read in from an URL, we created the InputStream
+        // and so we should close it.
+        if (url != null) is.close();
 
-	return true;
+        return true;
     }
 
-    /**
-     * Register a descriptor with operation registry.
-     */
+    /** Register a descriptor with operation registry. */
     private void registerDescriptor(String[] keys) {
 
-	if (keys.length >= 2) {
+        if (keys.length >= 2) {
 
-	    RegistryElementDescriptor red =
-		(RegistryElementDescriptor)getInstance(keys[1]);
+            RegistryElementDescriptor red = (RegistryElementDescriptor) getInstance(keys[1]);
 
-	    if (red != null) {
-		try {
-		    or.registerDescriptor(red);
-		} catch (Exception e) {
-		    registryFileError(e.getMessage());
-		}
-	    }
+            if (red != null) {
+                try {
+                    or.registerDescriptor(red);
+                } catch (Exception e) {
+                    registryFileError(e.getMessage());
+                }
+            }
 
-	} else {
-	    registryFileError(JaiI18N.getString("RegistryFileParser1"));
-	}
+        } else {
+            registryFileError(JaiI18N.getString("RegistryFileParser1"));
+        }
     }
 
-    /**
-     * Register a factory instance against a registry mode
-     * under given product and local-name.
-     */
+    /** Register a factory instance against a registry mode under given product and local-name. */
     private void registerFactory(RegistryMode mode, String[] keys) {
 
-	Object factory;
+        Object factory;
 
-	if (mode.arePreferencesSupported()) {
+        if (mode.arePreferencesSupported()) {
 
-	    if (keys.length >= 5) {
+            if (keys.length >= 5) {
 
-		if ((factory = getInstance(keys[1])) != null) {
-		    try {
-			or.registerFactory(
-			    mode.getName(), keys[3], keys[2], factory);
+                if ((factory = getInstance(keys[1])) != null) {
+                    try {
+                        or.registerFactory(mode.getName(), keys[3], keys[2], factory);
 
-			mapLocalNameToObject(mode.getName(), keys[4], factory);
+                        mapLocalNameToObject(mode.getName(), keys[4], factory);
 
-		    } catch (Exception e) {
-			registryFileError(e.getMessage());
-		    }
-		}
+                    } catch (Exception e) {
+                        registryFileError(e.getMessage());
+                    }
+                }
 
-	    } else {
-		registryFileError(
-		    JaiI18N.getString("RegistryFileParser2"));
-	    }
+            } else {
+                registryFileError(JaiI18N.getString("RegistryFileParser2"));
+            }
 
-	} else {
-	    if (keys.length >= 3) {
+        } else {
+            if (keys.length >= 3) {
 
-		if ((factory = getInstance(keys[1])) != null) {
-		    try {
-			or.registerFactory(
-			    mode.getName(), keys[2], null, factory);
+                if ((factory = getInstance(keys[1])) != null) {
+                    try {
+                        or.registerFactory(mode.getName(), keys[2], null, factory);
 
-		    } catch (Exception e) {
-			registryFileError(e.getMessage());
-		    }
-		}
+                    } catch (Exception e) {
+                        registryFileError(e.getMessage());
+                    }
+                }
 
-	    } else {
-		registryFileError(
-		    JaiI18N.getString("RegistryFileParser3"));
-	    }
-	}
+            } else {
+                registryFileError(JaiI18N.getString("RegistryFileParser3"));
+            }
+        }
     }
 
-    /**
-     * Register a factory instance against a registry mode
-     * under given product and local-name.
-     */
+    /** Register a factory instance against a registry mode under given product and local-name. */
     private void setProductPreference(RegistryMode mode, String[] keys) {
 
-	String modeName = mode.getName();
+        String modeName = mode.getName();
 
-	if (mode.arePreferencesSupported()) {
+        if (mode.arePreferencesSupported()) {
 
-	    if (keys.length >= 5) {
+            if (keys.length >= 5) {
 
-		try {
-		    or.setProductPreference(
-			modeName, keys[2], keys[3], keys[4]);
+                try {
+                    or.setProductPreference(modeName, keys[2], keys[3], keys[4]);
 
-		} catch (Exception e) {
-		    registryFileError(e.getMessage());
-		}
+                } catch (Exception e) {
+                    registryFileError(e.getMessage());
+                }
 
-	    } else {
-		registryFileError(
-		    JaiI18N.getString("RegistryFileParser5"));
-	    }
+            } else {
+                registryFileError(JaiI18N.getString("RegistryFileParser5"));
+            }
 
-	} else {
-	    registryFileError(JaiI18N.getString("RegistryFileParser9"));
-	}
+        } else {
+            registryFileError(JaiI18N.getString("RegistryFileParser9"));
+        }
     }
 
-    /**
-     * Register a factory instance against a registry mode
-     * under given product and local-name.
-     */
+    /** Register a factory instance against a registry mode under given product and local-name. */
     private void setFactoryPreference(RegistryMode mode, String[] keys) {
 
-	String modeName = mode.getName();
-	Object factory;
+        String modeName = mode.getName();
+        Object factory;
 
-	if (mode.arePreferencesSupported()) {
+        if (mode.arePreferencesSupported()) {
 
-	    if (keys.length >= 6) {
+            if (keys.length >= 6) {
 
-		Object preferred = getObjectFromLocalName(modeName, keys[4]);
-		Object other     = getObjectFromLocalName(modeName, keys[5]);
+                Object preferred = getObjectFromLocalName(modeName, keys[4]);
+                Object other = getObjectFromLocalName(modeName, keys[5]);
 
-		if ((preferred != null) && (other != null)) {
+                if ((preferred != null) && (other != null)) {
 
-		    try {
-			or.setFactoryPreference(
-			    modeName, keys[2], keys[3], preferred, other);
+                    try {
+                        or.setFactoryPreference(modeName, keys[2], keys[3], preferred, other);
 
-		    } catch (Exception e) {
-			registryFileError(e.getMessage());
-		    }
-		}
+                    } catch (Exception e) {
+                        registryFileError(e.getMessage());
+                    }
+                }
 
-	    } else {
-		registryFileError(
-		    JaiI18N.getString("RegistryFileParser4"));
-	    }
+            } else {
+                registryFileError(JaiI18N.getString("RegistryFileParser4"));
+            }
 
-	} else {
-	    registryFileError(JaiI18N.getString("RegistryFileParser7"));
-	}
+        } else {
+            registryFileError(JaiI18N.getString("RegistryFileParser7"));
+        }
     }
 
-    /**
-     * Map local names to factory instances, so that they can
-     * be used to directly set preferences later.
-     */
+    /** Map local names to factory instances, so that they can be used to directly set preferences later. */
     private void mapLocalNameToObject(String modeName, String localName, Object factory) {
 
-	Hashtable modeTable = (Hashtable)
-	    localNamesTable.get(new CaselessStringKey(modeName));
+        Hashtable modeTable = (Hashtable) localNamesTable.get(new CaselessStringKey(modeName));
 
-	modeTable.put(new CaselessStringKey(localName), factory);
+        modeTable.put(new CaselessStringKey(localName), factory);
     }
 
-    /**
-     * Get object registered under the local name for under the mode.
-     */
+    /** Get object registered under the local name for under the mode. */
     private Object getObjectFromLocalName(String modeName, String localName) {
 
-	Hashtable modeTable = (Hashtable)
-	    localNamesTable.get(new CaselessStringKey(modeName));
+        Hashtable modeTable = (Hashtable) localNamesTable.get(new CaselessStringKey(modeName));
 
-	Object obj = modeTable.get(new CaselessStringKey(localName));
+        Object obj = modeTable.get(new CaselessStringKey(localName));
 
-	if (obj == null)
-	    registryFileError(localName + ": " +
-		    JaiI18N.getString("RegistryFileParser8"));
+        if (obj == null) registryFileError(localName + ": " + JaiI18N.getString("RegistryFileParser8"));
 
-	return obj;
+        return obj;
     }
 
     private boolean headerLinePrinted = false;
 
-    /**
-     * Print the line number and then print the passed in message.
-     */
+    /** Print the line number and then print the passed in message. */
     private void registryFileError(String msg) {
 
-	if (!headerLinePrinted) {
+        if (!headerLinePrinted) {
 
-	    if (url != null) {
-		errorMsg(JaiI18N.getString("RegistryFileParser11"),
-		    new Object[] { url.getPath() });
-	    }
+            if (url != null) {
+                errorMsg(JaiI18N.getString("RegistryFileParser11"), new Object[] {url.getPath()});
+            }
 
-	    headerLinePrinted = true;
-	}
+            headerLinePrinted = true;
+        }
 
-	errorMsg(JaiI18N.getString("RegistryFileParser0"),
-		 new Object[] { new Integer(lineno) });
+        errorMsg(JaiI18N.getString("RegistryFileParser0"), new Object[] {new Integer(lineno)});
 
-	if (msg != null)
-	    errorMsg(msg, null);
+        if (msg != null) errorMsg(msg, null);
     }
 
     /**
-     * Creates a <code>MessageFormat</code> object and set the
-     * <code>Locale</code> to default and formats the message
+     * Creates a <code>MessageFormat</code> object and set the <code>Locale</code> to default and formats the message
      */
     private void errorMsg(String key, Object[] args) {
         MessageFormat mf = new MessageFormat(key);
         mf.setLocale(Locale.getDefault());
 
-	if (System.err != null)
-	    System.err.println(mf.format(args));
+        if (System.err != null) System.err.println(mf.format(args));
     }
 
-    /**
-     * Write the OperationRegistry out to the output stream.
-     */
-    static void writeOperationRegistry(OperationRegistry or,
-			   OutputStream os) throws IOException {
+    /** Write the OperationRegistry out to the output stream. */
+    static void writeOperationRegistry(OperationRegistry or, OutputStream os) throws IOException {
 
-	writeOperationRegistry(or,
-	    new BufferedWriter(new OutputStreamWriter(os)));
+        writeOperationRegistry(or, new BufferedWriter(new OutputStreamWriter(os)));
     }
 
-    /**
-     * Write the OperationRegistry out to the output stream.
-     */
-    static void writeOperationRegistry(OperationRegistry or,
-			   BufferedWriter bw) throws IOException {
+    /** Write the OperationRegistry out to the output stream. */
+    static void writeOperationRegistry(OperationRegistry or, BufferedWriter bw) throws IOException {
 
-	// First cycle through all the descriptor classes
-	Iterator dcit = RegistryMode.getDescriptorClasses().iterator();
+        // First cycle through all the descriptor classes
+        Iterator dcit = RegistryMode.getDescriptorClasses().iterator();
 
-	String tab = "  ";
+        String tab = "  ";
 
-	while (dcit.hasNext()) {
+        while (dcit.hasNext()) {
 
-	    Class descriptorClass = (Class)dcit.next();
+            Class descriptorClass = (Class) dcit.next();
 
-	    List descriptors = or.getDescriptors(descriptorClass);
+            List descriptors = or.getDescriptors(descriptorClass);
 
-	    // First write all the descriptors corresponding
-	    // to this descriptorClass
-	    bw.write("#"); bw.newLine();
-	    bw.write("# Descriptors corresponding to class : " + descriptorClass.getName()); bw.newLine();
-	    bw.write("#"); bw.newLine();
+            // First write all the descriptors corresponding
+            // to this descriptorClass
+            bw.write("#");
+            bw.newLine();
+            bw.write("# Descriptors corresponding to class : " + descriptorClass.getName());
+            bw.newLine();
+            bw.write("#");
+            bw.newLine();
 
-	    if ((descriptors == null) || (descriptors.size() <= 0)) {
-		bw.write("# <EMPTY>"); bw.newLine();
-	    } else {
-		
-		Iterator it = descriptors.iterator();
+            if ((descriptors == null) || (descriptors.size() <= 0)) {
+                bw.write("# <EMPTY>");
+                bw.newLine();
+            } else {
 
-		while (it.hasNext()) {
-		    bw.write("descriptor" + tab);
-		    bw.write(it.next().getClass().getName());
-		    bw.newLine();
-		}
-	    }
-	    bw.newLine();
+                Iterator it = descriptors.iterator();
 
-	    // Now cycle through all registry modes associated
-	    // with this descriptorClass and write out the
-	    // factories and their preferences
+                while (it.hasNext()) {
+                    bw.write("descriptor" + tab);
+                    bw.write(it.next().getClass().getName());
+                    bw.newLine();
+                }
+            }
+            bw.newLine();
 
-	    String modeNames[] = RegistryMode.getModeNames(descriptorClass);
+            // Now cycle through all registry modes associated
+            // with this descriptorClass and write out the
+            // factories and their preferences
 
-	    boolean empty;
-	    int i, j, k, l;
+            String modeNames[] = RegistryMode.getModeNames(descriptorClass);
 
-	    for (i = 0; i < modeNames.length; i++) {
-		bw.write("#"); bw.newLine();
-		bw.write("# Factories registered under mode : " + modeNames[i]); bw.newLine();
-		bw.write("#"); bw.newLine();
+            boolean empty;
+            int i, j, k, l;
 
-		RegistryMode mode = RegistryMode.getMode(modeNames[i]);
+            for (i = 0; i < modeNames.length; i++) {
+                bw.write("#");
+                bw.newLine();
+                bw.write("# Factories registered under mode : " + modeNames[i]);
+                bw.newLine();
+                bw.write("#");
+                bw.newLine();
 
-		boolean prefs = mode.arePreferencesSupported();
+                RegistryMode mode = RegistryMode.getMode(modeNames[i]);
 
-		String[] descriptorNames =
-			    or.getDescriptorNames(modeNames[i]);
+                boolean prefs = mode.arePreferencesSupported();
 
-		// Over all descriptor names for this mode.
-		for (j = 0, empty = true; j < descriptorNames.length; j++) {
+                String[] descriptorNames = or.getDescriptorNames(modeNames[i]);
 
-		    if (prefs) {
-			Vector productVector =
-			    or.getOrderedProductList(modeNames[i],
-						     descriptorNames[j]);
+                // Over all descriptor names for this mode.
+                for (j = 0, empty = true; j < descriptorNames.length; j++) {
 
-			if (productVector == null)
-			    continue;
+                    if (prefs) {
+                        Vector productVector = or.getOrderedProductList(modeNames[i], descriptorNames[j]);
 
-			String[] productNames =
-			    (String[])productVector.toArray(new String[0]);
+                        if (productVector == null) continue;
 
-			// Over all products under which there are
-			// factories registered under this descriptor name
-			for (k = 0; k < productNames.length; k++) {
+                        String[] productNames = (String[]) productVector.toArray(new String[0]);
 
-			    List factoryList =
-				or.getOrderedFactoryList(modeNames[i],
-							 descriptorNames[j],
-							 productNames[k]);
+                        // Over all products under which there are
+                        // factories registered under this descriptor name
+                        for (k = 0; k < productNames.length; k++) {
 
-			    Iterator fit = factoryList.iterator();
+                            List factoryList =
+                                    or.getOrderedFactoryList(modeNames[i], descriptorNames[j], productNames[k]);
 
-			    while (fit.hasNext()) {
-				Object instance = fit.next();
+                            Iterator fit = factoryList.iterator();
 
-				if (instance == null)
-				    continue;
+                            while (fit.hasNext()) {
+                                Object instance = fit.next();
 
-				bw.write(modeNames[i] + tab);
-				bw.write(instance.getClass().getName() + tab);
-				bw.write(productNames[k] + tab);
-				bw.write(descriptorNames[j] + tab);
-				bw.write(or.getLocalName(modeNames[i], instance));
-				bw.newLine();
+                                if (instance == null) continue;
 
-				empty = false;
-			    }
-			}
-		    } else {
-			Iterator fit = or.getFactoryIterator(
-					modeNames[i], descriptorNames[j]);
+                                bw.write(modeNames[i] + tab);
+                                bw.write(instance.getClass().getName() + tab);
+                                bw.write(productNames[k] + tab);
+                                bw.write(descriptorNames[j] + tab);
+                                bw.write(or.getLocalName(modeNames[i], instance));
+                                bw.newLine();
 
-			while (fit.hasNext()) {
-			    Object instance = fit.next();
+                                empty = false;
+                            }
+                        }
+                    } else {
+                        Iterator fit = or.getFactoryIterator(modeNames[i], descriptorNames[j]);
 
-			    if (instance == null)
-				continue;
+                        while (fit.hasNext()) {
+                            Object instance = fit.next();
 
-			    bw.write(modeNames[i] + tab);
-			    bw.write(instance.getClass().getName() + tab);
-			    bw.write(descriptorNames[j]);
-			    bw.newLine();
+                            if (instance == null) continue;
 
-			    empty = false;
-			}
-		    }
-		}
+                            bw.write(modeNames[i] + tab);
+                            bw.write(instance.getClass().getName() + tab);
+                            bw.write(descriptorNames[j]);
+                            bw.newLine();
 
-		if (empty) {
-		    bw.write("# <EMPTY>"); bw.newLine();
-		}
-		bw.newLine();
+                            empty = false;
+                        }
+                    }
+                }
 
-		// If the mode does not support preferences
-		// then just continue
-		if (!prefs) {
-		    bw.write("#"); bw.newLine();
-		    bw.write("# Preferences not supported for mode : " + modeNames[i]); bw.newLine();
-		    bw.write("#"); bw.newLine();
-		    bw.newLine();
-		    continue;
-		}
+                if (empty) {
+                    bw.write("# <EMPTY>");
+                    bw.newLine();
+                }
+                bw.newLine();
 
-		// Next, write the product preferences for this mode
-		bw.write("#"); bw.newLine();
-		bw.write("# Product preferences for mode : " + modeNames[i]); bw.newLine();
-		bw.write("#"); bw.newLine();
+                // If the mode does not support preferences
+                // then just continue
+                if (!prefs) {
+                    bw.write("#");
+                    bw.newLine();
+                    bw.write("# Preferences not supported for mode : " + modeNames[i]);
+                    bw.newLine();
+                    bw.write("#");
+                    bw.newLine();
+                    bw.newLine();
+                    continue;
+                }
 
-		for (j = 0, empty = true; j < descriptorNames.length; j++) {
+                // Next, write the product preferences for this mode
+                bw.write("#");
+                bw.newLine();
+                bw.write("# Product preferences for mode : " + modeNames[i]);
+                bw.newLine();
+                bw.write("#");
+                bw.newLine();
 
-		    String[][] productPrefs =
-			    or.getProductPreferences(modeNames[i],
-						     descriptorNames[j]);
-		    if (productPrefs == null)
-			continue;
+                for (j = 0, empty = true; j < descriptorNames.length; j++) {
 
-		    for (k = 0; k < productPrefs.length; k++) {
-			bw.write("productPref" + tab);
-			bw.write(modeNames[i] + tab);
-			bw.write(descriptorNames[j] + tab);
-			bw.write(productPrefs[k][0] + tab);
-			bw.write(productPrefs[k][1]);
-			bw.newLine();
+                    String[][] productPrefs = or.getProductPreferences(modeNames[i], descriptorNames[j]);
+                    if (productPrefs == null) continue;
 
-			empty = false;
-		    }
-		}
+                    for (k = 0; k < productPrefs.length; k++) {
+                        bw.write("productPref" + tab);
+                        bw.write(modeNames[i] + tab);
+                        bw.write(descriptorNames[j] + tab);
+                        bw.write(productPrefs[k][0] + tab);
+                        bw.write(productPrefs[k][1]);
+                        bw.newLine();
 
-		if (empty) {
-		    bw.write("# <EMPTY>"); bw.newLine();
-		}
-		bw.newLine();
+                        empty = false;
+                    }
+                }
 
-		// Next, write the factory preferences for this mode
-		bw.write("#"); bw.newLine();
-		bw.write("# Factory preferences for mode : " + modeNames[i]); bw.newLine();
-		bw.write("#"); bw.newLine();
+                if (empty) {
+                    bw.write("# <EMPTY>");
+                    bw.newLine();
+                }
+                bw.newLine();
 
-		// Over all descriptor names for this mode.
-		for (j = 0, empty = true; j < descriptorNames.length; j++) {
+                // Next, write the factory preferences for this mode
+                bw.write("#");
+                bw.newLine();
+                bw.write("# Factory preferences for mode : " + modeNames[i]);
+                bw.newLine();
+                bw.write("#");
+                bw.newLine();
 
-		    if (prefs) {
-			Vector productVector =
-			    or.getOrderedProductList(modeNames[i],
-						     descriptorNames[j]);
+                // Over all descriptor names for this mode.
+                for (j = 0, empty = true; j < descriptorNames.length; j++) {
 
-			if (productVector == null)
-			    continue;
+                    if (prefs) {
+                        Vector productVector = or.getOrderedProductList(modeNames[i], descriptorNames[j]);
 
-			String[] productNames =
-			    (String[])productVector.toArray(new String[0]);
+                        if (productVector == null) continue;
 
-			// Over all products under which there are
-			// factories registered under this descriptor name
-			for (k = 0; k < productNames.length; k++) {
+                        String[] productNames = (String[]) productVector.toArray(new String[0]);
 
-			    Object fprefs[][] = or.getFactoryPreferences(
-				modeNames[i], descriptorNames[j], productNames[k]);
+                        // Over all products under which there are
+                        // factories registered under this descriptor name
+                        for (k = 0; k < productNames.length; k++) {
 
-			    if (fprefs == null)
-				continue;
+                            Object fprefs[][] =
+                                    or.getFactoryPreferences(modeNames[i], descriptorNames[j], productNames[k]);
 
-			    for (l = 0; l < fprefs.length; l++) {
-				bw.write("pref" + tab);
-				bw.write(modeNames[i] + tab);
-				bw.write(descriptorNames[j] + tab);
-				bw.write(productNames[k] + tab);
-				bw.write(or.getLocalName(modeNames[i], fprefs[l][0]) + tab);
-				bw.write(or.getLocalName(modeNames[i], fprefs[l][1]));
-				bw.newLine();
+                            if (fprefs == null) continue;
 
-				empty = false;
-			    }
-			}
-		    }
-		}
+                            for (l = 0; l < fprefs.length; l++) {
+                                bw.write("pref" + tab);
+                                bw.write(modeNames[i] + tab);
+                                bw.write(descriptorNames[j] + tab);
+                                bw.write(productNames[k] + tab);
+                                bw.write(or.getLocalName(modeNames[i], fprefs[l][0]) + tab);
+                                bw.write(or.getLocalName(modeNames[i], fprefs[l][1]));
+                                bw.newLine();
 
-		if (empty) {
-		    bw.write("# <EMPTY>"); bw.newLine();
-		}
-		bw.newLine();
-	    }
-	}
+                                empty = false;
+                            }
+                        }
+                    }
+                }
 
-	bw.flush();
+                if (empty) {
+                    bw.write("# <EMPTY>");
+                    bw.newLine();
+                }
+                bw.newLine();
+            }
+        }
+
+        bw.flush();
     }
 }

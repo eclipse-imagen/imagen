@@ -16,42 +16,35 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.ComponentSampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
  * An <code>OpImage</code> implementing the "BandCombine" operation.
  *
- * <p>This <code>OpImage</code> performs the arbitrary interband
- * linear combination of an image using the specified matrix.  The
- * width of the matrix must be one larger that the number of bands
- * in the source image.  The height of the matrix must be equal to
- * the number of bands in the destination image.  Because the matrix
- * can be of arbitrary size, this function can be used to produce
- * a destination image with a different number of bands from the
- * source image.
- * <p>The destination image is formed by performing a matrix-
- * multiply operation between the bands of the source image and
- * the specified matrix.  The extra column of values is a constant
- * that is added after the matrix-multiply operation takes place.
+ * <p>This <code>OpImage</code> performs the arbitrary interband linear combination of an image using the specified
+ * matrix. The width of the matrix must be one larger that the number of bands in the source image. The height of the
+ * matrix must be equal to the number of bands in the destination image. Because the matrix can be of arbitrary size,
+ * this function can be used to produce a destination image with a different number of bands from the source image.
+ *
+ * <p>The destination image is formed by performing a matrix- multiply operation between the bands of the source image
+ * and the specified matrix. The extra column of values is a constant that is added after the matrix-multiply operation
+ * takes place.
  *
  * @see org.eclipse.imagen.operator.BandCombineDescriptor
  * @see BandCombineCRIF
- *
- *
  * @since EA3
  */
 final class BandCombineOpImage extends PointOpImage {
@@ -61,30 +54,22 @@ final class BandCombineOpImage extends PointOpImage {
     /**
      * Constructor.
      *
-     * @param source       The source image.
-     * @param layout       The destination image layout.
-     * @param matrix       The matrix of values used to perform the
-     *                     linear combination.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param matrix The matrix of values used to perform the linear combination.
      */
-    public BandCombineOpImage(RenderedImage source,
-                              Map config,
-                              ImageLayout layout,
-                              double[][] matrix) {
+    public BandCombineOpImage(RenderedImage source, Map config, ImageLayout layout, double[][] matrix) {
         super(source, layout, config, true);
 
         this.matrix = matrix;
 
-        int numBands = matrix.length;  // matrix height is dst numBands
+        int numBands = matrix.length; // matrix height is dst numBands
         if (getSampleModel().getNumBands() != numBands) {
-            sampleModel = RasterFactory.createComponentSampleModel(sampleModel,
-                                  sampleModel.getDataType(),
-                                  tileWidth, tileHeight, numBands);
+            sampleModel = RasterFactory.createComponentSampleModel(
+                    sampleModel, sampleModel.getDataType(), tileWidth, tileHeight, numBands);
 
-            if(colorModel != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sampleModel,
-                                                       colorModel)) {
-                colorModel = ImageUtil.getCompatibleColorModel(sampleModel,
-                                                               config);
+            if (colorModel != null && !JDKWorkarounds.areCompatibleDataModels(sampleModel, colorModel)) {
+                colorModel = ImageUtil.getCompatibleColorModel(sampleModel, config);
             }
         }
     }
@@ -92,42 +77,37 @@ final class BandCombineOpImage extends PointOpImage {
     /**
      * Performs linear combination of source image with matrix
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor s = new RasterAccessor(sources[0], destRect,  
-                                              formatTags[0], 
-                                              getSourceImage(0).getColorModel());
-        RasterAccessor d = new RasterAccessor(dest, destRect,  
-                                              formatTags[1], getColorModel());
+        RasterAccessor s = new RasterAccessor(
+                sources[0], destRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         switch (d.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(s, d);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(s, d);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(s, d);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(s, d);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(s, d);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(s, d);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(s, d);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(s, d);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(s, d);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(s, d);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(s, d);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(s, d);
+                break;
         }
 
         if (d.isDataCopy()) {
@@ -162,12 +142,11 @@ final class BandCombineOpImage extends PointOpImage {
                     float sum = 0.0F;
                     double[] mat = matrix[b];
 
-                    for (int k = 0; k < sbands; k++ ) {
-                        sum += (float)mat[k] *
-                               (float)(sData[k][spo+sBandOffsets[k]] & 0xFF);
+                    for (int k = 0; k < sbands; k++) {
+                        sum += (float) mat[k] * (float) (sData[k][spo + sBandOffsets[k]] & 0xFF);
                     }
 
-                    dData[b][dpo+dBandOffsets[b]] = ImageUtil.clampRoundByte(sum + (float)mat[sbands]);
+                    dData[b][dpo + dBandOffsets[b]] = ImageUtil.clampRoundByte(sum + (float) mat[sbands]);
                 }
 
                 spo += sPixelStride;
@@ -205,12 +184,11 @@ final class BandCombineOpImage extends PointOpImage {
                     float sum = 0.0F;
                     double[] mat = matrix[b];
 
-                    for (int k = 0; k < sbands; k++ ) {
-                        sum += (float)mat[k] *
-                               (float)(sData[k][spo+sBandOffsets[k]] & 0xFFFF);
+                    for (int k = 0; k < sbands; k++) {
+                        sum += (float) mat[k] * (float) (sData[k][spo + sBandOffsets[k]] & 0xFFFF);
                     }
 
-                    dData[b][dpo+dBandOffsets[b]] = ImageUtil.clampRoundUShort(sum + (float)matrix[b][sbands]);
+                    dData[b][dpo + dBandOffsets[b]] = ImageUtil.clampRoundUShort(sum + (float) matrix[b][sbands]);
                 }
 
                 spo += sPixelStride;
@@ -248,12 +226,11 @@ final class BandCombineOpImage extends PointOpImage {
                     float sum = 0.0F;
                     double[] mat = matrix[b];
 
-                    for (int k = 0; k < sbands; k++ ) {
-                        sum += (float)mat[k] *
-                               (float)(sData[k][spo+sBandOffsets[k]]);
+                    for (int k = 0; k < sbands; k++) {
+                        sum += (float) mat[k] * (float) (sData[k][spo + sBandOffsets[k]]);
                     }
 
-                    dData[b][dpo+dBandOffsets[b]] = ImageUtil.clampRoundUShort(sum + (float)matrix[b][sbands]);
+                    dData[b][dpo + dBandOffsets[b]] = ImageUtil.clampRoundUShort(sum + (float) matrix[b][sbands]);
                 }
 
                 spo += sPixelStride;
@@ -263,7 +240,6 @@ final class BandCombineOpImage extends PointOpImage {
             sso += sLineStride;
             dso += dLineStride;
         }
-
     }
 
     private void computeRectInt(RasterAccessor src, RasterAccessor dst) {
@@ -292,12 +268,11 @@ final class BandCombineOpImage extends PointOpImage {
                     float sum = 0.0F;
                     double[] mat = matrix[b];
 
-                    for (int k = 0; k < sbands; k++ ) {
-                        sum += (float)mat[k] *
-                               (float)(sData[k][spo+sBandOffsets[k]]);
+                    for (int k = 0; k < sbands; k++) {
+                        sum += (float) mat[k] * (float) (sData[k][spo + sBandOffsets[k]]);
                     }
 
-                    dData[b][dpo+dBandOffsets[b]] = ImageUtil.clampRoundInt(sum + (float)matrix[b][sbands]);
+                    dData[b][dpo + dBandOffsets[b]] = ImageUtil.clampRoundInt(sum + (float) matrix[b][sbands]);
                 }
 
                 spo += sPixelStride;
@@ -335,11 +310,11 @@ final class BandCombineOpImage extends PointOpImage {
                     float sum = 0.0F;
                     double[] mat = matrix[b];
 
-                    for (int k = 0; k < sbands; k++ ) {
-                        sum += (float)mat[k] * sData[k][spo+sBandOffsets[k]];
+                    for (int k = 0; k < sbands; k++) {
+                        sum += (float) mat[k] * sData[k][spo + sBandOffsets[k]];
                     }
 
-                    dData[b][dpo+dBandOffsets[b]] = sum + (float)matrix[b][sbands];
+                    dData[b][dpo + dBandOffsets[b]] = sum + (float) matrix[b][sbands];
                 }
 
                 spo += sPixelStride;
@@ -377,11 +352,11 @@ final class BandCombineOpImage extends PointOpImage {
                     double sum = 0.0D;
                     double[] mat = matrix[b];
 
-                    for (int k = 0; k < sbands; k++ ) {
-                        sum += mat[k] * sData[k][spo+sBandOffsets[k]];
+                    for (int k = 0; k < sbands; k++) {
+                        sum += mat[k] * sData[k][spo + sBandOffsets[k]];
                     }
 
-                    dData[b][dpo+dBandOffsets[b]] = sum + matrix[b][sbands];
+                    dData[b][dpo + dBandOffsets[b]] = sum + matrix[b][sbands];
                 }
 
                 spo += sPixelStride;

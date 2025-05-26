@@ -17,9 +17,7 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import java.awt.image.DataBuffer;
 import org.eclipse.imagen.operator.DFTDescriptor;
-import org.eclipse.imagen.media.util.MathJAI;
 
 /**
  * The Fast Cosine Transform (FCT) class.
@@ -49,9 +47,7 @@ public class FCT {
         this.isForwardTransform = isForwardTransform;
 
         // Create the FFT object.
-        fft = new FFT(isForwardTransform,
-                      new Integer(DFTDescriptor.SCALING_NONE.getValue()),
-                      length);
+        fft = new FFT(isForwardTransform, new Integer(DFTDescriptor.SCALING_NONE.getValue()), length);
     }
 
     /**
@@ -66,18 +62,15 @@ public class FCT {
     /**
      * Set the internal work data array of the FCT object.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param data Float or double array of data.
      * @param offset Offset into the data array.
      * @param stride The data array stride value.
      * @param count The number of values to copy.
      */
-    public void setData(int dataType, Object data,
-                        int offset, int stride,
-                        int count) {
-        if(isForwardTransform) {
+    public void setData(int dataType, Object data, int offset, int stride, int count) {
+        if (isForwardTransform) {
             fft.setFCTData(dataType, data, offset, stride, count);
         } else {
             fft.setIFCTData(dataType, data, offset, stride, count);
@@ -87,25 +80,21 @@ public class FCT {
     /**
      * Get data from the internal work data array of the FCT object.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param data Float or double array of data.
      * @param offset Offset into the data array.
      * @param stride The data array stride value.
      */
-    public void getData(int dataType, Object data,
-                        int offset, int stride) {
-        if(isForwardTransform) {
+    public void getData(int dataType, Object data, int offset, int stride) {
+        if (isForwardTransform) {
             fft.getFCTData(dataType, data, offset, stride);
         } else {
             fft.getIFCTData(dataType, data, offset, stride);
         }
     }
 
-    /**
-     * Calculate the DCT of a sequence using the FCT algorithm.
-     */
+    /** Calculate the DCT of a sequence using the FCT algorithm. */
     public void transform() {
         fft.transform();
     }

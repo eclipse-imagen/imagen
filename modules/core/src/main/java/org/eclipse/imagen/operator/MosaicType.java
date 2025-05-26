@@ -20,11 +20,9 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "mosaicType"
- * parameter of the "Mosaic" operation.  Acceptable values for the
- * "maskShape" parameter are defined in the {@link MosaicDescriptor}
- * by the constants {@link MosaicDescriptor#MOSAIC_TYPE_BLEND} and
- * {@link MosaicDescriptor#MOSAIC_TYPE_OVERLAY}.
+ * Class used to represent the acceptable values of the "mosaicType" parameter of the "Mosaic" operation. Acceptable
+ * values for the "maskShape" parameter are defined in the {@link MosaicDescriptor} by the constants
+ * {@link MosaicDescriptor#MOSAIC_TYPE_BLEND} and {@link MosaicDescriptor#MOSAIC_TYPE_OVERLAY}.
  *
  * @since JAI 1.1.2
  */
@@ -33,4 +31,3 @@ public final class MosaicType extends EnumeratedParameter {
         super(name, value);
     }
 }
-

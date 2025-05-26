@@ -16,23 +16,22 @@
  */
 
 package org.eclipse.imagen.media.codecimpl;
+
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
-import org.eclipse.imagen.media.codec.ImageEncoder;
+import org.eclipse.imagen.media.codec.ImageDecoder;
 import org.eclipse.imagen.media.codec.ImageEncodeParam;
+import org.eclipse.imagen.media.codec.ImageEncoder;
 import org.eclipse.imagen.media.codec.SeekableStream;
 // import org.eclipse.imagen.media.codec.GIFEncodeParam;
 
-/**
- * @since EA3
- */
+/** @since EA3 */
 public final class GIFCodec extends ImageCodec {
 
     public GIFCodec() {}
@@ -49,13 +48,11 @@ public final class GIFCodec extends ImageCodec {
         return Object.class;
     }
 
-    public boolean canEncodeImage(RenderedImage im,
-                                  ImageEncodeParam param) {
+    public boolean canEncodeImage(RenderedImage im, ImageEncodeParam param) {
         return false;
     }
 
-    protected ImageEncoder createImageEncoder(OutputStream dst,
-                                              ImageEncodeParam param) {
+    protected ImageEncoder createImageEncoder(OutputStream dst, ImageEncodeParam param) {
         /*
         GIFEncodeParam p = null;
         if (param != null) {
@@ -68,31 +65,23 @@ public final class GIFCodec extends ImageCodec {
         return null;
     }
 
-    protected ImageDecoder createImageDecoder(InputStream src,
-                                              ImageDecodeParam param) {
+    protected ImageDecoder createImageDecoder(InputStream src, ImageDecodeParam param) {
         return new GIFImageDecoder(src, param);
     }
 
-    protected ImageDecoder createImageDecoder(File src,
-                                              ImageDecodeParam param) 
-        throws IOException {
+    protected ImageDecoder createImageDecoder(File src, ImageDecodeParam param) throws IOException {
         return new GIFImageDecoder(new FileInputStream(src), null);
     }
 
-    protected ImageDecoder createImageDecoder(SeekableStream src,
-                                              ImageDecodeParam param) {
+    protected ImageDecoder createImageDecoder(SeekableStream src, ImageDecodeParam param) {
         return new GIFImageDecoder(src, param);
     }
-
 
     public int getNumHeaderBytes() {
         return 4;
     }
 
     public boolean isFormatRecognized(byte[] header) {
-        return ((header[0] == 'G') &&
-                (header[1] == 'I') &&
-                (header[2] == 'F') &&
-                (header[3] == '8'));
+        return ((header[0] == 'G') && (header[1] == 'I') && (header[2] == 'F') && (header[3] == '8'));
     }
 }

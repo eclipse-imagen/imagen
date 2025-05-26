@@ -23,8 +23,7 @@ import org.eclipse.imagen.RegistryMode;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**
- * A class that provides information about the "rendered" registry
- * (operation) mode.
+ * A class that provides information about the "rendered" registry (operation) mode.
  *
  * @since JAI 1.1
  */
@@ -37,41 +36,39 @@ public class RenderedRegistryMode extends RegistryMode {
 
     private static Method getThisFactoryMethod() {
 
-	if (factoryMethod != null)
-	    return factoryMethod;
+        if (factoryMethod != null) return factoryMethod;
 
-	// The factory Class that this registry mode represents.
-	Class factoryClass =
-		    java.awt.image.renderable.RenderedImageFactory.class;
+        // The factory Class that this registry mode represents.
+        Class factoryClass = java.awt.image.renderable.RenderedImageFactory.class;
 
-	try {
-	    Class[] paramTypes = new Class[]
-		    {java.awt.image.renderable.ParameterBlock.class,
-		     java.awt.RenderingHints.class};
+        try {
+            Class[] paramTypes =
+                    new Class[] {java.awt.image.renderable.ParameterBlock.class, java.awt.RenderingHints.class};
 
-	    factoryMethod = factoryClass.getMethod("create", paramTypes);
+            factoryMethod = factoryClass.getMethod("create", paramTypes);
 
-	} catch (NoSuchMethodException e) {
-            ImagingListener listener =
-                JAI.getDefaultInstance().getImagingListener();
-            String message = JaiI18N.getString("RegistryMode0") + " " +
-                             factoryClass.getName() + ".";
-            listener.errorOccurred(message, e,
-                                   RenderedRegistryMode.class, false);
-//	    e.printStackTrace();
-	}
+        } catch (NoSuchMethodException e) {
+            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
+            listener.errorOccurred(message, e, RenderedRegistryMode.class, false);
+            //	    e.printStackTrace();
+        }
 
-	return factoryMethod;
+        return factoryMethod;
     }
 
     /**
-     * Constructor. A <code>RegistryMode</code> that represents a
-     * <code>RenderedImageFactory</code> keyed by the string "rendered".
+     * Constructor. A <code>RegistryMode</code> that represents a <code>RenderedImageFactory</code> keyed by the string
+     * "rendered".
      */
     public RenderedRegistryMode() {
 
-	super(MODE_NAME, org.eclipse.imagen.OperationDescriptor.class,
-		getThisFactoryMethod().getReturnType(),
-		getThisFactoryMethod(), true, true);
+        super(
+                MODE_NAME,
+                org.eclipse.imagen.OperationDescriptor.class,
+                getThisFactoryMethod().getReturnType(),
+                getThisFactoryMethod(),
+                true,
+                true);
     }
 }

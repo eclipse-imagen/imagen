@@ -24,22 +24,20 @@ import org.eclipse.imagen.remote.SerializableState;
 import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
- * Framework class for adding <code>Serializer</code>s based on
- * <code>SerializableState</code> implementations which support one or
- * more classes or interfaces.
+ * Framework class for adding <code>Serializer</code>s based on <code>SerializableState</code> implementations which
+ * support one or more classes or interfaces.
  *
- * <p> Extending classes MUST:
+ * <p>Extending classes MUST:
+ *
  * <ol>
- * <li> be public;</li>
- * <li> provide a single public constructor with exactly the same signature as
- * the protected constructor of this class;</li>
- * <li> provide a static override of <code>getSupportedClasses()</code>;</li>
- * <li> implement the (de)serialization methods <code>writeObject()</code>
- * and <code>readObject()</code>; and</li>
- * <li> add the class to <code>SerializerImpl.registerSerializers()</code> as
- * <pre>
+ *   <li>be public;
+ *   <li>provide a single public constructor with exactly the same signature as the protected constructor of this class;
+ *   <li>provide a static override of <code>getSupportedClasses()</code>;
+ *   <li>implement the (de)serialization methods <code>writeObject()</code> and <code>readObject()</code>; and
+ *   <li>add the class to <code>SerializerImpl.registerSerializers()</code> as
+ *       <pre>
  *       registerSerializers(MySerializableState.class);
- * </pre></li>
+ * </pre>
  * </ol>
  *
  * @since 1.1
@@ -49,27 +47,23 @@ public abstract class SerializableStateImpl implements SerializableState {
     protected transient Object theObject;
 
     /**
-     * Returns the classes supported by this SerializableState.
-     * Subclasses MUST override this method with their own STATIC method.
+     * Returns the classes supported by this SerializableState. Subclasses MUST override this method with their own
+     * STATIC method.
      */
     public static Class[] getSupportedClasses() {
         throw new RuntimeException(JaiI18N.getString("SerializableStateImpl0"));
     }
 
     /**
-     * Whether the SerializableStateImpl permits its Serializer to
-     * serialize subclasses of the supported class(es).
-     * Subclasses SHOULD override this method to return "true" with their
-     * own STATIC method IF AND ONLY IF they support subclass serialization.
+     * Whether the SerializableStateImpl permits its Serializer to serialize subclasses of the supported class(es).
+     * Subclasses SHOULD override this method to return "true" with their own STATIC method IF AND ONLY IF they support
+     * subclass serialization.
      */
     public static boolean permitsSubclasses() {
         return false;
     }
 
-    /**
-     * Constructor.  All subclasses MUST have exactly ONE constructor with
-     * the SAME signature as this constructor.
-     */
+    /** Constructor. All subclasses MUST have exactly ONE constructor with the SAME signature as this constructor. */
     protected SerializableStateImpl(Class c, Object o, RenderingHints h) {
         if (c == null || o == null) {
             throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl1"));
@@ -80,18 +74,15 @@ public abstract class SerializableStateImpl implements SerializableState {
             } else if (!isInterface) {
                 boolean permitsSubclasses = false;
                 try {
-                    Method m =
-                        this.getClass().getMethod("permitsSubclasses", null);
-                    permitsSubclasses 
-                        = ((Boolean)m.invoke(null, null)).booleanValue();
-                } catch (Exception e){
+                    Method m = this.getClass().getMethod("permitsSubclasses", null);
+                    permitsSubclasses = ((Boolean) m.invoke(null, null)).booleanValue();
+                } catch (Exception e) {
                     throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl5"));
                 }
 
                 if (!permitsSubclasses && !c.equals(o.getClass())) {
                     throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl3"));
-                } else if (permitsSubclasses &&
-                           !c.isAssignableFrom(o.getClass())) {
+                } else if (permitsSubclasses && !c.isAssignableFrom(o.getClass())) {
                     throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl4"));
                 }
             }
@@ -109,20 +100,18 @@ public abstract class SerializableStateImpl implements SerializableState {
     }
 
     protected Object getSerializableForm(Object object) {
-        if (object instanceof Serializable)
-            return object;
-	if (object != null)
-	    try {
-		object = SerializerFactory.getState(object, null);
-	    } catch (Exception e) {
-		object = null;
-	    }
+        if (object instanceof Serializable) return object;
+        if (object != null)
+            try {
+                object = SerializerFactory.getState(object, null);
+            } catch (Exception e) {
+                object = null;
+            }
         return object;
     }
 
     protected Object getDeserializedFrom(Object object) {
-        if (object instanceof SerializableState)
-            object = ((SerializableState)object).getObject();
+        if (object instanceof SerializableState) object = ((SerializableState) object).getObject();
         return object;
     }
 }

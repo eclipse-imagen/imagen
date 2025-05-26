@@ -21,50 +21,41 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.text.MessageFormat;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.tilecodec.TileCodecDescriptor;
 import org.eclipse.imagen.remote.SerializableState;
 import org.eclipse.imagen.remote.SerializerFactory;
+import org.eclipse.imagen.tilecodec.TileCodecDescriptor;
 
-/**
- * A class containing methods of utility to all TileCodec implementations.
- */
+/** A class containing methods of utility to all TileCodec implementations. */
 public class TileCodecUtils {
     /* Required to I18N compound messages. */
     private static MessageFormat formatter = new MessageFormat("");
 
-    /**
-     * Get the <code>TileCodecDescriptor</code> associated with the
-     * specified registry mode.
-     */
-    public static TileCodecDescriptor getTileCodecDescriptor(String registryMode,
-							     String formatName) {
+    /** Get the <code>TileCodecDescriptor</code> associated with the specified registry mode. */
+    public static TileCodecDescriptor getTileCodecDescriptor(String registryMode, String formatName) {
         return (TileCodecDescriptor)
-            JAI.getDefaultInstance().getOperationRegistry()
-                .getDescriptor(registryMode, formatName);
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor(registryMode, formatName);
     }
 
     /** Deserialize a <code>Raster</code> from its serialized version */
     public static Raster deserializeRaster(Object object) {
-        if (!(object instanceof SerializableState))
-            return null;
+        if (!(object instanceof SerializableState)) return null;
 
-	SerializableState ss = (SerializableState)object;
-	Class c = ss.getObjectClass();
-	if (Raster.class.isAssignableFrom(c)) {
-	    return (Raster)ss.getObject();
-	}
-	return null;
+        SerializableState ss = (SerializableState) object;
+        Class c = ss.getObjectClass();
+        if (Raster.class.isAssignableFrom(c)) {
+            return (Raster) ss.getObject();
+        }
+        return null;
     }
 
     /** Deserialize a <code>SampleModel</code> from its serialized version */
     public static SampleModel deserializeSampleModel(Object object) {
-	if (!(object instanceof SerializableState))
-	    return null;
+        if (!(object instanceof SerializableState)) return null;
 
-	SerializableState ss = (SerializableState)object;
+        SerializableState ss = (SerializableState) object;
         Class c = ss.getObjectClass();
         if (SampleModel.class.isAssignableFrom(c)) {
-            return (SampleModel)ss.getObject();
+            return (SampleModel) ss.getObject();
         }
         return null;
     }
@@ -76,6 +67,6 @@ public class TileCodecUtils {
 
     /** Serialize a <code>SampleModel</code>. */
     public static Object serializeSampleModel(SampleModel sm) {
-	return SerializerFactory.getState(sm, null);
+        return SerializerFactory.getState(sm, null);
     }
 }

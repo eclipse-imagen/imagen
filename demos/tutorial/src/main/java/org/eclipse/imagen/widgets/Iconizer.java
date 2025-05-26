@@ -8,37 +8,33 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import org.eclipse.imagen.*;
+import java.awt.image.*;
 import javax.swing.*;
+import org.eclipse.imagen.*;
 
 /**
  * A class to create icons from Planar Images
  *
  * @author Dennis Sigel
  */
-
 public class Iconizer implements Icon {
 
-    protected int width  = 64;
+    protected int width = 64;
     protected int height = 64;
     protected BufferedImage icon = null;
 
-   /**
-    * Default constructor
-    */
-    public Iconizer() {
-    }
+    /** Default constructor */
+    public Iconizer() {}
 
-   /**
+    /**
      * @param source a PlanarImage to be displayed.
      * @param width is the icon width
      * @param height is the icon height
      */
     public Iconizer(PlanarImage image, int width, int height) {
-        this.width  = width;
+        this.width = width;
         this.height = height;
 
         icon = iconify(image);
@@ -52,29 +48,27 @@ public class Iconizer implements Icon {
         return height;
     }
 
-    /**
-     * Paint the icon
-     */
+    /** Paint the icon */
     public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
 
         Graphics2D g2D = null;
         if (g instanceof Graphics2D) {
-            g2D = (Graphics2D)g;
+            g2D = (Graphics2D) g;
         } else {
             return;
         }
 
-        AffineTransform transform = AffineTransform.getTranslateInstance(0,0);
+        AffineTransform transform = AffineTransform.getTranslateInstance(0, 0);
         g2D.drawRenderedImage(icon, transform);
     }
 
     private BufferedImage iconify(PlanarImage image) {
         float scale = 1.0F;
 
-        float s1 = (float)width / (float)image.getWidth();
-        float s2 = (float)height / (float)image.getHeight();
+        float s1 = (float) width / (float) image.getWidth();
+        float s2 = (float) height / (float) image.getHeight();
 
-        if ( s1 > s2 ) {
+        if (s1 > s2) {
             scale = s1;
         } else {
             scale = s2;
@@ -82,13 +76,7 @@ public class Iconizer implements Icon {
 
         InterpolationBilinear interp = new InterpolationBilinear();
 
-        PlanarImage temp = JAI.create("scale",
-                                       image,
-                                       scale,
-                                       scale,
-                                       0.0F,
-                                       0.0F,
-                                       interp);
+        PlanarImage temp = JAI.create("scale", image, scale, scale, 0.0F, 0.0F, interp);
 
         return temp.getAsBufferedImage();
     }

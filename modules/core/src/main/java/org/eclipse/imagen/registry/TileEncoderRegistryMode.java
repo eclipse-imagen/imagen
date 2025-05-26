@@ -26,8 +26,7 @@ import org.eclipse.imagen.tilecodec.TileEncoderFactory;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**
- * A class which provides information about the "tileEncoder" registry
- * mode.
+ * A class which provides information about the "tileEncoder" registry mode.
  *
  * @since JAI 1.1
  */
@@ -41,42 +40,36 @@ public class TileEncoderRegistryMode extends RegistryMode {
 
     private static Method getThisFactoryMethod() {
 
-	if (factoryMethod != null)
-	    return factoryMethod;
+        if (factoryMethod != null) return factoryMethod;
 
-	// The factory Class that this registry mode represents.
-	Class factoryClass = TileEncoderFactory.class;
+        // The factory Class that this registry mode represents.
+        Class factoryClass = TileEncoderFactory.class;
 
-	try {
-	    Class[] paramTypes = new Class[] {java.io.OutputStream.class,
-					      TileCodecParameterList.class,
-					      java.awt.image.SampleModel.class};
+        try {
+            Class[] paramTypes = new Class[] {
+                java.io.OutputStream.class, TileCodecParameterList.class, java.awt.image.SampleModel.class
+            };
 
-	    factoryMethod = factoryClass.getMethod("createEncoder", paramTypes);
+            factoryMethod = factoryClass.getMethod("createEncoder", paramTypes);
 
-	} catch (NoSuchMethodException e) {
-            ImagingListener listener =
-                JAI.getDefaultInstance().getImagingListener();
-            String message = JaiI18N.getString("RegistryMode0") + " " +
-                             factoryClass.getName() + ".";
-            listener.errorOccurred(message, e,
-                                   TileEncoderRegistryMode.class, false);
-//	    e.printStackTrace();
-	}
+        } catch (NoSuchMethodException e) {
+            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
+            listener.errorOccurred(message, e, TileEncoderRegistryMode.class, false);
+            //	    e.printStackTrace();
+        }
 
-	return factoryMethod;
+        return factoryMethod;
     }
 
-    /**
-     * Creates a <code>TileEncoderRegistryMode</code> for describing
-     * the "tileEncoder" registry mode.
-     */
+    /** Creates a <code>TileEncoderRegistryMode</code> for describing the "tileEncoder" registry mode. */
     public TileEncoderRegistryMode() {
-	super(MODE_NAME,
-	      TileCodecDescriptor.class,
-	      getThisFactoryMethod().getReturnType(),
-	      getThisFactoryMethod(),    // default factory method
-	      true,                      // arePreferencesSupported
-	      false);                    // arePropertiesSupported,
+        super(
+                MODE_NAME,
+                TileCodecDescriptor.class,
+                getThisFactoryMethod().getReturnType(),
+                getThisFactoryMethod(), // default factory method
+                true, // arePreferencesSupported
+                false); // arePropertiesSupported,
     }
 }

@@ -16,16 +16,14 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Point;
 import java.awt.image.Raster;
 import java.awt.image.TileObserver;
 import java.awt.image.WritableRaster;
 import java.awt.image.WritableRenderedImage;
 
-
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class WrapperWRI extends WrapperRI implements WritableRenderedImage {
 
     WritableRaster wras;
@@ -42,7 +40,7 @@ public class WrapperWRI extends WrapperRI implements WritableRenderedImage {
     public void removeTileObserver(TileObserver to) {
         throw new RuntimeException(JaiI18N.getString("WrapperWRI0"));
     }
-    
+
     public WritableRaster getWritableTile(int tileX, int tileY) {
         if ((tileX != 0) || (tileY != 0)) {
             throw new IllegalArgumentException();

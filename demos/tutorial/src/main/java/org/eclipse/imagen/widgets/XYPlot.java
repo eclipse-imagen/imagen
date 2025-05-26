@@ -8,27 +8,23 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import org.eclipse.imagen.*;
+import java.awt.image.*;
 import javax.swing.*;
+import org.eclipse.imagen.*;
 
 /**
- * A class to plot histograms (primarily)
- * Single band per object (bar chart)
+ * A class to plot histograms (primarily) Single band per object (bar chart)
  *
  * @author Dennis Sigel
  */
-
 public class XYPlot extends JComponent {
 
     private int[] data;
     private int max;
 
-   /**
-    * Default constructor
-    */
+    /** Default constructor */
     public XYPlot() {
         super();
     }
@@ -37,10 +33,10 @@ public class XYPlot extends JComponent {
         data = new int[array.length];
         max = -1;
 
-        for ( int i = 0; i < array.length; i++ ) {
+        for (int i = 0; i < array.length; i++) {
             data[i] = array[i];
 
-            if ( data[i] > max ) {
+            if (data[i] > max) {
                 max = data[i];
             }
         }
@@ -51,19 +47,17 @@ public class XYPlot extends JComponent {
         repaint();
     }
 
-    /**
-     * Plotter
-     */
+    /** Plotter */
     public synchronized void paintComponent(Graphics g) {
 
         Graphics2D g2D = null;
         if (g instanceof Graphics2D) {
-            g2D = (Graphics2D)g;
+            g2D = (Graphics2D) g;
         } else {
             return;
         }
 
-        if ( data == null ) return;
+        if (data == null) return;
 
         int width = getSize().width;
         int height = getSize().height;
@@ -76,10 +70,10 @@ public class XYPlot extends JComponent {
         float slope_x = (float) width / (float) length;
         float slope_y = (float) height / (float) max;
 
-        for ( int i = 0; i < length; i++ ) {
-           int x = (int) ((float)i*slope_x);
-           int y = (int) ((float)data[i]*slope_y);
-           g.drawLine(x, height, x, height - y);
+        for (int i = 0; i < length; i++) {
+            int x = (int) ((float) i * slope_x);
+            int y = (int) ((float) data[i] * slope_y);
+            g.drawLine(x, height, x, height - y);
         }
     }
 }

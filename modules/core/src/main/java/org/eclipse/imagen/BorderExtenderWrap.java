@@ -16,26 +16,28 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.Rectangle;
-import java.awt.image.DataBuffer;
 import java.awt.image.WritableRaster;
 
 /**
- * A subclass of <code>BorderExtender</code> that implements 
- * border extension by filling all pixels outside of the image
- * bounds with copies of the whole image.  For example, the image:
+ * A subclass of <code>BorderExtender</code> that implements border extension by filling all pixels outside of the image
+ * bounds with copies of the whole image. For example, the image:
  *
  * <p><center>
+ *
  * <table border=1>
  * <tr align=center><td>A</td><td>B</td><td>C</td> </tr>
  * <tr align=center><td>D</td><td>E</td><td>F</td> </tr>
  * <tr align=center><td>G</td><td>H</td><td>I</td> </tr>
- * </table></center>
+ * </table>
  *
- * <br>if extended by adding two extra rows to the top and bottom and
- * two extra columns on the left and right sides, would become:
+ * </center> <br>
+ * if extended by adding two extra rows to the top and bottom and two extra columns on the left and right sides, would
+ * become:
  *
  * <p><center>
+ *
  * <table border=1>
  * <tr align=center>
  * <td>E</td><td>F</td><td>D</td><td>E</td><td>F</td><td>D</td><td>E</td> </tr>
@@ -45,11 +47,12 @@ import java.awt.image.WritableRaster;
  * <td>H</td><td>I</td><td>G</td><td>H</td><td>I</td><td>G</td><td>H</td> </tr>
  * <td>B</td><td>C</td><td>A</td><td>B</td><td>C</td><td>A</td><td>B</td> </tr>
  * <td>E</td><td>F</td><td>D</td><td>E</td><td>F</td><td>D</td><td>E</td> </tr>
- * </table></center>
+ * </table>
  *
- * <p> This form of extension is appropriate for data that is inherently
- * periodic, such as the Fourier transform of an image, or a wallpaper
- * pattern.
+ * </center>
+ *
+ * <p>This form of extension is appropriate for data that is inherently periodic, such as the Fourier transform of an
+ * image, or a wallpaper pattern.
  *
  * @see BorderExtender
  */
@@ -58,26 +61,20 @@ public class BorderExtenderWrap extends BorderExtender {
     BorderExtenderWrap() {}
 
     /**
-     * Fills in the portions of a given <code>Raster</code> that lie
-     * outside the bounds of a given <code>PlanarImage</code> with
-     * copies of the entire image.
+     * Fills in the portions of a given <code>Raster</code> that lie outside the bounds of a given <code>PlanarImage
+     * </code> with copies of the entire image.
      *
-     * <p> The portion of <code>raster</code> that lies within 
-     * <code>im.getBounds()</code> is not altered.
+     * <p>The portion of <code>raster</code> that lies within <code>im.getBounds()</code> is not altered.
      *
-     * @param raster The <code>WritableRaster</code> the border area of
-     *               which is to be filled with copies of the given image.
-     * @param im     The <code>PlanarImage</code> which will be copied
-     *               to fill the border area of the
-     *               <code>WritableRaster</code>.
-     *
-     * @throws <code>IllegalArgumentException</code> if either parameter is
-     *         <code>null</code>.
+     * @param raster The <code>WritableRaster</code> the border area of which is to be filled with copies of the given
+     *     image.
+     * @param im The <code>PlanarImage</code> which will be copied to fill the border area of the <code>WritableRaster
+     *     </code>.
+     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
      */
-    public final void extend(WritableRaster raster,
-                             PlanarImage im) {
+    public final void extend(WritableRaster raster, PlanarImage im) {
 
-        if ( raster == null || im == null ) {
+        if (raster == null || im == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -95,7 +92,7 @@ public class BorderExtenderWrap extends BorderExtender {
         int imHeight = im.getHeight();
 
         Rectangle rect = new Rectangle();
-        
+
         // Notionally extend the source image by treating it as a single
         // tile of an infinite tiled image.
 
@@ -108,9 +105,9 @@ public class BorderExtenderWrap extends BorderExtender {
 
         // Loop over the tiles
         for (int tileY = minTileY; tileY <= maxTileY; tileY++) {
-            int ty = tileY*imHeight + imMinY;
+            int ty = tileY * imHeight + imMinY;
             for (int tileX = minTileX; tileX <= maxTileX; tileX++) {
-                int tx = tileX*imWidth + imMinX;
+                int tx = tileX * imWidth + imMinX;
 
                 // Don't touch the central "tile" (actual image)
                 if (tileX == 0 && tileY == 0) {
@@ -145,13 +142,8 @@ public class BorderExtenderWrap extends BorderExtender {
 
                 // Create a child raster with coordinates within the
                 // actual image.
-                WritableRaster child =
-                    RasterFactory.createWritableChild(raster,
-                                                      rect.x, rect.y,
-                                                      rect.width, rect.height,
-                                                      imMinX + xOffset,
-                                                      imMinY + yOffset,
-                                                      null);
+                WritableRaster child = RasterFactory.createWritableChild(
+                        raster, rect.x, rect.y, rect.width, rect.height, imMinX + xOffset, imMinY + yOffset, null);
 
                 // Copy the data into the Raster
                 im.copyData(child);

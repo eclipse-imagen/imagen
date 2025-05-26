@@ -18,9 +18,8 @@
 package org.eclipse.imagen;
 
 /**
- * A class which associates a <code>PlanarImage</code> with an attribute
- * of unspecified type.  The class is itself a <code>PlanarImage</code>
- * equivalent to the one which it wraps.
+ * A class which associates a <code>PlanarImage</code> with an attribute of unspecified type. The class is itself a
+ * <code>PlanarImage</code> equivalent to the one which it wraps.
  *
  * @since JAI 1.1
  */
@@ -29,11 +28,9 @@ public class AttributedImage extends RenderedImageAdapter {
     protected Object attribute;
 
     /**
-     * Constructs an <code>AttributedImage</code>.  The attribute parameter
-     * may be <code>null</code>
+     * Constructs an <code>AttributedImage</code>. The attribute parameter may be <code>null</code>
      *
-     * @throws IllegalArgumentException if <code>theImage</code> is
-     *                                  <code>null</code>.
+     * @throws IllegalArgumentException if <code>theImage</code> is <code>null</code>.
      */
     public AttributedImage(PlanarImage image, Object attribute) {
         super(image);
@@ -42,7 +39,7 @@ public class AttributedImage extends RenderedImageAdapter {
 
     /** Retrieves the wrapped image. */
     public PlanarImage getImage() {
-        return (PlanarImage)theImage;
+        return (PlanarImage) theImage;
     }
 
     /** Stores the attribute. */
@@ -56,19 +53,16 @@ public class AttributedImage extends RenderedImageAdapter {
     }
 
     /**
-     * Tests for equality.  The parameter <code>Object</code> must be
-     * an <code>AttributedImage</code> the image and attribute of which
-     * are equal those of this object according to the <code>equals()</code>
-     * methods of the image and attribute of this image, respectively.
-     * Attributes are also considered equal if they are both <code>null</code>.
+     * Tests for equality. The parameter <code>Object</code> must be an <code>AttributedImage</code> the image and
+     * attribute of which are equal those of this object according to the <code>equals()</code> methods of the image and
+     * attribute of this image, respectively. Attributes are also considered equal if they are both <code>null</code>.
      */
     public boolean equals(Object o) {
         if (o != null && o instanceof AttributedImage) {
-            AttributedImage ai = (AttributedImage)o;
-	    Object a = ai.getAttribute();
-            return getImage().equals(ai.getImage()) &&
-                (attribute == null ? a == null :
-                 ((a != null) && attribute.equals(a)));
+            AttributedImage ai = (AttributedImage) o;
+            Object a = ai.getAttribute();
+            return getImage().equals(ai.getImage())
+                    && (attribute == null ? a == null : ((a != null) && attribute.equals(a)));
         }
 
         return false;

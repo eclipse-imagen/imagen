@@ -9,25 +9,21 @@ package org.eclipse.imagen.demo;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.renderable.ParameterBlock;
-import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.awt.image.DataBuffer;
-import java.awt.image.SampleModel;
+import org.eclipse.imagen.*;
 
 public class JAIDyadicSource0Panel extends JAIDyadicPanel {
-  
+
     public JAIDyadicSource0Panel(JAIDemo demo, Vector sourceVec) {
         super(demo, sourceVec);
-    }  
-    
+    }
+
     public String getDemoName() {
         return "Source0";
     }
-    
+
     public PlanarImage process() {
         return getSource(0);
     }

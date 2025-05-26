@@ -16,20 +16,15 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
-import java.awt.image.DataBuffer;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRenderedImage;
 import org.eclipse.imagen.iterator.WritableRookIter;
 
-/**
- * @since EA2
- */
-public class WritableRookIterFallback extends RookIterFallback 
-    implements WritableRookIter {
+/** @since EA2 */
+public class WritableRookIterFallback extends RookIterFallback implements WritableRookIter {
 
-    public WritableRookIterFallback(WritableRenderedImage im,
-                                    Rectangle bounds) {
+    public WritableRookIterFallback(WritableRenderedImage im, Rectangle bounds) {
         super(im, bounds);
     }
 

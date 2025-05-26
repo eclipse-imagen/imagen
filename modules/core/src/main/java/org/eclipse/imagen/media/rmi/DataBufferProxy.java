@@ -29,9 +29,7 @@ import java.io.Serializable;
 import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
- * This class is a serializable proxy for a DataBuffer from which the
- * DataBuffer may be reconstituted.
- *
+ * This class is a serializable proxy for a DataBuffer from which the DataBuffer may be reconstituted.
  *
  * @since EA3
  */
@@ -40,19 +38,19 @@ public class DataBufferProxy implements Serializable {
     private transient DataBuffer dataBuffer;
 
     /**
-      * Constructs a <code>DataBufferProxy</code> from a
-      * <code>DataBuffer</code>.
-      *
-      * @param source The <code>DataBuffer</code> to be serialized.
-      */
+     * Constructs a <code>DataBufferProxy</code> from a <code>DataBuffer</code>.
+     *
+     * @param source The <code>DataBuffer</code> to be serialized.
+     */
     public DataBufferProxy(DataBuffer source) {
         dataBuffer = source;
     }
 
     /**
-      * Retrieves the associated <code>DataBuffer</code>.
-      * @return The (perhaps reconstructed) <code>DataBuffer</code>.
-      */
+     * Retrieves the associated <code>DataBuffer</code>.
+     *
+     * @return The (perhaps reconstructed) <code>DataBuffer</code>.
+     */
     public DataBuffer getDataBuffer() {
         return dataBuffer;
     }
@@ -61,10 +59,10 @@ public class DataBufferProxy implements Serializable {
     // the readObject() and writeObject() methods.
 
     /**
-      * Serialize the <code>DataBufferProxy</code>.
-      *
-      * @param out The <code>ObjectOutputStream</code>.
-      */
+     * Serialize the <code>DataBufferProxy</code>.
+     *
+     * @param out The <code>ObjectOutputStream</code>.
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
         // Write serialized form to the stream.
         int dataType = dataBuffer.getDataType();
@@ -73,75 +71,68 @@ public class DataBufferProxy implements Serializable {
         out.writeInt(dataBuffer.getSize());
         Object dataArray = null;
         switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataArray = ((DataBufferByte)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_SHORT:
-            dataArray = ((DataBufferShort)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataArray = ((DataBufferUShort)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_INT:
-            dataArray = ((DataBufferInt)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            dataArray = DataBufferUtils.getBankDataFloat(dataBuffer);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            dataArray = DataBufferUtils.getBankDataDouble(dataBuffer);
-            break;
-        default:
-            throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
+            case DataBuffer.TYPE_BYTE:
+                dataArray = ((DataBufferByte) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_SHORT:
+                dataArray = ((DataBufferShort) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_USHORT:
+                dataArray = ((DataBufferUShort) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_INT:
+                dataArray = ((DataBufferInt) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                dataArray = DataBufferUtils.getBankDataFloat(dataBuffer);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                dataArray = DataBufferUtils.getBankDataDouble(dataBuffer);
+                break;
+            default:
+                throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
         }
         out.writeObject(dataArray);
     }
 
     /**
-      * Deserialize the <code>DataBufferProxy</code>.
-      *
-      * @param out The <code>ObjectInputStream</code>.
-      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+     * Deserialize the <code>DataBufferProxy</code>.
+     *
+     * @param out The <code>ObjectInputStream</code>.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read serialized form from the stream.
         int dataType = -1;
         int[] offsets = null;
         int size = -1;
         Object dataArray = null;
         dataType = in.readInt();
-        offsets = (int[])in.readObject();
+        offsets = (int[]) in.readObject();
         size = in.readInt();
         dataArray = in.readObject();
 
         // Restore the transient DataBuffer.
         switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataBuffer =
-                new DataBufferByte((byte[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            dataBuffer =
-                new DataBufferShort((short[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataBuffer =
-                new DataBufferUShort((short[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_INT:
-            dataBuffer =
-                new DataBufferInt((int[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            dataBuffer =
-                DataBufferUtils.createDataBufferFloat((float[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            dataBuffer =
-                DataBufferUtils.createDataBufferDouble((double[][])dataArray, size, offsets);
-            break;
-        default:
-            throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
+            case DataBuffer.TYPE_BYTE:
+                dataBuffer = new DataBufferByte((byte[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                dataBuffer = new DataBufferShort((short[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                dataBuffer = new DataBufferUShort((short[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_INT:
+                dataBuffer = new DataBufferInt((int[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                dataBuffer = DataBufferUtils.createDataBufferFloat((float[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                dataBuffer = DataBufferUtils.createDataBufferDouble((double[][]) dataArray, size, offsets);
+                break;
+            default:
+                throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
         }
     }
 }

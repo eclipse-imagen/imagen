@@ -16,53 +16,47 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.RasterFactory;
-import org.eclipse.imagen.TileCache;
-import java.util.Map;
+import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 /// import org.eclipse.imagen.media.test.OpImageTester;
 
 /**
- * An <code>OpImage</code> implementing the "Add" operation as
- * described in <code>org.eclipse.imagen.operator.AddDescriptor</code>.
+ * An <code>OpImage</code> implementing the "Add" operation as described in <code>
+ * org.eclipse.imagen.operator.AddDescriptor</code>.
  *
- * <p>This <code>OpImage</code> adds the pixel values of two source
- * images on a per-band basis. In case the two source images have different
- * number of bands, the number of bands for the destination image is the
- * smaller band number of the two source images. That is
- * <code>dstNumBands = Math.min(src1NumBands, src2NumBands)</code>.
- * In case the two source images have different data types, the data type
- * for the destination image is the higher data type of the two source
- * images.
+ * <p>This <code>OpImage</code> adds the pixel values of two source images on a per-band basis. In case the two source
+ * images have different number of bands, the number of bands for the destination image is the smaller band number of
+ * the two source images. That is <code>dstNumBands = Math.min(src1NumBands, src2NumBands)</code>. In case the two
+ * source images have different data types, the data type for the destination image is the higher data type of the two
+ * source images.
  *
  * <p>The value of the pixel (x, y) in the destination image is defined as:
+ *
  * <pre>
  * for (b = 0; b < numBands; b++) {
  *     dst[y][x][b] = src1[y][x][b] + src2[y][x][b];
  * }
  * </pre>
  *
- * <p>If the result of the addition overflows/underflows the
- * maximum/minimum value supported by the destination image, then it
- * will be clamped to the maximum/minimum value respectively. The
- * data type <code>byte</code> is treated as unsigned, with maximum
- * value as 255 and minimum value as 0.
+ * <p>If the result of the addition overflows/underflows the maximum/minimum value supported by the destination image,
+ * then it will be clamped to the maximum/minimum value respectively. The data type <code>byte</code> is treated as
+ * unsigned, with maximum value as 255 and minimum value as 0.
  *
  * @see org.eclipse.imagen.operator.AddDescriptor
  * @see AddCRIF
- *
  */
 final class AddOpImage extends PointOpImage {
 
@@ -78,29 +72,23 @@ final class AddOpImage extends PointOpImage {
     /**
      * Constructs an <code>AddOpImage</code>.
      *
-     * <p>The <code>layout</code> parameter may optionally contains the
-     * tile grid layout, sample model, and/or color model. The image
-     * dimension is determined by the intersection of the bounding boxes
-     * of the two source images.
+     * <p>The <code>layout</code> parameter may optionally contains the tile grid layout, sample model, and/or color
+     * model. The image dimension is determined by the intersection of the bounding boxes of the two source images.
      *
-     * <p>The image layout of the first source image, <code>source1</code>,
-     * is used as the fall-back for the image layout of the destination
-     * image. Any layout parameters not specified in the <code>layout</code>
-     * argument are set to the same value as that of <code>source1</code>.
+     * <p>The image layout of the first source image, <code>source1</code>, is used as the fall-back for the image
+     * layout of the destination image. Any layout parameters not specified in the <code>layout</code> argument are set
+     * to the same value as that of <code>source1</code>.
      *
-     * @param source1  The first source image.
-     * @param source2  The second source image.
-     * @param layout   The destination image layout.
+     * @param source1 The first source image.
+     * @param source2 The second source image.
+     * @param layout The destination image layout.
      */
-    public AddOpImage(RenderedImage source1,
-                      RenderedImage source2, 
-                      Map config,
-		      ImageLayout layout) {
+    public AddOpImage(RenderedImage source1, RenderedImage source2, Map config, ImageLayout layout) {
         super(source1, source2, layout, config, true);
 
-        if(ImageUtil.isBinary(getSampleModel()) &&
-           ImageUtil.isBinary(source1.getSampleModel()) &&
-           ImageUtil.isBinary(source2.getSampleModel())) {
+        if (ImageUtil.isBinary(getSampleModel())
+                && ImageUtil.isBinary(source1.getSampleModel())
+                && ImageUtil.isBinary(source2.getSampleModel())) {
             // Binary processing case: RasterAccessor
             areBinarySampleModels = true;
         } else {
@@ -111,36 +99,28 @@ final class AddOpImage extends PointOpImage {
             // Handle the special case of adding a single band image to
             // each band of a multi-band image.
             int numBandsDst;
-            if(layout != null && layout.isValid(ImageLayout.SAMPLE_MODEL_MASK)) {
+            if (layout != null && layout.isValid(ImageLayout.SAMPLE_MODEL_MASK)) {
                 SampleModel sm = layout.getSampleModel(null);
                 numBandsDst = sm.getNumBands();
 
                 // One of the sources must be single-banded and the other must
                 // have at most the number of bands in the SampleModel hint.
-                if(numBandsDst > 1 &&
-                   ((numBands1 == 1 && numBands2 > 1) ||
-                    (numBands2 == 1 && numBands1 > 1))) {
+                if (numBandsDst > 1 && ((numBands1 == 1 && numBands2 > 1) || (numBands2 == 1 && numBands1 > 1))) {
                     // Clamp the destination band count to the number of
                     // bands in the multi-band source.
-                    numBandsDst = Math.min(Math.max(numBands1, numBands2),
-                                           numBandsDst);
+                    numBandsDst = Math.min(Math.max(numBands1, numBands2), numBandsDst);
 
                     // Create a new SampleModel if necessary.
-                    if(numBandsDst != sampleModel.getNumBands()) {
-                        sampleModel =
-                            RasterFactory.createComponentSampleModel(
+                    if (numBandsDst != sampleModel.getNumBands()) {
+                        sampleModel = RasterFactory.createComponentSampleModel(
                                 sm,
                                 sampleModel.getTransferType(),
                                 sampleModel.getWidth(),
                                 sampleModel.getHeight(),
                                 numBandsDst);
 
-                        if(colorModel != null &&
-                           !JDKWorkarounds.areCompatibleDataModels(sampleModel,
-                                                                   colorModel)) {
-                            colorModel =
-                                ImageUtil.getCompatibleColorModel(sampleModel,
-                                                                  config);
+                        if (colorModel != null && !JDKWorkarounds.areCompatibleDataModels(sampleModel, colorModel)) {
+                            colorModel = ImageUtil.getCompatibleColorModel(sampleModel, config);
                         }
                     }
 
@@ -156,43 +136,33 @@ final class AddOpImage extends PointOpImage {
     }
 
     /**
-     * Adds the pixel values of two source images within a specified
-     * rectangle.
+     * Adds the pixel values of two source images within a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
-        if(areBinarySampleModels) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
+        if (areBinarySampleModels) {
             // Retrieve format tags.
             RasterFormatTag[] formatTags = getFormatTags();
 
             // For PointOpImage, srcRect = destRect.
-            RasterAccessor s1 =
-                new RasterAccessor(sources[0], destRect,  
-                                   formatTags[0], 
-                                   getSourceImage(0).getColorModel());
-            RasterAccessor s2 =
-                new RasterAccessor(sources[1], destRect,  
-                                   formatTags[1], 
-                                   getSourceImage(1).getColorModel());
-            RasterAccessor d =
-                new RasterAccessor(dest, destRect,  
-                                   formatTags[2], getColorModel());
+            RasterAccessor s1 = new RasterAccessor(
+                    sources[0], destRect, formatTags[0], getSourceImage(0).getColorModel());
+            RasterAccessor s2 = new RasterAccessor(
+                    sources[1], destRect, formatTags[1], getSourceImage(1).getColorModel());
+            RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[2], getColorModel());
 
-            if(d.isBinary()) {
+            if (d.isBinary()) {
                 byte[] src1Bits = s1.getBinaryDataArray();
                 byte[] src2Bits = s2.getBinaryDataArray();
                 byte[] dstBits = d.getBinaryDataArray();
 
                 int length = dstBits.length;
-                for(int i = 0; i < length; i++) {
+                for (int i = 0; i < length; i++) {
                     // "Add" is equivalent to "Or" when 1+1 is clamped to 1.
-                    dstBits[i] = (byte)(src1Bits[i] | src2Bits[i]);
+                    dstBits[i] = (byte) (src1Bits[i] | src2Bits[i]);
                 }
 
                 d.copyBinaryDataToRaster();
@@ -204,34 +174,31 @@ final class AddOpImage extends PointOpImage {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor s1 = new RasterAccessor(sources[0], destRect,  
-                                               formatTags[0], 
-                                               getSourceImage(0).getColorModel());
-        RasterAccessor s2 = new RasterAccessor(sources[1], destRect,  
-                                               formatTags[1], 
-                                               getSourceImage(1).getColorModel());
-        RasterAccessor d = new RasterAccessor(dest, destRect,  
-                                              formatTags[2], getColorModel());
+        RasterAccessor s1 = new RasterAccessor(
+                sources[0], destRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor s2 = new RasterAccessor(
+                sources[1], destRect, formatTags[1], getSourceImage(1).getColorModel());
+        RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[2], getColorModel());
 
         switch (d.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(s1, s2, d);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(s1, s2, d);
+                break;
         }
 
         if (d.needsClamping()) {
@@ -240,9 +207,7 @@ final class AddOpImage extends PointOpImage {
         d.copyDataToRaster();
     }
 
-    private void computeRectByte(RasterAccessor src1,
-                                 RasterAccessor src2,
-                                 RasterAccessor dst) {
+    private void computeRectByte(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -261,8 +226,7 @@ final class AddOpImage extends PointOpImage {
         int[] dBandOffsets = dst.getBandOffsets();
         byte[][] dData = dst.getByteDataArrays();
 
-        for (int b = 0, s1b = 0, s2b = 0; b < bands;
-             b++, s1b += s1bd, s2b += s2bd) {
+        for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
             byte[] s1 = s1Data[s1b];
             byte[] s2 = s2Data[s2b];
             byte[] d = dData[b];
@@ -287,8 +251,8 @@ final class AddOpImage extends PointOpImage {
                     // an add with saturation on U8 elements.
                     // It eliminates the need to do clamping.
                     //
-                    sum = (s1[s1PixelOffset]&0xFF) + (s2[s2PixelOffset]&0xFF);
-                    d[dPixelOffset] = (byte)((((sum<<23) >> 31) | sum) & 0xFF);
+                    sum = (s1[s1PixelOffset] & 0xFF) + (s2[s2PixelOffset] & 0xFF);
+                    d[dPixelOffset] = (byte) ((((sum << 23) >> 31) | sum) & 0xFF);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -298,9 +262,7 @@ final class AddOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectUShort(RasterAccessor src1,
-                                   RasterAccessor src2,
-                                   RasterAccessor dst) {
+    private void computeRectUShort(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -319,8 +281,7 @@ final class AddOpImage extends PointOpImage {
         int[] dBandOffsets = dst.getBandOffsets();
         short[][] dData = dst.getShortDataArrays();
 
-        for (int b = 0, s1b = 0, s2b = 0; b < bands;
-             b++, s1b += s1bd, s2b += s2bd) {
+        for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
             short[] s1 = s1Data[s1b];
             short[] s2 = s2Data[s2b];
             short[] d = dData[b];
@@ -340,8 +301,7 @@ final class AddOpImage extends PointOpImage {
 
                 for (int w = 0; w < dwidth; w++) {
                     d[dPixelOffset] = ImageUtil.clampUShortPositive(
-                                          (int)(s1[s1PixelOffset]&0xFFFF) +
-                                          (int)(s2[s2PixelOffset]&0xFFFF));
+                            (int) (s1[s1PixelOffset] & 0xFFFF) + (int) (s2[s2PixelOffset] & 0xFFFF));
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -351,9 +311,7 @@ final class AddOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src1,
-                                  RasterAccessor src2,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -372,8 +330,7 @@ final class AddOpImage extends PointOpImage {
         int[] dBandOffsets = dst.getBandOffsets();
         short[][] dData = dst.getShortDataArrays();
 
-        for (int b = 0, s1b = 0, s2b = 0; b < bands;
-             b++, s1b += s1bd, s2b += s2bd) {
+        for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
             short[] s1 = s1Data[s1b];
             short[] s2 = s2Data[s2b];
             short[] d = dData[b];
@@ -392,8 +349,7 @@ final class AddOpImage extends PointOpImage {
                 dLineOffset += dLineStride;
 
                 for (int w = 0; w < dwidth; w++) {
-                    d[dPixelOffset] = ImageUtil.clampShort((int)s1[s1PixelOffset] +
-                                                 (int)s2[s2PixelOffset]);
+                    d[dPixelOffset] = ImageUtil.clampShort((int) s1[s1PixelOffset] + (int) s2[s2PixelOffset]);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -403,9 +359,7 @@ final class AddOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src1,
-                                RasterAccessor src2,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -430,146 +384,137 @@ final class AddOpImage extends PointOpImage {
          * that data type.
          */
         switch (sampleModel.getTransferType()) {
-        case DataBuffer.TYPE_BYTE:
-            for (int b = 0, s1b = 0, s2b = 0; b < bands;
-                 b++, s1b += s1bd, s2b += s2bd) {
-                int[] s1 = s1Data[s1b];
-                int[] s2 = s2Data[s2b];
-                int[] d = dData[b];
+            case DataBuffer.TYPE_BYTE:
+                for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
+                    int[] s1 = s1Data[s1b];
+                    int[] s2 = s2Data[s2b];
+                    int[] d = dData[b];
 
-                int s1LineOffset = s1BandOffsets[s1b];
-                int s2LineOffset = s2BandOffsets[s2b];
-                int dLineOffset = dBandOffsets[b];
+                    int s1LineOffset = s1BandOffsets[s1b];
+                    int s2LineOffset = s2BandOffsets[s2b];
+                    int dLineOffset = dBandOffsets[b];
 
-                for (int h = 0; h < dheight; h++) {
-                    int s1PixelOffset = s1LineOffset;
-                    int s2PixelOffset = s2LineOffset;
-                    int dPixelOffset = dLineOffset;
+                    for (int h = 0; h < dheight; h++) {
+                        int s1PixelOffset = s1LineOffset;
+                        int s2PixelOffset = s2LineOffset;
+                        int dPixelOffset = dLineOffset;
 
-                    s1LineOffset += s1LineStride;
-                    s2LineOffset += s2LineStride;
-                    dLineOffset += dLineStride;
+                        s1LineOffset += s1LineStride;
+                        s2LineOffset += s2LineStride;
+                        dLineOffset += dLineStride;
 
-                    int sum = 0;
-                    for (int w = 0; w < dwidth; w++) {
-                        //
-                        // The next two lines are a fast way to do
-                        // an add with saturation on U8 elements.
-                        // It eliminates the need to do clamping.
-                        //
-                        sum = (s1[s1PixelOffset]&0xFF) + (s2[s2PixelOffset]&0xFF);
-                        d[dPixelOffset] = ((((sum<<23) >> 31) | sum) & 0xFF);
+                        int sum = 0;
+                        for (int w = 0; w < dwidth; w++) {
+                            //
+                            // The next two lines are a fast way to do
+                            // an add with saturation on U8 elements.
+                            // It eliminates the need to do clamping.
+                            //
+                            sum = (s1[s1PixelOffset] & 0xFF) + (s2[s2PixelOffset] & 0xFF);
+                            d[dPixelOffset] = ((((sum << 23) >> 31) | sum) & 0xFF);
 
-                        s1PixelOffset += s1PixelStride;
-                        s2PixelOffset += s2PixelStride;
-                        dPixelOffset += dPixelStride;
+                            s1PixelOffset += s1PixelStride;
+                            s2PixelOffset += s2PixelStride;
+                            dPixelOffset += dPixelStride;
+                        }
                     }
                 }
-            }
-            break;
+                break;
 
-        case DataBuffer.TYPE_USHORT:
-            for (int b = 0, s1b = 0, s2b = 0; b < bands;
-                 b++, s1b += s1bd, s2b += s2bd) {
-                int[] s1 = s1Data[s1b];
-                int[] s2 = s2Data[s2b];
-                int[] d = dData[b];
+            case DataBuffer.TYPE_USHORT:
+                for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
+                    int[] s1 = s1Data[s1b];
+                    int[] s2 = s2Data[s2b];
+                    int[] d = dData[b];
 
-                int s1LineOffset = s1BandOffsets[s1b];
-                int s2LineOffset = s2BandOffsets[s2b];
-                int dLineOffset = dBandOffsets[b];
+                    int s1LineOffset = s1BandOffsets[s1b];
+                    int s2LineOffset = s2BandOffsets[s2b];
+                    int dLineOffset = dBandOffsets[b];
 
-                for (int h = 0; h < dheight; h++) {
-                    int s1PixelOffset = s1LineOffset;
-                    int s2PixelOffset = s2LineOffset;
-                    int dPixelOffset = dLineOffset;
+                    for (int h = 0; h < dheight; h++) {
+                        int s1PixelOffset = s1LineOffset;
+                        int s2PixelOffset = s2LineOffset;
+                        int dPixelOffset = dLineOffset;
 
-                    s1LineOffset += s1LineStride;
-                    s2LineOffset += s2LineStride;
-                    dLineOffset += dLineStride;
+                        s1LineOffset += s1LineStride;
+                        s2LineOffset += s2LineStride;
+                        dLineOffset += dLineStride;
 
-                    for (int w = 0; w < dwidth; w++) {
-                        d[dPixelOffset] = ImageUtil.clampUShortPositive(
-                                              (int)(s1[s1PixelOffset]&0xFFFF) +
-                                              (int)(s2[s2PixelOffset]&0xFFFF));
+                        for (int w = 0; w < dwidth; w++) {
+                            d[dPixelOffset] = ImageUtil.clampUShortPositive(
+                                    (int) (s1[s1PixelOffset] & 0xFFFF) + (int) (s2[s2PixelOffset] & 0xFFFF));
 
-                        s1PixelOffset += s1PixelStride;
-                        s2PixelOffset += s2PixelStride;
-                        dPixelOffset += dPixelStride;
+                            s1PixelOffset += s1PixelStride;
+                            s2PixelOffset += s2PixelStride;
+                            dPixelOffset += dPixelStride;
+                        }
                     }
                 }
-            }
-            break;
+                break;
 
-        case DataBuffer.TYPE_SHORT:
-            for (int b = 0, s1b = 0, s2b = 0; b < bands;
-                 b++, s1b += s1bd, s2b += s2bd) {
-                int[] s1 = s1Data[s1b];
-                int[] s2 = s2Data[s2b];
-                int[] d = dData[b];
+            case DataBuffer.TYPE_SHORT:
+                for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
+                    int[] s1 = s1Data[s1b];
+                    int[] s2 = s2Data[s2b];
+                    int[] d = dData[b];
 
-                int s1LineOffset = s1BandOffsets[s1b];
-                int s2LineOffset = s2BandOffsets[s2b];
-                int dLineOffset = dBandOffsets[b];
+                    int s1LineOffset = s1BandOffsets[s1b];
+                    int s2LineOffset = s2BandOffsets[s2b];
+                    int dLineOffset = dBandOffsets[b];
 
-                for (int h = 0; h < dheight; h++) {
-                    int s1PixelOffset = s1LineOffset;
-                    int s2PixelOffset = s2LineOffset;
-                    int dPixelOffset = dLineOffset;
+                    for (int h = 0; h < dheight; h++) {
+                        int s1PixelOffset = s1LineOffset;
+                        int s2PixelOffset = s2LineOffset;
+                        int dPixelOffset = dLineOffset;
 
-                    s1LineOffset += s1LineStride;
-                    s2LineOffset += s2LineStride;
-                    dLineOffset += dLineStride;
+                        s1LineOffset += s1LineStride;
+                        s2LineOffset += s2LineStride;
+                        dLineOffset += dLineStride;
 
-                    for (int w = 0; w < dwidth; w++) {
-                        d[dPixelOffset] = ImageUtil.clampShort((int)s1[s1PixelOffset] +
-                                                     (int)s2[s2PixelOffset]);
+                        for (int w = 0; w < dwidth; w++) {
+                            d[dPixelOffset] = ImageUtil.clampShort((int) s1[s1PixelOffset] + (int) s2[s2PixelOffset]);
 
-                        s1PixelOffset += s1PixelStride;
-                        s2PixelOffset += s2PixelStride;
-                        dPixelOffset += dPixelStride;
+                            s1PixelOffset += s1PixelStride;
+                            s2PixelOffset += s2PixelStride;
+                            dPixelOffset += dPixelStride;
+                        }
                     }
                 }
-            }
-            break;
+                break;
 
-        case DataBuffer.TYPE_INT:
-            for (int b = 0, s1b = 0, s2b = 0; b < bands;
-                 b++, s1b += s1bd, s2b += s2bd) {
-                int[] s1 = s1Data[s1b];
-                int[] s2 = s2Data[s2b];
-                int[] d = dData[b];
+            case DataBuffer.TYPE_INT:
+                for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
+                    int[] s1 = s1Data[s1b];
+                    int[] s2 = s2Data[s2b];
+                    int[] d = dData[b];
 
-                int s1LineOffset = s1BandOffsets[s1b];
-                int s2LineOffset = s2BandOffsets[s2b];
-                int dLineOffset = dBandOffsets[b];
+                    int s1LineOffset = s1BandOffsets[s1b];
+                    int s2LineOffset = s2BandOffsets[s2b];
+                    int dLineOffset = dBandOffsets[b];
 
-                for (int h = 0; h < dheight; h++) {
-                    int s1PixelOffset = s1LineOffset;
-                    int s2PixelOffset = s2LineOffset;
-                    int dPixelOffset = dLineOffset;
+                    for (int h = 0; h < dheight; h++) {
+                        int s1PixelOffset = s1LineOffset;
+                        int s2PixelOffset = s2LineOffset;
+                        int dPixelOffset = dLineOffset;
 
-                    s1LineOffset += s1LineStride;
-                    s2LineOffset += s2LineStride;
-                    dLineOffset += dLineStride;
+                        s1LineOffset += s1LineStride;
+                        s2LineOffset += s2LineStride;
+                        dLineOffset += dLineStride;
 
-                    for (int w = 0; w < dwidth; w++) {
-                        d[dPixelOffset] = ImageUtil.clampInt((long)s1[s1PixelOffset] +
-                                                   (long)s2[s2PixelOffset]);
+                        for (int w = 0; w < dwidth; w++) {
+                            d[dPixelOffset] = ImageUtil.clampInt((long) s1[s1PixelOffset] + (long) s2[s2PixelOffset]);
 
-                        s1PixelOffset += s1PixelStride;
-                        s2PixelOffset += s2PixelStride;
-                        dPixelOffset += dPixelStride;
+                            s1PixelOffset += s1PixelStride;
+                            s2PixelOffset += s2PixelStride;
+                            dPixelOffset += dPixelStride;
+                        }
                     }
                 }
-            }
-            break;
+                break;
         }
     }
 
-    private void computeRectFloat(RasterAccessor src1,
-                                  RasterAccessor src2,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -588,8 +533,7 @@ final class AddOpImage extends PointOpImage {
         int[] dBandOffsets = dst.getBandOffsets();
         float[][] dData = dst.getFloatDataArrays();
 
-        for (int b = 0, s1b = 0, s2b = 0; b < bands;
-             b++, s1b += s1bd, s2b += s2bd) {
+        for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
             float[] s1 = s1Data[s1b];
             float[] s2 = s2Data[s2b];
             float[] d = dData[b];
@@ -618,9 +562,7 @@ final class AddOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src1,
-                                   RasterAccessor src2,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -639,8 +581,7 @@ final class AddOpImage extends PointOpImage {
         int[] dBandOffsets = dst.getBandOffsets();
         double[][] dData = dst.getDoubleDataArrays();
 
-        for (int b = 0, s1b = 0, s2b = 0; b < bands;
-             b++, s1b += s1bd, s2b += s2bd) {
+        for (int b = 0, s1b = 0, s2b = 0; b < bands; b++, s1b += s1bd, s2b += s2bd) {
             double[] s1 = s1Data[s1b];
             double[] s2 = s2Data[s2b];
             double[] d = dData[b];
@@ -669,82 +610,82 @@ final class AddOpImage extends PointOpImage {
         }
     }
 
-//     public static void main(String args[]) {
-//         System.out.println("AddOpImage Test");
-//         ImageLayout layout;
-//         OpImage src1, src2, dst;
-//         Rectangle rect = new Rectangle(0, 0, 5, 5);
+    //     public static void main(String args[]) {
+    //         System.out.println("AddOpImage Test");
+    //         ImageLayout layout;
+    //         OpImage src1, src2, dst;
+    //         Rectangle rect = new Rectangle(0, 0, 5, 5);
 
-//         System.out.println("1. PixelInterleaved byte 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 800, 800, 0, 0, 200, 200, DataBuffer.TYPE_BYTE, 3, false);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("1. PixelInterleaved byte 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 800, 800, 0, 0, 200, 200, DataBuffer.TYPE_BYTE, 3, false);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("2. Banded byte 3-band");
-//         layout = OpImageTester.createImageLayout(
-//            0, 0, 800, 800, 0, 0, 200, 200, DataBuffer.TYPE_BYTE, 3, true);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("2. Banded byte 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //            0, 0, 800, 800, 0, 0, 200, 200, DataBuffer.TYPE_BYTE, 3, true);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("3. PixelInterleaved int 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_INT, 3, false);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("3. PixelInterleaved int 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_INT, 3, false);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("4. Banded int 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_INT, 3, true);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("4. Banded int 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_INT, 3, true);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("5. PixelInterleaved float 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_FLOAT, 3, false);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("5. PixelInterleaved float 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_FLOAT, 3, false);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("6. Banded float 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_FLOAT, 3, true);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("6. Banded float 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_FLOAT, 3, true);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("7. PixelInterleaved double 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_DOUBLE, 3, false);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
+    //         System.out.println("7. PixelInterleaved double 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_DOUBLE, 3, false);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
 
-//         System.out.println("8. Banded double 3-band");
-//         layout = OpImageTester.createImageLayout(
-//             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_DOUBLE, 3, true);
-//         src1 = OpImageTester.createRandomOpImage(layout);
-//         src2 = OpImageTester.createRandomOpImage(layout);
-//         dst = new AddOpImage(src1, src2, null, null);
-//         OpImageTester.testOpImage(dst, rect);
-//         OpImageTester.timeOpImage(dst, 10);
-//     }
+    //         System.out.println("8. Banded double 3-band");
+    //         layout = OpImageTester.createImageLayout(
+    //             0, 0, 512, 512, 0, 0, 200, 200, DataBuffer.TYPE_DOUBLE, 3, true);
+    //         src1 = OpImageTester.createRandomOpImage(layout);
+    //         src2 = OpImageTester.createRandomOpImage(layout);
+    //         dst = new AddOpImage(src1, src2, null, null);
+    //         OpImageTester.testOpImage(dst, rect);
+    //         OpImageTester.timeOpImage(dst, 10);
+    //     }
 }

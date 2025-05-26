@@ -8,6 +8,7 @@
 package org.eclipse.imagen.tutorial.network;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
@@ -18,15 +19,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.Component;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.remote.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.remote.*;
 
 class SourcePanel extends JPanel implements ListSelectionListener {
 
@@ -39,42 +39,38 @@ class SourcePanel extends JPanel implements ListSelectionListener {
     Icon imageIcon;
     JList listOfImages;
 
-    public SourcePanel(JAINetworkDemo demo,
-                       String[] filenames,
-                       PlanarImage[] sources,
-                       int sourceNum,
-		       RemoteJAI pClient) {
-    
-	this.demo = demo;
+    public SourcePanel(
+            JAINetworkDemo demo, String[] filenames, PlanarImage[] sources, int sourceNum, RemoteJAI pClient) {
+
+        this.demo = demo;
         this.sources = sources;
         this.sourceNum = sourceNum;
-	this.client = pClient;
+        this.client = pClient;
 
         Vector filenameList = new Vector();
         for (int i = 0; i < filenames.length; i++) {
             filenameList.add(filenames[i]);
         }
 
-	// Create the list
+        // Create the list
         listOfImages = new JList(filenameList);
-	listOfImages.setSelectedIndex(0);
-	listOfImages.addListSelectionListener(this);
+        listOfImages.setSelectedIndex(0);
+        listOfImages.addListSelectionListener(this);
 
-	// Put it in a scroll pane
-	JScrollPane scrollPane = new JScrollPane(listOfImages);
+        // Put it in a scroll pane
+        JScrollPane scrollPane = new JScrollPane(listOfImages);
 
         // Set up the picture label
         imageIcon = makeIcon(0);
         picture = new JLabel(imageIcon);
-        Dimension size = new Dimension(imageIcon.getIconWidth(),
-                                       imageIcon.getIconHeight());
+        Dimension size = new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight());
         picture.setPreferredSize(size);
 
-	// Put it in a scroll pane
-        JScrollPane pictureScrollPane =
-            new JScrollPane(picture,
-                           ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                           ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        // Put it in a scroll pane
+        JScrollPane pictureScrollPane = new JScrollPane(
+                picture,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(scrollPane);
@@ -82,16 +78,14 @@ class SourcePanel extends JPanel implements ListSelectionListener {
 
         add(pictureScrollPane);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
     }
 
-    public void setListOfImages(int index){
-	listOfImages.setSelectedIndex(0);
+    public void setListOfImages(int index) {
+        listOfImages.setSelectedIndex(0);
     }
 
     public Icon makeIcon(int index) {
-        float scale = 190.0F/Math.max(sources[index].getWidth(),
-                                      sources[index].getHeight());
+        float scale = 190.0F / Math.max(sources[index].getWidth(), sources[index].getHeight());
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(sources[index]);
         pb.add(scale);
@@ -105,25 +99,20 @@ class SourcePanel extends JPanel implements ListSelectionListener {
     }
 
     public void valueChanged(ListSelectionEvent e) {
-	if (!e.getValueIsAdjusting()) {
-	 
+        if (!e.getValueIsAdjusting()) {
 
-	    JList theList = (JList)e.getSource();
+            JList theList = (JList) e.getSource();
             int index = theList.getSelectedIndex();
 
             imageIcon = makeIcon(index);
             picture.setIcon(imageIcon);
-            Dimension size = new Dimension(imageIcon.getIconWidth(),
-                                           imageIcon.getIconHeight());
+            Dimension size = new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight());
             picture.setPreferredSize(size);
-	    picture.revalidate();
+            picture.revalidate();
             demo.setSourceIndex(sourceNum, index);
-	}
+        }
     }
-    
-
 }
-
 
 class SourceAdj extends JAISourceAdjPanel implements ChangeListener {
 
@@ -139,165 +128,155 @@ class SourceAdj extends JAISourceAdjPanel implements ChangeListener {
     Vector sourceVec;
     JAINetworkDemo demo;
     RemoteJAI client;
-    
-    public SourceAdj(JAINetworkDemo demo, 
-		     int srcId, 
-		     Vector sourceVec, 
-		     RemoteJAI pClient){
-	super(sourceVec);
-	this.srcId = srcId; 
-	this.sourceVec = sourceVec;
-	this.demo = demo;
-	this.client = pClient;
-	masterSetup();
+
+    public SourceAdj(JAINetworkDemo demo, int srcId, Vector sourceVec, RemoteJAI pClient) {
+        super(sourceVec);
+        this.srcId = srcId;
+        this.sourceVec = sourceVec;
+        this.demo = demo;
+        this.client = pClient;
+        masterSetup();
     }
-    
+
     public PlanarImage process() {
-	
-	PlanarImage im0 = getSource(srcId);
-	
-	ParameterBlock pb = new ParameterBlock();
-	pb.addSource(im0);
-	pb.add(xscale);
-	pb.add(yscale);
-	pb.add(xtrans);
-	pb.add(ytrans);
-	interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
-	pb.add(interp);
-	
-	PlanarImage img1 = client.create("scale", pb, renderHints);
-	demo.setDyadicSource(img1,srcId);
-	return img1;	 
+
+        PlanarImage im0 = getSource(srcId);
+
+        ParameterBlock pb = new ParameterBlock();
+        pb.addSource(im0);
+        pb.add(xscale);
+        pb.add(yscale);
+        pb.add(xtrans);
+        pb.add(ytrans);
+        interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
+        pb.add(interp);
+
+        PlanarImage img1 = client.create("scale", pb, renderHints);
+        demo.setDyadicSource(img1, srcId);
+        return img1;
     }
-    
-    
+
     public void reset() {
-	xscale = yscale = 1.0F;
-	interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
-	xySlider.setValue(0); 
-	xTSlider.setValue(0);
-	yTSlider.setValue(0);
+        xscale = yscale = 1.0F;
+        interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
+        xySlider.setValue(0);
+        xTSlider.setValue(0);
+        yTSlider.setValue(0);
     }
-    
+
     public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
-        if (!(interp instanceof InterpolationNearest) &&
-            source.getValueIsAdjusting()) {
-	  return;
+        JSlider source = (JSlider) e.getSource();
+        if (!(interp instanceof InterpolationNearest) && source.getValueIsAdjusting()) {
+            return;
         }
         int value = source.getValue();
-	
-        float fvalue = Math.abs(value)/10.0F + 1.0F;
+
+        float fvalue = Math.abs(value) / 10.0F + 1.0F;
         if (value < 0) {
-	  fvalue = 1.0F/fvalue;
+            fvalue = 1.0F / fvalue;
         }
-	
+
         if (source == xySlider) {
-	  xySlider.setValue(value);
-	  xscale = yscale = fvalue;
-	  
+            xySlider.setValue(value);
+            xscale = yscale = fvalue;
+
         } else if (source == xTSlider) {
-	  xtrans = value;
-	  
+            xtrans = value;
+
         } else if (source == yTSlider) {
-	  ytrans = value; 
-	  
-	  
+            ytrans = value;
         }
         repaint();
     }
-    
-    public void makeControls(JPanel controls) {
-      
-	xySlider = new JSlider(JSlider.HORIZONTAL, -40, 90, 0);
-	xTSlider = new JSlider(JSlider.HORIZONTAL, -99, 99, 0);
-	yTSlider = new JSlider(JSlider.HORIZONTAL, -99, 99, 0);
-    
-	Hashtable labels = new Hashtable();
-	labels.put(new Integer(-40), new JLabel("1/5"));
-	labels.put(new Integer(-30), new JLabel("1/4"));
-	labels.put(new Integer(-20), new JLabel("1/3"));
-	labels.put(new Integer(-10), new JLabel("1/2"));
-	labels.put(new Integer(0), new JLabel("1"));
-	labels.put(new Integer(10), new JLabel("2"));
-	labels.put(new Integer(20), new JLabel("3"));
-	labels.put(new Integer(30), new JLabel("4"));
-	labels.put(new Integer(40), new JLabel("5"));
-	labels.put(new Integer(50), new JLabel("6"));
-	labels.put(new Integer(60), new JLabel("7"));
-	labels.put(new Integer(70), new JLabel("8"));
-	labels.put(new Integer(80), new JLabel("9"));
-	labels.put(new Integer(90), new JLabel("10"));
-	xySlider.setLabelTable(labels);
-	xySlider.setPaintLabels(true);
-    
-	Hashtable labels1 = new Hashtable();
-     
-	labels1.put(new Integer(-100), new JLabel("-100"));
-	labels1.put(new Integer(-75), new JLabel("-75"));
-	labels1.put(new Integer(-50), new JLabel("-50"));
-	labels1.put(new Integer(-25), new JLabel("-25"));
-	labels1.put(new Integer(-10), new JLabel("-10"));
-	labels1.put(new Integer(0), new JLabel("0"));
-	labels1.put(new Integer(10), new JLabel("10"));
-	labels1.put(new Integer(25), new JLabel("25"));
-	labels1.put(new Integer(50), new JLabel("50"));
-	labels1.put(new Integer(75), new JLabel("75"));
-	labels1.put(new Integer(100), new JLabel("100"));
 
-	xTSlider.setLabelTable(labels1);
-	xTSlider.setPaintLabels(true);
-    
-	yTSlider.setLabelTable(labels1);
-	yTSlider.setPaintLabels(true);
-    
-	JPanel xySliderPanel = new JPanel();
-	xySliderPanel.setLayout(new GridLayout(0,1));
-    
-	JLabel xyLabel = new JLabel("X/Y Scale",(int)Component.CENTER_ALIGNMENT);
-	xySliderPanel.add(xyLabel);
-	xySliderPanel.add(xySlider);
-    
-	JPanel xTSliderPanel = new JPanel();
-	xTSliderPanel.setLayout(new GridLayout(0,1));
-    
-	JLabel xTLabel = new JLabel("X Translate",(int)Component.CENTER_ALIGNMENT);
-	xTLabel.setPreferredSize(xyLabel.getPreferredSize());
-	xTSliderPanel.add(xTLabel);
-	xTSliderPanel.add(xTSlider);
-    
-	JPanel yTSliderPanel = new JPanel();
-	yTSliderPanel.setLayout(new GridLayout(0,1));
-    
-	JLabel yTLabel = new JLabel("Y Translate",(int)Component.CENTER_ALIGNMENT);
-	yTLabel.setPreferredSize(xyLabel.getPreferredSize());
-	yTSliderPanel.add(yTLabel);
-	yTSliderPanel.add(yTSlider);
-    
-	xySlider.addChangeListener(this);
-	xTSlider.addChangeListener(this);
-	yTSlider.addChangeListener(this);
-	JPanel sliderPanel = new JPanel();
-	sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.Y_AXIS)); 
-	  
-	sliderPanel.add(xySliderPanel);
-	sliderPanel.add(xTSliderPanel);
-	sliderPanel.add(yTSliderPanel);
-	sliderPanel.setLayout(new GridLayout(0,1));
-	controls.setLayout(new BorderLayout());
-	controls.add("Center", sliderPanel);
-    
+    public void makeControls(JPanel controls) {
+
+        xySlider = new JSlider(JSlider.HORIZONTAL, -40, 90, 0);
+        xTSlider = new JSlider(JSlider.HORIZONTAL, -99, 99, 0);
+        yTSlider = new JSlider(JSlider.HORIZONTAL, -99, 99, 0);
+
+        Hashtable labels = new Hashtable();
+        labels.put(new Integer(-40), new JLabel("1/5"));
+        labels.put(new Integer(-30), new JLabel("1/4"));
+        labels.put(new Integer(-20), new JLabel("1/3"));
+        labels.put(new Integer(-10), new JLabel("1/2"));
+        labels.put(new Integer(0), new JLabel("1"));
+        labels.put(new Integer(10), new JLabel("2"));
+        labels.put(new Integer(20), new JLabel("3"));
+        labels.put(new Integer(30), new JLabel("4"));
+        labels.put(new Integer(40), new JLabel("5"));
+        labels.put(new Integer(50), new JLabel("6"));
+        labels.put(new Integer(60), new JLabel("7"));
+        labels.put(new Integer(70), new JLabel("8"));
+        labels.put(new Integer(80), new JLabel("9"));
+        labels.put(new Integer(90), new JLabel("10"));
+        xySlider.setLabelTable(labels);
+        xySlider.setPaintLabels(true);
+
+        Hashtable labels1 = new Hashtable();
+
+        labels1.put(new Integer(-100), new JLabel("-100"));
+        labels1.put(new Integer(-75), new JLabel("-75"));
+        labels1.put(new Integer(-50), new JLabel("-50"));
+        labels1.put(new Integer(-25), new JLabel("-25"));
+        labels1.put(new Integer(-10), new JLabel("-10"));
+        labels1.put(new Integer(0), new JLabel("0"));
+        labels1.put(new Integer(10), new JLabel("10"));
+        labels1.put(new Integer(25), new JLabel("25"));
+        labels1.put(new Integer(50), new JLabel("50"));
+        labels1.put(new Integer(75), new JLabel("75"));
+        labels1.put(new Integer(100), new JLabel("100"));
+
+        xTSlider.setLabelTable(labels1);
+        xTSlider.setPaintLabels(true);
+
+        yTSlider.setLabelTable(labels1);
+        yTSlider.setPaintLabels(true);
+
+        JPanel xySliderPanel = new JPanel();
+        xySliderPanel.setLayout(new GridLayout(0, 1));
+
+        JLabel xyLabel = new JLabel("X/Y Scale", (int) Component.CENTER_ALIGNMENT);
+        xySliderPanel.add(xyLabel);
+        xySliderPanel.add(xySlider);
+
+        JPanel xTSliderPanel = new JPanel();
+        xTSliderPanel.setLayout(new GridLayout(0, 1));
+
+        JLabel xTLabel = new JLabel("X Translate", (int) Component.CENTER_ALIGNMENT);
+        xTLabel.setPreferredSize(xyLabel.getPreferredSize());
+        xTSliderPanel.add(xTLabel);
+        xTSliderPanel.add(xTSlider);
+
+        JPanel yTSliderPanel = new JPanel();
+        yTSliderPanel.setLayout(new GridLayout(0, 1));
+
+        JLabel yTLabel = new JLabel("Y Translate", (int) Component.CENTER_ALIGNMENT);
+        yTLabel.setPreferredSize(xyLabel.getPreferredSize());
+        yTSliderPanel.add(yTLabel);
+        yTSliderPanel.add(yTSlider);
+
+        xySlider.addChangeListener(this);
+        xTSlider.addChangeListener(this);
+        yTSlider.addChangeListener(this);
+        JPanel sliderPanel = new JPanel();
+        sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.Y_AXIS));
+
+        sliderPanel.add(xySliderPanel);
+        sliderPanel.add(xTSliderPanel);
+        sliderPanel.add(yTSliderPanel);
+        sliderPanel.setLayout(new GridLayout(0, 1));
+        controls.setLayout(new BorderLayout());
+        controls.add("Center", sliderPanel);
     }
 }
-
 
 class CachePanel extends JPanel implements ActionListener, ChangeListener {
 
     JAINetworkDemo demo;
 
     private static final int TILE_CACHE_MBYTES_PER_TICK = 4;
-    private static final int TILE_CACHE_BYTES_PER_TICK = 
-        TILE_CACHE_MBYTES_PER_TICK*1024*1024;
+    private static final int TILE_CACHE_BYTES_PER_TICK = TILE_CACHE_MBYTES_PER_TICK * 1024 * 1024;
 
     public CachePanel(JAINetworkDemo demo) {
         this.demo = demo;
@@ -310,19 +289,15 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
         add(flushButton);
         flushButton.addActionListener(this);
 
-        JLabel capacityLabel = new JLabel("Tile Cache Capacity",
-                                          SwingConstants.CENTER);
+        JLabel capacityLabel = new JLabel("Tile Cache Capacity", SwingConstants.CENTER);
         add(capacityLabel);
 
-        long cacheCapacity = 
-            JAI.getDefaultInstance().getTileCache().getMemoryCapacity();
-        int capacity = (int)(cacheCapacity/TILE_CACHE_BYTES_PER_TICK);
-        JSlider capacitySlider = new JSlider(JSlider.HORIZONTAL, 
-                                             0, 16, capacity);
+        long cacheCapacity = JAI.getDefaultInstance().getTileCache().getMemoryCapacity();
+        int capacity = (int) (cacheCapacity / TILE_CACHE_BYTES_PER_TICK);
+        JSlider capacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 16, capacity);
         Hashtable labels = new Hashtable();
         for (int i = 0; i <= 16; i += 4) {
-            labels.put(new Integer(i),
-                       new JLabel((i*TILE_CACHE_MBYTES_PER_TICK) + "M"));
+            labels.put(new Integer(i), new JLabel((i * TILE_CACHE_MBYTES_PER_TICK) + "M"));
         }
         capacitySlider.setLabelTable(labels);
         capacitySlider.setPaintLabels(true);
@@ -340,26 +315,26 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
     }
 
     public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
+        JSlider source = (JSlider) e.getSource();
         if (source.getValueIsAdjusting()) {
             return;
         }
 
-        long capacity = source.getValue()*TILE_CACHE_BYTES_PER_TICK;
+        long capacity = source.getValue() * TILE_CACHE_BYTES_PER_TICK;
         JAI.getDefaultInstance().getTileCache().setMemoryCapacity(capacity);
     }
 }
 
-
 class HintPanel extends JPanel implements ItemListener {
 
-    static final String[] extenderLabels = { "No Border Extension",
-                                             "Extend borders with zeros",
-                                             "Extend borders by copying edges",
-                                             "Extend borders by reflection",
-                                             "Extend borders by wrapping"
+    static final String[] extenderLabels = {
+        "No Border Extension",
+        "Extend borders with zeros",
+        "Extend borders by copying edges",
+        "Extend borders by reflection",
+        "Extend borders by wrapping"
     };
-                       
+
     static final BorderExtender[] extenders = {
         null,
         BorderExtender.createInstance(BorderExtender.BORDER_ZERO),
@@ -368,8 +343,7 @@ class HintPanel extends JPanel implements ItemListener {
         BorderExtender.createInstance(BorderExtender.BORDER_WRAP)
     };
 
-    static final RenderingHints.Key extenderKey =
-        JAI.KEY_BORDER_EXTENDER;
+    static final RenderingHints.Key extenderKey = JAI.KEY_BORDER_EXTENDER;
 
     JAINetworkDemo demo;
     RenderingHints renderHints = null;
@@ -391,29 +365,27 @@ class HintPanel extends JPanel implements ItemListener {
             return;
         }
 
-        String item = (String)e.getItem();
+        String item = (String) e.getItem();
         for (int i = 0; i < extenderLabels.length; i++) {
             if (item.equals(extenderLabels[i])) {
                 if (i == 0) {
                     renderHints = null;
                 } else {
-                    renderHints =
-                        new RenderingHints(extenderKey, extenders[i]);
+                    renderHints = new RenderingHints(extenderKey, extenders[i]);
                 }
             }
         }
-        
+
         demo.setRenderingHints(renderHints);
     }
 }
-
 
 public class JAINetworkDemo extends WindowAdapter implements ChangeListener {
 
     JFrame frame;
     JAIDemoPanel currPanel = null;
     JAIDemoPanel[] panels;
-    JAISourceAdjPanel srcAdjPanel,srcAdjPanel0;
+    JAISourceAdjPanel srcAdjPanel, srcAdjPanel0;
     SourcePanel sourcePanel, sourcePanel1;
 
     int numPanels;
@@ -428,198 +400,177 @@ public class JAINetworkDemo extends WindowAdapter implements ChangeListener {
     String server;
     String imagePath;
     RemoteJAI client;
-    
+
     public JAINetworkDemo(String[] args) {
-      // Create a top-level frame to hold the demo
-      frame = new JFrame("JAI Network Imaging Demo");
+        // Create a top-level frame to hold the demo
+        frame = new JFrame("JAI Network Imaging Demo");
 
-      for (int i=0; i < args.length; i++){
+        for (int i = 0; i < args.length; i++) {
 
-	  if (args[i].toLowerCase().equals("-h")) {
-	      System.out.println("Usage: java JAINetworkDemo -server " +
-				 "ImageServer -imagePath " + 
-				 "ImageDirectoryOnServer");
-	      System.out.println("If no serverName is provided using -server" +
-				 ", the localhost will be used as the server" +
-				 " by default.");
+            if (args[i].toLowerCase().equals("-h")) {
+                System.out.println(
+                        "Usage: java JAINetworkDemo -server " + "ImageServer -imagePath " + "ImageDirectoryOnServer");
+                System.out.println("If no serverName is provided using -server"
+                        + ", the localhost will be used as the server" + " by default.");
 
-	      System.out.println("If no image path is provided using " + 
-				 "-imagePath, the default path of " +
-				 "../sample/images will be used.");
-	      System.exit(0);
+                System.out.println("If no image path is provided using " + "-imagePath, the default path of "
+                        + "../sample/images will be used.");
+                System.exit(0);
 
-	  } else if ("-server".equalsIgnoreCase(args[i])) {
-	      server = args[++i];
-	  } else if ("-imagePath".equalsIgnoreCase(args[i])) {
-	      imagePath = args[++i];
-	  }
-      }
+            } else if ("-server".equalsIgnoreCase(args[i])) {
+                server = args[++i];
+            } else if ("-imagePath".equalsIgnoreCase(args[i])) {
+                imagePath = args[++i];
+            }
+        }
 
-      if (server == null) {
-	  try {
-	      server = InetAddress.getLocalHost().getHostAddress();
-	  } catch (java.net.UnknownHostException ukhe) {
-	      throw new RuntimeException("Unknown local host.\n" + ukhe.getMessage());
-	  }
-      }
+        if (server == null) {
+            try {
+                server = InetAddress.getLocalHost().getHostAddress();
+            } catch (java.net.UnknownHostException ukhe) {
+                throw new RuntimeException("Unknown local host.\n" + ukhe.getMessage());
+            }
+        }
 
-      String sep = System.getProperty("file.separator");
-      if (imagePath == null)
-	  imagePath = ".." + sep + "jai" + sep + "images";
+        String sep = System.getProperty("file.separator");
+        if (imagePath == null) imagePath = ".." + sep + "jai" + sep + "images";
 
-      // Read in the name of the server
-      client = new RemoteJAI("jairmi", server);
+        // Read in the name of the server
+        client = new RemoteJAI("jairmi", server);
 
-      // Set up negotiation preferences so as to turn off compression
-      ParameterListDescriptorImpl pld = new ParameterListDescriptorImpl(null,
-									null,
-									null,
-									null,
-									null);
-      
-      NegotiableCapability cap =  new NegotiableCapability("tileCodec",
-							   "noExistingCodec",
-							   null,
-							   pld,
-							   true);
+        // Set up negotiation preferences so as to turn off compression
+        ParameterListDescriptorImpl pld = new ParameterListDescriptorImpl(null, null, null, null, null);
 
-      NegotiableCapabilitySet preferences = new NegotiableCapabilitySet(true);
-      preferences.add(cap);
+        NegotiableCapability cap = new NegotiableCapability("tileCodec", "noExistingCodec", null, pld, true);
 
-      client.setNegotiationPreferences(preferences);
+        NegotiableCapabilitySet preferences = new NegotiableCapabilitySet(true);
+        preferences.add(cap);
 
+        client.setNegotiationPreferences(preferences);
 
-      // Derive the service name.
-      String serviceName = new String("rmi://"+server+"/"+
-				      "DirectoryListingServer");
+        // Derive the service name.
+        String serviceName = new String("rmi://" + server + "/" + "DirectoryListingServer");
 
-      // Look up the remote object.
-      DirectoryLister dl = null;
-      try {
-	  dl = (DirectoryLister)Naming.lookup(serviceName);
-      } catch(Exception e) {
-	  System.out.println(e.getMessage());
-	  e.printStackTrace();
-      }
+        // Look up the remote object.
+        DirectoryLister dl = null;
+        try {
+            dl = (DirectoryLister) Naming.lookup(serviceName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 
-      String[] filenames = null, fullnames = null;
-      try {
-	  filenames = dl.getDirectoryListing(imagePath);
-	  fullnames = dl.getPathDirectoryAbsoluteListing(imagePath);
-      } catch (Exception re) {
-	  System.out.println(re.getMessage());
-	  re.printStackTrace();
-      }
+        String[] filenames = null, fullnames = null;
+        try {
+            filenames = dl.getDirectoryListing(imagePath);
+            fullnames = dl.getPathDirectoryAbsoluteListing(imagePath);
+        } catch (Exception re) {
+            System.out.println(re.getMessage());
+            re.printStackTrace();
+        }
 
-      // Read in the images on the server
-      sources = new PlanarImage[filenames.length];
-      for (int i = 0; i < fullnames.length; i++) {
-      	  sources[i] = JAIImageReader.readImage(fullnames[i], client);
-      }
+        // Read in the images on the server
+        sources = new PlanarImage[filenames.length];
+        for (int i = 0; i < fullnames.length; i++) {
+            sources[i] = JAIImageReader.readImage(fullnames[i], client);
+        }
 
-      Vector sourceVec = new Vector();
-      sourceVec.add(sources[0]);
-      sourceVec.add(sources[0]);
-      
-      // Create a panel for tile cache control.
-      JPanel cachePanel = new CachePanel(this);
-      
-      JPanel hintPanel = new HintPanel(this);
-      
-      JPanel extraPanel = new JPanel();
-      extraPanel.setLayout(new GridLayout(2, 1));
-      extraPanel.add(cachePanel);
-      extraPanel.add(hintPanel);
-      
-      JPanel controlPanel = new JPanel();
-      controlPanel.setLayout(new BorderLayout());
-      
-      controlPanel.add("East", extraPanel);
-      
-      frame.getContentPane().add("North", controlPanel);
-       
-      // Instantiate panels for each operation to be demonstrated.
-      // New operation panels should be added here.
-      numPanels = 0;
-      panels = new JAIDemoPanel[16];
-      panels[numPanels++] = new JAIScalePanel(sourceVec, client);
-      panels[numPanels++] = new JAIRotatePanel(sourceVec, client);
-      panels[numPanels++] = new JAIConvolvePanel(sourceVec, client);
-      panels[numPanels++] = new JAIAddConstPanel(sourceVec, client);
-      panels[numPanels++] = new JAITransposePanel(sourceVec, client);
-      panels[numPanels++] = new JAIBlurSharpPanel(sourceVec, client);
-      panels[numPanels++] = new JAIGradientPanel(sourceVec, client);
-      panels[numPanels++] = new JAIMedianPanel(sourceVec, client);
-      numMonadicPanels = numPanels;
+        Vector sourceVec = new Vector();
+        sourceVec.add(sources[0]);
+        sourceVec.add(sources[0]);
 
-      currPanel = panels[0];
+        // Create a panel for tile cache control.
+        JPanel cachePanel = new CachePanel(this);
 
-      // Dyadic ops
-      panels[numPanels++] = new JAIDyadicSource0Panel(this, sourceVec, client);
-      panels[numPanels++] = new JAIDyadicSource1Panel(this, sourceVec, client);
-      panels[numPanels++] = new JAIDyadicAddPanel(this, sourceVec, client);
-      panels[numPanels++] = new JAIDyadicSubtractPanel(this, 
-						       sourceVec,
-						       client);
-      panels[numPanels++] = new JAIDyadicMultiplyPanel(this, 
-						       sourceVec, 
-						       client);
-      panels[numPanels++] = new JAIDyadicDividePanel(this, 
-						     sourceVec, 
-						     client);
+        JPanel hintPanel = new HintPanel(this);
 
-      // Create a panel for source selection.
-      sourcePanel = new SourcePanel(this, filenames, sources, 0, client);
-      sourcePanel1 = new SourcePanel(this, filenames, sources, 1, client);
-      srcAdjPanel0 = new SourceAdj(this, 0, sourceVec, client);
-      srcAdjPanel = new SourceAdj(this, 1, sourceVec, client);
-      
-      srcTabbedPane = new JTabbedPane();
-      srcTabbedPane.add("Source0", sourcePanel);
-      srcTabbedPane.add("Source1", sourcePanel1);
-      srcTabbedPane.add("Source0 Adj", srcAdjPanel0);
-      srcTabbedPane.add("Source1 Adj", srcAdjPanel);
-      srcTabbedPane.setEnabledAt(1,false);
-      srcTabbedPane.setEnabledAt(2,false);
-      srcTabbedPane.setEnabledAt(3,false);
-      
-      srcTabbedPane.setPreferredSize(new Dimension(600, 300));
-      srcTabbedPane.addChangeListener(this);
-      controlPanel.add("Center", srcTabbedPane);
-      
-      // Insert the operation panels into a tabbed pane.
-      mainTabbedPane = new JTabbedPane();
-            for (int i = 0; i < numMonadicPanels; i++) {
-          mainTabbedPane.add(panels[i].getDemoName(), panels[i]);
-      }
+        JPanel extraPanel = new JPanel();
+        extraPanel.setLayout(new GridLayout(2, 1));
+        extraPanel.add(cachePanel);
+        extraPanel.add(hintPanel);
 
-      dyadicTabbedPane = new JTabbedPane();
-      for (int i = numMonadicPanels; i < numPanels; i++) {
-          dyadicTabbedPane.add(panels[i].getDemoName(), panels[i]);
-      }
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new BorderLayout());
 
-      mainTabbedPane.add("Dyadic", dyadicTabbedPane);
-      mainTabbedPane.setPreferredSize(new Dimension(800, 450));
-      frame.getContentPane().add("Center", mainTabbedPane);
-      mainTabbedPane.addChangeListener(this);
-      dyadicTabbedPane.addChangeListener(this);
-      
-      // Pack the frame and make it visible.
-      frame.pack();
-      frame.setVisible(true);
-      frame.addWindowListener(this);
+        controlPanel.add("East", extraPanel);
+
+        frame.getContentPane().add("North", controlPanel);
+
+        // Instantiate panels for each operation to be demonstrated.
+        // New operation panels should be added here.
+        numPanels = 0;
+        panels = new JAIDemoPanel[16];
+        panels[numPanels++] = new JAIScalePanel(sourceVec, client);
+        panels[numPanels++] = new JAIRotatePanel(sourceVec, client);
+        panels[numPanels++] = new JAIConvolvePanel(sourceVec, client);
+        panels[numPanels++] = new JAIAddConstPanel(sourceVec, client);
+        panels[numPanels++] = new JAITransposePanel(sourceVec, client);
+        panels[numPanels++] = new JAIBlurSharpPanel(sourceVec, client);
+        panels[numPanels++] = new JAIGradientPanel(sourceVec, client);
+        panels[numPanels++] = new JAIMedianPanel(sourceVec, client);
+        numMonadicPanels = numPanels;
+
+        currPanel = panels[0];
+
+        // Dyadic ops
+        panels[numPanels++] = new JAIDyadicSource0Panel(this, sourceVec, client);
+        panels[numPanels++] = new JAIDyadicSource1Panel(this, sourceVec, client);
+        panels[numPanels++] = new JAIDyadicAddPanel(this, sourceVec, client);
+        panels[numPanels++] = new JAIDyadicSubtractPanel(this, sourceVec, client);
+        panels[numPanels++] = new JAIDyadicMultiplyPanel(this, sourceVec, client);
+        panels[numPanels++] = new JAIDyadicDividePanel(this, sourceVec, client);
+
+        // Create a panel for source selection.
+        sourcePanel = new SourcePanel(this, filenames, sources, 0, client);
+        sourcePanel1 = new SourcePanel(this, filenames, sources, 1, client);
+        srcAdjPanel0 = new SourceAdj(this, 0, sourceVec, client);
+        srcAdjPanel = new SourceAdj(this, 1, sourceVec, client);
+
+        srcTabbedPane = new JTabbedPane();
+        srcTabbedPane.add("Source0", sourcePanel);
+        srcTabbedPane.add("Source1", sourcePanel1);
+        srcTabbedPane.add("Source0 Adj", srcAdjPanel0);
+        srcTabbedPane.add("Source1 Adj", srcAdjPanel);
+        srcTabbedPane.setEnabledAt(1, false);
+        srcTabbedPane.setEnabledAt(2, false);
+        srcTabbedPane.setEnabledAt(3, false);
+
+        srcTabbedPane.setPreferredSize(new Dimension(600, 300));
+        srcTabbedPane.addChangeListener(this);
+        controlPanel.add("Center", srcTabbedPane);
+
+        // Insert the operation panels into a tabbed pane.
+        mainTabbedPane = new JTabbedPane();
+        for (int i = 0; i < numMonadicPanels; i++) {
+            mainTabbedPane.add(panels[i].getDemoName(), panels[i]);
+        }
+
+        dyadicTabbedPane = new JTabbedPane();
+        for (int i = numMonadicPanels; i < numPanels; i++) {
+            dyadicTabbedPane.add(panels[i].getDemoName(), panels[i]);
+        }
+
+        mainTabbedPane.add("Dyadic", dyadicTabbedPane);
+        mainTabbedPane.setPreferredSize(new Dimension(800, 450));
+        frame.getContentPane().add("Center", mainTabbedPane);
+        mainTabbedPane.addChangeListener(this);
+        dyadicTabbedPane.addChangeListener(this);
+
+        // Pack the frame and make it visible.
+        frame.pack();
+        frame.setVisible(true);
+        frame.addWindowListener(this);
     }
-  
+
     public void stateChanged(ChangeEvent e) {
-        JTabbedPane pane = (JTabbedPane)e.getSource();
+        JTabbedPane pane = (JTabbedPane) e.getSource();
         int index = pane.getSelectedIndex();
 
         if (pane == mainTabbedPane) {
             currPanel.deactivate();
             enableSource1(false);
             if (index >= numMonadicPanels) {
-                currPanel = 
-		panels[dyadicTabbedPane.getSelectedIndex() + numMonadicPanels];
+                currPanel = panels[dyadicTabbedPane.getSelectedIndex() + numMonadicPanels];
                 enableSource1(true);
             } else {
                 currPanel = panels[index];
@@ -629,15 +580,10 @@ public class JAINetworkDemo extends WindowAdapter implements ChangeListener {
             currPanel.deactivate();
             currPanel = panels[index + numMonadicPanels];
             currPanel.activate();
-	}
+        }
     }
-    
-    /** 
-     * Sets the index of one of the sources in response to an
-     * event in one of the source selector panels.
-     */
 
-
+    /** Sets the index of one of the sources in response to an event in one of the source selector panels. */
     public void setSourceIndex(int sourceNum, int index) {
         for (int i = 0; i < numPanels; i++) {
             panels[i].setSource(sourceNum, sources[index]);
@@ -645,36 +591,36 @@ public class JAINetworkDemo extends WindowAdapter implements ChangeListener {
         srcAdjPanel.setSource(sourceNum, sources[index]);
         srcAdjPanel0.setSource(sourceNum, sources[index]);
     }
-    
+
     public void setDyadicSource(PlanarImage img, int index) {
         for (int i = numMonadicPanels; i < numPanels; i++) {
             panels[i].setSource(index, img);
         }
     }
-    
+
     public void resetAdj() {
         srcAdjPanel0.reset();
-        srcAdjPanel.reset();  
+        srcAdjPanel.reset();
     }
-    
+
     public void enableSource1(boolean isSet) {
         srcTabbedPane.setEnabledAt(1, isSet);
         srcTabbedPane.setEnabledAt(2, isSet);
         srcTabbedPane.setEnabledAt(3, isSet);
         srcTabbedPane.setSelectedIndex(0);
-    } 
-    
+    }
+
     public void setRenderingHints(RenderingHints renderHints) {
         this.renderHints = renderHints;
         for (int i = 0; i < numPanels; i++) {
             panels[i].setRenderingHints(renderHints);
         }
     }
-    
+
     public void windowClosing(WindowEvent e) {
         System.exit(0);
     }
-    
+
     public static void main(String[] args) {
         new JAINetworkDemo(args);
     }

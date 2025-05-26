@@ -17,7 +17,6 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.ColorModel;
@@ -26,40 +25,32 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.Map;
 import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.UntiledOpImage;
-import org.eclipse.imagen.operator.DFTDescriptor;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 import org.eclipse.imagen.media.util.MathJAI;
+import org.eclipse.imagen.operator.DFTDescriptor;
 
 /**
- * An <code>OpImage</code> implementing the forward and inverse discrete
- * Fourier transform (DFT) operations as described in
- * <code>org.eclipse.imagen.operator.DFTDescriptor</code> and
- * <code>org.eclipse.imagen.operator.IDFTDescriptor</code>.
+ * An <code>OpImage</code> implementing the forward and inverse discrete Fourier transform (DFT) operations as described
+ * in <code>org.eclipse.imagen.operator.DFTDescriptor</code> and <code>org.eclipse.imagen.operator.IDFTDescriptor</code>
+ * .
  *
- * <p> The DFT operation is implemented using a one-dimensional decimation
- * in time fast Fourier transform (FFT) which is applied successively to the
- * rows and the columns of the image. All image dimensions are enlarged to the
- * next positive power of 2 greater than or equal to the respective dimension
- * unless the dimension is unity in which case it is not modified. Source
- * image values are padded with zeros when the dimension is smaller than the
- * output power-of-2 dimension.
+ * <p>The DFT operation is implemented using a one-dimensional decimation in time fast Fourier transform (FFT) which is
+ * applied successively to the rows and the columns of the image. All image dimensions are enlarged to the next positive
+ * power of 2 greater than or equal to the respective dimension unless the dimension is unity in which case it is not
+ * modified. Source image values are padded with zeros when the dimension is smaller than the output power-of-2
+ * dimension.
  *
  * @since EA3
- *
  * @see org.eclipse.imagen.UntiledOpImage
  * @see org.eclipse.imagen.operator.DFTDescriptor
  * @see org.eclipse.imagen.operator.IDFTDescriptor
- *
  */
 public class DFTOpImage extends UntiledOpImage {
     /** The Fast Fourier Transform object. */
@@ -72,15 +63,12 @@ public class DFTOpImage extends UntiledOpImage {
     protected boolean complexDst;
 
     /**
-     * Override the dimension specification for the destination such that it
-     * has width and height which are equal to non-negative powers of 2.
+     * Override the dimension specification for the destination such that it has width and height which are equal to
+     * non-negative powers of 2.
      */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source,
-                                            EnumeratedParameter dataNature) {
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, EnumeratedParameter dataNature) {
         // Create an ImageLayout or clone the one passed in.
-        ImageLayout il = layout == null ?
-            new ImageLayout() : (ImageLayout)layout.clone();
+        ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Force the origin to coincide with that of the source.
         il.setMinX(source.getMinX());
@@ -93,12 +81,12 @@ public class DFTOpImage extends UntiledOpImage {
         int currentHeight = il.getHeight(source);
         int newWidth;
         int newHeight;
-        if(currentWidth == 1 && currentHeight == 1) {
+        if (currentWidth == 1 && currentHeight == 1) {
             newWidth = newHeight = 1;
-        } else if(currentWidth == 1 && currentHeight > 1) {
+        } else if (currentWidth == 1 && currentHeight > 1) {
             newWidth = 1;
             newHeight = MathJAI.nextPositivePowerOf2(currentHeight);
-        } else if(currentWidth > 1 && currentHeight == 1) {
+        } else if (currentWidth > 1 && currentHeight == 1) {
             newWidth = MathJAI.nextPositivePowerOf2(currentWidth);
             newHeight = 1;
         } else { // Neither dimension equal to unity.
@@ -109,10 +97,8 @@ public class DFTOpImage extends UntiledOpImage {
         il.setHeight(newHeight);
 
         // Set the complex flags for source and destination.
-        boolean isComplexSource =
-            !dataNature.equals(DFTDescriptor.REAL_TO_COMPLEX);
-        boolean isComplexDest =
-            !dataNature.equals(DFTDescriptor.COMPLEX_TO_REAL);
+        boolean isComplexSource = !dataNature.equals(DFTDescriptor.REAL_TO_COMPLEX);
+        boolean isComplexDest = !dataNature.equals(DFTDescriptor.COMPLEX_TO_REAL);
 
         // Initialize the SampleModel creation flag.
         boolean createNewSampleModel = false;
@@ -120,41 +106,35 @@ public class DFTOpImage extends UntiledOpImage {
         // Determine the number of required bands.
         SampleModel srcSampleModel = source.getSampleModel();
         int requiredNumBands = srcSampleModel.getNumBands();
-        if(isComplexSource && !isComplexDest) {
+        if (isComplexSource && !isComplexDest) {
             requiredNumBands /= 2;
-        } else if(!isComplexSource && isComplexDest) {
+        } else if (!isComplexSource && isComplexDest) {
             requiredNumBands *= 2;
         }
 
         // Set the number of bands.
         SampleModel sm = il.getSampleModel(source);
         int numBands = sm.getNumBands();
-        if(numBands != requiredNumBands) {
+        if (numBands != requiredNumBands) {
             numBands = requiredNumBands;
             createNewSampleModel = true;
         }
 
         // Force the image to contain floating point data.
         int dataType = sm.getTransferType();
-        if(dataType != DataBuffer.TYPE_FLOAT &&
-           dataType != DataBuffer.TYPE_DOUBLE) {
+        if (dataType != DataBuffer.TYPE_FLOAT && dataType != DataBuffer.TYPE_DOUBLE) {
             dataType = DataBuffer.TYPE_FLOAT;
             createNewSampleModel = true;
         }
 
         // Create a new SampleModel for the destination if necessary.
-        if(createNewSampleModel) {
-            sm = RasterFactory.createComponentSampleModel(sm,
-                                                          dataType,
-                                                          newWidth,
-                                                          newHeight,
-                                                          numBands);
+        if (createNewSampleModel) {
+            sm = RasterFactory.createComponentSampleModel(sm, dataType, newWidth, newHeight, numBands);
             il.setSampleModel(sm);
 
             // Clear the ColorModel mask if needed.
             ColorModel cm = il.getColorModel(null);
-            if(cm != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
+            if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
                 // Clear the mask bit if incompatible.
                 il.unsetValid(ImageLayout.COLOR_MODEL_MASK);
             }
@@ -166,23 +146,16 @@ public class DFTOpImage extends UntiledOpImage {
     /**
      * Constructs a <code>DFTOpImage</code> object.
      *
-     * <p>The image dimensions are the respective next positive powers of 2
-     * greater than or equal to the dimensions of the source image. The tile
-     * grid layout, SampleModel, and ColorModel may optionally be specified
-     * by an ImageLayout object.
+     * <p>The image dimensions are the respective next positive powers of 2 greater than or equal to the dimensions of
+     * the source image. The tile grid layout, SampleModel, and ColorModel may optionally be specified by an ImageLayout
+     * object.
      *
      * @param source A RenderedImage.
-     * @param layout An ImageLayout optionally containing the tile grid layout,
-     * SampleModel, and ColorModel, or null.
+     * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param fft The Fast Fourier Transform object.
-     *
      * @see DFTDescriptor.
      */
-    public DFTOpImage(RenderedImage source,
-                      Map config,
-                      ImageLayout layout,
-                      EnumeratedParameter dataNature,
-                      FFT fft) {
+    public DFTOpImage(RenderedImage source, Map config, ImageLayout layout, EnumeratedParameter dataNature, FFT fft) {
         super(source, config, layoutHelper(layout, source, dataNature));
 
         // Cache the FFT object.
@@ -196,14 +169,9 @@ public class DFTOpImage extends UntiledOpImage {
     /**
      * Computes the source point corresponding to the supplied point.
      *
-     * @param destPt the position in destination image coordinates
-     * to map to source image coordinates.
-     *
+     * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return <code>null</code>.
-     *
-     * @throws IllegalArgumentException if <code>destPt</code> is
-     * <code>null</code>.
-     *
+     * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
@@ -218,10 +186,7 @@ public class DFTOpImage extends UntiledOpImage {
      * Computes the destination point corresponding to the supplied point.
      *
      * @return <code>null</code>.
-     *
-     * @throws IllegalArgumentException if <code>sourcePt</code> is
-     * <code>null</code>.
-     *
+     * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
@@ -239,29 +204,25 @@ public class DFTOpImage extends UntiledOpImage {
      * @param dest The destination WritableRaster; should be the whole image.
      * @param destRect The destination Rectangle; should be the image bounds.
      */
-    protected void computeImage(Raster[] sources,
-                                WritableRaster dest,
-                                Rectangle destRect) {
+    protected void computeImage(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         Raster source = sources[0];
 
         // Degenerate case.
-        if(destRect.width == 1 && destRect.height == 1) {
+        if (destRect.width == 1 && destRect.height == 1) {
             int nDstBands = sampleModel.getNumBands();
-            double[] srcPixel =
-                new double[source.getSampleModel().getNumBands()];
+            double[] srcPixel = new double[source.getSampleModel().getNumBands()];
             source.getPixel(destRect.x, destRect.y, srcPixel);
-            if(complexSrc && complexDst) { // Complex -> Complex
+            if (complexSrc && complexDst) { // Complex -> Complex
                 dest.setPixel(destRect.x, destRect.y, srcPixel);
-            } else if(complexSrc) { // Complex -> Real.
-                for(int i = 0; i < nDstBands; i++) {
+            } else if (complexSrc) { // Complex -> Real.
+                for (int i = 0; i < nDstBands; i++) {
                     // Set destination to real part.
-                    dest.setSample(destRect.x, destRect.y, i, srcPixel[2*i]);
+                    dest.setSample(destRect.x, destRect.y, i, srcPixel[2 * i]);
                 }
-            } else if(complexDst) { // Real -> Complex
-                for(int i = 0; i < nDstBands; i++) {
+            } else if (complexDst) { // Real -> Complex
+                for (int i = 0; i < nDstBands; i++) {
                     // Set destination real part to source.
-                    dest.setSample(destRect.x, destRect.y, i,
-                                   i % 2 == 0 ? srcPixel[i/2] : 0.0);
+                    dest.setSample(destRect.x, destRect.y, i, i % 2 == 0 ? srcPixel[i / 2] : 0.0);
                 }
             } else { // Real -> Real.
                 // NB This statement should be unreachable.
@@ -282,13 +243,14 @@ public class DFTOpImage extends UntiledOpImage {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor srcAccessor =
-            new RasterAccessor(source,
-                               new Rectangle(srcX, srcY,
-                                             srcWidth, srcHeight),
-                               formatTags[0], getSourceImage(0).getColorModel());
-        RasterAccessor dstAccessor =
-            new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
+        RasterAccessor srcAccessor = new RasterAccessor(
+                source,
+                new Rectangle(
+                        srcX, srcY,
+                        srcWidth, srcHeight),
+                formatTags[0],
+                getSourceImage(0).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         // Set data type flags.
         int srcDataType = srcAccessor.getDataType();
@@ -301,7 +263,7 @@ public class DFTOpImage extends UntiledOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
         int dstPixelStrideImag = 1;
         int dstLineStrideImag = destRect.width;
-        if(complexDst) {
+        if (complexDst) {
             dstPixelStrideImag = dstPixelStride;
             dstLineStrideImag = dstScanlineStride;
         }
@@ -313,74 +275,80 @@ public class DFTOpImage extends UntiledOpImage {
         int dstBandStride = complexDst ? 2 : 1;
 
         // Get the number of components.
-        int numComponents = (complexDst ?
-                             dest.getSampleModel().getNumBands() / 2 :
-                             dest.getSampleModel().getNumBands());
+        int numComponents = (complexDst
+                ? dest.getSampleModel().getNumBands() / 2
+                : dest.getSampleModel().getNumBands());
 
         // Loop over the components.
-        for(int comp = 0; comp < numComponents; comp++) {
+        for (int comp = 0; comp < numComponents; comp++) {
             // Get the real source data for this component.
             Object srcReal = srcAccessor.getDataArray(srcBandIndex);
 
             // Get the imaginary source data for this component if present.
             Object srcImag = null;
-            if(complexSrc) {
-                srcImag = srcAccessor.getDataArray(srcBandIndex+1);
+            if (complexSrc) {
+                srcImag = srcAccessor.getDataArray(srcBandIndex + 1);
             }
 
             // Specify the destination components.
             Object dstReal = dstAccessor.getDataArray(dstBandIndex);
             Object dstImag = null;
-            if(complexDst) {
-                dstImag = dstAccessor.getDataArray(dstBandIndex+1);
+            if (complexDst) {
+                dstImag = dstAccessor.getDataArray(dstBandIndex + 1);
             } else {
                 // Need to allocate an array for the entire band anyway
                 // even though the destination is real because it is needed
                 // for storage of the result of the row transforms.
-                if(dstDataType == DataBuffer.TYPE_FLOAT) {
-                    dstImag = new float[destRect.width*destRect.height];
+                if (dstDataType == DataBuffer.TYPE_FLOAT) {
+                    dstImag = new float[destRect.width * destRect.height];
                 } else {
-                    dstImag = new double[destRect.width*destRect.height];
+                    dstImag = new double[destRect.width * destRect.height];
                 }
             }
 
-            if(destRect.width > 1) {
+            if (destRect.width > 1) {
                 // Set the FFT length.
                 fft.setLength(getWidth());
 
                 // Initialize the source offsets for this component.
-                int srcOffsetReal =
-                    srcAccessor.getBandOffset(srcBandIndex);
+                int srcOffsetReal = srcAccessor.getBandOffset(srcBandIndex);
                 int srcOffsetImag = 0;
-                if(complexSrc) {
-                    srcOffsetImag =
-                        srcAccessor.getBandOffset(srcBandIndex+1);
+                if (complexSrc) {
+                    srcOffsetImag = srcAccessor.getBandOffset(srcBandIndex + 1);
                 }
 
                 // Initialize destination offsets and strides.
-                int dstOffsetReal =
-                    dstAccessor.getBandOffset(dstBandIndex);
+                int dstOffsetReal = dstAccessor.getBandOffset(dstBandIndex);
                 int dstOffsetImag = 0;
-                if(complexDst) {
-                    dstOffsetImag =
-                        dstAccessor.getBandOffset(dstBandIndex+1);
+                if (complexDst) {
+                    dstOffsetImag = dstAccessor.getBandOffset(dstBandIndex + 1);
                 }
 
                 // Perform the row transforms.
-                for(int row = 0; row < srcHeight; row++) {
+                for (int row = 0; row < srcHeight; row++) {
                     // Set the input data of the FFT.
-                    fft.setData(srcDataType,
-                                srcReal, srcOffsetReal, srcPixelStride,
-                                srcImag, srcOffsetImag, srcPixelStride,
-                                srcWidth);
+                    fft.setData(
+                            srcDataType,
+                            srcReal,
+                            srcOffsetReal,
+                            srcPixelStride,
+                            srcImag,
+                            srcOffsetImag,
+                            srcPixelStride,
+                            srcWidth);
 
                     // Calculate the DFT of the row.
                     fft.transform();
 
                     // Get the output data of the FFT.
-                    fft.getData(dstDataType,
-                                dstReal, dstOffsetReal, dstPixelStride,
-                                dstImag, dstOffsetImag, dstPixelStrideImag);
+                    fft.getData(
+                            dstDataType,
+                            dstReal,
+                            dstOffsetReal,
+                            dstPixelStride,
+                            dstImag,
+                            dstOffsetImag,
+                            dstPixelStrideImag);
 
                     // Increment the data offsets.
                     srcOffsetReal += srcScanlineStride;
@@ -390,7 +358,7 @@ public class DFTOpImage extends UntiledOpImage {
                 }
             }
 
-            if(destRect.width == 1) { // destRect.height > 1
+            if (destRect.width == 1) { // destRect.height > 1
                 // NB 1) destRect.height has to be greater than one or this
                 // would be the degenerate case of a single point which is
                 // handled above. 2) There is no need to do setLength() on
@@ -399,65 +367,78 @@ public class DFTOpImage extends UntiledOpImage {
                 // which must be destRect.height.
 
                 // Initialize the source offsets for this component.
-                int srcOffsetReal =
-                    srcAccessor.getBandOffset(srcBandIndex);
+                int srcOffsetReal = srcAccessor.getBandOffset(srcBandIndex);
                 int srcOffsetImag = 0;
-                if(complexSrc) {
-                    srcOffsetImag =
-                        srcAccessor.getBandOffset(srcBandIndex+1);
+                if (complexSrc) {
+                    srcOffsetImag = srcAccessor.getBandOffset(srcBandIndex + 1);
                 }
 
                 // Initialize destination offsets and strides.
-                int dstOffsetReal =
-                    dstAccessor.getBandOffset(dstBandIndex);
+                int dstOffsetReal = dstAccessor.getBandOffset(dstBandIndex);
                 int dstOffsetImag = 0;
-                if(complexDst) {
-                    dstOffsetImag =
-                        dstAccessor.getBandOffset(dstBandIndex+1);
+                if (complexDst) {
+                    dstOffsetImag = dstAccessor.getBandOffset(dstBandIndex + 1);
                 }
 
                 // Set the input data of the FFT.
-                fft.setData(srcDataType,
-                            srcReal, srcOffsetReal, srcScanlineStride,
-                            srcImag, srcOffsetImag, srcScanlineStride,
-                            srcHeight);
+                fft.setData(
+                        srcDataType,
+                        srcReal,
+                        srcOffsetReal,
+                        srcScanlineStride,
+                        srcImag,
+                        srcOffsetImag,
+                        srcScanlineStride,
+                        srcHeight);
 
                 // Calculate the DFT of the column.
                 fft.transform();
 
                 // Get the output data of the FFT.
-                fft.getData(dstDataType,
-                            dstReal, dstOffsetReal, dstScanlineStride,
-                            dstImag, dstOffsetImag, dstLineStrideImag);
-            } else if(destRect.height > 1) { // destRect.width > 1
+                fft.getData(
+                        dstDataType,
+                        dstReal,
+                        dstOffsetReal,
+                        dstScanlineStride,
+                        dstImag,
+                        dstOffsetImag,
+                        dstLineStrideImag);
+            } else if (destRect.height > 1) { // destRect.width > 1
                 // Reset the FFT length.
                 fft.setLength(getHeight());
 
                 // Initialize destination offsets and strides.
-                int dstOffsetReal =
-                    dstAccessor.getBandOffset(dstBandIndex);
+                int dstOffsetReal = dstAccessor.getBandOffset(dstBandIndex);
                 int dstOffsetImag = 0;
-                if(complexDst) {
-                    dstOffsetImag =
-                        dstAccessor.getBandOffset(dstBandIndex+1);
+                if (complexDst) {
+                    dstOffsetImag = dstAccessor.getBandOffset(dstBandIndex + 1);
                 }
 
                 // Perform the column transforms.
-                for(int col = 0; col < destRect.width; col++) {
+                for (int col = 0; col < destRect.width; col++) {
                     // Set the input data of the FFT.
-                    fft.setData(dstDataType,
-                                dstReal, dstOffsetReal, dstScanlineStride,
-                                dstImag, dstOffsetImag, dstLineStrideImag,
-                                destRect.height);
+                    fft.setData(
+                            dstDataType,
+                            dstReal,
+                            dstOffsetReal,
+                            dstScanlineStride,
+                            dstImag,
+                            dstOffsetImag,
+                            dstLineStrideImag,
+                            destRect.height);
 
                     // Calculate the DFT of the column.
                     fft.transform();
 
                     // Get the output data of the FFT.
-                    fft.getData(dstDataType,
-                                dstReal, dstOffsetReal, dstScanlineStride,
-                                complexDst ? dstImag : null,
-                                dstOffsetImag, dstLineStrideImag);
+                    fft.getData(
+                            dstDataType,
+                            dstReal,
+                            dstOffsetReal,
+                            dstScanlineStride,
+                            complexDst ? dstImag : null,
+                            dstOffsetImag,
+                            dstLineStrideImag);
 
                     // Increment the data offset.
                     dstOffsetReal += dstPixelStride;
@@ -478,4 +459,3 @@ public class DFTOpImage extends UntiledOpImage {
         dstAccessor.copyDataToRaster();
     }
 }
-

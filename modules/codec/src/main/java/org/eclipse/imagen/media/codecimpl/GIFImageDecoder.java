@@ -18,32 +18,22 @@
 package org.eclipse.imagen.media.codecimpl;
 
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
-import java.awt.image.ImageProducer;
 import java.awt.image.IndexColorModel;
 import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.ImageDecoderImpl;
 import org.eclipse.imagen.media.codec.SeekableStream;
-import org.eclipse.imagen.media.codecimpl.ImagingListenerProxy;
 import org.eclipse.imagen.media.codecimpl.util.ImagingException;
 
-/**
- * @since EA3
- */
+/** @since EA3 */
 public class GIFImageDecoder extends ImageDecoderImpl {
 
     // The global color table.
@@ -64,10 +54,7 @@ public class GIFImageDecoder extends ImageDecoderImpl {
     // Map of Integer page numbers to RenderedImages.
     private HashMap images = new HashMap();
 
-    /**
-     * Read the overall stream header and return the global color map
-     * or <code>null</code>.
-     */
+    /** Read the overall stream header and return the global color map or <code>null</code>. */
     private static byte[] readHeader(SeekableStream input) throws IOException {
         byte[] globalColorTable = null;
         try {
@@ -84,39 +71,35 @@ public class GIFImageDecoder extends ImageDecoderImpl {
             input.read();
 
             if (globalColorTableFlag) {
-                globalColorTable = new byte[3*numGCTEntries];
+                globalColorTable = new byte[3 * numGCTEntries];
                 input.readFully(globalColorTable);
             } else {
                 globalColorTable = null;
             }
         } catch (IOException e) {
             String message = JaiI18N.getString("GIFImageDecoder0");
-            ImagingListenerProxy.errorOccurred(message,
-                                   new ImagingException(message, e),
-                                   GIFImageDecoder.class, false);
-//            throw new IOException(JaiI18N.getString("GIFImageDecoder0"));
+            ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), GIFImageDecoder.class, false);
+            //            throw new IOException(JaiI18N.getString("GIFImageDecoder0"));
         }
 
         return globalColorTable;
     }
 
-    public GIFImageDecoder(SeekableStream input,
-                           ImageDecodeParam param) {
+    public GIFImageDecoder(SeekableStream input, ImageDecodeParam param) {
         super(input, param);
     }
 
-    public GIFImageDecoder(InputStream input,
-                           ImageDecodeParam param) {
+    public GIFImageDecoder(InputStream input, ImageDecodeParam param) {
         super(input, param);
     }
 
     public int getNumPages() throws IOException {
         int page = prevPage + 1;
 
-        while(!maxPageFound) {
+        while (!maxPageFound) {
             try {
                 decodeAsRenderedImage(page++);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 // Ignore
             }
         }
@@ -124,8 +107,7 @@ public class GIFImageDecoder extends ImageDecoderImpl {
         return maxPage + 1;
     }
 
-    public synchronized RenderedImage decodeAsRenderedImage(int page)
-        throws IOException {
+    public synchronized RenderedImage decodeAsRenderedImage(int page) throws IOException {
 
         // Verify that the index is in range.
         if (page < 0 || (maxPageFound && page > maxPage)) {
@@ -134,15 +116,15 @@ public class GIFImageDecoder extends ImageDecoderImpl {
 
         // Attempt to get the image from the cache.
         Integer pageKey = new Integer(page);
-        if(images.containsKey(pageKey)) {
-            return (RenderedImage)images.get(pageKey);
+        if (images.containsKey(pageKey)) {
+            return (RenderedImage) images.get(pageKey);
         }
 
         // If the zeroth image, set the global color table.
-        if(prevPage == -1) {
+        if (prevPage == -1) {
             try {
                 globalColorTable = readHeader(input);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 maxPageFound = true;
                 maxPage = -1;
                 throw e;
@@ -150,10 +132,9 @@ public class GIFImageDecoder extends ImageDecoderImpl {
         }
 
         // Force previous data to be read.
-        if(page > 0) {
-            for(int idx = prevSyncedPage + 1; idx < page; idx++) {
-                RenderedImage im =
-                    (RenderedImage)images.get(new Integer(idx));
+        if (page > 0) {
+            for (int idx = prevSyncedPage + 1; idx < page; idx++) {
+                RenderedImage im = (RenderedImage) images.get(new Integer(idx));
                 im.getTile(0, 0);
                 prevSyncedPage = idx;
             }
@@ -161,29 +142,27 @@ public class GIFImageDecoder extends ImageDecoderImpl {
 
         // Read as many images as possible.
         RenderedImage image = null;
-        while(prevPage < page) {
+        while (prevPage < page) {
             int index = prevPage + 1;
             RenderedImage ri = null;
             try {
                 ri = new GIFImage(input, globalColorTable);
                 images.put(new Integer(index), ri);
-                if(index < page) {
+                if (index < page) {
                     ri.getTile(0, 0);
                     prevSyncedPage = index;
                 }
                 prevPage = index;
-                if(index == page) {
+                if (index == page) {
                     image = ri;
                     break;
                 }
-            } catch(IOException e) {
+            } catch (IOException e) {
                 maxPageFound = true;
                 maxPage = prevPage;
                 String message = JaiI18N.getString("GIFImage3");
-                ImagingListenerProxy.errorOccurred(message,
-                                   new ImagingException(message, e),
-                                   this, false);
-//                throw e;
+                ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
+                //                throw e;
             }
         }
 
@@ -191,13 +170,11 @@ public class GIFImageDecoder extends ImageDecoderImpl {
     }
 }
 
-/**
- * @since 1.1.1
- */
+/** @since 1.1.1 */
 class GIFImage extends SimpleRenderedImage {
     // Constants used to control interlacing.
-    private static final int[] INTERLACE_INCREMENT = { 8, 8, 4, 2, -1 };
-    private static final int[] INTERLACE_OFFSET = { 0, 4, 2, 1, -1 };
+    private static final int[] INTERLACE_INCREMENT = {8, 8, 4, 2, -1};
+    private static final int[] INTERLACE_OFFSET = {0, 4, 2, 1, -1};
 
     // The source stream.
     private SeekableStream input;
@@ -240,17 +217,14 @@ class GIFImage extends SimpleRenderedImage {
     }
 
     /**
-     * Create a new <code>GIFImage</code>.  The input stream must
-     * be positioned at the start of the image, i.e., not at the
-     * start of the overall stream.
+     * Create a new <code>GIFImage</code>. The input stream must be positioned at the start of the image, i.e., not at
+     * the start of the overall stream.
      *
      * @param input the stream from which to read.
      * @param globalColorTable the global colormap of <code>null</code>.
-     *
      * @throws IOException.
      */
-    GIFImage(SeekableStream input,
-             byte[] globalColorTable) throws IOException {
+    GIFImage(SeekableStream input, byte[] globalColorTable) throws IOException {
         this.input = input;
 
         byte[] localColorTable = null;
@@ -272,15 +246,13 @@ class GIFImage extends SimpleRenderedImage {
                     height = input.readUnsignedShortLE();
 
                     int idPackedFields = input.readUnsignedByte();
-                    boolean localColorTableFlag =
-                        (idPackedFields & 0x80) != 0;
+                    boolean localColorTableFlag = (idPackedFields & 0x80) != 0;
                     interlaceFlag = (idPackedFields & 0x40) != 0;
                     int numLCTEntries = 1 << ((idPackedFields & 0x7) + 1);
 
                     if (localColorTableFlag) {
                         // Read color table if any
-                        localColorTable =
-                            new byte[3*numLCTEntries];
+                        localColorTable = new byte[3 * numLCTEntries];
                         input.readFully(localColorTable);
                     } else {
                         localColorTable = null;
@@ -294,13 +266,11 @@ class GIFImage extends SimpleRenderedImage {
                     if (label == 0xf9) { // Graphics Control Extension
                         input.read(); // extension length
                         int gcePackedFields = input.readUnsignedByte();
-                        transparentColorFlag =
-                            (gcePackedFields & 0x1) != 0;
+                        transparentColorFlag = (gcePackedFields & 0x1) != 0;
 
                         input.skipBytes(2); // delay time
 
-                        transparentColorIndex
-                            = input.readUnsignedByte();
+                        transparentColorIndex = input.readUnsignedByte();
 
                         input.read(); // terminator
                     } else if (label == 0x1) { // Plain text extension
@@ -325,8 +295,7 @@ class GIFImage extends SimpleRenderedImage {
                         } while (length > 0);
                     }
                 } else {
-                    throw new IOException(JaiI18N.getString("GIFImage0")+" "+
-                                          blockType + "!");
+                    throw new IOException(JaiI18N.getString("GIFImage0") + " " + blockType + "!");
                 }
             }
         } catch (IOException ioe) {
@@ -350,7 +319,7 @@ class GIFImage extends SimpleRenderedImage {
         }
 
         // Normalize color table length to 2^1, 2^2, 2^4, or 2^8
-        int length = colorTable.length/3;
+        int length = colorTable.length / 3;
         int bits;
         if (length == 2) {
             bits = 1;
@@ -379,20 +348,14 @@ class GIFImage extends SimpleRenderedImage {
         int[] bitsPerSample = new int[1];
         bitsPerSample[0] = bits;
 
-        sampleModel =
-            new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
-                                            width, height,
-                                            1, width,
-                                            new int[] {0});
+        sampleModel = new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, width, height, 1, width, new int[] {0});
 
         if (!transparentColorFlag) {
             if (ImageCodec.isIndicesForGrayscale(r, g, b))
                 colorModel = ImageCodec.createComponentColorModel(sampleModel);
-            else
-                colorModel = new IndexColorModel(bits, r.length, r, g, b);
+            else colorModel = new IndexColorModel(bits, r.length, r, g, b);
         } else {
-            colorModel =
-		new IndexColorModel(bits, r.length, r, g, b, transparentColorIndex);
+            colorModel = new IndexColorModel(bits, r.length, r, g, b, transparentColorIndex);
         }
     }
 
@@ -410,14 +373,14 @@ class GIFImage extends SimpleRenderedImage {
     // a 32-bit lookahead buffer that is filled from the left
     // and extracted from the right.
     private int getCode(int codeSize, int codeMask) throws IOException {
-        //if (bitPos + codeSize > 32) {
+        // if (bitPos + codeSize > 32) {
         if (bitsLeft <= 0) {
             return eofCode; // No more data available
         }
 
         int code = (next32Bits >> bitPos) & codeMask;
         bitPos += codeSize;
-	bitsLeft -= codeSize;
+        bitsLeft -= codeSize;
 
         // Shift in a byte of new data at a time
         while (bitPos >= 8 && !lastBlockFound) {
@@ -428,12 +391,10 @@ class GIFImage extends SimpleRenderedImage {
             if (nextByte >= blockLength) {
                 // Get next block size
                 blockLength = input.readUnsignedByte();
-		if (blockLength == 0) {
+                if (blockLength == 0) {
                     lastBlockFound = true;
-		    if (bitsLeft < 0)
-			return eofCode;
-		    else
-			return code;
+                    if (bitsLeft < 0) return eofCode;
+                    else return code;
                 } else {
                     int left = blockLength;
                     int off = 0;
@@ -443,8 +404,8 @@ class GIFImage extends SimpleRenderedImage {
                         left -= nbytes;
                     }
 
-		    bitsLeft += blockLength << 3;
-		    nextByte = 0;
+                    bitsLeft += blockLength << 3;
+                    nextByte = 0;
                 }
             }
 
@@ -454,30 +415,24 @@ class GIFImage extends SimpleRenderedImage {
         return code;
     }
 
-    private void initializeStringTable(int[] prefix,
-                                       byte[] suffix,
-                                       byte[] initial,
-                                       int[] length) {
+    private void initializeStringTable(int[] prefix, byte[] suffix, byte[] initial, int[] length) {
         int numEntries = 1 << initCodeSize;
-  	for (int i = 0; i < numEntries; i++) {
+        for (int i = 0; i < numEntries; i++) {
             prefix[i] = -1;
-            suffix[i] = (byte)i;
-            initial[i] = (byte)i;
+            suffix[i] = (byte) i;
+            initial[i] = (byte) i;
             length[i] = 1;
         }
 
         // Fill in the entire table for robustness against
         // out-of-sequence codes.
-  	for (int i = numEntries; i < 4096; i++) {
+        for (int i = numEntries; i < 4096; i++) {
             prefix[i] = -1;
             length[i] = 1;
         }
     }
 
-    private Point outputPixels(byte[] string,
-                               int len,
-                               Point streamPos,
-                               byte[] rowBuf) {
+    private Point outputPixels(byte[] string, int len, Point streamPos, byte[] rowBuf) {
         if (interlacePass < 0 || interlacePass > 3) {
             return streamPos;
         }
@@ -490,7 +445,7 @@ class GIFImage extends SimpleRenderedImage {
             // Process end-of-row
             ++streamPos.x;
             if (streamPos.x == width) {
-		theTile.setDataElements(minX, streamPos.y, width, 1, rowBuf);
+                theTile.setDataElements(minX, streamPos.y, width, 1, rowBuf);
 
                 streamPos.x = 0;
                 if (interlaceFlag) {
@@ -526,10 +481,7 @@ class GIFImage extends SimpleRenderedImage {
         }
 
         // Initialize the destination image
-        theTile =
-            WritableRaster.createWritableRaster(sampleModel,
-                                                sampleModel.createDataBuffer(),
-                                                null);
+        theTile = WritableRaster.createWritableRaster(sampleModel, sampleModel.createDataBuffer(), null);
 
         // Position in stream coordinates.
         Point streamPos = new Point(0, 0);
@@ -543,7 +495,7 @@ class GIFImage extends SimpleRenderedImage {
 
             // Read first data block
             this.blockLength = input.readUnsignedByte();
-	    int left = blockLength;
+            int left = blockLength;
             int off = 0;
             while (left > 0) {
                 int nbytes = input.read(block, off, left);
@@ -554,7 +506,7 @@ class GIFImage extends SimpleRenderedImage {
             this.bitPos = 0;
             this.nextByte = 0;
             this.lastBlockFound = false;
-	    this.bitsLeft = this.blockLength << 3;
+            this.bitsLeft = this.blockLength << 3;
 
             // Init 32-bit buffer
             initNext32Bits();
@@ -606,8 +558,7 @@ class GIFImage extends SimpleRenderedImage {
                     length[ti] = length[oc] + 1;
 
                     ++tableIndex;
-                    if ((tableIndex == (1 << codeSize)) &&
-                        (tableIndex < 4096)) {
+                    if ((tableIndex == (1 << codeSize)) && (tableIndex < 4096)) {
                         ++codeSize;
                         codeMask = (1 << codeSize) - 1;
                     }
@@ -626,10 +577,8 @@ class GIFImage extends SimpleRenderedImage {
             }
         } catch (IOException e) {
             String message = JaiI18N.getString("GIFImage3");
-            ImagingListenerProxy.errorOccurred(message,
-                                   new ImagingException(message, e),
-                                   this, false);
-//            throw new RuntimeException(JaiI18N.getString("GIFImage3"));
+            ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
+            //            throw new RuntimeException(JaiI18N.getString("GIFImage3"));
         } finally {
             return theTile;
         }

@@ -21,8 +21,8 @@ import java.awt.image.DataBuffer;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
-import org.eclipse.imagen.operator.DFTDescriptor;
 import org.eclipse.imagen.media.util.MathJAI;
+import org.eclipse.imagen.operator.DFTDescriptor;
 
 /**
  * The Fast Fourier Transform (FFT) class.
@@ -30,25 +30,14 @@ import org.eclipse.imagen.media.util.MathJAI;
  * @since EA3
  */
 public class FFT {
-    /**
-     * A flag indicating that the transform is not to be scaled.
-     */
-    public static final int SCALING_NONE =
-        DFTDescriptor.SCALING_NONE.getValue();
+    /** A flag indicating that the transform is not to be scaled. */
+    public static final int SCALING_NONE = DFTDescriptor.SCALING_NONE.getValue();
 
-    /**
-     * A flag indicating that the transform is to be scaled by the square
-     * root of the product of its dimensions.
-     */
-    public static final int SCALING_UNITARY =
-        DFTDescriptor.SCALING_UNITARY.getValue();
+    /** A flag indicating that the transform is to be scaled by the square root of the product of its dimensions. */
+    public static final int SCALING_UNITARY = DFTDescriptor.SCALING_UNITARY.getValue();
 
-    /**
-     * A flag indicating that the transform is to be scaled by the product
-     * of its dimensions.
-     */
-    public static final int SCALING_DIMENSIONS =
-        DFTDescriptor.SCALING_DIMENSIONS.getValue();
+    /** A flag indicating that the transform is to be scaled by the product of its dimensions. */
+    public static final int SCALING_DIMENSIONS = DFTDescriptor.SCALING_DIMENSIONS.getValue();
 
     /** Initialization flag. */
     protected boolean lengthIsSet = false;
@@ -114,12 +103,12 @@ public class FFT {
      */
     public void setLength(int length) {
         // Check whether it's necessary to continue.
-        if(lengthIsSet && length == this.length) {
+        if (lengthIsSet && length == this.length) {
             return;
         }
 
         // Ensure that the length is a positive power of two.
-        if(!MathJAI.isPositivePowerOf2(length)) {
+        if (!MathJAI.isPositivePowerOf2(length)) {
             throw new RuntimeException(JaiI18N.getString("FFT0"));
         }
 
@@ -127,12 +116,12 @@ public class FFT {
         this.length = length;
 
         // Set the scale factor.
-        if(scaleType == SCALING_NONE) {
+        if (scaleType == SCALING_NONE) {
             scaleFactor = 1.0;
-        } else if(scaleType == SCALING_UNITARY) {
-            scaleFactor = 1.0/Math.sqrt(length);
-        } else if(scaleType == SCALING_DIMENSIONS) {
-            scaleFactor = 1.0/length;
+        } else if (scaleType == SCALING_UNITARY) {
+            scaleFactor = 1.0 / Math.sqrt(length);
+        } else if (scaleType == SCALING_DIMENSIONS) {
+            scaleFactor = 1.0 / length;
         } else {
             // NB: This statement should be unreachable if the scaling
             // type is properly verified in the operation descriptor.
@@ -142,7 +131,7 @@ public class FFT {
         // Calculate the number of bits required to represent the length.
         int power = 1;
         nbits = 0;
-        while(power < length) {
+        while (power < length) {
             nbits++;
             power <<= 1;
         }
@@ -154,7 +143,7 @@ public class FFT {
         calculateCoefficientLUTs();
 
         // Allocate work buffer memory.
-        if(!lengthIsSet || length > real.length) {
+        if (!lengthIsSet || length > real.length) {
             real = new double[length];
             imag = new double[length];
         }
@@ -163,19 +152,17 @@ public class FFT {
         lengthIsSet = true;
     }
 
-    /**
-     * Initialize the bit-reversal lookup table.
-     */
+    /** Initialize the bit-reversal lookup table. */
     private void initBitReversalLUT() {
         // Calculate elements of index[] and fill.
         index = new int[length];
-        for(int i = 0; i < length; ++i) {
+        for (int i = 0; i < length; ++i) {
             int l = i;
             int power = length >> 1;
             int irev = 0;
-            for(int k = 0; k < nbits; ++k) {
+            for (int k = 0; k < nbits; ++k) {
                 int j = (l & 1);
-                if( j != 0 ) {
+                if (j != 0) {
                     irev = irev + power;
                 }
                 l >>= 1;
@@ -186,46 +173,39 @@ public class FFT {
         }
     }
 
-    /**
-     * Calculate the sine and cosine lookup tables.
-     */
+    /** Calculate the sine and cosine lookup tables. */
     private void calculateCoefficientLUTs() {
         wr = new double[nbits];
         wi = new double[nbits];
 
         int inode = 1;
-        double cons = exponentSign*Math.PI;
+        double cons = exponentSign * Math.PI;
 
-        for(int bit = 0; bit < nbits; bit++) {
-            wr[bit] = Math.cos(cons/inode);
-            wi[bit] = Math.sin(cons/inode);
+        for (int bit = 0; bit < nbits; bit++) {
+            wr[bit] = Math.cos(cons / inode);
+            wi[bit] = Math.sin(cons / inode);
             inode *= 2;
         }
     }
 
-    /**
-     * Calculate the FCT sine and cosine lookup tables.
-     */
+    /** Calculate the FCT sine and cosine lookup tables. */
     private void calculateFCTLUTs() {
         wrFCT = new double[length];
         wiFCT = new double[length];
 
-        for(int i = 0; i < length; i++) {
-            double factor = ((i == 0) ?
-                             Math.sqrt(1.0/length) :
-                             Math.sqrt(2.0/length));
-            double freq = Math.PI*i/(2.0*length);
-            wrFCT[i] = factor*Math.cos(freq);
-            wiFCT[i] = factor*Math.sin(freq);
+        for (int i = 0; i < length; i++) {
+            double factor = ((i == 0) ? Math.sqrt(1.0 / length) : Math.sqrt(2.0 / length));
+            double freq = Math.PI * i / (2.0 * length);
+            wrFCT[i] = factor * Math.cos(freq);
+            wiFCT[i] = factor * Math.sin(freq);
         }
     }
 
     /**
      * Set the internal work data arrays of the FFT object.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param realArg Float or double array of real parts.
      * @param offsetReal Offset into the array of real parts.
      * @param strideReal The real array stride value.
@@ -234,93 +214,94 @@ public class FFT {
      * @param strideImag The imaginary array stride value.
      * @param count The number of values to copy.
      */
-    public void setData(int dataType,
-                        Object realArg, int offsetReal, int strideReal,
-                        Object imagArg, int offsetImag, int strideImag,
-                        int count) {
+    public void setData(
+            int dataType,
+            Object realArg,
+            int offsetReal,
+            int strideReal,
+            Object imagArg,
+            int offsetImag,
+            int strideImag,
+            int count) {
         // Copy the parameter arrays.
-        switch(dataType) {
-        case DataBuffer.TYPE_FLOAT:
-            {
-                float[] realFloat = (float[])realArg;
-                if(imagArg != null) {
-                    float[] imagFloat = (float[])imagArg;
-                    if(offsetReal == offsetImag &&
-                       strideReal == strideImag) {
-                        for(int i = 0; i < count; i++) {
-                            real[i] = realFloat[offsetReal];
-                            imag[i] = imagFloat[offsetReal];
-                            offsetReal += strideReal;
+        switch (dataType) {
+            case DataBuffer.TYPE_FLOAT:
+                {
+                    float[] realFloat = (float[]) realArg;
+                    if (imagArg != null) {
+                        float[] imagFloat = (float[]) imagArg;
+                        if (offsetReal == offsetImag && strideReal == strideImag) {
+                            for (int i = 0; i < count; i++) {
+                                real[i] = realFloat[offsetReal];
+                                imag[i] = imagFloat[offsetReal];
+                                offsetReal += strideReal;
+                            }
+                        } else {
+                            for (int i = 0; i < count; i++) {
+                                real[i] = realFloat[offsetReal];
+                                imag[i] = imagFloat[offsetImag];
+                                offsetReal += strideReal;
+                                offsetImag += strideImag;
+                            }
                         }
                     } else {
-                        for(int i = 0; i < count; i++) {
+                        for (int i = 0; i < count; i++) {
                             real[i] = realFloat[offsetReal];
-                            imag[i] = imagFloat[offsetImag];
                             offsetReal += strideReal;
-                            offsetImag += strideImag;
                         }
                     }
-                } else {
-                    for(int i = 0; i < count; i++) {
-                        real[i] = realFloat[offsetReal];
-                        offsetReal += strideReal;
-                    }
                 }
-            }
-        break;
-        case DataBuffer.TYPE_DOUBLE:
-            {
-                double[] realDouble = (double[])realArg;
-                if(strideReal == 1 && strideImag == 1) {
-                    System.arraycopy(realDouble, offsetReal,
-                                     real, 0, count);
-                    if(imagArg != null) {
-                        System.arraycopy((double[])imagArg, offsetImag,
-                                         imag, 0, count);
-                    }
-                } else if(imagArg != null) {
-                    double[] imagDouble = (double[])imagArg;
-                    if(offsetReal == offsetImag &&
-                       strideReal == strideImag) {
-                        for(int i = 0; i < count; i++) {
-                            real[i] = realDouble[offsetReal];
-                            imag[i] = imagDouble[offsetReal];
-                            offsetReal += strideReal;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                {
+                    double[] realDouble = (double[]) realArg;
+                    if (strideReal == 1 && strideImag == 1) {
+                        System.arraycopy(realDouble, offsetReal, real, 0, count);
+                        if (imagArg != null) {
+                            System.arraycopy((double[]) imagArg, offsetImag, imag, 0, count);
+                        }
+                    } else if (imagArg != null) {
+                        double[] imagDouble = (double[]) imagArg;
+                        if (offsetReal == offsetImag && strideReal == strideImag) {
+                            for (int i = 0; i < count; i++) {
+                                real[i] = realDouble[offsetReal];
+                                imag[i] = imagDouble[offsetReal];
+                                offsetReal += strideReal;
+                            }
+                        } else {
+                            for (int i = 0; i < count; i++) {
+                                real[i] = realDouble[offsetReal];
+                                imag[i] = imagDouble[offsetImag];
+                                offsetReal += strideReal;
+                                offsetImag += strideImag;
+                            }
                         }
                     } else {
-                        for(int i = 0; i < count; i++) {
+                        for (int i = 0; i < count; i++) {
                             real[i] = realDouble[offsetReal];
-                            imag[i] = imagDouble[offsetImag];
                             offsetReal += strideReal;
-                            offsetImag += strideImag;
                         }
                     }
-                } else {
-                    for(int i = 0; i < count; i++) {
-                        real[i] = realDouble[offsetReal];
-                        offsetReal += strideReal;
-                    }
                 }
-            }
-        break;
-        default:
-            // NB: This statement should be unreachable as the destination
-            // image is required to be a floating point type and the
-            // RasterAccessor is supposed to promote the data type of
-            // all rasters to the "minimum" data type of all source
-            // and destination rasters involved.
-            throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                break;
+            default:
+                // NB: This statement should be unreachable as the destination
+                // image is required to be a floating point type and the
+                // RasterAccessor is supposed to promote the data type of
+                // all rasters to the "minimum" data type of all source
+                // and destination rasters involved.
+                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
         }
 
         // If fewer input than target points fill target with zeros.
-        if(count < length) {
+        if (count < length) {
             Arrays.fill(real, count, length, 0.0);
-            if(imagArg != null) {
+            if (imagArg != null) {
                 Arrays.fill(imag, count, length, 0.0);
             }
         }
 
-        if(imagArg == null) {
+        if (imagArg == null) {
             Arrays.fill(imag, 0, length, 0.0);
         }
     }
@@ -328,9 +309,8 @@ public class FFT {
     /**
      * Get data from the internal work data arrays of the FFT object.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param realArg Float or double array of real parts.
      * @param offsetReal Offset into the array of real parts.
      * @param strideReal The real array stride value.
@@ -339,140 +319,139 @@ public class FFT {
      * @param strideImag The imaginary array stride value.
      * @param count The number of values to copy.
      */
-    public void getData(int dataType,
-                        Object realArg, int offsetReal, int strideReal,
-                        Object imagArg, int offsetImag, int strideImag) {
-        switch(dataType) {
-        case DataBuffer.TYPE_FLOAT:
-            {
-                float[] realFloat = (float[])realArg;
-                if(imagArg != null) {
-                    float[] imagFloat = (float[])imagArg;
-                    if(offsetReal == offsetImag &&
-                       strideReal == strideImag) {
-                        for(int i = 0; i < length; i++) {
-                            int idx = index[i];
-                            realFloat[offsetReal] = (float)this.real[idx];
-                            imagFloat[offsetReal] = (float)this.imag[idx];
+    public void getData(
+            int dataType,
+            Object realArg,
+            int offsetReal,
+            int strideReal,
+            Object imagArg,
+            int offsetImag,
+            int strideImag) {
+        switch (dataType) {
+            case DataBuffer.TYPE_FLOAT:
+                {
+                    float[] realFloat = (float[]) realArg;
+                    if (imagArg != null) {
+                        float[] imagFloat = (float[]) imagArg;
+                        if (offsetReal == offsetImag && strideReal == strideImag) {
+                            for (int i = 0; i < length; i++) {
+                                int idx = index[i];
+                                realFloat[offsetReal] = (float) this.real[idx];
+                                imagFloat[offsetReal] = (float) this.imag[idx];
+                                offsetReal += strideReal;
+                            }
+                        } else {
+                            for (int i = 0; i < length; i++) {
+                                int idx = index[i];
+                                realFloat[offsetReal] = (float) this.real[idx];
+                                imagFloat[offsetImag] = (float) this.imag[idx];
+                                offsetReal += strideReal;
+                                offsetImag += strideImag;
+                            }
+                        }
+                    } else { // imagArg == null
+                        for (int i = 0; i < length; i++) {
+                            realFloat[offsetReal] = (float) this.real[index[i]];
                             offsetReal += strideReal;
                         }
-                    } else {
-                        for(int i = 0; i < length; i++) {
-                            int idx = index[i];
-                            realFloat[offsetReal] = (float)this.real[idx];
-                            imagFloat[offsetImag] = (float)this.imag[idx];
-                            offsetReal += strideReal;
-                            offsetImag += strideImag;
-                        }
-                    }
-                } else { // imagArg == null
-                    for(int i = 0; i < length; i++) {
-                        realFloat[offsetReal] = (float)this.real[index[i]];
-                        offsetReal += strideReal;
-                    }
-                }
-            }
-        break;
-        case DataBuffer.TYPE_DOUBLE:
-            {
-                double[] realDouble = (double[])realArg;
-                if(imagArg != null) {
-                    double[] imagDouble = (double[])imagArg;
-                    if(offsetReal == offsetImag &&
-                       strideReal == strideImag) {
-                        for(int i = 0; i < length; i++) {
-                            int idx = index[i];
-                            realDouble[offsetReal] = this.real[idx];
-                            imagDouble[offsetReal] = this.imag[idx];
-                            offsetReal += strideReal;
-                        }
-                    } else {
-                        for(int i = 0; i < length; i++) {
-                            int idx = index[i];
-                            realDouble[offsetReal] = this.real[idx];
-                            imagDouble[offsetImag] = this.imag[idx];
-                            offsetReal += strideReal;
-                            offsetImag += strideImag;
-                        }
-                    }
-                } else { // imagArg == null
-                    for(int i = 0; i < length; i++) {
-                        realDouble[offsetReal] = this.real[index[i]];
-                        offsetReal += strideReal;
                     }
                 }
-            }
-        break;
-        default:
-            // NB: This statement should be unreachable as the destination
-            // image is required to be a floating point type and the
-            // RasterAccessor is supposed to promote the data type of
-            // all rasters to the "minimum" data type of all source
-            // and destination rasters involved.
-            throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                {
+                    double[] realDouble = (double[]) realArg;
+                    if (imagArg != null) {
+                        double[] imagDouble = (double[]) imagArg;
+                        if (offsetReal == offsetImag && strideReal == strideImag) {
+                            for (int i = 0; i < length; i++) {
+                                int idx = index[i];
+                                realDouble[offsetReal] = this.real[idx];
+                                imagDouble[offsetReal] = this.imag[idx];
+                                offsetReal += strideReal;
+                            }
+                        } else {
+                            for (int i = 0; i < length; i++) {
+                                int idx = index[i];
+                                realDouble[offsetReal] = this.real[idx];
+                                imagDouble[offsetImag] = this.imag[idx];
+                                offsetReal += strideReal;
+                                offsetImag += strideImag;
+                            }
+                        }
+                    } else { // imagArg == null
+                        for (int i = 0; i < length; i++) {
+                            realDouble[offsetReal] = this.real[index[i]];
+                            offsetReal += strideReal;
+                        }
+                    }
+                }
+                break;
+            default:
+                // NB: This statement should be unreachable as the destination
+                // image is required to be a floating point type and the
+                // RasterAccessor is supposed to promote the data type of
+                // all rasters to the "minimum" data type of all source
+                // and destination rasters involved.
+                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
         }
     }
 
     /**
-     * Set the internal work data arrays of the FFT object for use with
-     * an FCT operation.
+     * Set the internal work data arrays of the FFT object for use with an FCT operation.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param data The data as a float[] or double[].
      * @param offset Offset into the data array.
      * @param stride The array stride value.
      * @param count The number of values to copy.
      */
-    public void setFCTData(int dataType,
-                           Object data, int offset, int stride,
-                           int count) {
+    public void setFCTData(int dataType, Object data, int offset, int stride, int count) {
         // Copy the parameter arrays.
-        switch(dataType) {
-        case DataBuffer.TYPE_FLOAT:
-            {
-                float[] realFloat = (float[])data;
-                for(int i = 0; i < count; i++) {
-                    imag[i] = realFloat[offset];
-                    offset += stride;
+        switch (dataType) {
+            case DataBuffer.TYPE_FLOAT:
+                {
+                    float[] realFloat = (float[]) data;
+                    for (int i = 0; i < count; i++) {
+                        imag[i] = realFloat[offset];
+                        offset += stride;
+                    }
+                    for (int i = count; i < length; i++) {
+                        imag[i] = 0.0;
+                    }
+                    int k = length - 1;
+                    int j = 0;
+                    for (int i = 0; i < k; i++) {
+                        real[i] = imag[j++];
+                        real[k--] = imag[j++];
+                    }
                 }
-                for(int i = count; i < length; i++) {
-                    imag[i] = 0.0;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                {
+                    double[] realDouble = (double[]) data;
+                    for (int i = 0; i < count; i++) {
+                        imag[i] = realDouble[offset];
+                        offset += stride;
+                    }
+                    for (int i = count; i < length; i++) {
+                        imag[i] = 0.0;
+                    }
+                    int k = length - 1;
+                    int j = 0;
+                    for (int i = 0; i < k; i++) {
+                        real[i] = imag[j++];
+                        real[k--] = imag[j++];
+                    }
                 }
-                int k = length - 1;
-                int j = 0;
-                for(int i = 0; i < k; i++) {
-                    real[i] = imag[j++];
-                    real[k--] = imag[j++];
-                }
-            }
-        break;
-        case DataBuffer.TYPE_DOUBLE:
-            {
-                double[] realDouble = (double[])data;
-                for(int i = 0; i < count; i++) {
-                    imag[i] = realDouble[offset];
-                    offset += stride;
-                }
-                for(int i = count; i < length; i++) {
-                    imag[i] = 0.0;
-                }
-                int k = length - 1;
-                int j = 0;
-                for(int i = 0; i < k; i++) {
-                    real[i] = imag[j++];
-                    real[k--] = imag[j++];
-                }
-            }
-        break;
-        default:
-            // NB: This statement should be unreachable as the destination
-            // image is required to be a floating point type and the
-            // RasterAccessor is supposed to promote the data type of
-            // all rasters to the "minimum" data type of all source
-            // and destination rasters involved.
-            throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                break;
+            default:
+                // NB: This statement should be unreachable as the destination
+                // image is required to be a floating point type and the
+                // RasterAccessor is supposed to promote the data type of
+                // all rasters to the "minimum" data type of all source
+                // and destination rasters involved.
+                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
         }
 
         // Always clear imaginary part.
@@ -480,190 +459,176 @@ public class FFT {
     }
 
     /**
-     * Get data from the internal work data arrays of the FFT object after
-     * an IFCT operation.
+     * Get data from the internal work data arrays of the FFT object after an IFCT operation.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param data The data as a float[] or double[].
      * @param offset Offset into the data array.
      * @param stride The array stride value.
      * @param count The number of values to copy.
      */
-    public void getFCTData(int dataType,
-                           Object data, int offset, int stride) {
-        if(wrFCT == null || wrFCT.length != length) {
+    public void getFCTData(int dataType, Object data, int offset, int stride) {
+        if (wrFCT == null || wrFCT.length != length) {
             calculateFCTLUTs();
         }
 
-        switch(dataType) {
-        case DataBuffer.TYPE_FLOAT:
-            {
-                float[] realFloat = (float[])data;
-                for(int i = 0; i < length; i++) {
-                    int idx = index[i];
-                    realFloat[offset] =
-                        (float)(wrFCT[i]*real[idx] + wiFCT[i]*imag[idx]);
-                    offset += stride;
+        switch (dataType) {
+            case DataBuffer.TYPE_FLOAT:
+                {
+                    float[] realFloat = (float[]) data;
+                    for (int i = 0; i < length; i++) {
+                        int idx = index[i];
+                        realFloat[offset] = (float) (wrFCT[i] * real[idx] + wiFCT[i] * imag[idx]);
+                        offset += stride;
+                    }
                 }
-            }
-        break;
-        case DataBuffer.TYPE_DOUBLE:
-            {
-                double[] realDouble = (double[])data;
-                for(int i = 0; i < length; i++) {
-                    int idx = index[i];
-                    realDouble[offset] =
-                        wrFCT[i]*real[idx] + wiFCT[i]*imag[idx];
-                    offset += stride;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                {
+                    double[] realDouble = (double[]) data;
+                    for (int i = 0; i < length; i++) {
+                        int idx = index[i];
+                        realDouble[offset] = wrFCT[i] * real[idx] + wiFCT[i] * imag[idx];
+                        offset += stride;
+                    }
                 }
-            }
-        break;
-        default:
-            // NB: This statement should be unreachable as the destination
-            // image is required to be a floating point type and the
-            // RasterAccessor is supposed to promote the data type of
-            // all rasters to the "minimum" data type of all source
-            // and destination rasters involved.
-            throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                break;
+            default:
+                // NB: This statement should be unreachable as the destination
+                // image is required to be a floating point type and the
+                // RasterAccessor is supposed to promote the data type of
+                // all rasters to the "minimum" data type of all source
+                // and destination rasters involved.
+                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
         }
     }
 
     /**
-     * Set the internal work data arrays of the FFT object for use with
-     * an IFCT operation.
+     * Set the internal work data arrays of the FFT object for use with an IFCT operation.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param data The data as a float[] or double[].
      * @param offset Offset into the data array.
      * @param stride The array stride value.
      * @param count The number of values to copy.
      */
-    public void setIFCTData(int dataType, Object data,
-                            int offset, int stride,
-                            int count) {
-        if(wrFCT == null || wrFCT.length != length) {
+    public void setIFCTData(int dataType, Object data, int offset, int stride, int count) {
+        if (wrFCT == null || wrFCT.length != length) {
             calculateFCTLUTs();
         }
 
         // Copy the parameter arrays.
-        switch(dataType) {
-        case DataBuffer.TYPE_FLOAT:
-            {
-                float[] realFloat = (float[])data;
-                for(int i = 0; i < count; i++) {
-                    float r = realFloat[offset];
-                    real[i] = r*wrFCT[i];
-                    imag[i] = r*wiFCT[i];
-                    offset += stride;
+        switch (dataType) {
+            case DataBuffer.TYPE_FLOAT:
+                {
+                    float[] realFloat = (float[]) data;
+                    for (int i = 0; i < count; i++) {
+                        float r = realFloat[offset];
+                        real[i] = r * wrFCT[i];
+                        imag[i] = r * wiFCT[i];
+                        offset += stride;
+                    }
                 }
-            }
-        break;
-        case DataBuffer.TYPE_DOUBLE:
-            {
-                double[] realDouble = (double[])data;
-                for(int i = 0; i < count; i++) {
-                    double r = realDouble[offset];
-                    real[i] = r*wrFCT[i];
-                    imag[i] = r*wiFCT[i];
-                    offset += stride;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                {
+                    double[] realDouble = (double[]) data;
+                    for (int i = 0; i < count; i++) {
+                        double r = realDouble[offset];
+                        real[i] = r * wrFCT[i];
+                        imag[i] = r * wiFCT[i];
+                        offset += stride;
+                    }
                 }
-            }
-        break;
-        default:
-            // NB: This statement should be unreachable as the destination
-            // image is required to be a floating point type and the
-            // RasterAccessor is supposed to promote the data type of
-            // all rasters to the "minimum" data type of all source
-            // and destination rasters involved.
-            throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                break;
+            default:
+                // NB: This statement should be unreachable as the destination
+                // image is required to be a floating point type and the
+                // RasterAccessor is supposed to promote the data type of
+                // all rasters to the "minimum" data type of all source
+                // and destination rasters involved.
+                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
         }
 
         // If fewer input than target points fill target with zeros.
-        if(count < length) {
+        if (count < length) {
             Arrays.fill(real, count, length, 0.0);
             Arrays.fill(imag, count, length, 0.0);
         }
     }
 
     /**
-     * Get data from the internal work data arrays of the FFT object after
-     * an IFCT operation.
+     * Get data from the internal work data arrays of the FFT object after an IFCT operation.
      *
-     * @param dataType The data type of the source data according to
-     * one of the DataBuffer TYPE_* flags. This should be either
-     * DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
+     * @param dataType The data type of the source data according to one of the DataBuffer TYPE_* flags. This should be
+     *     either DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.
      * @param data The data as a float[] or double[].
      * @param offset Offset into the data array.
      * @param stride The array stride value.
      * @param count The number of values to copy.
      */
-    public void getIFCTData(int dataType,
-                            Object data, int offset, int stride) {
-        switch(dataType) {
-        case DataBuffer.TYPE_FLOAT:
-            {
-                float[] realFloat = (float[])data;
-                int k = length - 1;
-                for(int i = 0; i < k; i++) {
-                    realFloat[offset] = (float)real[index[i]];
-                    offset += stride;
-                    realFloat[offset] = (float)real[index[k--]];
-                    offset += stride;
+    public void getIFCTData(int dataType, Object data, int offset, int stride) {
+        switch (dataType) {
+            case DataBuffer.TYPE_FLOAT:
+                {
+                    float[] realFloat = (float[]) data;
+                    int k = length - 1;
+                    for (int i = 0; i < k; i++) {
+                        realFloat[offset] = (float) real[index[i]];
+                        offset += stride;
+                        realFloat[offset] = (float) real[index[k--]];
+                        offset += stride;
+                    }
                 }
-            }
-        break;
-        case DataBuffer.TYPE_DOUBLE:
-            {
-                double[] realDouble = (double[])data;
-                int k = length - 1;
-                for(int i = 0; i < k; i++) {
-                    realDouble[offset] = (float)real[index[i]];
-                    offset += stride;
-                    realDouble[offset] = (float)real[index[k--]];
-                    offset += stride;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                {
+                    double[] realDouble = (double[]) data;
+                    int k = length - 1;
+                    for (int i = 0; i < k; i++) {
+                        realDouble[offset] = (float) real[index[i]];
+                        offset += stride;
+                        realDouble[offset] = (float) real[index[k--]];
+                        offset += stride;
+                    }
                 }
-            }
-        break;
-        default:
-            // NB: This statement should be unreachable as the destination
-            // image is required to be a floating point type and the
-            // RasterAccessor is supposed to promote the data type of
-            // all rasters to the "minimum" data type of all source
-            // and destination rasters involved.
-            throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                break;
+            default:
+                // NB: This statement should be unreachable as the destination
+                // image is required to be a floating point type and the
+                // RasterAccessor is supposed to promote the data type of
+                // all rasters to the "minimum" data type of all source
+                // and destination rasters involved.
+                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
         }
     }
 
-    /**
-     * Calculate the DFT of a complex sequence using the FFT algorithm.
-     */
+    /** Calculate the DFT of a complex sequence using the FFT algorithm. */
     public void transform() {
         int i, k, j, l; // Index variables
 
         Integer i18n = new Integer(length);
         NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.getDefault());
-	    
-        if(real.length < length || imag.length < length) {
+
+        if (real.length < length || imag.length < length) {
             throw new RuntimeException(numberFormatter.format(i18n) + JaiI18N.getString("FFT3"));
         }
 
         int inode = 1;
         int ipair;
-        for(l = 0; l < nbits; ++l) {
+        for (l = 0; l < nbits; ++l) {
             double cosp = 1.0; // initial w values
             double sinp = 0.0;
-            ipair = 2 *  inode; // calc pair separation
-            for(k = 0; k < inode; ++k) {// sequence through array
-                for(i = k; i < length; i += ipair) {
+            ipair = 2 * inode; // calc pair separation
+            for (k = 0; k < inode; ++k) { // sequence through array
+                for (i = k; i < length; i += ipair) {
                     j = i + inode; // calc other node index
                     int iIndex = index[i];
                     int jIndex = index[j];
-                    double rtemp = real[jIndex]*cosp - (imag[jIndex]*sinp);
-                    double itemp = imag[jIndex]*cosp + (real[jIndex]*sinp);
+                    double rtemp = real[jIndex] * cosp - (imag[jIndex] * sinp);
+                    double itemp = imag[jIndex] * cosp + (real[jIndex] * sinp);
                     real[jIndex] = real[iIndex] - rtemp; // calc butterfly
                     imag[jIndex] = imag[iIndex] - itemp;
                     real[iIndex] = real[iIndex] + rtemp;
@@ -676,10 +641,10 @@ public class FFT {
             inode = inode * 2; // new nodal dist
         }
 
-        if(scaleFactor != 1.0) { // multiply by non-unity scale factor
-            for(i = 0; i < length; ++i) {
-                real[i] = real[i]*scaleFactor;
-                imag[i] = imag[i]*scaleFactor;
+        if (scaleFactor != 1.0) { // multiply by non-unity scale factor
+            for (i = 0; i < length; ++i) {
+                real[i] = real[i] * scaleFactor;
+                imag[i] = imag[i] * scaleFactor;
             }
         }
     }

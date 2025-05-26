@@ -21,9 +21,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 /**
- * A class which acts as a proxy for an object which is serialized as an
- * amalgam of <code>Serializer</code>s for the various interfaces that
- * it implements.
+ * A class which acts as a proxy for an object which is serialized as an amalgam of <code>Serializer</code>s for the
+ * various interfaces that it implements.
  *
  * @since 1.1
  */

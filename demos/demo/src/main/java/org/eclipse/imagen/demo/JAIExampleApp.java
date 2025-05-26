@@ -8,48 +8,33 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.Frame;
-import java.awt.image.WritableRaster;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
-import java.awt.image.renderable.RenderedImageFactory;
-import java.awt.image.RenderedImage;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.io.File;
+import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.registry.RIFRegistry;
 
-
 /**
- * JAIExampleApp is a simple program that demonstrates how to
- * incorporate an extension imaging operation into JAI and use it to
- * produce visible results.  An imaging operation is composed of an
- * OperationDescriptor, a RenderedImageFactory and an OpImage.
+ * JAIExampleApp is a simple program that demonstrates how to incorporate an extension imaging operation into JAI and
+ * use it to produce visible results. An imaging operation is composed of an OperationDescriptor, a RenderedImageFactory
+ * and an OpImage.
  *
- * <p> The OperationDescriptor defines the parameters and the output
- * of a family of high level operations called RenderedImageFactorys
- * (RIFs).  Multiple RIFs are needed to define an operation because
- * not all RIFs are required to handle all cases.  For example, one
- * Convolve RIF may accelerate 3x3 convolves, but have no code for
- * other cases, while a second Convolve RIF could handle all cases in
- * a more general (but possibly slower) way.  OpImages are needed
- * because RIFs don't actually process any pixels.  Instead they
- * instantiate some number of OpImages via the
- * RenderedImageFactory.create() method and attach them to the
- * operation's sources.  The resulting OpImage chain is responsible
- * actually computes pixel values.
+ * <p>The OperationDescriptor defines the parameters and the output of a family of high level operations called
+ * RenderedImageFactorys (RIFs). Multiple RIFs are needed to define an operation because not all RIFs are required to
+ * handle all cases. For example, one Convolve RIF may accelerate 3x3 convolves, but have no code for other cases, while
+ * a second Convolve RIF could handle all cases in a more general (but possibly slower) way. OpImages are needed because
+ * RIFs don't actually process any pixels. Instead they instantiate some number of OpImages via the
+ * RenderedImageFactory.create() method and attach them to the operation's sources. The resulting OpImage chain is
+ * responsible actually computes pixel values.
  *
- * <p> In order to be used, an OperationDescriptor must be registered
- * by name with the OperationRegistry that is returned by
- * JAI.getDefaultInstance.getOperationRegistry().  The RIF must also
- * be registered with that name.  The OpImages that a given RIF
- * produces are "hardcoded" to that particular RIF, so the OpImages do
- * not need to be registered.
+ * <p>In order to be used, an OperationDescriptor must be registered by name with the OperationRegistry that is returned
+ * by JAI.getDefaultInstance.getOperationRegistry(). The RIF must also be registered with that name. The OpImages that a
+ * given RIF produces are "hardcoded" to that particular RIF, so the OpImages do not need to be registered.
  */
 public class JAIExampleApp extends WindowAdapter {
 
@@ -57,19 +42,19 @@ public class JAIExampleApp extends WindowAdapter {
 
         Frame frame = new Frame("JAIExampleApp ImageN Program");
         frame.addWindowListener(this);
-  
-        // The SampleDescriptor is both an OperationDescriptor 
+
+        // The SampleDescriptor is both an OperationDescriptor
         // and a RIF.  Other RIFs can be registered with this
-        // OperationDescriptor (although none are in this 
+        // OperationDescriptor (although none are in this
         // example.)
 
         SampleDescriptor sampleDescriptor = new SampleDescriptor();
         OperationDescriptor odesc = sampleDescriptor;
         RenderedImageFactory rif = sampleDescriptor;
 
-        // Here we grab the current registry and then register the 
-        // OperationDescriptor and the RIF with the imaging 
-        // operation's name "sample".  The product name is needed 
+        // Here we grab the current registry and then register the
+        // OperationDescriptor and the RIF with the imaging
+        // operation's name "sample".  The product name is needed
         // so that advanced users can differentiate between different
         // RIFs registered with an OperationDescriptor and order
         // them based on the user's preference.
@@ -84,9 +69,9 @@ public class JAIExampleApp extends WindowAdapter {
 
         PlanarImage im0 = JAIImageReader.readImage(imageName);
 
-        // We add the source image that was created above into a 
+        // We add the source image that was created above into a
         // ParameterBlock object and call JAI.create() with
-        // the "sample" operation name.  
+        // the "sample" operation name.
 
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(im0);
@@ -103,31 +88,26 @@ public class JAIExampleApp extends WindowAdapter {
         // up to an ImageCanvas and add it to the frame.  The ImageCanvas
         // will request tiles in response to repaint() events.
 
-	ImageCanvas imageCanvas = new ImageCanvas(im1);
-	frame.add(imageCanvas);
+        ImageCanvas imageCanvas = new ImageCanvas(im1);
+        frame.add(imageCanvas);
         frame.pack();
         frame.setVisible(true);
     }
-   
+
     /** Handles window close events. */
-
-
     public void windowClosing(WindowEvent e) {
         System.exit(0);
     }
 
     /**
-     * Instantiates an JAIExampleApp Frame and then displays it.
-     * The program must be run with a single argument that is the
-     * name of a TIFF image.
-     */ 
-
-
+     * Instantiates an JAIExampleApp Frame and then displays it. The program must be run with a single argument that is
+     * the name of a TIFF image.
+     */
     public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println("Usage: JAIExampleApp ImageName");
             System.exit(1);
         }
-	new JAIExampleApp(args[0]);
+        new JAIExampleApp(args[0]);
     }
 }

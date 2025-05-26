@@ -16,16 +16,15 @@
  */
 
 package org.eclipse.imagen.media.codec;
-import java.io.InputStream;
+
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * A subclass of <code>SeekableStream</code> that may be used
- * to wrap a regular <code>InputStream</code> efficiently.
+ * A subclass of <code>SeekableStream</code> that may be used to wrap a regular <code>InputStream</code> efficiently.
  * Seeking backwards is not supported.
  *
- * <p><b> This class is not a committed part of the JAI API.  It may
- * be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
  */
 public class ForwardSeekableStream extends SeekableStream {
 
@@ -38,10 +37,7 @@ public class ForwardSeekableStream extends SeekableStream {
     /** The marked position. */
     long markPos = -1L;
 
-    /** 
-     * Constructs a <code>InputStreamForwardSeekableStream</code> from a
-     * regular <code>InputStream</code>.
-     */
+    /** Constructs a <code>InputStreamForwardSeekableStream</code> from a regular <code>InputStream</code>. */
     public ForwardSeekableStream(InputStream src) {
         this.src = src;
     }
@@ -82,13 +78,13 @@ public class ForwardSeekableStream extends SeekableStream {
     }
 
     /** Forwards the request to the real <code>InputStream</code>. */
-    public synchronized final void mark(int readLimit) {
+    public final synchronized void mark(int readLimit) {
         markPos = pointer;
         src.mark(readLimit);
     }
 
     /** Forwards the request to the real <code>InputStream</code>. */
-    public synchronized final void reset() throws IOException {
+    public final synchronized void reset() throws IOException {
         if (markPos != -1) {
             pointer = markPos;
         }
@@ -107,14 +103,12 @@ public class ForwardSeekableStream extends SeekableStream {
 
     /** Returns the current position in the stream (bytes read). */
     public final long getFilePointer() {
-        return (long)pointer;
+        return (long) pointer;
     }
 
     /**
-     * Seeks forward to the given position in the stream.
-     * If <code>pos</code> is smaller than the current position
-     * as returned by <code>getFilePointer()</code>, nothing
-     * happens.
+     * Seeks forward to the given position in the stream. If <code>pos</code> is smaller than the current position as
+     * returned by <code>getFilePointer()</code>, nothing happens.
      */
     public final void seek(long pos) throws IOException {
         while (pos - pointer > 0) {

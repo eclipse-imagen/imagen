@@ -16,48 +16,38 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "Not" operation in the
- * rendered and renderable image layers.
+ * A <code>CRIF</code> supporting the "Not" operation in the rendered and renderable image layers.
  *
  * @since EA2
  * @see org.eclipse.imagen.operator.NotDescriptor
  * @see NotOpImage
- *
  */
 public class NotCRIF extends CRIFImpl {
 
-     /** Constructor. */
+    /** Constructor. */
     public NotCRIF() {
         super("not");
     }
 
     /**
-     * Creates a new instance of <code>NotOpImage</code> in the
-     * rendered layer. This method satisifies the implementation of RIF.
+     * Creates a new instance of <code>NotOpImage</code> in the rendered layer. This method satisifies the
+     * implementation of RIF.
      *
-     * @param paramBlock   The source image to perform the logical "not"
-     *                     operation on.
-     * @param renderHints  Optionally contains destination image layout.     
+     * @param paramBlock The source image to perform the logical "not" operation on.
+     * @param renderHints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
-        return new NotOpImage(paramBlock.getRenderedSource(0),
-                              renderHints,
-			      layout);
+        return new NotOpImage(paramBlock.getRenderedSource(0), renderHints, layout);
     }
 }

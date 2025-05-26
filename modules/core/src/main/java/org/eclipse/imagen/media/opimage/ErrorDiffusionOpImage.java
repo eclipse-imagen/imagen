@@ -16,7 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Point;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
@@ -27,14 +27,11 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
-import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.UntiledOpImage;
@@ -42,72 +39,52 @@ import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
- * An <code>OpImage</code> implementing the error diffusion operation as
- * described in <code>org.eclipse.imagen.operator.ErrorDiffusionDescriptor</code>.
+ * An <code>OpImage</code> implementing the error diffusion operation as described in <code>
+ * org.eclipse.imagen.operator.ErrorDiffusionDescriptor</code>.
  *
- * <p>This <code>OpImage</code> performs dithering of its source image into
- * a single band image using a specified color map and error filter. For each
- * pixel in the source image the nearest entry in the color map is found and
- * the index of this entry is assigned to the <code>OpImage</code> at that
- * location. The color quantization error is calculated by mapping the index
- * back through the color map. The error in each band is then "diffused" to
- * other neighboring pixels in the source image according to the specified
- * error filter.
+ * <p>This <code>OpImage</code> performs dithering of its source image into a single band image using a specified color
+ * map and error filter. For each pixel in the source image the nearest entry in the color map is found and the index of
+ * this entry is assigned to the <code>OpImage</code> at that location. The color quantization error is calculated by
+ * mapping the index back through the color map. The error in each band is then "diffused" to other neighboring pixels
+ * in the source image according to the specified error filter.
  *
  * @see org.eclipse.imagen.ColorCube
  * @see org.eclipse.imagen.KernelJAI
  * @see org.eclipse.imagen.LookupTableJAI
- *
  * @since EA2
- *
  */
 final class ErrorDiffusionOpImage extends UntiledOpImage {
-    /**
-     * Smallest float value which when added to unity will yield something
-     * other than unity.
-     */
+    /** Smallest float value which when added to unity will yield something other than unity. */
     private static final float FLOAT_EPSILON = 1.192092896E-07F;
 
     /**
-     * Variables used in the optimized case of 3-band byte to 1-band byte
-     * with a ColorCube color map and a Floyd-Steinberg kernel.
+     * Variables used in the optimized case of 3-band byte to 1-band byte with a ColorCube color map and a
+     * Floyd-Steinberg kernel.
      */
     private static final int NBANDS = 3;
+
     private static final int NGRAYS = 256;
     private static final int OVERSHOOT = 256;
     private static final int UNDERSHOOT = 256;
     private static final int TOTALGRAYS = (NGRAYS + UNDERSHOOT + OVERSHOOT);
     private static final int ERR_SHIFT = 8;
 
-    /**
-     * The color map which maps the <code>ErrorDiffusionOpImage</code> to
-     * its source.
-     */
+    /** The color map which maps the <code>ErrorDiffusionOpImage</code> to its source. */
     protected LookupTableJAI colorMap;
 
-    /**
-     * The kernel associated with the selected error filter.
-     */
+    /** The kernel associated with the selected error filter. */
     protected KernelJAI errorKernel;
 
-    /**
-     * The number of bands in the source image.
-     */
+    /** The number of bands in the source image. */
     private int numBandsSource;
 
-    /**
-     * Flag indicating whether this is an optimized case.
-     */
+    /** Flag indicating whether this is an optimized case. */
     private boolean isOptimizedCase = false;
 
-    /**
-     * Minimum valid pixel value
-     */
+    /** Minimum valid pixel value */
     private float minPixelValue;
 
-    /**
-     * Maximum valid pixel value
-     */
+    /** Maximum valid pixel value */
     private float maxPixelValue;
 
     /**
@@ -119,17 +96,13 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
     private static boolean isFloydSteinbergKernel(KernelJAI kernel) {
         int ky = kernel.getYOrigin();
 
-        return (kernel.getWidth() == 3 &&
-                kernel.getXOrigin() == 1 &&
-                kernel.getHeight() - ky == 2 &&
-                Math.abs(kernel.getElement(2, ky) - 7.0F/16.0F) <
-                FLOAT_EPSILON &&
-                Math.abs(kernel.getElement(0, ky+1) - 3.0F/16.0F) <
-                FLOAT_EPSILON &&
-                Math.abs(kernel.getElement(1, ky+1) - 5.0F/16.0F) <
-                FLOAT_EPSILON &&
-                Math.abs(kernel.getElement(2, ky+1) - 1.0F/16.0F) <
-                FLOAT_EPSILON);
+        return (kernel.getWidth() == 3
+                && kernel.getXOrigin() == 1
+                && kernel.getHeight() - ky == 2
+                && Math.abs(kernel.getElement(2, ky) - 7.0F / 16.0F) < FLOAT_EPSILON
+                && Math.abs(kernel.getElement(0, ky + 1) - 3.0F / 16.0F) < FLOAT_EPSILON
+                && Math.abs(kernel.getElement(1, ky + 1) - 5.0F / 16.0F) < FLOAT_EPSILON
+                && Math.abs(kernel.getElement(2, ky + 1) - 1.0F / 16.0F) < FLOAT_EPSILON);
     }
 
     /**
@@ -140,7 +113,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
      */
     private static int[] initFloydSteinberg24To8(ColorCube colorCube) {
         // Allocate memory for the dither table.
-        int[] ditherTable = new int[NBANDS*TOTALGRAYS];
+        int[] ditherTable = new int[NBANDS * TOTALGRAYS];
 
         float[] thresh = new float[NGRAYS];
 
@@ -155,7 +128,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         //  Construct tables for each band
         //
         for (int band = 0; band < NBANDS; band++) {
-            int pTab = band*TOTALGRAYS;
+            int pTab = band * TOTALGRAYS;
 
             //
             // Calculate the binwidth for this band, i.e. the gray level step
@@ -205,10 +178,9 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 // just add the increment at each iteration.
                 //
                 int tableBase = indexContrib;
-                repValue = (int)(frepValue + 0.5F);
-                while ((float)gray < threshold) {
-                    ditherTable[pTab++] =
-                        ((gray - repValue) << ERR_SHIFT) + tableBase;
+                repValue = (int) (frepValue + 0.5F);
+                while ((float) gray < threshold) {
+                    ditherTable[pTab++] = ((gray - repValue) << ERR_SHIFT) + tableBase;
                     gray++;
                 }
 
@@ -236,7 +208,6 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 ditherTable[pTab++] = tableValue;
                 tableValue += tableInc;
             }
-
         } // End band loop
 
         //
@@ -253,15 +224,10 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         return ditherTable;
     }
 
-    /**
-     * Force the destination image to be single-banded.
-     */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source,
-                                            LookupTableJAI colorMap) {
+    /** Force the destination image to be single-banded. */
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, LookupTableJAI colorMap) {
         // Create or clone the layout.
-        ImageLayout il = layout == null ?
-	    new ImageLayout() : (ImageLayout)layout.clone();
+        ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Force the destination and source origins and dimensions to coincide.
         il.setMinX(source.getMinX());
@@ -273,30 +239,22 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         SampleModel sm = il.getSampleModel(source);
 
         // Ensure an appropriate SampleModel.
-        if(colorMap.getNumBands() == 1 &&
-           colorMap.getNumEntries() == 2 &&
-           !ImageUtil.isBinary(il.getSampleModel(source))) {
-            sm = new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
-                                                 il.getTileWidth(source),
-                                                 il.getTileHeight(source),
-                                                 1);
+        if (colorMap.getNumBands() == 1
+                && colorMap.getNumEntries() == 2
+                && !ImageUtil.isBinary(il.getSampleModel(source))) {
+            sm = new MultiPixelPackedSampleModel(
+                    DataBuffer.TYPE_BYTE, il.getTileWidth(source), il.getTileHeight(source), 1);
             il.setSampleModel(sm);
         }
 
         // Make sure that this OpImage is single-banded.
         if (sm.getNumBands() != 1) {
-            sm =
-                RasterFactory.createComponentSampleModel(sm,
-                                                         sm.getTransferType(),
-                                                         sm.getWidth(),
-                                                         sm.getHeight(),
-                                                         1);
-	    il.setSampleModel(sm);
+            sm = RasterFactory.createComponentSampleModel(sm, sm.getTransferType(), sm.getWidth(), sm.getHeight(), 1);
+            il.setSampleModel(sm);
 
             // Clear the ColorModel mask if needed.
             ColorModel cm = il.getColorModel(null);
-            if(cm != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
+            if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
                 // Clear the mask bit if incompatible.
                 il.unsetValid(ImageLayout.COLOR_MODEL_MASK);
             }
@@ -305,29 +263,20 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         // Determine whether a larger bit depth is needed.
         int numColorMapBands = colorMap.getNumBands();
         int maxIndex = 0;
-        for(int i = 0; i < numColorMapBands; i++) {
-            maxIndex = Math.max(colorMap.getOffset(i) +
-                                colorMap.getNumEntries() - 1,
-                                maxIndex);
+        for (int i = 0; i < numColorMapBands; i++) {
+            maxIndex = Math.max(colorMap.getOffset(i) + colorMap.getNumEntries() - 1, maxIndex);
         }
 
         // Create a deeper SampleModel if needed.
-        if((maxIndex > 255 && sm.getDataType() == DataBuffer.TYPE_BYTE) ||
-           (maxIndex > 65535 && sm.getDataType() != DataBuffer.TYPE_INT)) {
-            int dataType = maxIndex > 65535 ?
-                DataBuffer.TYPE_INT : DataBuffer.TYPE_USHORT;
-            sm =
-                RasterFactory.createComponentSampleModel(sm,
-                                                         dataType,
-                                                         sm.getWidth(),
-                                                         sm.getHeight(),
-                                                         1);
-	    il.setSampleModel(sm);
+        if ((maxIndex > 255 && sm.getDataType() == DataBuffer.TYPE_BYTE)
+                || (maxIndex > 65535 && sm.getDataType() != DataBuffer.TYPE_INT)) {
+            int dataType = maxIndex > 65535 ? DataBuffer.TYPE_INT : DataBuffer.TYPE_USHORT;
+            sm = RasterFactory.createComponentSampleModel(sm, dataType, sm.getWidth(), sm.getHeight(), 1);
+            il.setSampleModel(sm);
 
             // Clear the ColorModel mask if needed.
             ColorModel cm = il.getColorModel(null);
-            if(cm != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
+            if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
                 // Clear the mask bit if incompatible.
                 il.unsetValid(ImageLayout.COLOR_MODEL_MASK);
             }
@@ -338,68 +287,54 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         // b. source and colormap have byte data type;
         // c. the colormap has 3 bands;
         // d. destination has byte or ushort data type.
-        if((layout == null || !il.isValid(ImageLayout.COLOR_MODEL_MASK)) &&
-           source.getSampleModel().getDataType() == DataBuffer.TYPE_BYTE &&
-           (sm.getDataType() == DataBuffer.TYPE_BYTE ||
-            sm.getDataType() == DataBuffer.TYPE_USHORT) &&
-           colorMap.getDataType() == DataBuffer.TYPE_BYTE &&
-           colorMap.getNumBands() == 3) {
+        if ((layout == null || !il.isValid(ImageLayout.COLOR_MODEL_MASK))
+                && source.getSampleModel().getDataType() == DataBuffer.TYPE_BYTE
+                && (sm.getDataType() == DataBuffer.TYPE_BYTE || sm.getDataType() == DataBuffer.TYPE_USHORT)
+                && colorMap.getDataType() == DataBuffer.TYPE_BYTE
+                && colorMap.getNumBands() == 3) {
             ColorModel cm = source.getColorModel();
-            if(cm == null ||
-               (cm != null && cm.getColorSpace().isCS_sRGB())) {
+            if (cm == null || (cm != null && cm.getColorSpace().isCS_sRGB())) {
                 int size = colorMap.getNumEntries();
-                byte[][] cmap = new byte[3][maxIndex+1];
-                for(int i = 0; i < 3; i++) {
+                byte[][] cmap = new byte[3][maxIndex + 1];
+                for (int i = 0; i < 3; i++) {
                     byte[] band = cmap[i];
                     byte[] data = colorMap.getByteData(i);
                     int offset = colorMap.getOffset(i);
                     int end = offset + size;
-                    for(int j = offset; j < end; j++) {
+                    for (int j = offset; j < end; j++) {
                         band[j] = data[j - offset];
                     }
                 }
 
-                int numBits =
-                    sm.getDataType() == DataBuffer.TYPE_BYTE ? 8 : 16;
-                il.setColorModel(new IndexColorModel(numBits, maxIndex + 1,
-                                                     cmap[0], cmap[1],
-                                                     cmap[2]));
+                int numBits = sm.getDataType() == DataBuffer.TYPE_BYTE ? 8 : 16;
+                il.setColorModel(new IndexColorModel(numBits, maxIndex + 1, cmap[0], cmap[1], cmap[2]));
             }
         }
 
-	return il;
+        return il;
     }
 
     /**
      * Constructs an ErrorDiffusionOpImage object.
      *
-     * <p>The image dimensions are derived from the source image. The tile
-     * grid layout, SampleModel, and ColorModel may optionally be specified
-     * by an ImageLayout object. The calculation assumes that the entire
-     * color quantization error is distributed to the right and below the
-     * current pixel and the filter kernel values are handled appropriately.
+     * <p>The image dimensions are derived from the source image. The tile grid layout, SampleModel, and ColorModel may
+     * optionally be specified by an ImageLayout object. The calculation assumes that the entire color quantization
+     * error is distributed to the right and below the current pixel and the filter kernel values are handled
+     * appropriately.
      *
      * @param source A RenderedImage.
-     * @param layout An ImageLayout optionally containing the tile grid layout,
-     * SampleModel, and ColorModel, or null.
-     * @param colorMap The color map to use which must have a number of bands
-     * equal to the number of bands in the source image. The offset of this
-     * <code>LookupTableJAI</code> must be the same for all bands.
-     * @param errorKernel The error filter kernel. This must have values
-     * between 0.0 and 1.0. Only the entries to the right of and on the same
-     * row as the key entry, and those entries below of the row of the key
-     * entry are used; all other values are ignored. The values used must sum
-     * to 1.0. Note that if a 1-by-1 error filter kernel is supplied, the value
-     * of the unique kernel element is irrelevant and the output of the
-     * algorithm will simply be the index in the supplied color map of the
-     * nearest matching color to the source pixel at the same position.
+     * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
+     * @param colorMap The color map to use which must have a number of bands equal to the number of bands in the source
+     *     image. The offset of this <code>LookupTableJAI</code> must be the same for all bands.
+     * @param errorKernel The error filter kernel. This must have values between 0.0 and 1.0. Only the entries to the
+     *     right of and on the same row as the key entry, and those entries below of the row of the key entry are used;
+     *     all other values are ignored. The values used must sum to 1.0. Note that if a 1-by-1 error filter kernel is
+     *     supplied, the value of the unique kernel element is irrelevant and the output of the algorithm will simply be
+     *     the index in the supplied color map of the nearest matching color to the source pixel at the same position.
      */
-    public ErrorDiffusionOpImage(RenderedImage source,
-                                 Map config,
-                                 ImageLayout layout,
-                                 LookupTableJAI colorMap,
-                                 KernelJAI errorKernel) {
-	super(source, config, layoutHelper(layout, source, colorMap));
+    public ErrorDiffusionOpImage(
+            RenderedImage source, Map config, ImageLayout layout, LookupTableJAI colorMap, KernelJAI errorKernel) {
+        super(source, config, layoutHelper(layout, source, colorMap));
 
         // Get the source sample model.
         SampleModel srcSampleModel = source.getSampleModel();
@@ -414,61 +349,54 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         this.errorKernel = errorKernel;
 
         // Determine whether this is an (read "the") optimized case.
-        isOptimizedCase =
-            (sampleModel.getTransferType() == DataBuffer.TYPE_BYTE &&
-             srcSampleModel.getTransferType() == DataBuffer.TYPE_BYTE &&
-             numBandsSource == 3 &&
-             colorMap instanceof ColorCube &&
-             isFloydSteinbergKernel(errorKernel));
+        isOptimizedCase = (sampleModel.getTransferType() == DataBuffer.TYPE_BYTE
+                && srcSampleModel.getTransferType() == DataBuffer.TYPE_BYTE
+                && numBandsSource == 3
+                && colorMap instanceof ColorCube
+                && isFloydSteinbergKernel(errorKernel));
 
         // Determine minumum and maximum valid pixel values
         switch (colorMap.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            // Treat byte types as unsigned bytes
-            minPixelValue = 0;
-            maxPixelValue = -Byte.MIN_VALUE + Byte.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_SHORT:
-            minPixelValue = Short.MIN_VALUE;
-            maxPixelValue = Short.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_USHORT:
-            minPixelValue = 0;
-            maxPixelValue = -Short.MIN_VALUE + Short.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_INT:
-            minPixelValue = Integer.MIN_VALUE;
-            maxPixelValue = Integer.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            minPixelValue = 0;
-            maxPixelValue = Float.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            minPixelValue = 0;
-            maxPixelValue = Float.MAX_VALUE;
-            break;
-        default:
-            throw new RuntimeException(
-                            JaiI18N.getString("ErrorDiffusionOpImage0"));
+            case DataBuffer.TYPE_BYTE:
+                // Treat byte types as unsigned bytes
+                minPixelValue = 0;
+                maxPixelValue = -Byte.MIN_VALUE + Byte.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_SHORT:
+                minPixelValue = Short.MIN_VALUE;
+                maxPixelValue = Short.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_USHORT:
+                minPixelValue = 0;
+                maxPixelValue = -Short.MIN_VALUE + Short.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_INT:
+                minPixelValue = Integer.MIN_VALUE;
+                maxPixelValue = Integer.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                minPixelValue = 0;
+                maxPixelValue = Float.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                minPixelValue = 0;
+                maxPixelValue = Float.MAX_VALUE;
+                break;
+            default:
+                throw new RuntimeException(JaiI18N.getString("ErrorDiffusionOpImage0"));
         }
-
     }
 
     /**
-     * Performs error diffusion on a specified rectangle. The sources are
-     * cobbled. As error diffusion must be calculated on a line-by-line basis
-     * starting at the upper left corner of the image, all image lines through
-     * and including the last line of the tile containing the requested
-     * <code>Rectangle</code> are calculated.
+     * Performs error diffusion on a specified rectangle. The sources are cobbled. As error diffusion must be calculated
+     * on a line-by-line basis starting at the upper left corner of the image, all image lines through and including the
+     * last line of the tile containing the requested <code>Rectangle</code> are calculated.
      *
      * @param sources The source image Raster.
      * @param dest A WritableRaster tile containing the area to be computed.
      * @param destRect The rectangle within dest to be processed.
      */
-    protected void computeImage(Raster[] sources,
-                                WritableRaster dest,
-                                Rectangle destRect) {
+    protected void computeImage(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         Raster source = sources[0];
 
         if (isOptimizedCase) {
@@ -478,9 +406,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         }
     }
 
-    protected void computeImageDefault(Raster source,
-                                       WritableRaster dest,
-                                       Rectangle destRect) {
+    protected void computeImageDefault(Raster source, WritableRaster dest, Rectangle destRect) {
         // Set X-coordinate range.
         int startX = minX;
         int endX = startX + width - 1;
@@ -490,17 +416,16 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         int endY = startY + height - 1;
 
         // Set the number of lines in the calculation buffer.
-        int numLinesBuffer =
-            errorKernel.getHeight() - errorKernel.getYOrigin();
+        int numLinesBuffer = errorKernel.getHeight() - errorKernel.getYOrigin();
 
         // Allocate memory for the calculation buffer.
-        float[][] bufMem = new float[numLinesBuffer][width*numBandsSource];
+        float[][] bufMem = new float[numLinesBuffer][width * numBandsSource];
 
         // Allocate memory for the buffer index array.
         int[] bufIdx = new int[numLinesBuffer];
 
         // Initialize the buffer index array and the rolling buffer.
-        for(int idx = 0; idx < numLinesBuffer; idx++) {
+        for (int idx = 0; idx < numLinesBuffer; idx++) {
             bufIdx[idx] = idx;
             source.getPixels(startX, startY + idx, width, 1, bufMem[idx]);
         }
@@ -512,12 +437,9 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         int kernelWidth = errorKernel.getWidth();
         float[] kernelData = errorKernel.getKernelData();
         int diffuseRight = kernelWidth - errorKernel.getXOrigin() - 1;
-        int diffuseBelow =
-            errorKernel.getHeight() - errorKernel.getYOrigin() - 1;
-        int kernelOffsetRight =
-            errorKernel.getYOrigin()*kernelWidth +
-            errorKernel.getXOrigin() + 1;
-        int kernelOffsetBelow = (errorKernel.getYOrigin() + 1)*kernelWidth;
+        int diffuseBelow = errorKernel.getHeight() - errorKernel.getYOrigin() - 1;
+        int kernelOffsetRight = errorKernel.getYOrigin() * kernelWidth + errorKernel.getXOrigin() + 1;
+        int kernelOffsetBelow = (errorKernel.getYOrigin() + 1) * kernelWidth;
 
         // Set up some arrays for looping.
         float[] currentPixel = new float[numBandsSource];
@@ -538,12 +460,9 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                     currentPixel[b] = currentLine[z++];
 
                     // Clamp the current sample to the valid range
-                    if (currentPixel[b] < minPixelValue ||
-                        currentPixel[b] > maxPixelValue) {
-                        currentPixel[b] = java.lang.Math.max(currentPixel[b],
-                                                             minPixelValue);
-                        currentPixel[b] = java.lang.Math.min(currentPixel[b],
-                                                             maxPixelValue);
+                    if (currentPixel[b] < minPixelValue || currentPixel[b] > maxPixelValue) {
+                        currentPixel[b] = java.lang.Math.max(currentPixel[b], minPixelValue);
+                        currentPixel[b] = java.lang.Math.min(currentPixel[b], maxPixelValue);
                     }
                 }
 
@@ -556,9 +475,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 // Calculate the error between the nearest and actual colors.
                 boolean isQuantizationError = false;
                 for (int b = 0; b < numBandsSource; b++) {
-                    qError[b] =
-                        currentPixel[b] -
-                        colorMap.lookupFloat(b, nearestIndex);
+                    qError[b] = currentPixel[b] - colorMap.lookupFloat(b, nearestIndex);
                     if (qError[b] != 0.0F) {
                         isQuantizationError = true;
                     }
@@ -572,25 +489,21 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                     int sampleOffset = z;
                     for (int u = 1; u <= rightCount; u++) {
                         for (int b = 0; b < numBandsSource; b++) {
-                            currentLine[sampleOffset++] +=
-                                qError[b]*kernelData[kernelOffset];
+                            currentLine[sampleOffset++] += qError[b] * kernelData[kernelOffset];
                         }
                         kernelOffset++;
                     }
 
                     // Distribute error below key entry.
                     int offsetLeft = Math.min(x - startX, diffuseRight);
-                    int count =
-                        Math.min(x + diffuseRight, endX) -
-                        Math.max(x - diffuseRight, startX) + 1;
+                    int count = Math.min(x + diffuseRight, endX) - Math.max(x - diffuseRight, startX) + 1;
                     for (int v = 1; v <= diffuseBelow; v++) {
                         float[] line = bufMem[bufIdx[v]];
                         kernelOffset = kernelOffsetBelow;
-                        sampleOffset = z - (offsetLeft + 1)*numBandsSource;
+                        sampleOffset = z - (offsetLeft + 1) * numBandsSource;
                         for (int u = 1; u <= count; u++) {
                             for (int b = 0; b < numBandsSource; b++) {
-                                line[sampleOffset++] +=
-                                    qError[b]*kernelData[kernelOffset];
+                                line[sampleOffset++] += qError[b] * kernelData[kernelOffset];
                             }
                             kernelOffset++;
                         }
@@ -605,21 +518,18 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
 
             // Rotate the buffer indexes.
             for (int k = 0; k < lastLineBuffer; k++) {
-                bufIdx[k] = bufIdx[k+1];
+                bufIdx[k] = bufIdx[k + 1];
             }
             bufIdx[lastLineBuffer] = currentIndex;
 
             // If available, load next image line into the last buffer line.
             if (y + numLinesBuffer < getMaxY()) {
-                source.getPixels(startX, y + numLinesBuffer, width, 1,
-                                 bufMem[bufIdx[lastLineBuffer]]);
+                source.getPixels(startX, y + numLinesBuffer, width, 1, bufMem[bufIdx[lastLineBuffer]]);
             }
         }
     }
 
-    protected void computeImageOptimized(Raster source,
-                                         WritableRaster dest,
-                                         Rectangle destRect) {
+    protected void computeImageOptimized(Raster source, WritableRaster dest, Rectangle destRect) {
         // Set X-coordinate range.
         int startX = minX;
         int endX = startX + width - 1;
@@ -629,25 +539,23 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         int endY = startY + height - 1;
 
         // Initialize the dither table.
-        int[] ditherTable = initFloydSteinberg24To8((ColorCube)colorMap);
+        int[] ditherTable = initFloydSteinberg24To8((ColorCube) colorMap);
 
         // Initialize the padded source width.
         int sourceWidthPadded = source.getWidth() + 2;
 
         // Allocate memory for the error buffer.
-        int[] errBuf = new int[sourceWidthPadded*NBANDS];
+        int[] errBuf = new int[sourceWidthPadded * NBANDS];
 
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor srcAccessor =
-            new RasterAccessor(source,
-                               new Rectangle(startX, startY,
-                                             source.getWidth(),
-                                             source.getHeight()),
-                               formatTags[0], getSourceImage(0).getColorModel());
-        RasterAccessor dstAccessor =
-            new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
+        RasterAccessor srcAccessor = new RasterAccessor(
+                source,
+                new Rectangle(startX, startY, source.getWidth(), source.getHeight()),
+                formatTags[0],
+                getSourceImage(0).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         // Set pixel and line strides.
         int srcPixelStride = srcAccessor.getPixelStride();
@@ -750,19 +658,17 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 //
                 int pTab = UNDERSHOOT;
 
-                int adjVal =
-                    ((errRedA + errBuf[pErr+3] + 8) >> 4) +
-                    (int)(srcData0[srcPixel0] & 0xff);
+                int adjVal = ((errRedA + errBuf[pErr + 3] + 8) >> 4) + (int) (srcData0[srcPixel0] & 0xff);
                 srcPixel0 += srcPixelStride;
-                int tabval = ditherTable[pTab+adjVal];
+                int tabval = ditherTable[pTab + adjVal];
                 int err = tabval >> 8;
                 int err1 = err;
                 int index = (tabval & 0xff);
                 int err2 = err + err;
                 errBuf[pErr] = errRedC + (err += err2); // 3/16 (B)
                 errRedC = errRedD + (err += err2); // 5/16 (C)
-                errRedD = err1;                    // 1/16 (D)
-                errRedA = (err += err2);           // 7/16 (A)
+                errRedD = err1; // 1/16 (D)
+                errRedA = (err += err2); // 7/16 (A)
 
                 //
                 // Second band (Green)
@@ -771,16 +677,14 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 //
                 pTab += TOTALGRAYS;
 
-                adjVal =
-                    ((errGrnA + errBuf[pErr+4] + 8) >> 4) +
-                    (int)(srcData1[srcPixel1] & 0xff);
+                adjVal = ((errGrnA + errBuf[pErr + 4] + 8) >> 4) + (int) (srcData1[srcPixel1] & 0xff);
                 srcPixel1 += srcPixelStride;
-                tabval = ditherTable[pTab+adjVal];
+                tabval = ditherTable[pTab + adjVal];
                 err = tabval >> 8;
                 err1 = err;
                 index += (tabval & 0xff);
                 err2 = err + err;
-                errBuf[pErr+1] = errGrnC + (err += err2);
+                errBuf[pErr + 1] = errGrnC + (err += err2);
                 errGrnC = errGrnD + (err += err2);
                 errGrnD = err1;
                 errGrnA = (err += err2);
@@ -792,35 +696,32 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 // Set the table pointer to the "Blue" band
                 // The color index is incremented here.
                 //
-                adjVal =
-                    ((errBluA + errBuf[pErr+5] + 8) >> 4) +
-                    (int)(srcData2[srcPixel2] & 0xff);
+                adjVal = ((errBluA + errBuf[pErr + 5] + 8) >> 4) + (int) (srcData2[srcPixel2] & 0xff);
                 srcPixel2 += srcPixelStride;
-                tabval = ditherTable[pTab+adjVal];
+                tabval = ditherTable[pTab + adjVal];
                 err = tabval >> 8;
                 err1 = err;
                 index += (tabval & 0xff);
                 err2 = err + err;
-                errBuf[pErr+2] = errBluC + (err += err2);
+                errBuf[pErr + 2] = errBluC + (err += err2);
                 errBluC = errBluD + (err += err2);
                 errBluD = err1;
                 errBluA = (err += err2);
 
                 // Save the result in the output data buffer.
-                dstData[dstPixel] = (byte)(index&0xff);
+                dstData[dstPixel] = (byte) (index & 0xff);
                 dstPixel += dstPixelStride;
 
                 pErr += 3;
-
             } // End pixel loop
 
             //
             // Save last error in line
             //
             int last = 3 * (sourceWidthPadded - 2);
-            errBuf[last]   = errRedC;
-            errBuf[last+1] = errGrnC;
-            errBuf[last+2] = errBluC;
+            errBuf[last] = errRedC;
+            errBuf[last + 1] = errGrnC;
+            errBuf[last + 2] = errBluC;
 
             // Increment offset in each band to next line.
             srcLine0 += srcScanlineStride;
@@ -828,7 +729,6 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
             srcLine2 += srcScanlineStride;
             dstLine += dstScanlineStride;
         } // End scanline loop
-
 
         // Make sure that the output data is copied to the destination.
         dstAccessor.copyDataToRaster();

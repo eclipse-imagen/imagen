@@ -10,15 +10,13 @@ package org.eclipse.imagen.demo;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
 
-public class JAIBlurSharpPanel extends JAIDemoPanel
-    implements ChangeListener, ItemListener {
+public class JAIBlurSharpPanel extends JAIDemoPanel implements ChangeListener, ItemListener {
 
     int param1 = 150;
     int sliderDelta = 4;
@@ -39,16 +37,15 @@ public class JAIBlurSharpPanel extends JAIDemoPanel
 
         Hashtable labels = new Hashtable();
         labels.put(new Integer(0), new JLabel("Blurrier"));
-	labels.put(new Integer(150), new JLabel("Normal"));
+        labels.put(new Integer(150), new JLabel("Normal"));
         labels.put(new Integer(300), new JLabel("Sharper"));
         p1Slider.setLabelTable(labels);
         p1Slider.setPaintLabels(true);
-        
+
         p1Slider.addChangeListener(this);
 
         JPanel p1SliderPanel = new JPanel();
-        p1SliderPanel.setLayout(new BoxLayout(p1SliderPanel,
-                                              BoxLayout.X_AXIS));
+        p1SliderPanel.setLayout(new BoxLayout(p1SliderPanel, BoxLayout.X_AXIS));
         JLabel p1Label = new JLabel("Sharpness");
         p1SliderPanel.add(p1Label);
         p1SliderPanel.add(p1Slider);
@@ -74,30 +71,28 @@ public class JAIBlurSharpPanel extends JAIDemoPanel
 
         float alpha;
         if (param1 > 150) {
-            alpha = (param1-125.0f)/25.0f;
+            alpha = (param1 - 125.0f) / 25.0f;
         } else {
-            alpha = param1/150.0f;
+            alpha = param1 / 150.0f;
         }
-        float beta = (1.0f-alpha)/8.0f;
+        float beta = (1.0f - alpha) / 8.0f;
         for (int i = 0; i < 9; i++) {
             kData[i] = beta;
         }
         kData[4] = alpha;
- 
-        KernelJAI k = new KernelJAI(3,3,1,1,kData);
+
+        KernelJAI k = new KernelJAI(3, 3, 1, 1, kData);
         pb.add(k);
         return JAI.create("convolve", pb, renderHints);
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     public void animate() {
         int value = p1Slider.getValue();
         int newValue = value + sliderDelta;
 
-        if (newValue < p1Slider.getMinimum() ||
-            newValue > p1Slider.getMaximum()) {
+        if (newValue < p1Slider.getMinimum() || newValue > p1Slider.getMaximum()) {
             sliderDelta = -sliderDelta;
         }
         p1Slider.setValue(value + sliderDelta);
@@ -109,15 +104,14 @@ public class JAIBlurSharpPanel extends JAIDemoPanel
     }
 
     public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
+        JSlider source = (JSlider) e.getSource();
         int value = source.getValue();
 
         if (source == p1Slider) {
-             param1 = value;
+            param1 = value;
         }
         repaint();
     }
 
-    public void itemStateChanged(ItemEvent e) {
-    }
+    public void itemStateChanged(ItemEvent e) {}
 }

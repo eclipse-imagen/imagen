@@ -12,17 +12,15 @@ import org.eclipse.imagen.*;
 import org.eclipse.imagen.remote.RemoteJAI;
 
 public class JAIDyadicSource0Panel extends JAIDyadicPanel {
-  
-    public JAIDyadicSource0Panel(JAINetworkDemo demo, 
-				 Vector sourceVec, 
-				 RemoteJAI pClient) {
+
+    public JAIDyadicSource0Panel(JAINetworkDemo demo, Vector sourceVec, RemoteJAI pClient) {
         super(demo, sourceVec, pClient);
-    }  
-    
+    }
+
     public String getDemoName() {
         return "Source0";
     }
-    
+
     public PlanarImage process() {
         return getSource(0);
     }

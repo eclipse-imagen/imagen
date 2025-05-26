@@ -21,51 +21,40 @@ import java.awt.RenderingHints;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.remote.SerializerFactory;
-import org.eclipse.imagen.remote.SerializableState;
 
 /**
- * This class is a serializable proxy for a Hashtable object.
- * <br>(entries which are neither <code>Serializable</code> nor supported by
- * <code>SerializerFactory</code> are omitted);
- *
+ * This class is a serializable proxy for a Hashtable object. <br>
+ * (entries which are neither <code>Serializable</code> nor supported by <code>SerializerFactory</code> are omitted);
  *
  * @since 1.1
  */
 public class HashtableState extends SerializableStateImpl {
-    /** 
-     * Returns the classes supported by this SerializableState.
-     */
+    /** Returns the classes supported by this SerializableState. */
     public static Class[] getSupportedClasses() {
-            return new Class[] {Hashtable.class};
+        return new Class[] {Hashtable.class};
     }
 
     /**
-      * Constructs a <code>HashtableState</code> from a
-      * <code>Hashtable</code> object.
-      *
-      * @param c The <code>Class</code> of the object to be serialized.
-      * @param o The <code>Hashtable</code> object to be serialized.
-      * @param h The <code>RenderingHints</code> for this serialization.
-      */
+     * Constructs a <code>HashtableState</code> from a <code>Hashtable</code> object.
+     *
+     * @param c The <code>Class</code> of the object to be serialized.
+     * @param o The <code>Hashtable</code> object to be serialized.
+     * @param h The <code>RenderingHints</code> for this serialization.
+     */
     public HashtableState(Class c, Object o, RenderingHints h) {
         super(c, o, h);
     }
 
-    /**
-     * Serialize the HashtableState.
-     */
+    /** Serialize the HashtableState. */
     private void writeObject(ObjectOutputStream out) throws IOException {
         // -- Create a serializable form of the Hashtable object. --
-	Hashtable table = (Hashtable)theObject;
+        Hashtable table = (Hashtable) theObject;
 
-	Hashtable serializableTable = new Hashtable();
+        Hashtable serializableTable = new Hashtable();
 
         // If there are hints, add them to the table.
         if (table != null && !table.isEmpty()) {
@@ -81,18 +70,16 @@ public class HashtableState extends SerializableStateImpl {
                 while (keyIterator.hasNext()) {
                     // Get the next key.
                     Object key = keyIterator.next();
-		    Object serializableKey = getSerializableForm(key);
+                    Object serializableKey = getSerializableForm(key);
 
-                    if (serializableKey == null) 
-                        continue;
+                    if (serializableKey == null) continue;
 
                     // Get the next value.
                     Object value = table.get(key);
 
-		    Object serializableValue = getSerializableForm(value);
+                    Object serializableValue = getSerializableForm(value);
 
-		    if (serializableValue == null)
-			continue;
+                    if (serializableValue == null) continue;
 
                     serializableTable.put(serializableKey, serializableValue);
                 }
@@ -103,17 +90,14 @@ public class HashtableState extends SerializableStateImpl {
         out.writeObject(serializableTable);
     }
 
-    /**
-     * Deserialize the HashtableState.
-     */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    /** Deserialize the HashtableState. */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read serialized form from the stream.
-        Hashtable serializableTable = (Hashtable)in.readObject();
+        Hashtable serializableTable = (Hashtable) in.readObject();
 
         // Create an empty Hashtable object.
         Hashtable table = new Hashtable();
-	theObject = table;
+        theObject = table;
 
         // If the table is empty just return.
         if (serializableTable.isEmpty()) {
@@ -131,7 +115,7 @@ public class HashtableState extends SerializableStateImpl {
 
             // Get the value element.
             Object serializableValue = serializableTable.get(serializableKey);
-	    Object value = getDeserializedFrom(serializableValue);
+            Object value = getDeserializedFrom(serializableValue);
 
             // Add an entry to the table.
             table.put(key, value);

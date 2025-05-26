@@ -22,26 +22,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 
-/**
- * An <code>OutputStream</code> which can seek to an arbitrary offset.
- */
+/** An <code>OutputStream</code> which can seek to an arbitrary offset. */
 public class SeekableOutputStream extends OutputStream {
 
     private RandomAccessFile file;
 
     /**
-     * Constructs a <code>SeekableOutputStream</code> from a
-     * <code>RandomAccessFile</code>.  Unless otherwise indicated,
-     * all method invocations are fowarded to the underlying
-     * <code>RandomAccessFile</code>.
+     * Constructs a <code>SeekableOutputStream</code> from a <code>RandomAccessFile</code>. Unless otherwise indicated,
+     * all method invocations are fowarded to the underlying <code>RandomAccessFile</code>.
      *
-     * @param file The <code>RandomAccessFile</code> to which calls
-     *             will be forwarded.
-     * @exception IllegalArgumentException if <code>file</code> is
-     *            <code>null</code>.
+     * @param file The <code>RandomAccessFile</code> to which calls will be forwarded.
+     * @exception IllegalArgumentException if <code>file</code> is <code>null</code>.
      */
     public SeekableOutputStream(RandomAccessFile file) {
-        if(file == null) {
+        if (file == null) {
             throw new IllegalArgumentException(JaiI18N.getString("SeekableOutputStream0"));
         }
         this.file = file;
@@ -59,15 +53,11 @@ public class SeekableOutputStream extends OutputStream {
         file.write(b, off, len);
     }
 
-    /**
-     * Invokes <code>getFD().sync()</code> on the underlying
-     * <code>RandomAccessFile</code>.
-     */
+    /** Invokes <code>getFD().sync()</code> on the underlying <code>RandomAccessFile</code>. */
     public void flush() throws IOException {
-	// Fix: 4636212.  When this FIleDescriptor is not valid, do nothing.
-	FileDescriptor fd = file.getFD();
-        if(fd.valid()) 
-	    fd.sync();
+        // Fix: 4636212.  When this FIleDescriptor is not valid, do nothing.
+        FileDescriptor fd = file.getFD();
+        if (fd.valid()) fd.sync();
     }
 
     public void close() throws IOException {

@@ -18,7 +18,6 @@
 package org.eclipse.imagen.media.rmi;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
@@ -31,10 +30,9 @@ import org.eclipse.imagen.remote.SerializableState;
 import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
- * This class is a serializable proxy for a Raster from which the
- * Raster may be reconstituted.
+ * This class is a serializable proxy for a Raster from which the Raster may be reconstituted.
  *
- *	   - modified from RasterProxy.
+ * <p>- modified from RasterProxy.
  *
  * @since 1.1
  */
@@ -42,9 +40,7 @@ public class RasterState extends SerializableStateImpl {
 
     /** The supported classes */
     public static Class[] getSupportedClasses() {
-        return new Class[] {
-	    Raster.class,
-            WritableRaster.class};
+        return new Class[] {Raster.class, WritableRaster.class};
     }
 
     /** Support subclasses as Raster is a factory class. */
@@ -53,24 +49,23 @@ public class RasterState extends SerializableStateImpl {
     }
 
     /**
-      * Constructs a <code>RasterState</code> from a
-      * <code>Raster</code>.
-      *
-      * @param c The <code>Raster</code> subclass.
-      * @param o The <code>Raster</code> object to be serialized.
-      * @param h The <code>RenderingHints</code> (ignored).
-      */
+     * Constructs a <code>RasterState</code> from a <code>Raster</code>.
+     *
+     * @param c The <code>Raster</code> subclass.
+     * @param o The <code>Raster</code> object to be serialized.
+     * @param h The <code>RenderingHints</code> (ignored).
+     */
     public RasterState(Class c, Object o, RenderingHints h) {
         super(c, o, h);
     }
 
     /**
-      * Serialize the <code>RasterState</code>.
-      *
-      * @param out The <code>ObjectOutputStream</code>.
-      */
+     * Serialize the <code>RasterState</code>.
+     *
+     * @param out The <code>ObjectOutputStream</code>.
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
-        Raster raster = (Raster)theObject;
+        Raster raster = (Raster) theObject;
         Raster r;
 
         if (raster.getParent() != null) {
@@ -79,7 +74,7 @@ public class RasterState extends SerializableStateImpl {
             // not share the SampleModel and DataBuffer of the parent.
             // Fix : 4631478
             r = raster.createCompatibleWritableRaster(raster.getBounds());
-            ((WritableRaster)r).setRect(raster);
+            ((WritableRaster) r).setRect(raster);
         } else {
             r = raster;
         }
@@ -92,12 +87,11 @@ public class RasterState extends SerializableStateImpl {
     }
 
     /**
-      * Deserialize the <code>RasterState</code>.
-      *
-      * @param out The <code>ObjectInputStream</code>.
-      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+     * Deserialize the <code>RasterState</code>.
+     *
+     * @param out The <code>ObjectInputStream</code>.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         int width;
         int height;
         SerializableState sampleModelState = null;
@@ -106,19 +100,19 @@ public class RasterState extends SerializableStateImpl {
 
         width = in.readInt();
         height = in.readInt();
-        sampleModelState = (SerializableState)in.readObject();
-        dataBufferState = (SerializableState)in.readObject();
-        location = (Point)in.readObject();
+        sampleModelState = (SerializableState) in.readObject();
+        dataBufferState = (SerializableState) in.readObject();
+        location = (Point) in.readObject();
 
         // Restore the SampleModel from its serialized form.
-        SampleModel sampleModel = (SampleModel)sampleModelState.getObject();
+        SampleModel sampleModel = (SampleModel) sampleModelState.getObject();
         if (sampleModel == null) {
             theObject = null;
             return;
         }
 
         // Restore the DataBuffer from its serialized form.
-        DataBuffer dataBuffer = (DataBuffer)dataBufferState.getObject();
+        DataBuffer dataBuffer = (DataBuffer) dataBufferState.getObject();
 
         // Reconstruct the Raster.
         theObject = Raster.createRaster(sampleModel, dataBuffer, location);

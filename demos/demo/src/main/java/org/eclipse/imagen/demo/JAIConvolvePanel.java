@@ -8,33 +8,34 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.image.renderable.*;
 import java.awt.event.*;
+import java.awt.image.renderable.*;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
 
 public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
 
-    static final String[] kernelLabels = { "Normal",
-                                           "Blur",
-                                           "Blur More",
-                                           "Sharpen",
-                                           "Sharpen More",
-                                           "Detect Edges",
-                                           "Emboss",
-                                           "Gaussian (3x3)",
-                                           "Gaussian (5x5)",
-                                           "Gaussian (7x7)",
-                                           "Gaussian (9x9)",
-                                           "Gaussian (11x11)",
-                                           "Gaussian (21x21)",
-                                           "Gaussian (31x31)",
-                                           "Gaussian (41x41)",
-                                           "Gaussian (51x51)",
-                                           "Gaussian (61x61)",
-                                           "Gaussian (71x71)"
+    static final String[] kernelLabels = {
+        "Normal",
+        "Blur",
+        "Blur More",
+        "Sharpen",
+        "Sharpen More",
+        "Detect Edges",
+        "Emboss",
+        "Gaussian (3x3)",
+        "Gaussian (5x5)",
+        "Gaussian (7x7)",
+        "Gaussian (9x9)",
+        "Gaussian (11x11)",
+        "Gaussian (21x21)",
+        "Gaussian (31x31)",
+        "Gaussian (41x41)",
+        "Gaussian (51x51)",
+        "Gaussian (61x61)",
+        "Gaussian (71x71)"
     };
 
     JComboBox kernelBox;
@@ -62,63 +63,54 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
     }
 
     private KernelJAI makeGaussianKernel(int radius) {
-        int diameter = 2*radius + 1;
-        float invrsq = 1.0F/(radius*radius);
+        int diameter = 2 * radius + 1;
+        float invrsq = 1.0F / (radius * radius);
 
         float[] gaussianData = new float[diameter];
 
         float sum = 0.0F;
         for (int i = 0; i < diameter; i++) {
             float d = i - radius;
-            float val = (float)Math.exp(-d*d*invrsq);
+            float val = (float) Math.exp(-d * d * invrsq);
             gaussianData[i] = val;
-            sum += val;        
+            sum += val;
         }
 
         // Normalize
-        float invsum = 1.0F/sum;
+        float invsum = 1.0F / sum;
         for (int i = 0; i < diameter; i++) {
             gaussianData[i] *= invsum;
         }
 
-        return new KernelJAI(diameter, diameter, radius, radius,
-                             gaussianData, gaussianData);
+        return new KernelJAI(diameter, diameter, radius, radius, gaussianData, gaussianData);
     }
 
     private void initKernels() {
         kernels = new KernelJAI[kernelLabels.length];
 
-        float[] normalData      = {  1.0F };
+        float[] normalData = {1.0F};
 
-        float[] blurData        = {  0.0F,        1.0F/ 8.0F,  0.0F,
-                                     1.0F/ 8.0F,  4.0F/ 8.0F,  1.0F/ 8.0F,
-                                     0.0F,        1.0F/ 8.0F,  0.0F
+        float[] blurData = {0.0F, 1.0F / 8.0F, 0.0F, 1.0F / 8.0F, 4.0F / 8.0F, 1.0F / 8.0F, 0.0F, 1.0F / 8.0F, 0.0F};
+
+        float[] blurMoreData = {
+            1.0F / 14.0F, 2.0F / 14.0F, 1.0F / 14.0F,
+            2.0F / 14.0F, 2.0F / 14.0F, 2.0F / 14.0F,
+            1.0F / 14.0F, 2.0F / 14.0F, 1.0F / 14.0F
         };
 
-        float[] blurMoreData    = {  1.0F/14.0F,  2.0F/14.0F,  1.0F/14.0F,
-                                     2.0F/14.0F,  2.0F/14.0F,  2.0F/14.0F,
-                                     1.0F/14.0F,  2.0F/14.0F,  1.0F/14.0F
+        float[] sharpenData = {
+            0.0F, -1.0F / 4.0F, 0.0F, -1.0F / 4.0F, 8.0F / 4.0F, -1.0F / 4.0F, 0.0F, -1.0F / 4.0F, 0.0F
         };
 
-        float[] sharpenData     = {  0.0F,       -1.0F/ 4.0F,  0.0F,
-                                    -1.0F/ 4.0F,  8.0F/ 4.0F, -1.0F/ 4.0F,
-                                     0.0F,       -1.0F/ 4.0F,  0.0F
+        float[] sharpenMoreData = {
+            -1.0F / 4.0F, -1.0F / 4.0F, -1.0F / 4.0F,
+            -1.0F / 4.0F, 12.0F / 4.0F, -1.0F / 4.0F,
+            -1.0F / 4.0F, -1.0F / 4.0F, -1.0F / 4.0F
         };
 
-        float[] sharpenMoreData = { -1.0F/ 4.0F, -1.0F/ 4.0F, -1.0F/ 4.0F,
-                                    -1.0F/ 4.0F, 12.0F/ 4.0F, -1.0F/ 4.0F,
-                                    -1.0F/ 4.0F, -1.0F/ 4.0F, -1.0F/ 4.0F
-        };
+        float[] edgeData = {0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F};
 
-        float[] edgeData =        {  0.0F,       -1.0F,        0.0F,
-                                    -1.0F,        4.0F,       -1.0F,
-                                     0.0F,       -1.0F,        0.0F
-        };
-
-        float[] embossData =      { -5.0F,        0.0F,        0.0F,
-                                     0.0F,        1.0F,        0.0F,
-                                     0.0F,        0.0F,        5.0F
-        };
+        float[] embossData = {-5.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 5.0F};
 
         kernels[0] = new KernelJAI(1, 1, 0, 0, normalData);
         kernels[1] = new KernelJAI(3, 3, 1, 1, blurData);
@@ -157,20 +149,19 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
         return JAI.create("convolve", paramBlock, renderHints);
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     public void animate() {
         try {
             int current = kernelBox.getSelectedIndex() + 1;
 
-            if ( current >= kernelLabels.length ) {
+            if (current >= kernelLabels.length) {
                 current = 0;
             }
 
             kernelBox.setSelectedIndex(current);
             Thread.sleep(500);
-        } catch( InterruptedException e ) {
+        } catch (InterruptedException e) {
         }
     }
 
@@ -184,7 +175,7 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
             return;
         }
 
-        String item = (String)e.getItem();
+        String item = (String) e.getItem();
         for (int i = 0; i < kernelLabels.length; i++) {
             if (item.equals(kernelLabels[i])) {
                 kernel = kernels[i];

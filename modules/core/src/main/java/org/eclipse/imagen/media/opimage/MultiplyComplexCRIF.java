@@ -16,49 +16,43 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "MultiplyComplex" operation in the
- * rendered and renderable image layers.
+ * A <code>CRIF</code> supporting the "MultiplyComplex" operation in the rendered and renderable image layers.
  *
  * @since EA4
  * @see org.eclipse.imagen.operator.MultiplyComplexDescriptor
  * @see ComplexArithmeticOpImage
- *
  */
 public class MultiplyComplexCRIF extends CRIFImpl {
 
-     /** Constructor. */
+    /** Constructor. */
     public MultiplyComplexCRIF() {
         super("multiplycomplex");
     }
 
     /**
-     * Creates a new instance of <code>ComplexArithmeticOpImage</code> in the
-     * rendered layer. This method satisifies the implementation of RIF.
+     * Creates a new instance of <code>ComplexArithmeticOpImage</code> in the rendered layer. This method satisifies the
+     * implementation of RIF.
      *
-     * @param paramBlock   The two source images to be multiplied.
-     * @param renderHints  Optionally contains destination image layout.     
+     * @param paramBlock The two source images to be multiplied.
+     * @param renderHints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
-        return new ComplexArithmeticOpImage(paramBlock.getRenderedSource(0),
-                                            paramBlock.getRenderedSource(1),
-                                            renderHints,
-                                            layout,
-                                            false); // false implies multiply
+        return new ComplexArithmeticOpImage(
+                paramBlock.getRenderedSource(0),
+                paramBlock.getRenderedSource(1),
+                renderHints,
+                layout,
+                false); // false implies multiply
     }
 }

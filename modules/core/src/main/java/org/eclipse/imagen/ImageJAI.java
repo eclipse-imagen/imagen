@@ -17,8 +17,5 @@
 
 package org.eclipse.imagen;
 
-/**
- * An interface implemented by all JAI image classes.
- */
-public interface ImageJAI extends WritablePropertySource {
-}
+/** An interface implemented by all JAI image classes. */
+public interface ImageJAI extends WritablePropertySource {}

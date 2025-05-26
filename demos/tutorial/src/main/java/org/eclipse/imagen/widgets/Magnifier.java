@@ -9,23 +9,21 @@ package org.eclipse.imagen.widgets;
 
 import java.awt.*;
 import java.awt.color.*;
-import java.awt.image.*;
-import java.awt.image.renderable.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import org.eclipse.imagen.*;
+import java.awt.image.*;
+import java.awt.image.renderable.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.border.*;
+import javax.swing.event.*;
+import org.eclipse.imagen.*;
 
 /**
- * An output widget used as a magnifing glass derived from
- * javax.swing.JComponent, and can be used in any context
- * that calls for a * JComponent.
+ * An output widget used as a magnifing glass derived from javax.swing.JComponent, and can be used in any context that
+ * calls for a * JComponent.
  *
  * @author Dennis Sigel
  */
-
 public class Magnifier extends JComponent {
 
     private PlanarImage image;
@@ -41,13 +39,13 @@ public class Magnifier extends JComponent {
         parent.addMouseListener(new MouseClickHandler());
         parent.addMouseMotionListener(new MouseMotionHandler());
 
-        if ( parent instanceof ImageDisplay ) {
-            image = (PlanarImage)((ImageDisplay)parent).getImage();
+        if (parent instanceof ImageDisplay) {
+            image = (PlanarImage) ((ImageDisplay) parent).getImage();
         }
     }
 
     public void setMagnification(float f) {
-        if ( f < 0.005 ) {
+        if (f < 0.005) {
             magnification = 0.005F;
         } else {
             magnification = f;
@@ -57,16 +55,14 @@ public class Magnifier extends JComponent {
     }
 
     /**
-     * Paint the image onto a Graphics object.  The painting is
-     * performed tile-by-tile, and includes a grey region covering the
-     * unused portion of image tiles as well as the general
-     * background.
+     * Paint the image onto a Graphics object. The painting is performed tile-by-tile, and includes a grey region
+     * covering the unused portion of image tiles as well as the general background.
      */
     public synchronized void paintComponent(Graphics g) {
 
         Graphics2D g2D = null;
         if (g instanceof Graphics2D) {
-            g2D = (Graphics2D)g;
+            g2D = (Graphics2D) g;
         } else {
             System.err.println("not a Graphic2D");
             return;
@@ -75,50 +71,50 @@ public class Magnifier extends JComponent {
         g2D.setColor(getBackground());
         g2D.fillRect(0, 0, getWidth(), getHeight());
 
-        if ( image != null ) {
+        if (image != null) {
             Dimension d = getSize();
             Point p = getLocation();
             Insets insets = parent.getInsets();
 
             // area to crop (plus a bit)
-            int w = (int)((float)d.width  / magnification + .5F) + 1;
-            int h = (int)((float)d.height / magnification + .5F) + 1;
+            int w = (int) ((float) d.width / magnification + .5F) + 1;
+            int h = (int) ((float) d.height / magnification + .5F) + 1;
 
-            int x = p.x + (d.width  - w)/2 - insets.left;
-            int y = p.y + (d.height - h)/2 - insets.top;
+            int x = p.x + (d.width - w) / 2 - insets.left;
+            int y = p.y + (d.height - h) / 2 - insets.top;
 
             // must clip for cropping
-            if ( x < 0 ) x = 0;
-            if ( y < 0 ) y = 0;
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
 
-            if ( (x + w) > image.getWidth() ) {
+            if ((x + w) > image.getWidth()) {
                 w = image.getWidth() - x;
             }
 
-            if ( (y + h) > image.getHeight() ) {
+            if ((y + h) > image.getHeight()) {
                 h = image.getHeight() - y;
             }
 
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(image);
-            pb.add((float)x);
-            pb.add((float)y);
-            pb.add((float)w);
-            pb.add((float)h);
+            pb.add((float) x);
+            pb.add((float) y);
+            pb.add((float) w);
+            pb.add((float) h);
             RenderedOp tmp = JAI.create("crop", pb, null);
 
-            RenderedOp dst = JAI.create("scale",
-                                         tmp,
-                                         magnification,
-                                         magnification,
-                                         (float)-x*magnification,
-                                         (float)-y*magnification,
-                                         Interpolation.getInstance(Interpolation.INTERP_BILINEAR));
+            RenderedOp dst = JAI.create(
+                    "scale",
+                    tmp,
+                    magnification,
+                    magnification,
+                    (float) -x * magnification,
+                    (float) -y * magnification,
+                    Interpolation.getInstance(Interpolation.INTERP_BILINEAR));
 
-            ((OpImage)dst.getRendering()).setTileCache(null);
+            ((OpImage) dst.getRendering()).setTileCache(null);
 
-            g2D.drawRenderedImage(dst,
-                                  AffineTransform.getTranslateInstance(0, 0));
+            g2D.drawRenderedImage(dst, AffineTransform.getTranslateInstance(0, 0));
         }
     }
 
@@ -126,23 +122,22 @@ public class Magnifier extends JComponent {
     class MouseClickHandler extends MouseAdapter {
         public void mousePressed(MouseEvent e) {
             int mods = e.getModifiers();
-            Point p  = e.getPoint();
+            Point p = e.getPoint();
 
-            if ( (mods & InputEvent.BUTTON1_MASK) != 0 ) {
+            if ((mods & InputEvent.BUTTON1_MASK) != 0) {
                 moveit(p.x, p.y);
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
-        }
+        public void mouseReleased(MouseEvent e) {}
     }
 
     class MouseMotionHandler extends MouseMotionAdapter {
         public void mouseDragged(MouseEvent e) {
-            Point p  = e.getPoint();
+            Point p = e.getPoint();
             int mods = e.getModifiers();
 
-            if ( (mods & InputEvent.BUTTON1_MASK) != 0 ) {
+            if ((mods & InputEvent.BUTTON1_MASK) != 0) {
                 moveit(p.x, p.y);
             }
         }
@@ -158,10 +153,10 @@ public class Magnifier extends JComponent {
         int x = px - pw;
         int y = py - ph;
 
-        if ( px < inset.left ) x = -pw + inset.left;
-        if ( py < inset.top  ) y = -ph + inset.top;
-        if ( px >= (dp.width  - inset.right ) ) x = dp.width  - pw - inset.right;
-        if ( py >= (dp.height - inset.bottom) ) y = dp.height - ph - inset.bottom;
+        if (px < inset.left) x = -pw + inset.left;
+        if (py < inset.top) y = -ph + inset.top;
+        if (px >= (dp.width - inset.right)) x = dp.width - pw - inset.right;
+        if (py >= (dp.height - inset.bottom)) y = dp.height - ph - inset.bottom;
 
         // magnifier origin
         setLocation(x, y);

@@ -7,38 +7,33 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.util.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.image.renderable.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widgets.*;
 
-
-public class RenderableScale extends JPanel
-                             implements ChangeListener {
+public class RenderableScale extends JPanel implements ChangeListener {
 
     private RenderableDisplay canvas = null;
-    private final int width  = 185;
+    private final int width = 185;
     private final int height = 173;
 
     public RenderableScale(String base) {
 
         Vector sources = new Vector();
 
-        for (int i = 3; i >= 0; i-- ) {
+        for (int i = 3; i >= 0; i--) {
             int ext = i + 1;
             String file = base + ext + ".jpg";
             RenderedImage im = JAI.create("fileload", file);
             sources.addElement(im);
         }
 
-        RenderableImage r = new MultiResolutionRenderableImage(sources,
-                                                               0.0F,
-                                                               0.0F,
-                                                               1.0F);
+        RenderableImage r = new MultiResolutionRenderableImage(sources, 0.0F, 0.0F, 1.0F);
 
         setLayout(new BorderLayout());
 

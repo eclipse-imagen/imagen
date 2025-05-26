@@ -21,19 +21,17 @@ import java.awt.RenderingHints;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Hashtable;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.remote.SerializableState;
 import org.eclipse.imagen.remote.Serializer;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
- * Class enabling serialization of an object which implements multiple
- * interfacs supported by SerializerFactory.
+ * Class enabling serialization of an object which implements multiple interfacs supported by SerializerFactory.
  *
  * @since 1.1
  */
@@ -43,15 +41,13 @@ public class InterfaceState implements SerializableState {
     private transient Serializer[] theSerializers; // Not deserialized.
     private transient RenderingHints hints; // Not deserialized.
 
-    public InterfaceState(Object o,
-                          Serializer[] serializers,
-                          RenderingHints h) {
-        if(o == null || serializers == null) {
+    public InterfaceState(Object o, Serializer[] serializers, RenderingHints h) {
+        if (o == null || serializers == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
         theObject = o;
         theSerializers = serializers;
-        hints = h == null ? null : (RenderingHints)h.clone();
+        hints = h == null ? null : (RenderingHints) h.clone();
     }
 
     public Object getObject() {
@@ -63,15 +59,15 @@ public class InterfaceState implements SerializableState {
     }
 
     /**
-      * Serialize the <code>InterfaceState</code>.
-      *
-      * @param out The <code>ObjectOutputStream</code>.
-      */
+     * Serialize the <code>InterfaceState</code>.
+     *
+     * @param out The <code>ObjectOutputStream</code>.
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
 
         int numSerializers = theSerializers.length;
         out.writeInt(numSerializers);
-        for(int i = 0; i < numSerializers; i++) {
+        for (int i = 0; i < numSerializers; i++) {
             Serializer s = theSerializers[i];
             out.writeObject(s.getSupportedClass());
             out.writeObject(s.getState(theObject, hints));
@@ -79,50 +75,43 @@ public class InterfaceState implements SerializableState {
     }
 
     /**
-      * Deserialize the <code>InterfaceState</code>.
-      *
-      * @param out The <code>ObjectInputStream</code>.
-      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+     * Deserialize the <code>InterfaceState</code>.
+     *
+     * @param out The <code>ObjectInputStream</code>.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 
         int numInterfaces = in.readInt();
         Class[] interfaces = new Class[numInterfaces];
-        SerializableState[] implementations =
-            new SerializableState[numInterfaces];
-        for(int i = 0; i < numInterfaces; i++) {
-            interfaces[i] = (Class)in.readObject();
-            implementations[i] = (SerializableState)in.readObject();
+        SerializableState[] implementations = new SerializableState[numInterfaces];
+        for (int i = 0; i < numInterfaces; i++) {
+            interfaces[i] = (Class) in.readObject();
+            implementations[i] = (SerializableState) in.readObject();
         }
 
-        InvocationHandler handler =
-            new InterfaceHandler(interfaces, implementations);
+        InvocationHandler handler = new InterfaceHandler(interfaces, implementations);
 
-        theObject =
-            Proxy.newProxyInstance(JAI.class.getClassLoader(),
-                                   interfaces,
-                                   handler);
+        theObject = Proxy.newProxyInstance(JAI.class.getClassLoader(), interfaces, handler);
     }
 }
 
 class InterfaceHandler implements InvocationHandler {
     private Hashtable interfaceMap;
 
-    public InterfaceHandler(Class[] interfaces,
-                            SerializableState[] implementations) {
-        if(interfaces == null || implementations == null) {
+    public InterfaceHandler(Class[] interfaces, SerializableState[] implementations) {
+        if (interfaces == null || implementations == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
-        } else if(interfaces.length != implementations.length) {
+        } else if (interfaces.length != implementations.length) {
             throw new IllegalArgumentException(JaiI18N.getString("InterfaceHandler0"));
         }
 
         int numInterfaces = interfaces.length;
         interfaceMap = new Hashtable(numInterfaces);
-        for(int i = 0; i < numInterfaces; i++) {
+        for (int i = 0; i < numInterfaces; i++) {
             Class iface = interfaces[i];
             SerializableState state = implementations[i];
 
-            if(!iface.isAssignableFrom(state.getObjectClass())) {
+            if (!iface.isAssignableFrom(state.getObjectClass())) {
                 throw new RuntimeException(JaiI18N.getString("InterfaceHandler1"));
             }
 
@@ -132,31 +121,28 @@ class InterfaceHandler implements InvocationHandler {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args)
-        throws IllegalAccessException, InvocationTargetException {
+            throws IllegalAccessException, InvocationTargetException {
         Class key = method.getDeclaringClass();
-        if(!interfaceMap.containsKey(key)) {
-            Class[] classes =
-                (Class[])interfaceMap.keySet().toArray(new Class[0]);
-            for(int i = 0; i < classes.length; i++) {
+        if (!interfaceMap.containsKey(key)) {
+            Class[] classes = (Class[]) interfaceMap.keySet().toArray(new Class[0]);
+            for (int i = 0; i < classes.length; i++) {
                 Class aClass = classes[i];
-                if(key.isAssignableFrom(aClass)) {
+                if (key.isAssignableFrom(aClass)) {
                     interfaceMap.put(key, interfaceMap.get(aClass));
                     break;
                 }
             }
-            if(!interfaceMap.containsKey(key)) {
-                throw new RuntimeException(key.getName()+
-                                           JaiI18N.getString("InterfaceHandler2"));
+            if (!interfaceMap.containsKey(key)) {
+                throw new RuntimeException(key.getName() + JaiI18N.getString("InterfaceHandler2"));
             }
         }
 
-        Object result= null;
+        Object result = null;
         try {
             Object impl = interfaceMap.get(key);
             result = method.invoke(impl, args);
-        } catch(IllegalAccessException e) {
-            throw new RuntimeException(method.getName()+
-                                       JaiI18N.getString("InterfaceHandler3"));
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(method.getName() + JaiI18N.getString("InterfaceHandler3"));
         }
 
         return result;

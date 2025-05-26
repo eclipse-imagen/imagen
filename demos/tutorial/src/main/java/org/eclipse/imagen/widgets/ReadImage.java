@@ -11,16 +11,15 @@ import java.io.*;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 
-
 public class ReadImage {
 
     public static PlanarImage getImage(String filename) {
         PlanarImage src = null;
 
-        if ( filename != null ) {
+        if (filename != null) {
             File f = new File(filename);
 
-            if ( f.exists() && f.canRead() ) {
+            if (f.exists() && f.canRead()) {
                 src = JAI.create("fileload", filename);
             } else {
                 // custom file reader

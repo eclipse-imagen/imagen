@@ -20,12 +20,10 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "maskShape"
- * parameter of the "MaxFilter" operation.  Acceptable values for the
- * "maskShape" parameter are defined in the <code>MaxFilterDescriptor</code>
- * by the constants <code>MAX_MASK_SQUARE</code>, <code>MAX_MASK_PLUS</code>,
- * <code>MAX_MASK_X</code>, and
- * <code>MAX_MASK_SQUARE_SEPARABLE</code>.
+ * Class used to represent the acceptable values of the "maskShape" parameter of the "MaxFilter" operation. Acceptable
+ * values for the "maskShape" parameter are defined in the <code>MaxFilterDescriptor</code> by the constants <code>
+ * MAX_MASK_SQUARE</code>, <code>MAX_MASK_PLUS</code>, <code>MAX_MASK_X</code>, and <code>MAX_MASK_SQUARE_SEPARABLE
+ * </code>.
  *
  * @since JAI 1.1
  */

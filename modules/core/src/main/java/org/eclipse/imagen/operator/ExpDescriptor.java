@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.operator;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
@@ -30,16 +31,16 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 /**
  * An <code>OperationDescriptor</code> describing the "Exp" operation.
  *
- * <p> The "Exp" operation takes the exponential of the pixel values
- * of an image. The pixel values of the destination image are defined
- * by the pseudocode:
+ * <p>The "Exp" operation takes the exponential of the pixel values of an image. The pixel values of the destination
+ * image are defined by the pseudocode:
  *
  * <pre>dst[x][y][b] = java.lang.Math.exp(src[x][y][b])</pre>
  *
- * <p> For integral image datatypes, the result will be rounded and clamped
- * as needed.
+ * <p>For integral image datatypes, the result will be rounded and clamped as needed.
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
  * <tr><td>GlobalName</td>  <td>Exp</td></tr>
@@ -49,25 +50,27 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                              of an image.</td></tr>
  * <tr><td>DocURL</td>      <td>http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ExpDescriptor.html</td></tr>
  * <tr><td>Version</td>     <td>1.0</td></tr>
- * </table></p>
+ * </table>
  *
- * <p> No parameters are needed for the "Exp" operation.
+ * <p>No parameters are needed for the "Exp" operation.
  *
  * @see org.eclipse.imagen.OperationDescriptor
  */
 public class ExpDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation
-     * and specify the parameter list for this operation.
+     * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "Exp"},
-        {"LocalName",   "Exp"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "Exp"},
+        {"LocalName", "Exp"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("ExpDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ExpDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion")}
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ExpDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion")}
     };
 
     /** Constructor. */
@@ -80,29 +83,22 @@ public class ExpDescriptor extends OperationDescriptorImpl {
         return true;
     }
 
-
     /**
      * Computes the exponential of the pixel values of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param source0 <code>RenderedImage</code> source 0.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Exp",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(RenderedImage source0, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Exp", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -112,25 +108,19 @@ public class ExpDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the exponential of the pixel values of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderableOp
-     *
      * @param source0 <code>RenderableImage</code> source 0.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderableOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderableOp createRenderable(RenderableImage source0,
-                                                RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Exp",
-                                  RenderableRegistryMode.MODE_NAME);
+    public static RenderableOp createRenderable(RenderableImage source0, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Exp", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

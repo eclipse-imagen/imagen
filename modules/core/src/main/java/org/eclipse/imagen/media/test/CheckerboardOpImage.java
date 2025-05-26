@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.test;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
@@ -24,8 +25,8 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.SourcelessOpImage;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.SourcelessOpImage;
 
 /** Defines a checkerboard image for testing purpose. */
 final class CheckerboardOpImage extends SourcelessOpImage {
@@ -37,34 +38,37 @@ final class CheckerboardOpImage extends SourcelessOpImage {
     private int numColors;
 
     /** Defines a checkerboard image of several grey shades. */
-    public CheckerboardOpImage(int minX, int minY,
-                               int width, int height,
-                               SampleModel sampleModel,
-                               Map configuration,
-                               ImageLayout layout,
-                               int checkerSize,
-                               int numColors) {
+    public CheckerboardOpImage(
+            int minX,
+            int minY,
+            int width,
+            int height,
+            SampleModel sampleModel,
+            Map configuration,
+            ImageLayout layout,
+            int checkerSize,
+            int numColors) {
         super(layout, configuration, sampleModel, minX, minY, width, height);
 
         if (numColors < 2) {
-           numColors = 2;
+            numColors = 2;
         }
         this.checkerSize = checkerSize;
         this.numColors = numColors;
 
         switch (sampleModel.getTransferType()) {
-        case DataBuffer.TYPE_BYTE:
-            increment = 255 / (numColors - 1);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            increment = 65535 / (numColors - 1);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            increment = Short.MAX_VALUE / (numColors - 1);
-            break;
-        case DataBuffer.TYPE_INT:
-            increment = Integer.MAX_VALUE / (numColors - 1);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                increment = 255 / (numColors - 1);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                increment = 65535 / (numColors - 1);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                increment = Short.MAX_VALUE / (numColors - 1);
+                break;
+            case DataBuffer.TYPE_INT:
+                increment = Integer.MAX_VALUE / (numColors - 1);
+                break;
         }
     }
 
@@ -72,13 +76,9 @@ final class CheckerboardOpImage extends SourcelessOpImage {
         int orgX = tileXToX(tileX);
         int orgY = tileYToY(tileY);
 
-        WritableRaster dst = 
-            RasterFactory.createWritableRaster(
-            sampleModel, new Point(orgX, orgY));
+        WritableRaster dst = RasterFactory.createWritableRaster(sampleModel, new Point(orgX, orgY));
 
-        Rectangle rect = new Rectangle(orgX, orgY,
-                                       sampleModel.getWidth(),
-                                       sampleModel.getHeight());
+        Rectangle rect = new Rectangle(orgX, orgY, sampleModel.getWidth(), sampleModel.getHeight());
         rect = rect.intersection(getBounds());
 
         int numBands = sampleModel.getNumBands();

@@ -16,7 +16,7 @@
  */
 
 package org.eclipse.imagen.operator;
-import org.eclipse.imagen.media.util.AreaOpPropertyGenerator;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.JAI;
@@ -25,20 +25,18 @@ import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.util.AreaOpPropertyGenerator;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
- *
  * An <code>OperationDescriptor</code> describing the "Erode" operation.
- * 
- * <p> <b>Gray Scale Erosion</b>
- * is a spatial operation that computes
- * each output sample by subtracting elements of a kernel from the samples
- * surrounding a particular source sample.
- * The mathematical formulation for erosion operation is:
  *
- * <p> For a kernel K with a key position (xKey, yKey), the erosion
- * of image I at (x,y) is given by:
+ * <p><b>Gray Scale Erosion</b> is a spatial operation that computes each output sample by subtracting elements of a
+ * kernel from the samples surrounding a particular source sample. The mathematical formulation for erosion operation
+ * is:
+ *
+ * <p>For a kernel K with a key position (xKey, yKey), the erosion of image I at (x,y) is given by:
+ *
  * <pre>
  *     max{ f:  f + K(xKey+i, yKey+j) <= I(x+i,y+j): all (i,j)}
  *
@@ -46,30 +44,30 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *      are in bounds. Otherwise, the value is set to 0.
  *      "f" represents all possible floats satisfying the restriction.
  *
- * </pre> 
- * <p> Intuitively, the kernel is like an unbrella and the key point
- * is the handle. At every point, you try to push the umbrella up as high
- * as possible but still underneath the image surface. The final height
- * of the handle is the value after erosion. Thus if you want the image
- * to erode from the upper right to bottom left, the following would do.
+ * </pre>
+ *
+ * <p>Intuitively, the kernel is like an unbrella and the key point is the handle. At every point, you try to push the
+ * umbrella up as high as possible but still underneath the image surface. The final height of the handle is the value
+ * after erosion. Thus if you want the image to erode from the upper right to bottom left, the following would do.
  *
  * <p><center>
+ *
  * <table border=1>
  * <tr align=center><td>0</td><td>0</td><td>X</td> </tr>
  * <tr align=center><td>0</td><td>X</td><td>0</td> </tr>
  * <tr align=center><td><b>X</b></td><td>0</td><td>0</td> </tr>
- * </table></center>
+ * </table>
  *
- * <p> Note that even if every entry of a kernel is zero,
- * the erosion changes the image. Different key positions
- * will also lead to different erosion results for such zero kernels.
+ * </center>
  *
- * <p> Pseudo code for the erosion operation is as follows.
- * Assuming the kernel K is of size M rows x N cols
- * and the key position is (xKey, yKey).
- * 
+ * <p>Note that even if every entry of a kernel is zero, the erosion changes the image. Different key positions will
+ * also lead to different erosion results for such zero kernels.
+ *
+ * <p>Pseudo code for the erosion operation is as follows. Assuming the kernel K is of size M rows x N cols and the key
+ * position is (xKey, yKey).
+ *
  * <pre>
- * 
+ *
  * // erosion
  * for every dst pixel location (x,y){
  *    tmp = infinity;
@@ -86,24 +84,20 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * }
  * </pre>
  *
- * <p> The kernel cannot be bigger in any dimension than the image data.
+ * <p>The kernel cannot be bigger in any dimension than the image data.
  *
- * <p> <b>Binary Image Erosion</b>
- * requires the kernel to be binary, that is, to have values 0 and 1
- * for each kernel entry.
- * Intuitively, binary erosion slides the kernel
- * key position and place it at every point (x,y) in the src image.
- * The dst value at this position is set to 1 if the entire kernel lies
- * within the image bounds and the src image value is 1
- * wherever the corresponding kernel value is 1."
- * Otherwise, the value after erosion at (x,y) is set to 0.
- * Erosion usually shrinks images, but it can fill holes
- * with kernels like 
+ * <p><b>Binary Image Erosion</b> requires the kernel to be binary, that is, to have values 0 and 1 for each kernel
+ * entry. Intuitively, binary erosion slides the kernel key position and place it at every point (x,y) in the src image.
+ * The dst value at this position is set to 1 if the entire kernel lies within the image bounds and the src image value
+ * is 1 wherever the corresponding kernel value is 1." Otherwise, the value after erosion at (x,y) is set to 0. Erosion
+ * usually shrinks images, but it can fill holes with kernels like
+ *
  * <pre> [1 0 1] </pre>
+ *
  * and the key position at the center.
  *
- * <p> Pseudo code for the binary erosion operation is as follows.
- * 
+ * <p>Pseudo code for the binary erosion operation is as follows.
+ *
  * <pre>
  * // erosion
  * for every dst pixel location (x,y){
@@ -131,15 +125,15 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <code>configuration</code> so that the operation is performed
  * on the pixel values instead of being performed on the indices into
  * the color map if the source(s) have an <code>IndexColorModel</code>.
- * This addition will take place only if a value for the 
+ * This addition will take place only if a value for the
  * <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already been
  * provided by the user. Note that the <code>configuration</code> Map
- * is cloned before the new hint is added to it. The operation can be 
+ * is cloned before the new hint is added to it. The operation can be
  * smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code>
  * <code>RenderingHints</code>, i.e. while the default value for the
  * <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> is
  * <code>Boolean.TRUE</code>, in some cases the operator could set the
- * default. 
+ * default.
  *
  * <p><table border=1>
  * <caption>Resource List</caption>
@@ -150,8 +144,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>Description</td> <td>Performs kernel based Erode on
  *                              an image.</td></tr>
  * <tr><td>DocURL</td>      <td>http://java.sun.com/products/java-media/jai/forD
-evelopers/jai-apidocs/javax/media/jai/operator/ErodeDescriptor.html</td
-></tr>
+ * evelopers/jai-apidocs/javax/media/jai/operator/ErodeDescriptor.html</td
+ * ></tr>
  * <tr><td>Version</td>     <td>1.1</td></tr>
  * <tr><td>arg0Desc</td>    <td>The erode kernel.</td></tr>
  * </table></p>
@@ -166,42 +160,35 @@ evelopers/jai-apidocs/javax/media/jai/operator/ErodeDescriptor.html</td
  *
  * </pre>
  *
- *
  * @see org.eclipse.imagen.KernelJAI
- *
  * @since JAI 1.1
  */
-
 public class ErodeDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation and
-     * specify the parameter list for a Erode operation.
+     * The resource strings that provide the general documentation and specify the parameter list for a Erode operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "Erode"},
-        {"LocalName",   "Erode"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "Erode"},
+        {"LocalName", "Erode"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("ErodeDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/<br>org.eclipse.imagen.operator.ErodeDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc",    JaiI18N.getString("ErodeDescriptor1")}
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/<br>org.eclipse.imagen.operator.ErodeDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"arg0Desc", JaiI18N.getString("ErodeDescriptor1")}
     };
 
     /** The parameter names for the Erode operation. */
-    private static final String[] paramNames = {
-        "kernel"
-    };
+    private static final String[] paramNames = {"kernel"};
 
     /** The parameter class types for the Erode operation. */
-    private static final Class[] paramClasses = {
-        org.eclipse.imagen.KernelJAI.class
-    };
+    private static final Class[] paramClasses = {org.eclipse.imagen.KernelJAI.class};
 
     /** The parameter default values for the Erode operation. */
-    private static final Object[] paramDefaults = {
-        NO_PARAMETER_DEFAULT
-    };
+    private static final Object[] paramDefaults = {NO_PARAMETER_DEFAULT};
 
     /** Constructor. */
     public ErodeDescriptor() {
@@ -209,43 +196,34 @@ public class ErodeDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-      * Returns an array of <code>PropertyGenerators</code> implementing
-      * property inheritance for the "Erode" operation.
-      *
-      * @return  An array of property generators.
-      */
+     * Returns an array of <code>PropertyGenerators</code> implementing property inheritance for the "Erode" operation.
+     *
+     * @return An array of property generators.
+     */
     public PropertyGenerator[] getPropertyGenerators() {
         PropertyGenerator[] pg = new PropertyGenerator[1];
         pg[0] = new AreaOpPropertyGenerator();
         return pg;
     }
 
-
     /**
      * Performs binary kernel based Erode operation on the image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param kernel The binary convolution kernel.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>kernel</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0,
-                                    KernelJAI kernel,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Erode",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(RenderedImage source0, KernelJAI kernel, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Erode", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

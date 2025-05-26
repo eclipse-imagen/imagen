@@ -15,56 +15,45 @@
  *
  */
 
-package org.eclipse.imagen.media.tilecodec ;
+package org.eclipse.imagen.media.tilecodec;
 
 import java.awt.image.Raster;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.ObjectOutputStream;
-import java.util.zip.GZIPOutputStream ;             
-import org.eclipse.imagen.JAI ;
-import org.eclipse.imagen.ParameterListDescriptor ;
-import org.eclipse.imagen.tilecodec.TileEncoderImpl ;
-import org.eclipse.imagen.tilecodec.TileCodecParameterList ;
+import java.io.OutputStream;
+import java.util.zip.GZIPOutputStream;
+import org.eclipse.imagen.tilecodec.TileCodecParameterList;
+import org.eclipse.imagen.tilecodec.TileEncoderImpl;
 
-/**
- * A concrete implementation of the <code>TileEncoderImpl</code> class
- * for the gzip tile codec.
- */
+/** A concrete implementation of the <code>TileEncoderImpl</code> class for the gzip tile codec. */
 public class GZIPTileEncoder extends TileEncoderImpl {
 
     /**
-     * Constructs an <code>GZIPTileEncoder</code>. 
+     * Constructs an <code>GZIPTileEncoder</code>.
      *
      * @param output The <code>OutputStream</code> to write encoded data to.
-     * @param param  The object containing the tile encoding parameters.
-     * @throws IllegalArgumentException if param is not the appropriate 
-     * Class type.
+     * @param param The object containing the tile encoding parameters.
+     * @throws IllegalArgumentException if param is not the appropriate Class type.
      * @throws IllegalArgumentException is output is null.
      */
     public GZIPTileEncoder(OutputStream output, TileCodecParameterList param) {
-        super("gzip", output, param) ;
+        super("gzip", output, param);
     }
 
     /**
-     * Encodes a <code>Raster</code> and writes the output
-     * to the <code>OutputStream</code> associated with this 
-     * <code>TileEncoder</code>.
+     * Encodes a <code>Raster</code> and writes the output to the <code>OutputStream</code> associated with this <code>
+     * TileEncoder</code>.
      *
      * @param ras the <code>Raster</code> to encode.
-     * @throws IOException if an I/O error occurs while writing to the 
-     * OutputStream.
+     * @throws IOException if an I/O error occurs while writing to the OutputStream.
      * @throws IllegalArgumentException if ras is null.
      */
     public void encode(Raster ras) throws IOException {
-	if(ras == null)
-	    throw new IllegalArgumentException(
-			JaiI18N.getString("TileEncoder1")) ;
+        if (ras == null) throw new IllegalArgumentException(JaiI18N.getString("TileEncoder1"));
 
-	ObjectOutputStream oos 
-	    = new ObjectOutputStream(new GZIPOutputStream(outputStream)) ;
-	Object object = TileCodecUtils.serializeRaster(ras);
-	oos.writeObject(object);
-	oos.close();
+        ObjectOutputStream oos = new ObjectOutputStream(new GZIPOutputStream(outputStream));
+        Object object = TileCodecUtils.serializeRaster(ras);
+        oos.writeObject(object);
+        oos.close();
     }
 }

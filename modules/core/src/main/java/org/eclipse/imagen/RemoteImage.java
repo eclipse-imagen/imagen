@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -24,40 +25,32 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.awt.image.renderable.RenderableImage;
 import java.awt.image.renderable.RenderContext;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Vector;
-import org.eclipse.imagen.remote.SerializableRenderedImage;
 import org.eclipse.imagen.media.rmi.RMIImage;
 import org.eclipse.imagen.media.rmi.RasterProxy;
 import org.eclipse.imagen.media.rmi.RenderContextProxy;
+import org.eclipse.imagen.remote.SerializableRenderedImage;
 
 /**
- * A sub-class of <code>PlanarImage</code> which represents an image on a
- * remote server machine.
+ * A sub-class of <code>PlanarImage</code> which represents an image on a remote server machine.
  *
- * <p> The image may be constructed from a <code>RenderedImage</code> or from
- * an imaging chain in either the rendered or renderable mode. Network errors
- * (detected via throws of <code>RemoteException</code>s) are dealt with through retries;
- * when the limit of retries is exceeded, a <code>null</code> Raster may be returned.
- * The default number of retries is set to 5 and the default timeout is set
- * to 1 second.
+ * <p>The image may be constructed from a <code>RenderedImage</code> or from an imaging chain in either the rendered or
+ * renderable mode. Network errors (detected via throws of <code>RemoteException</code>s) are dealt with through
+ * retries; when the limit of retries is exceeded, a <code>null</code> Raster may be returned. The default number of
+ * retries is set to 5 and the default timeout is set to 1 second.
  *
- * <p> Note that the registry of the server will be used. In particular if
- * an <code>OperationRegistry</code> was present in the
- * <code>RenderingHints</code> used to construct a <code>RenderedOp</code>
- * or <code>RenderableOp</code> it will not be serialized and transmitted
- * to the server.
+ * <p>Note that the registry of the server will be used. In particular if an <code>OperationRegistry</code> was present
+ * in the <code>RenderingHints</code> used to construct a <code>RenderedOp</code> or <code>RenderableOp</code> it will
+ * not be serialized and transmitted to the server.
  *
- * <p> Image layout attributes, once requested, are cached locally for speed.
+ * <p>Image layout attributes, once requested, are cached locally for speed.
  *
- * @deprecated as of JAI 1.1 in favor of
- * <code>org.eclipse.imagen.remote.RemoteJAI</code>.
- *
+ * @deprecated as of JAI 1.1 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
  */
 public class RemoteImage extends PlanarImage {
 
@@ -68,33 +61,32 @@ public class RemoteImage extends PlanarImage {
     static final int DEFAULT_NUM_RETRIES = 5;
 
     /** Index of local variable. */
-    static final int VAR_MIN_X              =  0;
+    static final int VAR_MIN_X = 0;
     /** Index of local variable. */
-    static final int VAR_MIN_Y              =  1;
+    static final int VAR_MIN_Y = 1;
     /** Index of local variable. */
-    static final int VAR_WIDTH              =  2;
+    static final int VAR_WIDTH = 2;
     /** Index of local variable. */
-    static final int VAR_HEIGHT             =  3;
+    static final int VAR_HEIGHT = 3;
     /** Index of local variable. */
-    static final int VAR_TILE_WIDTH         =  4;
+    static final int VAR_TILE_WIDTH = 4;
     /** Index of local variable. */
-    static final int VAR_TILE_HEIGHT        =  5;
+    static final int VAR_TILE_HEIGHT = 5;
     /** Index of local variable. */
-    static final int VAR_TILE_GRID_X_OFFSET =  6;
+    static final int VAR_TILE_GRID_X_OFFSET = 6;
     /** Index of local variable. */
-    static final int VAR_TILE_GRID_Y_OFFSET =  7;
+    static final int VAR_TILE_GRID_Y_OFFSET = 7;
     /** Index of local variable. */
-    static final int VAR_SAMPLE_MODEL       =  8;
+    static final int VAR_SAMPLE_MODEL = 8;
     /** Index of local variable. */
-    static final int VAR_COLOR_MODEL        =  9;
+    static final int VAR_COLOR_MODEL = 9;
     /** Index of local variable. */
-    static final int VAR_SOURCES            = 10;
+    static final int VAR_SOURCES = 10;
     /** Index of local variable. */
-    static final int NUM_VARS               = 11;
+    static final int NUM_VARS = 11;
 
     /** The class of the serializable representation of a NULL property. */
-    private static final Class NULL_PROPERTY_CLASS =
-        org.eclipse.imagen.media.rmi.RMIImageImpl.NULL_PROPERTY.getClass();
+    private static final Class NULL_PROPERTY_CLASS = org.eclipse.imagen.media.rmi.RMIImageImpl.NULL_PROPERTY.getClass();
 
     /** The RMIImage our data will come from. */
     protected RMIImage remoteImage;
@@ -103,7 +95,7 @@ public class RemoteImage extends PlanarImage {
     private Long id = null;
 
     /** Valid bits for locally cached variables. */
-    protected boolean [] fieldValid = new boolean[NUM_VARS];
+    protected boolean[] fieldValid = new boolean[NUM_VARS];
 
     /** Locally cached version of properties. */
     protected String[] propertyNames = null;
@@ -126,60 +118,54 @@ public class RemoteImage extends PlanarImage {
     /**
      * Constructs a <code>RemoteImage</code> from a <code>RenderedImage</code>.
      *
-     * <p> The <code>RenderedImage</code> source should ideally be a lightweight
-     * reference to an image available locally on the server or over a
-     * further network link.
+     * <p>The <code>RenderedImage</code> source should ideally be a lightweight reference to an image available locally
+     * on the server or over a further network link.
      *
-     * <p> Although it is legal to use any <code>RenderedImage</code>, one should be
-     * aware that this will require copying of the image data via transmission
-     * over a network link.
+     * <p>Although it is legal to use any <code>RenderedImage</code>, one should be aware that this will require copying
+     * of the image data via transmission over a network link.
      *
-     * <p> The name of the server must be supplied in the form appropriate to
-     * the implementation. In the reference port of JAI, RMI is used to
-     * implement remote imaging so that the server name must be supplied in
-     * the format
+     * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
+     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     *
      * <pre>
      * host:port
      * </pre>
-     * where the port number is optional and may be supplied only if
-     * the host name is supplied. If this parameter is <code>null</code> the default
-     * is to search for the RMIImage service on the local host at the
-     * default <i>rmiregistry</i> port (1099).
+     *
+     * where the port number is optional and may be supplied only if the host name is supplied. If this parameter is
+     * <code>null</code> the default is to search for the RMIImage service on the local host at the default
+     * <i>rmiregistry</i> port (1099).
      *
      * @param serverName The name of the server in the appropriate format.
      * @param source A <code>RenderedImage</code> source which must not be <code>null</code>.
-     * @throws IllegalArgumentException if <code>source</code> is
-     *         <code>null</code>.
+     * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      */
     public RemoteImage(String serverName, RenderedImage source) {
         super(null, null, null);
 
-        if(serverName == null) 
-            serverName = getLocalHostAddress();
+        if (serverName == null) serverName = getLocalHostAddress();
 
-	// Look for a separator indicating the remote image chaining hack
-	// in which case the serverName argument contains host[:port]::id
-	// where id is the RMI ID of the image on the indicated server.
-	int index = serverName.indexOf("::");
-	boolean remoteChainingHack = index != -1;
+        // Look for a separator indicating the remote image chaining hack
+        // in which case the serverName argument contains host[:port]::id
+        // where id is the RMI ID of the image on the indicated server.
+        int index = serverName.indexOf("::");
+        boolean remoteChainingHack = index != -1;
 
-	if(!remoteChainingHack && source == null) {
-	    // Don't throw the NullPointerException if it's the hack.
-	    throw new
-		IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
-	}
+        if (!remoteChainingHack && source == null) {
+            // Don't throw the NullPointerException if it's the hack.
+            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+        }
 
-	if(remoteChainingHack) {
-	    // Extract the RMI ID from the servername string and replace
-	    // the original serverName string with one of the usual type.
-	    id = Long.valueOf(serverName.substring(index+2));
-	    serverName = serverName.substring(0, index);
-	}
+        if (remoteChainingHack) {
+            // Extract the RMI ID from the servername string and replace
+            // the original serverName string with one of the usual type.
+            id = Long.valueOf(serverName.substring(index + 2));
+            serverName = serverName.substring(0, index);
+        }
 
         // Construct the remote RMI image.
         getRMIImage(serverName);
 
-        if(!remoteChainingHack) {
+        if (!remoteChainingHack) {
             // Get the RMI ID for this object.
             getRMIID();
         }
@@ -187,58 +173,51 @@ public class RemoteImage extends PlanarImage {
         // Cache the server name and RMI ID in a property.
         setRMIProperties(serverName);
 
-        if(source != null) { // Source may be null only for the hack.
+        if (source != null) { // Source may be null only for the hack.
             try {
-                if(source instanceof Serializable) {
+                if (source instanceof Serializable) {
                     remoteImage.setSource(id, source);
                 } else {
-                    remoteImage.setSource(id,
-                                          new
-                                          SerializableRenderedImage(source));
+                    remoteImage.setSource(id, new SerializableRenderedImage(source));
                 }
-            } catch(RemoteException e) {
+            } catch (RemoteException e) {
                 throw new RuntimeException(e.getMessage());
             }
         }
     }
 
     /**
-     * Constructs a <code>RemoteImage</code> from a <code>RenderedOp</code>,
-     * i.e., an imaging directed acyclic graph (DAG).
+     * Constructs a <code>RemoteImage</code> from a <code>RenderedOp</code>, i.e., an imaging directed acyclic graph
+     * (DAG).
      *
-     * <p> This DAG will be copied over to the server where it will be
-     * transformed into an <code>OpImage</code> chain using the server's local
-     * <code>OperationRegistry</code> and available <code>RenderedImageFactory</code> objects.
+     * <p>This DAG will be copied over to the server where it will be transformed into an <code>OpImage</code> chain
+     * using the server's local <code>OperationRegistry</code> and available <code>RenderedImageFactory</code> objects.
      *
-     * <p> The name of the server must be supplied in the form appropriate to
-     * the implementation. In the reference port of JAI, RMI is used to
-     * implement remote imaging so that the server name must be supplied in
-     * the format
+     * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
+     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     *
      * <pre>
      * host:port
      * </pre>
-     * where the port number is optional and may be supplied only if
-     * the host name is supplied. If this parameter is <code>null</code> the default
-     * is to search for the RMIImage service on the local host at the
-     * default <i>rmiregistry</i> port (1099).
      *
-     * <p> Note that the properties of the <code>RemoteImage</code> will be
-     * those of the <code>RenderedOp</code> node and not of its rendering.
+     * where the port number is optional and may be supplied only if the host name is supplied. If this parameter is
+     * <code>null</code> the default is to search for the RMIImage service on the local host at the default
+     * <i>rmiregistry</i> port (1099).
+     *
+     * <p>Note that the properties of the <code>RemoteImage</code> will be those of the <code>RenderedOp</code> node and
+     * not of its rendering.
      *
      * @param serverName The name of the server in the appropriate format.
      * @param source A <code>RenderedOp</code> source which must not be <code>null</code>.
-     * @throws IllegalArgumentException if <code>source</code> is
-     *         <code>null</code>.
+     * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      */
     public RemoteImage(String serverName, RenderedOp source) {
         super(null, null, null);
 
-        if(serverName == null) 
-            serverName = getLocalHostAddress();
+        if (serverName == null) serverName = getLocalHostAddress();
 
-        if(source == null) {
-            throw new
-		IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+        if (source == null) {
+            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
         }
 
         // Construct the remote RMI image.
@@ -252,53 +231,46 @@ public class RemoteImage extends PlanarImage {
 
         try {
             remoteImage.setSource(id, source);
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     /**
-     * Constructs a <code>RemoteImage</code> from a <code>RenderableOp</code>
-     * and <code>RenderContext</code>.
-     * The entire <code>RenderableOp</code> DAG will be copied over to the server.
+     * Constructs a <code>RemoteImage</code> from a <code>RenderableOp</code> and <code>RenderContext</code>. The entire
+     * <code>RenderableOp</code> DAG will be copied over to the server.
      *
-     * <p> The name of the server must be supplied in the form appropriate to
-     * the implementation. In the reference port of JAI, RMI is used to
-     * implement remote imaging so that the server name must be supplied in
-     * the format
+     * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
+     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     *
      * <pre>
      * host:port
      * </pre>
-     * where the port number is optional and may be supplied only if
-     * the host name is supplied. If this parameter is <code>null</code> the default
-     * is to search for the RMIImage service on the local host at the
-     * default <i>rmiregistry</i> port (1099).
      *
-     * <p> Note that the properties of the <code>RemoteImage</code> will be
-     * those of the <code>RenderableOp</code> node and not of its rendering.
+     * where the port number is optional and may be supplied only if the host name is supplied. If this parameter is
+     * <code>null</code> the default is to search for the RMIImage service on the local host at the default
+     * <i>rmiregistry</i> port (1099).
+     *
+     * <p>Note that the properties of the <code>RemoteImage</code> will be those of the <code>RenderableOp</code> node
+     * and not of its rendering.
      *
      * @param serverName The name of the server in the appropriate format.
      * @param source A <code>RenderableOp</code> source which must not be <code>null</code>.
      * @param renderContext The rendering context which may be <code>null</code>.
-     * @throws IllegalArgumentException if <code>source</code> is
-     *         <code>null</code>.
+     * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      */
-    public RemoteImage(String serverName,
-                       RenderableOp source,
-                       RenderContext renderContext) {
+    public RemoteImage(String serverName, RenderableOp source, RenderContext renderContext) {
         super(null, null, null);
 
-        if(serverName == null) 
-            serverName = getLocalHostAddress();
+        if (serverName == null) serverName = getLocalHostAddress();
 
-        if(source == null) {
-            throw new
-		IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+        if (source == null) {
+            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
         }
 
-	if (renderContext == null) {
-	    renderContext = new RenderContext(new AffineTransform());
-	}
+        if (renderContext == null) {
+            renderContext = new RenderContext(new AffineTransform());
+        }
 
         // Construct the remote RMI image.
         getRMIImage(serverName);
@@ -314,7 +286,7 @@ public class RemoteImage extends PlanarImage {
 
         try {
             remoteImage.setSource(id, source, rcp);
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
@@ -323,81 +295,76 @@ public class RemoteImage extends PlanarImage {
     /**
      * Construct an RMIImage on the indicated server.
      *
-     * <p> The name of the server must be supplied in the form
+     * <p>The name of the server must be supplied in the form
+     *
      * <pre>
      * host:port
      * </pre>
-     * where the port number is optional and may be supplied only if
-     * the host name is supplied. If this parameter is <code>null</code> the default
-     * is to search for the RMIImage service on the local host at the
-     * default <i>rmiregistry</i> port (1099).
      *
-     * <p> The result is cached in the instance variable "remoteImage".
+     * where the port number is optional and may be supplied only if the host name is supplied. If this parameter is
+     * <code>null</code> the default is to search for the RMIImage service on the local host at the default
+     * <i>rmiregistry</i> port (1099).
+     *
+     * <p>The result is cached in the instance variable "remoteImage".
      *
      * @param serverName The name of the server in the format described.
      */
     private void getRMIImage(String serverName) {
         // Set the server name to the local host if null.
-        if(serverName == null)
-	    serverName = getLocalHostAddress(); 
+        if (serverName == null) serverName = getLocalHostAddress();
 
         // Derive the service name.
-        String serviceName = new String("rmi://"+serverName+"/"+
-                                        RMIImage.RMI_IMAGE_SERVER_NAME);
+        String serviceName = new String("rmi://" + serverName + "/" + RMIImage.RMI_IMAGE_SERVER_NAME);
 
         // Look up the remote object.
         remoteImage = null;
         try {
-            remoteImage = (RMIImage)Naming.lookup(serviceName);
-        } catch(Exception e) {
+            remoteImage = (RMIImage) Naming.lookup(serviceName);
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     /**
-     * Get the default server name, that is, the local host.
-     * When the provided server name is <code>null</code>, use
+     * Get the default server name, that is, the local host. When the provided server name is <code>null</code>, use
      * this method to obtain the local host IP address as the server name.
      */
     private String getLocalHostAddress() {
-	String serverName;
+        String serverName;
         try {
             serverName = InetAddress.getLocalHost().getHostAddress();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-	return serverName;
+        return serverName;
     }
     /**
-     * Get the unique ID to be used to refer to this object on the server.
-     * The result is cached in the instance variable "id".
+     * Get the unique ID to be used to refer to this object on the server. The result is cached in the instance variable
+     * "id".
      */
     private void getRMIID() {
         try {
             id = remoteImage.getRemoteID();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     /**
-     * Cache the argument and the RMI ID as local properties.
-     * This is a gross hack to permit chaining of remote images.
+     * Cache the argument and the RMI ID as local properties. This is a gross hack to permit chaining of remote images.
      *
      * @param serverName The server name as described in the constructors.
      */
     private void setRMIProperties(String serverName) {
-        setProperty(getClass().getName()+".serverName", serverName);
-        setProperty(getClass().getName()+".id", id);
+        setProperty(getClass().getName() + ".serverName", serverName);
+        setProperty(getClass().getName() + ".id", id);
     }
 
-    /**
-     * Disposes of any resources allocated for remote operation.
-     */
+    /** Disposes of any resources allocated for remote operation. */
     protected void finalize() {
         try {
             remoteImage.dispose(id);
-        } catch(Exception e) {
+        } catch (Exception e) {
             // Ignore the Exception.
         }
     }
@@ -405,18 +372,16 @@ public class RemoteImage extends PlanarImage {
     /**
      * Set the amount of time between retries.
      *
-     * @param timeout The time interval between retries (milliseconds). If
-     * this is non-positive the time interval is not changed.
+     * @param timeout The time interval between retries (milliseconds). If this is non-positive the time interval is not
+     *     changed.
      */
     public void setTimeout(int timeout) {
-        if(timeout > 0) {
+        if (timeout > 0) {
             this.timeout = timeout;
         }
     }
 
-    /**
-     * Gets the amount of time between retries.
-     */
+    /** Gets the amount of time between retries. */
     public int getTimeout() {
         return timeout;
     }
@@ -424,92 +389,84 @@ public class RemoteImage extends PlanarImage {
     /**
      * Set the number of retries.
      *
-     * @param numRetries The number of retries. If this is non-positive the
-     * number of retries is not changed.
+     * @param numRetries The number of retries. If this is non-positive the number of retries is not changed.
      */
     public void setNumRetries(int numRetries) {
-        if(numRetries > 0) {
+        if (numRetries > 0) {
             this.numRetries = numRetries;
         }
     }
 
-    /**
-     * Gets the number of retries.
-     */
+    /** Gets the number of retries. */
     public int getNumRetries() {
         return numRetries;
     }
 
     /**
-     * Cause an instance variable of the remote object to be cached
-     * locally, retrying a given number of times with a given timeout.
+     * Cause an instance variable of the remote object to be cached locally, retrying a given number of times with a
+     * given timeout.
      *
      * @param fieldIndex the index of the desired field.
      * @param retries the maximum number of retries; must be positive.
-     * @param timeout the timeout interval between retries, in milliseconds;
-     *                must be positive.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if fieldIndex
-     * is negative or >= NUM_VARS.
-     * @throws <code>IllegalArgumentException</code> if retries or timeout
-     * is non-positive.
+     * @param timeout the timeout interval between retries, in milliseconds; must be positive.
+     * @throws <code>ArrayIndexOutOfBoundsException</code> if fieldIndex is negative or >= NUM_VARS.
+     * @throws <code>IllegalArgumentException</code> if retries or timeout is non-positive.
      */
     protected void requestField(int fieldIndex, int retries, int timeout) {
-        if(retries < 0) {
+        if (retries < 0) {
             throw new IllegalArgumentException(JaiI18N.getString("RemoteImage3"));
-        } else if(timeout < 0) {
+        } else if (timeout < 0) {
             throw new IllegalArgumentException(JaiI18N.getString("RemoteImage4"));
         }
 
         int count = 0;
 
-        if (fieldValid[fieldIndex])
-            return;
+        if (fieldValid[fieldIndex]) return;
 
         while (count++ < retries) {
             try {
                 switch (fieldIndex) {
-                case VAR_MIN_X:
-                    minX = remoteImage.getMinX(id);
-                    break;
-                case VAR_MIN_Y:
-                    minY = remoteImage.getMinY(id);
-                    break;
-                case VAR_WIDTH:
-                    width = remoteImage.getWidth(id);
-                    break;
-                case VAR_HEIGHT:
-                    height = remoteImage.getHeight(id);
-                    break;
-                case VAR_TILE_WIDTH:
-                    tileWidth = remoteImage.getTileWidth(id);
-                    break;
-                case VAR_TILE_HEIGHT:
-                    tileHeight = remoteImage.getTileHeight(id);
-                    break;
-                case VAR_TILE_GRID_X_OFFSET:
-                    tileGridXOffset = remoteImage.getTileGridXOffset(id);
-                    break;
-                case VAR_TILE_GRID_Y_OFFSET:
-                    tileGridYOffset = remoteImage.getTileGridYOffset(id);
-                    break;
-                case VAR_SAMPLE_MODEL:
-                    sampleModel =
-                        (SampleModel)remoteImage.getSampleModel(id).getSampleModel();
-                    break;
-                case VAR_COLOR_MODEL:
-                    colorModel = (ColorModel)remoteImage.getColorModel(id).getColorModel();
-                    break;
-                case VAR_SOURCES:
-                    {
-                        Vector localSources = remoteImage.getSources(id);
-                        int numSources = localSources.size();
-                        for(int i = 0; i < numSources; i++) {
-                            RenderedImage src =
-                                (RenderedImage)localSources.get(i);
-                            addSource(PlanarImage.wrapRenderedImage(src));
+                    case VAR_MIN_X:
+                        minX = remoteImage.getMinX(id);
+                        break;
+                    case VAR_MIN_Y:
+                        minY = remoteImage.getMinY(id);
+                        break;
+                    case VAR_WIDTH:
+                        width = remoteImage.getWidth(id);
+                        break;
+                    case VAR_HEIGHT:
+                        height = remoteImage.getHeight(id);
+                        break;
+                    case VAR_TILE_WIDTH:
+                        tileWidth = remoteImage.getTileWidth(id);
+                        break;
+                    case VAR_TILE_HEIGHT:
+                        tileHeight = remoteImage.getTileHeight(id);
+                        break;
+                    case VAR_TILE_GRID_X_OFFSET:
+                        tileGridXOffset = remoteImage.getTileGridXOffset(id);
+                        break;
+                    case VAR_TILE_GRID_Y_OFFSET:
+                        tileGridYOffset = remoteImage.getTileGridYOffset(id);
+                        break;
+                    case VAR_SAMPLE_MODEL:
+                        sampleModel =
+                                (SampleModel) remoteImage.getSampleModel(id).getSampleModel();
+                        break;
+                    case VAR_COLOR_MODEL:
+                        colorModel = (ColorModel) remoteImage.getColorModel(id).getColorModel();
+                        break;
+                    case VAR_SOURCES:
+                        {
+                            Vector localSources = remoteImage.getSources(id);
+                            int numSources = localSources.size();
+                            for (int i = 0; i < numSources; i++) {
+                                RenderedImage src = (RenderedImage) localSources.get(i);
+                                addSource(PlanarImage.wrapRenderedImage(src));
+                            }
                         }
-                    }
-                    break;
+                        break;
                 }
 
                 fieldValid[fieldIndex] = true;
@@ -525,33 +482,27 @@ public class RemoteImage extends PlanarImage {
     }
 
     /**
-     * Causes an instance variable of the remote object to be cached
-     * locally, retrying with a default/user specified timeout.
+     * Causes an instance variable of the remote object to be cached locally, retrying with a default/user specified
+     * timeout.
      *
      * @param fieldIndex the index of the desired field.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if fieldIndex
-     * is negative or >= NUM_VARS.
+     * @throws <code>ArrayIndexOutOfBoundsException</code> if fieldIndex is negative or >= NUM_VARS.
      */
     protected void requestField(int fieldIndex) {
         requestField(fieldIndex, numRetries, timeout);
     }
 
-    /**
-     * Returns the X coordinate of the leftmost column of the image.
-     */
+    /** Returns the X coordinate of the leftmost column of the image. */
     public int getMinX() {
         requestField(VAR_MIN_X);
         return minX;
     }
 
-    /**
-     * Returns the X coordinate of the column immediately to the right
-     * of the rightmost column of the image.
-     */
+    /** Returns the X coordinate of the column immediately to the right of the rightmost column of the image. */
     public int getMaxX() {
         requestField(VAR_MIN_X);
         requestField(VAR_WIDTH);
-	return minX + width;
+        return minX + width;
     }
 
     /** Returns the Y coordinate of the uppermost row of the image. */
@@ -560,14 +511,11 @@ public class RemoteImage extends PlanarImage {
         return minY;
     }
 
-    /**
-     * Returns the Y coordinate of the row immediately below the
-     * bottom row of the image.
-     */
+    /** Returns the Y coordinate of the row immediately below the bottom row of the image. */
     public int getMaxY() {
         requestField(VAR_MIN_Y);
         requestField(VAR_HEIGHT);
-	return minY + height;
+        return minY + height;
     }
 
     /** Returns the width of the <code>RemoteImage</code> in pixels. */
@@ -619,9 +567,8 @@ public class RemoteImage extends PlanarImage {
     }
 
     /**
-     * Returns a vector of <code>RenderedImage</code>s that are the sources of
-     * image data for this <code>RenderedImage</code>.  Note that this method
-     * will often return <code>null</code>.
+     * Returns a vector of <code>RenderedImage</code>s that are the sources of image data for this <code>RenderedImage
+     * </code>. Note that this method will often return <code>null</code>.
      */
     public Vector getSources() {
         requestField(VAR_SOURCES);
@@ -629,16 +576,12 @@ public class RemoteImage extends PlanarImage {
     }
 
     /**
-     * Gets a property from the property set of this image.
-     * If the property name is not recognized, java.awt.Image.UndefinedProperty
-     * will be returned.
+     * Gets a property from the property set of this image. If the property name is not recognized,
+     * java.awt.Image.UndefinedProperty will be returned.
      *
      * @param name the name of the property to get, as a String.
-     * @return a reference to the property <code>Object</code>, or the value
-     *         java.awt.Image.UndefinedProperty.
-     *
-     * @exception IllegalArgumentException if <code>propertyName</code>
-     *                                     is <code>null</code>.
+     * @return a reference to the property <code>Object</code>, or the value java.awt.Image.UndefinedProperty.
+     * @exception IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
      */
     public Object getProperty(String name) {
         // Try to get property locally.
@@ -650,7 +593,7 @@ public class RemoteImage extends PlanarImage {
             while (count++ < numRetries) {
                 try {
                     property = remoteImage.getProperty(id, name);
-                    if(NULL_PROPERTY_CLASS.isInstance(property)) {
+                    if (NULL_PROPERTY_CLASS.isInstance(property)) {
                         property = Image.UndefinedProperty;
                     }
                     break;
@@ -666,7 +609,7 @@ public class RemoteImage extends PlanarImage {
                 property = Image.UndefinedProperty;
             }
 
-            if(property != Image.UndefinedProperty) {
+            if (property != Image.UndefinedProperty) {
                 setProperty(name, property); // Cache property locally
             }
         }
@@ -681,11 +624,11 @@ public class RemoteImage extends PlanarImage {
 
         // Put local names in a Vector.
         Vector names = new Vector();
-	if (localPropertyNames != null) {
-	    for(int i = 0; i < localPropertyNames.length; i++) {
-		names.add(localPropertyNames[i]);
-	    }
-	}
+        if (localPropertyNames != null) {
+            for (int i = 0; i < localPropertyNames.length; i++) {
+                names.add(localPropertyNames[i]);
+            }
+        }
 
         // Get the remote property names.
         int count = 0;
@@ -703,25 +646,23 @@ public class RemoteImage extends PlanarImage {
         }
 
         // Put the remote names, if any, in the Vector.
-        if(remotePropertyNames != null) {
-            for(int i = 0; i < remotePropertyNames.length; i++) {
-                if(!names.contains(remotePropertyNames[i])) {
+        if (remotePropertyNames != null) {
+            for (int i = 0; i < remotePropertyNames.length; i++) {
+                if (!names.contains(remotePropertyNames[i])) {
                     names.add(remotePropertyNames[i]);
                 }
             }
         }
 
         // Set the return value from the vector.
-        propertyNames = names.size() == 0 ?
-            null : (String[])names.toArray(new String[names.size()]);
+        propertyNames = names.size() == 0 ? null : (String[]) names.toArray(new String[names.size()]);
 
         return propertyNames;
     }
 
     /**
-     * Returns tile (x, y).  Note that x and y are indexes into the
-     * tile array not pixel locations.  The <code>Raster</code> that is returned
-     * is a copy.
+     * Returns tile (x, y). Note that x and y are indexes into the tile array not pixel locations. The <code>Raster
+     * </code> that is returned is a copy.
      *
      * @param x the X index of the requested tile in the tile array
      * @param y the Y index of the requested tile in the tile array
@@ -743,9 +684,7 @@ public class RemoteImage extends PlanarImage {
         return null;
     }
 
-    /**
-     * Returns the image as one large tile.
-     */
+    /** Returns the image as one large tile. */
     public Raster getData() {
         int count = 0;
 
@@ -766,19 +705,16 @@ public class RemoteImage extends PlanarImage {
     /**
      * Returns an arbitrary rectangular region of the <code>RemoteImage</code>.
      *
-     * <p> The <code>rect</code> parameter may be
-     * <code>null</code>, in which case the entire image data is
-     * returned in the <code>Raster</code>.
+     * <p>The <code>rect</code> parameter may be <code>null</code>, in which case the entire image data is returned in
+     * the <code>Raster</code>.
      *
-     * <p> If <code>rect</code> is non-<code>null</code> but does
-     * not intersect the image bounds at all, an
-     * <code>IllegalArgumentException</code> will be thrown.
+     * <p>If <code>rect</code> is non-<code>null</code> but does not intersect the image bounds at all, an <code>
+     * IllegalArgumentException</code> will be thrown.
      *
-     * @param rect  The <code>Rectangle</code> of interest.
+     * @param rect The <code>Rectangle</code> of interest.
      */
-
     public Raster getData(Rectangle rect) {
-        if(imageBounds == null) {
+        if (imageBounds == null) {
             imageBounds = getBounds();
         }
         if (rect == null) {
@@ -804,36 +740,33 @@ public class RemoteImage extends PlanarImage {
     }
 
     /**
-     * Returns an arbitrary rectangular region of the <code>RemoteImage</code>
-     * in a user-supplied <code>WritableRaster</code>.
-     * The rectangular region is the entire image if the argument is
-     * <code>null</code> or the intersection of the argument bounds with the image
-     * bounds if the region is non-<code>null</code>.
-     * If the argument is non-<code>null</code> but has bounds which have an empty
-     * intersection with the image bounds the return value will be <code>null</code>.
-     * The return value may also be <code>null</code> if the argument is non-<code>null</code> but
-     * is incompatible with the <code>Raster</code> returned from the remote image.
+     * Returns an arbitrary rectangular region of the <code>RemoteImage</code> in a user-supplied <code>WritableRaster
+     * </code>. The rectangular region is the entire image if the argument is <code>null</code> or the intersection of
+     * the argument bounds with the image bounds if the region is non-<code>null</code>. If the argument is non-<code>
+     * null</code> but has bounds which have an empty intersection with the image bounds the return value will be <code>
+     * null</code>. The return value may also be <code>null</code> if the argument is non-<code>null</code> but is
+     * incompatible with the <code>Raster</code> returned from the remote image.
      */
     public WritableRaster copyData(WritableRaster raster) {
         int count = 0;
 
-        Rectangle bounds = ((raster == null) ?
-                            new Rectangle(getMinX(), getMinY(),
-                                          getWidth(), getHeight()) :
-                            raster.getBounds());
+        Rectangle bounds = ((raster == null)
+                ? new Rectangle(
+                        getMinX(), getMinY(),
+                        getWidth(), getHeight())
+                : raster.getBounds());
 
         while (count++ < numRetries) {
             try {
                 RasterProxy rp = remoteImage.copyData(id, bounds);
                 try {
-                    if(raster == null) {
-                        raster = (WritableRaster)rp.getRaster();
+                    if (raster == null) {
+                        raster = (WritableRaster) rp.getRaster();
                     } else {
-                        raster.setDataElements(bounds.x, bounds.y,
-                                               (Raster)rp.getRaster());
+                        raster.setDataElements(bounds.x, bounds.y, (Raster) rp.getRaster());
                     }
                     break;
-                } catch(ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
                     raster = null;
                     break;
                 }

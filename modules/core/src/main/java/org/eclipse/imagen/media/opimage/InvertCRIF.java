@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "Invert" operation in the
- * rendered and renderable image layer.
+ * A <code>CRIF</code> supporting the "Invert" operation in the rendered and renderable image layer.
  *
  * @see org.eclipse.imagen.operator.InvertDescriptor
  * @see InvertOpImage
- *
  */
 public class InvertCRIF extends CRIFImpl {
 
@@ -40,18 +37,14 @@ public class InvertCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>InvertpImage</code> in the rendered
-     * layer.
+     * Creates a new instance of <code>InvertpImage</code> in the rendered layer.
      *
-     * @param paramBlock  The source images to be inverted.
+     * @param paramBlock The source images to be inverted.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        
-        return new InvertOpImage(paramBlock.getRenderedSource(0),
-                                 renderHints, layout);
+
+        return new InvertOpImage(paramBlock.getRenderedSource(0), renderHints, layout);
     }
 }

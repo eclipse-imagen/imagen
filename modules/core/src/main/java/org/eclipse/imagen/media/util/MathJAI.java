@@ -17,24 +17,21 @@
 
 package org.eclipse.imagen.media.util;
 
-/**
- * A utility class to contain miscellaneous static methods.
- */
+/** A utility class to contain miscellaneous static methods. */
 public class MathJAI {
     /**
-     * Calculate the smallest positive power of 2 greater than or equal to
-     * the provided parameter.
+     * Calculate the smallest positive power of 2 greater than or equal to the provided parameter.
      *
      * @param n The value for which the next power of 2 is to be found.
      * @return The smallest power of 2 >= <i>n</i>.
      */
     public static final int nextPositivePowerOf2(int n) {
-        if(n < 2) {
+        if (n < 2) {
             return 2;
         }
 
         int power = 1;
-        while(power < n) {
+        while (power < n) {
             power <<= 1;
         }
 

@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -23,22 +24,16 @@ import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.InterpolationBicubic;
-import org.eclipse.imagen.InterpolationBicubic2;
-import org.eclipse.imagen.InterpolationTable;
-import java.util.Map;
+import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.Warp;
 
 /**
- * A <code>RIF</code> supporting the "Warp" operation in the rendered
- * image layer.
+ * A <code>RIF</code> supporting the "Warp" operation in the rendered image layer.
  *
  * @since EA2
  * @see org.eclipse.imagen.operator.WarpDescriptor
  * @see GeneralWarpOpImage
- *
  */
 public class WarpRIF implements RenderedImageFactory {
 
@@ -46,41 +41,29 @@ public class WarpRIF implements RenderedImageFactory {
     public WarpRIF() {}
 
     /**
-     * Creates a new instance of warp operator according to the warp object
-     * and interpolation method.
+     * Creates a new instance of warp operator according to the warp object and interpolation method.
      *
-     * @param paramBlock  The warp and interpolation objects.
+     * @param paramBlock The warp and interpolation objects.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
 
         RenderedImage source = paramBlock.getRenderedSource(0);
-        Warp warp = (Warp)paramBlock.getObjectParameter(0);
-        Interpolation interp = (Interpolation)paramBlock.getObjectParameter(1);
+        Warp warp = (Warp) paramBlock.getObjectParameter(0);
+        Interpolation interp = (Interpolation) paramBlock.getObjectParameter(1);
 
-        double[] backgroundValues = (double[])paramBlock.getObjectParameter(2);
+        double[] backgroundValues = (double[]) paramBlock.getObjectParameter(2);
 
         if (interp instanceof InterpolationNearest) {
-            return new WarpNearestOpImage(source,
-                                          renderHints,
-                                          layout,
-                                          warp,
-                                          interp,
-                                          backgroundValues);
+            return new WarpNearestOpImage(source, renderHints, layout, warp, interp, backgroundValues);
         } else if (interp instanceof InterpolationBilinear) {
-            return new WarpBilinearOpImage(source, extender, renderHints,
-                                           layout, warp, interp,
-                                           backgroundValues);
+            return new WarpBilinearOpImage(source, extender, renderHints, layout, warp, interp, backgroundValues);
         } else {
-            return new WarpGeneralOpImage(source, extender, renderHints,
-                                          layout, warp, interp,
-                                          backgroundValues);
+            return new WarpGeneralOpImage(source, extender, renderHints, layout, warp, interp, backgroundValues);
         }
     }
 }

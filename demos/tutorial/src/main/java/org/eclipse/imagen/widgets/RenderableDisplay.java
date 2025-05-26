@@ -17,22 +17,18 @@ import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 /**
- * An output widget for a RenderableImage.  RenderableDisplay subclasses
- * javax.swing.JComponent, and can be used in any context that calls for a
- * JComponent.  It monitors resize and update events and automatically
- * requests tiles from its source on demand.
+ * An output widget for a RenderableImage. RenderableDisplay subclasses javax.swing.JComponent, and can be used in any
+ * context that calls for a JComponent. It monitors resize and update events and automatically requests tiles from its
+ * source on demand.
  *
- * <p> Due to the limitations of BufferedImage, only TYPE_BYTE of band
- * 1, 2, 3, 4, and TYPE_USHORT of band 1, 2, 3 images can be displayed
- * using this widget.
+ * <p>Due to the limitations of BufferedImage, only TYPE_BYTE of band 1, 2, 3, 4, and TYPE_USHORT of band 1, 2, 3 images
+ * can be displayed using this widget.
  *
  * @author Daniel Rice
  * @author Dennis Sigel
  */
-
-
 public class RenderableDisplay extends JComponent {
-    
+
     RenderableImage source;
     PlanarImage rendering;
     float aspect;
@@ -53,28 +49,28 @@ public class RenderableDisplay extends JComponent {
 
     public RenderableDisplay(RenderableImage im) {
         source = im;
-        this.aspect = source.getWidth()/source.getHeight();
+        this.aspect = source.getWidth() / source.getHeight();
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension((int)(100*aspect + 0.5), 100);
+        return new Dimension((int) (100 * aspect + 0.5), 100);
     }
 
     public void setBounds(int x, int y, int width, int height) {
 
-        if ((float)width/height > aspect) {
-            width = (int)(height*aspect);
+        if ((float) width / height > aspect) {
+            width = (int) (height * aspect);
         } else {
-            height = (int)(width/aspect);
+            height = (int) (width / aspect);
         }
 
         scale(width, height, true);
         super.setBounds(x, y, width, height);
 
-        componentWidth  = width;
+        componentWidth = width;
         componentHeight = height;
 
-        tileWidth  = rendering.getTileWidth();
+        tileWidth = rendering.getTileWidth();
         tileHeight = rendering.getTileHeight();
 
         tileGridXOffset = rendering.getTileGridXOffset();
@@ -86,20 +82,19 @@ public class RenderableDisplay extends JComponent {
         maxTileY = minTileY + rendering.getNumYTiles() - 1;
 
         sampleModel = rendering.getSampleModel();
-        colorModel  = rendering.getColorModel();
+        colorModel = rendering.getColorModel();
     }
 
     public void scale(int width, int height, boolean scaleOnly) {
 
         if (scaleOnly) {
-            RenderingHints hints = new RenderingHints(JAI.KEY_INTERPOLATION,
-                    Interpolation.getInstance(Interpolation.INTERP_BILINEAR));
+            RenderingHints hints =
+                    new RenderingHints(JAI.KEY_INTERPOLATION, Interpolation.getInstance(Interpolation.INTERP_BILINEAR));
             rendering = (PlanarImage) source.createScaledRendering(width, height, hints);
         } else {
             AffineTransform transform = new AffineTransform();
             transform.translate(-source.getMinX(), -source.getMinY());
-            transform.scale((double)width/source.getWidth(),
-                            (double)height/source.getHeight());
+            transform.scale((double) width / source.getWidth(), (double) height / source.getHeight());
 
             RenderContext renderContext = new RenderContext(transform);
             rendering = (PlanarImage) source.createRendering(renderContext);
@@ -107,24 +102,24 @@ public class RenderableDisplay extends JComponent {
     }
 
     private int XtoTileX(int x) {
-        return (int) Math.floor((double) (x - tileGridXOffset)/tileWidth);
+        return (int) Math.floor((double) (x - tileGridXOffset) / tileWidth);
     }
-    
+
     private int YtoTileY(int y) {
-        return (int) Math.floor((double) (y - tileGridYOffset)/tileHeight);
+        return (int) Math.floor((double) (y - tileGridYOffset) / tileHeight);
     }
-    
+
     private int TileXtoX(int tx) {
-        return tx*tileWidth + tileGridXOffset;
+        return tx * tileWidth + tileGridXOffset;
     }
-    
+
     private int TileYtoY(int ty) {
-        return ty*tileHeight + tileGridYOffset;
+        return ty * tileHeight + tileGridYOffset;
     }
 
     public void paintComponent(Graphics g) {
 
-        Graphics2D g2D = (Graphics2D)g;
+        Graphics2D g2D = (Graphics2D) g;
 
         if (rendering == null) {
             g2D.setColor(getBackground());
@@ -132,7 +127,7 @@ public class RenderableDisplay extends JComponent {
             return;
         }
 
-        // Get the clipping rectangle and translate it into image coordinates. 
+        // Get the clipping rectangle and translate it into image coordinates.
         Rectangle clipBounds = g.getClipBounds();
         if (clipBounds == null) {
             clipBounds = new Rectangle(0, 0, componentWidth, componentHeight);
@@ -141,7 +136,7 @@ public class RenderableDisplay extends JComponent {
         // Determine the extent of the clipping region in tile coordinates.
         int txmin, txmax, tymin, tymax;
         int ti, tj;
-        
+
         txmin = XtoTileX(clipBounds.x);
         txmin = Math.max(txmin, minTileX);
         txmin = Math.min(txmin, maxTileX);
@@ -165,21 +160,14 @@ public class RenderableDisplay extends JComponent {
                 int ty = TileYtoY(tj);
 
                 Raster tile = rendering.getTile(ti, tj);
-                if ( tile != null ) {
+                if (tile != null) {
                     DataBuffer dataBuffer = tile.getDataBuffer();
 
-                    WritableRaster wr =
-                        tile.createWritableRaster(sampleModel,
-                                                  dataBuffer,
-                                                  null);
+                    WritableRaster wr = tile.createWritableRaster(sampleModel, dataBuffer, null);
 
-                    BufferedImage bi = new BufferedImage(colorModel,
-                                                         wr,
-                                                         false,
-                                                         null);
+                    BufferedImage bi = new BufferedImage(colorModel, wr, false, null);
 
-                    AffineTransform transform =
-                        AffineTransform.getTranslateInstance(tx, ty);
+                    AffineTransform transform = AffineTransform.getTranslateInstance(tx, ty);
                     g2D.drawRenderedImage(bi, transform);
                 }
             }

@@ -16,53 +16,43 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.util.Vector;
+
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
+import java.util.Vector;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "BandMerge" operation in the
- * rendered and renderable image layers.
+ * A <code>CRIF</code> supporting the "BandMerge" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.BandMergeDescriptor
  * @see BandMergeOpImage
- *
  */
 public class BandMergeCRIF extends CRIFImpl {
 
-     /** Constructor. */
+    /** Constructor. */
     public BandMergeCRIF() {
         super("bandmerge");
     }
 
     /**
-     * Creates a new instance of <code>BandMergeOpImage</code> in the
-     * rendered layer. This method satisifies the implementation of RIF.
+     * Creates a new instance of <code>BandMergeOpImage</code> in the rendered layer. This method satisifies the
+     * implementation of RIF.
      *
-     * @param paramBlock   The two or more source images to be "BandMerged"
-     * together, and their corresponding float array vector. 
-     * @param renderHints  Optionally contains destination image layout.     
+     * @param paramBlock The two or more source images to be "BandMerged" together, and their corresponding float array
+     *     vector.
+     * @param renderHints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-    
-	// get vector of RenderedImage sources and parameters
-	Vector sources = paramBlock.getSources();
-	//Vector params  = paramBlock.getParameters();
 
-	return new BandMergeOpImage(sources,
-				    renderHints,
-				    layout);
+        // get vector of RenderedImage sources and parameters
+        Vector sources = paramBlock.getSources();
+        // Vector params  = paramBlock.getParameters();
 
+        return new BandMergeOpImage(sources, renderHints, layout);
     }
 }

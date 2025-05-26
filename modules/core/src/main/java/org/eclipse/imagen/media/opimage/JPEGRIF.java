@@ -16,36 +16,25 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.io.InputStream;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.NullOpImage;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
-import org.eclipse.imagen.media.codec.SeekableStream;
 
-/**
- * @see org.eclipse.imagen.operator.JPEGDescriptor
- *
- */
+/** @see org.eclipse.imagen.operator.JPEGDescriptor */
 public class JPEGRIF implements RenderedImageFactory {
 
     /** Constructor. */
     public JPEGRIF() {}
 
     /**
-     * Creates a <code>RenderedImage</code> representing the contents
-     * of a JPEG-encoded image.
+     * Creates a <code>RenderedImage</code> representing the contents of a JPEG-encoded image.
      *
-     * @param paramBlock A <code>ParameterBlock</code> containing the JPEG
-     *        <code>SeekableStream</code> to read.
+     * @param paramBlock A <code>ParameterBlock</code> containing the JPEG <code>SeekableStream</code> to read.
      * @param renderHints Ignored.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         return CodecRIFUtil.create("jpeg", paramBlock, renderHints);
     }
 }

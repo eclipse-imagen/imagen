@@ -16,21 +16,16 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Rectangle;
-import java.awt.image.DataBuffer;
+
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.util.LinkedList;
-import java.util.ListIterator;
 import org.eclipse.imagen.Histogram;
-import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.StatisticsOpImage;
-import org.eclipse.imagen.UnpackedImageData;
 
 /**
- * An <code>OpImage</code> implementing the "Histogram" operation as
- * described in <code>org.eclipse.imagen.operator.HistogramDescriptor</code>.
+ * An <code>OpImage</code> implementing the "Histogram" operation as described in <code>
+ * org.eclipse.imagen.operator.HistogramDescriptor</code>.
  *
  * @see org.eclipse.imagen.Histogram
  * @see org.eclipse.imagen.operator.HistogramDescriptor
@@ -51,28 +46,28 @@ final class HistogramOpImage extends StatisticsOpImage {
     private int numBands;
 
     private final boolean tileIntersectsROI(int tileX, int tileY) {
-        if (roi == null) {      // ROI is entire tile
+        if (roi == null) { // ROI is entire tile
             return true;
         } else {
-            return roi.intersects(tileXToX(tileX), tileYToY(tileY),
-                                  tileWidth, tileHeight);
+            return roi.intersects(tileXToX(tileX), tileYToY(tileY), tileWidth, tileHeight);
         }
     }
 
     /**
      * Constructs an <code>HistogramOpImage</code>.
      *
-     * @param source  The source image.
+     * @param source The source image.
      */
-    public HistogramOpImage(RenderedImage source,
-                            ROI roi,
-                            int xStart,
-                            int yStart,
-                            int xPeriod,
-                            int yPeriod,
-                            int[] numBins,
-                            double[] lowValue,
-                            double[] highValue) {
+    public HistogramOpImage(
+            RenderedImage source,
+            ROI roi,
+            int xStart,
+            int yStart,
+            int xPeriod,
+            int yPeriod,
+            int[] numBins,
+            double[] lowValue,
+            double[] highValue) {
         super(source, roi, xStart, yStart, xPeriod, yPeriod);
 
         numBands = source.getSampleModel().getNumBands();
@@ -82,12 +77,9 @@ final class HistogramOpImage extends StatisticsOpImage {
         this.highValue = new double[numBands];
 
         for (int b = 0; b < numBands; b++) {
-            this.numBins[b] = numBins.length == 1 ?
-                              numBins[0] : numBins[b];
-            this.lowValue[b] = lowValue.length == 1 ?
-                               lowValue[0] : lowValue[b];
-            this.highValue[b] = highValue.length == 1 ?
-                                highValue[0] : highValue[b];
+            this.numBins[b] = numBins.length == 1 ? numBins[0] : numBins[b];
+            this.lowValue[b] = lowValue.length == 1 ? lowValue[0] : lowValue[b];
+            this.highValue[b] = highValue.length == 1 ? highValue[0] : highValue[b];
         }
     }
 
@@ -105,10 +97,8 @@ final class HistogramOpImage extends StatisticsOpImage {
         }
     }
 
-    protected void accumulateStatistics(String name,
-                                        Raster source,
-                                        Object stats) {
-        Histogram histogram = (Histogram)stats;
+    protected void accumulateStatistics(String name, Raster source, Object stats) {
+        Histogram histogram = (Histogram) stats;
         histogram.countPixels(source, roi, xStart, yStart, xPeriod, yPeriod);
     }
 }

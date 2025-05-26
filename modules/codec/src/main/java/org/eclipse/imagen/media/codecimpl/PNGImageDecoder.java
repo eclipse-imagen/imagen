@@ -16,59 +16,40 @@
  */
 
 package org.eclipse.imagen.media.codecimpl;
+
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
 import java.awt.color.ICC_Profile;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferUShort;
 import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.SequenceInputStream;
-import java.text.DateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.GregorianCalendar;
-import java.util.Hashtable;
 import java.util.TimeZone;
 import java.util.Vector;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
 import org.eclipse.imagen.media.codec.ImageDecoderImpl;
-import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.PNGDecodeParam;
 import org.eclipse.imagen.media.codec.PNGEncodeParam;
-import org.eclipse.imagen.media.codecimpl.ImagingListenerProxy;
 import org.eclipse.imagen.media.codecimpl.util.ImagingException;
 
-/**
- * @since EA3
- */
+/** @since EA3 */
 public class PNGImageDecoder extends ImageDecoderImpl {
 
-    public PNGImageDecoder(InputStream input,
-                           PNGDecodeParam param) {
+    public PNGImageDecoder(InputStream input, PNGDecodeParam param) {
         super(input, param);
     }
 
@@ -77,8 +58,8 @@ public class PNGImageDecoder extends ImageDecoderImpl {
             throw new IOException(JaiI18N.getString("PNGImageDecoder19"));
         }
         try {
-            return new PNGImage(input, (PNGDecodeParam)param);
-        } catch(Exception e) {
+            return new PNGImage(input, (PNGDecodeParam) param);
+        } catch (Exception e) {
             throw CodecUtils.toIOException(e);
         }
     }
@@ -99,10 +80,10 @@ class PNGChunk {
         this.crc = crc;
 
         typeString = new String();
-        typeString += (char)(type >> 24);
-        typeString += (char)((type >> 16) & 0xff);
-        typeString += (char)((type >> 8) & 0xff);
-        typeString += (char)(type & 0xff);
+        typeString += (char) (type >> 24);
+        typeString += (char) ((type >> 16) & 0xff);
+        typeString += (char) ((type >> 8) & 0xff);
+        typeString += (char) (type & 0xff);
     }
 
     public int getLength() {
@@ -130,23 +111,22 @@ class PNGChunk {
     }
 
     public int getInt2(int offset) {
-        return ((data[offset] & 0xff) << 8) |
-            (data[offset + 1] & 0xff);
+        return ((data[offset] & 0xff) << 8) | (data[offset + 1] & 0xff);
     }
 
     public int getInt4(int offset) {
-        return ((data[offset] & 0xff) << 24) |
-            ((data[offset + 1] & 0xff) << 16) |
-            ((data[offset + 2] & 0xff) << 8) |
-            (data[offset + 3] & 0xff);
+        return ((data[offset] & 0xff) << 24)
+                | ((data[offset + 1] & 0xff) << 16)
+                | ((data[offset + 2] & 0xff) << 8)
+                | (data[offset + 3] & 0xff);
     }
 
     public String getString4(int offset) {
         String s = new String();
-        s += (char)data[offset];
-        s += (char)data[offset + 1];
-        s += (char)data[offset + 2];
-        s += (char)data[offset + 3];
+        s += (char) data[offset];
+        s += (char) data[offset + 1];
+        s += (char) data[offset + 2];
+        s += (char) data[offset + 3];
         return s;
     }
 
@@ -158,8 +138,7 @@ class PNGChunk {
 /**
  * TO DO:
  *
- * zTXt chunks
- *
+ * <p>zTXt chunks
  */
 class PNGImage extends SimpleRenderedImage {
 
@@ -170,8 +149,7 @@ class PNGImage extends SimpleRenderedImage {
     public static final int PNG_COLOR_RGB_ALPHA = 6;
 
     private static final String[] colorTypeNames = {
-        "Grayscale", "Error", "Truecolor", "Index",
-        "Grayscale with alpha", "Error", "Truecolor with alpha"
+        "Grayscale", "Error", "Truecolor", "Index", "Grayscale with alpha", "Error", "Truecolor with alpha"
     };
 
     public static final int PNG_FILTER_NONE = 0;
@@ -186,10 +164,10 @@ class PNGImage extends SimpleRenderedImage {
 
     private int[][] bandOffsets = {
         null,
-        { 0 }, // G
-        { 0, 1 }, // GA in GA order
-        { 0, 1, 2 }, // RGB in RGB order
-        { 0, 1, 2, 3 } // RGBA in RGBA order
+        {0}, // G
+        {0, 1}, // GA in GA order
+        {0, 1, 2}, // RGB in RGB order
+        {0, 1, 2, 3} // RGBA in RGBA order
     };
 
     private int bitDepth;
@@ -251,7 +229,7 @@ class PNGImage extends SimpleRenderedImage {
 
     private boolean emitProperties = true;
 
-    private float fileGamma = 45455/100000.0F;
+    private float fileGamma = 45455 / 100000.0F;
 
     private float userExponent = 1.0F;
 
@@ -304,20 +282,16 @@ class PNGImage extends SimpleRenderedImage {
     private static final int POST_EXP_MASK = 16;
 
     // Expand gray to G/G/G
-    private static final int POST_GRAY_ALPHA_EXP =
-        POST_NONE | POST_EXP_MASK;
+    private static final int POST_GRAY_ALPHA_EXP = POST_NONE | POST_EXP_MASK;
 
     // Expand gray to G/G/G through a gamma lut
-    private static final int POST_GAMMA_EXP =
-        POST_GAMMA | POST_EXP_MASK;
+    private static final int POST_GAMMA_EXP = POST_GAMMA | POST_EXP_MASK;
 
     // Push gray values through grayLut to expand to 8 bits, expand, add alpha
-    private static final int POST_GRAY_LUT_ADD_TRANS_EXP =
-        POST_GRAY_LUT_ADD_TRANS | POST_EXP_MASK;
+    private static final int POST_GRAY_LUT_ADD_TRANS_EXP = POST_GRAY_LUT_ADD_TRANS | POST_EXP_MASK;
 
     // Add transparency to a given gray value, expand
-    private static final int POST_ADD_GRAY_TRANS_EXP =
-        POST_ADD_GRAY_TRANS | POST_EXP_MASK;
+    private static final int POST_ADD_GRAY_TRANS_EXP = POST_ADD_GRAY_TRANS | POST_EXP_MASK;
 
     private Vector streamVec = new Vector();
     private DataInputStream dataStream;
@@ -340,15 +314,15 @@ class PNGImage extends SimpleRenderedImage {
     private int[] gammaLut = null;
 
     private void initGammaLut(int bits) {
-        double exp = (double)userExponent/(fileGamma*displayExponent);
+        double exp = (double) userExponent / (fileGamma * displayExponent);
         int numSamples = 1 << bits;
         int maxOutSample = (bits == 16) ? 65535 : 255;
 
         gammaLut = new int[numSamples];
         for (int i = 0; i < numSamples; i++) {
-            double gbright = (double)i/(numSamples - 1);
+            double gbright = (double) i / (numSamples - 1);
             double gamma = Math.pow(gbright, exp);
-            int igamma = (int)(gamma*maxOutSample + 0.5);
+            int igamma = (int) (gamma * maxOutSample + 0.5);
             if (igamma > maxOutSample) {
                 igamma = maxOutSample;
             }
@@ -358,13 +332,15 @@ class PNGImage extends SimpleRenderedImage {
 
     private final byte[][] expandBits = {
         null,
-        { (byte)0x00, (byte)0xff },
-        { (byte)0x00, (byte)0x55, (byte)0xaa, (byte)0xff },
+        {(byte) 0x00, (byte) 0xff},
+        {(byte) 0x00, (byte) 0x55, (byte) 0xaa, (byte) 0xff},
         null,
-        { (byte)0x00, (byte)0x11, (byte)0x22, (byte)0x33,
-          (byte)0x44, (byte)0x55, (byte)0x66, (byte)0x77,
-          (byte)0x88, (byte)0x99, (byte)0xaa, (byte)0xbb,
-          (byte)0xcc, (byte)0xdd, (byte)0xee, (byte)0xff }
+        {
+            (byte) 0x00, (byte) 0x11, (byte) 0x22, (byte) 0x33,
+            (byte) 0x44, (byte) 0x55, (byte) 0x66, (byte) 0x77,
+            (byte) 0x88, (byte) 0x99, (byte) 0xaa, (byte) 0xbb,
+            (byte) 0xcc, (byte) 0xdd, (byte) 0xee, (byte) 0xff
+        }
     };
 
     private int[] grayLut = null;
@@ -384,8 +360,7 @@ class PNGImage extends SimpleRenderedImage {
         }
     }
 
-    public PNGImage(InputStream stream, PNGDecodeParam decodeParam)
-        throws IOException {
+    public PNGImage(InputStream stream, PNGDecodeParam decodeParam) throws IOException {
 
         if (!stream.markSupported()) {
             stream = new BufferedInputStream(stream);
@@ -422,14 +397,12 @@ class PNGImage extends SimpleRenderedImage {
             }
         } catch (Exception e) {
             String message = JaiI18N.getString("PNGImageDecoder1");
-            ImagingListenerProxy.errorOccurred(message,
-                                   new ImagingException(message, e),
-                                   this, false);
-/*
-            e.printStackTrace();
-            String msg = JaiI18N.getString("PNGImageDecoder1");
-            throw new RuntimeException(msg);
-*/
+            ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
+            /*
+                        e.printStackTrace();
+                        String msg = JaiI18N.getString("PNGImageDecoder1");
+                        throw new RuntimeException(msg);
+            */
         }
 
         do {
@@ -502,13 +475,11 @@ class PNGImage extends SimpleRenderedImage {
                 }
             } catch (Exception e) {
                 String message = JaiI18N.getString("PNGImageDecoder2");
-                ImagingListenerProxy.errorOccurred(message,
-                                       new ImagingException(message, e),
-                                       this, false);
-/*                e.printStackTrace();
-                String msg = JaiI18N.getString("PNGImageDecoder2");
-                throw new RuntimeException(msg);
-*/
+                ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
+                /*                e.printStackTrace();
+                                String msg = JaiI18N.getString("PNGImageDecoder2");
+                                throw new RuntimeException(msg);
+                */
             }
         } while (true);
 
@@ -534,16 +505,14 @@ class PNGImage extends SimpleRenderedImage {
             distream.reset();
 
             String typeString = new String();
-            typeString += (char)(type >> 24);
-            typeString += (char)((type >> 16) & 0xff);
-            typeString += (char)((type >> 8) & 0xff);
-            typeString += (char)(type & 0xff);
+            typeString += (char) (type >> 24);
+            typeString += (char) ((type >> 16) & 0xff);
+            typeString += (char) ((type >> 8) & 0xff);
+            typeString += (char) (type & 0xff);
             return typeString;
         } catch (Exception e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder20"),
-                                   e,
-                                   PNGImageDecoder.class, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder20"), e, PNGImageDecoder.class, false);
+            //            e.printStackTrace();
             return null;
         }
     }
@@ -558,10 +527,8 @@ class PNGImage extends SimpleRenderedImage {
 
             return new PNGChunk(length, type, data, crc);
         } catch (Exception e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder21"),
-                                   e,
-                                   PNGImageDecoder.class, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder21"), e, PNGImageDecoder.class, false);
+            //            e.printStackTrace();
             return null;
         }
     }
@@ -572,19 +539,18 @@ class PNGImage extends SimpleRenderedImage {
 
         bitDepth = chunk.getInt1(8);
 
-        if ((bitDepth != 1) && (bitDepth != 2) && (bitDepth != 4) &&
-            (bitDepth != 8) && (bitDepth != 16)) {
+        if ((bitDepth != 1) && (bitDepth != 2) && (bitDepth != 4) && (bitDepth != 8) && (bitDepth != 16)) {
             // Error -- bad bit depth
             throw new RuntimeException(JaiI18N.getString("PNGImageDecoder3"));
         }
         maxOpacity = (1 << bitDepth) - 1;
 
         colorType = chunk.getInt1(9);
-        if ((colorType != PNG_COLOR_GRAY) &&
-            (colorType != PNG_COLOR_RGB) &&
-            (colorType != PNG_COLOR_PALETTE) &&
-            (colorType != PNG_COLOR_GRAY_ALPHA) &&
-            (colorType != PNG_COLOR_RGB_ALPHA)) {
+        if ((colorType != PNG_COLOR_GRAY)
+                && (colorType != PNG_COLOR_RGB)
+                && (colorType != PNG_COLOR_PALETTE)
+                && (colorType != PNG_COLOR_GRAY_ALPHA)
+                && (colorType != PNG_COLOR_RGB_ALPHA)) {
             System.out.println(JaiI18N.getString("PNGImageDecoder4"));
         }
 
@@ -615,8 +581,7 @@ class PNGImage extends SimpleRenderedImage {
         if (generateEncodeParam) {
             if (colorType == PNG_COLOR_PALETTE) {
                 encodeParam = new PNGEncodeParam.Palette();
-            } else if (colorType == PNG_COLOR_GRAY ||
-                       colorType == PNG_COLOR_GRAY_ALPHA) {
+            } else if (colorType == PNG_COLOR_GRAY || colorType == PNG_COLOR_GRAY_ALPHA) {
                 encodeParam = new PNGEncodeParam.Gray();
             } else {
                 encodeParam = new PNGEncodeParam.RGB();
@@ -633,7 +598,7 @@ class PNGImage extends SimpleRenderedImage {
 
         if (performGammaCorrection) {
             // Assume file gamma is 1/2.2 unless we get a gAMA chunk
-            float gamma = (1.0F/2.2F)*(displayExponent/userExponent);
+            float gamma = (1.0F / 2.2F) * (displayExponent / userExponent);
             if (encodeParam != null) {
                 encodeParam.setGamma(gamma);
             }
@@ -677,90 +642,90 @@ class PNGImage extends SimpleRenderedImage {
         bytesPerPixel = (bitDepth == 16) ? 2 : 1;
 
         switch (colorType) {
-        case PNG_COLOR_GRAY:
-            inputBands = 1;
-            outputBands = 1;
-
-            if (output8BitGray && (bitDepth < 8)) {
-                postProcess = POST_GRAY_LUT;
-            } else if (performGammaCorrection) {
-                postProcess = POST_GAMMA;
-            } else {
-                postProcess = POST_NONE;
-            }
-            break;
-
-        case PNG_COLOR_RGB:
-            inputBands = 3;
-            bytesPerPixel *= 3;
-            outputBands = 3;
-
-            if (performGammaCorrection) {
-                postProcess = POST_GAMMA;
-            } else {
-                postProcess = POST_NONE;
-            }
-            break;
-
-        case PNG_COLOR_PALETTE:
-            inputBands = 1;
-            bytesPerPixel = 1;
-            outputBands = expandPalette ? 3 : 1;
-
-            if (expandPalette) {
-                postProcess = POST_PALETTE_TO_RGB;
-            } else {
-                postProcess = POST_NONE;
-            }
-            break;
-
-        case PNG_COLOR_GRAY_ALPHA:
-            inputBands = 2;
-            bytesPerPixel *= 2;
-
-            if (suppressAlpha) {
+            case PNG_COLOR_GRAY:
+                inputBands = 1;
                 outputBands = 1;
-                postProcess = POST_REMOVE_GRAY_TRANS;
-            } else {
+
+                if (output8BitGray && (bitDepth < 8)) {
+                    postProcess = POST_GRAY_LUT;
+                } else if (performGammaCorrection) {
+                    postProcess = POST_GAMMA;
+                } else {
+                    postProcess = POST_NONE;
+                }
+                break;
+
+            case PNG_COLOR_RGB:
+                inputBands = 3;
+                bytesPerPixel *= 3;
+                outputBands = 3;
+
                 if (performGammaCorrection) {
                     postProcess = POST_GAMMA;
                 } else {
                     postProcess = POST_NONE;
                 }
-                if (expandGrayAlpha) {
-                    postProcess |= POST_EXP_MASK;
-                    outputBands = 4;
+                break;
+
+            case PNG_COLOR_PALETTE:
+                inputBands = 1;
+                bytesPerPixel = 1;
+                outputBands = expandPalette ? 3 : 1;
+
+                if (expandPalette) {
+                    postProcess = POST_PALETTE_TO_RGB;
                 } else {
-                    outputBands = 2;
+                    postProcess = POST_NONE;
                 }
-            }
-            break;
+                break;
 
-        case PNG_COLOR_RGB_ALPHA:
-            inputBands = 4;
-            bytesPerPixel *= 4;
-            outputBands = (!suppressAlpha) ? 4 : 3;
+            case PNG_COLOR_GRAY_ALPHA:
+                inputBands = 2;
+                bytesPerPixel *= 2;
 
-            if (suppressAlpha) {
-                postProcess = POST_REMOVE_RGB_TRANS;
-            } else if (performGammaCorrection) {
-                postProcess = POST_GAMMA;
-            } else {
-                postProcess = POST_NONE;
-            }
-            break;
+                if (suppressAlpha) {
+                    outputBands = 1;
+                    postProcess = POST_REMOVE_GRAY_TRANS;
+                } else {
+                    if (performGammaCorrection) {
+                        postProcess = POST_GAMMA;
+                    } else {
+                        postProcess = POST_NONE;
+                    }
+                    if (expandGrayAlpha) {
+                        postProcess |= POST_EXP_MASK;
+                        outputBands = 4;
+                    } else {
+                        outputBands = 2;
+                    }
+                }
+                break;
+
+            case PNG_COLOR_RGB_ALPHA:
+                inputBands = 4;
+                bytesPerPixel *= 4;
+                outputBands = (!suppressAlpha) ? 4 : 3;
+
+                if (suppressAlpha) {
+                    postProcess = POST_REMOVE_RGB_TRANS;
+                } else if (performGammaCorrection) {
+                    postProcess = POST_GAMMA;
+                } else {
+                    postProcess = POST_NONE;
+                }
+                break;
         }
     }
 
     private void parse_IEND_chunk(PNGChunk chunk) throws Exception {
         // Store text strings
         int textLen = textKeys.size();
-        String[] textArray = new String[2*textLen];
+        String[] textArray = new String[2 * textLen];
         for (int i = 0; i < textLen; i++) {
-            String key = (String)textKeys.elementAt(i);
-            String val = (String)textStrings.elementAt(i);
-            textArray[2*i] = key;
-            textArray[2*i + 1] = val;
+            String key = (String) textKeys.elementAt(i);
+            String val = (String) textStrings.elementAt(i);
+            textArray[2 * i] = key;
+            textArray[2 * i + 1] = val;
             if (emitProperties) {
                 String uniqueKey = "text_" + i + ":" + key;
                 properties.put(uniqueKey.toLowerCase(), val);
@@ -772,12 +737,12 @@ class PNGImage extends SimpleRenderedImage {
 
         // Store compressed text strings
         int ztextLen = ztextKeys.size();
-        String[] ztextArray = new String[2*ztextLen];
+        String[] ztextArray = new String[2 * ztextLen];
         for (int i = 0; i < ztextLen; i++) {
-            String key = (String)ztextKeys.elementAt(i);
-            String val = (String)ztextStrings.elementAt(i);
-            ztextArray[2*i] = key;
-            ztextArray[2*i + 1] = val;
+            String key = (String) ztextKeys.elementAt(i);
+            String val = (String) ztextStrings.elementAt(i);
+            ztextArray[2 * i] = key;
+            ztextArray[2 * i + 1] = val;
             if (emitProperties) {
                 String uniqueKey = "ztext_" + i + ":" + key;
                 properties.put(uniqueKey.toLowerCase(), val);
@@ -800,35 +765,29 @@ class PNGImage extends SimpleRenderedImage {
         }
 
         // Parse prior IDAT chunks
-        InputStream seqStream =
-            new SequenceInputStream(streamVec.elements());
-        InputStream infStream =
-            new InflaterInputStream(seqStream, new Inflater());
+        InputStream seqStream = new SequenceInputStream(streamVec.elements());
+        InputStream infStream = new InflaterInputStream(seqStream, new Inflater());
         dataStream = new DataInputStream(infStream);
 
         // Create an empty WritableRaster
         int depth = bitDepth;
-        if ((colorType == PNG_COLOR_GRAY) &&
-            (bitDepth < 8) && output8BitGray) {
+        if ((colorType == PNG_COLOR_GRAY) && (bitDepth < 8) && output8BitGray) {
             depth = 8;
         }
         if ((colorType == PNG_COLOR_PALETTE) && expandPalette) {
             depth = 8;
         }
-        int bytesPerRow = (outputBands*width*depth + 7)/8;
-        int scanlineStride =
-            (depth == 16) ? (bytesPerRow/2) : bytesPerRow;
+        int bytesPerRow = (outputBands * width * depth + 7) / 8;
+        int scanlineStride = (depth == 16) ? (bytesPerRow / 2) : bytesPerRow;
 
-        theTile = createRaster(width, height, outputBands,
-                               scanlineStride,
-                               depth);
+        theTile = createRaster(width, height, outputBands, scanlineStride, depth);
 
         if (performGammaCorrection && (gammaLut == null)) {
             initGammaLut(bitDepth);
         }
-        if ((postProcess == POST_GRAY_LUT) ||
-            (postProcess == POST_GRAY_LUT_ADD_TRANS) ||
-            (postProcess == POST_GRAY_LUT_ADD_TRANS_EXP)) {
+        if ((postProcess == POST_GRAY_LUT)
+                || (postProcess == POST_GRAY_LUT_ADD_TRANS)
+                || (postProcess == POST_GRAY_LUT_ADD_TRANS_EXP)) {
             initGrayLut(bitDepth);
         }
 
@@ -837,36 +796,22 @@ class PNGImage extends SimpleRenderedImage {
 
         if ((colorType == PNG_COLOR_PALETTE) && !expandPalette) {
             if (outputHasAlphaPalette) {
-                colorModel = new IndexColorModel(bitDepth,
-                                                 paletteEntries,
-                                                 redPalette,
-                                                 greenPalette,
-                                                 bluePalette,
-                                                 alphaPalette);
+                colorModel = new IndexColorModel(
+                        bitDepth, paletteEntries, redPalette, greenPalette, bluePalette, alphaPalette);
             } else {
-                colorModel = new IndexColorModel(bitDepth,
-                                                 paletteEntries,
-                                                 redPalette,
-                                                 greenPalette,
-                                                 bluePalette);
+                colorModel = new IndexColorModel(bitDepth, paletteEntries, redPalette, greenPalette, bluePalette);
             }
-        } else if ((colorType == PNG_COLOR_GRAY) &&
-                   (bitDepth < 8) && !output8BitGray) {
+        } else if ((colorType == PNG_COLOR_GRAY) && (bitDepth < 8) && !output8BitGray) {
             byte[] palette = expandBits[bitDepth];
-            colorModel = new IndexColorModel(bitDepth,
-                                             palette.length,
-                                             palette,
-                                             palette,
-                                             palette);
+            colorModel = new IndexColorModel(bitDepth, palette.length, palette, palette, palette);
         } else {
-            colorModel =
-                ImageCodec.createComponentColorModel(sampleModel,
-		    iccProfile == null ? null : new ICC_ColorSpace(iccProfile));
+            colorModel = ImageCodec.createComponentColorModel(
+                    sampleModel, iccProfile == null ? null : new ICC_ColorSpace(iccProfile));
         }
     }
 
     private void parse_PLTE_chunk(PNGChunk chunk) {
-        paletteEntries = chunk.getLength()/3;
+        paletteEntries = chunk.getLength() / 3;
         redPalette = new byte[paletteEntries];
         greenPalette = new byte[paletteEntries];
         bluePalette = new byte[paletteEntries];
@@ -884,9 +829,9 @@ class PNGImage extends SimpleRenderedImage {
                 byte g = chunk.getByte(pltIndex++);
                 byte b = chunk.getByte(pltIndex++);
 
-                redPalette[i] = (byte)gammaLut[r & 0xff];
-                greenPalette[i] = (byte)gammaLut[g & 0xff];
-                bluePalette[i] = (byte)gammaLut[b & 0xff];
+                redPalette[i] = (byte) gammaLut[r & 0xff];
+                greenPalette[i] = (byte) gammaLut[g & 0xff];
+                bluePalette[i] = (byte) gammaLut[b & 0xff];
             }
         } else {
             for (int i = 0; i < paletteEntries; i++) {
@@ -901,50 +846,49 @@ class PNGImage extends SimpleRenderedImage {
         hasBackground = true;
 
         switch (colorType) {
-        case PNG_COLOR_PALETTE:
-            int bkgdIndex = chunk.getByte(0) & 0xff;
+            case PNG_COLOR_PALETTE:
+                int bkgdIndex = chunk.getByte(0) & 0xff;
 
-            bkgdRed = redPalette[bkgdIndex] & 0xff;
-            bkgdGreen = greenPalette[bkgdIndex] & 0xff;
-            bkgdBlue = bluePalette[bkgdIndex] & 0xff;
+                bkgdRed = redPalette[bkgdIndex] & 0xff;
+                bkgdGreen = greenPalette[bkgdIndex] & 0xff;
+                bkgdBlue = bluePalette[bkgdIndex] & 0xff;
 
-            if (encodeParam != null) {
-                ((PNGEncodeParam.Palette)encodeParam).
-                    setBackgroundPaletteIndex(bkgdIndex);
-            }
-            break;
-        case PNG_COLOR_GRAY: case PNG_COLOR_GRAY_ALPHA:
-            int bkgdGray = chunk.getInt2(0);
-            bkgdRed = bkgdGreen = bkgdBlue = bkgdGray;
+                if (encodeParam != null) {
+                    ((PNGEncodeParam.Palette) encodeParam).setBackgroundPaletteIndex(bkgdIndex);
+                }
+                break;
+            case PNG_COLOR_GRAY:
+            case PNG_COLOR_GRAY_ALPHA:
+                int bkgdGray = chunk.getInt2(0);
+                bkgdRed = bkgdGreen = bkgdBlue = bkgdGray;
 
-            if (encodeParam != null) {
-                ((PNGEncodeParam.Gray)encodeParam).
-                    setBackgroundGray(bkgdGray);
-            }
-            break;
-        case PNG_COLOR_RGB: case PNG_COLOR_RGB_ALPHA:
-            // Fix 4625294: In the case of bitDepth = 8,
-	    // when the background color values is larger
-            // than 128, and the encoder copies the byte into a short
-            // without masking, the decoded background values may be
-            // out of 8 bit range.  So mask them here to avoid the
-            // exception thrown by the constructor of Color.
-	    // So mask to make it safe even when the values exceeds
-	    // the range.
-	    int mask = (1 << bitDepth) - 1;
-            bkgdRed = chunk.getInt2(0) & mask;
-            bkgdGreen = chunk.getInt2(2) & mask;
-            bkgdBlue = chunk.getInt2(4) & mask;
+                if (encodeParam != null) {
+                    ((PNGEncodeParam.Gray) encodeParam).setBackgroundGray(bkgdGray);
+                }
+                break;
+            case PNG_COLOR_RGB:
+            case PNG_COLOR_RGB_ALPHA:
+                // Fix 4625294: In the case of bitDepth = 8,
+                // when the background color values is larger
+                // than 128, and the encoder copies the byte into a short
+                // without masking, the decoded background values may be
+                // out of 8 bit range.  So mask them here to avoid the
+                // exception thrown by the constructor of Color.
+                // So mask to make it safe even when the values exceeds
+                // the range.
+                int mask = (1 << bitDepth) - 1;
+                bkgdRed = chunk.getInt2(0) & mask;
+                bkgdGreen = chunk.getInt2(2) & mask;
+                bkgdBlue = chunk.getInt2(4) & mask;
 
-            int[] bkgdRGB = new int[3];
-            bkgdRGB[0] = bkgdRed;
-            bkgdRGB[1] = bkgdGreen;
-            bkgdRGB[2] = bkgdBlue;
-            if (encodeParam != null) {
-                ((PNGEncodeParam.RGB)encodeParam).
-                    setBackgroundRGB(bkgdRGB);
-            }
-            break;
+                int[] bkgdRGB = new int[3];
+                bkgdRGB[0] = bkgdRed;
+                bkgdRGB[1] = bkgdGreen;
+                bkgdRGB[2] = bkgdBlue;
+                if (encodeParam != null) {
+                    ((PNGEncodeParam.RGB) encodeParam).setBackgroundRGB(bkgdRGB);
+                }
+                break;
         }
 
         int r = 0, g = 0, b = 0;
@@ -973,14 +917,14 @@ class PNGImage extends SimpleRenderedImage {
         }
 
         chromaticity = new float[8];
-        chromaticity[0] = chunk.getInt4(0)/100000.0F;
-        chromaticity[1] = chunk.getInt4(4)/100000.0F;
-        chromaticity[2] = chunk.getInt4(8)/100000.0F;
-        chromaticity[3] = chunk.getInt4(12)/100000.0F;
-        chromaticity[4] = chunk.getInt4(16)/100000.0F;
-        chromaticity[5] = chunk.getInt4(20)/100000.0F;
-        chromaticity[6] = chunk.getInt4(24)/100000.0F;
-        chromaticity[7] = chunk.getInt4(28)/100000.0F;
+        chromaticity[0] = chunk.getInt4(0) / 100000.0F;
+        chromaticity[1] = chunk.getInt4(4) / 100000.0F;
+        chromaticity[2] = chunk.getInt4(8) / 100000.0F;
+        chromaticity[3] = chunk.getInt4(12) / 100000.0F;
+        chromaticity[4] = chunk.getInt4(16) / 100000.0F;
+        chromaticity[5] = chunk.getInt4(20) / 100000.0F;
+        chromaticity[6] = chunk.getInt4(24) / 100000.0F;
+        chromaticity[7] = chunk.getInt4(28) / 100000.0F;
 
         if (encodeParam != null) {
             encodeParam.setChromaticity(chromaticity);
@@ -1003,15 +947,14 @@ class PNGImage extends SimpleRenderedImage {
             return;
         }
 
-        fileGamma = chunk.getInt4(0)/100000.0F;
+        fileGamma = chunk.getInt4(0) / 100000.0F;
 
-        float exp =
-            performGammaCorrection ? displayExponent/userExponent : 1.0F;
+        float exp = performGammaCorrection ? displayExponent / userExponent : 1.0F;
         if (encodeParam != null) {
-            encodeParam.setGamma(fileGamma*exp);
+            encodeParam.setGamma(fileGamma * exp);
         }
         if (emitProperties) {
-            properties.put("gamma", new Float(fileGamma*exp));
+            properties.put("gamma", new Float(fileGamma * exp));
         }
     }
 
@@ -1023,7 +966,7 @@ class PNGImage extends SimpleRenderedImage {
         int length = redPalette.length;
         int[] hist = new int[length];
         for (int i = 0; i < length; i++) {
-            hist[i] = chunk.getInt2(2*i);
+            hist[i] = chunk.getInt2(2 * i);
         }
 
         if (encodeParam != null) {
@@ -1033,21 +976,17 @@ class PNGImage extends SimpleRenderedImage {
 
     private void parse_iCCP_chunk(PNGChunk chunk) {
         byte b;
-	byte[] data = new byte[80];
+        byte[] data = new byte[80];
         int pos = 0;
         while (pos < 79 && (b = chunk.getByte(pos)) != 0) {
             data[pos++] = b;
         }
 
-	data[pos] = 0;
-	String name = new String(data);
-	byte compMethod = chunk.getByte(pos++);
-	InflaterInputStream infls = new InflaterInputStream(
-                                        new ByteArrayInputStream(
-                                            chunk.getData(), pos,
-                                            chunk.getLength() - pos
-                                        )
-                                    );
+        data[pos] = 0;
+        String name = new String(data);
+        byte compMethod = chunk.getByte(pos++);
+        InflaterInputStream infls =
+                new InflaterInputStream(new ByteArrayInputStream(chunk.getData(), pos, chunk.getLength() - pos));
         try {
             iccProfile = ICC_Profile.getInstance(infls);
             iccProfileName = name;
@@ -1055,7 +994,6 @@ class PNGImage extends SimpleRenderedImage {
             iccProfile = null;
             iccProfileName = null;
         }
-
     }
 
     private void parse_pHYs_chunk(PNGChunk chunk) {
@@ -1064,15 +1002,12 @@ class PNGImage extends SimpleRenderedImage {
         int unitSpecifier = chunk.getInt1(8);
 
         if (encodeParam != null) {
-            encodeParam.setPhysicalDimension(xPixelsPerUnit,
-                                             yPixelsPerUnit,
-                                             unitSpecifier);
+            encodeParam.setPhysicalDimension(xPixelsPerUnit, yPixelsPerUnit, unitSpecifier);
         }
         if (emitProperties) {
             properties.put("x_pixels_per_unit", new Integer(xPixelsPerUnit));
             properties.put("y_pixels_per_unit", new Integer(yPixelsPerUnit));
-            properties.put("pixel_aspect_ratio",
-                           new Float((float)xPixelsPerUnit/yPixelsPerUnit));
+            properties.put("pixel_aspect_ratio", new Float((float) xPixelsPerUnit / yPixelsPerUnit));
             if (unitSpecifier == 1) {
                 properties.put("pixel_units", "Meters");
             } else if (unitSpecifier != 0) {
@@ -1089,7 +1024,7 @@ class PNGImage extends SimpleRenderedImage {
             significantBits = new int[inputBands];
         }
         for (int i = 0; i < significantBits.length; i++) {
-            int bits = (int)chunk.getByte(i);
+            int bits = (int) chunk.getByte(i);
             int depth = (colorType == PNG_COLOR_PALETTE) ? 8 : bitDepth;
             if (bits <= 0 || bits > depth) {
                 // Error -- significant bits must be between 0 and
@@ -1112,21 +1047,21 @@ class PNGImage extends SimpleRenderedImage {
 
         // The presence of an sRGB chunk implies particular
         // settings for gamma and chroma.
-        fileGamma = 45455/100000.0F;
+        fileGamma = 45455 / 100000.0F;
 
         chromaticity = new float[8];
-        chromaticity[0] = 31270/10000.0F;
-        chromaticity[1] = 32900/10000.0F;
-        chromaticity[2] = 64000/10000.0F;
-        chromaticity[3] = 33000/10000.0F;
-        chromaticity[4] = 30000/10000.0F;
-        chromaticity[5] = 60000/10000.0F;
-        chromaticity[6] = 15000/10000.0F;
-        chromaticity[7] =  6000/10000.0F;
+        chromaticity[0] = 31270 / 10000.0F;
+        chromaticity[1] = 32900 / 10000.0F;
+        chromaticity[2] = 64000 / 10000.0F;
+        chromaticity[3] = 33000 / 10000.0F;
+        chromaticity[4] = 30000 / 10000.0F;
+        chromaticity[5] = 60000 / 10000.0F;
+        chromaticity[6] = 15000 / 10000.0F;
+        chromaticity[7] = 6000 / 10000.0F;
 
         if (performGammaCorrection) {
             // File gamma is 1/2.2
-            float gamma = fileGamma*(displayExponent/userExponent);
+            float gamma = fileGamma * (displayExponent / userExponent);
             if (encodeParam != null) {
                 encodeParam.setGamma(gamma);
                 encodeParam.setChromaticity(chromaticity);
@@ -1152,11 +1087,11 @@ class PNGImage extends SimpleRenderedImage {
 
         int textIndex = 0;
         while ((b = chunk.getByte(textIndex++)) != 0) {
-            key += (char)b;
+            key += (char) b;
         }
 
         for (int i = textIndex; i < chunk.getLength(); i++) {
-            value += (char)chunk.getByte(i);
+            value += (char) chunk.getByte(i);
         }
 
         textKeys.add(key);
@@ -1174,8 +1109,7 @@ class PNGImage extends SimpleRenderedImage {
         TimeZone gmt = TimeZone.getTimeZone("GMT");
 
         GregorianCalendar cal = new GregorianCalendar(gmt);
-        cal.set(year, month, day,
-                hour, minute, second);
+        cal.set(year, month, day, hour, minute, second);
         Date date = cal.getTime();
 
         if (encodeParam != null) {
@@ -1202,7 +1136,7 @@ class PNGImage extends SimpleRenderedImage {
 
             // Fill rest of palette with 255
             for (int i = entries; i < paletteEntries; i++) {
-                alphaPalette[i] = (byte)255;
+                alphaPalette[i] = (byte) 255;
             }
 
             if (!suppressAlpha) {
@@ -1233,8 +1167,7 @@ class PNGImage extends SimpleRenderedImage {
                 }
 
                 if (encodeParam != null) {
-                    ((PNGEncodeParam.Gray)encodeParam).
-                        setTransparentGray(grayTransparentAlpha);
+                    ((PNGEncodeParam.Gray) encodeParam).setTransparentGray(grayTransparentAlpha);
                 }
             }
         } else if (colorType == PNG_COLOR_RGB) {
@@ -1251,12 +1184,10 @@ class PNGImage extends SimpleRenderedImage {
                     rgbTrans[0] = redTransparentAlpha;
                     rgbTrans[1] = greenTransparentAlpha;
                     rgbTrans[2] = blueTransparentAlpha;
-                    ((PNGEncodeParam.RGB)encodeParam).
-                        setTransparentRGB(rgbTrans);
+                    ((PNGEncodeParam.RGB) encodeParam).setTransparentRGB(rgbTrans);
                 }
             }
-        } else if (colorType == PNG_COLOR_GRAY_ALPHA ||
-                   colorType == PNG_COLOR_RGB_ALPHA) {
+        } else if (colorType == PNG_COLOR_GRAY_ALPHA || colorType == PNG_COLOR_RGB_ALPHA) {
             // Error -- GA or RGBA image can't have a tRNS chunk.
             throw new RuntimeException(JaiI18N.getString("PNGImageDecoder15"));
         }
@@ -1269,60 +1200,45 @@ class PNGImage extends SimpleRenderedImage {
 
         int textIndex = 0;
         while ((b = chunk.getByte(textIndex++)) != 0) {
-            key += (char)b;
+            key += (char) b;
         }
         int method = chunk.getByte(textIndex++);
 
         try {
             int length = chunk.getLength() - textIndex;
             byte[] data = chunk.getData();
-            InputStream cis =
-                new ByteArrayInputStream(data, textIndex, length);
+            InputStream cis = new ByteArrayInputStream(data, textIndex, length);
             InputStream iis = new InflaterInputStream(cis);
 
             int c;
             while ((c = iis.read()) != -1) {
-                value += (char)c;
+                value += (char) c;
             }
 
             ztextKeys.add(key);
             ztextStrings.add(value);
         } catch (Exception e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder21"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder21"), e, this, false);
+            //            e.printStackTrace();
         }
     }
 
-    private WritableRaster createRaster(int width, int height, int bands,
-                                        int scanlineStride,
-                                        int bitDepth) {
+    private WritableRaster createRaster(int width, int height, int bands, int scanlineStride, int bitDepth) {
 
         DataBuffer dataBuffer;
         WritableRaster ras = null;
         Point origin = new Point(0, 0);
         if ((bitDepth < 8) && (bands == 1)) {
-            dataBuffer = new DataBufferByte(height*scanlineStride);
-            ras = Raster.createPackedRaster(dataBuffer,
-                                            width, height,
-                                            bitDepth,
-                                            origin);
+            dataBuffer = new DataBufferByte(height * scanlineStride);
+            ras = Raster.createPackedRaster(dataBuffer, width, height, bitDepth, origin);
         } else if (bitDepth <= 8) {
-            dataBuffer = new DataBufferByte(height*scanlineStride);
-           ras = Raster.createInterleavedRaster(dataBuffer,
-                                                 width, height,
-                                                 scanlineStride,
-                                                 bands,
-                                                 bandOffsets[bands],
-                                                 origin);
+            dataBuffer = new DataBufferByte(height * scanlineStride);
+            ras = Raster.createInterleavedRaster(
+                    dataBuffer, width, height, scanlineStride, bands, bandOffsets[bands], origin);
         } else {
-            dataBuffer = new DataBufferUShort(height*scanlineStride);
-            ras = Raster.createInterleavedRaster(dataBuffer,
-                                                 width, height,
-                                                 scanlineStride,
-                                                 bands,
-                                                 bandOffsets[bands],
-                                                 origin);
+            dataBuffer = new DataBufferUShort(height * scanlineStride);
+            ras = Raster.createInterleavedRaster(
+                    dataBuffer, width, height, scanlineStride, bands, bandOffsets[bands], origin);
         }
 
         return ras;
@@ -1337,29 +1253,27 @@ class PNGImage extends SimpleRenderedImage {
             val = curr[i] & 0xff;
             val += curr[i - bpp] & 0xff;
 
-            curr[i] = (byte)val;
+            curr[i] = (byte) val;
         }
     }
 
-    private static void decodeUpFilter(byte[] curr, byte[] prev,
-                                       int count) {
+    private static void decodeUpFilter(byte[] curr, byte[] prev, int count) {
         for (int i = 0; i < count; i++) {
             int raw = curr[i] & 0xff;
             int prior = prev[i] & 0xff;
 
-            curr[i] = (byte)(raw + prior);
+            curr[i] = (byte) (raw + prior);
         }
     }
 
-    private static void decodeAverageFilter(byte[] curr, byte[] prev,
-                                            int count, int bpp) {
+    private static void decodeAverageFilter(byte[] curr, byte[] prev, int count, int bpp) {
         int raw, priorPixel, priorRow;
 
         for (int i = 0; i < bpp; i++) {
             raw = curr[i] & 0xff;
             priorRow = prev[i] & 0xff;
 
-            curr[i] = (byte)(raw + priorRow/2);
+            curr[i] = (byte) (raw + priorRow / 2);
         }
 
         for (int i = bpp; i < count; i++) {
@@ -1367,7 +1281,7 @@ class PNGImage extends SimpleRenderedImage {
             priorPixel = curr[i - bpp] & 0xff;
             priorRow = prev[i] & 0xff;
 
-            curr[i] = (byte)(raw + (priorPixel + priorRow)/2);
+            curr[i] = (byte) (raw + (priorPixel + priorRow) / 2);
         }
     }
 
@@ -1386,15 +1300,14 @@ class PNGImage extends SimpleRenderedImage {
         }
     }
 
-    private static void decodePaethFilter(byte[] curr, byte[] prev,
-                                          int count, int bpp) {
+    private static void decodePaethFilter(byte[] curr, byte[] prev, int count, int bpp) {
         int raw, priorPixel, priorRow, priorRowPixel;
 
         for (int i = 0; i < bpp; i++) {
             raw = curr[i] & 0xff;
             priorRow = prev[i] & 0xff;
 
-            curr[i] = (byte)(raw + priorRow);
+            curr[i] = (byte) (raw + priorRow);
         }
 
         for (int i = bpp; i < count; i++) {
@@ -1403,332 +1316,315 @@ class PNGImage extends SimpleRenderedImage {
             priorRow = prev[i] & 0xff;
             priorRowPixel = prev[i - bpp] & 0xff;
 
-            curr[i] = (byte)(raw + paethPredictor(priorPixel,
-                                                  priorRow,
-                                                  priorRowPixel));
+            curr[i] = (byte) (raw + paethPredictor(priorPixel, priorRow, priorRowPixel));
         }
     }
 
-    private void processPixels(int process,
-                               Raster src, WritableRaster dst,
-                               int xOffset, int step, int y, int width) {
+    private void processPixels(int process, Raster src, WritableRaster dst, int xOffset, int step, int y, int width) {
         int srcX, dstX;
 
         // Create an array suitable for holding one pixel
-        int[] ps = src.getPixel(0, 0, (int[])null);
-        int[] pd = dst.getPixel(0, 0, (int[])null);
+        int[] ps = src.getPixel(0, 0, (int[]) null);
+        int[] pd = dst.getPixel(0, 0, (int[]) null);
 
         dstX = xOffset;
         switch (process) {
-        case POST_NONE:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-                dst.setPixel(dstX, y, ps);
-                dstX += step;
-            }
-            break;
-
-        case POST_GAMMA:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-
-                for (int i = 0; i < inputBands; i++) {
-                    int x = ps[i];
-                    ps[i] = gammaLut[x];
+            case POST_NONE:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+                    dst.setPixel(dstX, y, ps);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, ps);
-                dstX += step;
-            }
-            break;
+            case POST_GAMMA:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_GRAY_LUT:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    for (int i = 0; i < inputBands; i++) {
+                        int x = ps[i];
+                        ps[i] = gammaLut[x];
+                    }
 
-                pd[0] = grayLut[ps[0]];
-
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
-
-        case POST_GRAY_LUT_ADD_TRANS:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-
-                int val = ps[0];
-                pd[0] = grayLut[val];
-                if (val == grayTransparentAlpha) {
-                    pd[1] = 0;
-                } else {
-                    pd[1] = maxOpacity;
+                    dst.setPixel(dstX, y, ps);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_GRAY_LUT:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_PALETTE_TO_RGB:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    pd[0] = grayLut[ps[0]];
 
-                int val = ps[0];
-                pd[0] = redPalette[val];
-                pd[1] = greenPalette[val];
-                pd[2] = bluePalette[val];
-
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
-
-        case POST_PALETTE_TO_RGBA:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-
-                int val = ps[0];
-                pd[0] = redPalette[val];
-                pd[1] = greenPalette[val];
-                pd[2] = bluePalette[val];
-                pd[3] = alphaPalette[val];
-
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
-
-        case POST_ADD_GRAY_TRANS:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-
-                int val = ps[0];
-                if (performGammaCorrection) {
-                    val = gammaLut[val];
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
-                pd[0] = val;
-                if (val == grayTransparentAlpha) {
-                    pd[1] = 0;
-                } else {
-                    pd[1] = maxOpacity;
+                break;
+
+            case POST_GRAY_LUT_ADD_TRANS:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+
+                    int val = ps[0];
+                    pd[0] = grayLut[val];
+                    if (val == grayTransparentAlpha) {
+                        pd[1] = 0;
+                    } else {
+                        pd[1] = maxOpacity;
+                    }
+
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_PALETTE_TO_RGB:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_ADD_RGB_TRANS:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    int val = ps[0];
+                    pd[0] = redPalette[val];
+                    pd[1] = greenPalette[val];
+                    pd[2] = bluePalette[val];
 
-                int r = ps[0];
-                int g = ps[1];
-                int b = ps[2];
-                if (performGammaCorrection) {
-                    pd[0] = gammaLut[r];
-                    pd[1] = gammaLut[g];
-                    pd[2] = gammaLut[b];
-                } else {
-                    pd[0] = r;
-                    pd[1] = g;
-                    pd[2] = b;
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
-                if ((r == redTransparentAlpha) &&
-                    (g == greenTransparentAlpha) &&
-                    (b == blueTransparentAlpha)) {
-                    pd[3] = 0;
-                } else {
-                    pd[3] = maxOpacity;
+                break;
+
+            case POST_PALETTE_TO_RGBA:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+
+                    int val = ps[0];
+                    pd[0] = redPalette[val];
+                    pd[1] = greenPalette[val];
+                    pd[2] = bluePalette[val];
+                    pd[3] = alphaPalette[val];
+
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_ADD_GRAY_TRANS:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_REMOVE_GRAY_TRANS:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    int val = ps[0];
+                    if (performGammaCorrection) {
+                        val = gammaLut[val];
+                    }
+                    pd[0] = val;
+                    if (val == grayTransparentAlpha) {
+                        pd[1] = 0;
+                    } else {
+                        pd[1] = maxOpacity;
+                    }
 
-                int g = ps[0];
-                if (performGammaCorrection) {
-                    pd[0] = gammaLut[g];
-                } else {
-                    pd[0] = g;
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_ADD_RGB_TRANS:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_REMOVE_RGB_TRANS:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    int r = ps[0];
+                    int g = ps[1];
+                    int b = ps[2];
+                    if (performGammaCorrection) {
+                        pd[0] = gammaLut[r];
+                        pd[1] = gammaLut[g];
+                        pd[2] = gammaLut[b];
+                    } else {
+                        pd[0] = r;
+                        pd[1] = g;
+                        pd[2] = b;
+                    }
+                    if ((r == redTransparentAlpha) && (g == greenTransparentAlpha) && (b == blueTransparentAlpha)) {
+                        pd[3] = 0;
+                    } else {
+                        pd[3] = maxOpacity;
+                    }
 
-                int r = ps[0];
-                int g = ps[1];
-                int b = ps[2];
-                if (performGammaCorrection) {
-                    pd[0] = gammaLut[r];
-                    pd[1] = gammaLut[g];
-                    pd[2] = gammaLut[b];
-                } else {
-                    pd[0] = r;
-                    pd[1] = g;
-                    pd[2] = b;
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_REMOVE_GRAY_TRANS:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_GAMMA_EXP:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    int g = ps[0];
+                    if (performGammaCorrection) {
+                        pd[0] = gammaLut[g];
+                    } else {
+                        pd[0] = g;
+                    }
 
-                int val = ps[0];
-                int alpha = ps[1];
-                int gamma = gammaLut[val];
-                pd[0] = gamma;
-                pd[1] = gamma;
-                pd[2] = gamma;
-                pd[3] = alpha;
-
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
-
-        case POST_GRAY_ALPHA_EXP:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-
-                int val = ps[0];
-                int alpha = ps[1];
-                pd[0] = val;
-                pd[1] = val;
-                pd[2] = val;
-                pd[3] = alpha;
-
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
-
-        case POST_ADD_GRAY_TRANS_EXP:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
-
-                int val = ps[0];
-                if (performGammaCorrection) {
-                    val = gammaLut[val];
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
-                pd[0] = val;
-                pd[1] = val;
-                pd[2] = val;
-                if (val == grayTransparentAlpha) {
-                    pd[3] = 0;
-                } else {
-                    pd[3] = maxOpacity;
+                break;
+
+            case POST_REMOVE_RGB_TRANS:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+
+                    int r = ps[0];
+                    int g = ps[1];
+                    int b = ps[2];
+                    if (performGammaCorrection) {
+                        pd[0] = gammaLut[r];
+                        pd[1] = gammaLut[g];
+                        pd[2] = gammaLut[b];
+                    } else {
+                        pd[0] = r;
+                        pd[1] = g;
+                        pd[2] = b;
+                    }
+
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_GAMMA_EXP:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
 
-        case POST_GRAY_LUT_ADD_TRANS_EXP:
-            for (srcX = 0; srcX < width; srcX++) {
-                src.getPixel(srcX, 0, ps);
+                    int val = ps[0];
+                    int alpha = ps[1];
+                    int gamma = gammaLut[val];
+                    pd[0] = gamma;
+                    pd[1] = gamma;
+                    pd[2] = gamma;
+                    pd[3] = alpha;
 
-                int val = ps[0];
-                int val2 = grayLut[val];
-                pd[0] = val2;
-                pd[1] = val2;
-                pd[2] = val2;
-                if (val == grayTransparentAlpha) {
-                    pd[3] = 0;
-                } else {
-                    pd[3] = maxOpacity;
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
                 }
+                break;
 
-                dst.setPixel(dstX, y, pd);
-                dstX += step;
-            }
-            break;
+            case POST_GRAY_ALPHA_EXP:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+
+                    int val = ps[0];
+                    int alpha = ps[1];
+                    pd[0] = val;
+                    pd[1] = val;
+                    pd[2] = val;
+                    pd[3] = alpha;
+
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
+                }
+                break;
+
+            case POST_ADD_GRAY_TRANS_EXP:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+
+                    int val = ps[0];
+                    if (performGammaCorrection) {
+                        val = gammaLut[val];
+                    }
+                    pd[0] = val;
+                    pd[1] = val;
+                    pd[2] = val;
+                    if (val == grayTransparentAlpha) {
+                        pd[3] = 0;
+                    } else {
+                        pd[3] = maxOpacity;
+                    }
+
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
+                }
+                break;
+
+            case POST_GRAY_LUT_ADD_TRANS_EXP:
+                for (srcX = 0; srcX < width; srcX++) {
+                    src.getPixel(srcX, 0, ps);
+
+                    int val = ps[0];
+                    int val2 = grayLut[val];
+                    pd[0] = val2;
+                    pd[1] = val2;
+                    pd[2] = val2;
+                    if (val == grayTransparentAlpha) {
+                        pd[3] = 0;
+                    } else {
+                        pd[3] = maxOpacity;
+                    }
+
+                    dst.setPixel(dstX, y, pd);
+                    dstX += step;
+                }
+                break;
         }
     }
 
-    /**
-     * Reads in an image of a given size and returns it as a
-     * WritableRaster.
-     */
-    private void decodePass(WritableRaster imRas,
-                            int xOffset, int yOffset,
-                            int xStep, int yStep,
-                            int passWidth, int passHeight) {
+    /** Reads in an image of a given size and returns it as a WritableRaster. */
+    private void decodePass(
+            WritableRaster imRas, int xOffset, int yOffset, int xStep, int yStep, int passWidth, int passHeight) {
         if ((passWidth == 0) || (passHeight == 0)) {
             return;
         }
 
-        int bytesPerRow = (inputBands*passWidth*bitDepth + 7)/8;
-        int eltsPerRow = (bitDepth == 16) ? bytesPerRow/2 : bytesPerRow;
+        int bytesPerRow = (inputBands * passWidth * bitDepth + 7) / 8;
+        int eltsPerRow = (bitDepth == 16) ? bytesPerRow / 2 : bytesPerRow;
         byte[] curr = new byte[bytesPerRow];
         byte[] prior = new byte[bytesPerRow];
 
         // Create a 1-row tall Raster to hold the data
-        WritableRaster passRow =
-            createRaster(passWidth, 1, inputBands,
-                         eltsPerRow,
-                         bitDepth);
+        WritableRaster passRow = createRaster(passWidth, 1, inputBands, eltsPerRow, bitDepth);
         DataBuffer dataBuffer = passRow.getDataBuffer();
         int type = dataBuffer.getDataType();
         byte[] byteData = null;
         short[] shortData = null;
         if (type == DataBuffer.TYPE_BYTE) {
-            byteData = ((DataBufferByte)dataBuffer).getData();
+            byteData = ((DataBufferByte) dataBuffer).getData();
         } else {
-            shortData = ((DataBufferUShort)dataBuffer).getData();
+            shortData = ((DataBufferUShort) dataBuffer).getData();
         }
 
         // Decode the (sub)image row-by-row
         int srcY, dstY;
-        for (srcY = 0, dstY = yOffset;
-             srcY < passHeight;
-             srcY++, dstY += yStep) {
+        for (srcY = 0, dstY = yOffset; srcY < passHeight; srcY++, dstY += yStep) {
             // Read the filter type byte and a row of data
             int filter = 0;
             try {
                 filter = dataStream.read();
                 dataStream.readFully(curr, 0, bytesPerRow);
             } catch (Exception e) {
-                ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder2"),
-                                       e, this, false);
-//                e.printStackTrace();
+                ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder2"), e, this, false);
+                //                e.printStackTrace();
             }
 
             switch (filter) {
-            case PNG_FILTER_NONE:
-                break;
-            case PNG_FILTER_SUB:
-                decodeSubFilter(curr, bytesPerRow, bytesPerPixel);
-                break;
-            case PNG_FILTER_UP:
-                decodeUpFilter(curr, prior, bytesPerRow);
-                break;
-            case PNG_FILTER_AVERAGE:
-                decodeAverageFilter(curr, prior, bytesPerRow, bytesPerPixel);
-                break;
-            case PNG_FILTER_PAETH:
-                decodePaethFilter(curr, prior, bytesPerRow, bytesPerPixel);
-                break;
-            default:
-                // Error -- uknown filter type
-                throw new RuntimeException(JaiI18N.getString("PNGImageDecoder16"));
+                case PNG_FILTER_NONE:
+                    break;
+                case PNG_FILTER_SUB:
+                    decodeSubFilter(curr, bytesPerRow, bytesPerPixel);
+                    break;
+                case PNG_FILTER_UP:
+                    decodeUpFilter(curr, prior, bytesPerRow);
+                    break;
+                case PNG_FILTER_AVERAGE:
+                    decodeAverageFilter(curr, prior, bytesPerRow, bytesPerPixel);
+                    break;
+                case PNG_FILTER_PAETH:
+                    decodePaethFilter(curr, prior, bytesPerRow, bytesPerPixel);
+                    break;
+                default:
+                    // Error -- uknown filter type
+                    throw new RuntimeException(JaiI18N.getString("PNGImageDecoder16"));
             }
 
             // Copy data into passRow byte by byte
@@ -1737,14 +1633,12 @@ class PNGImage extends SimpleRenderedImage {
             } else {
                 int idx = 0;
                 for (int j = 0; j < eltsPerRow; j++) {
-                    shortData[j] =
-                        (short)((curr[idx] << 8) | (curr[idx + 1] & 0xff));
+                    shortData[j] = (short) ((curr[idx] << 8) | (curr[idx + 1] & 0xff));
                     idx += 2;
                 }
             }
 
-            processPixels(postProcess,
-                          passRow, imRas, xOffset, xStep, dstY, passWidth);
+            processPixels(postProcess, passRow, imRas, xOffset, xStep, dstY, passWidth);
 
             // Swap curr and prior
             byte[] tmp = prior;
@@ -1757,13 +1651,13 @@ class PNGImage extends SimpleRenderedImage {
         if (!useInterlacing) {
             decodePass(theTile, 0, 0, 1, 1, width, height);
         } else {
-            decodePass(theTile, 0, 0, 8, 8, (width + 7)/8, (height + 7)/8);
-            decodePass(theTile, 4, 0, 8, 8, (width + 3)/8, (height + 7)/8);
-            decodePass(theTile, 0, 4, 4, 8, (width + 3)/4, (height + 3)/8);
-            decodePass(theTile, 2, 0, 4, 4, (width + 1)/4, (height + 3)/4);
-            decodePass(theTile, 0, 2, 2, 4, (width + 1)/2, (height + 1)/4);
-            decodePass(theTile, 1, 0, 2, 2, width/2, (height + 1)/2);
-            decodePass(theTile, 0, 1, 1, 2, width, height/2);
+            decodePass(theTile, 0, 0, 8, 8, (width + 7) / 8, (height + 7) / 8);
+            decodePass(theTile, 4, 0, 8, 8, (width + 3) / 8, (height + 7) / 8);
+            decodePass(theTile, 0, 4, 4, 8, (width + 3) / 4, (height + 3) / 8);
+            decodePass(theTile, 2, 0, 4, 4, (width + 1) / 4, (height + 3) / 4);
+            decodePass(theTile, 0, 2, 2, 4, (width + 1) / 2, (height + 1) / 4);
+            decodePass(theTile, 1, 0, 2, 2, width / 2, (height + 1) / 2);
+            decodePass(theTile, 0, 1, 1, 2, width, height / 2);
         }
     }
 

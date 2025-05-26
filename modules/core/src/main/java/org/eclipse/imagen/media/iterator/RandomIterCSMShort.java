@@ -16,13 +16,11 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.iterator.RandomIter;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RandomIterCSMShort extends RandomIterCSM {
 
     public RandomIterCSMShort(RenderedImage im, Rectangle bounds) {

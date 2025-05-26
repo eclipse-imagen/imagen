@@ -16,13 +16,12 @@
  */
 
 package org.eclipse.imagen.media.codecimpl.fpx;
-import java.awt.RenderingHints;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
 import org.eclipse.imagen.media.codec.SeekableStream;
 import org.eclipse.imagen.media.codecimpl.ImagingListenerProxy;
-import org.eclipse.imagen.media.codecimpl.util.ImagingException;
 
 class Property {
 
@@ -89,7 +88,7 @@ class PropertySet {
         int sectionCount = stream.readIntLE();
 
         for (int i = 0; i < sectionCount; i++) {
-            stream.seek(sectionOffset + 8*i + 8);
+            stream.seek(sectionOffset + 8 * i + 8);
             int pid = stream.readIntLE();
             int offset = stream.readIntLE();
 
@@ -102,72 +101,68 @@ class PropertySet {
     }
 
     public boolean hasProperty(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         return (p != null);
     }
 
     public int getI4(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
             stream.seek(offset);
             return stream.readIntLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet1"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet1"), e, this, false);
+            //            e.printStackTrace();
         }
 
         return -1;
     }
 
     public int getUI1(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
             stream.seek(offset);
             return stream.readUnsignedByte();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet1"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet1"), e, this, false);
+            //            e.printStackTrace();
         }
 
         return -1;
     }
 
     public int getUI2(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
             stream.seek(offset);
             return stream.readUnsignedShortLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet2"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet2"), e, this, false);
+            //            e.printStackTrace();
         }
 
         return -1;
     }
 
     public long getUI4(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
             stream.seek(offset);
             return stream.readUnsignedIntLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet4"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet4"), e, this, false);
+            //            e.printStackTrace();
         }
 
         return -1;
     }
 
     public long getUI4(int id, long defaultValue) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         if (p == null) {
             return defaultValue;
         }
@@ -177,16 +172,15 @@ class PropertySet {
             stream.seek(offset);
             return stream.readUnsignedIntLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet4"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet4"), e, this, false);
+            //            e.printStackTrace();
         }
 
         return -1;
     }
 
     public String getLPSTR(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         if (p == null) {
             return null;
         }
@@ -198,20 +192,19 @@ class PropertySet {
             int length = stream.readIntLE();
             StringBuffer sb = new StringBuffer(length);
             for (int i = 0; i < length; i++) {
-                sb.append((char)stream.read());
+                sb.append((char) stream.read());
             }
 
             return sb.toString();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet5"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet5"), e, this, false);
+            //            e.printStackTrace();
             return null;
         }
     }
 
     public String getLPWSTR(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
 
@@ -224,23 +217,21 @@ class PropertySet {
 
             return sb.toString();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet5"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet5"), e, this, false);
+            //            e.printStackTrace();
             return null;
         }
     }
 
     public float getR4(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
             stream.seek(offset);
             return stream.readFloatLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet6"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet6"), e, this, false);
+            //            e.printStackTrace();
             return -1.0F;
         }
     }
@@ -254,7 +245,7 @@ class PropertySet {
     }
 
     public byte[] getBlob(int id) {
-        Property p = (Property)properties.get(new Integer(id));
+        Property p = (Property) properties.get(new Integer(id));
         try {
             int offset = p.getOffset();
             stream.seek(offset);
@@ -266,9 +257,8 @@ class PropertySet {
 
             return buf;
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet7"),
-                                   e, this, false);
-//            e.printStackTrace();
+            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet7"), e, this, false);
+            //            e.printStackTrace();
             return null;
         }
     }

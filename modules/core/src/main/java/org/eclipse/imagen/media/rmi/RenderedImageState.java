@@ -30,9 +30,8 @@ import org.eclipse.imagen.remote.SerializableRenderedImage;
 import org.eclipse.imagen.tilecodec.TileCodecParameterList;
 
 /**
- * A <code>SerializableState</code> wrapper for a <code>RenderedImage</code>
- * or <code>WritableRenderedImage</code>.  This class simply uses a
- * <code>SerializableRenderedImage</code> to do the work.
+ * A <code>SerializableState</code> wrapper for a <code>RenderedImage</code> or <code>WritableRenderedImage</code>. This
+ * class simply uses a <code>SerializableRenderedImage</code> to do the work.
  *
  * @since 1.1
  */
@@ -46,9 +45,7 @@ public final class RenderedImageState extends SerializableStateImpl {
     private transient TileCodecParameterList decodingParam;
 
     public static Class[] getSupportedClasses() {
-        return new Class[] {
-            RenderedImage.class,
-            WritableRenderedImage.class};
+        return new Class[] {RenderedImage.class, WritableRenderedImage.class};
     }
 
     public RenderedImageState(Class c, Object o, RenderingHints h) {
@@ -56,32 +53,32 @@ public final class RenderedImageState extends SerializableStateImpl {
 
         isWritable = o instanceof WritableRenderedImage;
 
-        if(h != null) {
+        if (h != null) {
             Object value = h.get(JAI.KEY_SERIALIZE_DEEP_COPY);
-            if(value != null) {
-                useDeepCopy = ((Boolean)value).booleanValue();
+            if (value != null) {
+                useDeepCopy = ((Boolean) value).booleanValue();
             } else {
-		useDeepCopy = false;
-	    }
+                useDeepCopy = false;
+            }
 
             value = h.get(JAI.KEY_OPERATION_REGISTRY);
-            if(value != null) {
-                registry = (OperationRegistry)value;
+            if (value != null) {
+                registry = (OperationRegistry) value;
             }
 
             value = h.get(JAI.KEY_TILE_CODEC_FORMAT);
-            if(value != null) {
-                formatName = (String)value;
+            if (value != null) {
+                formatName = (String) value;
             }
 
             value = h.get(JAI.KEY_TILE_ENCODING_PARAM);
-            if(value != null) {
-                encodingParam = (TileCodecParameterList)value;
+            if (value != null) {
+                encodingParam = (TileCodecParameterList) value;
             }
 
             value = h.get(JAI.KEY_TILE_DECODING_PARAM);
-            if(value != null) {
-                decodingParam = (TileCodecParameterList)value;
+            if (value != null) {
+                decodingParam = (TileCodecParameterList) value;
             }
         }
     }
@@ -90,32 +87,23 @@ public final class RenderedImageState extends SerializableStateImpl {
 
         out.defaultWriteObject();
 
-	SerializableRenderedImage sri;
+        SerializableRenderedImage sri;
 
-	if (formatName == null || 
-	    encodingParam == null || 
-	    decodingParam == null) {
-	    sri = new SerializableRenderedImage((RenderedImage)theObject,
-						useDeepCopy);
-	} else {
-	    sri =
-            new SerializableRenderedImage((RenderedImage)theObject,
-                                          useDeepCopy,
-                                          registry,
-                                          formatName,
-                                          encodingParam,
-                                          decodingParam);
-	}
-	
+        if (formatName == null || encodingParam == null || decodingParam == null) {
+            sri = new SerializableRenderedImage((RenderedImage) theObject, useDeepCopy);
+        } else {
+            sri = new SerializableRenderedImage(
+                    (RenderedImage) theObject, useDeepCopy, registry, formatName, encodingParam, decodingParam);
+        }
+
         out.writeObject(sri);
     }
 
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         theObject = in.readObject();
-        if(isWritable) {
-            theObject = new TiledImage((RenderedImage)theObject, true);
+        if (isWritable) {
+            theObject = new TiledImage((RenderedImage) theObject, true);
         }
     }
 }

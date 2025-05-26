@@ -9,79 +9,56 @@ package org.eclipse.imagen.demo.mpv;
 
 import java.awt.Point;
 
-/** This class defines the resizing policy of an image display panel. The supported 
- *  policies include maintaining a fixed image reference point at the display center
- *  or a display corner (upper left, upper right, lower left, or lower right) 
- *  whenever an image display panel is resized.  For example, if the resize policy
- *  is set to maintain the upper right corner, then the displayed upper right image
- *  pixel would not change following a panel resize operation.
+/**
+ * This class defines the resizing policy of an image display panel. The supported policies include maintaining a fixed
+ * image reference point at the display center or a display corner (upper left, upper right, lower left, or lower right)
+ * whenever an image display panel is resized. For example, if the resize policy is set to maintain the upper right
+ * corner, then the displayed upper right image pixel would not change following a panel resize operation.
  *
- *  This class is used to support operations that include wiping one image
- *  over another in two or four displays.
- * 
- *  @see MPVDemo
+ * <p>This class is used to support operations that include wiping one image over another in two or four displays.
  *
+ * @see MPVDemo
  */
-
-
-
 public class ResizePolicy {
 
     /** Resize policy to keep window center at the center */
-
-
     public static int POLICY_CENTER = 0;
 
     /** Resize policy to keep window upper left at the upper left */
-
-
     public static int POLICY_LEFTUP = 1;
 
     /** Resize policy to keep window upper right at the upper right */
-
-
     public static int POLICY_RIGHTUP = 2;
 
     /** Resize policy to keep window lower left at the lower left */
-
-
     public static int POLICY_LEFTBOTTOM = 3;
 
     /** Resize policy to keep window lower right at the lower right */
-
-
     public static int POLICY_RIGHTBOTTOM = 4;
 
     private int policy;
 
-    /** Constructor.
+    /**
+     * Constructor.
      *
-     * @param policy one of <code>POLICY_CENTER</code>,
-     *        <code>POLICY_LEFTUP</code>, <code>POLICY_RIGHTUP</code>,
-     *        <code>POLICY_LEFTBOTTOM</code>, <code>POLICY_RIGHTBOTTOM</code>
+     * @param policy one of <code>POLICY_CENTER</code>, <code>POLICY_LEFTUP</code>, <code>POLICY_RIGHTUP</code>, <code>
+     *     POLICY_LEFTBOTTOM</code>, <code>POLICY_RIGHTBOTTOM</code>
      * @throws IllegalArgumentException if <code>policy</code> invalid
      */
-
-
     public ResizePolicy(int policy) {
-	if (policy > 4)
-	    throw new IllegalArgumentException("Invalid policy");
+        if (policy > 4) throw new IllegalArgumentException("Invalid policy");
 
-	this.policy = policy;
-
+        this.policy = policy;
     } // constructor
 
     /** returns current <code>policy</code> in effect. */
-
-
     public int getPolicy() {
-	return policy;
-
+        return policy;
     } // getPolicy
 
     /** Computes the upper left coordinates of a window based on the input
      *  reference point and current active <code>policy</code>.  The input
-     *  <code>referenceX/Y</code> coordinates are the location of the 
+     *  <code>referenceX/Y</code> coordinates are the location of the
      *  fixed point based on the current active <code>policy</code>.
      *
      *  Example: Active policy is <code>POLICY_CENTER<code> and coordinates as defined below
@@ -103,26 +80,18 @@ public class ResizePolicy {
      * @param w the window width
      * @param h the window height
      */
-
-
     public Point computeOrigin(int referenceX, int referenceY, int w, int h) {
-	if (policy == POLICY_CENTER) 
-	    return new Point(referenceX - w / 2, referenceY - h / 2);
-	else if (policy == POLICY_LEFTUP) 
-	    return new Point(referenceX, referenceY);
-	else if (policy == POLICY_RIGHTUP) 
-	    return new Point(referenceX - w, referenceY);
-	else if (policy == POLICY_LEFTBOTTOM)
-	    return new Point(referenceX, referenceY - h);
-	else if (policy == POLICY_RIGHTBOTTOM)
-	    return new Point(referenceX - w, referenceY - h);
-	return new Point(referenceX, referenceY);
-
+        if (policy == POLICY_CENTER) return new Point(referenceX - w / 2, referenceY - h / 2);
+        else if (policy == POLICY_LEFTUP) return new Point(referenceX, referenceY);
+        else if (policy == POLICY_RIGHTUP) return new Point(referenceX - w, referenceY);
+        else if (policy == POLICY_LEFTBOTTOM) return new Point(referenceX, referenceY - h);
+        else if (policy == POLICY_RIGHTBOTTOM) return new Point(referenceX - w, referenceY - h);
+        return new Point(referenceX, referenceY);
     } // computeOrigin
 
     /** Computes the fixed point coordinates of a window based on the input
-     *  upper left window and window dimensions. The output 
-     *  <code>Point</code> coordinates are the location of the 
+     *  upper left window and window dimensions. The output
+     *  <code>Point</code> coordinates are the location of the
      *  fixed point based on the current active <code>policy</code>.
      *
      *  Example: Active policy is <code>POLICY_RIGHTBOTTOM<code> and coordinates as defined below
@@ -141,26 +110,18 @@ public class ResizePolicy {
      * @param w the window width
      * @param h the window height
      */
-
-
     public Point computeReferenceFromOrigin(int originX, int originY, int w, int h) {
-	if (policy == POLICY_CENTER) 
-	    return new Point(originX + w / 2, originY + h / 2);
-	else if (policy == POLICY_LEFTUP) 
-	    return new Point(originX, originY);
-	else if (policy == POLICY_RIGHTUP) 
-	    return new Point(originX + w, originY);
-	else if (policy == POLICY_LEFTBOTTOM)
-	    return new Point(originX, originY + h);
-	else if (policy == POLICY_RIGHTBOTTOM)
-	    return new Point(originX + w, originY + h);
-	return new Point(originX, originY);
-
+        if (policy == POLICY_CENTER) return new Point(originX + w / 2, originY + h / 2);
+        else if (policy == POLICY_LEFTUP) return new Point(originX, originY);
+        else if (policy == POLICY_RIGHTUP) return new Point(originX + w, originY);
+        else if (policy == POLICY_LEFTBOTTOM) return new Point(originX, originY + h);
+        else if (policy == POLICY_RIGHTBOTTOM) return new Point(originX + w, originY + h);
+        return new Point(originX, originY);
     } // computeReferenceFromOrigin
 
     /** Computes the fixed reference point coordinates of a window based on the input
      *  image dimensions, window dimensions, and current active <code>policy</code>.
-     *  The output <code>Point</code> coordinates are the location of the 
+     *  The output <code>Point</code> coordinates are the location of the
      *  fixed point based on the current active <code>policy</code>.
      *
      *  Example: Active policy is <code>POLICY_RIGHTUP<code> and coordinates as defined below
@@ -184,51 +145,33 @@ public class ResizePolicy {
      * @param w the width of a window covering a portion of the image
      * @param h the height of a window covering a portion of the image
      */
-
-
     public Point computeReference(int imageWidth, int imageHeight, int w, int h) {
 
         /* Compute the POLICY_CENTER case and translate it if needed */
 
+        Point reference = new Point(imageWidth / 2, imageHeight / 2);
 
-	Point reference = new Point(imageWidth/2, imageHeight/2);
+        if (policy == POLICY_LEFTUP) reference.translate(-w / 2, -h / 2);
+        else if (policy == POLICY_RIGHTUP) reference.translate(w / 2, -h / 2);
+        else if (policy == POLICY_LEFTBOTTOM) reference.translate(-w / 2, h / 2);
+        else if (policy == POLICY_RIGHTBOTTOM) reference.translate(w / 2, h / 2);
 
-	if (policy == POLICY_LEFTUP)
-	    reference.translate(-w / 2, -h / 2);
-	else if (policy == POLICY_RIGHTUP)
-	    reference.translate(w /2, -h / 2);
-	else if (policy == POLICY_LEFTBOTTOM)
-	    reference.translate(-w / 2, h /2);
-	else if (policy == POLICY_RIGHTBOTTOM)
-	    reference.translate(w / 2, h / 2);
-	
-	return reference;
-
+        return reference;
     } // computeReference
 
-    /** Compute the shift to the current reference point under the following scenario:
-     *  
-     *  1) The current window has upper left coordinates 0,0 and dimensions width by height
-     *  2) A second newly defined window has upper left coordinates minX, minY and lower right
-     *     coordinates maxX, maxY
-     *  3) The current active policy is respected
-     *  
-     *  Example: Active policy is POLICY_LEFTBOTTOM and coordinates as defined below
+    /**
+     * Compute the shift to the current reference point under the following scenario:
      *
-     *        0,0-----CURRENT---   Upper left of current window has coordinates 0,0
-     *        |                |   A = (minX, minY)
-     *        |   A-------     |   B = (maxX, maxY)
-     *        |   |      |     |   C = (width, height)
-     *        |   |      |     |
-     *        |   |      |     |   R = reference point in current display window frame
-     *        |   |      |     |   R' = new reference point in current display window frame
-     *        |   |      |     |      = (minX, maxY)
-     *        |   |      |     |   dR = R' - R
-     *        |   R'-----B     |      = (minX, maxY - height)
-     *        |                |      = returned value
-     *        |                |
-     *        R----------------C
+     * <p>1) The current window has upper left coordinates 0,0 and dimensions width by height 2) A second newly defined
+     * window has upper left coordinates minX, minY and lower right coordinates maxX, maxY 3) The current active policy
+     * is respected
      *
+     * <p>Example: Active policy is POLICY_LEFTBOTTOM and coordinates as defined below
+     *
+     * <p>0,0-----CURRENT--- Upper left of current window has coordinates 0,0 | | A = (minX, minY) | A------- | B =
+     * (maxX, maxY) | | | | C = (width, height) | | | | | | | | R = reference point in current display window frame | |
+     * | | R' = new reference point in current display window frame | | | | = (minX, maxY) | | | | dR = R' - R |
+     * R'-----B | = (minX, maxY - height) | | = returned value | | R----------------C
      *
      * @param minX the upper left x coordinate of new display window
      * @param minY the upper left y coordinate of new display window
@@ -237,27 +180,16 @@ public class ResizePolicy {
      * @param width original window width
      * @param height original window height
      */
+    public Point shiftReference(int minX, int minY, int maxX, int maxY, int width, int height) {
 
+        if (policy == POLICY_LEFTUP) return new Point(minX, minY);
 
-    public Point shiftReference(int minX, int minY,
-				int maxX, int maxY,
-				int width, int height) {
-	
-	if (policy == POLICY_LEFTUP)
-	    return new Point(minX, minY);
-	
-	if (policy == POLICY_RIGHTUP)
-	    return new Point(maxX - width, minY);
-	
-	if (policy == POLICY_LEFTBOTTOM)
-	    return new Point(minX, maxY - height);
-	
-	if (policy == POLICY_RIGHTBOTTOM)
-	    return new Point(maxX - width, maxY - height);
+        if (policy == POLICY_RIGHTUP) return new Point(maxX - width, minY);
 
-	return new Point((width - minX - maxX) / 2, 
-			 (height - minY - maxY) / 2);
+        if (policy == POLICY_LEFTBOTTOM) return new Point(minX, maxY - height);
+
+        if (policy == POLICY_RIGHTBOTTOM) return new Point(maxX - width, maxY - height);
+
+        return new Point((width - minX - maxX) / 2, (height - minY - maxY) / 2);
     } // shiftReference
-
 } // ResizePolicy
-

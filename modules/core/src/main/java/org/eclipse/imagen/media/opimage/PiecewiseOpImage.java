@@ -17,33 +17,28 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.ColormapOpImage;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import org.eclipse.imagen.Histogram;
+import java.util.Map;
+import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
  * An <code>OpImage</code> implementing the "Piecewise" operation.
  *
- * <p> The "Piecewise" operation maps the pixel values of an image using
- * a piecewise linear function represented by a set of breakpoints for each
- * band. The abscissa of each breakpoint is the source image gray level for
- * the band in question and the ordinate is the destination image gray level
- * to which it is mapped.
+ * <p>The "Piecewise" operation maps the pixel values of an image using a piecewise linear function represented by a set
+ * of breakpoints for each band. The abscissa of each breakpoint is the source image gray level for the band in question
+ * and the ordinate is the destination image gray level to which it is mapped.
  *
  * @see org.eclipse.imagen.operator.PiecewiseDescriptor
  * @see PiecewiseCRIF
- *
- *
  * @since EA4
  */
 final class PiecewiseOpImage extends ColormapOpImage {
@@ -79,24 +74,21 @@ final class PiecewiseOpImage extends ColormapOpImage {
      * @param value The source gray level.
      * @return The destination gray level.
      */
-    private static float binarySearch(float[] x,
-                                      float minValue, float maxValue,
-                                      float[] a, float[] b,
-                                      float value) {
+    private static float binarySearch(float[] x, float minValue, float maxValue, float[] a, float[] b, float value) {
         int highIndex = x.length - 1;
 
-        if(value <= x[0]) {
+        if (value <= x[0]) {
             return minValue;
-        } else if(value >= x[highIndex]) {
+        } else if (value >= x[highIndex]) {
             return maxValue;
         }
 
         int lowIndex = 0;
         int deltaIndex = highIndex - lowIndex;
 
-        while(deltaIndex > 1) {
-            int meanIndex = lowIndex + deltaIndex/2;
-            if(value >= x[meanIndex]) {
+        while (deltaIndex > 1) {
+            int meanIndex = lowIndex + deltaIndex / 2;
+            if (value >= x[meanIndex]) {
                 lowIndex = meanIndex;
             } else {
                 highIndex = meanIndex;
@@ -104,24 +96,19 @@ final class PiecewiseOpImage extends ColormapOpImage {
             deltaIndex = highIndex - lowIndex;
         }
 
-        return a[lowIndex]*value + b[lowIndex];
+        return a[lowIndex] * value + b[lowIndex];
     }
 
     /**
      * Constructor.
      *
-     * @param source       The source image.
-     * @param layout       The destination image layout.
-     * @param breakpoints  The piecewise mapping stored by reference. The
-     * arrays breakpoints[b][0] and breakpoints[b][1] represent the abscissas
-     * and ordinates of the breakpoints, respectively, for band <i>b</i>. The
-     * number of sets of breakpoints must be one or equal to the number of
-     * image bands.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param breakpoints The piecewise mapping stored by reference. The arrays breakpoints[b][0] and breakpoints[b][1]
+     *     represent the abscissas and ordinates of the breakpoints, respectively, for band <i>b</i>. The number of sets
+     *     of breakpoints must be one or equal to the number of image bands.
      */
-    public PiecewiseOpImage(RenderedImage source,
-                            Map config,
-                            ImageLayout layout,
-                            float[][][] breakpoints) {
+    public PiecewiseOpImage(RenderedImage source, Map config, ImageLayout layout, float[][][] breakpoints) {
         super(source, layout, config, true);
 
         // Ensure that the number of sets of breakpoints is either unity
@@ -135,7 +122,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
         isByteData = sampleModel.getTransferType() == DataBuffer.TYPE_BYTE;
 
         // Perform byte-specific initialization.
-        if(isByteData) {
+        if (isByteData) {
             // Initialize the lookup table.
             createLUT();
 
@@ -150,28 +137,25 @@ final class PiecewiseOpImage extends ColormapOpImage {
         initializeColormapOperation();
     }
 
-    /**
-     * Transform the colormap according to the rescaling parameters.
-     */
+    /** Transform the colormap according to the rescaling parameters. */
     protected void transformColormap(byte[][] colormap) {
 
-	byte byteTable[][] = lut.getByteData();
+        byte byteTable[][] = lut.getByteData();
 
-        for(int b = 0; b < 3; b++) {
+        for (int b = 0; b < 3; b++) {
             byte[] map = colormap[b];
-	    byte[] luTable = byteTable[b >= byteTable.length ? 0 : b];
+            byte[] luTable = byteTable[b >= byteTable.length ? 0 : b];
             int mapSize = map.length;
 
-            for(int i = 0; i < mapSize; i++) {
+            for (int i = 0; i < mapSize; i++) {
                 map[i] = luTable[(map[i] & 0xFF)];
             }
         }
     }
 
     /**
-     * Initialize various instance variables from the array of breakpoints.
-     * The principal derived values are the slope and ordinate-intercept of
-     * each piecewise segment.
+     * Initialize various instance variables from the array of breakpoints. The principal derived values are the slope
+     * and ordinate-intercept of each piecewise segment.
      *
      * @param numBands The number of bands in the image.
      * @param The breakpoints as breakpoints[numBands][0..1][numPoints].
@@ -183,37 +167,29 @@ final class PiecewiseOpImage extends ColormapOpImage {
         minOrdinates = new float[numBands];
         maxOrdinates = new float[numBands];
 
-        for(int band = 0; band < numBands; band++) {
-            abscissas[band] = breakpoints.length == 1 ?
-                breakpoints[0][0] : breakpoints[band][0];
+        for (int band = 0; band < numBands; band++) {
+            abscissas[band] = breakpoints.length == 1 ? breakpoints[0][0] : breakpoints[band][0];
             int maxIndex = abscissas[band].length - 1;
 
-            minOrdinates[band] = breakpoints.length == 1 ?
-                breakpoints[0][1][0] : breakpoints[band][1][0];
-            maxOrdinates[band] = breakpoints.length == 1 ?
-                breakpoints[0][1][maxIndex] : breakpoints[band][1][maxIndex];
+            minOrdinates[band] = breakpoints.length == 1 ? breakpoints[0][1][0] : breakpoints[band][1][0];
+            maxOrdinates[band] = breakpoints.length == 1 ? breakpoints[0][1][maxIndex] : breakpoints[band][1][maxIndex];
 
             slopes[band] = new float[maxIndex];
             intercepts[band] = new float[maxIndex];
 
-            float[] x =  abscissas[band];
-            float[] y =  breakpoints.length == 1 ?
-                breakpoints[0][1] : breakpoints[band][1];
+            float[] x = abscissas[band];
+            float[] y = breakpoints.length == 1 ? breakpoints[0][1] : breakpoints[band][1];
             float[] a = slopes[band];
             float[] b = intercepts[band];
-            for(int i1 = 0; i1 < maxIndex; i1++) {
+            for (int i1 = 0; i1 < maxIndex; i1++) {
                 int i2 = i1 + 1;
-                a[i1] = (y[i2]-y[i1])/(x[i2] - x[i1]);
-                b[i1] = y[i1] - x[i1]*a[i1];
+                a[i1] = (y[i2] - y[i1]) / (x[i2] - x[i1]);
+                b[i1] = y[i1] - x[i1] * a[i1];
             }
         }
     }
 
-    
-    /**
-     * Clear all instance fields which are ununsed references so the GC
-     * may clear them.
-     */
+    /** Clear all instance fields which are ununsed references so the GC may clear them. */
     private void unsetFields() {
         abscissas = null;
         slopes = null;
@@ -222,16 +198,14 @@ final class PiecewiseOpImage extends ColormapOpImage {
         maxOrdinates = null;
     }
 
-    /**
-     * Create a lookup table to be used in the case of byte data.
-     */
+    /** Create a lookup table to be used in the case of byte data. */
     private void createLUT() {
         // Allocate memory for the data array references.
         int numBands = abscissas.length;
         byte[][] data = new byte[numBands][];
 
         // Generate the data for each band.
-        for(int band = 0; band < numBands; band++) {
+        for (int band = 0; band < numBands; band++) {
             // Allocate memory for this band.
             data[band] = new byte[256];
 
@@ -244,9 +218,8 @@ final class PiecewiseOpImage extends ColormapOpImage {
             float yH = maxOrdinates[band];
 
             // Initialize the lookup table data.
-            for(int value = 0; value < 256; value++) {
-                table[value] =
-                    ImageUtil.clampRoundByte(binarySearch(x, yL, yH, a, b, value));
+            for (int value = 0; value < 256; value++) {
+                table[value] = ImageUtil.clampRoundByte(binarySearch(x, yL, yH, a, b, value));
             }
         }
 
@@ -257,57 +230,48 @@ final class PiecewiseOpImage extends ColormapOpImage {
     /**
      * Piecewises to the pixel values within a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        if(isByteData) {
+        if (isByteData) {
             computeRectByte(sources, dest, destRect);
         } else {
-            RasterAccessor dst =
-                new RasterAccessor(dest, destRect, formatTags[1],
-                                   getColorModel());
-            RasterAccessor src =
-                new RasterAccessor(sources[0], destRect, formatTags[0],
-                                   getSource(0).getColorModel());
+            RasterAccessor dst = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
+            RasterAccessor src = new RasterAccessor(
+                    sources[0], destRect, formatTags[0], getSource(0).getColorModel());
 
             switch (dst.getDataType()) {
-            case DataBuffer.TYPE_USHORT:
-                computeRectUShort(src, dst);
-                break;
-            case DataBuffer.TYPE_SHORT:
-                computeRectShort(src, dst);
-                break;
-            case DataBuffer.TYPE_INT:
-                computeRectInt(src, dst);
-                break;
-            case DataBuffer.TYPE_FLOAT:
-                computeRectFloat(src, dst);
-                break;
-            case DataBuffer.TYPE_DOUBLE:
-                computeRectDouble(src, dst);
-                break;
+                case DataBuffer.TYPE_USHORT:
+                    computeRectUShort(src, dst);
+                    break;
+                case DataBuffer.TYPE_SHORT:
+                    computeRectShort(src, dst);
+                    break;
+                case DataBuffer.TYPE_INT:
+                    computeRectInt(src, dst);
+                    break;
+                case DataBuffer.TYPE_FLOAT:
+                    computeRectFloat(src, dst);
+                    break;
+                case DataBuffer.TYPE_DOUBLE:
+                    computeRectDouble(src, dst);
+                    break;
             }
 
             dst.copyDataToRaster();
         }
     }
 
-    private void computeRectByte(Raster[] sources,
-                                 WritableRaster dest,
-                                 Rectangle destRect) {
+    private void computeRectByte(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         lut.lookup(sources[0], dest, destRect);
     }
 
-    private void computeRectUShort(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectUShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -345,9 +309,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
 
                 for (int w = 0; w < dstWidth; w++) {
                     d[dstPixelOffset] =
-                        ImageUtil.clampRoundUShort(binarySearch(x, yL, yH, gain, bias,
-                                                      s[srcPixelOffset] &
-                                                      0xFFFF));
+                            ImageUtil.clampRoundUShort(binarySearch(x, yL, yH, gain, bias, s[srcPixelOffset] & 0xFFFF));
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -356,8 +318,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -395,8 +356,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
 
                 for (int w = 0; w < dstWidth; w++) {
                     d[dstPixelOffset] =
-                        ImageUtil.clampRoundShort(binarySearch(x, yL, yH, gain, bias,
-                                                     s[srcPixelOffset]));
+                            ImageUtil.clampRoundShort(binarySearch(x, yL, yH, gain, bias, s[srcPixelOffset]));
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -405,8 +365,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -443,9 +402,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] =
-                        ImageUtil.clampRoundInt(binarySearch(x, yL, yH, gain, bias,
-                                                   s[srcPixelOffset]));
+                    d[dstPixelOffset] = ImageUtil.clampRoundInt(binarySearch(x, yL, yH, gain, bias, s[srcPixelOffset]));
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -454,8 +411,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -492,9 +448,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] =
-                        binarySearch(x, yL, yH, gain, bias,
-                                     s[srcPixelOffset]);
+                    d[dstPixelOffset] = binarySearch(x, yL, yH, gain, bias, s[srcPixelOffset]);
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -503,8 +457,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -541,9 +494,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] =
-                        binarySearch(x, yL, yH, gain, bias,
-                                     (float)s[srcPixelOffset]);
+                    d[dstPixelOffset] = binarySearch(x, yL, yH, gain, bias, (float) s[srcPixelOffset]);
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;

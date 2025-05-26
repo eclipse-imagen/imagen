@@ -9,5 +9,6 @@ package org.eclipse.imagen.builder;
 
 interface KeyedHint {
     public String key();
+
     public String value();
 }

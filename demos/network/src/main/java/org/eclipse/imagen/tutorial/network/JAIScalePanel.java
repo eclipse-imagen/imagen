@@ -12,13 +12,12 @@ import java.awt.event.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.remote.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.remote.*;
 
-public class JAIScalePanel extends JAIDemoPanel
-    implements ChangeListener, ItemListener {
+public class JAIScalePanel extends JAIDemoPanel implements ChangeListener, ItemListener {
 
     float xscale = 1.0F;
     float yscale = 1.0F;
@@ -68,15 +67,14 @@ public class JAIScalePanel extends JAIDemoPanel
         ySlider.setLabelTable(labels);
         xySlider.setPaintLabels(true);
         ySlider.setPaintLabels(true);
-        
+
         xySlider.addChangeListener(this);
         ySlider.addChangeListener(this);
         xTSlider.addChangeListener(this);
         yTSlider.addChangeListener(this);
 
         JPanel xySliderPanel = new JPanel();
-        xySliderPanel.setLayout(new BoxLayout(xySliderPanel,
-                                              BoxLayout.X_AXIS));
+        xySliderPanel.setLayout(new BoxLayout(xySliderPanel, BoxLayout.X_AXIS));
         JLabel xyLabel = new JLabel("X/Y Scale");
         xySliderPanel.add(xyLabel);
         xySliderPanel.add(xySlider);
@@ -106,8 +104,6 @@ public class JAIScalePanel extends JAIDemoPanel
         yTSliderPanel.add(xTLabel);
         yTSliderPanel.add(xTSlider);
         */
-
-
 
         JPanel sliderPanel = new JPanel();
         sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.Y_AXIS));
@@ -163,15 +159,13 @@ public class JAIScalePanel extends JAIDemoPanel
 
     int xySliderDelta = 1;
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     public void animate() {
         int value = xySlider.getValue();
         int newValue = value + xySliderDelta;
 
-        if (newValue < xySlider.getMinimum() || 
-            newValue > xySlider.getMaximum()) {
+        if (newValue < xySlider.getMinimum() || newValue > xySlider.getMaximum()) {
             xySliderDelta = -xySliderDelta;
         }
         xySlider.setValue(value + xySliderDelta);
@@ -186,16 +180,15 @@ public class JAIScalePanel extends JAIDemoPanel
     }
 
     public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
-        if (!(interp instanceof InterpolationNearest) &&
-            source.getValueIsAdjusting()) {
+        JSlider source = (JSlider) e.getSource();
+        if (!(interp instanceof InterpolationNearest) && source.getValueIsAdjusting()) {
             return;
         }
         int value = source.getValue();
 
-        float fvalue = Math.abs(value)/10.0F + 1.0F;
+        float fvalue = Math.abs(value) / 10.0F + 1.0F;
         if (value < 0) {
-            fvalue = 1.0F/fvalue;
+            fvalue = 1.0F / fvalue;
         }
 
         if (source == xySlider) {
@@ -204,9 +197,9 @@ public class JAIScalePanel extends JAIDemoPanel
         } else if (source == ySlider) {
             yscale = fvalue;
         } else if (source == xTSlider) {
-            xtrans = value/100.0F;
+            xtrans = value / 100.0F;
         } else if (source == yTSlider) {
-            ytrans = value/100.0F;
+            ytrans = value / 100.0F;
         }
         repaint();
     }
@@ -217,14 +210,11 @@ public class JAIScalePanel extends JAIDemoPanel
         }
 
         if (e.getSource() == nearest) {
-            interp =
-                Interpolation.getInstance(Interpolation.INTERP_NEAREST);
+            interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         } else if (e.getSource() == linear) {
-            interp =
-                Interpolation.getInstance(Interpolation.INTERP_BILINEAR);
+            interp = Interpolation.getInstance(Interpolation.INTERP_BILINEAR);
         } else {
-            interp =
-                Interpolation.getInstance(Interpolation.INTERP_BICUBIC);
+            interp = Interpolation.getInstance(Interpolation.INTERP_BICUBIC);
         }
         repaint();
     }

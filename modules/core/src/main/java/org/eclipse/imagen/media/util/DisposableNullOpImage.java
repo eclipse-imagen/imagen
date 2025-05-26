@@ -27,40 +27,32 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedImageAdapter;
 
 /**
- * <code>NullOpImage</code> subclass which conditionally forwards
- * {@link #dispose()} to its source. The call will be forwarded if the
- * source is a <code>PlanarImage</code> or a <code>RenderedImage</code>
- * wrapped by <code>RenderedImageAdapter</code> and which has a
- * <code>dispose()</code> method with no parameters. In the former case
- * the call is forwarded directly, and in the latter via reflection.
+ * <code>NullOpImage</code> subclass which conditionally forwards {@link #dispose()} to its source. The call will be
+ * forwarded if the source is a <code>PlanarImage</code> or a <code>RenderedImage</code> wrapped by <code>
+ * RenderedImageAdapter</code> and which has a <code>dispose()</code> method with no parameters. In the former case the
+ * call is forwarded directly, and in the latter via reflection.
  *
  * @since JAI 1.1.3
  */
 public class DisposableNullOpImage extends NullOpImage {
-    public DisposableNullOpImage(RenderedImage source,
-                                 ImageLayout layout,
-                                 Map configuration,
-                                 int computeType) {
+    public DisposableNullOpImage(RenderedImage source, ImageLayout layout, Map configuration, int computeType) {
         super(source, layout, configuration, computeType);
     }
 
     public synchronized void dispose() {
         PlanarImage src = getSource(0);
-        if(src instanceof RenderedImageAdapter) {
+        if (src instanceof RenderedImageAdapter) {
             // Use relection to invoke dispose();
-            RenderedImage trueSrc =
-                ((RenderedImageAdapter)src).getWrappedImage();
+            RenderedImage trueSrc = ((RenderedImageAdapter) src).getWrappedImage();
             Method disposeMethod = null;
             try {
                 Class cls = trueSrc.getClass();
                 disposeMethod = cls.getMethod("dispose", null);
-                if(!disposeMethod.isAccessible()) {
-                    AccessibleObject.setAccessible(new AccessibleObject[] {
-                        disposeMethod
-                    }, true);
+                if (!disposeMethod.isAccessible()) {
+                    AccessibleObject.setAccessible(new AccessibleObject[] {disposeMethod}, true);
                 }
                 disposeMethod.invoke(trueSrc, null);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Ignore it.
             }
         } else {

@@ -8,21 +8,16 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.image.renderable.*;
 import java.awt.event.*;
+import java.awt.image.renderable.*;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
 
 public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
 
-    static final String[] kernelLabels = { "Original Image",
-                                           "Sobel",
-                                           "Roberts",
-                                           "Prewitt",
-                                           "Frei-chen"
-    };
+    static final String[] kernelLabels = {"Original Image", "Sobel", "Roberts", "Prewitt", "Frei-chen"};
 
     JComboBox kernelBox;
 
@@ -49,46 +44,38 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
     }
 
     private void initKernels() {
-        kernels = new KernelJAI[kernelLabels.length*2];
+        kernels = new KernelJAI[kernelLabels.length * 2];
 
-        float[] normal_h_data       = { 1.0F };
-        float[] normal_v_data       = { 0.0F };
-        
-        float[] sobel_h_data        = { 1.0F,  0.0F, -1.0F,
-                                        2.0F,  0.0F, -2.0F,
-                                        1.0F,  0.0F, -1.0F
-        };
-        float[] sobel_v_data        = { -1.0F,  -2.0F, -1.0F,
-                                         0.0F,   0.0F,  0.0F,
-                                         1.0F,   2.0F,  1.0F
-        };
+        float[] normal_h_data = {1.0F};
+        float[] normal_v_data = {0.0F};
 
-        float[] roberts_h_data        = { 0.0F,  0.0F, -1.0F,
-                                          0.0F,  1.0F,  0.0F,
-                                          0.0F,  0.0F,  0.0F
+        float[] sobel_h_data = {
+            1.0F, 0.0F, -1.0F,
+            2.0F, 0.0F, -2.0F,
+            1.0F, 0.0F, -1.0F
         };
-        float[] roberts_v_data        = { -1.0F,  0.0F, 0.0F,
-                                           0.0F,  1.0F, 0.0F,
-                                           0.0F,  0.0F, 0.0F
-        };
+        float[] sobel_v_data = {-1.0F, -2.0F, -1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F};
 
-        float[] prewitt_h_data        = { 1.0F,  0.0F, -1.0F,
-                                          1.0F,  0.0F, -1.0F,
-                                          1.0F,  0.0F, -1.0F
+        float[] roberts_h_data = {
+            0.0F, 0.0F, -1.0F,
+            0.0F, 1.0F, 0.0F,
+            0.0F, 0.0F, 0.0F
         };
-        float[] prewitt_v_data        = { -1.0F, -1.0F, -1.0F,
-                                           0.0F,  0.0F,  0.0F,
-                                           1.0F,  1.0F,  1.0F
-        };
+        float[] roberts_v_data = {-1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F};
 
-        float[] freichen_h_data        = { 1.0F,   0.0F, -1.0F,
-                                           1.414F, 0.0F, -1.414F,
-                                           1.0F,   0.0F, -1.0F
+        float[] prewitt_h_data = {
+            1.0F, 0.0F, -1.0F,
+            1.0F, 0.0F, -1.0F,
+            1.0F, 0.0F, -1.0F
         };
-        float[] freichen_v_data        = { -1.0F,  -1.414F, -1.0F,
-                                            0.0F,   0.0F,    0.0F,
-                                            1.0F,   1.414F,  1.0F
+        float[] prewitt_v_data = {-1.0F, -1.0F, -1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F};
+
+        float[] freichen_h_data = {
+            1.0F, 0.0F, -1.0F,
+            1.414F, 0.0F, -1.414F,
+            1.0F, 0.0F, -1.0F
         };
+        float[] freichen_v_data = {-1.0F, -1.414F, -1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.414F, 1.0F};
 
         kernels[0] = new KernelJAI(1, 1, normal_h_data);
         kernels[1] = new KernelJAI(1, 1, normal_v_data);
@@ -110,7 +97,7 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
 
     public PlanarImage process() {
         PlanarImage im = getSource(0);
-        
+
         // Gradient operation
         if ((kern_h == null) || (kern_v == null)) {
             initKernels();
@@ -122,20 +109,19 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
         return JAI.create("gradientmagnitude", paramBlock, renderHints);
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     public void animate() {
         try {
             int current = kernelBox.getSelectedIndex() + 1;
 
-            if ( current >= kernelLabels.length ) {
+            if (current >= kernelLabels.length) {
                 current = 0;
             }
 
             kernelBox.setSelectedIndex(current);
             Thread.sleep(1000);
-        } catch( InterruptedException e ) {
+        } catch (InterruptedException e) {
         }
     }
 
@@ -150,13 +136,13 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
             return;
         }
 
-        String item = (String)e.getItem();
+        String item = (String) e.getItem();
         for (int i = 0; i < kernelLabels.length; i++) {
             if (item.equals(kernelLabels[i])) {
                 // Set the appropriate kernel and do Gradient
                 int tmp = i * 2;
                 kern_h = kernels[tmp];
-                kern_v = kernels[tmp+1];
+                kern_v = kernels[tmp + 1];
                 break;
             }
         }

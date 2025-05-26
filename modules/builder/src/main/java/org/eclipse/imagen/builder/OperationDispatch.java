@@ -15,64 +15,60 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-/**
- * Mock Operation dispatch, registries are expected to register until service
- * provider interface is defined.
- */
+/** Mock Operation dispatch, registries are expected to register until service provider interface is defined. */
 public class OperationDispatch {
-	private static OperationDispatch defaultInstance = null;
+    private static OperationDispatch defaultInstance = null;
 
-	public static OperationDispatch getDefaultInstance() {
-		if(defaultInstance == null) {
-			defaultInstance = new OperationDispatch();
-		}
-		return defaultInstance;
-	}
+    public static OperationDispatch getDefaultInstance() {
+        if (defaultInstance == null) {
+            defaultInstance = new OperationDispatch();
+        }
+        return defaultInstance;
+    }
 
-	Map<String, OperationSet> registry = new HashMap<String, OperationSet>();
+    Map<String, OperationSet> registry = new HashMap<String, OperationSet>();
 
-	/** Set of operation implementations */
-	class OperationSet {
-		String operationName;
+    /** Set of operation implementations */
+    class OperationSet {
+        String operationName;
 
-		List<Operation> factorySet = new ArrayList<Operation>();
+        List<Operation> factorySet = new ArrayList<Operation>();
 
-		public OperationSet(String name) {
-			this.operationName = name;
-		}
+        public OperationSet(String name) {
+            this.operationName = name;
+        }
 
-		/** Candidates for the provided builder, may be empty */
-		SortedSet<Operation> query(OperationBuilder builder) {
-			return Collections.emptySortedSet();
-		}
+        /** Candidates for the provided builder, may be empty */
+        SortedSet<Operation> query(OperationBuilder builder) {
+            return Collections.emptySortedSet();
+        }
 
-		public void add(Operation factory) {
-			factorySet.add(factory);
+        public void add(Operation factory) {
+            factorySet.add(factory);
+        }
 
-		}
+        public Operation resolve(OperationBuilder builder) {
+            return factorySet.get(0); // first post!
+        }
+    }
 
-		public Operation resolve(OperationBuilder builder) {
-			return factorySet.get(0); // first post!
-		}
-	}
+    RenderedImage create(OperationBuilder builder) {
+        if (builder == null) {
+            throw new NullPointerException("OperationBuilder required");
+        }
+        String name = builder.getName();
+        OperationSet candidates = registry.get(name);
+        Operation operation = candidates.resolve(builder);
 
-	RenderedImage create(OperationBuilder builder) {
-		if (builder == null) {
-			throw new NullPointerException("OperationBuilder required");
-		}
-		String name = builder.getName();
-		OperationSet candidates = registry.get(name);
-		Operation operation = candidates.resolve(builder);
+        return operation.create(builder);
+    }
 
-		return operation.create(builder);
-	}
-
-	public void register(Operation factory) {
-		String name = factory.getName();
-		if (!registry.containsKey(name)) {
-			registry.put(name, new OperationSet(name));
-		}
-		OperationSet set = registry.get(name);
-		set.add(factory);
-	}
+    public void register(Operation factory) {
+        String name = factory.getName();
+        if (!registry.containsKey(name)) {
+            registry.put(name, new OperationSet(name));
+        }
+        OperationSet set = registry.get(name);
+        set.add(factory);
+    }
 }

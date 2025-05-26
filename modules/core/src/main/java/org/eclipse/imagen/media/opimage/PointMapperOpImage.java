@@ -15,7 +15,6 @@
  *
  */
 
-
 package org.eclipse.imagen.media.opimage;
 
 import java.awt.geom.AffineTransform;
@@ -23,32 +22,30 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.Map;
 import org.eclipse.imagen.NullOpImage;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
 
 /**
- * A class which merely wraps another <code>PlanarImage</code> but
- * uses a supplied <code>AffineTransform</code> object for point mapping.
+ * A class which merely wraps another <code>PlanarImage</code> but uses a supplied <code>AffineTransform</code> object
+ * for point mapping.
  */
 public class PointMapperOpImage extends NullOpImage {
     private AffineTransform transform;
     private AffineTransform inverseTransform;
 
-    public PointMapperOpImage(PlanarImage source, Map configuration,
-                              AffineTransform transform)
-        throws NoninvertibleTransformException {
+    public PointMapperOpImage(PlanarImage source, Map configuration, AffineTransform transform)
+            throws NoninvertibleTransformException {
         super(source, null, configuration, OP_COMPUTE_BOUND);
 
-        if(transform == null) {
+        if (transform == null) {
             throw new IllegalArgumentException("transform == null!");
         }
-        
+
         this.transform = transform;
         this.inverseTransform = transform.createInverse();
     }
 
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
-        if(sourceIndex != 0) {
+        if (sourceIndex != 0) {
             throw new IndexOutOfBoundsException("sourceIndex != 0!");
         }
 
@@ -56,7 +53,7 @@ public class PointMapperOpImage extends NullOpImage {
     }
 
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
-        if(sourceIndex != 0) {
+        if (sourceIndex != 0) {
             throw new IndexOutOfBoundsException("sourceIndex != 0!");
         }
 

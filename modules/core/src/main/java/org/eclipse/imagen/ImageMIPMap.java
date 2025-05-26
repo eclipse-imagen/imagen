@@ -16,40 +16,30 @@
  */
 
 package org.eclipse.imagen;
-import java.awt.Image;
+
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
-import org.eclipse.imagen.media.util.PropertyUtil;
 
 /**
- * A class implementing the "MIP map" operation on a
- * <code>RenderedImage</code>.  Given a <code>RenderedImage</code>,
- * which represents the image at the highest resolution level, the
- * image at each lower resolution level may be derived by performing a
- * specific chain of operations to down sample the image at the next
- * higher resolution level repeatedly.  The highest resolution level is
- * defined as level 0.
+ * A class implementing the "MIP map" operation on a <code>RenderedImage</code>. Given a <code>RenderedImage</code>,
+ * which represents the image at the highest resolution level, the image at each lower resolution level may be derived
+ * by performing a specific chain of operations to down sample the image at the next higher resolution level repeatedly.
+ * The highest resolution level is defined as level 0.
  *
- * <p> The <code>downSampler</code> is a chain of operations that is
- * used to derive the image at the next lower resolution level from
- * the image at the current resolution level.  That is, given an image
- * at resolution level <code>i</code>, the <code>downSampler</code> is
- * used to obtain the image at resolution level <code>i+1</code>.
- * The chain may contain one or more operation nodes; however, each
- * node must be a <code>RenderedOp</code>.  The parameter points to the
- * last node in the chain.  The very first node in the chain must be
- * a <code>RenderedOp</code> that takes one <code>RenderedImage</code>
- * as its source.  All other nodes may have multiple sources.  When
- * traversing back up the chain, if a node has more than one source,
- * the first source, <code>source0</code>, is used to move up the
- * chain.  This parameter is saved by reference.
+ * <p>The <code>downSampler</code> is a chain of operations that is used to derive the image at the next lower
+ * resolution level from the image at the current resolution level. That is, given an image at resolution level <code>i
+ * </code>, the <code>downSampler</code> is used to obtain the image at resolution level <code>i+1</code>. The chain may
+ * contain one or more operation nodes; however, each node must be a <code>RenderedOp</code>. The parameter points to
+ * the last node in the chain. The very first node in the chain must be a <code>RenderedOp</code> that takes one <code>
+ * RenderedImage</code> as its source. All other nodes may have multiple sources. When traversing back up the chain, if
+ * a node has more than one source, the first source, <code>source0</code>, is used to move up the chain. This parameter
+ * is saved by reference.
  *
  * @see ImagePyramid
- *
  */
 public class ImageMIPMap implements ImageJAI {
 
@@ -86,29 +76,20 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Constructor.  The down sampler is an "affine" operation that
-     * uses the supplied <code>AffineTransform</code> and
-     * <code>Interpolation</code> objects.
-     * All input parameters are saved by reference.
+     * Constructor. The down sampler is an "affine" operation that uses the supplied <code>AffineTransform</code> and
+     * <code>Interpolation</code> objects. All input parameters are saved by reference.
      *
-     * @param image  The image with the highest resolution.
-     * @param transform  An affine matrix used with an "affine" operation
-     *        to derive the lower resolution images.
-     * @param interpolation  The interpolation method for the "affine"
-     *        operation.  It may be <code>null</code>, in which case the
-     *        default "nearest neighbor" interpolation method is used.
-     *
-     * @throws IllegalArgumentException if <code>image</code> is
-     *         <code>null</code>.
-     * @throws IllegalArgumentException if <code>transform</code> is
-     *         <code>null</code>.
+     * @param image The image with the highest resolution.
+     * @param transform An affine matrix used with an "affine" operation to derive the lower resolution images.
+     * @param interpolation The interpolation method for the "affine" operation. It may be <code>null</code>, in which
+     *     case the default "nearest neighbor" interpolation method is used.
+     * @throws IllegalArgumentException if <code>image</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>transform</code> is <code>null</code>.
      */
-    public ImageMIPMap(RenderedImage image,
-                       AffineTransform transform,
-                       Interpolation interpolation) {
+    public ImageMIPMap(RenderedImage image, AffineTransform transform, Interpolation interpolation) {
         this();
 
-        if ( image == null || transform == null ) {
+        if (image == null || transform == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -125,23 +106,17 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Constructor.  The <code>downSampler</code> points to the last
-     * operation node in the <code>RenderedOp</code> chain.  The very
-     * first operation in the chain must not have any source images
-     * specified; that is, its number of sources must be 0.  All input
-     * parameters are saved by reference.
+     * Constructor. The <code>downSampler</code> points to the last operation node in the <code>RenderedOp</code> chain.
+     * The very first operation in the chain must not have any source images specified; that is, its number of sources
+     * must be 0. All input parameters are saved by reference.
      *
-     * @param image  The image with the highest resolution.
-     * @param downSampler  The operation chain used to derive the lower
-     *        resolution images.  No validation is done on the first
-     *        operation in the chain.
-     *
+     * @param image The image with the highest resolution.
+     * @param downSampler The operation chain used to derive the lower resolution images. No validation is done on the
+     *     first operation in the chain.
      * @throws IllegalArgumentException if <code>image</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>downSampler</code> is
-     *         <code>null</code>.
+     * @throws IllegalArgumentException if <code>downSampler</code> is <code>null</code>.
      */
-    public ImageMIPMap(RenderedImage image,
-                       RenderedOp downSampler) {
+    public ImageMIPMap(RenderedImage image, RenderedOp downSampler) {
         this();
         if (image == null || downSampler == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
@@ -153,42 +128,31 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Constructs a new <code>ImageMIPMap</code> from a
-     * <code>RenderedOp</code> chain.  The <code>downSampler</code>
-     * points to the last operation node in the
-     * <code>RenderedOp</code> chain.  The source image is determined
-     * by traversing up the chain: starting at the bottom node, given by
-     * the <code>downSample</code> parameter, we move to the first
-     * source of the node and repeat until we find either a sourceless
-     * <code>RenderedOp</code> or any other type of
-     * <code>RenderedImage</code>.
+     * Constructs a new <code>ImageMIPMap</code> from a <code>RenderedOp</code> chain. The <code>downSampler</code>
+     * points to the last operation node in the <code>RenderedOp</code> chain. The source image is determined by
+     * traversing up the chain: starting at the bottom node, given by the <code>downSample</code> parameter, we move to
+     * the first source of the node and repeat until we find either a sourceless <code>RenderedOp</code> or any other
+     * type of <code>RenderedImage</code>.
      *
-     * The <code>downSampler</code> parameter is saved by reference
-     * and should not be modified during the lifetime of any
-     * <code>ImageMIPMap</code> referring to it.
+     * <p>The <code>downSampler</code> parameter is saved by reference and should not be modified during the lifetime of
+     * any <code>ImageMIPMap</code> referring to it.
      *
-     * @param downSampler  The operation chain used to derive the lower
-     *        resolution images.  The source of the first node in this
-     *        chain is taken as the image with the highest resolution.
-     *
-     * @throws IllegalArgumentException if <code>downSampler</code> is
-     *         <code>null</code>.
-     * @throws IllegalArgumentException if <code>downSampler</code>
-     *         has no sources.
-     * @throws IllegalArgumentException if an object other than a
-     *         <code>RenderedImage</code> is found in the
-     *         <code>downSampler</code> chain.
+     * @param downSampler The operation chain used to derive the lower resolution images. The source of the first node
+     *     in this chain is taken as the image with the highest resolution.
+     * @throws IllegalArgumentException if <code>downSampler</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>downSampler</code> has no sources.
+     * @throws IllegalArgumentException if an object other than a <code>RenderedImage</code> is found in the <code>
+     *     downSampler</code> chain.
      */
     public ImageMIPMap(RenderedOp downSampler) {
         this();
 
-        if ( downSampler == null ) {
+        if (downSampler == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
         if (downSampler.getNumSources() == 0) {
-            throw new IllegalArgumentException(
-                      JaiI18N.getString("ImageMIPMap0"));
+            throw new IllegalArgumentException(JaiI18N.getString("ImageMIPMap0"));
         }
 
         // Find the highest resolution image from the chain.
@@ -197,7 +161,7 @@ public class ImageMIPMap implements ImageJAI {
             Object src = op.getNodeSource(0);
 
             if (src instanceof RenderedOp) {
-                RenderedOp srcOp = (RenderedOp)src;
+                RenderedOp srcOp = (RenderedOp) src;
 
                 if (srcOp.getNumSources() == 0) {
                     highestImage = srcOp;
@@ -207,12 +171,11 @@ public class ImageMIPMap implements ImageJAI {
                     op = srcOp;
                 }
             } else if (src instanceof RenderedImage) {
-                highestImage = (RenderedImage)src;
+                highestImage = (RenderedImage) src;
                 op.removeSources();
                 break;
             } else {
-                throw new IllegalArgumentException(
-                          JaiI18N.getString("ImageMIPMap1"));
+                throw new IllegalArgumentException(JaiI18N.getString("ImageMIPMap1"));
             }
         }
 
@@ -221,50 +184,37 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Returns an array of <code>String</code>s recognized as names by
-     * this property source.  If no property names match,
+     * Returns an array of <code>String</code>s recognized as names by this property source. If no property names match,
      * <code>null</code> will be returned.
      *
-     * <p> The default implementation returns <code>null</code>, i.e.,
-     * no property names are recognized.
+     * <p>The default implementation returns <code>null</code>, i.e., no property names are recognized.
      *
-     * @return An array of <code>String</code>s giving the valid
-     *         property names.
+     * @return An array of <code>String</code>s giving the valid property names.
      */
     public String[] getPropertyNames() {
         return properties.getPropertyNames();
     }
 
     /**
-     * Returns an array of <code>String</code>s recognized as names by
-     * this property source that begin with the supplied prefix.  If
-     * no property names are recognized, or no property names match,
-     * <code>null</code> will be returned.
-     * The comparison is done in a case-independent manner.
+     * Returns an array of <code>String</code>s recognized as names by this property source that begin with the supplied
+     * prefix. If no property names are recognized, or no property names match, <code>null</code> will be returned. The
+     * comparison is done in a case-independent manner.
      *
-     * @return An array of <code>String</code>s giving the valid
-     *         property names.
-     *
+     * @return An array of <code>String</code>s giving the valid property names.
      * @param prefix the supplied prefix for the property source.
-     *
-     * @throws IllegalArgumentException if <code>prefix</code> is
-     *                                  <code>null</code>.
+     * @throws IllegalArgumentException if <code>prefix</code> is <code>null</code>.
      */
     public String[] getPropertyNames(String prefix) {
         return properties.getPropertyNames(prefix);
     }
 
     /**
-     * Returns the class expected to be returned by a request for
-     * the property with the specified name.  If this information
-     * is unavailable, <code>null</code> will be returned.
+     * Returns the class expected to be returned by a request for the property with the specified name. If this
+     * information is unavailable, <code>null</code> will be returned.
      *
-     * @return The <code>Class</code> expected to be return by a
-     *         request for the value of this property or <code>null</code>.
-     *
-     * @exception IllegalArgumentException if <code>name</code>
-     *                                     is <code>null</code>.
-     *
+     * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
+     *     </code>.
+     * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
@@ -272,15 +222,11 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Returns the specified property.  The default implementation
-     * returns <code>java.awt.Image.UndefinedProperty</code>.
+     * Returns the specified property. The default implementation returns <code>java.awt.Image.UndefinedProperty</code>.
      *
-     * @param name  The name of the property.
-     *
+     * @param name The name of the property.
      * @return The value of the property, as an Object.
-     *
-     * @exception IllegalArgumentException if <code>name</code>
-     *                                     is <code>null</code>.
+     * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      */
     public Object getProperty(String name) {
         return properties.getProperty(name);
@@ -291,10 +237,7 @@ public class ImageMIPMap implements ImageJAI {
      *
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
-     *
-     * @throws IllegalArgumentException  If <code>name</code> or 
-     *         <code>value</code> is <code>null</code>.
-     *
+     * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
      * @since JAI 1.1
      */
     public void setProperty(String name, Object value) {
@@ -304,9 +247,7 @@ public class ImageMIPMap implements ImageJAI {
     /**
      * Removes the named property from the <code>ImageMIPMap</code>.
      *
-     * @exception IllegalArgumentException if <code>name</code>
-     *                                     is <code>null</code>.
-     *
+     * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @since JAI 1.1
      */
     public void removeProperty(String name) {
@@ -314,8 +255,7 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Add a PropertyChangeListener to the listener list. The
-     * listener is registered for all properties.
+     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
      *
      * @since JAI 1.1
      */
@@ -324,22 +264,18 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Add a PropertyChangeListener for a specific property. The
-     * listener will be invoked only when a call on
-     * firePropertyChange names that specific property.  The case of
-     * the name is ignored.
+     * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
+     * firePropertyChange names that specific property. The case of the name is ignored.
      *
      * @since JAI 1.1
      */
-    public void addPropertyChangeListener(String propertyName,
-                                          PropertyChangeListener listener) {
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
     }
 
     /**
-     * Remove a PropertyChangeListener from the listener list. This
-     * removes a PropertyChangeListener that was registered for all
-     * properties.
+     * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
+     * for all properties.
      *
      * @since JAI 1.1
      */
@@ -348,20 +284,15 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Remove a PropertyChangeListener for a specific property.  The case
-     * of the name is ignored.
+     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
      *
      * @since JAI 1.1
      */
-    public void removePropertyChangeListener(String propertyName,
-                                             PropertyChangeListener listener) {
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }
 
-    /**
-     * Returns the current resolution level.  The highest resolution
-     * level is defined as level 0.
-     */
+    /** Returns the current resolution level. The highest resolution level is defined as level 0. */
     public int getCurrentLevel() {
         return currentLevel;
     }
@@ -372,8 +303,7 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Returns the image at the specified resolution level.  The
-     * requested level must be greater than or equal to 0 or
+     * Returns the image at the specified resolution level. The requested level must be greater than or equal to 0 or
      * <code>null</code> will be returned.
      *
      * @param level The specified level of resolution
@@ -383,7 +313,7 @@ public class ImageMIPMap implements ImageJAI {
             return null;
         }
 
-        if (level < currentLevel) {	// restart from the highest image
+        if (level < currentLevel) { // restart from the highest image
             currentImage = highestImage;
             currentLevel = 0;
         }
@@ -395,8 +325,7 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Returns the image at the next lower resolution level,
-     * obtained by applying the <code>downSampler</code> on the
+     * Returns the image at the next lower resolution level, obtained by applying the <code>downSampler</code> on the
      * image at the current resolution level.
      */
     public RenderedImage getDownImage() {
@@ -409,23 +338,18 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Duplicates a <code>RenderedOp</code> chain.  Each node in the
-     * chain must be a <code>RenderedOp</code>.  The <code>op</code>
-     * parameter points to the last <code>RenderedOp</code> in the chain.
-     * The very first op in the chain must have no sources and its source
-     * will be set to the supplied image vector.  When traversing up the
-     * chain, if any node has more than one source, the first source will
-     * be used.  The first source of each node is duplicated; all other
-     * sources are copied by reference.
+     * Duplicates a <code>RenderedOp</code> chain. Each node in the chain must be a <code>RenderedOp</code>. The <code>
+     * op</code> parameter points to the last <code>RenderedOp</code> in the chain. The very first op in the chain must
+     * have no sources and its source will be set to the supplied image vector. When traversing up the chain, if any
+     * node has more than one source, the first source will be used. The first source of each node is duplicated; all
+     * other sources are copied by reference.
      *
      * @param op RenderedOp chain
      * @param vector of source images
-     *
      * @throws IllegalArgumentException if <code>op</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>images</code> is <code>null</code>.
      */
-    protected RenderedOp duplicate(RenderedOp op,
-                                   Vector images) {
+    protected RenderedOp duplicate(RenderedOp op, Vector images) {
         if (images == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
@@ -435,10 +359,7 @@ public class ImageMIPMap implements ImageJAI {
         // OperationName, ParameterBlock, and RenderingHints copied over
         // by reference.  No property information is copied.
         //
-        op = new RenderedOp(op.getRegistry(),
-                            op.getOperationName(),
-                            op.getParameterBlock(),
-                            op.getRenderingHints());
+        op = new RenderedOp(op.getRegistry(), op.getOperationName(), op.getParameterBlock(), op.getRenderingHints());
 
         ParameterBlock pb = new ParameterBlock();
         pb.setParameters(op.getParameters());
@@ -446,11 +367,11 @@ public class ImageMIPMap implements ImageJAI {
         Vector srcs = op.getSources();
         int numSrcs = srcs.size();
 
-        if (numSrcs == 0) {	// first op in the chain
+        if (numSrcs == 0) { // first op in the chain
             pb.setSources(images);
 
-        } else {		// recursively duplicate source0
-            pb.addSource(duplicate((RenderedOp)srcs.elementAt(0), images));
+        } else { // recursively duplicate source0
+            pb.addSource(duplicate((RenderedOp) srcs.elementAt(0), images));
 
             for (int i = 1; i < numSrcs; i++) {
                 pb.addSource(srcs.elementAt(i));
@@ -462,34 +383,24 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Returns the current image as a <code>RenderableImage</code>.
-     * This method returns a <code>MultiResolutionRenderableImage</code>.
-     * The <code>numImages</code> parameter indicates the number of
-     * <code>RenderedImage</code>s used to construct the
-     * <code>MultiResolutionRenderableImage</code>.  Starting with the
-     * current image, the images are obtained by finding the necessary
-     * number of lower resolution images using the <code>downSampler</code>.
-     * The current level and current image will not be changed.
-     * If the width or height reaches 1, the downsampling will stop
-     * and return the renderable image.
+     * Returns the current image as a <code>RenderableImage</code>. This method returns a <code>
+     * MultiResolutionRenderableImage</code>. The <code>numImages</code> parameter indicates the number of <code>
+     * RenderedImage</code>s used to construct the <code>MultiResolutionRenderableImage</code>. Starting with the
+     * current image, the images are obtained by finding the necessary number of lower resolution images using the
+     * <code>downSampler</code>. The current level and current image will not be changed. If the width or height reaches
+     * 1, the downsampling will stop and return the renderable image.
      *
-     * <p> The <code>numImages</code> should be greater than or equal to 1.
-     * If a value of less than 1 is specified, this method uses 1 image,
-     * which is the current image.
+     * <p>The <code>numImages</code> should be greater than or equal to 1. If a value of less than 1 is specified, this
+     * method uses 1 image, which is the current image.
      *
      * @param numImages The number of lower resolution images.
      * @param minX The minimum X coordinate of the Renderable, as a float.
      * @param minY The minimum Y coordinate of the Renderable, as a float.
      * @param height The height of the Renderable, as a float.
-     *
      * @throws IllegalArgumentException if <code>height</code> is less than 0.
-     *
      * @see MultiResolutionRenderableImage
      */
-    public RenderableImage getAsRenderable(int numImages,
-                                           float minX,
-                                           float minY,
-                                           float height) {
+    public RenderableImage getAsRenderable(int numImages, float minX, float minY, float height) {
         Vector v = new Vector();
         v.add(currentImage);
 
@@ -498,7 +409,7 @@ public class ImageMIPMap implements ImageJAI {
             RenderedOp op = duplicate(downSampler, vectorize(image));
             image = op.getRendering();
 
-            if ( image.getWidth() <= 1 || image.getHeight() <= 1 ) {
+            if (image.getWidth() <= 1 || image.getHeight() <= 1) {
                 break;
             }
 
@@ -509,10 +420,9 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Returns the current image as a <code>RenderableImage</code>.
-     * This method returns a <code>MultiResolutionRenderableImage</code>
-     * with the current image as the only source image, minX and minY
-     * set to 0.0, and height set to 1.0.
+     * Returns the current image as a <code>RenderableImage</code>. This method returns a <code>
+     * MultiResolutionRenderableImage</code> with the current image as the only source image, minX and minY set to 0.0,
+     * and height set to 1.0.
      *
      * @see MultiResolutionRenderableImage
      */
@@ -523,9 +433,8 @@ public class ImageMIPMap implements ImageJAI {
     // XXX - see OpImage vectorize and consolidate?
     //       could be public static in PlanarImage
     /**
-     * Creates and returns a <code>Vector</code> containing a single
-     * element equal to the supplied <code>RenderedImage</code>.
-     *
+     * Creates and returns a <code>Vector</code> containing a single element equal to the supplied <code>RenderedImage
+     * </code>.
      *
      * @since JAI 1.1
      */
@@ -536,10 +445,8 @@ public class ImageMIPMap implements ImageJAI {
     }
 
     /**
-     * Creates and returns a <code>Vector</code> containing two
-     * elements equal to the supplied <code>RenderedImage</code>s
-     * in the order given.
-     *
+     * Creates and returns a <code>Vector</code> containing two elements equal to the supplied <code>RenderedImage
+     * </code>s in the order given.
      *
      * @since JAI 1.1
      */

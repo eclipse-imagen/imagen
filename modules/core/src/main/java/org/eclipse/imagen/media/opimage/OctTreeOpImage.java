@@ -16,71 +16,62 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Image;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.LookupTableJAI;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.UnpackedImageData;
-import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
- * An <code>OpImage</code> implementing the "ColorQuantizer" operation as
- * described in <code>org.eclipse.imagen.operator.ExtremaDescriptor</code>
- * based on the oct-tree algorithm.
+ * An <code>OpImage</code> implementing the "ColorQuantizer" operation as described in <code>
+ * org.eclipse.imagen.operator.ExtremaDescriptor</code> based on the oct-tree algorithm.
  *
- * An efficient color quantization algorithm, adapted from the C++
- * implementation quantize.c in <a
- * href="http://www.imagemagick.org/">ImageMagick</a>. The pixels for
- * an image are placed into an oct tree. The oct tree is reduced in
- * size, and the pixels from the original image are reassigned to the
- * nodes in the reduced tree.<p>
+ * <p>An efficient color quantization algorithm, adapted from the C++ implementation quantize.c in <a
+ * href="http://www.imagemagick.org/">ImageMagick</a>. The pixels for an image are placed into an oct tree. The oct tree
+ * is reduced in size, and the pixels from the original image are reassigned to the nodes in the reduced tree.
  *
- * Here is the copyright notice from ImageMagick:
+ * <p>Here is the copyright notice from ImageMagick:
  *
  * <pre>
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Permission is hereby granted, free of charge, to any person obtaining a    %
-%  copy of this software and associated documentation files ("ImageMagick"),  %
-%  to deal in ImageMagick without restriction, including without limitation   %
-%  the rights to use, copy, modify, merge, publish, distribute, sublicense,   %
-%  and/or sell copies of ImageMagick, and to permit persons to whom the       %
-%  ImageMagick is furnished to do so, subject to the following conditions:    %
-%                                                                             %
-%  The above copyright notice and this permission notice shall be included in %
-%  all copies or substantial portions of ImageMagick.                         %
-%                                                                             %
-%  The software is provided "as is", without warranty of any kind, express or %
-%  implied, including but not limited to the warranties of merchantability,   %
-%  fitness for a particular purpose and noninfringement.  In no event shall   %
-%  E. I. du Pont de Nemours and Company be liable for any claim, damages or   %
-%  other liability, whether in an action of contract, tort or otherwise,      %
-%  arising from, out of or in connection with ImageMagick or the use or other %
-%  dealings in ImageMagick.                                                   %
-%                                                                             %
-%  Except as contained in this notice, the name of the E. I. du Pont de       %
-%  Nemours and Company shall not be used in advertising or otherwise to       %
-%  promote the sale, use or other dealings in ImageMagick without prior       %
-%  written authorization from the E. I. du Pont de Nemours and Company.       %
-%                                                                             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-</pre>
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %  Permission is hereby granted, free of charge, to any person obtaining a    %
+ * %  copy of this software and associated documentation files ("ImageMagick"),  %
+ * %  to deal in ImageMagick without restriction, including without limitation   %
+ * %  the rights to use, copy, modify, merge, publish, distribute, sublicense,   %
+ * %  and/or sell copies of ImageMagick, and to permit persons to whom the       %
+ * %  ImageMagick is furnished to do so, subject to the following conditions:    %
+ * %                                                                             %
+ * %  The above copyright notice and this permission notice shall be included in %
+ * %  all copies or substantial portions of ImageMagick.                         %
+ * %                                                                             %
+ * %  The software is provided "as is", without warranty of any kind, express or %
+ * %  implied, including but not limited to the warranties of merchantability,   %
+ * %  fitness for a particular purpose and noninfringement.  In no event shall   %
+ * %  E. I. du Pont de Nemours and Company be liable for any claim, damages or   %
+ * %  other liability, whether in an action of contract, tort or otherwise,      %
+ * %  arising from, out of or in connection with ImageMagick or the use or other %
+ * %  dealings in ImageMagick.                                                   %
+ * %                                                                             %
+ * %  Except as contained in this notice, the name of the E. I. du Pont de       %
+ * %  Nemours and Company shall not be used in advertising or otherwise to       %
+ * %  promote the sale, use or other dealings in ImageMagick without prior       %
+ * %  written authorization from the E. I. du Pont de Nemours and Company.       %
+ * %                                                                             %
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * </pre>
  *
- * In this <code>OpImage</code>, two significant bugs in the original code are
- * fix: (1) The computation of tree depth; (2) The computation of the pixels
- * on each node.
+ * In this <code>OpImage</code>, two significant bugs in the original code are fix: (1) The computation of tree depth;
+ * (2) The computation of the pixels on each node.
  *
  * @see org.eclipse.imagen.operator.ExtremaDescriptor
  * @see ExtremaCRIF
@@ -96,7 +87,7 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
 
     {
         squares = new int[(maxColorNum << 1) + 1];
-        for (int i= -maxColorNum; i <= maxColorNum; i++) {
+        for (int i = -maxColorNum; i <= maxColorNum; i++) {
             squares[i + maxColorNum] = i * i;
         }
     }
@@ -104,16 +95,17 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
     /**
      * Constructs an <code>OctTreeOpImage</code>.
      *
-     * @param source  The source image.
+     * @param source The source image.
      */
-    public OctTreeOpImage(RenderedImage source,
-                            Map config,
-                            ImageLayout layout,
-                            int maxColorNum,
-                            int upperBound,
-                            ROI roi,
-                            int xPeriod,
-                            int yPeriod) {
+    public OctTreeOpImage(
+            RenderedImage source,
+            Map config,
+            ImageLayout layout,
+            int maxColorNum,
+            int upperBound,
+            ROI roi,
+            int xPeriod,
+            int yPeriod) {
         super(source, config, layout, maxColorNum, roi, xPeriod, yPeriod);
 
         colorMap = null;
@@ -167,8 +159,7 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
         }
 
         void constructTree() {
-            if (roi == null)
-                roi = new ROIShape(source.getBounds());
+            if (roi == null) roi = new ROIShape(source.getBounds());
 
             // Cycle throw all source tiles.
             int minTileX = source.getMinTileX();
@@ -189,21 +180,14 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
                     if (roi.intersects(tileRect)) {
                         // If checking for skipped tiles determine
                         // whether this tile is "hit".
-                        if (checkForSkippedTiles &&
-                            tileRect.x >= xStart &&
-                            tileRect.y >= yStart) {
+                        if (checkForSkippedTiles && tileRect.x >= xStart && tileRect.y >= yStart) {
                             // Determine the offset within the tile.
-                            int offsetX =
-                                (xPeriod - ((tileRect.x - xStart) % xPeriod)) %
-                                xPeriod;
-                            int offsetY =
-                                (yPeriod - ((tileRect.y - yStart) % yPeriod)) %
-                                yPeriod;
+                            int offsetX = (xPeriod - ((tileRect.x - xStart) % xPeriod)) % xPeriod;
+                            int offsetY = (yPeriod - ((tileRect.y - yStart) % yPeriod)) % yPeriod;
 
                             // Continue with next tile if offset
                             // is larger than either tile dimension.
-                            if (offsetX >= tileRect.width ||
-                                offsetY >= tileRect.height) {
+                            if (offsetX >= tileRect.width || offsetY >= tileRect.height) {
                                 continue;
                             }
                         }
@@ -215,25 +199,20 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
         }
 
         private void constructTree(Raster source) {
-            if(!isInitialized) {
+            if (!isInitialized) {
                 srcPA = new PixelAccessor(getSourceImage(0));
-                srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ?
-                    DataBuffer.TYPE_BYTE : srcPA.sampleType;
+                srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ? DataBuffer.TYPE_BYTE : srcPA.sampleType;
                 isInitialized = true;
             }
 
-            Rectangle srcBounds = getSourceImage(0).getBounds().intersection(
-                                                      source.getBounds());
+            Rectangle srcBounds = getSourceImage(0).getBounds().intersection(source.getBounds());
 
             LinkedList rectList;
-            if (roi == null) {	// ROI is the whole Raster
+            if (roi == null) { // ROI is the whole Raster
                 rectList = new LinkedList();
                 rectList.addLast(srcBounds);
             } else {
-                rectList = roi.getAsRectangleList(srcBounds.x,
-                                                  srcBounds.y,
-                                                  srcBounds.width,
-                                                  srcBounds.height);
+                rectList = roi.getAsRectangleList(srcBounds.x, srcBounds.y, srcBounds.width, srcBounds.height);
                 if (rectList == null) {
                     return; // ROI does not intersect with Raster boundary.
                 }
@@ -243,7 +222,7 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
             int yStart = source.getMinY();
 
             while (iterator.hasNext()) {
-                Rectangle rect = srcBounds.intersection((Rectangle)iterator.next());
+                Rectangle rect = srcBounds.intersection((Rectangle) iterator.next());
                 int tx = rect.x;
                 int ty = rect.y;
 
@@ -254,15 +233,14 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
                 rect.height = ty + rect.height - rect.y;
 
                 if (rect.isEmpty()) {
-                    continue;	// no pixel to count in this rectangle
+                    continue; // no pixel to count in this rectangle
                 }
 
-                UnpackedImageData uid = srcPA.getPixels(source, rect,
-                                                        srcSampleType, false);
+                UnpackedImageData uid = srcPA.getPixels(source, rect, srcSampleType, false);
                 switch (uid.type) {
-                case DataBuffer.TYPE_BYTE:
-                    constructTreeByte(uid);
-                    break;
+                    case DataBuffer.TYPE_BYTE:
+                        constructTreeByte(uid);
+                        break;
                 }
             }
         }
@@ -323,9 +301,9 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
                 int lastPixel = lo + rect.width * pixelStride;
 
                 for (int po = lo; po < lastPixel; po += pixelInc) {
-                    int red   = rBand[po + uid.bandOffsets[0]] & 0xff;
+                    int red = rBand[po + uid.bandOffsets[0]] & 0xff;
                     int green = gBand[po + uid.bandOffsets[1]] & 0xff;
-                    int blue  = bBand[po + uid.bandOffsets[2]] & 0xff;
+                    int blue = bBand[po + uid.bandOffsets[2]] & 0xff;
 
                     // a hard limit on the number of nodes in the tree
                     if (nodes > treeSize) {
@@ -337,20 +315,19 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
                     // number_pixels count for each node
                     Node node = root;
                     for (int level = 1; level <= depth; ++level) {
-                        int id = ((red   > node.mid_red   ? 1 : 0) |
-                                  ((green > node.mid_green ? 1 : 0) << 1) |
-                                  ((blue  > node.mid_blue  ? 1 : 0) << 2));
+                        int id = ((red > node.mid_red ? 1 : 0)
+                                | ((green > node.mid_green ? 1 : 0) << 1)
+                                | ((blue > node.mid_blue ? 1 : 0) << 2));
                         if (node.child[id] == null) {
                             node = new Node(node, id, level);
-                        } else
-                            node = node.child[id];
-                        node.number_pixels ++;
+                        } else node = node.child[id];
+                        node.number_pixels++;
                     }
 
                     ++node.unique;
-                    node.total_red   += red;
+                    node.total_red += red;
                     node.total_green += green;
-                    node.total_blue  += blue;
+                    node.total_blue += blue;
                 }
             }
         }
@@ -368,9 +345,9 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
          * characteristics for later averaging.
          */
         void reduction() {
-            int totalSamples = (source.getWidth() + xPeriod -1) / xPeriod *
-                              (source.getHeight() + yPeriod -1) / yPeriod;
-            int threshold = Math.max(1,  totalSamples/ (max_colors * 8));
+            int totalSamples =
+                    (source.getWidth() + xPeriod - 1) / xPeriod * (source.getHeight() + yPeriod - 1) / yPeriod;
+            int threshold = Math.max(1, totalSamples / (max_colors * 8));
             while (colors > max_colors) {
                 colors = 0;
                 threshold = root.reduce(threshold, Integer.MAX_VALUE);
@@ -404,9 +381,7 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
             root.colormap();
         }
 
-        /**
-         * A single Node in the tree.
-         */
+        /** A single Node in the tree. */
         class Node {
             Cube cube;
 
@@ -448,9 +423,9 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
 
                 this.number_pixels = Integer.MAX_VALUE;
 
-                this.mid_red   = (maxColorNum + 1) >> 1;
+                this.mid_red = (maxColorNum + 1) >> 1;
                 this.mid_green = (maxColorNum + 1) >> 1;
-                this.mid_blue  = (maxColorNum + 1) >> 1;
+                this.mid_blue = (maxColorNum + 1) >> 1;
             }
 
             Node(Node parent, int id, int level) {
@@ -472,30 +447,25 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
 
                 // figure out our midpoint
                 int bi = (1 << (maxTreeDepth - level)) >> 1;
-                mid_red   = parent.mid_red   + ((id & 1) > 0 ? bi : -bi);
+                mid_red = parent.mid_red + ((id & 1) > 0 ? bi : -bi);
                 mid_green = parent.mid_green + ((id & 2) > 0 ? bi : -bi);
-                mid_blue  = parent.mid_blue  + ((id & 4) > 0 ? bi : -bi);
+                mid_blue = parent.mid_blue + ((id & 4) > 0 ? bi : -bi);
             }
 
-            /**
-             * Remove this child node, and make sure our parent
-             * absorbs our pixel statistics.
-             */
+            /** Remove this child node, and make sure our parent absorbs our pixel statistics. */
             void pruneChild() {
                 --parent.nchild;
                 parent.unique += unique;
-                parent.total_red     += total_red;
-                parent.total_green   += total_green;
-                parent.total_blue    += total_blue;
+                parent.total_red += total_red;
+                parent.total_green += total_green;
+                parent.total_blue += total_blue;
                 parent.child[id] = null;
                 --cube.nodes;
                 cube = null;
                 parent = null;
             }
 
-            /**
-             * Prune the lowest layer of the tree.
-             */
+            /** Prune the lowest layer of the tree. */
             void pruneLevel() {
                 if (nchild != 0) {
                     for (int id = 0; id < 8; id++) {
@@ -510,11 +480,9 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
             }
 
             /**
-             * Remove any nodes that have fewer than threshold
-             * pixels. Also, as long as we're walking the tree:
+             * Remove any nodes that have fewer than threshold pixels. Also, as long as we're walking the tree:
              *
-             *  - figure out the color with the fewest pixels
-             *  - recalculate the total number of colors in the tree
+             * <p>- figure out the color with the fewest pixels - recalculate the total number of colors in the tree
              */
             int reduce(int threshold, int next_threshold) {
                 if (nchild != 0) {
@@ -555,12 +523,9 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
                     }
                 }
                 if (unique != 0) {
-                    cube.colormap[0][cube.colors] =
-                        (byte)((total_red   + (unique >> 1)) / unique);
-                    cube.colormap[1][cube.colors] =
-                        (byte)((total_green + (unique >> 1)) / unique);
-                    cube.colormap[2][cube.colors] =
-                        (byte)((total_blue  + (unique >> 1)) / unique);
+                    cube.colormap[0][cube.colors] = (byte) ((total_red + (unique >> 1)) / unique);
+                    cube.colormap[1][cube.colors] = (byte) ((total_green + (unique >> 1)) / unique);
+                    cube.colormap[2][cube.colors] = (byte) ((total_blue + (unique >> 1)) / unique);
                     color_number = cube.colors++;
                 }
             }

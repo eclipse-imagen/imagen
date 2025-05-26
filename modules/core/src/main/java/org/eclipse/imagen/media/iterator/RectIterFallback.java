@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
@@ -24,9 +25,7 @@ import java.awt.image.SampleModel;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RectIter;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RectIterFallback implements RectIter {
 
     /** The source image. */
@@ -53,10 +52,10 @@ public class RectIterFallback implements RectIter {
     /** The Y offset of the source image tile grid. */
     protected int tileGridYOffset;
 
-    /** The tile index of the leftmost column in the iterator's bounds. */ 
+    /** The tile index of the leftmost column in the iterator's bounds. */
     protected int startTileX;
 
-    /** The tile index of the topmost row in the iterator's bounds. */ 
+    /** The tile index of the topmost row in the iterator's bounds. */
     protected int startTileY;
 
     /** The (inclusive) smallest X coordinate of the current tile. */
@@ -131,12 +130,8 @@ public class RectIterFallback implements RectIter {
         this.tileWidth = im.getTileWidth();
         this.tileHeight = im.getTileHeight();
 
-        this.startTileX = PlanarImage.XToTileX(bounds.x,
-                                               tileGridXOffset,
-                                               tileWidth);
-        this.startTileY = PlanarImage.YToTileY(bounds.y,
-                                               tileGridYOffset,
-                                               tileHeight);
+        this.startTileX = PlanarImage.XToTileX(bounds.x, tileGridXOffset, tileWidth);
+        this.startTileY = PlanarImage.YToTileY(bounds.y, tileGridYOffset, tileHeight);
 
         this.tileX = startTileX;
         this.tileY = startTileY;
@@ -154,7 +149,7 @@ public class RectIterFallback implements RectIter {
     }
 
     protected final void setTileXBounds() {
-        tileXStart = tileX*tileWidth + tileGridXOffset;
+        tileXStart = tileX * tileWidth + tileGridXOffset;
         tileXEnd = tileXStart + tileWidth - 1;
 
         prevXBoundary = Math.max(tileXStart, bounds.x);
@@ -162,13 +157,13 @@ public class RectIterFallback implements RectIter {
     }
 
     protected final void setTileYBounds() {
-        tileYStart = tileY*tileHeight + tileGridYOffset;
+        tileYStart = tileY * tileHeight + tileGridYOffset;
         tileYEnd = tileYStart + tileHeight - 1;
 
         prevYBoundary = Math.max(tileYStart, bounds.y);
         nextYBoundary = Math.min(tileYEnd, lastY);
     }
-     
+
     protected void setDataBuffer() {
         Raster tile = im.getTile(tileX, tileY);
         this.dataBuffer = tile.getDataBuffer();
@@ -206,9 +201,7 @@ public class RectIterFallback implements RectIter {
         localY += num;
 
         if (y < prevYBoundary || y > nextYBoundary) {
-            this.tileY = PlanarImage.YToTileY(y,
-                                              tileGridYOffset,
-                                              tileHeight);
+            this.tileY = PlanarImage.YToTileY(y, tileGridYOffset, tileHeight);
             setTileYBounds();
             setDataBuffer();
         }
@@ -262,9 +255,7 @@ public class RectIterFallback implements RectIter {
         localX += num;
 
         if (x < prevXBoundary || x > nextXBoundary) {
-            this.tileX = PlanarImage.XToTileX(x,
-                                              tileGridXOffset,
-                                              tileWidth);
+            this.tileX = PlanarImage.XToTileX(x, tileGridXOffset, tileWidth);
             setTileXBounds();
             setDataBuffer();
         }

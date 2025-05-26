@@ -16,20 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "Conjugate" operation in the
- * rendered and renderable image layer.
+ * A <code>CRIF</code> supporting the "Conjugate" operation in the rendered and renderable image layer.
  *
  * @see org.eclipse.imagen.operator.ConjugateDescriptor
  * @see ConjugateOpImage
- *
  * @since EA4
  */
 public class ConjugateCRIF extends CRIFImpl {
@@ -40,18 +38,14 @@ public class ConjugateCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>ConjugateOpImage</code> in the rendered
-     * layer.
+     * Creates a new instance of <code>ConjugateOpImage</code> in the rendered layer.
      *
-     * @param paramBlock  The source image of which to take the conjugate.
+     * @param paramBlock The source image of which to take the conjugate.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
-        return new ConjugateOpImage(paramBlock.getRenderedSource(0),
-                                    renderHints, layout);
+        return new ConjugateOpImage(paramBlock.getRenderedSource(0), renderHints, layout);
     }
 }

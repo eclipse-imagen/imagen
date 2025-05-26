@@ -20,12 +20,9 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "destAlpha"
- * parameter of the "Composite" operation.  Acceptable values for the
- * "destAlpha" parameter are defined in the <code>CompositeDescriptor</code>
- * by the constants <code>NO_DESTINATION_ALPHA</code>,
- * <code>DESTINATION_ALPHA_FIRST</code>, and
- * <code>DESTINATION_ALPHA_LAST</code>.
+ * Class used to represent the acceptable values of the "destAlpha" parameter of the "Composite" operation. Acceptable
+ * values for the "destAlpha" parameter are defined in the <code>CompositeDescriptor</code> by the constants <code>
+ * NO_DESTINATION_ALPHA</code>, <code>DESTINATION_ALPHA_FIRST</code>, and <code>DESTINATION_ALPHA_LAST</code>.
  *
  * @since JAI 1.1
  */

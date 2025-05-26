@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderContext;
-import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * This image factory supports image operator <code>ConstantOpImage</code>
- * in the rendered and renderable image layers.
+ * This image factory supports image operator <code>ConstantOpImage</code> in the rendered and renderable image layers.
  *
  * @see ConstantOpImage
  */
@@ -44,19 +41,17 @@ public class ConstantCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>ConstantOpImage</code>
-     * in the rendered layer. This method satisfies the
+     * Creates a new instance of <code>ConstantOpImage</code> in the rendered layer. This method satisfies the
      * implementation of RIF.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
 
         // Get width, height, bandValues from the parameter block
         int width = Math.round(paramBlock.getFloatParameter(0));
         int height = Math.round(paramBlock.getFloatParameter(1));
-        Number[] bandValues = (Number[])paramBlock.getObjectParameter(2);
+        Number[] bandValues = (Number[]) paramBlock.getObjectParameter(2);
 
         int minX = 0;
         int minY = 0;
@@ -79,29 +74,23 @@ public class ConstantCRIF extends CRIFImpl {
                 tileHeight = layout.getTileHeight(null);
             }
         }
-        
-        return new ConstantOpImage(minX, minY, width, height,
-                                   tileWidth, tileHeight,
-                                   bandValues);
+
+        return new ConstantOpImage(minX, minY, width, height, tileWidth, tileHeight, bandValues);
     }
 
     /**
-     * Creates a new instance of <code>ConstantOpImage</code>
-     * in the renderable layer. This method satisfies the
+     * Creates a new instance of <code>ConstantOpImage</code> in the renderable layer. This method satisfies the
      * implementation of CRIF.
      *
-     * @pram renderContext  Rendering information.
-     * @param paramBlock    The image layout for the output of
-     *                      <code>ConstantOpImage</code>
-     *                      and the constant pixel value.
+     * @pram renderContext Rendering information.
+     * @param paramBlock The image layout for the output of <code>ConstantOpImage</code> and the constant pixel value.
      */
-    public RenderedImage create(RenderContext renderContext,
-                                ParameterBlock paramBlock) {
+    public RenderedImage create(RenderContext renderContext, ParameterBlock paramBlock) {
         float minX = 0;
         float minY = 0;
         float width = paramBlock.getFloatParameter(0);
         float height = paramBlock.getFloatParameter(1);
-        Number[] bandValues = (Number[])paramBlock.getObjectParameter(2);
+        Number[] bandValues = (Number[]) paramBlock.getObjectParameter(2);
 
         AffineTransform trans = renderContext.getTransform();
         float maxX, maxY;
@@ -117,7 +106,7 @@ public class ConstantCRIF extends CRIFImpl {
         ptSrc[6] = minX;
         ptSrc[7] = minY + height;
         trans.transform(ptSrc, 0, ptDst, 0, 4);
-        
+
         minX = Math.min(ptDst[0], ptDst[2]);
         minX = Math.min(minX, ptDst[4]);
         minX = Math.min(minX, ptDst[6]);
@@ -134,26 +123,28 @@ public class ConstantCRIF extends CRIFImpl {
         maxY = Math.max(maxY, ptDst[5]);
         maxY = Math.max(maxY, ptDst[7]);
 
-        int iMinX = (int)minX;
-        int iMinY = (int)minY;
-        int iWidth = (int)maxX - iMinX;
-        int iHeight = (int)maxY - iMinY;
+        int iMinX = (int) minX;
+        int iMinY = (int) minY;
+        int iWidth = (int) maxX - iMinX;
+        int iHeight = (int) maxY - iMinY;
 
-        return new ConstantOpImage(iMinX, iMinY, iWidth, iHeight,
-                                   Math.min(iWidth, DEFAULT_TILE_SIZE),
-                                   Math.min(iHeight, DEFAULT_TILE_SIZE),
-                                   bandValues);
+        return new ConstantOpImage(
+                iMinX,
+                iMinY,
+                iWidth,
+                iHeight,
+                Math.min(iWidth, DEFAULT_TILE_SIZE),
+                Math.min(iHeight, DEFAULT_TILE_SIZE),
+                bandValues);
     }
-    
+
     /**
-     * Gets the bounding box for the output of <code>ConstantOpImage</code>.
-     * This method satisfies the implementation of CRIF.
+     * Gets the bounding box for the output of <code>ConstantOpImage</code>. This method satisfies the implementation of
+     * CRIF.
      *
-     * @param paramBlock  Image's width, height, and constant pixel values.
+     * @param paramBlock Image's width, height, and constant pixel values.
      */
     public Rectangle2D getBounds2D(ParameterBlock paramBlock) {
-        return new Rectangle2D.Float(0, 0,
-                                     paramBlock.getFloatParameter(0),
-                                     paramBlock.getFloatParameter(1));
+        return new Rectangle2D.Float(0, 0, paramBlock.getFloatParameter(0), paramBlock.getFloatParameter(1));
     }
 }

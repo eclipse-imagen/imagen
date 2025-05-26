@@ -7,11 +7,10 @@
  */
 package org.eclipse.imagen.widgets;
 
-import java.io.*;
 import java.awt.image.*;
 import java.awt.image.renderable.*;
+import java.io.*;
 import org.eclipse.imagen.*;
-
 
 public class TutorUtils {
 
@@ -20,12 +19,12 @@ public class TutorUtils {
         PlanarImage dst = null;
         double b = (double) brightness;
         double[][] matrix = {
-                                { .114D, 0.587D, 0.299D, b },
-                                { .114D, 0.587D, 0.299D, b },
-                                { .114D, 0.587D, 0.299D, b }
-                            };
+            {.114D, 0.587D, 0.299D, b},
+            {.114D, 0.587D, 0.299D, b},
+            {.114D, 0.587D, 0.299D, b}
+        };
 
-        if ( src != null ) {
+        if (src != null) {
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(src);
             pb.add(matrix);
@@ -40,16 +39,16 @@ public class TutorUtils {
         PlanarImage dst = null;
         double b = (double) brightness;
         double[][] matrix = {
-                                { 1.0D, b },
-                                { 1.0D, b },
-                                { 1.0D, b }
-                            };
+            {1.0D, b},
+            {1.0D, b},
+            {1.0D, b}
+        };
 
-        if ( src != null ) {
+        if (src != null) {
             int nbands = src.getSampleModel().getNumBands();
 
-// MUST check color model here
-            if ( nbands == 1 ) {
+            // MUST check color model here
+            if (nbands == 1) {
                 ParameterBlock pb = new ParameterBlock();
                 pb.addSource(src);
                 pb.add(matrix);

@@ -16,25 +16,25 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.OpImage;
+import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.RenderedImageAdapter;
-import org.eclipse.imagen.registry.RIFRegistry;
-import org.eclipse.imagen.util.ImagingListener;
 import org.eclipse.imagen.media.codec.FileSeekableStream;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.SeekableStream;
 import org.eclipse.imagen.media.util.ImageUtil;
+import org.eclipse.imagen.registry.RIFRegistry;
+import org.eclipse.imagen.util.ImagingListener;
 
 /*
  * Package-scope class which merely adds a finalize() method to close
@@ -47,18 +47,15 @@ class StreamImage extends RenderedImageAdapter {
     /*
      * Create the object and cache the stream.
      */
-    public StreamImage(RenderedImage image,
-                       InputStream stream) {
+    public StreamImage(RenderedImage image, InputStream stream) {
         super(image);
         this.stream = stream;
-        if(image instanceof OpImage) {
+        if (image instanceof OpImage) {
             // Set the properties related to TileCache key as used in
             // RenderedOp.
             setProperty("tile_cache_key", image);
-            Object tileCache = ((OpImage)image).getTileCache();
-            setProperty("tile_cache",
-                        tileCache == null ?
-                        java.awt.Image.UndefinedProperty : tileCache);
+            Object tileCache = ((OpImage) image).getTileCache();
+            setProperty("tile_cache", tileCache == null ? java.awt.Image.UndefinedProperty : tileCache);
         }
     }
 
@@ -69,13 +66,11 @@ class StreamImage extends RenderedImageAdapter {
         try {
             Class cls = trueSrc.getClass();
             disposeMethod = cls.getMethod("dispose", null);
-            if(!disposeMethod.isAccessible()) {
-                AccessibleObject.setAccessible(new AccessibleObject[] {
-                    disposeMethod
-                }, true);
+            if (!disposeMethod.isAccessible()) {
+                AccessibleObject.setAccessible(new AccessibleObject[] {disposeMethod}, true);
             }
             disposeMethod.invoke(trueSrc, null);
-        } catch(Exception e) {
+        } catch (Exception e) {
             // Ignore it.
         }
     }
@@ -91,41 +86,35 @@ class StreamImage extends RenderedImageAdapter {
 
 /**
  * @see org.eclipse.imagen.operator.FileDescriptor
- *
  * @since EA3
- *
  */
 public class FileLoadRIF implements RenderedImageFactory {
 
     /** Constructor. */
     public FileLoadRIF() {}
 
-    /**
-     * Creates an image from a String containing a file name.
-     */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints hints) {
+    /** Creates an image from a String containing a file name. */
+    public RenderedImage create(ParameterBlock args, RenderingHints hints) {
         ImagingListener listener = ImageUtil.getImagingListener(hints);
 
         try {
             // Create a SeekableStream from the file name (first parameter).
-            String fileName = (String)args.getObjectParameter(0);
+            String fileName = (String) args.getObjectParameter(0);
 
-	    SeekableStream src = null;
-	    try {
+            SeekableStream src = null;
+            try {
                 src = new FileSeekableStream(fileName);
             } catch (FileNotFoundException fnfe) {
-		// Try to get the file as an InputStream resource. This would
-		// happen when the application and image file are packaged in
-		// a JAR file
-		InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
-		if (is != null)
-		    src = SeekableStream.wrapInputStream(is, true);
+                // Try to get the file as an InputStream resource. This would
+                // happen when the application and image file are packaged in
+                // a JAR file
+                InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
+                if (is != null) src = SeekableStream.wrapInputStream(is, true);
             }
 
             ImageDecodeParam param = null;
             if (args.getNumParameters() > 1) {
-                param = (ImageDecodeParam)args.getObjectParameter(1);
+                param = (ImageDecodeParam) args.getObjectParameter(1);
             }
 
             ParameterBlock newArgs = new ParameterBlock();
@@ -137,31 +126,28 @@ public class FileLoadRIF implements RenderedImageFactory {
             if (hints == null) {
                 hints = new RenderingHints(key, new Integer(bound));
             } else if (!hints.containsKey(key)) {
-                hints = (RenderingHints)hints.clone();
+                hints = (RenderingHints) hints.clone();
                 hints.put(key, new Integer(bound));
             }
 
             // Get the registry from the hints, if any.
             // Don't check for null hints as it cannot be null here.
-            OperationRegistry registry =
-                (OperationRegistry)hints.get(JAI.KEY_OPERATION_REGISTRY);
+            OperationRegistry registry = (OperationRegistry) hints.get(JAI.KEY_OPERATION_REGISTRY);
 
             // Create the image using the most preferred RIF for "stream".
-            RenderedImage image =
-		RIFRegistry.create(registry, "stream", newArgs, hints);
+            RenderedImage image = RIFRegistry.create(registry, "stream", newArgs, hints);
 
             return image == null ? null : new StreamImage(image, src);
 
         } catch (FileNotFoundException e) {
-            String message =
-                JaiI18N.getString("FileLoadRIF0") + args.getObjectParameter(0);
+            String message = JaiI18N.getString("FileLoadRIF0") + args.getObjectParameter(0);
             listener.errorOccurred(message, e, this, false);
-//            e.printStackTrace();
+            //            e.printStackTrace();
             return null;
         } catch (Exception e) {
             String message = JaiI18N.getString("FileLoadRIF1");
             listener.errorOccurred(message, e, this, false);
-//            e.printStackTrace();
+            //            e.printStackTrace();
             return null;
         }
     }

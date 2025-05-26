@@ -13,21 +13,14 @@ import java.rmi.RemoteException;
 public interface DirectoryLister extends Remote {
 
     /**
-     * Returns a list containing the names of all files in the specified
-     * directory. The file names returned are relative to the directory
-     * path specified.
+     * Returns a list containing the names of all files in the specified directory. The file names returned are relative
+     * to the directory path specified.
      */
-
-
-    String[] getDirectoryListing(String pathToDirectory) 
-	throws RemoteException;
+    String[] getDirectoryListing(String pathToDirectory) throws RemoteException;
 
     /**
-     * Returns a list containing the names of all files in the specified
-     * directory. The file names returned are absolute path names.
+     * Returns a list containing the names of all files in the specified directory. The file names returned are absolute
+     * path names.
      */
-
-
-    String[] getPathDirectoryAbsoluteListing(String pathToDirectory) 
-	throws RemoteException;
+    String[] getPathDirectoryAbsoluteListing(String pathToDirectory) throws RemoteException;
 }

@@ -16,22 +16,20 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderedImageFactory;
 import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>RIF</code> supporting the "Pattern" operation in the
- * rendered image layer.
+ * A <code>RIF</code> supporting the "Pattern" operation in the rendered image layer.
  *
  * @see org.eclipse.imagen.operator.PatternDescriptor
  * @see PatternOpImage
- *
  */
 public class PatternRIF implements RenderedImageFactory {
 
@@ -39,14 +37,12 @@ public class PatternRIF implements RenderedImageFactory {
     public PatternRIF() {}
 
     /**
-     * Creates a new instance of PatternOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Creates a new instance of PatternOpImage in the rendered layer. This method satisfies the implementation of RIF.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
+
         int minX = 0;
         int minY = 0;
 
@@ -59,15 +55,14 @@ public class PatternRIF implements RenderedImageFactory {
             }
         }
 
-        RenderedImage source = (RenderedImage)paramBlock.getSource(0);
+        RenderedImage source = (RenderedImage) paramBlock.getSource(0);
         Raster pattern = source.getData();
         ColorModel colorModel = source.getColorModel();
- 
+
         // Get image width and height from the parameter block
         int width = paramBlock.getIntParameter(0);
         int height = paramBlock.getIntParameter(1);
 
-        return new PatternOpImage(pattern, colorModel,
-                                  minX, minY, width, height);
+        return new PatternOpImage(pattern, colorModel, minX, minY, width, height);
     }
 }

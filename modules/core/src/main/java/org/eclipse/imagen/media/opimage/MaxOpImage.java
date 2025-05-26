@@ -16,34 +16,31 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.lang.ref.SoftReference;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
-import java.lang.ref.SoftReference;
 
 /**
- * An <code>OpImage</code> implementing the "Max" operation as
- * described in <code>org.eclipse.imagen.operator.MaxDescriptor</code>.
+ * An <code>OpImage</code> implementing the "Max" operation as described in <code>
+ * org.eclipse.imagen.operator.MaxDescriptor</code>.
  *
- * <p>This <code>OpImage</code> chooses the maximum pixel values of the
- * two source images on a per-band basis. In case the two source images
- * have different number of bands, the number of bands for the destination
- * image is the smaller band number of the two source images. That is
- * <code>dstNumBands = Math.min(src1NumBands, src2NumBands)</code>.
- * In case the two source images have different data types, the data type
- * for the destination image is the higher data type of the two source
- * images.
+ * <p>This <code>OpImage</code> chooses the maximum pixel values of the two source images on a per-band basis. In case
+ * the two source images have different number of bands, the number of bands for the destination image is the smaller
+ * band number of the two source images. That is <code>dstNumBands = Math.min(src1NumBands, src2NumBands)</code>. In
+ * case the two source images have different data types, the data type for the destination image is the higher data type
+ * of the two source images.
  *
  * <p>The value of the pixel (x, y) in the destination image is defined as:
+ *
  * <pre>
  * for (b = 0; b < numBands; b++) {
  *     dst[y][x][b] = Math.max(src1[y][x][b], src2[y][x][b]);
@@ -52,11 +49,10 @@ import java.lang.ref.SoftReference;
  *
  * @see org.eclipse.imagen.operator.MaxDescriptor
  * @see MaxRIF
- *
  */
 final class MaxOpImage extends PointOpImage {
 
-    private static long negativeZeroFloatBits  = Float.floatToIntBits(-0.0f);
+    private static long negativeZeroFloatBits = Float.floatToIntBits(-0.0f);
     private static long negativeZeroDoubleBits = Double.doubleToLongBits(-0.0d);
     private static byte[] byteTable = null;
     private static SoftReference softRef = null;
@@ -68,18 +64,18 @@ final class MaxOpImage extends PointOpImage {
             // First time or reference has been cleared.
             // Create  the table and make a soft reference to it.
             //
-            byteTable = new byte[256*256];
+            byteTable = new byte[256 * 256];
             softRef = new SoftReference(byteTable);
 
             // Initialize table which implements Min
             int idx = 0;
             for (int i1 = 0; i1 < 256; i1++) {
                 int base = i1 << 8;
-                for(int i2=0; i2<i1; i2++) {
-                    byteTable[base+i2] = (byte)i1;
+                for (int i2 = 0; i2 < i1; i2++) {
+                    byteTable[base + i2] = (byte) i1;
                 }
-                for (int i2=i1; i2<256; i2++) {
-                    byteTable[base+i2] = (byte)i2;
+                for (int i2 = i1; i2 < 256; i2++) {
+                    byteTable[base + i2] = (byte) i2;
                 }
             }
         }
@@ -88,14 +84,11 @@ final class MaxOpImage extends PointOpImage {
     /**
      * Construct a <code>MaxOpImage</code>.
      *
-     * @param source1  The first source image.
-     * @param source2  The second source image.
-     * @param layout   The destination image layout.
+     * @param source1 The first source image.
+     * @param source2 The second source image.
+     * @param layout The destination image layout.
      */
-    public MaxOpImage(RenderedImage source1,
-                      RenderedImage source2,
-                      Map config,
-                      ImageLayout layout) {
+    public MaxOpImage(RenderedImage source1, RenderedImage source2, Map config, ImageLayout layout) {
         super(source1, source2, layout, config, true);
 
         if (sampleModel.getTransferType() == DataBuffer.TYPE_BYTE) {
@@ -107,49 +100,42 @@ final class MaxOpImage extends PointOpImage {
     }
 
     /**
-     * Return the maximum pixel value of the source images for a
-     * specified rectangle.
+     * Return the maximum pixel value of the source images for a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
         /* For PointOpImage, srcRect = destRect. */
-        RasterAccessor s1 = new RasterAccessor(sources[0], destRect,  
-                                               formatTags[0], 
-                                               getSourceImage(0).getColorModel());
-        RasterAccessor s2 = new RasterAccessor(sources[1], destRect,  
-                                               formatTags[1], 
-                                               getSourceImage(1).getColorModel());
-        RasterAccessor d = new RasterAccessor(dest, destRect,  
-                                              formatTags[2], getColorModel());
+        RasterAccessor s1 = new RasterAccessor(
+                sources[0], destRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor s2 = new RasterAccessor(
+                sources[1], destRect, formatTags[1], getSourceImage(1).getColorModel());
+        RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[2], getColorModel());
 
         switch (d.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(s1, s2, d);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(s1, s2, d);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(s1, s2, d);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(s1, s2, d);
+                break;
         }
 
         if (d.isDataCopy()) {
@@ -158,9 +144,7 @@ final class MaxOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectByte(RasterAccessor src1,
-                                 RasterAccessor src2,
-                                 RasterAccessor dst) {
+    private void computeRectByte(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -197,11 +181,11 @@ final class MaxOpImage extends PointOpImage {
                 s2LineOffset += s2LineStride;
                 dLineOffset += dLineStride;
 
-                int dstEnd = dPixelOffset + dwidth*dPixelStride;
+                int dstEnd = dPixelOffset + dwidth * dPixelStride;
                 while (dPixelOffset < dstEnd) {
-                    int i1 = s1[s1PixelOffset]&0xFF;
-                    int i2 = s2[s2PixelOffset]&0xFF;
-                    d[dPixelOffset] = byteTable[(i1<<8) + i2];
+                    int i1 = s1[s1PixelOffset] & 0xFF;
+                    int i2 = s2[s2PixelOffset] & 0xFF;
+                    d[dPixelOffset] = byteTable[(i1 << 8) + i2];
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -211,9 +195,7 @@ final class MaxOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectUShort(RasterAccessor src1,
-                                   RasterAccessor src2,
-                                   RasterAccessor dst) {
+    private void computeRectUShort(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -251,8 +233,7 @@ final class MaxOpImage extends PointOpImage {
                 dLineOffset += dLineStride;
 
                 for (int w = 0; w < dwidth; w++) {
-                    d[dPixelOffset] = maxUShort(s1[s1PixelOffset],
-                                                s2[s2PixelOffset]);
+                    d[dPixelOffset] = maxUShort(s1[s1PixelOffset], s2[s2PixelOffset]);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -262,9 +243,7 @@ final class MaxOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src1,
-                                  RasterAccessor src2,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -302,8 +281,7 @@ final class MaxOpImage extends PointOpImage {
                 dLineOffset += dLineStride;
 
                 for (int w = 0; w < dwidth; w++) {
-                    d[dPixelOffset] = maxShort(s1[s1PixelOffset],
-                                               s2[s2PixelOffset]);
+                    d[dPixelOffset] = maxShort(s1[s1PixelOffset], s2[s2PixelOffset]);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -313,9 +291,7 @@ final class MaxOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src1,
-                                RasterAccessor src2,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -353,8 +329,7 @@ final class MaxOpImage extends PointOpImage {
                 dLineOffset += dLineStride;
 
                 for (int w = 0; w < dwidth; w++) {
-                    d[dPixelOffset] = maxInt(s1[s1PixelOffset],
-                                             s2[s2PixelOffset]);
+                    d[dPixelOffset] = maxInt(s1[s1PixelOffset], s2[s2PixelOffset]);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -364,9 +339,7 @@ final class MaxOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src1,
-                                  RasterAccessor src2,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -404,8 +377,7 @@ final class MaxOpImage extends PointOpImage {
                 dLineOffset += dLineStride;
 
                 for (int w = 0; w < dwidth; w++) {
-                    d[dPixelOffset] = maxFloat(s1[s1PixelOffset],
-                                               s2[s2PixelOffset]);
+                    d[dPixelOffset] = maxFloat(s1[s1PixelOffset], s2[s2PixelOffset]);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -415,9 +387,7 @@ final class MaxOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src1,
-                                   RasterAccessor src2,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src1, RasterAccessor src2, RasterAccessor dst) {
         int s1LineStride = src1.getScanlineStride();
         int s1PixelStride = src1.getPixelStride();
         int[] s1BandOffsets = src1.getBandOffsets();
@@ -455,8 +425,7 @@ final class MaxOpImage extends PointOpImage {
                 dLineOffset += dLineStride;
 
                 for (int w = 0; w < dwidth; w++) {
-                    d[dPixelOffset] = maxDouble(s1[s1PixelOffset],
-                                                s2[s2PixelOffset]);
+                    d[dPixelOffset] = maxDouble(s1[s1PixelOffset], s2[s2PixelOffset]);
 
                     s1PixelOffset += s1PixelStride;
                     s2PixelOffset += s2PixelStride;
@@ -467,7 +436,7 @@ final class MaxOpImage extends PointOpImage {
     }
 
     private final short maxUShort(short a, short b) {
-        return (a&0xFFFF) > (b&0xFFFF) ? a : b;
+        return (a & 0xFFFF) > (b & 0xFFFF) ? a : b;
     }
 
     private final short maxShort(short a, short b) {
@@ -479,18 +448,16 @@ final class MaxOpImage extends PointOpImage {
     }
 
     private final float maxFloat(float a, float b) {
-        if (a != a) return a;   // a is NaN
-        if ((a == 0.0f) && (b == 0.0f)
-            && (Float.floatToIntBits(a) == negativeZeroFloatBits)) {
+        if (a != a) return a; // a is NaN
+        if ((a == 0.0f) && (b == 0.0f) && (Float.floatToIntBits(a) == negativeZeroFloatBits)) {
             return b;
         }
         return (a >= b) ? a : b;
     }
 
     private final double maxDouble(double a, double b) {
-        if (a != a) return a;   // a is NaN
-        if ((a == 0.0d) && (b == 0.0d)
-            && (Double.doubleToLongBits(a) == negativeZeroDoubleBits)) {
+        if (a != a) return a; // a is NaN
+        if ((a == 0.0d) && (b == 0.0d) && (Double.doubleToLongBits(a) == negativeZeroDoubleBits)) {
             return b;
         }
         return (a >= b) ? a : b;

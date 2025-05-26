@@ -1,106 +1,105 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.eclipse.imagen</groupId>
-        <artifactId>imagen</artifactId>
-        <version>0.4-SNAPSHOT</version>
-    </parent>
-    <artifactId>imagen-modules</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
-    <packaging>pom</packaging>
-    
-    <modules>
-        <module>codec</module>
-        <module>core</module>
-        <module>builder</module>
-    </modules>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <artifactId>imagen-modules</artifactId>
+  <packaging>pom</packaging>
+  <name>${project.groupId}:${project.artifactId}</name>
 
-    <!-- =========================================================== -->
-    <!--     Build Configuration                                     -->
-    <!-- =========================================================== -->
-    <build>
-        <plugins>
-            <!-- test -->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit.platform.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit.jupiter.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            
-            <!-- javadoc configuration -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <show>public</show>
-                    <header>${project.name} ${project.version}</header>
-                    <footer>${project.name} ${project.version}</footer>
-                    <failOnError>false</failOnError>
-                    <groups>
-                        <group>
-                            <title>Core</title>
-                            <packages>org.eclipse.imagen*</packages>
-                        </group>
-                        <group>
-                            <title>Media</title>
-                            <packages>org.eclipse.imagen.media.*</packages>
-                        </group>
-                    </groups>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  <modules>
+    <module>codec</module>
+    <module>core</module>
+    <module>builder</module>
+  </modules>
 
-    <profiles>
-        <profile>
-            <id>mlib</id>
-            <modules>
-                <module>mlib</module>
-            </modules>
-        </profile>
-    </profiles>
+  <!-- =========================================================== -->
+  <!--     Build Configuration                                     -->
+  <!-- =========================================================== -->
+  <build>
+    <plugins>
+      <!-- test -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>${junit.platform.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <!-- javadoc configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0-M1</version>
+        <configuration>
+          <show>public</show>
+          <header>${project.name} ${project.version}</header>
+          <footer>${project.name} ${project.version}</footer>
+          <failOnError>false</failOnError>
+          <groups>
+            <group>
+              <title>Core</title>
+              <packages>org.eclipse.imagen*</packages>
+            </group>
+            <group>
+              <title>Media</title>
+              <packages>org.eclipse.imagen.media.*</packages>
+            </group>
+          </groups>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>mlib</id>
+      <modules>
+        <module>mlib</module>
+      </modules>
+    </profile>
+  </profiles>
 
 </project>

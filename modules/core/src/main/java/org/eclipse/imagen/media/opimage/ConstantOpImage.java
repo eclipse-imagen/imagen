@@ -16,18 +16,13 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 import java.awt.image.SampleModel;
-import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.OpImage;
+import java.awt.image.WritableRaster;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
@@ -35,73 +30,70 @@ import org.eclipse.imagen.media.util.ImageUtil;
 /**
  * An OpImage class to generate an image of constant color.
  *
- * <p> ConstantOpImage defines a constant PlanarImage.  It is implemented
- * as a subclass of PatternOpImage with a constant-colored pattern.
- *
+ * <p>ConstantOpImage defines a constant PlanarImage. It is implemented as a subclass of PatternOpImage with a
+ * constant-colored pattern.
  */
 final class ConstantOpImage extends PatternOpImage {
 
     /** Creates a Raster defining tile (0, 0) of the master pattern. */
-    private static Raster makePattern(SampleModel sampleModel,
-                                      Number[] bandValues) {
-        WritableRaster pattern = RasterFactory.createWritableRaster(
-                                 sampleModel, new Point(0, 0));
+    private static Raster makePattern(SampleModel sampleModel, Number[] bandValues) {
+        WritableRaster pattern = RasterFactory.createWritableRaster(sampleModel, new Point(0, 0));
 
         int width = sampleModel.getWidth();
         int height = sampleModel.getHeight();
         int dataType = sampleModel.getTransferType();
         int numBands = sampleModel.getNumBands();
-	
+
         switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            int[] bvalues = new int[numBands];
-            for (int i = 0; i < numBands; i++) {
-                bvalues[i] = bandValues[i].intValue() & ImageUtil.BYTE_MASK;
-            }
+            case DataBuffer.TYPE_BYTE:
+                int[] bvalues = new int[numBands];
+                for (int i = 0; i < numBands; i++) {
+                    bvalues[i] = bandValues[i].intValue() & ImageUtil.BYTE_MASK;
+                }
 
-            /* Put the first scanline in with setPixels. */
-            for (int x = 0; x < width; x++) {
-                pattern.setPixel(x, 0, bvalues);
-            }
-            break;
+                /* Put the first scanline in with setPixels. */
+                for (int x = 0; x < width; x++) {
+                    pattern.setPixel(x, 0, bvalues);
+                }
+                break;
 
-        case DataBuffer.TYPE_USHORT:	// USHORT is less than 127
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_INT:
-            int[] ivalues = new int[numBands];
-            for (int i = 0; i < numBands; i++) {
-                ivalues[i] = bandValues[i].intValue();
-            }
+            case DataBuffer.TYPE_USHORT: // USHORT is less than 127
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_INT:
+                int[] ivalues = new int[numBands];
+                for (int i = 0; i < numBands; i++) {
+                    ivalues[i] = bandValues[i].intValue();
+                }
 
-            /* Put the first scanline in with setPixels. */
-            for (int x = 0; x < width; x++) {
-                pattern.setPixel(x, 0, ivalues);
-            }
-            break;
+                /* Put the first scanline in with setPixels. */
+                for (int x = 0; x < width; x++) {
+                    pattern.setPixel(x, 0, ivalues);
+                }
+                break;
 
-        case DataBuffer.TYPE_FLOAT:
-            float[] fvalues = new float[numBands];
-            for (int i = 0; i < numBands; i++) {
-                fvalues[i] = bandValues[i].floatValue();
-            }
+            case DataBuffer.TYPE_FLOAT:
+                float[] fvalues = new float[numBands];
+                for (int i = 0; i < numBands; i++) {
+                    fvalues[i] = bandValues[i].floatValue();
+                }
 
-            /* Put the first scanline in with setPixels. */
-            for (int x = 0; x < width; x++) {
-                pattern.setPixel(x, 0, fvalues);
-            }
-            break;
+                /* Put the first scanline in with setPixels. */
+                for (int x = 0; x < width; x++) {
+                    pattern.setPixel(x, 0, fvalues);
+                }
+                break;
 
-        case DataBuffer.TYPE_DOUBLE:
-            double[] dvalues = new double[numBands];
-            for (int i = 0; i < numBands; i++) {
-                dvalues[i] = bandValues[i].doubleValue();
-            }
+            case DataBuffer.TYPE_DOUBLE:
+                double[] dvalues = new double[numBands];
+                for (int i = 0; i < numBands; i++) {
+                    dvalues[i] = bandValues[i].doubleValue();
+                }
 
-            /* Put the first scanline in with setPixels. */
-            for (int x = 0; x < width; x++) {
-                pattern.setPixel(x, 0, dvalues);
-            }
-            break;
+                /* Put the first scanline in with setPixels. */
+                for (int x = 0; x < width; x++) {
+                    pattern.setPixel(x, 0, dvalues);
+                }
+                break;
         }
 
         /* Copy the first line out. */
@@ -115,8 +107,7 @@ final class ConstantOpImage extends PatternOpImage {
         return pattern;
     }
 
-    private static SampleModel makeSampleModel(int width, int height,
-                                               Number[] bandValues) {
+    private static SampleModel makeSampleModel(int width, int height, Number[] bandValues) {
         int numBands = bandValues.length;
         int dataType;
 
@@ -126,7 +117,7 @@ final class ConstantOpImage extends PatternOpImage {
             /* If all band values are positive, use UShort, else use Short. */
             dataType = DataBuffer.TYPE_USHORT;
 
-            Short[] shortValues = (Short[])bandValues;
+            Short[] shortValues = (Short[]) bandValues;
             for (int i = 0; i < numBands; i++) {
                 if (shortValues[i].shortValue() < 0) {
                     dataType = DataBuffer.TYPE_SHORT;
@@ -143,13 +134,10 @@ final class ConstantOpImage extends PatternOpImage {
             dataType = DataBuffer.TYPE_UNDEFINED;
         }
 
-        return RasterFactory.createPixelInterleavedSampleModel(
-                             dataType, width, height, numBands);
-        
+        return RasterFactory.createPixelInterleavedSampleModel(dataType, width, height, numBands);
     }
 
-    private static Raster patternHelper(int width, int height,
-                                        Number[] bandValues) {
+    private static Raster patternHelper(int width, int height, Number[] bandValues) {
         SampleModel sampleModel = makeSampleModel(width, height, bandValues);
         return makePattern(sampleModel, bandValues);
     }
@@ -160,20 +148,20 @@ final class ConstantOpImage extends PatternOpImage {
     }
 
     /**
-     * Constructs a ConstantOpImage from a set of sample values.  The
-     * ImageLayout object must contain a complete set of information.
+     * Constructs a ConstantOpImage from a set of sample values. The ImageLayout object must contain a complete set of
+     * information.
      *
-     * @param layout an ImageLayout containing image bounds, tile
-     *        layout, and SampleModel information.
-     * @param bandValues an array of Numbers representing the values of 
-     *        each image band.
+     * @param layout an ImageLayout containing image bounds, tile layout, and SampleModel information.
+     * @param bandValues an array of Numbers representing the values of each image band.
      */
-    public ConstantOpImage(int minX, int minY,
-                           int width, int height,
-                           int tileWidth, int tileHeight,
-                           Number[] bandValues) {
-        super(patternHelper(tileWidth, tileHeight, bandValues),
-              colorModelHelper(bandValues),
-              minX, minY, width, height);
+    public ConstantOpImage(
+            int minX, int minY, int width, int height, int tileWidth, int tileHeight, Number[] bandValues) {
+        super(
+                patternHelper(tileWidth, tileHeight, bandValues),
+                colorModelHelper(bandValues),
+                minX,
+                minY,
+                width,
+                height);
     }
 }

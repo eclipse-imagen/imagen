@@ -16,39 +16,29 @@
  */
 
 package org.eclipse.imagen.media.codecimpl;
+
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferUShort;
-import java.awt.image.IndexColorModel;
 import java.awt.image.MultiPixelPackedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
-import org.eclipse.imagen.media.codec.ImageDecoderImpl;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
+import org.eclipse.imagen.media.codec.ImageDecoderImpl;
 import org.eclipse.imagen.media.codec.SeekableStream;
-import org.eclipse.imagen.media.codecimpl.util.RasterFactory;
-import org.eclipse.imagen.media.codecimpl.ImagingListenerProxy;
 import org.eclipse.imagen.media.codecimpl.util.ImagingException;
+import org.eclipse.imagen.media.codecimpl.util.RasterFactory;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class PNMImageDecoder extends ImageDecoderImpl {
 
-    public PNMImageDecoder(SeekableStream input,
-                           ImageDecodeParam param) {
+    public PNMImageDecoder(SeekableStream input, ImageDecodeParam param) {
         super(input, param);
     }
 
@@ -58,7 +48,7 @@ public class PNMImageDecoder extends ImageDecoderImpl {
         }
         try {
             return new PNMImage(input);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw CodecUtils.toIOException(e);
         }
     }
@@ -107,28 +97,28 @@ class PNMImage extends SimpleRenderedImage {
 
         // Read file header.
         try {
-            if (this.input.read() != 'P') {	// magic number
+            if (this.input.read() != 'P') { // magic number
                 throw new RuntimeException(JaiI18N.getString("PNMImageDecoder0"));
             }
 
-            variant = this.input.read();	// file variant
+            variant = this.input.read(); // file variant
             if ((variant < PBM_ASCII) || (variant > PPM_RAW)) {
                 throw new RuntimeException(JaiI18N.getString("PNMImageDecoder1"));
             }
 
-            width = readInteger(this.input);	// width
-            height = readInteger(this.input);	// height
+            width = readInteger(this.input); // width
+            height = readInteger(this.input); // height
 
             if (variant == PBM_ASCII || variant == PBM_RAW) {
                 maxValue = 1;
             } else {
-                maxValue = readInteger(this.input);	// maximum value
+                maxValue = readInteger(this.input); // maximum value
             }
         } catch (IOException e) {
             String message = JaiI18N.getString("PNMImageDecoder6");
             sendExceptionToListener(message, e);
-//            e.printStackTrace();
-//            throw new RuntimeException(JaiI18N.getString("PNMImageDecoder2"));
+            //            e.printStackTrace();
+            //            throw new RuntimeException(JaiI18N.getString("PNMImageDecoder2"));
         }
 
         // The RAWBITS format can only support byte image data, which means
@@ -162,20 +152,14 @@ class PNMImage extends SimpleRenderedImage {
         // Choose an appropriate SampleModel.
         if ((variant == PBM_ASCII) || (variant == PBM_RAW)) {
             // Each pixel takes 1 bit, pack 8 pixels into a byte.
-            sampleModel = new MultiPixelPackedSampleModel(
-                              DataBuffer.TYPE_BYTE, width, height, 1);
-            colorModel =
-                ImageCodec.createGrayIndexColorModel(sampleModel, false);
+            sampleModel = new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE, width, height, 1);
+            colorModel = ImageCodec.createGrayIndexColorModel(sampleModel, false);
         } else {
-            int[] bandOffsets = numBands == 1 ?
-                new int[] {0} : new int[] {0, 1, 2};
+            int[] bandOffsets = numBands == 1 ? new int[] {0} : new int[] {0, 1, 2};
             sampleModel = RasterFactory.createPixelInterleavedSampleModel(
-                                        dataType, tileWidth, tileHeight,
-                                        numBands, tileWidth*numBands,
-                                        bandOffsets);
+                    dataType, tileWidth, tileHeight, numBands, tileWidth * numBands, bandOffsets);
 
-            colorModel =
-                ImageCodec.createComponentColorModel(sampleModel);
+            colorModel = ImageCodec.createComponentColorModel(sampleModel);
         }
     }
 
@@ -191,7 +175,7 @@ class PNMImage extends SimpleRenderedImage {
 
         int b;
         while ((b = in.read()) != -1) {
-            char c = (char)b;
+            char c = (char) b;
             if (Character.isDigit(c)) {
                 ret = ret * 10 + Character.digit(c, 10);
                 foundDigit = true;
@@ -233,76 +217,68 @@ class PNMImage extends SimpleRenderedImage {
         // There should only be one tile.
         try {
             switch (variant) {
-            case PBM_ASCII:
-            case PBM_RAW:
-                // SampleModel for these cases should be MultiPixelPacked.
+                case PBM_ASCII:
+                case PBM_RAW:
+                    // SampleModel for these cases should be MultiPixelPacked.
 
-                DataBuffer dataBuffer = tile.getDataBuffer();
-                if (isRaw(variant)) {
-                    // Read the entire image.
-                    byte[] buf = ((DataBufferByte)dataBuffer).getData();
-                    input.readFully(buf, 0, buf.length);
-                } else {
-                    // Read 8 rows at a time
-                    byte[] pixels = new byte[8*width];
-                    int offset = 0;
-                    for (int row = 0; row < tileHeight; row += 8) {
-                        int rows = Math.min(8, tileHeight - row);
-                        int len = (rows*width + 7)/8;
-
-                        for (int i = 0; i < rows*width; i++) {
-                            pixels[i] = (byte)readInteger(input);
-                        }
-                        sampleModel.setDataElements(tileRect.x,
-                                                    row,
-                                                    tileRect.width,
-                                                    rows,
-                                                    pixels,
-                                                    dataBuffer);
-                    }
-                }
-                break;
-
-            case PGM_ASCII:
-            case PGM_RAW:
-            case PPM_ASCII:
-            case PPM_RAW:
-                // SampleModel for these cases should be PixelInterleaved.
-                int size = width*height*numBands;
-
-                switch (dataType) {
-                case DataBuffer.TYPE_BYTE:
-                    DataBufferByte bbuf =
-                        (DataBufferByte)tile.getDataBuffer();
-                    byte[] byteArray = bbuf.getData();
+                    DataBuffer dataBuffer = tile.getDataBuffer();
                     if (isRaw(variant)) {
-                        input.readFully(byteArray);
+                        // Read the entire image.
+                        byte[] buf = ((DataBufferByte) dataBuffer).getData();
+                        input.readFully(buf, 0, buf.length);
                     } else {
-                        for (int i = 0; i < size; i++) {
-                            byteArray[i] = (byte)readInteger(input);
+                        // Read 8 rows at a time
+                        byte[] pixels = new byte[8 * width];
+                        int offset = 0;
+                        for (int row = 0; row < tileHeight; row += 8) {
+                            int rows = Math.min(8, tileHeight - row);
+                            int len = (rows * width + 7) / 8;
+
+                            for (int i = 0; i < rows * width; i++) {
+                                pixels[i] = (byte) readInteger(input);
+                            }
+                            sampleModel.setDataElements(tileRect.x, row, tileRect.width, rows, pixels, dataBuffer);
                         }
                     }
                     break;
 
-                case DataBuffer.TYPE_USHORT:
-                    DataBufferUShort sbuf =
-                        (DataBufferUShort)tile.getDataBuffer();
-                    short[] shortArray = sbuf.getData();
-                    for (int i = 0; i < size; i++) {
-                        shortArray[i] = (short)readInteger(input);
-                    }
-                    break;
+                case PGM_ASCII:
+                case PGM_RAW:
+                case PPM_ASCII:
+                case PPM_RAW:
+                    // SampleModel for these cases should be PixelInterleaved.
+                    int size = width * height * numBands;
 
-                case DataBuffer.TYPE_INT:
-                    DataBufferInt ibuf =
-                        (DataBufferInt)tile.getDataBuffer();
-                    int[] intArray = ibuf.getData();
-                    for (int i = 0; i < size; i++) {
-                        intArray[i] = readInteger(input);
+                    switch (dataType) {
+                        case DataBuffer.TYPE_BYTE:
+                            DataBufferByte bbuf = (DataBufferByte) tile.getDataBuffer();
+                            byte[] byteArray = bbuf.getData();
+                            if (isRaw(variant)) {
+                                input.readFully(byteArray);
+                            } else {
+                                for (int i = 0; i < size; i++) {
+                                    byteArray[i] = (byte) readInteger(input);
+                                }
+                            }
+                            break;
+
+                        case DataBuffer.TYPE_USHORT:
+                            DataBufferUShort sbuf = (DataBufferUShort) tile.getDataBuffer();
+                            short[] shortArray = sbuf.getData();
+                            for (int i = 0; i < size; i++) {
+                                shortArray[i] = (short) readInteger(input);
+                            }
+                            break;
+
+                        case DataBuffer.TYPE_INT:
+                            DataBufferInt ibuf = (DataBufferInt) tile.getDataBuffer();
+                            int[] intArray = ibuf.getData();
+                            for (int i = 0; i < size; i++) {
+                                intArray[i] = readInteger(input);
+                            }
+                            break;
                     }
                     break;
-                }
-                break;
             }
 
             // Close the PNM stream and release system resources.
@@ -310,8 +286,8 @@ class PNMImage extends SimpleRenderedImage {
         } catch (IOException e) {
             String message = JaiI18N.getString("PNMImageDecoder7");
             sendExceptionToListener(message, e);
-//            e.printStackTrace();
-//            throw new RuntimeException(JaiI18N.getString("PNMImageDecoder3"));
+            //            e.printStackTrace();
+            //            throw new RuntimeException(JaiI18N.getString("PNMImageDecoder3"));
         }
 
         return tile;
@@ -334,7 +310,6 @@ class PNMImage extends SimpleRenderedImage {
     }
 
     private void sendExceptionToListener(String message, Exception e) {
-        ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e),
-                               this, false);
+        ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
     }
 }

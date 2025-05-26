@@ -32,12 +32,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationRegistry;
 
 /**
- * This class is a serializable proxy for a RenderingHints object from which
- * the RenderingHints object may be reconstituted.
- *
+ * This class is a serializable proxy for a RenderingHints object from which the RenderingHints object may be
+ * reconstituted.
  *
  * @since EA3
  */
@@ -46,40 +44,37 @@ public class RenderingHintsProxy implements Serializable {
     private transient RenderingHints hints;
 
     /**
-     * The classes wherein all possible relevant public static
-     * RenderingHints.Key objects are defined. Classes which contain
-     * declarations of such keys should be added to this array.
+     * The classes wherein all possible relevant public static RenderingHints.Key objects are defined. Classes which
+     * contain declarations of such keys should be added to this array.
      */
-    private static final Class[] KEY_CLASSES = {RenderingHints.class,
-                                                JAI.class};
+    private static final Class[] KEY_CLASSES = {RenderingHints.class, JAI.class};
 
     /**
-     * Instances of keys which should not be serialized. Objects which
-     * represent such keys should be added to this array. Presumably such
-     * objects would be static and final members of one of the classes
-     * in the KEY_CLASSES array.
+     * Instances of keys which should not be serialized. Objects which represent such keys should be added to this
+     * array. Presumably such objects would be static and final members of one of the classes in the KEY_CLASSES array.
      */
-    private static final Object[] SUPPRESSED_KEYS = {JAI.KEY_OPERATION_REGISTRY,
-						     JAI.KEY_TILE_CACHE,
-						     JAI.KEY_RETRY_INTERVAL,
-						     JAI.KEY_NUM_RETRIES,
-                                                     JAI.KEY_NEGOTIATION_PREFERENCES}; 
+    private static final Object[] SUPPRESSED_KEYS = {
+        JAI.KEY_OPERATION_REGISTRY,
+        JAI.KEY_TILE_CACHE,
+        JAI.KEY_RETRY_INTERVAL,
+        JAI.KEY_NUM_RETRIES,
+        JAI.KEY_NEGOTIATION_PREFERENCES
+    };
 
     /** A SoftReference to a Vector of keys which are to be suppressed. */
     private static SoftReference suppressedKeyReference = null;
 
     /**
-     * A SoftReference to a Hashtable containing serializable versions of
-     * all public static fields in the classes in the KEY_CLASSES array.
+     * A SoftReference to a Hashtable containing serializable versions of all public static fields in the classes in the
+     * KEY_CLASSES array.
      */
     private static SoftReference hintTableReference = null;
 
     /**
-      * Constructs a <code>RenderingHintsProxy</code> from a
-      * <code>RenderingHints</code> object.
-      *
-      * @param source The <code>RenderingHints</code> object to be serialized.
-      */
+     * Constructs a <code>RenderingHintsProxy</code> from a <code>RenderingHints</code> object.
+     *
+     * @param source The <code>RenderingHints</code> object to be serialized.
+     */
     public RenderingHintsProxy(RenderingHints source) {
         hints = source;
     }
@@ -106,7 +101,7 @@ public class RenderingHintsProxy implements Serializable {
 
         /** Constructs a HintElement representing a serializable object. */
         public HintElement(Object obj) throws NotSerializableException {
-            if(!(obj instanceof Serializable)) {
+            if (!(obj instanceof Serializable)) {
                 throw new NotSerializableException();
             }
             type = TYPE_OBJECT;
@@ -124,14 +119,14 @@ public class RenderingHintsProxy implements Serializable {
         public Object getObject() {
             Object elt = null;
 
-            if(type == TYPE_OBJECT) {
+            if (type == TYPE_OBJECT) {
                 elt = obj;
-            } else if(type == TYPE_FIELD) {
+            } else if (type == TYPE_FIELD) {
                 try {
                     Class cls = Class.forName(className);
                     Field fld = cls.getField(fieldName);
                     elt = fld.get(null);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     // Do nothing.
                 }
             }
@@ -141,10 +136,10 @@ public class RenderingHintsProxy implements Serializable {
     }
 
     /**
-      * Retrieves the associated <code>RenderingHints</code> object.
-      * @return The (perhaps reconstructed) <code>RenderingHints</code>
-      * object.
-      */
+     * Retrieves the associated <code>RenderingHints</code> object.
+     *
+     * @return The (perhaps reconstructed) <code>RenderingHints</code> object.
+     */
     public RenderingHints getRenderingHints() {
         return hints;
     }
@@ -153,18 +148,17 @@ public class RenderingHintsProxy implements Serializable {
     private static synchronized Vector getSuppressedKeys() {
         Vector suppressedKeys = null;
 
-        if(SUPPRESSED_KEYS != null) {
+        if (SUPPRESSED_KEYS != null) {
             // Initialize the Vector to the SoftReference's referent or null.
-            suppressedKeys = suppressedKeyReference != null ?
-                (Vector)suppressedKeyReference.get() : null;
+            suppressedKeys = suppressedKeyReference != null ? (Vector) suppressedKeyReference.get() : null;
 
-            if(suppressedKeys == null) {
+            if (suppressedKeys == null) {
                 // Cache the number of suppressed keys.
                 int numSuppressedKeys = SUPPRESSED_KEYS.length;
 
                 // Load the Vector with the suppressed key objects.
                 suppressedKeys = new Vector(numSuppressedKeys);
-                for(int i = 0; i < numSuppressedKeys; i++) {
+                for (int i = 0; i < numSuppressedKeys; i++) {
                     suppressedKeys.add(SUPPRESSED_KEYS[i]);
                 }
 
@@ -176,20 +170,16 @@ public class RenderingHintsProxy implements Serializable {
         return suppressedKeys;
     }
 
-    /**
-     * Returns a Hashtable wherein the keys are instances of
-     * RenderingHints.Key and the values are HintElements.
-     */
+    /** Returns a Hashtable wherein the keys are instances of RenderingHints.Key and the values are HintElements. */
     private static synchronized Hashtable getHintTable() {
         // Initialize the table to the SoftReference's referent or null.
-        Hashtable table = hintTableReference != null ?
-            (Hashtable)hintTableReference.get() : null;
+        Hashtable table = hintTableReference != null ? (Hashtable) hintTableReference.get() : null;
 
-        if(table == null) {
+        if (table == null) {
             // Allocate a table for the field values.
             table = new Hashtable();
 
-            for(int i = 0; i < KEY_CLASSES.length; i++) {
+            for (int i = 0; i < KEY_CLASSES.length; i++) {
                 // Cache the class.
                 Class cls = KEY_CLASSES[i];
 
@@ -198,16 +188,14 @@ public class RenderingHintsProxy implements Serializable {
 
                 // Load the table with the values of all
                 // fields with public and static modifiers.
-                for(int j = 0; j < fields.length; j++) {
+                for (int j = 0; j < fields.length; j++) {
                     Field fld = fields[j];
                     int modifiers = fld.getModifiers();
-                    if(Modifier.isPublic(modifiers) &&
-                       Modifier.isStatic(modifiers)) {
+                    if (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)) {
                         try {
                             Object fieldValue = fld.get(null);
-                            table.put(fieldValue,
-                                      new HintElement(cls, fld));
-                        } catch(Exception e) {
+                            table.put(fieldValue, new HintElement(cls, fld));
+                        } catch (Exception e) {
                             // Ignore exception.
                         }
                     }
@@ -228,9 +216,7 @@ public class RenderingHintsProxy implements Serializable {
      * classes.
      */
 
-    /**
-     * Serialize the RenderingHintsProxy.
-     */
+    /** Serialize the RenderingHintsProxy. */
     private void writeObject(ObjectOutputStream out) throws IOException {
         // -- Create a serializable form of the RenderingHints object. --
 
@@ -238,12 +224,12 @@ public class RenderingHintsProxy implements Serializable {
         Hashtable table = new Hashtable();
 
         // If there are hints, add them to the table.
-        if(hints != null && !hints.isEmpty()) {
+        if (hints != null && !hints.isEmpty()) {
             // Get a view of the hints' keys.
             Set keySet = hints.keySet();
 
             // Proceed if the key set is non-empty.
-            if(!keySet.isEmpty()) {
+            if (!keySet.isEmpty()) {
                 // Get an iterator for the key set.
                 Iterator keyIterator = keySet.iterator();
 
@@ -254,22 +240,21 @@ public class RenderingHintsProxy implements Serializable {
                 Vector suppressedKeys = getSuppressedKeys();
 
                 // Loop over the keys.
-                while(keyIterator.hasNext()) {
+                while (keyIterator.hasNext()) {
                     // Get the next key.
                     Object key = keyIterator.next();
 
                     // Skip this element if the key is suppressed.
-                    if(suppressedKeys != null &&
-                       suppressedKeys.indexOf(key) != -1) {
+                    if (suppressedKeys != null && suppressedKeys.indexOf(key) != -1) {
                         continue;
                     }
 
                     // Get the field of the key.
-                    HintElement keyElement = (HintElement)hintTable.get(key);
+                    HintElement keyElement = (HintElement) hintTable.get(key);
 
                     // If the key was not in the table it is not a public
                     // static field in one of the KEY_CLASSES so skip it.
-                    if(keyElement == null) {
+                    if (keyElement == null) {
                         continue;
                     }
 
@@ -281,15 +266,15 @@ public class RenderingHintsProxy implements Serializable {
                     try {
                         // Try to create a HintElement from the value directly.
                         valueElement = new HintElement(value);
-                    } catch(NotSerializableException nse) {
+                    } catch (NotSerializableException nse) {
                         // The value is not serializable so try to get a
                         // HintElement from the table in case the value is
                         // a public static field in one of the KEY_CLASSES.
-                        valueElement = (HintElement)hintTable.get(value);
+                        valueElement = (HintElement) hintTable.get(value);
                     }
 
                     // If the value element is valid add it and its key.
-                    if(valueElement != null) {
+                    if (valueElement != null) {
                         table.put(keyElement, valueElement);
                     }
                 }
@@ -300,19 +285,16 @@ public class RenderingHintsProxy implements Serializable {
         out.writeObject(table);
     }
 
-    /**
-     * Deserialize the RenderingHintsProxy.
-     */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    /** Deserialize the RenderingHintsProxy. */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read serialized form from the stream.
-        Hashtable table = (Hashtable)in.readObject();
+        Hashtable table = (Hashtable) in.readObject();
 
         // Create an empty RenderingHints object.
         hints = new RenderingHints(null);
 
         // If the table is empty just return.
-        if(table.isEmpty()) {
+        if (table.isEmpty()) {
             return;
         }
 
@@ -322,15 +304,15 @@ public class RenderingHintsProxy implements Serializable {
         Enumeration keys = table.keys();
 
         // Loop over the table keys.
-        while(keys.hasMoreElements()) {
+        while (keys.hasMoreElements()) {
             // Get the next key element.
-            HintElement keyElement = (HintElement)keys.nextElement();
+            HintElement keyElement = (HintElement) keys.nextElement();
 
             // Get the key object corresponding to this key element.
             Object key = keyElement.getObject();
 
             // Get the value element.
-            HintElement valueElement = (HintElement)table.get(keyElement);
+            HintElement valueElement = (HintElement) table.get(keyElement);
 
             // Get the value object corresponding to this value element.
             Object value = valueElement.getObject();

@@ -16,32 +16,29 @@
  */
 
 package org.eclipse.imagen;
-import java.awt.image.RenderedImage;
+
 import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 
 /**
- * Public interface for cached tiles used to
- * retrieve information about the tile.
+ * Public interface for cached tiles used to retrieve information about the tile.
  *
  * @since JAI 1.1
  */
-
 public interface CachedTile {
 
-    /** Returns the image operation to which this
-     *  cached tile belongs.  In Sun Microsystems
-     *  implementation, this is a RenderedImage.
+    /**
+     * Returns the image operation to which this cached tile belongs. In Sun Microsystems implementation, this is a
+     * RenderedImage.
      */
     RenderedImage getOwner();
 
-    /** Returns the cached tile.  In Sun Microsystems
-     *  implementation, this object is a Raster.
-     */
+    /** Returns the cached tile. In Sun Microsystems implementation, this object is a Raster. */
     Raster getTile();
 
-    /** Returns a cost metric associated with the tile.
-     *  This value is used to determine which tiles get
-     *  removed from the cache.
+    /**
+     * Returns a cost metric associated with the tile. This value is used to determine which tiles get removed from the
+     * cache.
      */
     Object getTileCacheMetric();
 
@@ -51,11 +48,9 @@ public interface CachedTile {
     /** Returns the memory size of the cached tile */
     long getTileSize();
 
-    /** Returns information about which method
-     *  triggered a notification event.  In the
-     *  Sun Microsystems implementation, events
-     *  include add, remove and update tile
-     *  information.
+    /**
+     * Returns information about which method triggered a notification event. In the Sun Microsystems implementation,
+     * events include add, remove and update tile information.
      */
     int getAction();
 }

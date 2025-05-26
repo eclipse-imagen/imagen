@@ -8,20 +8,13 @@
 package org.eclipse.imagen.demo.medical;
 
 /**
- * An interface for objects that gain and loss focus.  This interface is
- *  defined to process the focus-related events and get the focus status of
- *  the object.
+ * An interface for objects that gain and loss focus. This interface is defined to process the focus-related events and
+ * get the focus status of the object.
  */
-
-
 interface Focusable {
     /** Process focus-related events. */
-
-
     void setFocused(boolean b);
 
     /** Get the focus status. */
-
-
     boolean isFocused();
 }

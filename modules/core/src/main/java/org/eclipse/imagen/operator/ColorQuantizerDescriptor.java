@@ -16,65 +16,51 @@
  */
 
 package org.eclipse.imagen.operator;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.util.Range;
+import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
+import org.eclipse.imagen.util.Range;
 
 /**
- * This <code>OperationDescriptor</code> defines the "ColorQuantizer"
- * operation.
+ * This <code>OperationDescriptor</code> defines the "ColorQuantizer" operation.
  *
- * <p> This operation generates an optimal lookup table (LUT) based on
- * the provided 3-band RGB source image by executing a color
- * quantization algorithm.  This LUT is stored in the property
- * "JAI.LookupTable" that has a type of <code>LookupTableJAI</code>.
- * Thus, it can be retrieved by means of <code>getProperty</code>.
- * This LUT can be further utilized in other operations such as
- * "errordiffusion" to convert the 3-band RGB image into a high-quality
- * color-indexed image.  The computation of the LUT can be deferred by
- * defining a <code>DeferredProperty</code> from the property
- * "JAI.LookupTable" and providing that as the parameter value for
- * "errordiffusion".  This operation also creates a color-indexed
- * destination image based on the nearest distance classification (without
- * dithering).  However, the quality of this classification result may
- * not be as good as the result of "errordiffusion".
+ * <p>This operation generates an optimal lookup table (LUT) based on the provided 3-band RGB source image by executing
+ * a color quantization algorithm. This LUT is stored in the property "JAI.LookupTable" that has a type of <code>
+ * LookupTableJAI</code>. Thus, it can be retrieved by means of <code>getProperty</code>. This LUT can be further
+ * utilized in other operations such as "errordiffusion" to convert the 3-band RGB image into a high-quality
+ * color-indexed image. The computation of the LUT can be deferred by defining a <code>DeferredProperty</code> from the
+ * property "JAI.LookupTable" and providing that as the parameter value for "errordiffusion". This operation also
+ * creates a color-indexed destination image based on the nearest distance classification (without dithering). However,
+ * the quality of this classification result may not be as good as the result of "errordiffusion".
  *
- * <p> The supported source image data type is implementation-dependent.
- * For example, the Sun implementation will support only the byte type.
+ * <p>The supported source image data type is implementation-dependent. For example, the Sun implementation will support
+ * only the byte type.
  *
- * <p> The data set used in the color quantization can be defined by
- * the optional parameters <code>xPeriod</code>, <code>yPeriod</code>
- * and <code>ROI</code>.  If these parameters are provided, the pixels in
- * the subsampled image (and in the ROI) will be used to compute the
- * LUT.
+ * <p>The data set used in the color quantization can be defined by the optional parameters <code>xPeriod</code>, <code>
+ * yPeriod</code> and <code>ROI</code>. If these parameters are provided, the pixels in the subsampled image (and in the
+ * ROI) will be used to compute the LUT.
  *
- * <p> Three built-in color quantization algorithms are supported by
- * this operation: Paul Heckbert's median-cut algorithm, Anthony Dekker's
- * NeuQuant algorithm, and the Oct-Tree color quantization algorithm of
- * Gervautz and Purgathofer.
+ * <p>Three built-in color quantization algorithms are supported by this operation: Paul Heckbert's median-cut
+ * algorithm, Anthony Dekker's NeuQuant algorithm, and the Oct-Tree color quantization algorithm of Gervautz and
+ * Purgathofer.
  *
- * <p> The median-cut color quantization computes the 3D color histogram
- * first, then chooses and divides the largest color cube (in number of pixels)
- * along the median, until the required number of clusters is obtained
- * or all the cubes are not separable.  The NeuQuant algorithm creates
- * the cluster centers using Kohonen's self-organizing neural network.
- * The Oct-Tree color quantization constructs an oct-tree of the
- * color histogram, then repeatedly merges the offspring into the parent
- * if they contain a number of pixels smaller than a threshold.  With the
- * equivalent parameters, the median-cut algorithm is the fastest, and the
- * NeuQuant algorithm is the slowest.  However, NeuQuant algorithm can
- * still generate a good result with a relatively high subsample rate, which
- * is useful for large images.
- * In these three algorithms, the Oct-Tree algorithm is the most space
- * consuming one.  For further details of these algorithms,
- * please refer to the following references:
+ * <p>The median-cut color quantization computes the 3D color histogram first, then chooses and divides the largest
+ * color cube (in number of pixels) along the median, until the required number of clusters is obtained or all the cubes
+ * are not separable. The NeuQuant algorithm creates the cluster centers using Kohonen's self-organizing neural network.
+ * The Oct-Tree color quantization constructs an oct-tree of the color histogram, then repeatedly merges the offspring
+ * into the parent if they contain a number of pixels smaller than a threshold. With the equivalent parameters, the
+ * median-cut algorithm is the fastest, and the NeuQuant algorithm is the slowest. However, NeuQuant algorithm can still
+ * generate a good result with a relatively high subsample rate, which is useful for large images. In these three
+ * algorithms, the Oct-Tree algorithm is the most space consuming one. For further details of these algorithms, please
+ * refer to the following references:
+ *
  * <table border=1>
  *   <tr>
  *      <th>Algorithm</th>
@@ -83,7 +69,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *   <tr>
  *      <td>Median-Cut</td>
  *      <td>Color Image Quantization for Frame Buffer
- *	    Display,  Paul Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307
+ *     Display,  Paul Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307
  *      </td></tr>
  *  <tr>
  *      <td>NeuQuant</td>
@@ -99,21 +85,19 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *          Addison-Wesley, 1989, pp 345.
  *      </td>
  *  </tr>
- *</table>
+ * </table>
  *
- * <p> The generated LUT may have fewer entries than expected. For
- * example, the source image might not have as many colors as expected.
- * In the oct-tree algorithm, all the offspring of a node are merged
- * if they contain a number of pixels smaller than a threshold. This
- * may result in slightly fewer colors than expected.
+ * <p>The generated LUT may have fewer entries than expected. For example, the source image might not have as many
+ * colors as expected. In the oct-tree algorithm, all the offspring of a node are merged if they contain a number of
+ * pixels smaller than a threshold. This may result in slightly fewer colors than expected.
  *
- * <p> The learning procedure of the NeuQuant algorithm randomly goes
- * through all the pixels in the training data set.  To simplify and
- * speed up the implementation, the bounding rectangle of the
- * provided ROI may be used (by the implementation) to define the
- * training data set instead of the ROI itself.
+ * <p>The learning procedure of the NeuQuant algorithm randomly goes through all the pixels in the training data set. To
+ * simplify and speed up the implementation, the bounding rectangle of the provided ROI may be used (by the
+ * implementation) to define the training data set instead of the ROI itself.
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
  * <tr><td>GlobalName</td>  <td>ColorQuantizer</td></tr>
@@ -143,9 +127,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                              the color quantization.</td></tr>
  * <tr><td>arg4Desc</td>    <td>The subsample rate in x direction.</td></tr>
  * <tr><td>arg4Desc</td>    <td>The subsample rate in y direction.</td></tr>
- * </table></p>
+ * </table>
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>      <th>Class Type</th>
  *                        <th>Default Value</th></tr>
@@ -163,52 +149,45 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                        <td>1</td>
  * <tr><td>yPeriod</td>   <td>java.lang.Integer</td>
  *                        <td>1</td>
- * </table></p>
+ * </table>
  *
  * @see org.eclipse.imagen.ROI
  * @see org.eclipse.imagen.OperationDescriptor
- *
  * @since JAI 1.1.2
  */
 public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
     /** The predefined color quantization algorithms. */
     /** The pre-defined median-cut color quantization algorithm. */
-    public static final ColorQuantizerType MEDIANCUT =
-        new ColorQuantizerType("MEDIANCUT", 1);
+    public static final ColorQuantizerType MEDIANCUT = new ColorQuantizerType("MEDIANCUT", 1);
     /** The pre-defined NeuQuant color quantization algorithm. */
-    public static final ColorQuantizerType NEUQUANT =
-        new ColorQuantizerType("NEUQUANT", 2);
+    public static final ColorQuantizerType NEUQUANT = new ColorQuantizerType("NEUQUANT", 2);
     /** The pre-defined Oct-Tree color quantization algorithm. */
-    public static final ColorQuantizerType OCTTREE =
-        new ColorQuantizerType("OCTTREE", 3);
+    public static final ColorQuantizerType OCTTREE = new ColorQuantizerType("OCTTREE", 3);
 
     /**
-     * The resource strings that provide the general documentation
-     * and specify the parameter list for this operation.
+     * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "ColorQuantizer"},
-        {"LocalName",   "ColorQuantizer"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "ColorQuantizer"},
+        {"LocalName", "ColorQuantizer"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("ColorQuantizerDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ColorQuantizerDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc",    JaiI18N.getString("ColorQuantizerDescriptor1")},
-        {"arg1Desc",    JaiI18N.getString("ColorQuantizerDescriptor2")},
-        {"arg2Desc",    JaiI18N.getString("ColorQuantizerDescriptor3")},
-        {"arg3Desc",    JaiI18N.getString("ColorQuantizerDescriptor4")},
-        {"arg4Desc",    JaiI18N.getString("ColorQuantizerDescriptor5")},
-        {"arg5Desc",    JaiI18N.getString("ColorQuantizerDescriptor6")},
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ColorQuantizerDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion2")},
+        {"arg0Desc", JaiI18N.getString("ColorQuantizerDescriptor1")},
+        {"arg1Desc", JaiI18N.getString("ColorQuantizerDescriptor2")},
+        {"arg2Desc", JaiI18N.getString("ColorQuantizerDescriptor3")},
+        {"arg3Desc", JaiI18N.getString("ColorQuantizerDescriptor4")},
+        {"arg4Desc", JaiI18N.getString("ColorQuantizerDescriptor5")},
+        {"arg5Desc", JaiI18N.getString("ColorQuantizerDescriptor6")},
     };
 
     /** The parameter name list for this operation. */
     private static final String[] paramNames = {
-        "quantizationAlgorithm",
-        "maxColorNum",
-        "upperBound",
-        "roi",
-        "xPeriod",
-        "yPeriod"
+        "quantizationAlgorithm", "maxColorNum", "upperBound", "roi", "xPeriod", "yPeriod"
     };
 
     /** The parameter class list for this operation. */
@@ -223,80 +202,58 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
 
     /** The parameter default value list for this operation. */
     private static final Object[] paramDefaults = {
-        MEDIANCUT,
-        new Integer(256),
-        null,
-        null,
-        new Integer(1),
-        new Integer(1)
+        MEDIANCUT, new Integer(256), null, null, new Integer(1), new Integer(1)
     };
 
-    private static final String[] supportedModes = {
-        "rendered"
-    };
+    private static final String[] supportedModes = {"rendered"};
 
     /** Constructor. */
     public ColorQuantizerDescriptor() {
-        super(resources, supportedModes, 1,
-              paramNames, paramClasses, paramDefaults, null);
-
+        super(resources, supportedModes, 1, paramNames, paramClasses, paramDefaults, null);
     }
 
-    /**
-     * Returns the minimum legal value of a specified numeric parameter
-     * for this operation.
-     */
+    /** Returns the minimum legal value of a specified numeric parameter for this operation. */
     public Range getParamValueRange(int index) {
         switch (index) {
-        case 1:
-        case 2:
-        case 4:
-        case 5:
-            return new Range(Integer.class, new Integer(1), null);
+            case 1:
+            case 2:
+            case 4:
+            case 5:
+                return new Range(Integer.class, new Integer(1), null);
         }
         return null;
     }
 
     /**
-     * Returns <code>true</code> if this operation is capable of handling
-     * the input parameters.
+     * Returns <code>true</code> if this operation is capable of handling the input parameters.
      *
-     * <p> In addition to the default validations done in the super class,
-     * this method verifies that the provided quantization algorithm is one of
-     * the three predefined algorithms in this class.
+     * <p>In addition to the default validations done in the super class, this method verifies that the provided
+     * quantization algorithm is one of the three predefined algorithms in this class.
      *
-     * @throws IllegalArgumentException  If <code>args</code> is <code>null</code>.
-     * @throws IllegalArgumentException  If <code>msg</code> is <code>null</code>
-     *         and the validation fails.
+     * @throws IllegalArgumentException If <code>args</code> is <code>null</code>.
+     * @throws IllegalArgumentException If <code>msg</code> is <code>null</code> and the validation fails.
      */
-    protected boolean validateParameters(String modeName,
-                                         ParameterBlock args,
-                                         StringBuffer msg) {
-        if ( args == null || msg == null ) {
+    protected boolean validateParameters(String modeName, ParameterBlock args, StringBuffer msg) {
+        if (args == null || msg == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        if (!super.validateParameters(modeName, args, msg))
-            return false;
+        if (!super.validateParameters(modeName, args, msg)) return false;
 
-        ColorQuantizerType algorithm =
-            (ColorQuantizerType)args.getObjectParameter(0);
-        if (algorithm != MEDIANCUT && algorithm != NEUQUANT &&
-            algorithm != OCTTREE) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("ColorQuantizerDescriptor7"));
+        ColorQuantizerType algorithm = (ColorQuantizerType) args.getObjectParameter(0);
+        if (algorithm != MEDIANCUT && algorithm != NEUQUANT && algorithm != OCTTREE) {
+            msg.append(getName() + " " + JaiI18N.getString("ColorQuantizerDescriptor7"));
             return false;
         }
 
-        Integer secondOne = (Integer)args.getObjectParameter(2);
+        Integer secondOne = (Integer) args.getObjectParameter(2);
         if (secondOne == null) {
             int upperBound = 0;
-            if (algorithm.equals(MEDIANCUT))
-                upperBound = 32768;
-            else if (algorithm.equals(NEUQUANT))   // set the cycle for train to 100
-                upperBound = 100;
-            else if (algorithm.equals(OCTTREE))    // set the maximum tree size to 65536
-                upperBound = 65536;
+            if (algorithm.equals(MEDIANCUT)) upperBound = 32768;
+            else if (algorithm.equals(NEUQUANT)) // set the cycle for train to 100
+            upperBound = 100;
+            else if (algorithm.equals(OCTTREE)) // set the maximum tree size to 65536
+            upperBound = 65536;
 
             args.set(upperBound, 2);
         }
@@ -307,38 +264,33 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
     /**
      * Color quantization on the provided image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param source0 <code>RenderedImage</code> source 0.
-     * @param algorithm The algorithm to be chosen.  May be <code>null</code>.
-     * @param maxColorNum The maximum color number.  May be <code>null</code>.
-     * @param upperBound An algorithm-dependent parameter.  See the parameter
-     *                   table above.  May be <code>null</code>.
-     * @param roi The region of interest.  May be <code>null</code>.
-     * @param xPeriod The X subsample rate.  May be <code>null</code>.
-     * @param yPeriod The Y subsample rate.  May be <code>null</code>.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param algorithm The algorithm to be chosen. May be <code>null</code>.
+     * @param maxColorNum The maximum color number. May be <code>null</code>.
+     * @param upperBound An algorithm-dependent parameter. See the parameter table above. May be <code>null</code>.
+     * @param roi The region of interest. May be <code>null</code>.
+     * @param xPeriod The X subsample rate. May be <code>null</code>.
+     * @param yPeriod The Y subsample rate. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0,
-                                    ColorQuantizerType algorithm,
-                                    Integer maxColorNum,
-                                    Integer upperBound,
-                                    ROI roi,
-                                    Integer xPeriod,
-                                    Integer yPeriod,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("ColorQuantizer",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(
+            RenderedImage source0,
+            ColorQuantizerType algorithm,
+            Integer maxColorNum,
+            Integer upperBound,
+            ROI roi,
+            Integer xPeriod,
+            Integer yPeriod,
+            RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("ColorQuantizer", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

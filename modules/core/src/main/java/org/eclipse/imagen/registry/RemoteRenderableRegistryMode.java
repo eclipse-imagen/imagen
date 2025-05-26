@@ -20,12 +20,11 @@ package org.eclipse.imagen.registry;
 import java.lang.reflect.Method;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.RegistryMode;
-import org.eclipse.imagen.util.ImagingListener;
 import org.eclipse.imagen.remote.RemoteDescriptor;
+import org.eclipse.imagen.util.ImagingListener;
 
 /**
- * A class which provides information about the "remoteRenderable" registry
- * mode.
+ * A class which provides information about the "remoteRenderable" registry mode.
  *
  * @since JAI 1.1
  */
@@ -38,45 +37,39 @@ public class RemoteRenderableRegistryMode extends RegistryMode {
 
     private static Method getThisFactoryMethod() {
 
-	if (factoryMethod != null)
-	    return factoryMethod;
+        if (factoryMethod != null) return factoryMethod;
 
-	// The factory Class that this registry mode represents.
-	Class factoryClass =
-		    org.eclipse.imagen.remote.RemoteCRIF.class;
+        // The factory Class that this registry mode represents.
+        Class factoryClass = org.eclipse.imagen.remote.RemoteCRIF.class;
 
-	try {
-	    Class[] paramTypes = new Class[]
-		    {java.lang.String.class,
-		     java.lang.String.class,
-		     java.awt.image.renderable.RenderContext.class,
-		     java.awt.image.renderable.ParameterBlock.class};
+        try {
+            Class[] paramTypes = new Class[] {
+                java.lang.String.class,
+                java.lang.String.class,
+                java.awt.image.renderable.RenderContext.class,
+                java.awt.image.renderable.ParameterBlock.class
+            };
 
-	    factoryMethod = factoryClass.getMethod("create", paramTypes);
+            factoryMethod = factoryClass.getMethod("create", paramTypes);
 
-	} catch (NoSuchMethodException e) {
-            ImagingListener listener =
-                JAI.getDefaultInstance().getImagingListener();
-            String message = JaiI18N.getString("RegistryMode0") + " " +
-                             factoryClass.getName() + ".";
-            listener.errorOccurred(message, e,
-                                   RemoteRenderableRegistryMode.class, false);
-//	    e.printStackTrace();
-	}
+        } catch (NoSuchMethodException e) {
+            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
+            listener.errorOccurred(message, e, RemoteRenderableRegistryMode.class, false);
+            //	    e.printStackTrace();
+        }
 
-	return factoryMethod;
+        return factoryMethod;
     }
 
-    /**
-     * Creates a <code>RemoteRenderableRegistryMode</code> for describing
-     * the "remoteRenderable" registry mode.
-     */
+    /** Creates a <code>RemoteRenderableRegistryMode</code> for describing the "remoteRenderable" registry mode. */
     public RemoteRenderableRegistryMode() {
-	super(MODE_NAME,
-	      RemoteDescriptor.class,
-	      getThisFactoryMethod().getReturnType(),
-	      getThisFactoryMethod(),
-	      false,                        // arePreferencesSupported
-	      false);                       // arePropertiesSupported)
+        super(
+                MODE_NAME,
+                RemoteDescriptor.class,
+                getThisFactoryMethod().getReturnType(),
+                getThisFactoryMethod(),
+                false, // arePreferencesSupported
+                false); // arePropertiesSupported)
     }
 }

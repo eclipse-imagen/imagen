@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import org.eclipse.imagen.media.util.PropertyUtil;
 
 class JaiI18N {

@@ -16,11 +16,11 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.image.DataBuffer;
 
 /**
- * An extension of <code>DataBuffer</code> that stores data internally
- * in <code>double</code> form.
+ * An extension of <code>DataBuffer</code> that stores data internally in <code>double</code> form.
  *
  * @see java.awt.image.DataBuffer
  */
@@ -33,8 +33,7 @@ public class DataBufferDouble extends DataBuffer {
     protected double data[];
 
     /**
-     * Constructs a <code>double</code>-based <code>DataBuffer</code>
-     * with a specified size.
+     * Constructs a <code>double</code>-based <code>DataBuffer</code> with a specified size.
      *
      * @param size The number of elements in the <code>DataBuffer</code>.
      */
@@ -46,74 +45,63 @@ public class DataBufferDouble extends DataBuffer {
     }
 
     /**
-     * Constructs a <code>double</code>-based <code>DataBuffer</code>
-     * with a specified number of banks, all of which are of a
-     * specified size.
+     * Constructs a <code>double</code>-based <code>DataBuffer</code> with a specified number of banks, all of which are
+     * of a specified size.
      *
-     * @param size The number of elements in each bank of the
-     *        <code>DataBuffer</code>.
+     * @param size The number of elements in each bank of the <code>DataBuffer</code>.
      * @param numBanks The number of banks in the <code>DataBuffer</code>.
      */
     public DataBufferDouble(int size, int numBanks) {
         super(TYPE_DOUBLE, size, numBanks);
         bankdata = new double[numBanks][];
-        for (int i= 0; i < numBanks; i++) {
+        for (int i = 0; i < numBanks; i++) {
             bankdata[i] = new double[size];
         }
         data = bankdata[0];
     }
 
     /**
-     * Constructs a <code>double</code>-based <code>DataBuffer</code>
-     * with the specified data array.  Only the first
-     * <code>size</code> elements are available for use by this
-     * <code>DataBuffer</code>.  The array must be large enough to
-     * hold <code>size</code> elements.
+     * Constructs a <code>double</code>-based <code>DataBuffer</code> with the specified data array. Only the first
+     * <code>size</code> elements are available for use by this <code>DataBuffer</code>. The array must be large enough
+     * to hold <code>size</code> elements.
      *
-     * @param dataArray An array of <code>double</code>s to be used as the
-     *                  first and only bank of this <code>DataBuffer</code>.
+     * @param dataArray An array of <code>double</code>s to be used as the first and only bank of this <code>DataBuffer
+     *     </code>.
      * @param size The number of elements of the array to be used.
      */
     public DataBufferDouble(double dataArray[], int size) {
         super(TYPE_DOUBLE, size);
-	if (dataArray.length < size)
-	  throw new RuntimeException(JaiI18N.getString("DataBuffer0"));
+        if (dataArray.length < size) throw new RuntimeException(JaiI18N.getString("DataBuffer0"));
         data = dataArray;
         bankdata = new double[1][];
         bankdata[0] = data;
     }
 
     /**
-     * Constructs a <code>double</code>-based <code>DataBuffer</code>
-     * with the specified data array.  Only the elements between
-     * <code>offset</code> and <code>offset + size - 1</code> are
-     * available for use by this <code>DataBuffer</code>.  The array
-     * must be large enough to hold <code>offset + size</code> elements.
+     * Constructs a <code>double</code>-based <code>DataBuffer</code> with the specified data array. Only the elements
+     * between <code>offset</code> and <code>offset + size - 1</code> are available for use by this <code>DataBuffer
+     * </code>. The array must be large enough to hold <code>offset + size</code> elements.
      *
-     * @param dataArray An array of <code>double</code>s to be used as the
-     *                  first and only bank of this <code>DataBuffer</code>.
+     * @param dataArray An array of <code>double</code>s to be used as the first and only bank of this <code>DataBuffer
+     *     </code>.
      * @param size The number of elements of the array to be used.
-     * @param offset The offset of the first element of the array
-     *               that will be used.
+     * @param offset The offset of the first element of the array that will be used.
      */
     public DataBufferDouble(double dataArray[], int size, int offset) {
         super(TYPE_DOUBLE, size, 1, offset);
-	if (dataArray.length < size)
-	  throw new RuntimeException(JaiI18N.getString("DataBuffer1"));
+        if (dataArray.length < size) throw new RuntimeException(JaiI18N.getString("DataBuffer1"));
         data = dataArray;
         bankdata = new double[1][];
         bankdata[0] = data;
     }
 
     /**
-     * Constructs a <code>double</code>-based <code>DataBuffer</code>
-     * with the specified data arrays.  Only the first
-     * <code>size</code> elements of each array are available for use
-     * by this <code>DataBuffer</code>.  The number of banks will be
-     * equal <code>to dataArray.length</code>.
+     * Constructs a <code>double</code>-based <code>DataBuffer</code> with the specified data arrays. Only the first
+     * <code>size</code> elements of each array are available for use by this <code>DataBuffer</code>. The number of
+     * banks will be equal <code>to dataArray.length</code>.
      *
-     * @param dataArray An array of arrays of <code>double</code>s to be
-     *        used as the banks of this <code>DataBuffer</code>.
+     * @param dataArray An array of arrays of <code>double</code>s to be used as the banks of this <code>DataBuffer
+     *     </code>.
      * @param size The number of elements of each array to be used.
      */
     public DataBufferDouble(double dataArray[][], int size) {
@@ -141,7 +129,7 @@ public class DataBufferDouble extends DataBuffer {
         data = bankdata[0];
     }
 
-  /** Returns the <code>double</code> data array of the default(first) bank. */
+    /** Returns the <code>double</code> data array of the default(first) bank. */
     public double[] getData() {
         return data;
     }
@@ -155,148 +143,130 @@ public class DataBufferDouble extends DataBuffer {
     public double[][] getBankData() {
         return bankdata;
     }
-    
+
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as an <code>int</code>.
+     * Returns the requested data array element from the first (default) bank as an <code>int</code>.
      *
      * @param i The desired data array element.
-     *
      * @return The data entry as an <code>int</code>.
      */
     public int getElem(int i) {
-        return (int)(data[i+offset]);
+        return (int) (data[i + offset]);
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as an <code>int</code>.
+     * Returns the requested data array element from the specified bank as an <code>int</code>.
      *
      * @param bank The bank number.
      * @param i The desired data array element.
-     *
      * @return The data entry as an <code>int</code>.
      */
     public int getElem(int bank, int i) {
-        return (int)(bankdata[bank][i+offsets[bank]]);
+        return (int) (bankdata[bank][i + offsets[bank]]);
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>int</code>.
+     * Sets the requested data array element in the first (default) bank to the given <code>int</code>.
      *
      * @param i The desired data array element.
      * @param val The value to be set.
      */
     public void setElem(int i, int val) {
-        data[i+offset] = (double)val;
+        data[i + offset] = (double) val;
     }
 
     /**
-     * Sets the requested data array element in the specified bank
-     * to the given <code>int</code>.
+     * Sets the requested data array element in the specified bank to the given <code>int</code>.
      *
      * @param bank The bank number.
      * @param i The desired data array element.
      * @param val The value to be set.
      */
     public void setElem(int bank, int i, int val) {
-        bankdata[bank][i+offsets[bank]] = (double)val;
+        bankdata[bank][i + offsets[bank]] = (double) val;
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as a <code>float</code>.
+     * Returns the requested data array element from the first (default) bank as a <code>float</code>.
      *
      * @param i The desired data array element.
-     *
      * @return The data entry as a <code>float</code>.
      */
     public float getElemFloat(int i) {
-        return (float)data[i+offset];
+        return (float) data[i + offset];
     }
- 
+
     /**
-     * Returns the requested data array element from the specified
-     * bank as a <code>float</code>.
+     * Returns the requested data array element from the specified bank as a <code>float</code>.
      *
      * @param bank The bank number.
      * @param i The desired data array element.
-     *
      * @return The data entry as a <code>float</code>.
      */
     public float getElemFloat(int bank, int i) {
-        return (float)bankdata[bank][i+offsets[bank]];
+        return (float) bankdata[bank][i + offsets[bank]];
     }
- 
+
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>float</code>.
+     * Sets the requested data array element in the first (default) bank to the given <code>float</code>.
      *
      * @param i The desired data array element.
      * @param val The value to be set.
      */
     public void setElemFloat(int i, float val) {
-        data[i+offset] = (double)val;
+        data[i + offset] = (double) val;
     }
- 
+
     /**
-     * Sets the requested data array element in the specified bank to
-     * the given <code>float</code>.
+     * Sets the requested data array element in the specified bank to the given <code>float</code>.
      *
      * @param bank The bank number.
      * @param i The desired data array element.
      * @param val The value to be set.
      */
     public void setElemFloat(int bank, int i, float val) {
-        bankdata[bank][i+offsets[bank]] = (double)val;
+        bankdata[bank][i + offsets[bank]] = (double) val;
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as a <code>double</code>.
+     * Returns the requested data array element from the first (default) bank as a <code>double</code>.
      *
      * @param i The desired data array element.
-     *
      * @return The data entry as a <code>double</code>.
      */
     public double getElemDouble(int i) {
-        return data[i+offset];
+        return data[i + offset];
     }
- 
+
     /**
-     * Returns the requested data array element from the specified
-     * bank as a <code>double</code>.
+     * Returns the requested data array element from the specified bank as a <code>double</code>.
      *
      * @param bank The bank number.
      * @param i The desired data array element.
-     *
      * @return The data entry as a <code>double</code>.
      */
     public double getElemDouble(int bank, int i) {
-        return bankdata[bank][i+offsets[bank]];
+        return bankdata[bank][i + offsets[bank]];
     }
- 
+
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>double</code>.
+     * Sets the requested data array element in the first (default) bank to the given <code>double</code>.
      *
      * @param i The desired data array element.
      * @param val The value to be set.
      */
     public void setElemDouble(int i, double val) {
-        data[i+offset] = val;
+        data[i + offset] = val;
     }
- 
+
     /**
-     * Sets the requested data array element in the specified bank to
-     * the given <code>double</code>.
+     * Sets the requested data array element in the specified bank to the given <code>double</code>.
      *
      * @param bank The bank number.
      * @param i The desired data array element.
      * @param val The value to be set.
      */
     public void setElemDouble(int bank, int i, double val) {
-        bankdata[bank][i+offsets[bank]] = val;
+        bankdata[bank][i + offsets[bank]] = val;
     }
 }

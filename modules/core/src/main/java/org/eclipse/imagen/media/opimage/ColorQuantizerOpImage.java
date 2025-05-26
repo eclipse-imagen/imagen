@@ -16,7 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Point;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
@@ -28,7 +28,6 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.LookupTableJAI;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.ROI;
@@ -36,30 +35,25 @@ import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.UnpackedImageData;
 
 /**
- * An <code>OpImage</code> implementing the color quantization operation as
- * described in <code>org.eclipse.imagen.operator.ColorQuantizerDescriptor</code>.
+ * An <code>OpImage</code> implementing the color quantization operation as described in <code>
+ * org.eclipse.imagen.operator.ColorQuantizerDescriptor</code>.
  *
- * <p>This <code>OpImage</code> generates an optimal lookup table from the
- * source RGB image.  This lookup table can also be used as a parameter of
- * operators such as "errordiffusion" to convert the source image into
- * a color-indexed image.
+ * <p>This <code>OpImage</code> generates an optimal lookup table from the source RGB image. This lookup table can also
+ * be used as a parameter of operators such as "errordiffusion" to convert the source image into a color-indexed image.
  *
- * <p> This <code>OpImage</code> contains the pixels of the result images
- * from the nearest distance classification based on the lookup table
- * generated from this <code>OpImage</code>.
+ * <p>This <code>OpImage</code> contains the pixels of the result images from the nearest distance classification based
+ * on the lookup table generated from this <code>OpImage</code>.
  *
  * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.LookupTableJAI
- *
- * @JAI 1.1.2
- *
+ * @see org.eclipse.imagen.LookupTableJAI @JAI 1.1.2
  */
 abstract class ColorQuantizerOpImage extends PointOpImage {
     /**
-     * Variables used in the optimized case of 3-band byte to 1-band byte
-     * with a ColorCube color map and a Floyd-Steinberg kernel.
+     * Variables used in the optimized case of 3-band byte to 1-band byte with a ColorCube color map and a
+     * Floyd-Steinberg kernel.
      */
     private static final int NBANDS = 3;
+
     private static final int NGRAYS = 256;
 
     /** Cache the <code>PixelAccessor</code> for computation. */
@@ -73,16 +67,10 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     /** Cache the <code>PixelAccessor</code> for computation. */
     protected PixelAccessor destPA;
 
-    /**
-     * The color map which maps the <code>ErrorDiffusionOpImage</code> to
-     * its source.
-     */
+    /** The color map which maps the <code>ErrorDiffusionOpImage</code> to its source. */
     protected LookupTableJAI colorMap;
 
-    /**
-     * The expected maximum number of color, that is, the expected size of
-     * the lookup table.
-     */
+    /** The expected maximum number of color, that is, the expected size of the lookup table. */
     protected int maxColorNum;
 
     /** The subsample rate in the x direction. */
@@ -94,30 +82,22 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     /** The ROI used to define the data set for training. */
     protected ROI roi;
 
-    /**
-     * The number of bands in the source image.
-     */
+    /** The number of bands in the source image. */
     private int numBandsSource;
 
-    /**
-     * Whether to check for skipped tiles.
-     */
+    /** Whether to check for skipped tiles. */
     protected boolean checkForSkippedTiles = false;
 
     /** Used by the subclasses to define the start pixel position. */
-    final static int startPosition(int pos, int start, int period) {
+    static final int startPosition(int pos, int start, int period) {
         int t = (pos - start) % period;
         return t == 0 ? pos : pos + (period - t);
     }
 
-    /**
-     * Force the destination image to be single-banded.
-     */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source) {
+    /** Force the destination image to be single-banded. */
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source) {
         // Create or clone the layout.
-        ImageLayout il = layout == null ?
-	    new ImageLayout() : (ImageLayout)layout.clone();
+        ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Force the destination and source origins and dimensions to coincide.
         il.setMinX(source.getMinX());
@@ -130,41 +110,29 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
 
         // Make sure that this OpImage is single-banded.
         if (sm.getNumBands() != 1) {
-            sm =
-                RasterFactory.createComponentSampleModel(sm,
-                                                         sm.getTransferType(),
-                                                         sm.getWidth(),
-                                                         sm.getHeight(),
-                                                         1);
-	    il.setSampleModel(sm);
+            sm = RasterFactory.createComponentSampleModel(sm, sm.getTransferType(), sm.getWidth(), sm.getHeight(), 1);
+            il.setSampleModel(sm);
         }
 
         il.setColorModel(null);
 
-	return il;
+        return il;
     }
 
     /**
      * Constructs a ColorQuantizerOpImage object.
      *
-     * <p>The image dimensions are derived from the source image. The tile
-     * grid layout, SampleModel, and ColorModel may optionally be specified
-     * by an ImageLayout object.
+     * <p>The image dimensions are derived from the source image. The tile grid layout, SampleModel, and ColorModel may
+     * optionally be specified by an ImageLayout object.
      *
      * @param source A RenderedImage.
      * @param config The rendering hints.
-     * @param layout An ImageLayout optionally containing the tile grid layout,
-     * SampleModel, and ColorModel, or null.
+     * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param maxColorNum The expected maximum number of colors.
      */
-    public ColorQuantizerOpImage(RenderedImage source,
-                                 Map config,
-                                 ImageLayout layout,
-                                 int maxColorNum,
-                                 ROI roi,
-                                 int xPeriod,
-                                 int yPeriod) {
-	super(source, layoutHelper(layout, source), config, true);
+    public ColorQuantizerOpImage(
+            RenderedImage source, Map config, ImageLayout layout, int maxColorNum, ROI roi, int xPeriod, int yPeriod) {
+        super(source, layoutHelper(layout, source), config, true);
 
         // Get the source sample model.
         SampleModel srcSampleModel = source.getSampleModel();
@@ -176,26 +144,19 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
         this.xPeriod = xPeriod;
         this.yPeriod = yPeriod;
         this.roi = roi;
-        this.checkForSkippedTiles =
-            xPeriod > tileWidth || yPeriod > tileHeight;
+        this.checkForSkippedTiles = xPeriod > tileWidth || yPeriod > tileHeight;
     }
 
-    protected void computeRect(Raster[] sources,
-                            WritableRaster dest,
-                            Rectangle destRect) {
-        if (colorMap == null)
-            train();
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
+        if (colorMap == null) train();
 
-        if(!isInitialized) {
+        if (!isInitialized) {
             srcPA = new PixelAccessor(getSourceImage(0));
-            srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ?
-                DataBuffer.TYPE_BYTE : srcPA.sampleType;
+            srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ? DataBuffer.TYPE_BYTE : srcPA.sampleType;
             isInitialized = true;
         }
 
-        UnpackedImageData uid =
-            srcPA.getPixels(sources[0], destRect,
-                            srcSampleType, false);
+        UnpackedImageData uid = srcPA.getPixels(sources[0], destRect, srcSampleType, false);
         Rectangle rect = uid.rect;
         byte[][] data = uid.getByteData();
         int srcLineStride = uid.lineStride;
@@ -206,12 +167,9 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
 
         int lastLine = rect.height * srcLineStride + uid.bandOffsets[0];
 
-        if (destPA == null)
-            destPA = new PixelAccessor(this);
+        if (destPA == null) destPA = new PixelAccessor(this);
 
-        UnpackedImageData destUid =
-            destPA.getPixels(dest, destRect,
-                             sampleModel.getDataType(), false);
+        UnpackedImageData destUid = destPA.getPixels(dest, destRect, sampleModel.getDataType(), false);
 
         int destLineOffset = destUid.bandOffsets[0];
         int destLineStride = destUid.lineStride;
@@ -219,15 +177,13 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
 
         int[] currentPixel = new int[3];
         for (int lo = uid.bandOffsets[0]; lo < lastLine; lo += srcLineStride) {
-            int lastPixel =
-                lo + rect.width * srcPixelStride - uid.bandOffsets[0];
+            int lastPixel = lo + rect.width * srcPixelStride - uid.bandOffsets[0];
             int dstPixelOffset = destLineOffset;
-            for (int po = lo - uid.bandOffsets[0]; po < lastPixel;
-                 po += srcPixelStride) {
-                d[dstPixelOffset] =
-                    findNearestEntry(rBand[po + uid.bandOffsets[0]] & 0xff,
-                                     gBand[po + uid.bandOffsets[1]] & 0xff,
-                                     bBand[po + uid.bandOffsets[2]] & 0xff);
+            for (int po = lo - uid.bandOffsets[0]; po < lastPixel; po += srcPixelStride) {
+                d[dstPixelOffset] = findNearestEntry(
+                        rBand[po + uid.bandOffsets[0]] & 0xff,
+                        gBand[po + uid.bandOffsets[1]] & 0xff,
+                        bBand[po + uid.bandOffsets[2]] & 0xff);
 
                 dstPixelOffset += destUid.pixelStride;
             }
@@ -239,10 +195,8 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     public Object getProperty(String name) {
         int numBands = sampleModel.getNumBands();
 
-        if (name.equals("JAI.LookupTable") ||
-            name.equals("LUT")) {
-            if (colorMap == null)
-                train();
+        if (name.equals("JAI.LookupTable") || name.equals("LUT")) {
+            if (colorMap == null) train();
             return colorMap;
         }
 
@@ -252,14 +206,14 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     protected abstract void train();
 
     public ColorModel getColorModel() {
-        if (colorMap == null)
-            train();
+        if (colorMap == null) train();
         if (colorModel == null)
-            colorModel =
-                new IndexColorModel(8, colorMap.getByteData(0).length,
-                                    colorMap.getByteData(0),
-                                    colorMap.getByteData(1),
-                                    colorMap.getByteData(2));
+            colorModel = new IndexColorModel(
+                    8,
+                    colorMap.getByteData(0).length,
+                    colorMap.getByteData(0),
+                    colorMap.getByteData(1),
+                    colorMap.getByteData(2));
         return colorModel;
     }
 
@@ -276,23 +230,21 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
 
         // Find the distance to each entry and set the result to
         // the index which is closest to the argument.
-        for(int i = 1; i < red.length; i++) {
+        for (int i = 1; i < red.length; i++) {
             dr = r - (red[i] & 0xFF);
             int distance = dr * dr;
-            if (distance > minDistance)
-                continue;
+            if (distance > minDistance) continue;
             dg = g - (green[i] & 0xFF);
             distance += dg * dg;
 
-            if (distance > minDistance)
-                continue;
+            if (distance > minDistance) continue;
             db = b - (blue[i] & 0xFF);
             distance += db * db;
-            if(distance < minDistance) {
+            if (distance < minDistance) {
                 minDistance = distance;
                 index = i;
             }
         }
-        return (byte)index;
+        return (byte) index;
     }
 }

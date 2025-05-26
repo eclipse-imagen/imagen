@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.codecimpl.fpx;
+
 import org.eclipse.imagen.media.codecimpl.util.PropertyUtil;
 
 class JaiI18N {

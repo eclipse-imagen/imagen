@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.operator;
+
 import org.eclipse.imagen.media.util.PropertyUtil;
 
 class JaiI18N {

@@ -12,26 +12,23 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
-
 public class FloatDocument extends PlainDocument {
 
-    public void insertString(int offset,
-                             String s,
-                             AttributeSet as) throws BadLocationException {
+    public void insertString(int offset, String s, AttributeSet as) throws BadLocationException {
 
-        if ( s == null || s.length() == 0 ) {
+        if (s == null || s.length() == 0) {
             return;
         }
 
         try {
-            if ( s.equals(".") == false && s.equals("-") == false ) {
+            if (s.equals(".") == false && s.equals("-") == false) {
                 try {
                     Integer.parseInt(s);
-                } catch( NumberFormatException e ) {
+                } catch (NumberFormatException e) {
                     Float.parseFloat(s);
                 }
             }
-        } catch( Exception e ) {
+        } catch (Exception e) {
             Toolkit.getDefaultToolkit().beep();
             return;
         }

@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.test;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.Raster;
@@ -29,9 +30,8 @@ import org.eclipse.imagen.SourcelessOpImage;
 /** Defines a ramp image for testing purpose. */
 final class RampOpImage extends SourcelessOpImage {
 
-    public RampOpImage(int minX, int minY, int width, int height, 
-                       SampleModel sampleModel,
-                       Map configuration, ImageLayout layout) {
+    public RampOpImage(
+            int minX, int minY, int width, int height, SampleModel sampleModel, Map configuration, ImageLayout layout) {
         super(layout, configuration, sampleModel, minX, minY, width, height);
     }
 
@@ -39,12 +39,9 @@ final class RampOpImage extends SourcelessOpImage {
         int orgX = tileXToX(tileX);
         int orgY = tileYToY(tileY);
 
-        WritableRaster dst = RasterFactory.createWritableRaster(
-            sampleModel, new Point(orgX, orgY));
+        WritableRaster dst = RasterFactory.createWritableRaster(sampleModel, new Point(orgX, orgY));
 
-        Rectangle rect = new Rectangle(orgX, orgY,
-                                       sampleModel.getWidth(),
-                                       sampleModel.getHeight());
+        Rectangle rect = new Rectangle(orgX, orgY, sampleModel.getWidth(), sampleModel.getHeight());
         rect = rect.intersection(getBounds());
 
         int numBands = sampleModel.getNumBands();

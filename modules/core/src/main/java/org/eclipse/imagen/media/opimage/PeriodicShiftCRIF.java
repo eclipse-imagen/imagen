@@ -16,26 +16,16 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.image.renderable.RenderableImageOp;
-import java.awt.image.renderable.RenderContext;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.InterpolationBicubic;
-import java.util.Map;
 
 /**
- * This image factory supports image operator <code>PeriodicShiftOpImage</code>
- * in the rendered and renderable image layers.
+ * This image factory supports image operator <code>PeriodicShiftOpImage</code> in the rendered and renderable image
+ * layers.
  *
  * @see PeriodicShiftOpImage
  */
@@ -47,16 +37,13 @@ public class PeriodicShiftCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>PeriodicShiftOpImage</code>
-     * in the rendered layer. This method satisfies the
+     * Creates a new instance of <code>PeriodicShiftOpImage</code> in the rendered layer. This method satisfies the
      * implementation of RIF.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        
+
         // Get the source image.
         RenderedImage source = paramBlock.getRenderedSource(0);
 

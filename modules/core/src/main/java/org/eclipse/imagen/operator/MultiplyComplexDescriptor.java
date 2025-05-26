@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.operator;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -29,17 +30,13 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
-
 /**
- * An <code>OperationDescriptor</code> describing the "MultiplyComplex"
- * operation.
+ * An <code>OperationDescriptor</code> describing the "MultiplyComplex" operation.
  *
- * <p> The "MultiplyComplex" operation multiplies two images representing
- * complex data.  The source images must each contain an even number of bands
- * with the even-indexed bands (0, 2, ...) representing the real and the
- * odd-indexed bands (1, 3, ...) the imaginary parts of each pixel.  The
- * destination image similarly contains an even number of bands with the
- * same interpretation and with contents defined by:
+ * <p>The "MultiplyComplex" operation multiplies two images representing complex data. The source images must each
+ * contain an even number of bands with the even-indexed bands (0, 2, ...) representing the real and the odd-indexed
+ * bands (1, 3, ...) the imaginary parts of each pixel. The destination image similarly contains an even number of bands
+ * with the same interpretation and with contents defined by:
  *
  * <pre>
  * a = src0[x][y][2*k];
@@ -53,27 +50,22 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * where 0 <= <i>k</i> < numBands/2.
  *
- * By default, the number of bands of the destination image is the
- * the minimum of the number of bands of the two sources, and the
- * data type is the biggest data type of the sources.
- * However, the number of destination bands can be specified to be
- * M = 2*L through an <code>ImageLayout</code> hint, when 
- * one source image has 2 bands and the other has N = 2*K bands
- * where K > 1, with a natural restriction 1 <= L <= K.
- * In such a special case each of the first L complex components
- * in the N-band source will be multiplied by the single complex
- * component in the 1-band source.
+ * <p>By default, the number of bands of the destination image is the the minimum of the number of bands of the two
+ * sources, and the data type is the biggest data type of the sources. However, the number of destination bands can be
+ * specified to be M = 2*L through an <code>ImageLayout</code> hint, when one source image has 2 bands and the other has
+ * N = 2*K bands where K > 1, with a natural restriction 1 <= L <= K. In such a special case each of the first L complex
+ * components in the N-band source will be multiplied by the single complex component in the 1-band source.
  *
- * <p> If the result of the operation underflows/overflows the
- * minimum/maximum value supported by the destination data type, then it will
- * be clamped to the minimum/maximum value respectively.
+ * <p>If the result of the operation underflows/overflows the minimum/maximum value supported by the destination data
+ * type, then it will be clamped to the minimum/maximum value respectively.
  *
- * <p>"MultiplyComplex" defines a PropertyGenerator that sets the "COMPLEX"
- * property of the image to <code>java.lang.Boolean.TRUE</code>, which may
- * be retrieved by calling the <code>getProperty()</code> method with
- * "COMPLEX" as the property name.
+ * <p>"MultiplyComplex" defines a PropertyGenerator that sets the "COMPLEX" property of the image to <code>
+ * java.lang.Boolean.TRUE</code>, which may be retrieved by calling the <code>getProperty()</code> method with "COMPLEX"
+ * as the property name.
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
  * <tr><td>GlobalName</td>  <td>MultiplyComplex</td></tr>
@@ -82,31 +74,30 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>Description</td> <td>Computes the complex product of two images.</td></tr>
  * <tr><td>DocURL</td>      <td>http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MultiplyComplexDescriptor.html</td></tr>
  * <tr><td>Version</td>     <td>1.0</td></tr>
- * </table></p>
+ * </table>
  *
- * <p> No parameters are needed for the "MultiplyComplex" operation.
+ * <p>No parameters are needed for the "MultiplyComplex" operation.
  *
  * @see org.eclipse.imagen.OperationDescriptor
  */
 public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation
-     * and specify the parameter list for this operation.
+     * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "MultiplyComplex"},
-        {"LocalName",   "MultiplyComplex"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "MultiplyComplex"},
+        {"LocalName", "MultiplyComplex"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("MultiplyComplexDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MultiplyComplexDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion")}
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MultiplyComplexDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion")}
     };
 
-    private static final String[] supportedModes = {
-	"rendered",
-	"renderable"
-    };
+    private static final String[] supportedModes = {"rendered", "renderable"};
 
     /** Constructor. */
     public MultiplyComplexDescriptor() {
@@ -116,27 +107,22 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
     /**
      * Validates the input sources.
      *
-     * <p> In addition to the standard checks performed by the
-     * superclass method, this method checks that the source images
-     * each have an even number of bands.
+     * <p>In addition to the standard checks performed by the superclass method, this method checks that the source
+     * images each have an even number of bands.
      */
-    protected boolean validateSources(String modeName,
-				      ParameterBlock args,
-                                      StringBuffer msg) {
+    protected boolean validateSources(String modeName, ParameterBlock args, StringBuffer msg) {
         if (!super.validateSources(modeName, args, msg)) {
             return false;
         }
 
-	if (!modeName.equalsIgnoreCase("rendered"))
-	    return true;
+        if (!modeName.equalsIgnoreCase("rendered")) return true;
 
         RenderedImage src1 = args.getRenderedSource(0);
         RenderedImage src2 = args.getRenderedSource(1);
 
-        if (src1.getSampleModel().getNumBands() % 2 != 0 ||
-            src2.getSampleModel().getNumBands() % 2 != 0) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("MultiplyComplexDescriptor1"));
+        if (src1.getSampleModel().getNumBands() % 2 != 0
+                || src2.getSampleModel().getNumBands() % 2 != 0) {
+            msg.append(getName() + " " + JaiI18N.getString("MultiplyComplexDescriptor1"));
             return false;
         }
 
@@ -144,10 +130,10 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Returns an array of <code>PropertyGenerators</code> implementing
-     * property inheritance for the "MultiplyComplex" operation.
+     * Returns an array of <code>PropertyGenerators</code> implementing property inheritance for the "MultiplyComplex"
+     * operation.
      *
-     * @return  An array of property generators.
+     * @return An array of property generators.
      */
     public PropertyGenerator[] getPropertyGenerators(String modeName) {
         PropertyGenerator[] pg = new PropertyGenerator[1];
@@ -155,32 +141,24 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
         return pg;
     }
 
-
     /**
      * Computes the complex product of two images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param source1 <code>RenderedImage</code> source 1.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>source1</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0,
-                                    RenderedImage source1,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("MultiplyComplex",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(RenderedImage source0, RenderedImage source1, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("MultiplyComplex", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
@@ -191,28 +169,22 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the complex product of two images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderableOp
-     *
      * @param source0 <code>RenderableImage</code> source 0.
      * @param source1 <code>RenderableImage</code> source 1.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderableOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>source1</code> is <code>null</code>.
      */
-    public static RenderableOp createRenderable(RenderableImage source0,
-                                                RenderableImage source1,
-                                                RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("MultiplyComplex",
-                                  RenderableRegistryMode.MODE_NAME);
+    public static RenderableOp createRenderable(
+            RenderableImage source0, RenderableImage source1, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("MultiplyComplex", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
