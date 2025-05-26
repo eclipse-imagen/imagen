@@ -1,0 +1,11 @@
+#
+# Image descriptors
+#
+
+descriptor  org.eclipse.imagen.media.DummyScaleDescriptor
+
+#
+# RenderedImageFactories
+#
+
+rendered  org.eclipse.imagen.media.DummyScaleCRIF  org.eclipse.imagen.media  Scale Scale

@@ -14,6 +14,46 @@
     <module>codec</module>
     <module>core</module>
     <module>builder</module>
+    <module>squareroot</module>
+    <module>concurrent-tile-cache</module>
+    <module>scale</module>
+    <module>affine</module>
+    <module>utilities</module>
+    <module>warp</module>
+    <module>iterators</module>
+    <module>mosaic</module>
+    <module>translate</module>
+    <module>lookup</module>
+    <module>stats</module>
+    <module>zonal</module>
+    <module>crop</module>
+    <module>rescale</module>
+    <module>nullop</module>
+    <module>bandmerge</module>
+    <module>bandselect</module>
+    <module>border</module>
+    <module>algebra</module>
+    <module>buffer</module>
+    <module>binarize</module>
+    <module>bandcombine</module>
+    <module>convolve</module>
+    <module>classifier</module>
+    <module>piecewise</module>
+    <module>artifact</module>
+    <module>format</module>
+    <module>colorconvert</module>
+    <module>errordiffusion</module>
+    <module>orderdither</module>
+    <module>colorindexer</module>
+    <module>imagefunction</module>
+    <module>rlookup</module>
+    <module>vectorbin</module>
+    <module>threshold</module>
+    <module>clamp</module>
+    <module>scale2</module>
+    <module>shadedrelief</module>
+    <module>jiffle</module>
+    <module>classbreaks</module>
   </modules>
 
   <!-- =========================================================== -->

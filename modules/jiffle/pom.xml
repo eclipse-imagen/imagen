@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen-modules</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>jiffle</artifactId>
+  <packaging>pom</packaging>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Jiffle is a scripting language for creating and analysing raster images.</description>
+
+  <developers>
+    <developer>
+      <id>michael.bedward</id>
+      <name>Michael Bedward</name>
+      <email>michael.bedward@gmail.com</email>
+      <timezone>+10</timezone>
+    </developer>
+    <developer>
+      <id>andrea.antonello</id>
+      <name>Andrea Antonello</name>
+      <organization>HydroloGIS</organization>
+      <organizationUrl>http://www.hydrologis.com/</organizationUrl>
+    </developer>
+    <developer>
+      <id>andrea.aime</id>
+      <name>Andrea Aime</name>
+      <organization>GeoSolutions</organization>
+      <organizationUrl>https://www.geo-solutions.it/</organizationUrl>
+    </developer>
+  </developers>
+
+  <modules>
+    <module>jt-jiffle-language</module>
+    <module>jt-jiffle-demo</module>
+    <module>jt-jiffle-docs</module>
+    <module>jt-jiffle-op</module>
+  </modules>
+
+</project>
