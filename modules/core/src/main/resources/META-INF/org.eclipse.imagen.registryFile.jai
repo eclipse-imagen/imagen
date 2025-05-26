@@ -330,7 +330,7 @@ renderable	org.eclipse.imagen.media.opimage.PeriodicShiftCRIF	periodicshift
 renderable	org.eclipse.imagen.media.opimage.PhaseCRIF		phase
 renderable	org.eclipse.imagen.media.opimage.PiecewiseCRIF		piecewise
 renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
-renderable	org.eclipse.imagen.media.opimage.RenderableCRIF	renderable
+#renderable	org.eclipse.imagen.media.opimage.RenderableCRIF	renderable
 renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
 renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale

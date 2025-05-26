@@ -23,13 +23,9 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 import org.eclipse.imagen.registry.CollectionRegistryMode;
-import org.eclipse.imagen.registry.RemoteRenderableRegistryMode;
-import org.eclipse.imagen.registry.RemoteRenderedRegistryMode;
 import org.eclipse.imagen.registry.RenderableCollectionRegistryMode;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
-import org.eclipse.imagen.registry.TileDecoderRegistryMode;
-import org.eclipse.imagen.registry.TileEncoderRegistryMode;
 import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
@@ -71,13 +67,11 @@ public class RegistryMode {
         addMode(new CollectionRegistryMode(), true);
         addMode(new RenderableCollectionRegistryMode(), true);
 
-        // remote modes
-        addMode(new RemoteRenderedRegistryMode(), true);
-        addMode(new RemoteRenderableRegistryMode(), true);
-
         // Tilecodec modes
+        /* TODO these are legacy. check what to do with them
         addMode(new TileEncoderRegistryMode(), true);
         addMode(new TileDecoderRegistryMode(), true);
+         */
     }
 
     /**
@@ -111,7 +105,7 @@ public class RegistryMode {
      * Removes a mode from the existing list of known registryModes. If the mode is one of the JAI-installed ones, it
      * can not be removed.
      *
-     * @param mode the RegistryMode to be removed from the list
+     * @param name the RegistryMode to be removed from the list
      * @return false if the mode can not be removed because it was added by JAI or because the mode was not previously
      *     add. returns true otherwise.
      */

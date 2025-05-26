@@ -24,7 +24,6 @@ import java.lang.ref.WeakReference;
 import java.math.BigInteger;
 import org.eclipse.imagen.CachedTile;
 import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.remote.SerializableRenderedImage;
 
 /**
  * Information associated with a cached tile.
@@ -91,8 +90,6 @@ final class SunCachedTile implements CachedTile {
 
         BigInteger imageID = null;
         if (owner instanceof PlanarImage) imageID = (BigInteger) ((PlanarImage) owner).getImageID();
-        else if (owner instanceof SerializableRenderedImage)
-            imageID = (BigInteger) ((SerializableRenderedImage) owner).getImageID();
 
         if (imageID != null) {
             byte[] buf = imageID.toByteArray();

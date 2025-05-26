@@ -36,8 +36,6 @@ import org.eclipse.imagen.media.util.ImagingListenerImpl;
 import org.eclipse.imagen.media.util.PropertyUtil;
 import org.eclipse.imagen.media.util.SunTileCache;
 import org.eclipse.imagen.media.util.SunTileScheduler;
-import org.eclipse.imagen.remote.NegotiableCapabilitySet;
-import org.eclipse.imagen.tilecodec.TileCodecParameterList;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**
@@ -128,12 +126,6 @@ public final class JAI {
     private static final int HINT_DEFAULT_COLOR_MODEL_METHOD = 109;
     private static final int HINT_TILE_CACHE_METRIC = 110;
     private static final int HINT_SERIALIZE_DEEP_COPY = 111;
-    private static final int HINT_TILE_CODEC_FORMAT = 112;
-    private static final int HINT_TILE_ENCODING_PARAM = 113;
-    private static final int HINT_TILE_DECODING_PARAM = 114;
-    private static final int HINT_RETRY_INTERVAL = 115;
-    private static final int HINT_NUM_RETRIES = 116;
-    private static final int HINT_NEGOTIATION_PREFERENCES = 117;
     private static final int HINT_DEFAULT_RENDERING_SIZE = 118;
     private static final int HINT_COLOR_MODEL_FACTORY = 119;
     private static final int HINT_REPLACE_INDEX_COLOR_MODEL = 120;
@@ -156,9 +148,6 @@ public final class JAI {
     /**
      * Key for {@link Interpolation} object values. The common <code>RenderingHints</code> do not contain a default hint
      * corresponding to this key.
-     *
-     * @see MultiResolutionRenderableImage#createScaledRendering
-     * @see MultiResolutionRenderableImage#createRendering
      */
     public static RenderingHints.Key KEY_INTERPOLATION = new RenderingKey(HINT_INTERPOLATION, Interpolation.class);
 
@@ -330,66 +319,6 @@ public final class JAI {
      */
     public static RenderingHints.Key KEY_SERIALIZE_DEEP_COPY =
             new RenderingKey(HINT_SERIALIZE_DEEP_COPY, Boolean.class);
-
-    /**
-     * Key for specifying the default format to be used for tile serialization via <code>TileCodec</code>s. The
-     * corresponding object must be a <code>String</code>. The common <code>RenderingHints</code> do not contain a
-     * default hint corresponding to this key.
-     *
-     * @since JAI 1.1
-     */
-    public static RenderingHints.Key KEY_TILE_CODEC_FORMAT = new RenderingKey(HINT_TILE_CODEC_FORMAT, String.class);
-
-    /**
-     * Key for specifying the default encoding parameters to be used for tile serialization via <code>TileCodec</code>s.
-     * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
-     * not contain a default hint corresponding to this key.
-     *
-     * @since JAI 1.1
-     */
-    public static RenderingHints.Key KEY_TILE_ENCODING_PARAM =
-            new RenderingKey(HINT_TILE_ENCODING_PARAM, TileCodecParameterList.class);
-
-    /**
-     * Key for specifying the default decoding parameters to be used for tile serialization via <code>TileCodec</code>s.
-     * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
-     * not contain a default hint corresponding to this key.
-     *
-     * @since JAI 1.1
-     */
-    public static RenderingHints.Key KEY_TILE_DECODING_PARAM =
-            new RenderingKey(HINT_TILE_DECODING_PARAM, TileCodecParameterList.class);
-
-    /**
-     * Key for the retry interval value to be used for dealing with network errors during remote imaging. The
-     * corresponding object must be an <code>Integer</code>. The common <code>RenderingHints</code> do not contain a
-     * default hint corresponding to this key.
-     *
-     * @see org.eclipse.imagen.remote.RemoteJAI
-     * @since JAI 1.1
-     */
-    public static RenderingHints.Key KEY_RETRY_INTERVAL = new RenderingKey(HINT_RETRY_INTERVAL, Integer.class);
-
-    /**
-     * Key for the number of retries to be used for dealing with network errors during remote imaging. The corresponding
-     * object must be an <code>Integer</code>. The common <code>RenderingHints</code> do not contain a default hint
-     * corresponding to this key.
-     *
-     * @see org.eclipse.imagen.remote.RemoteJAI
-     * @since JAI 1.1
-     */
-    public static RenderingHints.Key KEY_NUM_RETRIES = new RenderingKey(HINT_NUM_RETRIES, Integer.class);
-
-    /**
-     * Key for the negotiation preferences to be used to negotiate capabilities to be used in the remote communication.
-     * The corresponding object must be a <code>NegotiableCapabilitySet</code>. The common <code>RenderingHints</code>
-     * do not contain a default hint corresponding to this key.
-     *
-     * @see org.eclipse.imagen.remote.RemoteJAI
-     * @since JAI 1.1
-     */
-    public static RenderingHints.Key KEY_NEGOTIATION_PREFERENCES =
-            new RenderingKey(HINT_NEGOTIATION_PREFERENCES, NegotiableCapabilitySet.class);
 
     /**
      * Key that indicates whether the {@link ColormapOpImage}s do the transform on the color map or on the pixels when

@@ -23,7 +23,7 @@ public class RenderableScale extends JPanel implements ChangeListener {
     private final int height = 173;
 
     public RenderableScale(String base) {
-
+        /* TODO MultiResolutionRenderableImage has been moved to unsupported.
         Vector sources = new Vector();
 
         for (int i = 3; i >= 0; i--) {
@@ -55,6 +55,7 @@ public class RenderableScale extends JPanel implements ChangeListener {
         add(borderedPanel, BorderLayout.SOUTH);
 
         canvas.setSize(new Dimension(18, 17));
+         */
     }
 
     public final void stateChanged(ChangeEvent e) {

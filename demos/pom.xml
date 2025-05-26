@@ -16,7 +16,6 @@
     <module>mpv</module>
     <module>codec</module>
     <module>medical</module>
-    <module>network</module>
   </modules>
 
 </project>
