@@ -23,14 +23,12 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
  * This is a utility class that can be used by <code>OperationNode</code>s to consolidate common functionality. An
@@ -627,61 +625,62 @@ public class OperationNodeSupport implements Serializable {
     // Or does this require a more generic approach using Proxy?
 
     /** Serializes the <code>OperationNodeSupport</code>. */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        ParameterBlock pbClone = pb;
-        boolean pbCloned = false;
+    /* TODO check serialization
+        private void writeObject(ObjectOutputStream out) throws IOException {
+            ParameterBlock pbClone = pb;
+            boolean pbCloned = false;
 
-        // Wrap RenderedImage sources in RenderedImageStates.
-        for (int index = 0; index < pbClone.getNumSources(); index++) {
-            Object source = pbClone.getSource(index);
-            if (source != null && !(source instanceof Serializable)) {
-                if (!pbCloned) {
-                    pbClone = (ParameterBlock) pb.clone();
-                    pbCloned = true;
-                }
-                if (source instanceof RenderedImage) {
-                    SerializableState serializableImage = SerializerFactory.getState(source, null);
-                    pbClone.setSource(serializableImage, index);
-                } else {
-                    throw new RuntimeException(
-                            source.getClass().getName() + JaiI18N.getString("OperationNodeSupport0"));
-                }
-            }
-        }
-
-        // Wrap RenderedImage parameters in RenderedImageState objects;
-        // wrap Raster parameters in RasterState objects;
-        // check other parameters for serializability.
-        for (int index = 0; index < pbClone.getNumParameters(); index++) {
-            Object parameter = pbClone.getObjectParameter(index);
-            if (parameter != null && !(parameter instanceof Serializable)) {
-                if (!pbCloned) {
-                    pbClone = (ParameterBlock) pb.clone();
-                    pbCloned = true;
-                }
-                if (parameter instanceof Raster) {
-                    pbClone.set(SerializerFactory.getState(parameter, null), index);
-                } else if (parameter instanceof RenderedImage) {
-                    RenderedImage ri = (RenderedImage) parameter;
-                    RenderingHints hints = new RenderingHints(null);
-                    hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
-                    pbClone.set(SerializerFactory.getState(ri, hints), index);
-                } else {
-                    throw new RuntimeException(
-                            parameter.getClass().getName() + JaiI18N.getString("OperationNodeSupport1"));
+            // Wrap RenderedImage sources in RenderedImageStates.
+            for (int index = 0; index < pbClone.getNumSources(); index++) {
+                Object source = pbClone.getSource(index);
+                if (source != null && !(source instanceof Serializable)) {
+                    if (!pbCloned) {
+                        pbClone = (ParameterBlock) pb.clone();
+                        pbCloned = true;
+                    }
+                    if (source instanceof RenderedImage) {
+                        SerializableState serializableImage = SerializerFactory.getState(source, null);
+                        pbClone.setSource(serializableImage, index);
+                    } else {
+                        throw new RuntimeException(
+                                source.getClass().getName() + JaiI18N.getString("OperationNodeSupport0"));
+                    }
                 }
             }
+
+            // Wrap RenderedImage parameters in RenderedImageState objects;
+            // wrap Raster parameters in RasterState objects;
+            // check other parameters for serializability.
+            for (int index = 0; index < pbClone.getNumParameters(); index++) {
+                Object parameter = pbClone.getObjectParameter(index);
+                if (parameter != null && !(parameter instanceof Serializable)) {
+                    if (!pbCloned) {
+                        pbClone = (ParameterBlock) pb.clone();
+                        pbCloned = true;
+                    }
+                    if (parameter instanceof Raster) {
+                        pbClone.set(SerializerFactory.getState(parameter, null), index);
+                    } else if (parameter instanceof RenderedImage) {
+                        RenderedImage ri = (RenderedImage) parameter;
+                        RenderingHints hints = new RenderingHints(null);
+                        hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
+                        pbClone.set(SerializerFactory.getState(ri, hints), index);
+                    } else {
+                        throw new RuntimeException(
+                                parameter.getClass().getName() + JaiI18N.getString("OperationNodeSupport1"));
+                    }
+                }
+            }
+
+            // Serialize the object.
+            // Write non-static and non-transient fields.
+            out.defaultWriteObject();
+            // Write ParameterBlock.
+            out.writeObject(pbClone);
+            // Write RenderingHints.
+            out.writeObject(SerializerFactory.getState(hints, null));
         }
-
-        // Serialize the object.
-        // Write non-static and non-transient fields.
-        out.defaultWriteObject();
-        // Write ParameterBlock.
-        out.writeObject(pbClone);
-        // Write RenderingHints.
-        out.writeObject(SerializerFactory.getState(hints, null));
-    }
-
+    */
     /** Deserializes the <code>OperationNodeSupport</code>. */
     private synchronized void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 

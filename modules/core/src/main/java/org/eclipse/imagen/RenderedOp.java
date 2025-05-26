@@ -50,7 +50,6 @@ import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.PropertyUtil;
 import org.eclipse.imagen.registry.RIFRegistry;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
-import org.eclipse.imagen.remote.PlanarImageServerProxy;
 import org.eclipse.imagen.util.CaselessStringKey;
 import org.eclipse.imagen.util.ImagingListener;
 
@@ -174,7 +173,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * as <i>synthetic properties</i>. The property <code>tile_cache_key</code> has a value of type {@link TileCache} which
  * indicates where the tiles of the rendering are cached, if anywhere. The value of the property <code>tile_cache_key
  * </code> is a {@link RenderedImage} by which the cached tiles are referenced in the indicated cache. If the rendering
- * is of type {@link OpImage} or {@link org.eclipse.imagen.remote.PlanarImageServerProxy} then the value of <code>
+ * is of type {@link OpImage} then the value of <code>
  * tile_cache_key</code> will be set to the rendering itself and the value of <code>tile_cache</code> to the value
  * returned by invoking <code>getTileCache()</code> on the rendering. Otherwise these properties will be set to the same
  * values as the properties of the same names set on the rendering. It is legal for these properties to have the value
@@ -227,9 +226,6 @@ import org.eclipse.imagen.util.ImagingListener;
  * @see OpImage
  * @see RenderableOp
  * @see RenderingChangeEvent
- * @see org.eclipse.imagen.remote.SerializableRenderedImage
- * @see org.eclipse.imagen.remote.Serializer
- * @see org.eclipse.imagen.remote.SerializerFactory
  * @see java.awt.RenderingHints
  * @see java.awt.image.renderable.ParameterBlock
  * @see java.awt.image.renderable.RenderedImageFactory
@@ -1579,13 +1575,14 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
                 synthProperties.put(
                         new CaselessStringKey("tile_cache"),
                         tileCache == null ? java.awt.Image.UndefinedProperty : tileCache);
-            } else if (theImage instanceof PlanarImageServerProxy) {
-                synthProperties.put(new CaselessStringKey("tile_cache_key"), theImage);
-                Object tileCache = ((PlanarImageServerProxy) theImage).getTileCache();
-                synthProperties.put(
-                        new CaselessStringKey("tile_cache"),
-                        tileCache == null ? java.awt.Image.UndefinedProperty : tileCache);
-            } else {
+                /* TODO This was for remote images. Can we simply remove it?
+                } else if (theImage instanceof PlanarImageServerProxy) {
+                    synthProperties.put(new CaselessStringKey("tile_cache_key"), theImage);
+                    Object tileCache = ((PlanarImageServerProxy) theImage).getTileCache();
+                    synthProperties.put(
+                            new CaselessStringKey("tile_cache"),
+                            tileCache == null ? java.awt.Image.UndefinedProperty : tileCache);
+                */ } else {
                 Object tileCacheKey = theImage.getProperty("tile_cache_key");
                 synthProperties.put(
                         new CaselessStringKey("tile_cache_key"),

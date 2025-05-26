@@ -27,13 +27,8 @@ import java.awt.image.DataBufferUShort;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import org.eclipse.imagen.media.util.DataBufferUtils;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
  * A lookup table object associated with the "Lookup" operation. The "Lookup" operation is described in <code>
@@ -2370,22 +2365,24 @@ public class LookupTableJAI extends Object implements Serializable {
      *
      * @param out The <code>ObjectOutputStream</code>.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        out.writeObject(SerializerFactory.getState(data));
-    }
-
+    /* TODO check serialization
+        private void writeObject(ObjectOutputStream out) throws IOException {
+            out.defaultWriteObject();
+            out.writeObject(SerializerFactory.getState(data));
+        }
+    */
     /**
      * Deserialize the <code>LookupTableJAI</code>.
      *
      * @param in The <code>ObjectInputStream</code>.
      */
+    /* TODO check serialization
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         Object object = in.readObject();
         SerializableState ss = (SerializableState) object;
         data = (DataBuffer) ss.getObject();
-    }
+    }*/
 
     private void initOffsets(int nbands, int offset) {
         tableOffsets = new int[nbands];
