@@ -3,6 +3,8 @@
 The Eclipse ImageN project provides an extensible, on-demand image processing library with no artificial
 restrictions on raster size or number of bands.
 
+![](logo/imagen-horizontal-logo-small.png)
+
 ImageN provides:
 
 * High performance Pure Java Image Processing
