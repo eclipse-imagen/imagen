@@ -92,14 +92,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>mlib</id>
-      <modules>
-        <module>mlib</module>
-      </modules>
-    </profile>
-  </profiles>
-
 </project>

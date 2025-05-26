@@ -220,7 +220,7 @@ first, following which the client can be run.
    . The CLASSPATH is then set to the following value:
 
        CLASSPATH=$JAI/jai_core.jar:$JAI/jai_codec.jar
-       CLASSPATH=$CLASSPATH:$JAI/mlibwrapper_jai.jar:server/
+       CLASSPATH=$CLASSPATH:server/
 
    Note that when JAI is installed into the JDK or JRE, the JAI
    environment variable does not need to be set and therefore the
@@ -236,7 +236,7 @@ first, following which the client can be run.
    command 
 
        java -Djava.rmi.server.codebase="file:$JAI/jai_core.jar \
-       file:$JAI/jai_codec.jar file:$JAI/mlibwrapper_jai.jar \
+       file:$JAI/jai_codec.jar \
        file:`pwd`/server/" -Djava.rmi.server.useCodebaseOnly=false \
        -Djava.security.policy=file:`pwd`/policy  \ 
        JAIRMIServerWrapper -port $PORT &

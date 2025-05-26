@@ -214,8 +214,7 @@ While still logged in to the remote server system, set the `CLASSPATH`
 and `LD_LIBRARY_PATH` environment variables as required for JAI (see
 the `INSTALL` file) and start the remote imaging server. For example:
 
-         $ CLASSPATH=$JAI/lib/jai.jar:\
-                     $JAI/lib/mlibwrapper_jai.jar
+         $ CLASSPATH=$JAI/lib/jai.jar
          $ export CLASSPATH
          $ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JAI/lib
          $ export LD_LIBRARY_PATH

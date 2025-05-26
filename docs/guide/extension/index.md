@@ -156,12 +156,8 @@ odesc   org.eclipse.imagen.operator.AddConstDescriptor     addconst
 
 rif org.eclipse.imagen.media.opimage.AbsoluteCRIF
                org.eclipse.imagen.media   absolute   sunabsoluterif
-rif org.eclipse.imagen.media.mlib.MlibAbsoluteRIF
-               org.eclipse.imagen.media   absolute   mlibabsoluterif
 rif org.eclipse.imagen.media.opimage.AddConstCRIF
                org.eclipse.imagen.media   addconst   sunaddconstrif
-rif org.eclipse.imagen.media.mlib.MlibAddConstRIF
-               org.eclipse.imagen.media   addconst   mlibaddconstrif
 
 crif    org.eclipse.imagen.media.opimage.AbsoluteCRIF      absolute
 crif    org.eclipse.imagen.media.opimage.AddConstCRIF      addconst

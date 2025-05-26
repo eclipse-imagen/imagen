@@ -32,66 +32,6 @@ import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.InterpAverage;
 
 public class SubsampleAverageOpImage extends GeometricOpImage {
-    /* XXX
-    public static void main(String[] args) throws Throwable {
-        org.eclipse.imagen.PlanarImage source =
-            org.eclipse.imagen.JAI.create("fileload", args[0]);
-        double scaleX = args.length > 1 ?
-            Double.valueOf(args[1]).doubleValue() : 0.25;
-        double scaleY = args.length > 2 ?
-            Double.valueOf(args[2]).doubleValue() : scaleX;
-
-        source.getTiles();
-
-        org.eclipse.imagen.PlanarImage dest =
-            new SubsampleAverageOpImage(source, null, null,
-                                        scaleX, scaleY);
-        long t1 = System.currentTimeMillis();
-        dest.getTiles();
-        long t2 = System.currentTimeMillis();
-        System.out.println("Java time = "+(t2 - t1));
-
-        org.eclipse.imagen.PlanarImage destML =
-            new MlibSubsampleAverageOpImage(source, null, null,
-                                            scaleX, scaleY);
-        long t3 = System.currentTimeMillis();
-        destML.getTiles();
-        long t4 = System.currentTimeMillis();
-        System.out.println("Mlib time = "+(t4 - t3));
-
-        RenderedImage diff = org.eclipse.imagen.JAI.create("subtract",
-                                   org.eclipse.imagen.JAI.create("format", dest,
-                                                              DataBuffer.TYPE_SHORT),
-                                   org.eclipse.imagen.JAI.create("format", destML,
-                                                              DataBuffer.TYPE_SHORT));
-        RenderedImage absDiff = org.eclipse.imagen.JAI.create("absolute", diff);
-        double[] maxima =
-            (double[])org.eclipse.imagen.JAI.create("extrema", absDiff).getProperty("maximum");
-        for(int i = 0; i < maxima.length; i++) {
-            System.out.println(maxima[i]);
-        }
-
-        System.out.println(source.getClass().getName()+": "+
-                           new ImageLayout(source));
-        System.out.println(dest.getClass().getName()+": "+
-                           new ImageLayout(dest));
-        System.out.println(destML.getClass().getName()+": "+
-                           new ImageLayout(destML));
-
-        java.awt.Frame frame = new java.awt.Frame("Mlib Sub-average Test");
-        frame.setLayout(new java.awt.GridLayout(1, 2));
-        org.eclipse.imagen.widget.ScrollingImagePanel ps =
-            new org.eclipse.imagen.widget.ScrollingImagePanel(dest,
-                                                           512, 512);
-        org.eclipse.imagen.widget.ScrollingImagePanel pd =
-            new org.eclipse.imagen.widget.ScrollingImagePanel(destML,
-                                                           512, 512);
-        frame.add(ps);
-        frame.add(pd);
-        frame.pack();
-        frame.show();
-    }
-    */
 
     /** The horizontal scale factor. */
     protected double scaleX;

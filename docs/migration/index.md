@@ -120,22 +120,3 @@ The key format missing from Java 8 is TIFF, which is included in `ImageIO` from 
  </profile>
 </profiles>
 ```
-
-# MediaLib (Unsupported)
-
-This work is provided to aid those migrating to Eclipse ImageN and is not supported or intended for production use. Recent experience shows that improvements in JIT compiler technology have eroded the performance benefits of these native operations. While the MediaLib library was released as part of OpenSolaris the specific builds distributed with JAI remain closed source and cannot be maintained.
-
-The operations taking advantage of `mlibwrapper_jai` have been factored out into a seperate `imagen_mlib` dependency:
-
-```xml
-<dependency>
-    <groupId>javax.media</groupId>
-    <artifactId>mlibwrapper_jai</artifactId>
-    <version>1.1.3</version>
-</dependency>
-<dependency>
-  <groupId>org.eclipse.imagen</groupId>
-  <artifactId>imagen_mlib</artifactId>
-  <version>${imagen.version}</version>
-</dependency>
-```
