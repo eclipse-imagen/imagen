@@ -481,18 +481,18 @@ public class OperationRegistry implements Externalizable {
      *    descriptor  org.eclipse.imagen.operator.AddConstDescriptor
      *
      *    rendered    org.eclipse.imagen.media.opimage.AddConstCRIF   org.eclipse.imagen.media   addconst   sunaddconstrif
-     *    rendered    org.eclipse.imagen.media.mlib.MlibAddConstRIF   org.eclipse.imagen.media   addconst   mlibaddconstrif
+     *    rendered    org.eclipse.imagen.media.opimage.AddConstRIF2   org.eclipse.imagen.media   addconst   addconstrif2
      *
      *    renderable  org.eclipse.imagen.media.opimage.AddConstCRIF   addconst
      *
-     *    pref        rendered   addconst   org.eclipse.imagen.media   mlibaddconstrif   sunaddconstrif
+     *    pref        rendered   addconst   org.eclipse.imagen.media   addconstrif2   sunaddconstrif
      * </pre>
      *     The above does the following :
      *     <ul>
      *       <li>register a descriptor for the "addconst" operator.
      *       <li>registers two <i>rendered</i> image factories.
      *       <li>register one <i>renderable</i> image factory.
-     *       <li>prefer the MlibAddConstRIF factory over the AddConstCRIF factory for the <i>rendered</i> mode.
+     *       <li>prefer the AddConstRIF2 factory over the AddConstCRIF factory for the <i>rendered</i> mode.
      *           <p><strong>Note that JAI 1.0.2 will not be able to read the new version of the registry file
      *           streams</strong>.
      */
