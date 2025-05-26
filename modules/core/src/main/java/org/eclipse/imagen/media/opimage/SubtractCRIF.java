@@ -16,24 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.image.renderable.RenderContext;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "Subtract" operation in the rendered
- * and renderable image layers.
+ * A <code>CRIF</code> supporting the "Subtract" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.SubtractDescriptor
  * @see SubtractOpImage
- *
  */
 public class SubtractCRIF extends CRIFImpl {
 
@@ -43,21 +37,17 @@ public class SubtractCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>SubtractOpImage</code> in the rendered
-     * layer. This method satisfies the implementation of RIF.
+     * Creates a new instance of <code>SubtractOpImage</code> in the rendered layer. This method satisfies the
+     * implementation of RIF.
      *
-     * @param paramBlock   The two source images to be subtracted.
-     * @param renderHints  Optionally contains destination image layout.
+     * @param paramBlock The two source images to be subtracted.
+     * @param renderHints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
-        return new SubtractOpImage(paramBlock.getRenderedSource(0),
-                                   paramBlock.getRenderedSource(1),
-                                   renderHints,
-                                   layout);
+        return new SubtractOpImage(
+                paramBlock.getRenderedSource(0), paramBlock.getRenderedSource(1), renderHints, layout);
     }
 }

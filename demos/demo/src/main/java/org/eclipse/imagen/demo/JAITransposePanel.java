@@ -8,26 +8,27 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.image.renderable.ParameterBlock;
 import java.awt.event.*;
+import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.operator.TransposeDescriptor;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.operator.TransposeDescriptor;
 
 public class JAITransposePanel extends JAIDemoPanel implements ItemListener {
 
     JComboBox box;
     EnumeratedParameter type = null;
-    String[] labels = { "Original Image",
-                        "FLIP_VERTICAL",
-                        "FLIP_HORIZONTAL",
-                        "FLIP_DIAGONAL",
-                        "FLIP_ANTIDIAGONAL",
-                        "ROTATE_90",
-                        "ROTATE_180",
-                        "ROTATE_270"
+    String[] labels = {
+        "Original Image",
+        "FLIP_VERTICAL",
+        "FLIP_HORIZONTAL",
+        "FLIP_DIAGONAL",
+        "FLIP_ANTIDIAGONAL",
+        "ROTATE_90",
+        "ROTATE_180",
+        "ROTATE_270"
     };
     EnumeratedParameter[] transposeTypes = {
         null,
@@ -39,7 +40,6 @@ public class JAITransposePanel extends JAIDemoPanel implements ItemListener {
         TransposeDescriptor.ROTATE_180,
         TransposeDescriptor.ROTATE_270
     };
-
 
     public JAITransposePanel(Vector sourceVec) {
         super(sourceVec);
@@ -79,13 +79,12 @@ public class JAITransposePanel extends JAIDemoPanel implements ItemListener {
         }
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     public void animate() {
         int current = box.getSelectedIndex() + 1;
 
-        if ( current >= labels.length ) {
+        if (current >= labels.length) {
             current = 0;
         }
 
@@ -108,7 +107,7 @@ public class JAITransposePanel extends JAIDemoPanel implements ItemListener {
                 break;
             }
         }
-        
+
         repaint();
     }
 }

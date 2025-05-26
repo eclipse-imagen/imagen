@@ -16,14 +16,12 @@
  */
 
 /**
- * Diagnostics Interface for SunTileCache. These routines apply to the
- * tile cache, not the cached tile.  All methods are implicitly public.
+ * Diagnostics Interface for SunTileCache. These routines apply to the tile cache, not the cached tile. All methods are
+ * implicitly public.
  *
  * @since JAI 1.1
  */
-
 package org.eclipse.imagen.media.util;
-
 
 public interface CacheDiagnostics {
 
@@ -39,18 +37,12 @@ public interface CacheDiagnostics {
     /** Returns the total memory used in a particular cache. */
     long getCacheMemoryUsed();
 
-    /**
-     *  Returns the number of times this tile was requested when
-     *  it was in the tile cache.
-     */
+    /** Returns the number of times this tile was requested when it was in the tile cache. */
     long getCacheHitCount();
 
-    /**
-     *  Returns the number of times this tile was requested when
-     *  it was not in the tile cache.
-     */
+    /** Returns the number of times this tile was requested when it was not in the tile cache. */
     long getCacheMissCount();
 
     /** Resets the hit and miss counts to zero. */
-    void resetCounts();   // resets hit,miss counts
+    void resetCounts(); // resets hit,miss counts
 }

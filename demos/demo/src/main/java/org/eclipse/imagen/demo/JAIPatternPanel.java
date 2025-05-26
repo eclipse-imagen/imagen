@@ -11,14 +11,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.awt.image.renderable.ParameterBlock;
-import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
 
-public class JAIPatternPanel extends JAIDemoPanel
-    implements ChangeListener {
+public class JAIPatternPanel extends JAIDemoPanel implements ChangeListener {
 
     JSlider widthSlider;
     JSlider heightSlider;
@@ -29,7 +27,7 @@ public class JAIPatternPanel extends JAIDemoPanel
 
     public JAIPatternPanel(Vector sourceVec) {
         super(sourceVec);
-        
+
         source = getSource(0);
         masterSetup();
     }
@@ -49,7 +47,7 @@ public class JAIPatternPanel extends JAIDemoPanel
         heightSlider.setMajorTickSpacing(100);
         heightSlider.setPaintTicks(true);
         heightSlider.setPaintLabels(true);
-        
+
         widthSlider.addChangeListener(this);
         heightSlider.addChangeListener(this);
 
@@ -87,8 +85,7 @@ public class JAIPatternPanel extends JAIDemoPanel
         return JAI.create("pattern", pb, renderHints);
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     int widthSliderDelta = 20;
     int heightSliderDelta = 20;
@@ -97,8 +94,7 @@ public class JAIPatternPanel extends JAIDemoPanel
         int value = widthSlider.getValue();
         int newValue = value + widthSliderDelta;
 
-        if (newValue < widthSlider.getMinimum() ||
-            newValue > widthSlider.getMaximum()) {
+        if (newValue < widthSlider.getMinimum() || newValue > widthSlider.getMaximum()) {
             widthSliderDelta = -widthSliderDelta;
         }
         widthSlider.setValue(value + widthSliderDelta);
@@ -106,8 +102,7 @@ public class JAIPatternPanel extends JAIDemoPanel
         value = heightSlider.getValue();
         newValue = value + heightSliderDelta;
 
-        if (newValue < heightSlider.getMinimum() ||
-            newValue > heightSlider.getMaximum()) {
+        if (newValue < heightSlider.getMinimum() || newValue > heightSlider.getMaximum()) {
             heightSliderDelta = -heightSliderDelta;
         }
         heightSlider.setValue(value + heightSliderDelta);
@@ -120,7 +115,7 @@ public class JAIPatternPanel extends JAIDemoPanel
     }
 
     public void stateChanged(ChangeEvent e) {
-        JSlider slider = (JSlider)e.getSource();
+        JSlider slider = (JSlider) e.getSource();
         if (slider == widthSlider) {
             width = slider.getValue();
             if (width == 0) {

@@ -16,22 +16,17 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
-import java.awt.image.DataBuffer;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRenderedImage;
 import org.eclipse.imagen.iterator.WritableRectIter;
 
-/**
- * @since EA2
- */
-public class WritableRectIterFallback extends RectIterFallback
-    implements WritableRectIter {
+/** @since EA2 */
+public class WritableRectIterFallback extends RectIterFallback implements WritableRectIter {
 
     protected WritableRenderedImage wim;
 
-    public WritableRectIterFallback(WritableRenderedImage im,
-                                    Rectangle bounds) {
+    public WritableRectIterFallback(WritableRenderedImage im, Rectangle bounds) {
         super(im, bounds);
         this.wim = im;
     }

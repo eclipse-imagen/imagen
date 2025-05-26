@@ -16,13 +16,13 @@
  */
 
 package org.eclipse.imagen.media.codec;
+
 import java.io.Serializable;
 
 /**
  * A class representing the fields of a PNG suggested palette entry.
  *
- * <p><b> This class is not a committed part of the JAI API.  It may
- * be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
  */
 public class PNGSuggestedPaletteEntry implements Serializable {
 
@@ -37,13 +37,13 @@ public class PNGSuggestedPaletteEntry implements Serializable {
 
     /** The green color value of the entry. */
     public int green;
-    
+
     /** The blue color value of the entry. */
     public int blue;
-    
+
     /** The alpha opacity value of the entry. */
     public int alpha;
-    
+
     /** The probable frequency of the color in the image. */
     public int frequency;
 }

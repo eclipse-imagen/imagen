@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.util;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageConsumer;
@@ -28,7 +29,7 @@ public class PlanarImageProducer implements ImageProducer {
 
     PlanarImage im;
     Vector consumers = new Vector();
-    
+
     public PlanarImageProducer(PlanarImage im) {
         this.im = im.createSnapshot();
     }
@@ -67,17 +68,15 @@ public class PlanarImageProducer implements ImageProducer {
         int width = im.getWidth();
         int height = im.getHeight();
         int numBands = im.getSampleModel().getNumBands();
-        int scansize = width*numBands;
+        int scansize = width * numBands;
         ColorModel colorModel = im.getColorModel();
         int[] pixels = new int[scansize];
 
         Rectangle rect = new Rectangle(minX, minY, width, 1);
 
         for (int i = 0; i < numConsumers; i++) {
-            ImageConsumer ic = (ImageConsumer)consumers.elementAt(i);
-            ic.setHints(ImageConsumer.COMPLETESCANLINES | 
-                        ImageConsumer.TOPDOWNLEFTRIGHT |
-                        ImageConsumer.SINGLEFRAME);
+            ImageConsumer ic = (ImageConsumer) consumers.elementAt(i);
+            ic.setHints(ImageConsumer.COMPLETESCANLINES | ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.SINGLEFRAME);
         }
 
         for (int y = minY; y < minY + height; y++) {
@@ -86,14 +85,13 @@ public class PlanarImageProducer implements ImageProducer {
             row.getPixels(minX, y, width, 1, pixels);
 
             for (int i = 0; i < numConsumers; i++) {
-                ImageConsumer ic = (ImageConsumer)consumers.elementAt(i);
-                ic.setPixels(0, y - minY, width, 1, colorModel,
-                             pixels, 0, scansize);
+                ImageConsumer ic = (ImageConsumer) consumers.elementAt(i);
+                ic.setPixels(0, y - minY, width, 1, colorModel, pixels, 0, scansize);
             }
         }
 
         for (int i = 0; i < numConsumers; i++) {
-            ImageConsumer ic = (ImageConsumer)consumers.elementAt(i);
+            ImageConsumer ic = (ImageConsumer) consumers.elementAt(i);
             ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
         }
     }

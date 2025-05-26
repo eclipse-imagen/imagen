@@ -16,22 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
-import org.eclipse.imagen.media.opimage.MagnitudePhaseOpImage;
 
 /**
- * A <code>CRIF</code> supporting the "MagnitudeSquared" operation in the
- * rendered image layer.
+ * A <code>CRIF</code> supporting the "MagnitudeSquared" operation in the rendered image layer.
  *
  * @since Beta
  * @see org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
- *
  */
 public class MagnitudeSquaredCRIF extends CRIFImpl {
 
@@ -45,15 +41,12 @@ public class MagnitudeSquaredCRIF extends CRIFImpl {
      *
      * @param paramBlock The scaling type.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        
+
         RenderedImage source = paramBlock.getRenderedSource(0);
 
-        return new MagnitudePhaseOpImage(source, renderHints, layout,
-                                      MagnitudePhaseOpImage.MAGNITUDE_SQUARED);
+        return new MagnitudePhaseOpImage(source, renderHints, layout, MagnitudePhaseOpImage.MAGNITUDE_SQUARED);
     }
 }

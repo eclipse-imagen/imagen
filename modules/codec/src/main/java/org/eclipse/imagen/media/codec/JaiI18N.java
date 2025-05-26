@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.codec;
+
 import org.eclipse.imagen.media.codecimpl.util.PropertyUtil;
 
 class JaiI18N {

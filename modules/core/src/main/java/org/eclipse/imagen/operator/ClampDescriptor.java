@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.operator;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -31,20 +32,17 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 /**
  * An <code>OperationDescriptor</code> describing the "Clamp" operation.
  *
- * <p> The Clamp operation takes one rendered or renderable source
- * image, and sets all the pixels whose value is below a "low" value
- * to that low value and all the pixels whose value is above a "high"
- * value to that high value.  The pixels whose value is between the
- * "low" value and the "high" value are left unchanged.
+ * <p>The Clamp operation takes one rendered or renderable source image, and sets all the pixels whose value is below a
+ * "low" value to that low value and all the pixels whose value is above a "high" value to that high value. The pixels
+ * whose value is between the "low" value and the "high" value are left unchanged.
  *
- * <p> A different set of "low" and "high" values may be applied to each
- * band of the source image, or the same set of "low" and "high" values
- * may be applied to all bands of the source. If the number of "low" and
- * "high" values supplied is less than the number of bands of the source,
- * then the values from entry 0 are applied to all the bands. Each "low"
+ * <p>A different set of "low" and "high" values may be applied to each band of the source image, or the same set of
+ * "low" and "high" values may be applied to all bands of the source. If the number of "low" and "high" values supplied
+ * is less than the number of bands of the source, then the values from entry 0 are applied to all the bands. Each "low"
  * value must be less than or equal to its corresponding "high" value.
  *
- * <p> The destination pixel values are defined by the pseudocode:
+ * <p>The destination pixel values are defined by the pseudocode:
+ *
  * <pre>
  * lowVal = (low.length < dstNumBands) ?
  *          low[0] : low[b];
@@ -60,7 +58,9 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * }
  * </pre>
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
  * <tr><td>GlobalName</td>  <td>Clamp</td></tr>
@@ -72,9 +72,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>Version</td>     <td>1.0</td></tr>
  * <tr><td>arg0Desc</td>    <td>The lower boundary for each band.</td></tr>
  * <tr><td>arg1Desc</td>    <td>The upper boundary for each band.</td></tr>
- * </table></p>
+ * </table>
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Parameter List</caption>
  * <tr><th>Name</th> <th>Class Type</th>
  *                   <th>Default Value</th></tr>
@@ -82,41 +84,37 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                   <td>{0.0}</td>
  * <tr><td>high</td> <td>double[]</td>
  *                   <td>{255.0}</td>
- * </table></p>
+ * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
  */
 public class ClampDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation
-     * and specify the parameter list for this operation.
+     * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "Clamp"},
-        {"LocalName",   "Clamp"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "Clamp"},
+        {"LocalName", "Clamp"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("ClampDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ClampDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc",    JaiI18N.getString("ClampDescriptor1")},
-        {"arg1Desc",    JaiI18N.getString("ClampDescriptor2")}
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ClampDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"arg0Desc", JaiI18N.getString("ClampDescriptor1")},
+        {"arg1Desc", JaiI18N.getString("ClampDescriptor2")}
     };
 
     /** The parameter class list for this operation. */
-    private static final Class[] paramClasses = {
-	double[].class, double[].class
-    };
+    private static final Class[] paramClasses = {double[].class, double[].class};
 
     /** The parameter name list for this operation. */
-    private static final String[] paramNames = {
-        "low", "high"
-    };
+    private static final String[] paramNames = {"low", "high"};
 
     /** The parameter default value list for this operation. */
-    private static final Object[] paramDefaults = {
-        new double[] {0.0}, new double[] {255.0}
-    };
+    private static final Object[] paramDefaults = {new double[] {0.0}, new double[] {255.0}};
 
     /** Constructor. */
     public ClampDescriptor() {
@@ -131,31 +129,26 @@ public class ClampDescriptor extends OperationDescriptorImpl {
     /**
      * Validates the input parameters.
      *
-     * <p> In addition to the standard checks performed by the
-     * superclass method, this method checks that "low" and "high"
-     * have length at least 1 and that each "low" value is less than
-     * or equal to the corresponding "high" value.
+     * <p>In addition to the standard checks performed by the superclass method, this method checks that "low" and
+     * "high" have length at least 1 and that each "low" value is less than or equal to the corresponding "high" value.
      */
-    protected boolean validateParameters(ParameterBlock args,
-                                         StringBuffer msg) {
+    protected boolean validateParameters(ParameterBlock args, StringBuffer msg) {
         if (!super.validateParameters(args, msg)) {
             return false;
         }
 
-        double[] low = (double[])args.getObjectParameter(0);
-        double[] high = (double[])args.getObjectParameter(1);
+        double[] low = (double[]) args.getObjectParameter(0);
+        double[] high = (double[]) args.getObjectParameter(1);
 
         if (low.length < 1 || high.length < 1) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("ClampDescriptor3"));
+            msg.append(getName() + " " + JaiI18N.getString("ClampDescriptor3"));
             return false;
         }
 
         int length = Math.min(low.length, high.length);
         for (int i = 0; i < length; i++) {
             if (low[i] > high[i]) {
-                msg.append(getName() + " " +
-                          JaiI18N.getString("ClampDescriptor4"));
+                msg.append(getName() + " " + JaiI18N.getString("ClampDescriptor4"));
                 return false;
             }
         }
@@ -163,35 +156,24 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         return true;
     }
 
-
     /**
      * Clamps the pixel values of an image to a specified range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param source0 <code>RenderedImage</code> source 0.
-     * @param low The lower boundary for each band.
-     * May be <code>null</code>.
-     * @param high The upper boundary for each band.
-     * May be <code>null</code>.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param low The lower boundary for each band. May be <code>null</code>.
+     * @param high The upper boundary for each band. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0,
-                                    double[] low,
-                                    double[] high,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Clamp",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(RenderedImage source0, double[] low, double[] high, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Clamp", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -204,31 +186,22 @@ public class ClampDescriptor extends OperationDescriptorImpl {
     /**
      * Clamps the pixel values of an image to a specified range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderableOp
-     *
      * @param source0 <code>RenderableImage</code> source 0.
-     * @param low The lower boundary for each band.
-     * May be <code>null</code>.
-     * @param high The upper boundary for each band.
-     * May be <code>null</code>.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param low The lower boundary for each band. May be <code>null</code>.
+     * @param high The upper boundary for each band. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderableOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderableOp createRenderable(RenderableImage source0,
-                                                double[] low,
-                                                double[] high,
-                                                RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Clamp",
-                                  RenderableRegistryMode.MODE_NAME);
+    public static RenderableOp createRenderable(
+            RenderableImage source0, double[] low, double[] high, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Clamp", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

@@ -16,12 +16,12 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBufferByte;
 import java.awt.image.RenderedImage;
 
-/**
- */
+/** */
 public class RectIterCSMByte extends RectIterCSM {
 
     byte[][] bankData;
@@ -39,7 +39,7 @@ public class RectIterCSMByte extends RectIterCSM {
             return;
         }
 
-        byte[][] bd = ((DataBufferByte)dataBuffer).getBankData();
+        byte[][] bd = ((DataBufferByte) dataBuffer).getBankData();
         for (int i = 0; i < numBands; i++) {
             bankData[i] = bd[bankIndices[i]];
         }
@@ -67,19 +67,19 @@ public class RectIterCSMByte extends RectIterCSM {
     }
 
     public final float getSampleFloat() {
-        return (float)(bank[offset + bandOffset] & 0xff);
+        return (float) (bank[offset + bandOffset] & 0xff);
     }
 
     public final float getSampleFloat(int b) {
-        return (float)(bankData[b][offset + bandOffsets[b]] & 0xff);
+        return (float) (bankData[b][offset + bandOffsets[b]] & 0xff);
     }
 
     public final double getSampleDouble() {
-        return (double)(bank[offset + bandOffset] & 0xff);
+        return (double) (bank[offset + bandOffset] & 0xff);
     }
 
     public final double getSampleDouble(int b) {
-        return (double)(bankData[b][offset + bandOffsets[b]] & 0xff);
+        return (double) (bankData[b][offset + bandOffsets[b]] & 0xff);
     }
 
     public int[] getPixel(int[] iArray) {
@@ -97,7 +97,7 @@ public class RectIterCSMByte extends RectIterCSM {
             fArray = new float[numBands];
         }
         for (int b = 0; b < numBands; b++) {
-            fArray[b] = (float)(bankData[b][offset + bandOffsets[b]] & 0xff);
+            fArray[b] = (float) (bankData[b][offset + bandOffsets[b]] & 0xff);
         }
         return fArray;
     }
@@ -107,7 +107,7 @@ public class RectIterCSMByte extends RectIterCSM {
             dArray = new double[numBands];
         }
         for (int b = 0; b < numBands; b++) {
-            dArray[b] = (double)(bankData[b][offset + bandOffsets[b]] & 0xff);
+            dArray[b] = (double) (bankData[b][offset + bandOffsets[b]] & 0xff);
         }
         return dArray;
     }

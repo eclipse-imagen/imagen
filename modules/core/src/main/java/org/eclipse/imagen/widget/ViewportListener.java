@@ -18,29 +18,21 @@
 package org.eclipse.imagen.widget;
 
 /**
- * An interface used by the <code>ScrollingImagePanel</code>
- * class to inform listeners of the current viewable area of the image.
+ * An interface used by the <code>ScrollingImagePanel</code> class to inform listeners of the current viewable area of
+ * the image.
  *
  * @see ScrollingImagePanel
- *
- * <p>
- * This class has been deprecated.  The source
- * code has been moved to the samples/widget
- * directory.  These widgets are no longer
- * supported.
- *
+ *     <p>This class has been deprecated. The source code has been moved to the samples/widget directory. These widgets
+ *     are no longer supported.
  * @deprecated as of JAI 1.1
  */
 public interface ViewportListener {
-    
+
     /**
-     * Called to inform the listener of the currently viewable area od
-     * the source image.
+     * Called to inform the listener of the currently viewable area od the source image.
      *
-     * @param x The X coordinate of the upper-left corner of the current 
-     *          viewable area.
-     * @param y The Y coordinate of the upper-left corner of the current 
-     *          viewable area.
+     * @param x The X coordinate of the upper-left corner of the current viewable area.
+     * @param y The Y coordinate of the upper-left corner of the current viewable area.
      * @param width The width of the current viewable area in pixels.
      * @param height The height of the current viewable area in pixels.
      */

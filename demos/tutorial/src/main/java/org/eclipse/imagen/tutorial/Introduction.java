@@ -7,17 +7,17 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.io.File;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Color;
-import javax.swing.JPanel;
+import java.io.File;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.*;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.widgets.*;
 import org.eclipse.imagen.PlanarImage;
+import org.eclipse.imagen.widgets.*;
 
 public class Introduction extends JPanel {
 
@@ -26,7 +26,7 @@ public class Introduction extends JPanel {
     public Introduction(String filename) {
         File f = new File(filename);
 
-        if ( f.exists() && f.canRead() ) {
+        if (f.exists() && f.canRead()) {
             source = JAI.create("fileload", filename);
         } else {
             return;
@@ -36,10 +36,7 @@ public class Introduction extends JPanel {
         canvas.setBackground(Color.blue);
         canvas.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-        canvas.setBorder(new CompoundBorder(
-                            new EtchedBorder(),
-                            new LineBorder(Color.gray, 20)
-                        ) );
+        canvas.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.gray, 20)));
 
         Font font = new Font("SansSerif", Font.BOLD, 12);
         JLabel title = new JLabel(" Use left mouse button to adjust contrast, middle to reset.");
@@ -52,20 +49,17 @@ public class Introduction extends JPanel {
 
         // add window-level widget
         int borderWidth = 1;
-        int width  = 128 + 2*borderWidth;
-        int height = 128 + 2*borderWidth;
+        int width = 128 + 2 * borderWidth;
+        int height = 128 + 2 * borderWidth;
 
-        Contrast contrast = new Contrast(source,
-                                         width,
-                                         height);
+        Contrast contrast = new Contrast(source, width, height);
 
         // these next 2 calls are order dependent!!!
         contrast.setDisplay(canvas);
-        contrast.setSliderLimits(0.0, 256.0, 0.0, 2.0*256.0);
-        contrast.setSliderLocation(width/2, height/2);
+        contrast.setSliderLimits(0.0, 256.0, 0.0, 2.0 * 256.0);
+        contrast.setSliderLocation(width / 2, height / 2);
 
-        contrast.setBorder(new LineBorder(Color.white,
-                                          borderWidth));
+        contrast.setBorder(new LineBorder(Color.white, borderWidth));
 
         contrast.setBackground(Color.black);
         contrast.setSliderColor(Color.green);
@@ -74,13 +68,12 @@ public class Introduction extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        panel.add(new JLabel(" Window-Level"),
-                             BorderLayout.NORTH);
+        panel.add(new JLabel(" Window-Level"), BorderLayout.NORTH);
 
         panel.add(contrast);
         canvas.add(panel, BorderLayout.NORTH);
 
-        add(title,  BorderLayout.NORTH);
+        add(title, BorderLayout.NORTH);
         add(canvas, BorderLayout.CENTER);
 
         // set and label contrast widget axes

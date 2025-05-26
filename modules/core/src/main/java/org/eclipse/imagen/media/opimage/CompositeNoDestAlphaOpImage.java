@@ -16,41 +16,37 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.RasterFactory;
-import java.util.Map;
 
 /**
- * An <code>OpImage</code> implementing the "Composite" operation as
- * described in <code>org.eclipse.imagen.operator.CompositeDescriptor</code>.
- * This implementation handles the case where the destination image does
- * not include its result alpha channel.
+ * An <code>OpImage</code> implementing the "Composite" operation as described in <code>
+ * org.eclipse.imagen.operator.CompositeDescriptor</code>. This implementation handles the case where the destination
+ * image does not include its result alpha channel.
  *
- * <p> For two source images <code>source1</code> and <code>source2</code>,
- * this <code>OpImage</code> places the foreground <code>source1</code>
- * in front of the background <code>source2</code>. This is what commonly
- * known as the "over" composite.  The destination color values are
- * calculated using the following formula:
+ * <p>For two source images <code>source1</code> and <code>source2</code>, this <code>OpImage</code> places the
+ * foreground <code>source1</code> in front of the background <code>source2</code>. This is what commonly known as the
+ * "over" composite. The destination color values are calculated using the following formula:
+ *
  * <pre>
  * dest = source1 * alpha1 + source2 * alpha2 * (1 - alpha1)
  * </pre>
- * where <code>source1</code> and <code>source2</code> are the color values
- * of the two source images, without their alpha multiplied to them, and
- * <code>alpha1</code> and <code>alpha2</code> are the two sources's alpha
- * values in fraction.
+ *
+ * where <code>source1</code> and <code>source2</code> are the color values of the two source images, without their
+ * alpha multiplied to them, and <code>alpha1</code> and <code>alpha2</code> are the two sources's alpha values in
+ * fraction.
  *
  * @see org.eclipse.imagen.operator.CompositeDescriptor
  * @see CompositeCRIF
- *
  */
 final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
@@ -69,84 +65,75 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
     /**
      * Constructor.
      *
-     * @param source1  The foreground source image.
-     * @param source2  The background source image.
-
-     * @param layout  The destination image layout.
-     * @param alpha1  The alpha image for the first source.
-     * @param alpha2  The alpha image for the second source. If
-     *        <code>null</code>, the second source is assumed to be opaque.
-     * @param premultiplied  Indicates whether both sources and destination
-     *        have their alpha premultiplied.
+     * @param source1 The foreground source image.
+     * @param source2 The background source image.
+     * @param layout The destination image layout.
+     * @param alpha1 The alpha image for the first source.
+     * @param alpha2 The alpha image for the second source. If <code>null</code>, the second source is assumed to be
+     *     opaque.
+     * @param premultiplied Indicates whether both sources and destination have their alpha premultiplied.
      */
-    public CompositeNoDestAlphaOpImage(RenderedImage source1,
-                                       RenderedImage source2,
-                                       Map config,
-                                       ImageLayout layout,
-                                       RenderedImage alpha1,
-                                       RenderedImage alpha2,
-                                       boolean premultiplied) {
+    public CompositeNoDestAlphaOpImage(
+            RenderedImage source1,
+            RenderedImage source2,
+            Map config,
+            ImageLayout layout,
+            RenderedImage alpha1,
+            RenderedImage alpha2,
+            boolean premultiplied) {
         super(source1, source2, layout, config, true);
 
         this.alpha1 = alpha1;
         this.alpha2 = alpha2;
         this.premultiplied = premultiplied;
 
-	tags = getFormatTags();
+        tags = getFormatTags();
     }
 
     /**
      * Composites two images within a specified rectangle.
      *
-     * @param sources  Cobbled sources, guaranteed to provide all the
-     *        source data necessary for computing the rectangle.
-     * @param dest  The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         /* For PointOpImage, srcRect = destRect. */
         RasterAccessor s1 = new RasterAccessor(
-            sources[0], destRect, tags[0], getSourceImage(0).getColorModel());
+                sources[0], destRect, tags[0], getSourceImage(0).getColorModel());
 
         RasterAccessor s2 = new RasterAccessor(
-            sources[1], destRect, tags[1], getSourceImage(1).getColorModel());
+                sources[1], destRect, tags[1], getSourceImage(1).getColorModel());
 
-        RasterAccessor a1 = new RasterAccessor(
-            alpha1.getData(destRect), destRect,
-            tags[2], alpha1.getColorModel());
+        RasterAccessor a1 = new RasterAccessor(alpha1.getData(destRect), destRect, tags[2], alpha1.getColorModel());
 
         RasterAccessor a2 = null, d;
         if (alpha2 == null) {
-            d = new RasterAccessor(dest, destRect, 
-                                   tags[3], getColorModel());
+            d = new RasterAccessor(dest, destRect, tags[3], getColorModel());
         } else {
-            a2 = new RasterAccessor(alpha2.getData(destRect), destRect, 
-                                    tags[3], alpha2.getColorModel());
-            d = new RasterAccessor(dest, destRect,
-                                   tags[4], getColorModel());
+            a2 = new RasterAccessor(alpha2.getData(destRect), destRect, tags[3], alpha2.getColorModel());
+            d = new RasterAccessor(dest, destRect, tags[4], getColorModel());
         }
 
         switch (d.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            byteLoop(s1, s2, a1, a2, d);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            ushortLoop(s1, s2, a1, a2, d);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            shortLoop(s1, s2, a1, a2, d);
-            break;
-        case DataBuffer.TYPE_INT:
-            intLoop(s1, s2, a1, a2, d);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            floatLoop(s1, s2, a1, a2, d);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            doubleLoop(s1, s2, a1, a2, d);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                byteLoop(s1, s2, a1, a2, d);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                ushortLoop(s1, s2, a1, a2, d);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                shortLoop(s1, s2, a1, a2, d);
+                break;
+            case DataBuffer.TYPE_INT:
+                intLoop(s1, s2, a1, a2, d);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                floatLoop(s1, s2, a1, a2, d);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                doubleLoop(s1, s2, a1, a2, d);
+                break;
         }
 
         if (d.isDataCopy()) {
@@ -172,9 +159,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
      * }
      */
 
-    private void byteLoop(RasterAccessor s1, RasterAccessor s2,
-                          RasterAccessor a1, RasterAccessor a2,
-                          RasterAccessor d) {
+    private void byteLoop(
+            RasterAccessor s1, RasterAccessor s2, RasterAccessor a1, RasterAccessor a2, RasterAccessor d) {
         /* First source color channels. */
         int s1LineStride = s1.getScanlineStride();
         int s1PixelStride = s1.getPixelStride();
@@ -217,12 +203,16 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
         float invMax = 1.0F / 0xFF;
 
-        int s1LineOffset = 0, s2LineOffset = 0,
-            a1LineOffset = 0, a2LineOffset = 0,
-            dLineOffset = 0,
-            s1PixelOffset, s2PixelOffset,
-            a1PixelOffset, a2PixelOffset,
-            dPixelOffset;
+        int s1LineOffset = 0,
+                s2LineOffset = 0,
+                a1LineOffset = 0,
+                a2LineOffset = 0,
+                dLineOffset = 0,
+                s1PixelOffset,
+                s2PixelOffset,
+                a1PixelOffset,
+                a2PixelOffset,
+                dPixelOffset;
 
         if (premultiplied) {
             /* dest = source1 + source2 * (1 - alpha1/max) */
@@ -243,9 +233,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     /* Destination color channels. */
                     for (int b = 0; b < dbands; b++) {
-                        dData[b][dPixelOffset+dBandOffsets[b]] = (byte)
-                       ((s1Data[b][s1PixelOffset+s1BandOffsets[b]] & 0xFF) +
-                        (s2Data[b][s2PixelOffset+s2BandOffsets[b]] & 0xFF) * t);
+                        dData[b][dPixelOffset + dBandOffsets[b]] =
+                                (byte) ((s1Data[b][s1PixelOffset + s1BandOffsets[b]] & 0xFF)
+                                        + (s2Data[b][s2PixelOffset + s2BandOffsets[b]] & 0xFF) * t);
                     }
 
                     s1PixelOffset += s1PixelStride;
@@ -276,9 +266,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (byte)
-                      ((s1Data[b][s1PixelOffset+s1BandOffsets[b]] & 0xFF) * t1 +
-                       (s2Data[b][s2PixelOffset+s2BandOffsets[b]] & 0xFF) * t2);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (byte) ((s1Data[b][s1PixelOffset + s1BandOffsets[b]] & 0xFF) * t1
+                                            + (s2Data[b][s2PixelOffset + s2BandOffsets[b]] & 0xFF) * t2);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -309,8 +299,7 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     for (int w = 0; w < dwidth; w++) {
                         int t1 = a1Data[a1PixelOffset] & 0xFF;
-                        float t2 = (a2Data[a2PixelOffset] & 0xFF) *
-                                   (1.0F - t1 * invMax);
+                        float t2 = (a2Data[a2PixelOffset] & 0xFF) * (1.0F - t1 * invMax);
                         float t3 = t1 + t2;
                         float t4, t5;
                         if (t3 == 0.0F) {
@@ -323,9 +312,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (byte)
-                      ((s1Data[b][s1PixelOffset+s1BandOffsets[b]] & 0xFF) * t4 +
-                       (s2Data[b][s2PixelOffset+s2BandOffsets[b]] & 0xFF) * t5);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (byte) ((s1Data[b][s1PixelOffset + s1BandOffsets[b]] & 0xFF) * t4
+                                            + (s2Data[b][s2PixelOffset + s2BandOffsets[b]] & 0xFF) * t5);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -339,9 +328,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         }
     }
 
-    private void ushortLoop(RasterAccessor s1, RasterAccessor s2,
-                            RasterAccessor a1, RasterAccessor a2,
-                            RasterAccessor d) {
+    private void ushortLoop(
+            RasterAccessor s1, RasterAccessor s2, RasterAccessor a1, RasterAccessor a2, RasterAccessor d) {
         /* First source color channels. */
         int s1LineStride = s1.getScanlineStride();
         int s1PixelStride = s1.getPixelStride();
@@ -384,12 +372,16 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
         float invMax = 1.0F / 0xFFFF;
 
-        int s1LineOffset = 0, s2LineOffset = 0,
-            a1LineOffset = 0, a2LineOffset = 0,
-            dLineOffset = 0,
-            s1PixelOffset, s2PixelOffset,
-            a1PixelOffset, a2PixelOffset,
-            dPixelOffset;
+        int s1LineOffset = 0,
+                s2LineOffset = 0,
+                a1LineOffset = 0,
+                a2LineOffset = 0,
+                dLineOffset = 0,
+                s1PixelOffset,
+                s2PixelOffset,
+                a1PixelOffset,
+                a2PixelOffset,
+                dPixelOffset;
 
         if (premultiplied) {
             /* dest = source1 + source2 * (1 - alpha1/max) */
@@ -410,9 +402,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     /* Destination color channels. */
                     for (int b = 0; b < dbands; b++) {
-                        dData[b][dPixelOffset+dBandOffsets[b]] = (short)
-                     ((s1Data[b][s1PixelOffset+s1BandOffsets[b]] & 0xFFFF) +
-                      (s2Data[b][s2PixelOffset+s2BandOffsets[b]] & 0xFFFF) * t);
+                        dData[b][dPixelOffset + dBandOffsets[b]] =
+                                (short) ((s1Data[b][s1PixelOffset + s1BandOffsets[b]] & 0xFFFF)
+                                        + (s2Data[b][s2PixelOffset + s2BandOffsets[b]] & 0xFFFF) * t);
                     }
 
                     s1PixelOffset += s1PixelStride;
@@ -443,9 +435,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (short)
-                    ((s1Data[b][s1PixelOffset+s1BandOffsets[b]] & 0xFFFF) * t1 +
-                     (s2Data[b][s2PixelOffset+s2BandOffsets[b]] & 0xFFFF) * t2);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (short) ((s1Data[b][s1PixelOffset + s1BandOffsets[b]] & 0xFFFF) * t1
+                                            + (s2Data[b][s2PixelOffset + s2BandOffsets[b]] & 0xFFFF) * t2);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -476,8 +468,7 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     for (int w = 0; w < dwidth; w++) {
                         int t1 = a1Data[a1PixelOffset] & 0xFFFF;
-                        float t2 = (a2Data[a2PixelOffset] & 0xFFFF) *
-                                   (1.0F - t1 * invMax);
+                        float t2 = (a2Data[a2PixelOffset] & 0xFFFF) * (1.0F - t1 * invMax);
                         float t3 = t1 + t2;
                         float t4, t5;
                         if (t3 == 0.0F) {
@@ -490,9 +481,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (short)
-                    ((s1Data[b][s1PixelOffset+s1BandOffsets[b]] & 0xFFFF) * t4 +
-                     (s2Data[b][s2PixelOffset+s2BandOffsets[b]] & 0xFFFF) * t5);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (short) ((s1Data[b][s1PixelOffset + s1BandOffsets[b]] & 0xFFFF) * t4
+                                            + (s2Data[b][s2PixelOffset + s2BandOffsets[b]] & 0xFFFF) * t5);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -506,9 +497,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         }
     }
 
-    private void shortLoop(RasterAccessor s1, RasterAccessor s2,
-                           RasterAccessor a1, RasterAccessor a2,
-                           RasterAccessor d) {
+    private void shortLoop(
+            RasterAccessor s1, RasterAccessor s2, RasterAccessor a1, RasterAccessor a2, RasterAccessor d) {
         /* First source color channels. */
         int s1LineStride = s1.getScanlineStride();
         int s1PixelStride = s1.getPixelStride();
@@ -551,12 +541,16 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
         float invMax = 1.0F / Short.MAX_VALUE;
 
-        int s1LineOffset = 0, s2LineOffset = 0,
-            a1LineOffset = 0, a2LineOffset = 0,
-            dLineOffset = 0,
-            s1PixelOffset, s2PixelOffset,
-            a1PixelOffset, a2PixelOffset,
-            dPixelOffset;
+        int s1LineOffset = 0,
+                s2LineOffset = 0,
+                a1LineOffset = 0,
+                a2LineOffset = 0,
+                dLineOffset = 0,
+                s1PixelOffset,
+                s2PixelOffset,
+                a1PixelOffset,
+                a2PixelOffset,
+                dPixelOffset;
 
         if (premultiplied) {
             /* dest = source1 + source2 * (1 - alpha1/max) */
@@ -577,9 +571,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     /* Destination color channels. */
                     for (int b = 0; b < dbands; b++) {
-                        dData[b][dPixelOffset+dBandOffsets[b]] = (short)
-                            (s1Data[b][s1PixelOffset+s1BandOffsets[b]] +
-                             s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t);
+                        dData[b][dPixelOffset + dBandOffsets[b]] = (short) (s1Data[b][s1PixelOffset + s1BandOffsets[b]]
+                                + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t);
                     }
 
                     s1PixelOffset += s1PixelStride;
@@ -610,9 +603,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (short)
-                               (s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t1 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t2);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (short) (s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t1
+                                            + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t2);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -656,9 +649,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (short)
-                               (s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t4 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t5);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (short) (s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t4
+                                            + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t5);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -672,9 +665,7 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         }
     }
 
-    private void intLoop(RasterAccessor s1, RasterAccessor s2,
-                         RasterAccessor a1, RasterAccessor a2,
-                         RasterAccessor d) {
+    private void intLoop(RasterAccessor s1, RasterAccessor s2, RasterAccessor a1, RasterAccessor a2, RasterAccessor d) {
         /* First source color channels. */
         int s1LineStride = s1.getScanlineStride();
         int s1PixelStride = s1.getPixelStride();
@@ -717,12 +708,16 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
         float invMax = 1.0F / Integer.MAX_VALUE;
 
-        int s1LineOffset = 0, s2LineOffset = 0,
-            a1LineOffset = 0, a2LineOffset = 0,
-            dLineOffset = 0,
-            s1PixelOffset, s2PixelOffset,
-            a1PixelOffset, a2PixelOffset,
-            dPixelOffset;
+        int s1LineOffset = 0,
+                s2LineOffset = 0,
+                a1LineOffset = 0,
+                a2LineOffset = 0,
+                dLineOffset = 0,
+                s1PixelOffset,
+                s2PixelOffset,
+                a1PixelOffset,
+                a2PixelOffset,
+                dPixelOffset;
 
         if (premultiplied) {
             /* dest = source1 + source2 * (1 - alpha1/max) */
@@ -743,9 +738,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     /* Destination color channels. */
                     for (int b = 0; b < dbands; b++) {
-                        dData[b][dPixelOffset+dBandOffsets[b]] = (int)
-                            (s1Data[b][s1PixelOffset+s1BandOffsets[b]] +
-                             s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t);
+                        dData[b][dPixelOffset + dBandOffsets[b]] = (int) (s1Data[b][s1PixelOffset + s1BandOffsets[b]]
+                                + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t);
                     }
 
                     s1PixelOffset += s1PixelStride;
@@ -776,9 +770,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (int)
-                               (s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t1 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t2);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (int) (s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t1
+                                            + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t2);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -822,9 +816,9 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] = (int)
-                               (s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t4 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t5);
+                            dData[b][dPixelOffset + dBandOffsets[b]] =
+                                    (int) (s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t4
+                                            + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t5);
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -838,9 +832,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         }
     }
 
-    private void floatLoop(RasterAccessor s1, RasterAccessor s2,
-                           RasterAccessor a1, RasterAccessor a2,
-                           RasterAccessor d) {
+    private void floatLoop(
+            RasterAccessor s1, RasterAccessor s2, RasterAccessor a1, RasterAccessor a2, RasterAccessor d) {
         /* First source color channels. */
         int s1LineStride = s1.getScanlineStride();
         int s1PixelStride = s1.getPixelStride();
@@ -881,12 +874,16 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         int dheight = d.getHeight();
         int dbands = d.getNumBands();
 
-        int s1LineOffset = 0, s2LineOffset = 0,
-            a1LineOffset = 0, a2LineOffset = 0,
-            dLineOffset = 0,
-            s1PixelOffset, s2PixelOffset,
-            a1PixelOffset, a2PixelOffset,
-            dPixelOffset;
+        int s1LineOffset = 0,
+                s2LineOffset = 0,
+                a1LineOffset = 0,
+                a2LineOffset = 0,
+                dLineOffset = 0,
+                s1PixelOffset,
+                s2PixelOffset,
+                a1PixelOffset,
+                a2PixelOffset,
+                dPixelOffset;
 
         if (premultiplied) {
             /* dest = source1 + source2 * (1 - alpha1) */
@@ -907,9 +904,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     /* Destination color channels. */
                     for (int b = 0; b < dbands; b++) {
-                        dData[b][dPixelOffset+dBandOffsets[b]] =
-                            s1Data[b][s1PixelOffset+s1BandOffsets[b]] +
-                            s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t;
+                        dData[b][dPixelOffset + dBandOffsets[b]] = s1Data[b][s1PixelOffset + s1BandOffsets[b]]
+                                + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t;
                     }
 
                     s1PixelOffset += s1PixelStride;
@@ -940,9 +936,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] =
-                                s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t1 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t2;
+                            dData[b][dPixelOffset + dBandOffsets[b]] = s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t1
+                                    + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t2;
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -985,9 +980,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] =
-                                s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t4 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t5;
+                            dData[b][dPixelOffset + dBandOffsets[b]] = s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t4
+                                    + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t5;
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -1001,9 +995,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         }
     }
 
-    private void doubleLoop(RasterAccessor s1, RasterAccessor s2,
-                            RasterAccessor a1, RasterAccessor a2,
-                            RasterAccessor d) {
+    private void doubleLoop(
+            RasterAccessor s1, RasterAccessor s2, RasterAccessor a1, RasterAccessor a2, RasterAccessor d) {
         /* First source color channels. */
         int s1LineStride = s1.getScanlineStride();
         int s1PixelStride = s1.getPixelStride();
@@ -1044,12 +1037,16 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
         int dheight = d.getHeight();
         int dbands = d.getNumBands();
 
-        int s1LineOffset = 0, s2LineOffset = 0,
-            a1LineOffset = 0, a2LineOffset = 0,
-            dLineOffset = 0,
-            s1PixelOffset, s2PixelOffset,
-            a1PixelOffset, a2PixelOffset,
-            dPixelOffset;
+        int s1LineOffset = 0,
+                s2LineOffset = 0,
+                a1LineOffset = 0,
+                a2LineOffset = 0,
+                dLineOffset = 0,
+                s1PixelOffset,
+                s2PixelOffset,
+                a1PixelOffset,
+                a2PixelOffset,
+                dPixelOffset;
 
         if (premultiplied) {
             /* dest = source1 + source2 * (1 - alpha1) */
@@ -1070,9 +1067,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                     /* Destination color channels. */
                     for (int b = 0; b < dbands; b++) {
-                        dData[b][dPixelOffset+dBandOffsets[b]] =
-                            s1Data[b][s1PixelOffset+s1BandOffsets[b]] +
-                            s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t;
+                        dData[b][dPixelOffset + dBandOffsets[b]] = s1Data[b][s1PixelOffset + s1BandOffsets[b]]
+                                + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t;
                     }
 
                     s1PixelOffset += s1PixelStride;
@@ -1103,9 +1099,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] =
-                                s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t1 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t2;
+                            dData[b][dPixelOffset + dBandOffsets[b]] = s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t1
+                                    + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t2;
                         }
 
                         s1PixelOffset += s1PixelStride;
@@ -1148,9 +1143,8 @@ final class CompositeNoDestAlphaOpImage extends PointOpImage {
 
                         /* Destination color channels. */
                         for (int b = 0; b < dbands; b++) {
-                            dData[b][dPixelOffset+dBandOffsets[b]] =
-                                s1Data[b][s1PixelOffset+s1BandOffsets[b]] * t4 +
-                                s2Data[b][s2PixelOffset+s2BandOffsets[b]] * t5;
+                            dData[b][dPixelOffset + dBandOffsets[b]] = s1Data[b][s1PixelOffset + s1BandOffsets[b]] * t4
+                                    + s2Data[b][s2PixelOffset + s2BandOffsets[b]] * t5;
                         }
 
                         s1PixelOffset += s1PixelStride;

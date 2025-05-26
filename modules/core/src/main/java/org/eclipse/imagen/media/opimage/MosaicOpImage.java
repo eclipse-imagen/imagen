@@ -32,15 +32,14 @@ import java.util.Vector;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.BorderExtenderConstant;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
+import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.operator.MosaicType;
-import org.eclipse.imagen.operator.MosaicDescriptor;
 import org.eclipse.imagen.media.util.ImageUtil;
+import org.eclipse.imagen.operator.MosaicDescriptor;
+import org.eclipse.imagen.operator.MosaicType;
 
 public class MosaicOpImage extends OpImage {
     private static final int WEIGHT_TYPE_ALPHA = 1;
@@ -67,8 +66,7 @@ public class MosaicOpImage extends OpImage {
     private BorderExtender zeroExtender;
     private PlanarImage[] roiImage;
 
-    private static final ImageLayout getLayout(Vector sources,
-                                               ImageLayout layout) {
+    private static final ImageLayout getLayout(Vector sources, ImageLayout layout) {
 
         // Contingent variables.
         RenderedImage source0 = null;
@@ -78,24 +76,20 @@ public class MosaicOpImage extends OpImage {
         // Get source count (might be zero).
         int numSources = sources.size();
 
-        if(numSources > 0) {
+        if (numSources > 0) {
             // Get SampleModel and ColorModel from first source.
-            source0 = (RenderedImage)sources.get(0);
+            source0 = (RenderedImage) sources.get(0);
             targetSM = source0.getSampleModel();
             targetCM = source0.getColorModel();
-        } else if(layout != null &&
-                  layout.isValid(ImageLayout.WIDTH_MASK |
-                                 ImageLayout.HEIGHT_MASK |
-                                 ImageLayout.SAMPLE_MODEL_MASK)) {
+        } else if (layout != null
+                && layout.isValid(ImageLayout.WIDTH_MASK | ImageLayout.HEIGHT_MASK | ImageLayout.SAMPLE_MODEL_MASK)) {
             // Get SampleModel and ColorModel from layout.
             targetSM = layout.getSampleModel(null);
-            if(targetSM == null) {
-                throw new IllegalArgumentException
-                    (JaiI18N.getString("MosaicOpImage7"));
+            if (targetSM == null) {
+                throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage7"));
             }
         } else {
-            throw new IllegalArgumentException
-                (JaiI18N.getString("MosaicOpImage8"));
+            throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage8"));
         }
 
         // Get data type, band count, and sample depth.
@@ -104,62 +98,61 @@ public class MosaicOpImage extends OpImage {
         int sampleSize = targetSM.getSampleSize(0);
 
         // Sample size must equal that of first band.
-        for(int i = 1; i < numBands; i++) {
-            if(targetSM.getSampleSize(i) != sampleSize) {
+        for (int i = 1; i < numBands; i++) {
+            if (targetSM.getSampleSize(i) != sampleSize) {
                 throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage1"));
             }
         }
 
         // Return a clone of ImageLayout passed in if no sources.
         // The input ImageLayout was checked for null above.
-        if(numSources < 1) {
-            return (ImageLayout)layout.clone();
+        if (numSources < 1) {
+            return (ImageLayout) layout.clone();
         }
 
         // Check the other sources against the first.
-        for(int i = 1; i < numSources; i++) {
-            RenderedImage source = (RenderedImage)sources.get(i);
+        for (int i = 1; i < numSources; i++) {
+            RenderedImage source = (RenderedImage) sources.get(i);
             SampleModel sourceSM = source.getSampleModel();
 
             // Data type and band count must be equal.
-            if(sourceSM.getDataType() != dataType) {
+            if (sourceSM.getDataType() != dataType) {
                 throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage2"));
-            } else if(sourceSM.getNumBands() != numBands) {
+            } else if (sourceSM.getNumBands() != numBands) {
                 throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage3"));
             }
 
             // Sample size must be equal.
-            for(int j = 0; j < numBands; j++) {
-                if(sourceSM.getSampleSize(j) != sampleSize) {
+            for (int j = 0; j < numBands; j++) {
+                if (sourceSM.getSampleSize(j) != sampleSize) {
                     throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage1"));
                 }
             }
         }
 
         // Create a new layout or clone the one passed in.
-        ImageLayout mosaicLayout = layout == null ?
-            new ImageLayout() : (ImageLayout)layout.clone();
+        ImageLayout mosaicLayout = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Determine the mosaic bounds.
         Rectangle mosaicBounds = new Rectangle();
-        if(mosaicLayout.isValid(ImageLayout.MIN_X_MASK |
-                                ImageLayout.MIN_Y_MASK |
-                                ImageLayout.WIDTH_MASK |
-                                ImageLayout.HEIGHT_MASK)) {
+        if (mosaicLayout.isValid(
+                ImageLayout.MIN_X_MASK | ImageLayout.MIN_Y_MASK | ImageLayout.WIDTH_MASK | ImageLayout.HEIGHT_MASK)) {
             // Set the mosaic bounds to the value given in the layout.
-            mosaicBounds.setBounds(mosaicLayout.getMinX(null),
-                                   mosaicLayout.getMinY(null),
-                                   mosaicLayout.getWidth(null),
-                                   mosaicLayout.getHeight(null));
-        } else if(numSources > 0) {
+            mosaicBounds.setBounds(
+                    mosaicLayout.getMinX(null),
+                    mosaicLayout.getMinY(null),
+                    mosaicLayout.getWidth(null),
+                    mosaicLayout.getHeight(null));
+        } else if (numSources > 0) {
             // Set the mosaic bounds to the union of source bounds.
-            mosaicBounds.setBounds(source0.getMinX(), source0.getMinY(),
-                                   source0.getWidth(), source0.getHeight());
-            for(int i = 1; i < numSources; i++) {
-                RenderedImage source = (RenderedImage)sources.get(i);
-                Rectangle sourceBounds =
-                    new Rectangle(source.getMinX(), source.getMinY(),
-                                  source.getWidth(), source.getHeight());
+            mosaicBounds.setBounds(
+                    source0.getMinX(), source0.getMinY(),
+                    source0.getWidth(), source0.getHeight());
+            for (int i = 1; i < numSources; i++) {
+                RenderedImage source = (RenderedImage) sources.get(i);
+                Rectangle sourceBounds = new Rectangle(
+                        source.getMinX(), source.getMinY(),
+                        source.getWidth(), source.getHeight());
                 mosaicBounds = mosaicBounds.union(sourceBounds);
             }
         }
@@ -171,24 +164,22 @@ public class MosaicOpImage extends OpImage {
         mosaicLayout.setHeight(mosaicBounds.height);
 
         // Check the SampleModel if defined.
-        if(mosaicLayout.isValid(ImageLayout.SAMPLE_MODEL_MASK)) {
+        if (mosaicLayout.isValid(ImageLayout.SAMPLE_MODEL_MASK)) {
             // Get the SampleModel.
             SampleModel destSM = mosaicLayout.getSampleModel(null);
 
             // Unset SampleModel if differing band count or data type.
-            boolean unsetSampleModel =
-                destSM.getNumBands() != numBands ||
-                destSM.getDataType() != dataType;
+            boolean unsetSampleModel = destSM.getNumBands() != numBands || destSM.getDataType() != dataType;
 
             // Unset SampleModel if differing sample size.
-            for(int i = 0; !unsetSampleModel && i < numBands; i++) {
-                if(destSM.getSampleSize(i) != sampleSize) {
+            for (int i = 0; !unsetSampleModel && i < numBands; i++) {
+                if (destSM.getSampleSize(i) != sampleSize) {
                     unsetSampleModel = true;
                 }
             }
 
             // Unset SampleModel if needed.
-            if(unsetSampleModel) {
+            if (unsetSampleModel) {
                 mosaicLayout.unsetValid(ImageLayout.SAMPLE_MODEL_MASK);
             }
         }
@@ -196,14 +187,15 @@ public class MosaicOpImage extends OpImage {
         return mosaicLayout;
     }
 
-    public MosaicOpImage(Vector sources,
-                         ImageLayout layout,
-                         Map config,
-                         MosaicType mosaicType,
-                         PlanarImage[] sourceAlpha,
-                         ROI[] sourceROI,
-                         double[][] sourceThreshold,
-                         double[] backgroundValues) {
+    public MosaicOpImage(
+            Vector sources,
+            ImageLayout layout,
+            Map config,
+            MosaicType mosaicType,
+            PlanarImage[] sourceAlpha,
+            ROI[] sourceROI,
+            double[][] sourceThreshold,
+            double[] backgroundValues) {
         super(sources, getLayout(sources, layout), config, true);
 
         // Set the band count.
@@ -217,47 +209,41 @@ public class MosaicOpImage extends OpImage {
 
         // Save the alpha array.
         this.sourceAlpha = null;
-        if(sourceAlpha != null) {
+        if (sourceAlpha != null) {
             // Check alpha images.
-            for(int i = 0; i < sourceAlpha.length; i++) {
-                if(sourceAlpha[i] != null) {
+            for (int i = 0; i < sourceAlpha.length; i++) {
+                if (sourceAlpha[i] != null) {
                     SampleModel alphaSM = sourceAlpha[i].getSampleModel();
 
-                    if(alphaSM.getNumBands() != 1) {
+                    if (alphaSM.getNumBands() != 1) {
                         throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage4"));
-                    } else if(alphaSM.getDataType() !=
-                              sampleModel.getDataType()) {
+                    } else if (alphaSM.getDataType() != sampleModel.getDataType()) {
                         throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage5"));
-                    } else if(alphaSM.getSampleSize(0) !=
-                              sampleModel.getSampleSize(0)) {
+                    } else if (alphaSM.getSampleSize(0) != sampleModel.getSampleSize(0)) {
                         throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage6"));
                     }
                 }
             }
 
             this.sourceAlpha = new PlanarImage[numSources];
-            System.arraycopy(sourceAlpha, 0,
-                             this.sourceAlpha, 0,
-                             Math.min(sourceAlpha.length, numSources));
+            System.arraycopy(sourceAlpha, 0, this.sourceAlpha, 0, Math.min(sourceAlpha.length, numSources));
         }
 
         // Save the ROI array.
         this.sourceROI = null;
-        if(sourceROI != null) {
+        if (sourceROI != null) {
             this.sourceROI = new ROI[numSources];
-            System.arraycopy(sourceROI, 0,
-                             this.sourceROI, 0,
-                             Math.min(sourceROI.length, numSources));
+            System.arraycopy(sourceROI, 0, this.sourceROI, 0, Math.min(sourceROI.length, numSources));
         }
 
         // isAlphaBitmask is true if and only if type is blend and an
         // alpha image is supplied for each source.
-        this.isAlphaBitmask =
-            !(mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND &&
-              sourceAlpha != null && !(sourceAlpha.length < numSources));
-        if(!this.isAlphaBitmask) {
-            for(int i = 0; i < numSources; i++) {
-                if(sourceAlpha[i] == null) {
+        this.isAlphaBitmask = !(mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
+                && sourceAlpha != null
+                && !(sourceAlpha.length < numSources));
+        if (!this.isAlphaBitmask) {
+            for (int i = 0; i < numSources; i++) {
+                if (sourceAlpha[i] == null) {
                     this.isAlphaBitmask = true;
                     break;
                 }
@@ -268,21 +254,18 @@ public class MosaicOpImage extends OpImage {
         this.sourceThreshold = new double[numSources][numBands];
 
         // Ensure the parameter is non-null and has one value.
-        if(sourceThreshold == null) {
+        if (sourceThreshold == null) {
             sourceThreshold = new double[][] {{1.0}};
         }
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             // If there's an array for this source, use it.
-            if(i < sourceThreshold.length && sourceThreshold[i] != null) {
-                if(sourceThreshold[i].length < numBands) {
+            if (i < sourceThreshold.length && sourceThreshold[i] != null) {
+                if (sourceThreshold[i].length < numBands) {
                     // If the array is less than numBands, fill with element 0.
-                    Arrays.fill(this.sourceThreshold[i],
-                                sourceThreshold[i][0]);
+                    Arrays.fill(this.sourceThreshold[i], sourceThreshold[i][0]);
                 } else {
                     // Copy the whole array.
-                    System.arraycopy(sourceThreshold[i], 0,
-                                     this.sourceThreshold[i], 0,
-                                     numBands);
+                    System.arraycopy(sourceThreshold[i], 0, this.sourceThreshold[i], 0, numBands);
                 }
             } else {
                 // Beyond the array or a null element: use the zeroth array.
@@ -292,118 +275,108 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize the integral thresholds.
         this.threshold = new int[numSources][numBands];
-        for(int i = 0; i < numSources; i++) {
-            for(int j = 0; j < numBands; j++) {
+        for (int i = 0; i < numSources; i++) {
+            for (int j = 0; j < numBands; j++) {
                 // Truncate as the specified comparison is ">=".
-                this.threshold[i][j] = (int)this.sourceThreshold[i][j];
+                this.threshold[i][j] = (int) this.sourceThreshold[i][j];
             }
         }
 
         // Copy the background values per the specification.
         this.backgroundValues = new double[numBands];
-        if(backgroundValues == null) {
+        if (backgroundValues == null) {
             backgroundValues = new double[] {0.0};
         }
-        if(backgroundValues.length < numBands) {
+        if (backgroundValues.length < numBands) {
             Arrays.fill(this.backgroundValues, backgroundValues[0]);
         } else {
-            System.arraycopy(backgroundValues, 0,
-                             this.backgroundValues, 0,
-                             numBands);
+            System.arraycopy(backgroundValues, 0, this.backgroundValues, 0, numBands);
         }
 
         // Clamp the floating point values for the integral cases.
         this.background = new int[this.backgroundValues.length];
         int dataType = sampleModel.getDataType();
-        for(int i = 0; i < this.background.length; i++) {
+        for (int i = 0; i < this.background.length; i++) {
             switch (dataType) {
-            case DataBuffer.TYPE_BYTE:
-                this.background[i] =
-                    ImageUtil.clampRoundByte(this.backgroundValues[i]);
-                break;
-            case DataBuffer.TYPE_USHORT:
-                this.background[i] =
-                    ImageUtil.clampRoundUShort(this.backgroundValues[i]);
-                break;
-            case DataBuffer.TYPE_SHORT:
-                this.background[i] =
-                    ImageUtil.clampRoundShort(this.backgroundValues[i]);
-                break;
-            case DataBuffer.TYPE_INT:
-                this.background[i] =
-                    ImageUtil.clampRoundInt(this.backgroundValues[i]);
-                break;
-            default:
+                case DataBuffer.TYPE_BYTE:
+                    this.background[i] = ImageUtil.clampRoundByte(this.backgroundValues[i]);
+                    break;
+                case DataBuffer.TYPE_USHORT:
+                    this.background[i] = ImageUtil.clampRoundUShort(this.backgroundValues[i]);
+                    break;
+                case DataBuffer.TYPE_SHORT:
+                    this.background[i] = ImageUtil.clampRoundShort(this.backgroundValues[i]);
+                    break;
+                case DataBuffer.TYPE_INT:
+                    this.background[i] = ImageUtil.clampRoundInt(this.backgroundValues[i]);
+                    break;
+                default:
             }
         }
 
         // Determine constant value for source border extension.
         double sourceExtensionConstant;
         switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            sourceExtensionConstant = 0.0;
-            break;
-        case DataBuffer.TYPE_USHORT:
-            sourceExtensionConstant = 0.0;
-            break;
-        case DataBuffer.TYPE_SHORT:
-            sourceExtensionConstant = Short.MIN_VALUE;
-            break;
-        case DataBuffer.TYPE_INT:
-            sourceExtensionConstant = Integer.MIN_VALUE;
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            sourceExtensionConstant = -Float.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-        default:
-            sourceExtensionConstant = -Double.MAX_VALUE;
+            case DataBuffer.TYPE_BYTE:
+                sourceExtensionConstant = 0.0;
+                break;
+            case DataBuffer.TYPE_USHORT:
+                sourceExtensionConstant = 0.0;
+                break;
+            case DataBuffer.TYPE_SHORT:
+                sourceExtensionConstant = Short.MIN_VALUE;
+                break;
+            case DataBuffer.TYPE_INT:
+                sourceExtensionConstant = Integer.MIN_VALUE;
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                sourceExtensionConstant = -Float.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+            default:
+                sourceExtensionConstant = -Double.MAX_VALUE;
         }
 
         // Extend the sources filling with the minimum possible value
         // on account of the threshold technique.
-        this.sourceExtender =
-            sourceExtensionConstant == 0.0 ?
-            BorderExtender.createInstance(BorderExtender.BORDER_ZERO) :
-            new BorderExtenderConstant(new double[] {sourceExtensionConstant});
+        this.sourceExtender = sourceExtensionConstant == 0.0
+                ? BorderExtender.createInstance(BorderExtender.BORDER_ZERO)
+                : new BorderExtenderConstant(new double[] {sourceExtensionConstant});
 
         // Extends alpha or ROI data with zeros.
-        if(sourceAlpha != null || sourceROI != null) {
-            this.zeroExtender =
-                BorderExtender.createInstance(BorderExtender.BORDER_ZERO);
+        if (sourceAlpha != null || sourceROI != null) {
+            this.zeroExtender = BorderExtender.createInstance(BorderExtender.BORDER_ZERO);
         }
 
         // Get the ROI images.
-        if(sourceROI != null) {
+        if (sourceROI != null) {
             roiImage = new PlanarImage[numSources];
-            for(int i = 0; i < sourceROI.length; i++) {
-                if(sourceROI[i] != null) {
+            for (int i = 0; i < sourceROI.length; i++) {
+                if (sourceROI[i] != null) {
                     roiImage[i] = sourceROI[i].getAsImage();
                 }
             }
         }
     }
 
-    public Rectangle mapDestRect(Rectangle destRect,
-                                 int sourceIndex) {
-        if(destRect == null) {
+    public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
+        if (destRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        if(sourceIndex < 0 || sourceIndex >= getNumSources()) {
+        if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
         }
 
         return destRect.intersection(getSourceImage(sourceIndex).getBounds());
     }
 
-    public Rectangle mapSourceRect(Rectangle sourceRect,
-                                   int sourceIndex) {
-        if(sourceRect == null) {
+    public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
+        if (sourceRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        if(sourceIndex < 0 || sourceIndex >= getNumSources()) {
+        if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
         }
 
@@ -412,9 +385,7 @@ public class MosaicOpImage extends OpImage {
 
     public Raster computeTile(int tileX, int tileY) {
         // Create a new Raster.
-        WritableRaster dest = createWritableRaster(sampleModel,
-                                                   new Point(tileXToX(tileX),
-                                                             tileYToY(tileY)));
+        WritableRaster dest = createWritableRaster(sampleModel, new Point(tileXToX(tileX), tileYToY(tileY)));
 
         // Determine the active area; tile intersects with image's bounds.
         Rectangle destRect = getTileRect(tileX, tileY);
@@ -422,10 +393,8 @@ public class MosaicOpImage extends OpImage {
         int numSources = getNumSources();
 
         Raster[] rasterSources = new Raster[numSources];
-        Raster[] alpha = sourceAlpha != null ?
-            new Raster[numSources] : null;
-        Raster[] roi = sourceROI != null ?
-            new Raster[numSources] : null;
+        Raster[] alpha = sourceAlpha != null ? new Raster[numSources] : null;
+        Raster[] roi = sourceROI != null ? new Raster[numSources] : null;
 
         // Cobble areas
         for (int i = 0; i < numSources; i++) {
@@ -436,18 +405,16 @@ public class MosaicOpImage extends OpImage {
             // null; otherwise pass srcRect to getData(). If srcRect
             // is null, getData() will return a Raster containing the
             // data of the entire source image.
-            rasterSources[i] = srcRect != null && srcRect.isEmpty() ?
-                null : source.getExtendedData(destRect, sourceExtender);
+            rasterSources[i] =
+                    srcRect != null && srcRect.isEmpty() ? null : source.getExtendedData(destRect, sourceExtender);
 
-            if(rasterSources[i] != null) {
-                if(sourceAlpha != null && sourceAlpha[i] != null) {
-                    alpha[i] = sourceAlpha[i].getExtendedData(destRect,
-                                                              zeroExtender);
+            if (rasterSources[i] != null) {
+                if (sourceAlpha != null && sourceAlpha[i] != null) {
+                    alpha[i] = sourceAlpha[i].getExtendedData(destRect, zeroExtender);
                 }
 
-                if(sourceROI != null && sourceROI[i] != null) {
-                    roi[i] = roiImage[i].getExtendedData(destRect,
-                                                         zeroExtender);
+                if (sourceROI != null && sourceROI[i] != null) {
+                    roi[i] = roiImage[i].getExtendedData(destRect, zeroExtender);
                 }
             }
         }
@@ -456,11 +423,11 @@ public class MosaicOpImage extends OpImage {
 
         for (int i = 0; i < numSources; i++) {
             Raster sourceData = rasterSources[i];
-            if(sourceData != null) {
+            if (sourceData != null) {
                 PlanarImage source = getSourceImage(i);
 
                 // Recycle the source tile
-                if(source.overlapsMultipleTiles(sourceData.getBounds())) {
+                if (source.overlapsMultipleTiles(sourceData.getBounds())) {
                     recycleTile(sourceData);
                 }
             }
@@ -469,109 +436,89 @@ public class MosaicOpImage extends OpImage {
         return dest;
     }
 
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         computeRect(sources, dest, destRect, null, null);
     }
 
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect,
-                               Raster[] alphaRaster,
-                               Raster[] roiRaster) {
+    protected void computeRect(
+            Raster[] sources, WritableRaster dest, Rectangle destRect, Raster[] alphaRaster, Raster[] roiRaster) {
         // Save the source count.
         int numSources = sources.length;
 
         // Put all non-null sources in a list.
         ArrayList sourceList = new ArrayList(numSources);
-        for(int i = 0; i < numSources; i++) {
-            if(sources[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (sources[i] != null) {
                 sourceList.add(sources[i]);
             }
         }
 
         // Clear the background and return if no sources.
         int numNonNullSources = sourceList.size();
-        if(numNonNullSources == 0) {
+        if (numNonNullSources == 0) {
             ImageUtil.fillBackground(dest, destRect, backgroundValues);
             return;
         }
 
         // Determine the format tag id.
         SampleModel[] sourceSM = new SampleModel[numNonNullSources];
-        for(int i = 0; i < numNonNullSources; i++) {
-            sourceSM[i] = ((Raster)sourceList.get(i)).getSampleModel();
+        for (int i = 0; i < numNonNullSources; i++) {
+            sourceSM[i] = ((Raster) sourceList.get(i)).getSampleModel();
         }
-        int formatTagID =
-            RasterAccessor.findCompatibleTag(sourceSM,
-                                             dest.getSampleModel());
+        int formatTagID = RasterAccessor.findCompatibleTag(sourceSM, dest.getSampleModel());
 
         // Create source accessors.
         RasterAccessor[] s = new RasterAccessor[numSources];
-        for(int i = 0; i < numSources; i++) {
-            if(sources[i] != null) {
-                RasterFormatTag formatTag =
-                    new RasterFormatTag(sources[i].getSampleModel(),
-                                        formatTagID);
-                s[i] = new RasterAccessor(sources[i], destRect, formatTag,
-                                          null);
+        for (int i = 0; i < numSources; i++) {
+            if (sources[i] != null) {
+                RasterFormatTag formatTag = new RasterFormatTag(sources[i].getSampleModel(), formatTagID);
+                s[i] = new RasterAccessor(sources[i], destRect, formatTag, null);
             }
         }
 
         // Create dest accessor.
         RasterAccessor d =
-            new RasterAccessor(dest, destRect,
-                               new RasterFormatTag(dest.getSampleModel(),
-                                                   formatTagID),
-                               null);
+                new RasterAccessor(dest, destRect, new RasterFormatTag(dest.getSampleModel(), formatTagID), null);
 
         // Create the alpha accessors.
         RasterAccessor[] a = new RasterAccessor[numSources];
-        if(alphaRaster != null) {
-            for(int i = 0; i < numSources; i++) {
-                if(alphaRaster[i] != null) {
+        if (alphaRaster != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alphaRaster[i] != null) {
                     SampleModel alphaSM = alphaRaster[i].getSampleModel();
-                    int alphaFormatTagID =
-                        RasterAccessor.findCompatibleTag(null, alphaSM);
-                    RasterFormatTag alphaFormatTag =
-                        new RasterFormatTag(alphaSM, alphaFormatTagID);
-                    a[i] = new RasterAccessor(alphaRaster[i], destRect,  
-                                              alphaFormatTag,
-                                              sourceAlpha[i].getColorModel());
+                    int alphaFormatTagID = RasterAccessor.findCompatibleTag(null, alphaSM);
+                    RasterFormatTag alphaFormatTag = new RasterFormatTag(alphaSM, alphaFormatTagID);
+                    a[i] = new RasterAccessor(alphaRaster[i], destRect, alphaFormatTag, sourceAlpha[i].getColorModel());
                 }
             }
         }
 
         // Branch to data type-specific method.
         switch (d.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(s, d, a, roiRaster);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(s, d, a, roiRaster);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(s, d, a, roiRaster);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(s, d, a, roiRaster);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(s, d, a, roiRaster);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(s, d, a, roiRaster);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(s, d, a, roiRaster);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(s, d, a, roiRaster);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(s, d, a, roiRaster);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(s, d, a, roiRaster);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(s, d, a, roiRaster);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(s, d, a, roiRaster);
+                break;
         }
 
         d.copyDataToRaster();
     }
 
-    private void computeRectByte(RasterAccessor[] src,
-                                 RasterAccessor dst,
-                                 RasterAccessor[] alfa,
-                                 Raster[] roi) {
+    private void computeRectByte(RasterAccessor[] src, RasterAccessor dst, RasterAccessor[] alfa, Raster[] roi) {
         // Save the source count.
         int numSources = src.length;
 
@@ -582,8 +529,8 @@ public class MosaicOpImage extends OpImage {
         byte[][][] srcData = new byte[numSources][][];
 
         // Initialize stride, offset, and data arrays for sources.
-        for(int i = 0; i < numSources; i++) {
-            if(src[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (src[i] != null) {
                 srcLineStride[i] = src[i].getScanlineStride();
                 srcPixelStride[i] = src[i].getPixelStride();
                 srcBandOffsets[i] = src[i].getBandOffsets();
@@ -596,7 +543,7 @@ public class MosaicOpImage extends OpImage {
         int dstMinY = dst.getY();
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
-        int dstMaxX = dstMinX + dstWidth;  // x max exclusive
+        int dstMaxX = dstMinX + dstWidth; // x max exclusive
         int dstMaxY = dstMinY + dstHeight; // y max exclusive
         int dstBands = dst.getNumBands();
         int dstLineStride = dst.getScanlineStride();
@@ -606,8 +553,8 @@ public class MosaicOpImage extends OpImage {
 
         // Check for alpha.
         boolean hasAlpha = false;
-        for(int i = 0; i < numSources; i++) {
-            if(alfa[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (alfa[i] != null) {
                 hasAlpha = true;
                 break;
             }
@@ -619,7 +566,7 @@ public class MosaicOpImage extends OpImage {
         int[][] alfaBandOffsets = null;
         byte[][][] alfaData = null;
 
-        if(hasAlpha) {
+        if (hasAlpha) {
             // Allocate stride, offset, and data arrays for alpha channels.
             alfaLineStride = new int[numSources];
             alfaPixelStride = new int[numSources];
@@ -627,8 +574,8 @@ public class MosaicOpImage extends OpImage {
             alfaData = new byte[numSources][][];
 
             // Initialize stride, offset, and data arrays for alpha channels.
-            for(int i = 0; i < numSources; i++) {
-                if(alfa[i] != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alfa[i] != null) {
                     alfaLineStride[i] = alfa[i].getScanlineStride();
                     alfaPixelStride[i] = alfa[i].getPixelStride();
                     alfaBandOffsets[i] = alfa[i].getBandOffsets();
@@ -639,11 +586,11 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize weight type arrays.
         int[] weightTypes = new int[numSources];
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             weightTypes[i] = WEIGHT_TYPE_THRESHOLD;
-            if(alfa[i] != null) {
+            if (alfa[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ALPHA;
-            } else if(sourceROI != null && sourceROI[i] != null) {
+            } else if (sourceROI != null && sourceROI[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ROI;
             }
         }
@@ -657,20 +604,20 @@ public class MosaicOpImage extends OpImage {
         int[] aLineOffsets = null;
         int[] aPixelOffsets = null;
         byte[][] aBandData = null;
-        if(hasAlpha) {
+        if (hasAlpha) {
             aLineOffsets = new int[numSources];
             aPixelOffsets = new int[numSources];
             aBandData = new byte[numSources][];
         }
 
-        for(int b = 0; b < dstBands; b++) {
+        for (int b = 0; b < dstBands; b++) {
             // Initialize source and alpha band array and line offsets.
-            for(int s = 0; s < numSources; s++) {
-                if(src[s] != null) {
+            for (int s = 0; s < numSources; s++) {
+                if (src[s] != null) {
                     sBandData[s] = srcData[s][b];
                     sLineOffsets[s] = srcBandOffsets[s][b];
                 }
-                if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                     aBandData[s] = alfaData[s][0];
                     aLineOffsets[s] = alfaBandOffsets[s][0];
                 }
@@ -680,16 +627,16 @@ public class MosaicOpImage extends OpImage {
             byte[] dBandData = dstData[b];
             int dLineOffset = dstBandOffsets[b];
 
-            if(mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+            if (mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(alfa[s] != null) {
+                        if (alfa[s] != null) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -700,47 +647,42 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Unset destination update flag.
                         boolean setDestValue = false;
 
                         // Loop over source until a non-zero weight is
                         // encountered.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            byte sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            byte sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                setDestValue =
-                                    aBandData[s][aPixelOffsets[s]] != 0;
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                setDestValue =
-                                    roi[s].getSample(dstX, dstY, 0) > 0;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                setDestValue =
-                                    (sourceValue&0xff) >=
-                                    sourceThreshold[s][b];
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    setDestValue = aBandData[s][aPixelOffsets[s]] != 0;
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    setDestValue = roi[s].getSample(dstX, dstY, 0) > 0;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    setDestValue = (sourceValue & 0xff) >= sourceThreshold[s][b];
                             }
 
                             // Set the destination value if a non-zero
                             // weight was found.
-                            if(setDestValue) {
+                            if (setDestValue) {
                                 dBandData[dPixelOffset] = sourceValue;
 
                                 // Increment offset of subsequent sources.
-                                for(int k = s + 1; k < numSources; k++) {
-                                    if(src[k] != null) {
+                                for (int k = s + 1; k < numSources; k++) {
+                                    if (src[k] != null) {
                                         sPixelOffsets[k] += srcPixelStride[k];
                                     }
-                                    if(alfa[k] != null) {
+                                    if (alfa[k] != null) {
                                         aPixelOffsets[k] += alfaPixelStride[k];
                                     }
                                 }
@@ -750,23 +692,23 @@ public class MosaicOpImage extends OpImage {
 
                         // Set the destination value to the background if
                         // no value was set.
-                        if(!setDestValue) {
-                            dBandData[dPixelOffset] = (byte)background[b];
+                        if (!setDestValue) {
+                            dBandData[dPixelOffset] = (byte) background[b];
                         }
 
                         dPixelOffset += dstPixelStride;
                     }
                 }
             } else { // mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                        if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -777,56 +719,48 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Clear values for blending ratio.
                         float numerator = 0.0F;
                         float denominator = 0.0F;
 
                         // Accumulate into numerator and denominator.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            byte sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            byte sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
                             float weight = 0.0F;
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                weight = (aBandData[s][aPixelOffsets[s]]&0xff);
-                                if(weight > 0.0F && isAlphaBitmask) {
-                                    weight = 1.0F;
-                                } else {
-                                    weight /= 255.0F;
-                                }
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                weight =
-                                    roi[s].getSample(dstX, dstY, 0) > 0 ?
-                                    1.0F : 0.0F;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                weight =
-                                    (sourceValue&0xff) >=
-                                    sourceThreshold[s][b] ?
-                                    1.0F : 0.0F;
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    weight = (aBandData[s][aPixelOffsets[s]] & 0xff);
+                                    if (weight > 0.0F && isAlphaBitmask) {
+                                        weight = 1.0F;
+                                    } else {
+                                        weight /= 255.0F;
+                                    }
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    weight = roi[s].getSample(dstX, dstY, 0) > 0 ? 1.0F : 0.0F;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    weight = (sourceValue & 0xff) >= sourceThreshold[s][b] ? 1.0F : 0.0F;
                             }
 
                             // Update numerator and denominator.
-                            numerator += (weight*(sourceValue&0xff));
+                            numerator += (weight * (sourceValue & 0xff));
                             denominator += weight;
                         }
 
                         // Clear the background if all weights were zero,
                         // otherwise blend the values.
-                        if(denominator == 0.0) {
-                            dBandData[dPixelOffset] = (byte)background[b];
+                        if (denominator == 0.0) {
+                            dBandData[dPixelOffset] = (byte) background[b];
                         } else {
-                            dBandData[dPixelOffset] =
-                                ImageUtil.clampRoundByte(numerator /
-                                                         denominator);
+                            dBandData[dPixelOffset] = ImageUtil.clampRoundByte(numerator / denominator);
                         }
 
                         dPixelOffset += dstPixelStride;
@@ -836,10 +770,7 @@ public class MosaicOpImage extends OpImage {
         }
     }
 
-    private void computeRectUShort(RasterAccessor[] src,
-                                   RasterAccessor dst,
-                                   RasterAccessor[] alfa,
-                                   Raster[] roi) {
+    private void computeRectUShort(RasterAccessor[] src, RasterAccessor dst, RasterAccessor[] alfa, Raster[] roi) {
         // Save the source count.
         int numSources = src.length;
 
@@ -850,8 +781,8 @@ public class MosaicOpImage extends OpImage {
         short[][][] srcData = new short[numSources][][];
 
         // Initialize stride, offset, and data arrays for sources.
-        for(int i = 0; i < numSources; i++) {
-            if(src[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (src[i] != null) {
                 srcLineStride[i] = src[i].getScanlineStride();
                 srcPixelStride[i] = src[i].getPixelStride();
                 srcBandOffsets[i] = src[i].getBandOffsets();
@@ -864,7 +795,7 @@ public class MosaicOpImage extends OpImage {
         int dstMinY = dst.getY();
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
-        int dstMaxX = dstMinX + dstWidth;  // x max exclusive
+        int dstMaxX = dstMinX + dstWidth; // x max exclusive
         int dstMaxY = dstMinY + dstHeight; // y max exclusive
         int dstBands = dst.getNumBands();
         int dstLineStride = dst.getScanlineStride();
@@ -874,8 +805,8 @@ public class MosaicOpImage extends OpImage {
 
         // Check for alpha.
         boolean hasAlpha = false;
-        for(int i = 0; i < numSources; i++) {
-            if(alfa[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (alfa[i] != null) {
                 hasAlpha = true;
                 break;
             }
@@ -887,7 +818,7 @@ public class MosaicOpImage extends OpImage {
         int[][] alfaBandOffsets = null;
         short[][][] alfaData = null;
 
-        if(hasAlpha) {
+        if (hasAlpha) {
             // Allocate stride, offset, and data arrays for alpha channels.
             alfaLineStride = new int[numSources];
             alfaPixelStride = new int[numSources];
@@ -895,8 +826,8 @@ public class MosaicOpImage extends OpImage {
             alfaData = new short[numSources][][];
 
             // Initialize stride, offset, and data arrays for alpha channels.
-            for(int i = 0; i < numSources; i++) {
-                if(alfa[i] != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alfa[i] != null) {
                     alfaLineStride[i] = alfa[i].getScanlineStride();
                     alfaPixelStride[i] = alfa[i].getPixelStride();
                     alfaBandOffsets[i] = alfa[i].getBandOffsets();
@@ -907,11 +838,11 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize weight type arrays.
         int[] weightTypes = new int[numSources];
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             weightTypes[i] = WEIGHT_TYPE_THRESHOLD;
-            if(alfa[i] != null) {
+            if (alfa[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ALPHA;
-            } else if(sourceROI != null && sourceROI[i] != null) {
+            } else if (sourceROI != null && sourceROI[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ROI;
             }
         }
@@ -925,20 +856,20 @@ public class MosaicOpImage extends OpImage {
         int[] aLineOffsets = null;
         int[] aPixelOffsets = null;
         short[][] aBandData = null;
-        if(hasAlpha) {
+        if (hasAlpha) {
             aLineOffsets = new int[numSources];
             aPixelOffsets = new int[numSources];
             aBandData = new short[numSources][];
         }
 
-        for(int b = 0; b < dstBands; b++) {
+        for (int b = 0; b < dstBands; b++) {
             // Initialize source and alpha band array and line offsets.
-            for(int s = 0; s < numSources; s++) {
-                if(src[s] != null) {
+            for (int s = 0; s < numSources; s++) {
+                if (src[s] != null) {
                     sBandData[s] = srcData[s][b];
                     sLineOffsets[s] = srcBandOffsets[s][b];
                 }
-                if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                     aBandData[s] = alfaData[s][0];
                     aLineOffsets[s] = alfaBandOffsets[s][0];
                 }
@@ -948,16 +879,16 @@ public class MosaicOpImage extends OpImage {
             short[] dBandData = dstData[b];
             int dLineOffset = dstBandOffsets[b];
 
-            if(mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+            if (mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(alfa[s] != null) {
+                        if (alfa[s] != null) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -968,47 +899,42 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Unset destination update flag.
                         boolean setDestValue = false;
 
                         // Loop over source until a non-zero weight is
                         // encountered.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            short sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            short sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                setDestValue =
-                                    aBandData[s][aPixelOffsets[s]] != 0;
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                setDestValue =
-                                    roi[s].getSample(dstX, dstY, 0) > 0;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                setDestValue =
-                                    (sourceValue&0xffff) >=
-                                    sourceThreshold[s][b];
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    setDestValue = aBandData[s][aPixelOffsets[s]] != 0;
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    setDestValue = roi[s].getSample(dstX, dstY, 0) > 0;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    setDestValue = (sourceValue & 0xffff) >= sourceThreshold[s][b];
                             }
 
                             // Set the destination value if a non-zero
                             // weight was found.
-                            if(setDestValue) {
+                            if (setDestValue) {
                                 dBandData[dPixelOffset] = sourceValue;
 
                                 // Increment offset of subsequent sources.
-                                for(int k = s + 1; k < numSources; k++) {
-                                    if(src[k] != null) {
+                                for (int k = s + 1; k < numSources; k++) {
+                                    if (src[k] != null) {
                                         sPixelOffsets[k] += srcPixelStride[k];
                                     }
-                                    if(alfa[k] != null) {
+                                    if (alfa[k] != null) {
                                         aPixelOffsets[k] += alfaPixelStride[k];
                                     }
                                 }
@@ -1018,23 +944,23 @@ public class MosaicOpImage extends OpImage {
 
                         // Set the destination value to the background if
                         // no value was set.
-                        if(!setDestValue) {
-                            dBandData[dPixelOffset] = (short)background[b];
+                        if (!setDestValue) {
+                            dBandData[dPixelOffset] = (short) background[b];
                         }
 
                         dPixelOffset += dstPixelStride;
                     }
                 }
             } else { // mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                        if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1045,56 +971,48 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Clear values for blending ratio.
                         float numerator = 0.0F;
                         float denominator = 0.0F;
 
                         // Accumulate into numerator and denominator.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            short sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            short sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
                             float weight = 0.0F;
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                weight = (aBandData[s][aPixelOffsets[s]]&0xffff);
-                                if(weight > 0.0F && isAlphaBitmask) {
-                                    weight = 1.0F;
-                                } else {
-                                    weight /= 65535.0F;
-                                }
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                weight =
-                                    roi[s].getSample(dstX, dstY, 0) > 0 ?
-                                    1.0F : 0.0F;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                weight =
-                                    (sourceValue&0xffff) >=
-                                    sourceThreshold[s][b] ?
-                                    1.0F : 0.0F;
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    weight = (aBandData[s][aPixelOffsets[s]] & 0xffff);
+                                    if (weight > 0.0F && isAlphaBitmask) {
+                                        weight = 1.0F;
+                                    } else {
+                                        weight /= 65535.0F;
+                                    }
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    weight = roi[s].getSample(dstX, dstY, 0) > 0 ? 1.0F : 0.0F;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    weight = (sourceValue & 0xffff) >= sourceThreshold[s][b] ? 1.0F : 0.0F;
                             }
 
                             // Update numerator and denominator.
-                            numerator += (weight*(sourceValue&0xffff));
+                            numerator += (weight * (sourceValue & 0xffff));
                             denominator += weight;
                         }
 
                         // Clear the background if all weights were zero,
                         // otherwise blend the values.
-                        if(denominator == 0.0) {
-                            dBandData[dPixelOffset] = (short)background[b];
+                        if (denominator == 0.0) {
+                            dBandData[dPixelOffset] = (short) background[b];
                         } else {
-                            dBandData[dPixelOffset] =
-                                ImageUtil.clampRoundUShort(numerator /
-                                                           denominator);
+                            dBandData[dPixelOffset] = ImageUtil.clampRoundUShort(numerator / denominator);
                         }
 
                         dPixelOffset += dstPixelStride;
@@ -1104,10 +1022,7 @@ public class MosaicOpImage extends OpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor[] src,
-                                  RasterAccessor dst,
-                                  RasterAccessor[] alfa,
-                                  Raster[] roi) {
+    private void computeRectShort(RasterAccessor[] src, RasterAccessor dst, RasterAccessor[] alfa, Raster[] roi) {
         // Save the source count.
         int numSources = src.length;
 
@@ -1118,8 +1033,8 @@ public class MosaicOpImage extends OpImage {
         short[][][] srcData = new short[numSources][][];
 
         // Initialize stride, offset, and data arrays for sources.
-        for(int i = 0; i < numSources; i++) {
-            if(src[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (src[i] != null) {
                 srcLineStride[i] = src[i].getScanlineStride();
                 srcPixelStride[i] = src[i].getPixelStride();
                 srcBandOffsets[i] = src[i].getBandOffsets();
@@ -1132,7 +1047,7 @@ public class MosaicOpImage extends OpImage {
         int dstMinY = dst.getY();
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
-        int dstMaxX = dstMinX + dstWidth;  // x max exclusive
+        int dstMaxX = dstMinX + dstWidth; // x max exclusive
         int dstMaxY = dstMinY + dstHeight; // y max exclusive
         int dstBands = dst.getNumBands();
         int dstLineStride = dst.getScanlineStride();
@@ -1142,8 +1057,8 @@ public class MosaicOpImage extends OpImage {
 
         // Check for alpha.
         boolean hasAlpha = false;
-        for(int i = 0; i < numSources; i++) {
-            if(alfa[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (alfa[i] != null) {
                 hasAlpha = true;
                 break;
             }
@@ -1155,7 +1070,7 @@ public class MosaicOpImage extends OpImage {
         int[][] alfaBandOffsets = null;
         short[][][] alfaData = null;
 
-        if(hasAlpha) {
+        if (hasAlpha) {
             // Allocate stride, offset, and data arrays for alpha channels.
             alfaLineStride = new int[numSources];
             alfaPixelStride = new int[numSources];
@@ -1163,8 +1078,8 @@ public class MosaicOpImage extends OpImage {
             alfaData = new short[numSources][][];
 
             // Initialize stride, offset, and data arrays for alpha channels.
-            for(int i = 0; i < numSources; i++) {
-                if(alfa[i] != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alfa[i] != null) {
                     alfaLineStride[i] = alfa[i].getScanlineStride();
                     alfaPixelStride[i] = alfa[i].getPixelStride();
                     alfaBandOffsets[i] = alfa[i].getBandOffsets();
@@ -1175,11 +1090,11 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize weight type arrays.
         int[] weightTypes = new int[numSources];
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             weightTypes[i] = WEIGHT_TYPE_THRESHOLD;
-            if(alfa[i] != null) {
+            if (alfa[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ALPHA;
-            } else if(sourceROI != null && sourceROI[i] != null) {
+            } else if (sourceROI != null && sourceROI[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ROI;
             }
         }
@@ -1193,20 +1108,20 @@ public class MosaicOpImage extends OpImage {
         int[] aLineOffsets = null;
         int[] aPixelOffsets = null;
         short[][] aBandData = null;
-        if(hasAlpha) {
+        if (hasAlpha) {
             aLineOffsets = new int[numSources];
             aPixelOffsets = new int[numSources];
             aBandData = new short[numSources][];
         }
 
-        for(int b = 0; b < dstBands; b++) {
+        for (int b = 0; b < dstBands; b++) {
             // Initialize source and alpha band array and line offsets.
-            for(int s = 0; s < numSources; s++) {
-                if(src[s] != null) {
+            for (int s = 0; s < numSources; s++) {
+                if (src[s] != null) {
                     sBandData[s] = srcData[s][b];
                     sLineOffsets[s] = srcBandOffsets[s][b];
                 }
-                if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                     aBandData[s] = alfaData[s][0];
                     aLineOffsets[s] = alfaBandOffsets[s][0];
                 }
@@ -1216,16 +1131,16 @@ public class MosaicOpImage extends OpImage {
             short[] dBandData = dstData[b];
             int dLineOffset = dstBandOffsets[b];
 
-            if(mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+            if (mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(alfa[s] != null) {
+                        if (alfa[s] != null) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1236,47 +1151,42 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Unset destination update flag.
                         boolean setDestValue = false;
 
                         // Loop over source until a non-zero weight is
                         // encountered.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            short sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            short sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                setDestValue =
-                                    aBandData[s][aPixelOffsets[s]] != 0;
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                setDestValue =
-                                    roi[s].getSample(dstX, dstY, 0) > 0;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                setDestValue =
-                                    sourceValue >=
-                                    sourceThreshold[s][b];
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    setDestValue = aBandData[s][aPixelOffsets[s]] != 0;
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    setDestValue = roi[s].getSample(dstX, dstY, 0) > 0;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    setDestValue = sourceValue >= sourceThreshold[s][b];
                             }
 
                             // Set the destination value if a non-zero
                             // weight was found.
-                            if(setDestValue) {
+                            if (setDestValue) {
                                 dBandData[dPixelOffset] = sourceValue;
 
                                 // Increment offset of subsequent sources.
-                                for(int k = s + 1; k < numSources; k++) {
-                                    if(src[k] != null) {
+                                for (int k = s + 1; k < numSources; k++) {
+                                    if (src[k] != null) {
                                         sPixelOffsets[k] += srcPixelStride[k];
                                     }
-                                    if(alfa[k] != null) {
+                                    if (alfa[k] != null) {
                                         aPixelOffsets[k] += alfaPixelStride[k];
                                     }
                                 }
@@ -1286,23 +1196,23 @@ public class MosaicOpImage extends OpImage {
 
                         // Set the destination value to the background if
                         // no value was set.
-                        if(!setDestValue) {
-                            dBandData[dPixelOffset] = (short)background[b];
+                        if (!setDestValue) {
+                            dBandData[dPixelOffset] = (short) background[b];
                         }
 
                         dPixelOffset += dstPixelStride;
                     }
                 }
             } else { // mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                        if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1313,56 +1223,48 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Clear values for blending ratio.
                         float numerator = 0.0F;
                         float denominator = 0.0F;
 
                         // Accumulate into numerator and denominator.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            short sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            short sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
                             float weight = 0.0F;
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                weight = aBandData[s][aPixelOffsets[s]];
-                                if(weight > 0.0F && isAlphaBitmask) {
-                                    weight = 1.0F;
-                                } else {
-                                    weight /= (float)Short.MAX_VALUE;
-                                }
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                weight =
-                                    roi[s].getSample(dstX, dstY, 0) > 0 ?
-                                    1.0F : 0.0F;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                weight =
-                                    sourceValue >=
-                                    sourceThreshold[s][b] ?
-                                    1.0F : 0.0F;
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    weight = aBandData[s][aPixelOffsets[s]];
+                                    if (weight > 0.0F && isAlphaBitmask) {
+                                        weight = 1.0F;
+                                    } else {
+                                        weight /= (float) Short.MAX_VALUE;
+                                    }
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    weight = roi[s].getSample(dstX, dstY, 0) > 0 ? 1.0F : 0.0F;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    weight = sourceValue >= sourceThreshold[s][b] ? 1.0F : 0.0F;
                             }
 
                             // Update numerator and denominator.
-                            numerator += weight*sourceValue;
+                            numerator += weight * sourceValue;
                             denominator += weight;
                         }
 
                         // Clear the background if all weights were zero,
                         // otherwise blend the values.
-                        if(denominator == 0.0) {
-                            dBandData[dPixelOffset] = (short)background[b];
+                        if (denominator == 0.0) {
+                            dBandData[dPixelOffset] = (short) background[b];
                         } else {
-                            dBandData[dPixelOffset] =
-                                ImageUtil.clampRoundShort(numerator /
-                                                          denominator);
+                            dBandData[dPixelOffset] = ImageUtil.clampRoundShort(numerator / denominator);
                         }
 
                         dPixelOffset += dstPixelStride;
@@ -1372,10 +1274,7 @@ public class MosaicOpImage extends OpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor[] src,
-                                RasterAccessor dst,
-                                RasterAccessor[] alfa,
-                                Raster[] roi) {
+    private void computeRectInt(RasterAccessor[] src, RasterAccessor dst, RasterAccessor[] alfa, Raster[] roi) {
         // Save the source count.
         int numSources = src.length;
 
@@ -1386,8 +1285,8 @@ public class MosaicOpImage extends OpImage {
         int[][][] srcData = new int[numSources][][];
 
         // Initialize stride, offset, and data arrays for sources.
-        for(int i = 0; i < numSources; i++) {
-            if(src[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (src[i] != null) {
                 srcLineStride[i] = src[i].getScanlineStride();
                 srcPixelStride[i] = src[i].getPixelStride();
                 srcBandOffsets[i] = src[i].getBandOffsets();
@@ -1400,7 +1299,7 @@ public class MosaicOpImage extends OpImage {
         int dstMinY = dst.getY();
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
-        int dstMaxX = dstMinX + dstWidth;  // x max exclusive
+        int dstMaxX = dstMinX + dstWidth; // x max exclusive
         int dstMaxY = dstMinY + dstHeight; // y max exclusive
         int dstBands = dst.getNumBands();
         int dstLineStride = dst.getScanlineStride();
@@ -1410,8 +1309,8 @@ public class MosaicOpImage extends OpImage {
 
         // Check for alpha.
         boolean hasAlpha = false;
-        for(int i = 0; i < numSources; i++) {
-            if(alfa[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (alfa[i] != null) {
                 hasAlpha = true;
                 break;
             }
@@ -1423,7 +1322,7 @@ public class MosaicOpImage extends OpImage {
         int[][] alfaBandOffsets = null;
         int[][][] alfaData = null;
 
-        if(hasAlpha) {
+        if (hasAlpha) {
             // Allocate stride, offset, and data arrays for alpha channels.
             alfaLineStride = new int[numSources];
             alfaPixelStride = new int[numSources];
@@ -1431,8 +1330,8 @@ public class MosaicOpImage extends OpImage {
             alfaData = new int[numSources][][];
 
             // Initialize stride, offset, and data arrays for alpha channels.
-            for(int i = 0; i < numSources; i++) {
-                if(alfa[i] != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alfa[i] != null) {
                     alfaLineStride[i] = alfa[i].getScanlineStride();
                     alfaPixelStride[i] = alfa[i].getPixelStride();
                     alfaBandOffsets[i] = alfa[i].getBandOffsets();
@@ -1443,11 +1342,11 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize weight type arrays.
         int[] weightTypes = new int[numSources];
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             weightTypes[i] = WEIGHT_TYPE_THRESHOLD;
-            if(alfa[i] != null) {
+            if (alfa[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ALPHA;
-            } else if(sourceROI != null && sourceROI[i] != null) {
+            } else if (sourceROI != null && sourceROI[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ROI;
             }
         }
@@ -1461,20 +1360,20 @@ public class MosaicOpImage extends OpImage {
         int[] aLineOffsets = null;
         int[] aPixelOffsets = null;
         int[][] aBandData = null;
-        if(hasAlpha) {
+        if (hasAlpha) {
             aLineOffsets = new int[numSources];
             aPixelOffsets = new int[numSources];
             aBandData = new int[numSources][];
         }
 
-        for(int b = 0; b < dstBands; b++) {
+        for (int b = 0; b < dstBands; b++) {
             // Initialize source and alpha band array and line offsets.
-            for(int s = 0; s < numSources; s++) {
-                if(src[s] != null) {
+            for (int s = 0; s < numSources; s++) {
+                if (src[s] != null) {
                     sBandData[s] = srcData[s][b];
                     sLineOffsets[s] = srcBandOffsets[s][b];
                 }
-                if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                     aBandData[s] = alfaData[s][0];
                     aLineOffsets[s] = alfaBandOffsets[s][0];
                 }
@@ -1484,16 +1383,16 @@ public class MosaicOpImage extends OpImage {
             int[] dBandData = dstData[b];
             int dLineOffset = dstBandOffsets[b];
 
-            if(mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+            if (mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(alfa[s] != null) {
+                        if (alfa[s] != null) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1504,47 +1403,42 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Unset destination update flag.
                         boolean setDestValue = false;
 
                         // Loop over source until a non-zero weight is
                         // encountered.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            int sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            int sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                setDestValue =
-                                    aBandData[s][aPixelOffsets[s]] != 0;
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                setDestValue =
-                                    roi[s].getSample(dstX, dstY, 0) > 0;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                setDestValue =
-                                    sourceValue >=
-                                    sourceThreshold[s][b];
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    setDestValue = aBandData[s][aPixelOffsets[s]] != 0;
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    setDestValue = roi[s].getSample(dstX, dstY, 0) > 0;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    setDestValue = sourceValue >= sourceThreshold[s][b];
                             }
 
                             // Set the destination value if a non-zero
                             // weight was found.
-                            if(setDestValue) {
+                            if (setDestValue) {
                                 dBandData[dPixelOffset] = sourceValue;
 
                                 // Increment offset of subsequent sources.
-                                for(int k = s + 1; k < numSources; k++) {
-                                    if(src[k] != null) {
+                                for (int k = s + 1; k < numSources; k++) {
+                                    if (src[k] != null) {
                                         sPixelOffsets[k] += srcPixelStride[k];
                                     }
-                                    if(alfa[k] != null) {
+                                    if (alfa[k] != null) {
                                         aPixelOffsets[k] += alfaPixelStride[k];
                                     }
                                 }
@@ -1554,23 +1448,23 @@ public class MosaicOpImage extends OpImage {
 
                         // Set the destination value to the background if
                         // no value was set.
-                        if(!setDestValue) {
-                            dBandData[dPixelOffset] = (int)background[b];
+                        if (!setDestValue) {
+                            dBandData[dPixelOffset] = (int) background[b];
                         }
 
                         dPixelOffset += dstPixelStride;
                     }
                 }
             } else { // mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                        if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1581,56 +1475,48 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Clear values for blending ratio.
                         double numerator = 0.0;
                         double denominator = 0.0;
 
                         // Accumulate into numerator and denominator.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            int sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            int sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
                             double weight = 0.0;
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                weight = aBandData[s][aPixelOffsets[s]];
-                                if(weight > 0.0F && isAlphaBitmask) {
-                                    weight = 1.0F;
-                                } else {
-                                    weight /= Integer.MAX_VALUE;
-                                }
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                weight =
-                                    roi[s].getSample(dstX, dstY, 0) > 0 ?
-                                    1.0F : 0.0F;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                weight =
-                                    sourceValue >=
-                                    sourceThreshold[s][b] ?
-                                    1.0F : 0.0F;
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    weight = aBandData[s][aPixelOffsets[s]];
+                                    if (weight > 0.0F && isAlphaBitmask) {
+                                        weight = 1.0F;
+                                    } else {
+                                        weight /= Integer.MAX_VALUE;
+                                    }
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    weight = roi[s].getSample(dstX, dstY, 0) > 0 ? 1.0F : 0.0F;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    weight = sourceValue >= sourceThreshold[s][b] ? 1.0F : 0.0F;
                             }
 
                             // Update numerator and denominator.
-                            numerator += weight*sourceValue;
+                            numerator += weight * sourceValue;
                             denominator += weight;
                         }
 
                         // Clear the background if all weights were zero,
                         // otherwise blend the values.
-                        if(denominator == 0.0) {
-                            dBandData[dPixelOffset] = (int)background[b];
+                        if (denominator == 0.0) {
+                            dBandData[dPixelOffset] = (int) background[b];
                         } else {
-                            dBandData[dPixelOffset] =
-                                ImageUtil.clampRoundInt(numerator /
-                                                        denominator);
+                            dBandData[dPixelOffset] = ImageUtil.clampRoundInt(numerator / denominator);
                         }
 
                         dPixelOffset += dstPixelStride;
@@ -1640,10 +1526,7 @@ public class MosaicOpImage extends OpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor[] src,
-                                  RasterAccessor dst,
-                                  RasterAccessor[] alfa,
-                                  Raster[] roi) {
+    private void computeRectFloat(RasterAccessor[] src, RasterAccessor dst, RasterAccessor[] alfa, Raster[] roi) {
         // Save the source count.
         int numSources = src.length;
 
@@ -1654,8 +1537,8 @@ public class MosaicOpImage extends OpImage {
         float[][][] srcData = new float[numSources][][];
 
         // Initialize stride, offset, and data arrays for sources.
-        for(int i = 0; i < numSources; i++) {
-            if(src[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (src[i] != null) {
                 srcLineStride[i] = src[i].getScanlineStride();
                 srcPixelStride[i] = src[i].getPixelStride();
                 srcBandOffsets[i] = src[i].getBandOffsets();
@@ -1668,7 +1551,7 @@ public class MosaicOpImage extends OpImage {
         int dstMinY = dst.getY();
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
-        int dstMaxX = dstMinX + dstWidth;  // x max exclusive
+        int dstMaxX = dstMinX + dstWidth; // x max exclusive
         int dstMaxY = dstMinY + dstHeight; // y max exclusive
         int dstBands = dst.getNumBands();
         int dstLineStride = dst.getScanlineStride();
@@ -1678,8 +1561,8 @@ public class MosaicOpImage extends OpImage {
 
         // Check for alpha.
         boolean hasAlpha = false;
-        for(int i = 0; i < numSources; i++) {
-            if(alfa[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (alfa[i] != null) {
                 hasAlpha = true;
                 break;
             }
@@ -1691,7 +1574,7 @@ public class MosaicOpImage extends OpImage {
         int[][] alfaBandOffsets = null;
         float[][][] alfaData = null;
 
-        if(hasAlpha) {
+        if (hasAlpha) {
             // Allocate stride, offset, and data arrays for alpha channels.
             alfaLineStride = new int[numSources];
             alfaPixelStride = new int[numSources];
@@ -1699,8 +1582,8 @@ public class MosaicOpImage extends OpImage {
             alfaData = new float[numSources][][];
 
             // Initialize stride, offset, and data arrays for alpha channels.
-            for(int i = 0; i < numSources; i++) {
-                if(alfa[i] != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alfa[i] != null) {
                     alfaLineStride[i] = alfa[i].getScanlineStride();
                     alfaPixelStride[i] = alfa[i].getPixelStride();
                     alfaBandOffsets[i] = alfa[i].getBandOffsets();
@@ -1711,11 +1594,11 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize weight type arrays.
         int[] weightTypes = new int[numSources];
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             weightTypes[i] = WEIGHT_TYPE_THRESHOLD;
-            if(alfa[i] != null) {
+            if (alfa[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ALPHA;
-            } else if(sourceROI != null && sourceROI[i] != null) {
+            } else if (sourceROI != null && sourceROI[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ROI;
             }
         }
@@ -1729,20 +1612,20 @@ public class MosaicOpImage extends OpImage {
         int[] aLineOffsets = null;
         int[] aPixelOffsets = null;
         float[][] aBandData = null;
-        if(hasAlpha) {
+        if (hasAlpha) {
             aLineOffsets = new int[numSources];
             aPixelOffsets = new int[numSources];
             aBandData = new float[numSources][];
         }
 
-        for(int b = 0; b < dstBands; b++) {
+        for (int b = 0; b < dstBands; b++) {
             // Initialize source and alpha band array and line offsets.
-            for(int s = 0; s < numSources; s++) {
-                if(src[s] != null) {
+            for (int s = 0; s < numSources; s++) {
+                if (src[s] != null) {
                     sBandData[s] = srcData[s][b];
                     sLineOffsets[s] = srcBandOffsets[s][b];
                 }
-                if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                     aBandData[s] = alfaData[s][0];
                     aLineOffsets[s] = alfaBandOffsets[s][0];
                 }
@@ -1752,16 +1635,16 @@ public class MosaicOpImage extends OpImage {
             float[] dBandData = dstData[b];
             int dLineOffset = dstBandOffsets[b];
 
-            if(mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+            if (mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(alfa[s] != null) {
+                        if (alfa[s] != null) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1772,47 +1655,42 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Unset destination update flag.
                         boolean setDestValue = false;
 
                         // Loop over source until a non-zero weight is
                         // encountered.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            float sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            float sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                setDestValue =
-                                    aBandData[s][aPixelOffsets[s]] != 0;
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                setDestValue =
-                                    roi[s].getSample(dstX, dstY, 0) > 0;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                setDestValue =
-                                    sourceValue >=
-                                    sourceThreshold[s][b];
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    setDestValue = aBandData[s][aPixelOffsets[s]] != 0;
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    setDestValue = roi[s].getSample(dstX, dstY, 0) > 0;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    setDestValue = sourceValue >= sourceThreshold[s][b];
                             }
 
                             // Set the destination value if a non-zero
                             // weight was found.
-                            if(setDestValue) {
+                            if (setDestValue) {
                                 dBandData[dPixelOffset] = sourceValue;
 
                                 // Increment offset of subsequent sources.
-                                for(int k = s + 1; k < numSources; k++) {
-                                    if(src[k] != null) {
+                                for (int k = s + 1; k < numSources; k++) {
+                                    if (src[k] != null) {
                                         sPixelOffsets[k] += srcPixelStride[k];
                                     }
-                                    if(alfa[k] != null) {
+                                    if (alfa[k] != null) {
                                         aPixelOffsets[k] += alfaPixelStride[k];
                                     }
                                 }
@@ -1822,23 +1700,23 @@ public class MosaicOpImage extends OpImage {
 
                         // Set the destination value to the background if
                         // no value was set.
-                        if(!setDestValue) {
-                            dBandData[dPixelOffset] = (float)backgroundValues[b];
+                        if (!setDestValue) {
+                            dBandData[dPixelOffset] = (float) backgroundValues[b];
                         }
 
                         dPixelOffset += dstPixelStride;
                     }
                 }
             } else { // mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                        if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -1849,54 +1727,46 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Clear values for blending ratio.
                         float numerator = 0.0F;
                         float denominator = 0.0F;
 
                         // Accumulate into numerator and denominator.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            float sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            float sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
                             float weight = 0.0F;
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                weight = aBandData[s][aPixelOffsets[s]];
-                                if(weight > 0.0F && isAlphaBitmask) {
-                                    weight = 1.0F;
-                                }
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                weight =
-                                    roi[s].getSample(dstX, dstY, 0) > 0 ?
-                                    1.0F : 0.0F;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                weight =
-                                    sourceValue >=
-                                    sourceThreshold[s][b] ?
-                                    1.0F : 0.0F;
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    weight = aBandData[s][aPixelOffsets[s]];
+                                    if (weight > 0.0F && isAlphaBitmask) {
+                                        weight = 1.0F;
+                                    }
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    weight = roi[s].getSample(dstX, dstY, 0) > 0 ? 1.0F : 0.0F;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    weight = sourceValue >= sourceThreshold[s][b] ? 1.0F : 0.0F;
                             }
 
                             // Update numerator and denominator.
-                            numerator += weight*sourceValue;
+                            numerator += weight * sourceValue;
                             denominator += weight;
                         }
 
                         // Clear the background if all weights were zero,
                         // otherwise blend the values.
-                        if(denominator == 0.0) {
-                            dBandData[dPixelOffset] = (float)backgroundValues[b];
+                        if (denominator == 0.0) {
+                            dBandData[dPixelOffset] = (float) backgroundValues[b];
                         } else {
-                            dBandData[dPixelOffset] =
-                                numerator /
-                                denominator;
+                            dBandData[dPixelOffset] = numerator / denominator;
                         }
 
                         dPixelOffset += dstPixelStride;
@@ -1906,10 +1776,7 @@ public class MosaicOpImage extends OpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor[] src,
-                                   RasterAccessor dst,
-                                   RasterAccessor[] alfa,
-                                   Raster[] roi) {
+    private void computeRectDouble(RasterAccessor[] src, RasterAccessor dst, RasterAccessor[] alfa, Raster[] roi) {
         // Save the source count.
         int numSources = src.length;
 
@@ -1920,8 +1787,8 @@ public class MosaicOpImage extends OpImage {
         double[][][] srcData = new double[numSources][][];
 
         // Initialize stride, offset, and data arrays for sources.
-        for(int i = 0; i < numSources; i++) {
-            if(src[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (src[i] != null) {
                 srcLineStride[i] = src[i].getScanlineStride();
                 srcPixelStride[i] = src[i].getPixelStride();
                 srcBandOffsets[i] = src[i].getBandOffsets();
@@ -1934,7 +1801,7 @@ public class MosaicOpImage extends OpImage {
         int dstMinY = dst.getY();
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
-        int dstMaxX = dstMinX + dstWidth;  // x max exclusive
+        int dstMaxX = dstMinX + dstWidth; // x max exclusive
         int dstMaxY = dstMinY + dstHeight; // y max exclusive
         int dstBands = dst.getNumBands();
         int dstLineStride = dst.getScanlineStride();
@@ -1944,8 +1811,8 @@ public class MosaicOpImage extends OpImage {
 
         // Check for alpha.
         boolean hasAlpha = false;
-        for(int i = 0; i < numSources; i++) {
-            if(alfa[i] != null) {
+        for (int i = 0; i < numSources; i++) {
+            if (alfa[i] != null) {
                 hasAlpha = true;
                 break;
             }
@@ -1957,7 +1824,7 @@ public class MosaicOpImage extends OpImage {
         int[][] alfaBandOffsets = null;
         double[][][] alfaData = null;
 
-        if(hasAlpha) {
+        if (hasAlpha) {
             // Allocate stride, offset, and data arrays for alpha channels.
             alfaLineStride = new int[numSources];
             alfaPixelStride = new int[numSources];
@@ -1965,8 +1832,8 @@ public class MosaicOpImage extends OpImage {
             alfaData = new double[numSources][][];
 
             // Initialize stride, offset, and data arrays for alpha channels.
-            for(int i = 0; i < numSources; i++) {
-                if(alfa[i] != null) {
+            for (int i = 0; i < numSources; i++) {
+                if (alfa[i] != null) {
                     alfaLineStride[i] = alfa[i].getScanlineStride();
                     alfaPixelStride[i] = alfa[i].getPixelStride();
                     alfaBandOffsets[i] = alfa[i].getBandOffsets();
@@ -1977,11 +1844,11 @@ public class MosaicOpImage extends OpImage {
 
         // Initialize weight type arrays.
         int[] weightTypes = new int[numSources];
-        for(int i = 0; i < numSources; i++) {
+        for (int i = 0; i < numSources; i++) {
             weightTypes[i] = WEIGHT_TYPE_THRESHOLD;
-            if(alfa[i] != null) {
+            if (alfa[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ALPHA;
-            } else if(sourceROI != null && sourceROI[i] != null) {
+            } else if (sourceROI != null && sourceROI[i] != null) {
                 weightTypes[i] = WEIGHT_TYPE_ROI;
             }
         }
@@ -1995,20 +1862,20 @@ public class MosaicOpImage extends OpImage {
         int[] aLineOffsets = null;
         int[] aPixelOffsets = null;
         double[][] aBandData = null;
-        if(hasAlpha) {
+        if (hasAlpha) {
             aLineOffsets = new int[numSources];
             aPixelOffsets = new int[numSources];
             aBandData = new double[numSources][];
         }
 
-        for(int b = 0; b < dstBands; b++) {
+        for (int b = 0; b < dstBands; b++) {
             // Initialize source and alpha band array and line offsets.
-            for(int s = 0; s < numSources; s++) {
-                if(src[s] != null) {
+            for (int s = 0; s < numSources; s++) {
+                if (src[s] != null) {
                     sBandData[s] = srcData[s][b];
                     sLineOffsets[s] = srcBandOffsets[s][b];
                 }
-                if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                     aBandData[s] = alfaData[s][0];
                     aLineOffsets[s] = alfaBandOffsets[s][0];
                 }
@@ -2018,16 +1885,16 @@ public class MosaicOpImage extends OpImage {
             double[] dBandData = dstData[b];
             int dLineOffset = dstBandOffsets[b];
 
-            if(mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+            if (mosaicType == MosaicDescriptor.MOSAIC_TYPE_OVERLAY) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(alfa[s] != null) {
+                        if (alfa[s] != null) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -2038,47 +1905,42 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Unset destination update flag.
                         boolean setDestValue = false;
 
                         // Loop over source until a non-zero weight is
                         // encountered.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            double sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            double sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                setDestValue =
-                                    aBandData[s][aPixelOffsets[s]] != 0;
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                setDestValue =
-                                    roi[s].getSample(dstX, dstY, 0) > 0;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                setDestValue =
-                                    sourceValue >=
-                                    sourceThreshold[s][b];
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    setDestValue = aBandData[s][aPixelOffsets[s]] != 0;
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    setDestValue = roi[s].getSample(dstX, dstY, 0) > 0;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    setDestValue = sourceValue >= sourceThreshold[s][b];
                             }
 
                             // Set the destination value if a non-zero
                             // weight was found.
-                            if(setDestValue) {
+                            if (setDestValue) {
                                 dBandData[dPixelOffset] = sourceValue;
 
                                 // Increment offset of subsequent sources.
-                                for(int k = s + 1; k < numSources; k++) {
-                                    if(src[k] != null) {
+                                for (int k = s + 1; k < numSources; k++) {
+                                    if (src[k] != null) {
                                         sPixelOffsets[k] += srcPixelStride[k];
                                     }
-                                    if(alfa[k] != null) {
+                                    if (alfa[k] != null) {
                                         aPixelOffsets[k] += alfaPixelStride[k];
                                     }
                                 }
@@ -2088,7 +1950,7 @@ public class MosaicOpImage extends OpImage {
 
                         // Set the destination value to the background if
                         // no value was set.
-                        if(!setDestValue) {
+                        if (!setDestValue) {
                             dBandData[dPixelOffset] = backgroundValues[b];
                         }
 
@@ -2096,15 +1958,15 @@ public class MosaicOpImage extends OpImage {
                     }
                 }
             } else { // mosaicType == MosaicDescriptor.MOSAIC_TYPE_BLEND
-                for(int dstY = dstMinY; dstY < dstMaxY; dstY++) {
+                for (int dstY = dstMinY; dstY < dstMaxY; dstY++) {
                     // Initialize source and alpha pixel offsets and
                     // update line offsets.
-                    for(int s = 0; s < numSources; s++) {
-                        if(src[s] != null) {
+                    for (int s = 0; s < numSources; s++) {
+                        if (src[s] != null) {
                             sPixelOffsets[s] = sLineOffsets[s];
                             sLineOffsets[s] += srcLineStride[s];
                         }
-                        if(weightTypes[s] == WEIGHT_TYPE_ALPHA) {
+                        if (weightTypes[s] == WEIGHT_TYPE_ALPHA) {
                             aPixelOffsets[s] = aLineOffsets[s];
                             aLineOffsets[s] += alfaLineStride[s];
                         }
@@ -2115,54 +1977,46 @@ public class MosaicOpImage extends OpImage {
                     int dPixelOffset = dLineOffset;
                     dLineOffset += dstLineStride;
 
-                    for(int dstX = dstMinX; dstX < dstMaxX; dstX++) {
+                    for (int dstX = dstMinX; dstX < dstMaxX; dstX++) {
 
                         // Clear values for blending ratio.
                         double numerator = 0.0F;
                         double denominator = 0.0F;
 
                         // Accumulate into numerator and denominator.
-                        for(int s = 0; s < numSources; s++) {
-                            if(src[s] == null) continue;
+                        for (int s = 0; s < numSources; s++) {
+                            if (src[s] == null) continue;
 
-                            double sourceValue =
-                                sBandData[s][sPixelOffsets[s]];
+                            double sourceValue = sBandData[s][sPixelOffsets[s]];
                             sPixelOffsets[s] += srcPixelStride[s];
 
                             double weight = 0.0F;
-                            switch(weightTypes[s]) {
-                            case WEIGHT_TYPE_ALPHA:
-                                weight = aBandData[s][aPixelOffsets[s]];
-                                if(weight > 0.0F && isAlphaBitmask) {
-                                    weight = 1.0F;
-                                }
-                                aPixelOffsets[s] += alfaPixelStride[s];
-                                break;
-                            case WEIGHT_TYPE_ROI:
-                                weight =
-                                    roi[s].getSample(dstX, dstY, 0) > 0 ?
-                                    1.0F : 0.0F;
-                                break;
-                            default: // WEIGHT_TYPE_THRESHOLD
-                                weight =
-                                    sourceValue >=
-                                    sourceThreshold[s][b] ?
-                                    1.0F : 0.0F;
+                            switch (weightTypes[s]) {
+                                case WEIGHT_TYPE_ALPHA:
+                                    weight = aBandData[s][aPixelOffsets[s]];
+                                    if (weight > 0.0F && isAlphaBitmask) {
+                                        weight = 1.0F;
+                                    }
+                                    aPixelOffsets[s] += alfaPixelStride[s];
+                                    break;
+                                case WEIGHT_TYPE_ROI:
+                                    weight = roi[s].getSample(dstX, dstY, 0) > 0 ? 1.0F : 0.0F;
+                                    break;
+                                default: // WEIGHT_TYPE_THRESHOLD
+                                    weight = sourceValue >= sourceThreshold[s][b] ? 1.0F : 0.0F;
                             }
 
                             // Update numerator and denominator.
-                            numerator += weight*sourceValue;
+                            numerator += weight * sourceValue;
                             denominator += weight;
                         }
 
                         // Clear the background if all weights were zero,
                         // otherwise blend the values.
-                        if(denominator == 0.0) {
+                        if (denominator == 0.0) {
                             dBandData[dPixelOffset] = backgroundValues[b];
                         } else {
-                            dBandData[dPixelOffset] =
-                                numerator /
-                                denominator;
+                            dBandData[dPixelOffset] = numerator / denominator;
                         }
 
                         dPixelOffset += dstPixelStride;

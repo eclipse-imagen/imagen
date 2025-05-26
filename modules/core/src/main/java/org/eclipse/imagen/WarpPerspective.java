@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.Rectangle;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -23,10 +24,8 @@ import java.awt.geom.Point2D;
 /**
  * A description of a perspective (projective) warp.
  *
- * <p> The transform is specified as a mapping from destination
- * space to source space.  This is a backward mapping, as opposed
- * to the forward mapping used in the "Affine" operation.
- *
+ * <p>The transform is specified as a mapping from destination space to source space. This is a backward mapping, as
+ * opposed to the forward mapping used in the "Affine" operation.
  */
 public final class WarpPerspective extends Warp {
 
@@ -34,12 +33,10 @@ public final class WarpPerspective extends Warp {
     private PerspectiveTransform invTransform;
 
     /**
-     * Constructs a <code>WarpPerspective</code> with a given
-     * transform mapping destination pixels into source space.  Note
-     * that this is a backward mapping as opposed to the forward
-     * mapping used in AffineOpImage.
+     * Constructs a <code>WarpPerspective</code> with a given transform mapping destination pixels into source space.
+     * Note that this is a backward mapping as opposed to the forward mapping used in AffineOpImage.
      *
-     * @param transform  The destination to source transform.
+     * @param transform The destination to source transform.
      * @throws IllegalArgumentException if transform is null
      */
     public WarpPerspective(PerspectiveTransform transform) {
@@ -58,25 +55,22 @@ public final class WarpPerspective extends Warp {
         } catch (CloneNotSupportedException e) {
             invTransform = null;
         }
-
     }
 
     /**
-     * Returns a clone of the <code>PerspectiveTransform</code>
-     * associated with this <code>WarpPerspective</code> object.
+     * Returns a clone of the <code>PerspectiveTransform</code> associated with this <code>WarpPerspective</code>
+     * object.
      *
      * @return An instance of <code>PerspectiveTransform</code>.
      */
     public PerspectiveTransform getTransform() {
-        return (PerspectiveTransform)transform.clone();
+        return (PerspectiveTransform) transform.clone();
     }
 
     /**
-     * Computes the source subpixel positions for a given rectangular
-     * destination region, subsampled with an integral period.  The
-     * destination region is specified using normal integral (full
-     * pixel) coordinates.  The source positions returned by the
-     * method are specified in floating point.
+     * Computes the source subpixel positions for a given rectangular destination region, subsampled with an integral
+     * period. The destination region is specified using normal integral (full pixel) coordinates. The source positions
+     * returned by the method are specified in floating point.
      *
      * @param x The minimum X coordinate of the destination region.
      * @param y The minimum Y coordinate of the destination region.
@@ -84,38 +78,29 @@ public final class WarpPerspective extends Warp {
      * @param height The height of the destination region.
      * @param periodX The horizontal sampling period.
      * @param periodY The horizontal sampling period.
-     *
-     * @param destRect A <code>float</code> array containing at least
-     *        <code>2*((width+periodX-1)/periodX)*
-     *                ((height+periodY-1)/periodY)</code>
-     *        elements, or <code>null</code>.  If <code>null</code>, a
-     *        new array will be constructed.
-     *
-     * @return A reference to the <code>destRect</code> parameter if
-     *         it is non-<code>null</code>, or a new
-     *         <code>float</code> array otherwise.
+     * @param destRect A <code>float</code> array containing at least <code>2*((width+periodX-1)/periodX)*
+     *                ((height+periodY-1)/periodY)</code> elements, or <code>null</code>. If <code>null</code>, a new
+     *     array will be constructed.
+     * @return A reference to the <code>destRect</code> parameter if it is non-<code>null</code>, or a new <code>float
+     *     </code> array otherwise.
      * @throw ArrayBoundsException if destRect is too small.
      */
-    public float[] warpSparseRect(int x, int y,
-                                  int width, int height,
-                                  int periodX, int periodY,
-                                  float[] destRect) {
+    public float[] warpSparseRect(int x, int y, int width, int height, int periodX, int periodY, float[] destRect) {
         if (destRect == null) {
-            destRect = new float[2 * ((width + periodX - 1) / periodX) *
-                                     ((height + periodY - 1) / periodY)];
+            destRect = new float[2 * ((width + periodX - 1) / periodX) * ((height + periodY - 1) / periodY)];
         }
 
         double[][] matrix = new double[3][3];
         matrix = transform.getMatrix(matrix);
-        float m00 = (float)matrix[0][0];
-        float m01 = (float)matrix[0][1];
-        float m02 = (float)matrix[0][2];
-        float m10 = (float)matrix[1][0];
-        float m11 = (float)matrix[1][1];
-        float m12 = (float)matrix[1][2];
-        float m20 = (float)matrix[2][0];
-        float m21 = (float)matrix[2][1];
-        float m22 = (float)matrix[2][2];
+        float m00 = (float) matrix[0][0];
+        float m01 = (float) matrix[0][1];
+        float m02 = (float) matrix[0][2];
+        float m10 = (float) matrix[1][0];
+        float m11 = (float) matrix[1][1];
+        float m12 = (float) matrix[1][2];
+        float m20 = (float) matrix[2][0];
+        float m21 = (float) matrix[2][1];
+        float m22 = (float) matrix[2][2];
 
         //
         // x' = (m00x + m01y + m02) / (m20x + m21y + m22)
@@ -126,11 +111,11 @@ public final class WarpPerspective extends Warp {
         float dy = m10 * periodX;
         float dw = m20 * periodX;
 
-        float sx = x + 0.5F;		// shift coordinate by 0.5
+        float sx = x + 0.5F; // shift coordinate by 0.5
 
         width += x;
         height += y;
-        int index = 0;			// destRect index
+        int index = 0; // destRect index
 
         for (int j = y; j < height; j += periodY) {
             float sy = j + 0.5F;
@@ -146,7 +131,7 @@ public final class WarpPerspective extends Warp {
                     ty = wy / w;
                 } catch (java.lang.ArithmeticException e) {
                     // w is 0, do not warp
-                    tx = i + 0.5F; 	// to be subtracted below
+                    tx = i + 0.5F; // to be subtracted below
                     ty = j + 0.5F;
                 }
 
@@ -163,19 +148,16 @@ public final class WarpPerspective extends Warp {
     }
 
     /**
-     * Computes a Rectangle that is guaranteed to enclose the region
-     * of the source that is required in order to produce a given
-     * rectangular output region.
+     * Computes a Rectangle that is guaranteed to enclose the region of the source that is required in order to produce
+     * a given rectangular output region.
      *
      * @param destRect The <code>Rectangle</code> in destination coordinates.
      * @throws IllegalArgumentException if destRect is null.
-     * @return A <code>Rectangle</code> in the source coordinate
-     *         system that is guaranteed to contain all pixels
-     *         referenced by the output of <code>warpRect()</code> on
-     *         the destination region.
+     * @return A <code>Rectangle</code> in the source coordinate system that is guaranteed to contain all pixels
+     *     referenced by the output of <code>warpRect()</code> on the destination region.
      */
     public Rectangle mapDestRect(Rectangle destRect) {
-        if ( destRect == null ) {
+        if (destRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -198,8 +180,8 @@ public final class WarpPerspective extends Warp {
         int maxY = Integer.MIN_VALUE;
 
         for (int i = 0; i < 4; i++) {
-            int px = (int)pts[i].getX();
-            int py = (int)pts[i].getY();
+            int px = (int) pts[i].getX();
+            int py = (int) pts[i].getY();
 
             minX = Math.min(minX, px);
             maxX = Math.max(maxX, px);
@@ -211,20 +193,17 @@ public final class WarpPerspective extends Warp {
     }
 
     /**
-     * Computes a Rectangle that is guaranteed to enclose the region
-     * of the source that is required in order to produce a given
-     * rectangular output region.
+     * Computes a Rectangle that is guaranteed to enclose the region of the source that is required in order to produce
+     * a given rectangular output region.
      *
      * @param srcRect The <code>Rectangle</code> in source coordinates.
      * @throws IllegalArgumentException is srcRect is null.
-     * @return A <code>Rectangle</code> in the destination coordinate
-     *         system that is guaranteed to contain all pixels
-     *         within the forward mapping of the source rectangle.
-     *
+     * @return A <code>Rectangle</code> in the destination coordinate system that is guaranteed to contain all pixels
+     *     within the forward mapping of the source rectangle.
      * @since JAI 1.1
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
-        if ( srcRect == null ) {
+        if (srcRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -252,8 +231,8 @@ public final class WarpPerspective extends Warp {
         int maxY = Integer.MIN_VALUE;
 
         for (int i = 0; i < 4; i++) {
-            int px = (int)pts[i].getX();
-            int py = (int)pts[i].getY();
+            int px = (int) pts[i].getX();
+            int py = (int) pts[i].getY();
 
             minX = Math.min(minX, px);
             maxX = Math.max(maxX, px);
@@ -267,18 +246,11 @@ public final class WarpPerspective extends Warp {
     /**
      * Computes the source point corresponding to the supplied point.
      *
-     * <p>This method returns the return value of
-     * <code>transform.transform(destPt, null)</code>.</p>
+     * <p>This method returns the return value of <code>transform.transform(destPt, null)</code>.
      *
-     * @param destPt the position in destination image coordinates
-     * to map to source image coordinates.
-     *
-     * @return a <code>Point2D</code> of the same class as
-     * <code>destPt</code>.
-     *
-     * @throws IllegalArgumentException if <code>destPt</code> is
-     * <code>null</code>.
-     *
+     * @param destPt the position in destination image coordinates to map to source image coordinates.
+     * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
+     * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
@@ -313,8 +285,6 @@ public final class WarpPerspective extends Warp {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        return invTransform != null ?
-            invTransform.transform(sourcePt, null) : null;
+        return invTransform != null ? invTransform.transform(sourcePt, null) : null;
     }
 }
-

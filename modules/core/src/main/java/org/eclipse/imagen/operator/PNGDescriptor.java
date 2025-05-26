@@ -16,43 +16,39 @@
  */
 
 package org.eclipse.imagen.operator;
-import org.eclipse.imagen.media.codec.PNGDecodeParam;
-import org.eclipse.imagen.media.codec.SeekableStream;
+
 import java.awt.RenderingHints;
-import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.codec.PNGDecodeParam;
+import org.eclipse.imagen.media.codec.SeekableStream;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
  * An <code>OperationDescriptor</code> describing the "PNG" operation.
  *
- * <p> The "PNG" operation reads a standard PNG version 1.1 input stream.
- * The PNG (Portable Network Graphics) specification may be
- * found at <a href="http://www.cdrom.com/pub/png/spec">
- * <code>http://www.cdrom.com/pub/png/spec</code></a>.
+ * <p>The "PNG" operation reads a standard PNG version 1.1 input stream. The PNG (Portable Network Graphics)
+ * specification may be found at <a href="http://www.cdrom.com/pub/png/spec"><code>http://www.cdrom.com/pub/png/spec
+ * </code></a>.
  *
- * <p> The "PNG" operation implements the entire PNG specification,
- * but provides access only to the final, high-resolution version of
- * interlaced images.
+ * <p>The "PNG" operation implements the entire PNG specification, but provides access only to the final,
+ * high-resolution version of interlaced images.
  *
- * <p> The second parameter contains an instance of
- * <code>PNGDecodeParam</code> to be used during the decoding.
- * It may be set to <code>null</code> in order to perform default
- * decoding, or equivalently may be omitted.
+ * <p>The second parameter contains an instance of <code>PNGDecodeParam</code> to be used during the decoding. It may be
+ * set to <code>null</code> in order to perform default decoding, or equivalently may be omitted.
  *
- * <p> The documentation for <code>PNGDecodeParam</code> describes the
- * possible output formats of PNG images after decoding.
+ * <p>The documentation for <code>PNGDecodeParam</code> describes the possible output formats of PNG images after
+ * decoding.
  *
- * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code>
- * package are not a committed part of the JAI API.  Future releases
- * of JAI will make use of new classes in their place.  This
- * class will change accordingly.</b>
- * 
- * <p><table border=1>
+ * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the JAI
+ * API. Future releases of JAI will make use of new classes in their place. This class will change accordingly.</b>
+ *
+ * <p>
+ *
+ * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
  * <tr><td>GlobalName</td>  <td>PNG</td></tr>
@@ -63,9 +59,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>Version</td>     <td>1.0</td></tr>
  * <tr><td>arg0Desc</td>    <td>The SeekableStream to read from.</td></tr>
  * <tr><td>arg1Desc</td>    <td>The PNGDecodeParam to use.</td></tr>
- * </table></p>
+ * </table>
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>    <th>Class Type</th>
  *                      <th>Default Value</th></tr>
@@ -73,9 +71,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                      <td>NO_PARAMETER_DEFAULT</td>
  * <tr><td>param</td>   <td>org.eclipse.imagen.media.codec.PNGDecodeParam</td>
  *                      <td>null</td>
- * </table></p>
+ * </table>
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Properties</caption>
  * <tr><th>Property Name</th> <th>Class</th> <th>Comment</th></tr>
  *
@@ -104,7 +104,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <td>The CIE X coordinate of the green primary, if known.</td> </tr>
  * <tr><td>green_y</td>            <td>Float</td>
  * <td>The CIE Y coordinate of the green primary, if known.</td> </tr>
- * <tr><td>blue_x</td>             <td>Float</td>  
+ * <tr><td>blue_x</td>             <td>Float</td>
  * <td>The CIE X coordinate of the blue primary, if known.</td> </tr>
  * <tr><td>blue_y</td>             <td>Float</td>
  * <td>The CIE Y coordinate of the blue primary, if known.</td> </tr>
@@ -126,7 +126,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <td>The value of a zTXt chunk (not yet implemented).</td> </tr>
  * <tr><td>chunk:*</td>            <td>byte[]</td>
  * <td>The contents of any non-standard chunks.</td> </tr>
- * </table></p>
+ * </table>
  *
  * @see org.eclipse.imagen.media.codec.PNGDecodeParam
  * @see org.eclipse.imagen.media.codec.SeekableStream
@@ -135,67 +135,56 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 public class PNGDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation and
-     * specify the parameter list for the "PNG" operation.
+     * The resource strings that provide the general documentation and specify the parameter list for the "PNG"
+     * operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "PNG"},
-        {"LocalName",   "PNG"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "PNG"},
+        {"LocalName", "PNG"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("PNGDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PNGDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc",    JaiI18N.getString("PNGDescriptor1")},
-        {"arg1Desc",    JaiI18N.getString("PNGDescriptor2")},
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PNGDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"arg0Desc", JaiI18N.getString("PNGDescriptor1")},
+        {"arg1Desc", JaiI18N.getString("PNGDescriptor2")},
     };
 
     /** The parameter names for the "PNG" operation. */
-    private static final String[] paramNames = {
-        "stream", "param"
-    };
+    private static final String[] paramNames = {"stream", "param"};
 
     /** The parameter class types for the "PNG" operation. */
     private static final Class[] paramClasses = {
-	org.eclipse.imagen.media.codec.SeekableStream.class,
-        org.eclipse.imagen.media.codec.PNGDecodeParam.class
+        org.eclipse.imagen.media.codec.SeekableStream.class, org.eclipse.imagen.media.codec.PNGDecodeParam.class
     };
 
     /** The parameter default values for the "PNG" operation. */
-    private static final Object[] paramDefaults = {
-        NO_PARAMETER_DEFAULT, null
-    };
+    private static final Object[] paramDefaults = {NO_PARAMETER_DEFAULT, null};
 
     /** Constructor. */
     public PNGDescriptor() {
         super(resources, 0, paramClasses, paramNames, paramDefaults);
     }
 
-
     /**
      * Reads a standard JFIF (PNG) file.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param stream The SeekableStream to read from.
-     * @param param The PNGDecodeParam to use.
-     * May be <code>null</code>.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param param The PNGDecodeParam to use. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>stream</code> is <code>null</code>.
      */
-    public static RenderedOp create(SeekableStream stream,
-                                    PNGDecodeParam param,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("PNG",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(SeekableStream stream, PNGDecodeParam param, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("PNG", RenderedRegistryMode.MODE_NAME);
 
         pb.setParameter("stream", stream);
         pb.setParameter("param", param);

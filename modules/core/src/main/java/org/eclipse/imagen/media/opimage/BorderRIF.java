@@ -16,25 +16,20 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
-import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
-import java.util.Map;
-import org.eclipse.imagen.operator.BorderDescriptor;
 
 /**
- * A <code>RIF</code> supporting the "border" operation in the
- * rendered image layer.
+ * A <code>RIF</code> supporting the "border" operation in the rendered image layer.
  *
  * @see java.awt.image.renderable.RenderedImageFactory
  * @see org.eclipse.imagen.operator.BorderDescriptor
  * @see BorderOpImage
- *
  */
 public class BorderRIF implements RenderedImageFactory {
 
@@ -42,41 +37,31 @@ public class BorderRIF implements RenderedImageFactory {
     public BorderRIF() {}
 
     /**
-     * Creates a new instance of <code>BorderOpImage</code>
-     * in the rendered layer.
+     * Creates a new instance of <code>BorderOpImage</code> in the rendered layer.
      *
-     * @param args   The source image and the border information
-     * @param hints  Optionally contains destination image layout.
+     * @param args The source image and the border information
+     * @param hints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         RenderedImage source = args.getRenderedSource(0);
         int leftPad = args.getIntParameter(0);
         int rightPad = args.getIntParameter(1);
         int topPad = args.getIntParameter(2);
         int bottomPad = args.getIntParameter(3);
-        BorderExtender type =
-            (BorderExtender)args.getObjectParameter(4);
+        BorderExtender type = (BorderExtender) args.getObjectParameter(4);
 
-        if (type ==
-            BorderExtender.createInstance(BorderExtender.BORDER_WRAP)) {
+        if (type == BorderExtender.createInstance(BorderExtender.BORDER_WRAP)) {
             int minX = source.getMinX() - leftPad;
             int minY = source.getMinY() - topPad;
             int width = source.getWidth() + leftPad + rightPad;
             int height = source.getHeight() + topPad + bottomPad;
 
-            return new PatternOpImage(source.getData(),
-                                      source.getColorModel(),
-                                      minX, minY,
-                                      width, height);
+            return new PatternOpImage(source.getData(), source.getColorModel(), minX, minY, width, height);
         } else {
-            return new BorderOpImage(source, renderHints, layout,
-                                     leftPad, rightPad, topPad, bottomPad,
-                                     type);
+            return new BorderOpImage(source, renderHints, layout, leftPad, rightPad, topPad, bottomPad, type);
         }
     }
 }

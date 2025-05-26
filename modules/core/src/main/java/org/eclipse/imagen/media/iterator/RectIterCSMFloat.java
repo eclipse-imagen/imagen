@@ -16,12 +16,12 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.media.util.DataBufferUtils;
 
-/**
- */
+/** */
 public class RectIterCSMFloat extends RectIterCSM {
 
     float[][] bankData;
@@ -59,11 +59,11 @@ public class RectIterCSMFloat extends RectIterCSM {
     }
 
     public final int getSample() {
-        return (int)bank[offset + bandOffset];
+        return (int) bank[offset + bandOffset];
     }
 
     public final int getSample(int b) {
-        return (int)bankData[b][offset + bandOffsets[b]];
+        return (int) bankData[b][offset + bandOffsets[b]];
     }
 
     public final float getSampleFloat() {
@@ -75,11 +75,11 @@ public class RectIterCSMFloat extends RectIterCSM {
     }
 
     public final double getSampleDouble() {
-        return (double)bank[offset + bandOffset];
+        return (double) bank[offset + bandOffset];
     }
 
     public final double getSampleDouble(int b) {
-        return (double)bankData[b][offset + bandOffsets[b]];
+        return (double) bankData[b][offset + bandOffsets[b]];
     }
 
     public int[] getPixel(int[] iArray) {
@@ -87,7 +87,7 @@ public class RectIterCSMFloat extends RectIterCSM {
             iArray = new int[numBands];
         }
         for (int b = 0; b < numBands; b++) {
-            iArray[b] = (int)bankData[b][offset + bandOffsets[b]];
+            iArray[b] = (int) bankData[b][offset + bandOffsets[b]];
         }
         return iArray;
     }
@@ -107,7 +107,7 @@ public class RectIterCSMFloat extends RectIterCSM {
             dArray = new double[numBands];
         }
         for (int b = 0; b < numBands; b++) {
-            dArray[b] = (double)bankData[b][offset + bandOffsets[b]];
+            dArray[b] = (double) bankData[b][offset + bandOffsets[b]];
         }
         return dArray;
     }

@@ -20,11 +20,9 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "shearDir"
- * parameter of the "Shear" operation.  Acceptable values for the
- * "shearDir" parameter are defined in the <code>ShearDescriptor</code>
- * by the constants <code>SHEAR_HORIZONTAL</code> and
- * <code>SHEAR_VERTICAL</code>.
+ * Class used to represent the acceptable values of the "shearDir" parameter of the "Shear" operation. Acceptable values
+ * for the "shearDir" parameter are defined in the <code>ShearDescriptor</code> by the constants <code>SHEAR_HORIZONTAL
+ * </code> and <code>SHEAR_VERTICAL</code>.
  *
  * @since JAI 1.1
  */

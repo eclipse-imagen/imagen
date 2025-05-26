@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "Clamp" operation in the rendered
- * and renderable image layers.
+ * A <code>CRIF</code> supporting the "Clamp" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.ClampDescriptor
  * @see ClampOpImage
- *
- *
  * @since EA2
  */
 public class ClampCRIF extends CRIFImpl {
@@ -41,22 +38,17 @@ public class ClampCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>ClampOpImage</code> in the
-     * rendered layer.
+     * Creates a new instance of <code>ClampOpImage</code> in the rendered layer.
      *
-     * @param args   The source image and the low and high boundary values.
-     * @param hints  Optionally contains destination image layout.
+     * @param args The source image and the low and high boundary values.
+     * @param hints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        
-        return new ClampOpImage(args.getRenderedSource(0),
-                                renderHints,
-                                layout,
-                                (double[])args.getObjectParameter(0),
-                                (double[])args.getObjectParameter(1));
+
+        return new ClampOpImage(
+                args.getRenderedSource(0), renderHints, layout, (double[]) args.getObjectParameter(0), (double[])
+                        args.getObjectParameter(1));
     }
 }

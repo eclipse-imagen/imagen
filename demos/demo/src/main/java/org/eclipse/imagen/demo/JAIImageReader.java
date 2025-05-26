@@ -12,9 +12,9 @@ import java.awt.image.RenderedImage;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.PlanarImage;
+import org.eclipse.imagen.media.codec.FileSeekableStream;
 import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageDecoder;
-import org.eclipse.imagen.media.codec.FileSeekableStream;
 import org.eclipse.imagen.media.codec.SeekableStream;
 
 public class JAIImageReader {
@@ -30,8 +30,7 @@ public class JAIImageReader {
                 // Use the ImageCodec APIs
                 SeekableStream stream = new FileSeekableStream(filename);
                 String[] names = ImageCodec.getDecoderNames(stream);
-                ImageDecoder dec =
-                    ImageCodec.createImageDecoder(names[0], stream, null);
+                ImageDecoder dec = ImageCodec.createImageDecoder(names[0], stream, null);
                 RenderedImage im = dec.decodeAsRenderedImage();
                 image = PlanarImage.wrapRenderedImage(im);
             } catch (Exception e) {
@@ -41,9 +40,9 @@ public class JAIImageReader {
         }
 
         // If the source image is colormapped, convert it to 3-band RGB.
-        if(image.getColorModel() instanceof IndexColorModel) {
+        if (image.getColorModel() instanceof IndexColorModel) {
             // Retrieve the IndexColorModel
-            IndexColorModel icm = (IndexColorModel)image.getColorModel();
+            IndexColorModel icm = (IndexColorModel) image.getColorModel();
 
             // Cache the number of elements in each band of the colormap.
             int mapSize = icm.getMapSize();

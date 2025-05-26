@@ -16,9 +16,9 @@
  */
 
 package org.eclipse.imagen;
-import java.awt.Rectangle;
+
 import java.awt.Point;
-import java.awt.image.BandedSampleModel;
+import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
@@ -31,33 +31,26 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import org.eclipse.imagen.media.util.DataBufferUtils;
 import org.eclipse.imagen.remote.SerializableState;
 import org.eclipse.imagen.remote.SerializerFactory;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
- * A lookup table object associated with the "Lookup" operation.  The
- * "Lookup" operation is described in
- * <code>org.eclipse.imagen.operator.LookupDescriptor</code>.
+ * A lookup table object associated with the "Lookup" operation. The "Lookup" operation is described in <code>
+ * org.eclipse.imagen.operator.LookupDescriptor</code>.
  *
- * <p>This object represents a single- or multi-banded table of any
- * JAI supported data type. A single- or multi-banded source image
- * of integral data types is passed through the table and transformed
- * into a single- or multi-banded destination image of either integral
- * and floating point data types.
+ * <p>This object represents a single- or multi-banded table of any JAI supported data type. A single- or multi-banded
+ * source image of integral data types is passed through the table and transformed into a single- or multi-banded
+ * destination image of either integral and floating point data types.
  *
- * <p>The table data may cover only a subrange of the legal range of the
- * input data type. The subrange is selected by means of an offset parameter
- * which is to be subtracted from the input value before indexing into the
- * table array. When only a subranged table is used with a source image, it
- * is up to the user to make certain that the source image does not have
- * pixel values outside of the table range. Otherwise,
- * an ArrayIndexOutOfBoundsException can occur.
+ * <p>The table data may cover only a subrange of the legal range of the input data type. The subrange is selected by
+ * means of an offset parameter which is to be subtracted from the input value before indexing into the table array.
+ * When only a subranged table is used with a source image, it is up to the user to make certain that the source image
+ * does not have pixel values outside of the table range. Otherwise, an ArrayIndexOutOfBoundsException can occur.
  *
  * <p>The table data is saved by reference only.
  *
  * @see org.eclipse.imagen.operator.LookupDescriptor
- *
  */
 public class LookupTableJAI extends Object implements Serializable {
 
@@ -70,11 +63,11 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded byte lookup table. The index offset is 0.
      *
-     * @param data  The single-banded byte data.
+     * @param data The single-banded byte data.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(byte[] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -85,12 +78,12 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded byte lookup table with an index offset.
      *
-     * @param data    The single-banded byte data.
-     * @param offset  The offset.
+     * @param data The single-banded byte data.
+     * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(byte[] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -99,14 +92,13 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded byte lookup table. The index offset for
-     * each band is 0.
+     * Constructs a multi-banded byte lookup table. The index offset for each band is 0.
      *
-     * @param data  The multi-banded byte data in [band][index] format.
+     * @param data The multi-banded byte data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(byte[][] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -115,15 +107,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded byte lookup table where all bands have
-     * the same index offset.
+     * Constructs a multi-banded byte lookup table where all bands have the same index offset.
      *
-     * @param data    The multi-banded byte data in [band][index] format.
-     * @param offset  The common offset for all bands.
+     * @param data The multi-banded byte data in [band][index] format.
+     * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(byte[][] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -132,15 +123,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded byte lookup table where each band has
-     * a different index offset.
+     * Constructs a multi-banded byte lookup table where each band has a different index offset.
      *
-     * @param data     The multi-banded byte data in [band][index] format.
-     * @param offsets  The offsets for the bands.
+     * @param data The multi-banded byte data in [band][index] format.
+     * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(byte[][] data, int[] offsets) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -149,16 +139,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a single-banded short or unsigned short lookup table.
-     * The index offset is 0.
+     * Constructs a single-banded short or unsigned short lookup table. The index offset is 0.
      *
-     * @param data      The single-banded short data.
-     * @param isUShort  True if data type is DataBuffer.TYPE_USHORT;
-     *                  false if data type is DataBuffer.TYPE_SHORT.
+     * @param data The single-banded short data.
+     * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(short[] data, boolean isUShort) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -171,17 +159,15 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a single-banded short or unsigned short lookup table with
-     * an index offset.
+     * Constructs a single-banded short or unsigned short lookup table with an index offset.
      *
-     * @param data      The single-banded short data.
-     * @param offset    The offset.
-     * @param isUShort  True if data type is DataBuffer.TYPE_USHORT;
-     *                  false if data type is DataBuffer.TYPE_SHORT.
+     * @param data The single-banded short data.
+     * @param offset The offset.
+     * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(short[] data, int offset, boolean isUShort) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -194,16 +180,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded short or unsigned short lookup table.
-     * The index offset for each band is 0.
+     * Constructs a multi-banded short or unsigned short lookup table. The index offset for each band is 0.
      *
-     * @param data      The multi-banded short data in [band][index] format.
-     * @param isUShort  True if data type is DataBuffer.TYPE_USHORT;
-     *                  false if data type is DataBuffer.TYPE_SHORT.
+     * @param data The multi-banded short data in [band][index] format.
+     * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(short[][] data, boolean isUShort) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -216,17 +200,15 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded short or unsigned short lookup table where all
-     * bands have the same index offset.
+     * Constructs a multi-banded short or unsigned short lookup table where all bands have the same index offset.
      *
-     * @param data      The multi-banded short data in [band][index] format.
-     * @param offset    The common offset for all bands.
-     * @param isUShort  True if data type is DataBuffer.TYPE_USHORT;
-     *                  false if data type is DataBuffer.TYPE_SHORT.
+     * @param data The multi-banded short data in [band][index] format.
+     * @param offset The common offset for all bands.
+     * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(short[][] data, int offset, boolean isUShort) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -239,17 +221,15 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded short or unsigned short lookup table where
-     * each band has a different index offset.
+     * Constructs a multi-banded short or unsigned short lookup table where each band has a different index offset.
      *
-     * @param data      The multi-banded short data in [band][index] format.
-     * @param offsets   The offsets for the bands.
-     * @param isUShort  True if data type is DataBuffer.TYPE_USHORT;
-     *                  false if data type is DataBuffer.TYPE_SHORT.
+     * @param data The multi-banded short data in [band][index] format.
+     * @param offsets The offsets for the bands.
+     * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(short[][] data, int[] offsets, boolean isUShort) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -265,11 +245,11 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded int lookup table. The index offset is 0.
      *
-     * @param data  The single-banded int data.
+     * @param data The single-banded int data.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(int[] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -280,12 +260,12 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded int lookup table with an index offset.
      *
-     * @param data    The single-banded int data.
-     * @param offset  The offset.
+     * @param data The single-banded int data.
+     * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(int[] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -294,14 +274,13 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded int lookup table. The index offset for
-     * each band is 0.
+     * Constructs a multi-banded int lookup table. The index offset for each band is 0.
      *
-     * @param data  The multi-banded int data in [band][index] format.
+     * @param data The multi-banded int data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(int[][] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -310,15 +289,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded int lookup table where all bands have
-     * the same index offset.
+     * Constructs a multi-banded int lookup table where all bands have the same index offset.
      *
-     * @param data    The multi-banded int data in [band][index] format.
-     * @param offset  The common offset for all bands.
+     * @param data The multi-banded int data in [band][index] format.
+     * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(int[][] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -327,15 +305,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded int lookup table where each band has
-     * a different index offset.
+     * Constructs a multi-banded int lookup table where each band has a different index offset.
      *
-     * @param data     The multi-banded int data in [band][index] format.
-     * @param offsets  The offsets for the bands.
+     * @param data The multi-banded int data in [band][index] format.
+     * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(int[][] data, int[] offsets) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -346,11 +323,11 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded float lookup table. The index offset is 0.
      *
-     * @param data  The single-banded float data.
+     * @param data The single-banded float data.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(float[] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -361,12 +338,12 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded float lookup table with an index offset.
      *
-     * @param data    The single-banded float data.
-     * @param offset  The offset.
+     * @param data The single-banded float data.
+     * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(float[] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -375,14 +352,13 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded float lookup table. The index offset for
-     * each band is 0.
+     * Constructs a multi-banded float lookup table. The index offset for each band is 0.
      *
-     * @param data  The multi-banded float data in [band][index] format.
+     * @param data The multi-banded float data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(float[][] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -391,15 +367,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded float lookup table where all bands have
-     * the same index offset.
+     * Constructs a multi-banded float lookup table where all bands have the same index offset.
      *
-     * @param data    The multi-banded float data in [band][index] format.
-     * @param offset  The common offset for all bands.
+     * @param data The multi-banded float data in [band][index] format.
+     * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(float[][] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -408,15 +383,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded float lookup table where each band has
-     * a different index offset.
+     * Constructs a multi-banded float lookup table where each band has a different index offset.
      *
-     * @param data     The multi-banded float data in [band][index] format.
-     * @param offsets  The offsets for the bands.
+     * @param data The multi-banded float data in [band][index] format.
+     * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(float[][] data, int[] offsets) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -427,11 +401,11 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded double lookup table. The index offset is 0.
      *
-     * @param data  The single-banded double data.
+     * @param data The single-banded double data.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(double[] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -442,12 +416,12 @@ public class LookupTableJAI extends Object implements Serializable {
     /**
      * Constructs a single-banded double lookup table with an index offset.
      *
-     * @param data    The single-banded double data.
-     * @param offset  The offset.
+     * @param data The single-banded double data.
+     * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(double[] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -456,14 +430,13 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded double lookup table. The index offset for
-     * each band is 0.
+     * Constructs a multi-banded double lookup table. The index offset for each band is 0.
      *
-     * @param data  The multi-banded double data in [band][index] format.
+     * @param data The multi-banded double data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(double[][] data) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -472,15 +445,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded double lookup table where all bands have
-     * the same index offset.
+     * Constructs a multi-banded double lookup table where all bands have the same index offset.
      *
-     * @param data    The multi-banded double data in [band][index] format.
-     * @param offset  The common offset for all bands.
+     * @param data The multi-banded double data in [band][index] format.
+     * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(double[][] data, int offset) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -489,15 +461,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a multi-banded double lookup table where each band has
-     * a different index offset.
+     * Constructs a multi-banded double lookup table where each band has a different index offset.
      *
-     * @param data     The multi-banded double data in [band][index] format.
-     * @param offsets  The offsets for the bands.
+     * @param data The multi-banded double data in [band][index] format.
+     * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
     public LookupTableJAI(double[][] data, int[] offsets) {
-        if ( data == null ) {
+        if (data == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -505,120 +476,76 @@ public class LookupTableJAI extends Object implements Serializable {
         this.data = DataBufferUtils.createDataBufferDouble(data, data[0].length);
     }
 
-    /**
-     * Returns the table data as a DataBuffer.
-     */
+    /** Returns the table data as a DataBuffer. */
     public DataBuffer getData() {
         return data;
     }
 
-    /**
-     * Returns the byte table data in array format, or null if the
-     * table's data type is not byte.
-     */
+    /** Returns the byte table data in array format, or null if the table's data type is not byte. */
     public byte[][] getByteData() {
-        return data instanceof DataBufferByte ?
-               ((DataBufferByte)data).getBankData() : null;
+        return data instanceof DataBufferByte ? ((DataBufferByte) data).getBankData() : null;
     }
 
-    /**
-     * Returns the byte table data of a specific band in array format,
-     * or null if the table's data type is not byte.
-     */
+    /** Returns the byte table data of a specific band in array format, or null if the table's data type is not byte. */
     public byte[] getByteData(int band) {
-        return data instanceof DataBufferByte ?
-               ((DataBufferByte)data).getData(band) : null;
+        return data instanceof DataBufferByte ? ((DataBufferByte) data).getData(band) : null;
     }
 
     /**
-     * Returns the short table data in array format, or null if the
-     * table's data type is not short. This includes both signed and
-     * unsigned short table data.
-     *
+     * Returns the short table data in array format, or null if the table's data type is not short. This includes both
+     * signed and unsigned short table data.
      */
     public short[][] getShortData() {
         if (data instanceof DataBufferUShort) {
-            return ((DataBufferUShort)data).getBankData();
+            return ((DataBufferUShort) data).getBankData();
         } else if (data instanceof DataBufferShort) {
-            return ((DataBufferShort)data).getBankData();
+            return ((DataBufferShort) data).getBankData();
         } else {
             return null;
         }
     }
 
     /**
-     * Returns the short table data of a specific band in array format,
-     * or null if the table's data type is not short.
-     *
+     * Returns the short table data of a specific band in array format, or null if the table's data type is not short.
      */
     public short[] getShortData(int band) {
         if (data instanceof DataBufferUShort) {
-            return ((DataBufferUShort)data).getData(band);
+            return ((DataBufferUShort) data).getData(band);
         } else if (data instanceof DataBufferShort) {
-            return ((DataBufferShort)data).getData(band);
+            return ((DataBufferShort) data).getData(band);
         } else {
             return null;
         }
     }
 
-    /**
-     * Returns the integer table data in array format, or null if the
-     * table's data type is not int.
-     *
-     */
+    /** Returns the integer table data in array format, or null if the table's data type is not int. */
     public int[][] getIntData() {
-        return data instanceof DataBufferInt ?
-               ((DataBufferInt)data).getBankData() : null;
+        return data instanceof DataBufferInt ? ((DataBufferInt) data).getBankData() : null;
     }
 
-    /**
-     * Returns the integer table data of a specific band in array format,
-     * or null if table's data type is not int.
-     *
-     */
+    /** Returns the integer table data of a specific band in array format, or null if table's data type is not int. */
     public int[] getIntData(int band) {
-        return data instanceof DataBufferInt ?
-               ((DataBufferInt)data).getData(band) : null;
+        return data instanceof DataBufferInt ? ((DataBufferInt) data).getData(band) : null;
     }
 
-    /**
-     * Returns the float table data in array format, or null if the
-     * table's data type is not float.
-     *
-     */
+    /** Returns the float table data in array format, or null if the table's data type is not float. */
     public float[][] getFloatData() {
-        return data.getDataType() == DataBuffer.TYPE_FLOAT ?
-               DataBufferUtils.getBankDataFloat(data) : null;
+        return data.getDataType() == DataBuffer.TYPE_FLOAT ? DataBufferUtils.getBankDataFloat(data) : null;
     }
 
-    /**
-     * Returns the float table data of a specific band in array format,
-     * or null if table's data type is not float.
-     *
-     */
+    /** Returns the float table data of a specific band in array format, or null if table's data type is not float. */
     public float[] getFloatData(int band) {
-        return data.getDataType() == DataBuffer.TYPE_FLOAT ?
-               DataBufferUtils.getDataFloat(data, band) : null;
+        return data.getDataType() == DataBuffer.TYPE_FLOAT ? DataBufferUtils.getDataFloat(data, band) : null;
     }
 
-    /**
-     * Returns the double table data in array format, or null if the
-     * table's data type is not double.
-     *
-     */
+    /** Returns the double table data in array format, or null if the table's data type is not double. */
     public double[][] getDoubleData() {
-        return data.getDataType() == DataBuffer.TYPE_DOUBLE ?
-               DataBufferUtils.getBankDataDouble(data) : null;
+        return data.getDataType() == DataBuffer.TYPE_DOUBLE ? DataBufferUtils.getBankDataDouble(data) : null;
     }
 
-    /**
-     * Returns the double table data of a specific band in array format,
-     * or null if table's data type is not double.
-     *
-     */
+    /** Returns the double table data of a specific band in array format, or null if table's data type is not double. */
     public double[] getDoubleData(int band) {
-        return data.getDataType() == DataBuffer.TYPE_DOUBLE ?
-               DataBufferUtils.getDataDouble(data, band) : null;
+        return data.getDataType() == DataBuffer.TYPE_DOUBLE ? DataBufferUtils.getDataDouble(data, band) : null;
     }
 
     /** Returns the index offsets of entry 0 for all bands. */
@@ -626,18 +553,12 @@ public class LookupTableJAI extends Object implements Serializable {
         return tableOffsets;
     }
 
-    /**
-     * Returns the index offset of entry 0 for the default band.
-     *
-     */
+    /** Returns the index offset of entry 0 for the default band. */
     public int getOffset() {
         return tableOffsets[0];
     }
 
-    /**
-     * Returns the index offset of entry 0 for a specific band.
-     *
-     */
+    /** Returns the index offset of entry 0 for a specific band. */
     public int getOffset(int band) {
         return tableOffsets[band];
     }
@@ -647,26 +568,21 @@ public class LookupTableJAI extends Object implements Serializable {
         return data.getNumBanks();
     }
 
-    /**
-     * Returns the number of entries per band of the table.
-     *
-     */
+    /** Returns the number of entries per band of the table. */
     public int getNumEntries() {
         return data.getSize();
     }
 
-    /** Returns the data type of the table data.
-     *
-     */
+    /** Returns the data type of the table data. */
     public int getDataType() {
         return data.getDataType();
     }
 
     /**
-     * Returns the number of bands of the destination image, based on
-     * the number of bands of the source image and lookup table.
+     * Returns the number of bands of the destination image, based on the number of bands of the source image and lookup
+     * table.
      *
-     * @param srcNumBands  The number of bands of the source image.
+     * @param srcNumBands The number of bands of the source image.
      * @return the number of bands in destination image.
      */
     public int getDestNumBands(int srcNumBands) {
@@ -675,64 +591,53 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Returns a <code>SampleModel</code> suitable for holding the output
-     * of a lookup operation on the source data described by a given
-     * SampleModel with this table. The width and height of the destination
-     * SampleModel are the same as that of the source. This method will
-     * return null if the source SampleModel has a non-integral data type.
+     * Returns a <code>SampleModel</code> suitable for holding the output of a lookup operation on the source data
+     * described by a given SampleModel with this table. The width and height of the destination SampleModel are the
+     * same as that of the source. This method will return null if the source SampleModel has a non-integral data type.
      *
-     * @param srcSampleModel  The SampleModel of the source image.
-     *
+     * @param srcSampleModel The SampleModel of the source image.
      * @throws IllegalArgumentException if srcSampleModel is null.
      * @return sampleModel suitable for the destination image.
      */
     public SampleModel getDestSampleModel(SampleModel srcSampleModel) {
-        if ( srcSampleModel == null ) {
+        if (srcSampleModel == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        return getDestSampleModel(srcSampleModel,
-                                  srcSampleModel.getWidth(),
-                                  srcSampleModel.getHeight());
+        return getDestSampleModel(srcSampleModel, srcSampleModel.getWidth(), srcSampleModel.getHeight());
     }
 
     /**
-     * Returns a <code>SampleModel</code> suitable for holding the output
-     * of a lookup operation on the source data described by a given
-     * SampleModel with this table. This method will return null if the
-     * source SampleModel has a non-integral data type.
+     * Returns a <code>SampleModel</code> suitable for holding the output of a lookup operation on the source data
+     * described by a given SampleModel with this table. This method will return null if the source SampleModel has a
+     * non-integral data type.
      *
-     * @param srcSampleModel  The SampleModel of the source image.
-     * @param width           The width of the destination SampleModel.
-     * @param height          The height of the destination SampleModel.
-     *
+     * @param srcSampleModel The SampleModel of the source image.
+     * @param width The width of the destination SampleModel.
+     * @param height The height of the destination SampleModel.
      * @throws IllegalArgumentException if srcSampleModel is null.
      * @return sampleModel suitable for the destination image.
      */
-    public SampleModel getDestSampleModel(SampleModel srcSampleModel,
-                                          int width,
-                                          int height) {
-        if ( srcSampleModel == null ) {
+    public SampleModel getDestSampleModel(SampleModel srcSampleModel, int width, int height) {
+        if (srcSampleModel == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
         if (!isIntegralDataType(srcSampleModel)) {
-            return null;	// source has non-integral data type
+            return null; // source has non-integral data type
         }
 
-        return RasterFactory.createComponentSampleModel(srcSampleModel,
-                       getDataType(), width, height,
-                       getDestNumBands(srcSampleModel.getNumBands()));
+        return RasterFactory.createComponentSampleModel(
+                srcSampleModel, getDataType(), width, height, getDestNumBands(srcSampleModel.getNumBands()));
     }
 
     /**
-     * Validates data type. Returns true if it's one of the integral
-     * data types; false otherwise.
+     * Validates data type. Returns true if it's one of the integral data types; false otherwise.
      *
      * @throws IllegalArgumentException if sampleModel is null.
      */
     public boolean isIntegralDataType(SampleModel sampleModel) {
-        if ( sampleModel == null ) {
+        if (sampleModel == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -740,14 +645,14 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Returns <code>true</code> if the specified data type is
-     * an integral data type, such as byte, ushort, short, or int.
+     * Returns <code>true</code> if the specified data type is an integral data type, such as byte, ushort, short, or
+     * int.
      */
     public boolean isIntegralDataType(int dataType) {
-        if ((dataType == DataBuffer.TYPE_BYTE) ||
-            (dataType == DataBuffer.TYPE_USHORT) ||
-            (dataType == DataBuffer.TYPE_SHORT) ||
-            (dataType == DataBuffer.TYPE_INT)){
+        if ((dataType == DataBuffer.TYPE_BYTE)
+                || (dataType == DataBuffer.TYPE_USHORT)
+                || (dataType == DataBuffer.TYPE_SHORT)
+                || (dataType == DataBuffer.TYPE_INT)) {
             return true;
         } else {
             return false;
@@ -755,53 +660,46 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Performs lookup on a given value belonging to a given source
-     * band, and returns the result as an int.
+     * Performs lookup on a given value belonging to a given source band, and returns the result as an int.
      *
-     * @param band   The source band the value is from.
-     * @param value  The source value to be placed through the lookup table.
+     * @param band The source band the value is from.
+     * @param value The source value to be placed through the lookup table.
      */
     public int lookup(int band, int value) {
-        return data.getElem(band, value-tableOffsets[band]);
+        return data.getElem(band, value - tableOffsets[band]);
     }
 
     /**
-     * Performs lookup on a given value belonging to a given source
-     * band, and returns the result as a float.
+     * Performs lookup on a given value belonging to a given source band, and returns the result as a float.
      *
-     * @param band   The source band the value is from.
-     * @param value  The source value to be placed through the lookup table.
+     * @param band The source band the value is from.
+     * @param value The source value to be placed through the lookup table.
      */
     public float lookupFloat(int band, int value) {
-        return data.getElemFloat(band, value-tableOffsets[band]);
+        return data.getElemFloat(band, value - tableOffsets[band]);
     }
 
     /**
-     * Performs lookup on a given value belonging to a given source
-     * band, and returns the result as a double.
+     * Performs lookup on a given value belonging to a given source band, and returns the result as a double.
      *
-     * @param band   The source band the value is from.
-     * @param value  The source value to be placed through the lookup table.
+     * @param band The source band the value is from.
+     * @param value The source value to be placed through the lookup table.
      */
     public double lookupDouble(int band, int value) {
-        return data.getElemDouble(band, value-tableOffsets[band]);
+        return data.getElemDouble(band, value - tableOffsets[band]);
     }
 
     /**
-     * Performs table lookup in place on a given WritableRaster. The
-     * The lookup operation must preserve the data type and
-     * SampleModel of the source.  A reference to the supplied
-     * WritableRaster will be returned.
+     * Performs table lookup in place on a given WritableRaster. The The lookup operation must preserve the data type
+     * and SampleModel of the source. A reference to the supplied WritableRaster will be returned.
      *
      * @throws IllegalArgumentException if the src is null.
-     * @throws IllegalArgumentException if the source's SampleModel
-     *         is not of integral type.
-     * @throws IllegalArgumentException if the lookup operation would
-     *         result in a change in the data type or number of bands
-     *         of the Raster.
+     * @throws IllegalArgumentException if the source's SampleModel is not of integral type.
+     * @throws IllegalArgumentException if the lookup operation would result in a change in the data type or number of
+     *     bands of the Raster.
      */
     public WritableRaster lookup(WritableRaster src) {
-        if ( src == null ) {
+        if (src == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -809,51 +707,37 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Performs table lookup on a source Raster, writing the result
-     * into a supplied WritableRaster. The destination must have a
-     * data type and SampleModel appropriate to the results of the
-     * lookup operation.  The table lookup operation is performed
-     * within a specified rectangle.
+     * Performs table lookup on a source Raster, writing the result into a supplied WritableRaster. The destination must
+     * have a data type and SampleModel appropriate to the results of the lookup operation. The table lookup operation
+     * is performed within a specified rectangle.
      *
-     * <p> The <code>dst</code> argument may be null, in which case a new
-     * WritableRaster is created using the appropriate SampleModel.
+     * <p>The <code>dst</code> argument may be null, in which case a new WritableRaster is created using the appropriate
+     * SampleModel.
      *
-     * <p> The rectangle of interest may be null, in which case the
-     * operation will be performed on the intersection of the source
-     * and destination bounding rectangles.
+     * <p>The rectangle of interest may be null, in which case the operation will be performed on the intersection of
+     * the source and destination bounding rectangles.
      *
-     * @param src   A Raster containing the source pixel data.
-     * @param dst   The WritableRaster to be computed, or null.
-     *              If supplied, its data type and number of bands must
-     *              be suitable for the source and lookup table.
-     * @param rect  The rectangle within the tile to be computed.
-     *              If rect is null, the intersection of the source and
-     *              destination bounds will be used.  Otherwise, it
-     *              will be clipped to the intersection of the source
-     *              and destination bounds.
-     * @return      A reference to the supplied WritableRaster, or to a
-     *              new WritableRaster if the supplied one was null.
-     *
+     * @param src A Raster containing the source pixel data.
+     * @param dst The WritableRaster to be computed, or null. If supplied, its data type and number of bands must be
+     *     suitable for the source and lookup table.
+     * @param rect The rectangle within the tile to be computed. If rect is null, the intersection of the source and
+     *     destination bounds will be used. Otherwise, it will be clipped to the intersection of the source and
+     *     destination bounds.
+     * @return A reference to the supplied WritableRaster, or to a new WritableRaster if the supplied one was null.
      * @throws IllegalArgumentException if the source is null.
-     * @throws IllegalArgumentException if the source's SampleModel
-     *         is not of integral type.
-     * @throws IllegalArgumentException if the destination's data type
-     *         or number of bands differ from those returned by
-     *         getDataType() and getDestNumBands().
+     * @throws IllegalArgumentException if the source's SampleModel is not of integral type.
+     * @throws IllegalArgumentException if the destination's data type or number of bands differ from those returned by
+     *     getDataType() and getDestNumBands().
      */
-    public WritableRaster lookup(Raster src,
-                                 WritableRaster dst,
-                                 Rectangle rect) {
+    public WritableRaster lookup(Raster src, WritableRaster dst, Rectangle rect) {
         // Validate source.
         if (src == null) {
-            throw
-	      new IllegalArgumentException(JaiI18N.getString("LookupTableJAI1"));
+            throw new IllegalArgumentException(JaiI18N.getString("LookupTableJAI1"));
         }
 
         SampleModel srcSampleModel = src.getSampleModel();
         if (!isIntegralDataType(srcSampleModel)) {
-            throw
-	      new IllegalArgumentException(JaiI18N.getString("LookupTableJAI2"));
+            throw new IllegalArgumentException(JaiI18N.getString("LookupTableJAI2"));
         }
 
         // Validate rectangle.
@@ -869,29 +753,24 @@ public class LookupTableJAI extends Object implements Serializable {
 
         // Validate destination.
         SampleModel dstSampleModel;
-        if (dst == null) {	// create dst according to table
-            dstSampleModel = getDestSampleModel(srcSampleModel,
-                                                rect.width, rect.height);
-            dst =
-                RasterFactory.createWritableRaster(dstSampleModel,
-                                                   new Point(rect.x, rect.y));
+        if (dst == null) { // create dst according to table
+            dstSampleModel = getDestSampleModel(srcSampleModel, rect.width, rect.height);
+            dst = RasterFactory.createWritableRaster(dstSampleModel, new Point(rect.x, rect.y));
         } else {
             dstSampleModel = dst.getSampleModel();
 
-            if (dstSampleModel.getTransferType() != getDataType() ||
-                dstSampleModel.getNumBands() !=
-                getDestNumBands(srcSampleModel.getNumBands())) {
-                throw new
-		  IllegalArgumentException(JaiI18N.getString("LookupTableJAI3"));
+            if (dstSampleModel.getTransferType() != getDataType()
+                    || dstSampleModel.getNumBands() != getDestNumBands(srcSampleModel.getNumBands())) {
+                throw new IllegalArgumentException(JaiI18N.getString("LookupTableJAI3"));
             }
         }
 
-	// Add bit support?
+        // Add bit support?
         int sTagID = RasterAccessor.findCompatibleTag(null, srcSampleModel);
         int dTagID = RasterAccessor.findCompatibleTag(null, dstSampleModel);
 
-        RasterFormatTag sTag = new RasterFormatTag(srcSampleModel,sTagID);
-        RasterFormatTag dTag = new RasterFormatTag(dstSampleModel,dTagID);
+        RasterFormatTag sTag = new RasterFormatTag(srcSampleModel, sTagID);
+        RasterFormatTag dTag = new RasterFormatTag(dstSampleModel, dTagID);
 
         RasterAccessor s = new RasterAccessor(src, rect, sTag, null);
         RasterAccessor d = new RasterAccessor(dst, rect, dTag, null);
@@ -924,28 +803,28 @@ public class LookupTableJAI extends Object implements Serializable {
             }
 
             switch (srcDataType) {
-            case DataBuffer.TYPE_BYTE:
-                byte[] bData0 = bSrcData[0];
-                bSrcData = new byte[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    bSrcData[i] = bData0;
-                }
-                break;
-            case DataBuffer.TYPE_USHORT:
-            case DataBuffer.TYPE_SHORT:
-                short[] sData0 = sSrcData[0];
-                sSrcData = new short[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    sSrcData[i] = sData0;
-                }
-                break;
-            case DataBuffer.TYPE_INT:
-                int[] iData0 = iSrcData[0];
-                iSrcData = new int[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    iSrcData[i] = iData0;
-                }
-                break;
+                case DataBuffer.TYPE_BYTE:
+                    byte[] bData0 = bSrcData[0];
+                    bSrcData = new byte[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        bSrcData[i] = bData0;
+                    }
+                    break;
+                case DataBuffer.TYPE_USHORT:
+                case DataBuffer.TYPE_SHORT:
+                    short[] sData0 = sSrcData[0];
+                    sSrcData = new short[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        sSrcData[i] = sData0;
+                    }
+                    break;
+                case DataBuffer.TYPE_INT:
+                    int[] iData0 = iSrcData[0];
+                    iSrcData = new int[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        iSrcData[i] = iData0;
+                    }
+                    break;
             }
         }
 
@@ -966,41 +845,41 @@ public class LookupTableJAI extends Object implements Serializable {
             }
 
             switch (tblDataType) {
-            case DataBuffer.TYPE_BYTE:
-                byte[] bData0 = bTblData[0];
-                bTblData = new byte[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    bTblData[i] = bData0;
-                }
-                break;
-            case DataBuffer.TYPE_USHORT:
-            case DataBuffer.TYPE_SHORT:
-                short[] sData0 = sTblData[0];
-                sTblData = new short[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    sTblData[i] = sData0;
-                }
-                break;
-            case DataBuffer.TYPE_INT:
-                int[] iData0 = iTblData[0];
-                iTblData = new int[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    iTblData[i] = iData0;
-                }
-                break;
-            case DataBuffer.TYPE_FLOAT:
-                float[] fData0 = fTblData[0];
-                fTblData = new float[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    fTblData[i] = fData0;
-                }
-                break;
-            case DataBuffer.TYPE_DOUBLE:
-                double[] dData0 = dTblData[0];
-                dTblData = new double[dstNumBands][];
-                for (int i = 0; i < dstNumBands; i++) {
-                    dTblData[i] = dData0;
-                }
+                case DataBuffer.TYPE_BYTE:
+                    byte[] bData0 = bTblData[0];
+                    bTblData = new byte[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        bTblData[i] = bData0;
+                    }
+                    break;
+                case DataBuffer.TYPE_USHORT:
+                case DataBuffer.TYPE_SHORT:
+                    short[] sData0 = sTblData[0];
+                    sTblData = new short[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        sTblData[i] = sData0;
+                    }
+                    break;
+                case DataBuffer.TYPE_INT:
+                    int[] iData0 = iTblData[0];
+                    iTblData = new int[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        iTblData[i] = iData0;
+                    }
+                    break;
+                case DataBuffer.TYPE_FLOAT:
+                    float[] fData0 = fTblData[0];
+                    fTblData = new float[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        fTblData[i] = fData0;
+                    }
+                    break;
+                case DataBuffer.TYPE_DOUBLE:
+                    double[] dData0 = dTblData[0];
+                    dTblData = new double[dstNumBands][];
+                    for (int i = 0; i < dstNumBands; i++) {
+                        dTblData[i] = dData0;
+                    }
             }
         }
 
@@ -1016,206 +895,366 @@ public class LookupTableJAI extends Object implements Serializable {
         double[][] dDstData = d.getDoubleDataArrays();
 
         switch (dstDataType) {
-        case DataBuffer.TYPE_BYTE:
-            switch (srcDataType) {
             case DataBuffer.TYPE_BYTE:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, bSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, bDstData,
-                       tblOffsets, bTblData);
+                switch (srcDataType) {
+                    case DataBuffer.TYPE_BYTE:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                bSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                bDstData,
+                                tblOffsets,
+                                bTblData);
+                        break;
+
+                    case DataBuffer.TYPE_USHORT:
+                        lookupU(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                bDstData,
+                                tblOffsets,
+                                bTblData);
+                        break;
+
+                    case DataBuffer.TYPE_SHORT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                bDstData,
+                                tblOffsets,
+                                bTblData);
+                        break;
+
+                    case DataBuffer.TYPE_INT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                iSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                bDstData,
+                                tblOffsets,
+                                bTblData);
+                        break;
+                }
                 break;
 
             case DataBuffer.TYPE_USHORT:
-                lookupU(srcLineStride, srcPixelStride,
-                        srcBandOffsets, sSrcData,
-                        dstWidth, dstHeight, dstNumBands,
-                        dstLineStride, dstPixelStride,
-                        dstBandOffsets, bDstData,
-                        tblOffsets, bTblData);
-                break;
-
             case DataBuffer.TYPE_SHORT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, sSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, bDstData,
-                       tblOffsets, bTblData);
+                switch (srcDataType) {
+                    case DataBuffer.TYPE_BYTE:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                bSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                sDstData,
+                                tblOffsets,
+                                sTblData);
+                        break;
+
+                    case DataBuffer.TYPE_USHORT:
+                        lookupU(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                sDstData,
+                                tblOffsets,
+                                sTblData);
+                        break;
+
+                    case DataBuffer.TYPE_SHORT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                sDstData,
+                                tblOffsets,
+                                sTblData);
+                        break;
+
+                    case DataBuffer.TYPE_INT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                iSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                sDstData,
+                                tblOffsets,
+                                sTblData);
+                        break;
+                }
                 break;
 
             case DataBuffer.TYPE_INT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, iSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, bDstData,
-                       tblOffsets, bTblData);
-                break;
-            }
-            break;
+                switch (srcDataType) {
+                    case DataBuffer.TYPE_BYTE:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                bSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                iDstData,
+                                tblOffsets,
+                                iTblData);
+                        break;
 
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_SHORT:
-            switch (srcDataType) {
-            case DataBuffer.TYPE_BYTE:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, bSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, sDstData,
-                       tblOffsets, sTblData);
-                break;
+                    case DataBuffer.TYPE_USHORT:
+                        lookupU(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                iDstData,
+                                tblOffsets,
+                                iTblData);
+                        break;
 
-            case DataBuffer.TYPE_USHORT:
-                lookupU(srcLineStride, srcPixelStride,
-                        srcBandOffsets, sSrcData,
-                        dstWidth, dstHeight, dstNumBands,
-                        dstLineStride, dstPixelStride,
-                        dstBandOffsets, sDstData,
-                        tblOffsets, sTblData);
-                break;
+                    case DataBuffer.TYPE_SHORT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                iDstData,
+                                tblOffsets,
+                                iTblData);
+                        break;
 
-            case DataBuffer.TYPE_SHORT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, sSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, sDstData,
-                       tblOffsets, sTblData);
-                break;
-
-            case DataBuffer.TYPE_INT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, iSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, sDstData,
-                       tblOffsets, sTblData);
-                break;
-            }
-            break;
-
-        case DataBuffer.TYPE_INT:
-            switch (srcDataType) {
-            case DataBuffer.TYPE_BYTE:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, bSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, iDstData,
-                       tblOffsets, iTblData);
-                break;
-
-            case DataBuffer.TYPE_USHORT:
-                lookupU(srcLineStride, srcPixelStride,
-                        srcBandOffsets, sSrcData,
-                        dstWidth, dstHeight, dstNumBands,
-                        dstLineStride, dstPixelStride,
-                        dstBandOffsets, iDstData,
-                        tblOffsets, iTblData);
-                break;
-
-            case DataBuffer.TYPE_SHORT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, sSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, iDstData,
-                       tblOffsets, iTblData);
+                    case DataBuffer.TYPE_INT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                iSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                iDstData,
+                                tblOffsets,
+                                iTblData);
+                        break;
+                }
                 break;
 
-            case DataBuffer.TYPE_INT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, iSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, iDstData,
-                       tblOffsets, iTblData);
-                break;
-            }
-            break;
+            case DataBuffer.TYPE_FLOAT:
+                switch (srcDataType) {
+                    case DataBuffer.TYPE_BYTE:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                bSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                fDstData,
+                                tblOffsets,
+                                fTblData);
+                        break;
 
-        case DataBuffer.TYPE_FLOAT:
-            switch (srcDataType) {
-            case DataBuffer.TYPE_BYTE:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, bSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, fDstData,
-                       tblOffsets, fTblData);
-                break;
+                    case DataBuffer.TYPE_USHORT:
+                        lookupU(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                fDstData,
+                                tblOffsets,
+                                fTblData);
+                        break;
 
-            case DataBuffer.TYPE_USHORT:
-                lookupU(srcLineStride, srcPixelStride,
-                        srcBandOffsets, sSrcData,
-                        dstWidth, dstHeight, dstNumBands,
-                        dstLineStride, dstPixelStride,
-                        dstBandOffsets, fDstData,
-                        tblOffsets, fTblData);
-                break;
+                    case DataBuffer.TYPE_SHORT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                fDstData,
+                                tblOffsets,
+                                fTblData);
+                        break;
 
-            case DataBuffer.TYPE_SHORT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, sSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, fDstData,
-                       tblOffsets, fTblData);
-                break;
-
-            case DataBuffer.TYPE_INT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, iSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, fDstData,
-                       tblOffsets, fTblData);
-                break;
-            }
-            break;
-
-        case DataBuffer.TYPE_DOUBLE:
-            switch (srcDataType) {
-            case DataBuffer.TYPE_BYTE:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, bSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, dDstData,
-                       tblOffsets, dTblData);
-                break;
-
-            case DataBuffer.TYPE_USHORT:
-                lookupU(srcLineStride, srcPixelStride,
-                        srcBandOffsets, sSrcData,
-                        dstWidth, dstHeight, dstNumBands,
-                        dstLineStride, dstPixelStride,
-                        dstBandOffsets, dDstData,
-                        tblOffsets, dTblData);
-                break;
-
-            case DataBuffer.TYPE_SHORT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, sSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, dDstData,
-                       tblOffsets, dTblData);
+                    case DataBuffer.TYPE_INT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                iSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                fDstData,
+                                tblOffsets,
+                                fTblData);
+                        break;
+                }
                 break;
 
-            case DataBuffer.TYPE_INT:
-                lookup(srcLineStride, srcPixelStride,
-                       srcBandOffsets, iSrcData,
-                       dstWidth, dstHeight, dstNumBands,
-                       dstLineStride, dstPixelStride,
-                       dstBandOffsets, dDstData,
-                       tblOffsets, dTblData);
+            case DataBuffer.TYPE_DOUBLE:
+                switch (srcDataType) {
+                    case DataBuffer.TYPE_BYTE:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                bSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                dDstData,
+                                tblOffsets,
+                                dTblData);
+                        break;
+
+                    case DataBuffer.TYPE_USHORT:
+                        lookupU(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                dDstData,
+                                tblOffsets,
+                                dTblData);
+                        break;
+
+                    case DataBuffer.TYPE_SHORT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                sSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                dDstData,
+                                tblOffsets,
+                                dTblData);
+                        break;
+
+                    case DataBuffer.TYPE_INT:
+                        lookup(
+                                srcLineStride,
+                                srcPixelStride,
+                                srcBandOffsets,
+                                iSrcData,
+                                dstWidth,
+                                dstHeight,
+                                dstNumBands,
+                                dstLineStride,
+                                dstPixelStride,
+                                dstBandOffsets,
+                                dDstData,
+                                tblOffsets,
+                                dTblData);
+                        break;
+                }
                 break;
-            }
-            break;
         }
 
         d.copyDataToRaster();
@@ -1224,12 +1263,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // byte to byte
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, byte[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, byte[][] dstData,
-                        int[] tblOffsets, byte[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            byte[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            byte[][] dstData,
+            int[] tblOffsets,
+            byte[][] tblData) {
         for (int b = 0; b < bands; b++) {
             byte[] s = srcData[b];
             byte[] d = dstData[b];
@@ -1247,7 +1294,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] = t[(s[srcPixelOffset]&0xFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1257,12 +1304,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // ushort to byte
-    private void lookupU(int srcLineStride, int srcPixelStride,
-                         int[] srcBandOffsets, short[][] srcData,
-                         int width, int height, int bands,
-                         int dstLineStride, int dstPixelStride,
-                         int[] dstBandOffsets, byte[][] dstData,
-                         int[] tblOffsets, byte[][] tblData) {
+    private void lookupU(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            byte[][] dstData,
+            int[] tblOffsets,
+            byte[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             byte[] d = dstData[b];
@@ -1280,8 +1335,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] =
-                        t[(s[srcPixelOffset]&0xFFFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFFFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1291,12 +1345,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // short to byte
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, short[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, byte[][] dstData,
-                        int[] tblOffsets, byte[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            byte[][] dstData,
+            int[] tblOffsets,
+            byte[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             byte[] d = dstData[b];
@@ -1324,12 +1386,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // int to byte
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, int[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, byte[][] dstData,
-                        int[] tblOffsets, byte[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            int[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            byte[][] dstData,
+            int[] tblOffsets,
+            byte[][] tblData) {
         for (int b = 0; b < bands; b++) {
             int[] s = srcData[b];
             byte[] d = dstData[b];
@@ -1357,12 +1427,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // byte to short or ushort
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, byte[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, short[][] dstData,
-                        int[] tblOffsets, short[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            byte[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            short[][] dstData,
+            int[] tblOffsets,
+            short[][] tblData) {
         for (int b = 0; b < bands; b++) {
             byte[] s = srcData[b];
             short[] d = dstData[b];
@@ -1380,7 +1458,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] = t[(s[srcPixelOffset]&0xFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1390,12 +1468,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // ushort to short or ushort
-    private void lookupU(int srcLineStride, int srcPixelStride,
-                         int[] srcBandOffsets, short[][] srcData,
-                         int width, int height, int bands,
-                         int dstLineStride, int dstPixelStride,
-                         int[] dstBandOffsets, short[][] dstData,
-                         int[] tblOffsets, short[][] tblData) {
+    private void lookupU(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            short[][] dstData,
+            int[] tblOffsets,
+            short[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             short[] d = dstData[b];
@@ -1413,8 +1499,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] =
-                        t[(s[srcPixelOffset]&0xFFFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFFFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1424,12 +1509,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // short to short or ushort
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, short[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, short[][] dstData,
-                        int[] tblOffsets, short[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            short[][] dstData,
+            int[] tblOffsets,
+            short[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             short[] d = dstData[b];
@@ -1457,12 +1550,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // int to short or ushort
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, int[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, short[][] dstData,
-                        int[] tblOffsets, short[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            int[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            short[][] dstData,
+            int[] tblOffsets,
+            short[][] tblData) {
         for (int b = 0; b < bands; b++) {
             int[] s = srcData[b];
             short[] d = dstData[b];
@@ -1490,12 +1591,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // byte to int
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, byte[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, int[][] dstData,
-                        int[] tblOffsets, int[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            byte[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            int[][] dstData,
+            int[] tblOffsets,
+            int[][] tblData) {
         if (tblData == null) {
             for (int b = 0; b < bands; b++) {
                 byte[] s = srcData[b];
@@ -1512,8 +1621,7 @@ public class LookupTableJAI extends Object implements Serializable {
                     dstLineOffset += dstLineStride;
 
                     for (int w = 0; w < width; w++) {
-                        d[dstPixelOffset] =
-                            data.getElem(b, s[srcPixelOffset]&0xFF);
+                        d[dstPixelOffset] = data.getElem(b, s[srcPixelOffset] & 0xFF);
 
                         srcPixelOffset += srcPixelStride;
                         dstPixelOffset += dstPixelStride;
@@ -1538,8 +1646,7 @@ public class LookupTableJAI extends Object implements Serializable {
                     dstLineOffset += dstLineStride;
 
                     for (int w = 0; w < width; w++) {
-                        d[dstPixelOffset] =
-                            t[(s[srcPixelOffset]&0xFF) - tblOffset];
+                        d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFF) - tblOffset];
 
                         srcPixelOffset += srcPixelStride;
                         dstPixelOffset += dstPixelStride;
@@ -1550,12 +1657,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // ushort to int
-    private void lookupU(int srcLineStride, int srcPixelStride,
-                         int[] srcBandOffsets, short[][] srcData,
-                         int width, int height, int bands,
-                         int dstLineStride, int dstPixelStride,
-                         int[] dstBandOffsets, int[][] dstData,
-                         int[] tblOffsets, int[][] tblData) {
+    private void lookupU(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            int[][] dstData,
+            int[] tblOffsets,
+            int[][] tblData) {
         if (tblData == null) {
             for (int b = 0; b < bands; b++) {
                 short[] s = srcData[b];
@@ -1572,8 +1687,7 @@ public class LookupTableJAI extends Object implements Serializable {
                     dstLineOffset += dstLineStride;
 
                     for (int w = 0; w < width; w++) {
-                        d[dstPixelOffset] =
-                            data.getElem(b, s[srcPixelOffset]&0xFFFF);
+                        d[dstPixelOffset] = data.getElem(b, s[srcPixelOffset] & 0xFFFF);
 
                         srcPixelOffset += srcPixelStride;
                         dstPixelOffset += dstPixelStride;
@@ -1598,8 +1712,7 @@ public class LookupTableJAI extends Object implements Serializable {
                     dstLineOffset += dstLineStride;
 
                     for (int w = 0; w < width; w++) {
-                        d[dstPixelOffset] =
-                            t[(s[srcPixelOffset]&0xFFFF) - tblOffset];
+                        d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFFFF) - tblOffset];
 
                         srcPixelOffset += srcPixelStride;
                         dstPixelOffset += dstPixelStride;
@@ -1610,12 +1723,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // short to int
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, short[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, int[][] dstData,
-                        int[] tblOffsets, int[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            int[][] dstData,
+            int[] tblOffsets,
+            int[][] tblData) {
         if (tblData == null) {
             for (int b = 0; b < bands; b++) {
                 short[] s = srcData[b];
@@ -1632,8 +1753,7 @@ public class LookupTableJAI extends Object implements Serializable {
                     dstLineOffset += dstLineStride;
 
                     for (int w = 0; w < width; w++) {
-                        d[dstPixelOffset] =
-                            data.getElem(b, s[srcPixelOffset]);
+                        d[dstPixelOffset] = data.getElem(b, s[srcPixelOffset]);
 
                         srcPixelOffset += srcPixelStride;
                         dstPixelOffset += dstPixelStride;
@@ -1669,12 +1789,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // int to int
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, int[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, int[][] dstData,
-                        int[] tblOffsets, int[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            int[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            int[][] dstData,
+            int[] tblOffsets,
+            int[][] tblData) {
         if (tblData == null) {
             for (int b = 0; b < bands; b++) {
                 int[] s = srcData[b];
@@ -1727,12 +1855,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // byte to float
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, byte[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, float[][] dstData,
-                        int[] tblOffsets, float[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            byte[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            float[][] dstData,
+            int[] tblOffsets,
+            float[][] tblData) {
         for (int b = 0; b < bands; b++) {
             byte[] s = srcData[b];
             float[] d = dstData[b];
@@ -1750,7 +1886,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] = t[(s[srcPixelOffset]&0xFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1760,12 +1896,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // ushort to float
-    private void lookupU(int srcLineStride, int srcPixelStride,
-                         int[] srcBandOffsets, short[][] srcData,
-                         int width, int height, int bands,
-                         int dstLineStride, int dstPixelStride,
-                         int[] dstBandOffsets, float[][] dstData,
-                         int[] tblOffsets, float[][] tblData) {
+    private void lookupU(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            float[][] dstData,
+            int[] tblOffsets,
+            float[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             float[] d = dstData[b];
@@ -1783,8 +1927,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] =
-                        t[(s[srcPixelOffset]&0xFFFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFFFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1794,12 +1937,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // short to float
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, short[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, float[][] dstData,
-                        int[] tblOffsets, float[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            float[][] dstData,
+            int[] tblOffsets,
+            float[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             float[] d = dstData[b];
@@ -1827,12 +1978,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // int to float
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, int[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, float[][] dstData,
-                        int[] tblOffsets, float[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            int[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            float[][] dstData,
+            int[] tblOffsets,
+            float[][] tblData) {
         for (int b = 0; b < bands; b++) {
             int[] s = srcData[b];
             float[] d = dstData[b];
@@ -1860,12 +2019,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // byte to double
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, byte[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, double[][] dstData,
-                        int[] tblOffsets, double[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            byte[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            double[][] dstData,
+            int[] tblOffsets,
+            double[][] tblData) {
         for (int b = 0; b < bands; b++) {
             byte[] s = srcData[b];
             double[] d = dstData[b];
@@ -1883,7 +2050,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] = t[(s[srcPixelOffset]&0xFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1893,12 +2060,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // ushort to double
-    private void lookupU(int srcLineStride, int srcPixelStride,
-                         int[] srcBandOffsets, short[][] srcData,
-                         int width, int height, int bands,
-                         int dstLineStride, int dstPixelStride,
-                         int[] dstBandOffsets, double[][] dstData,
-                         int[] tblOffsets, double[][] tblData) {
+    private void lookupU(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            double[][] dstData,
+            int[] tblOffsets,
+            double[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             double[] d = dstData[b];
@@ -1916,8 +2091,7 @@ public class LookupTableJAI extends Object implements Serializable {
                 dstLineOffset += dstLineStride;
 
                 for (int w = 0; w < width; w++) {
-                    d[dstPixelOffset] =
-                        t[(s[srcPixelOffset]&0xFFFF) - tblOffset];
+                    d[dstPixelOffset] = t[(s[srcPixelOffset] & 0xFFFF) - tblOffset];
 
                     srcPixelOffset += srcPixelStride;
                     dstPixelOffset += dstPixelStride;
@@ -1927,12 +2101,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // short to double
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, short[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, double[][] dstData,
-                        int[] tblOffsets, double[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            short[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            double[][] dstData,
+            int[] tblOffsets,
+            double[][] tblData) {
         for (int b = 0; b < bands; b++) {
             short[] s = srcData[b];
             double[] d = dstData[b];
@@ -1960,12 +2142,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     // int to double
-    private void lookup(int srcLineStride, int srcPixelStride,
-                        int[] srcBandOffsets, int[][] srcData,
-                        int width, int height, int bands,
-                        int dstLineStride, int dstPixelStride,
-                        int[] dstBandOffsets, double[][] dstData,
-                        int[] tblOffsets, double[][] tblData) {
+    private void lookup(
+            int srcLineStride,
+            int srcPixelStride,
+            int[] srcBandOffsets,
+            int[][] srcData,
+            int width,
+            int height,
+            int bands,
+            int dstLineStride,
+            int dstPixelStride,
+            int[] dstBandOffsets,
+            double[][] dstData,
+            int[] tblOffsets,
+            double[][] tblData) {
         for (int b = 0; b < bands; b++) {
             int[] s = srcData[b];
             double[] d = dstData[b];
@@ -1993,24 +2183,20 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Determine which entry in the <code>LookupTableJAI</code> is closest
-     * in Euclidean distance to the argument pixel.
+     * Determine which entry in the <code>LookupTableJAI</code> is closest in Euclidean distance to the argument pixel.
      *
      * @param pixel The pixel the closest entry to which is to be found.
-     *
-     * @return the index of the closest entry. If the data array of the
-     * lookup table is in the format data[numBands][numEntries], then the
-     * value <i>v</i> for band <i>b</i> of the closest entry is
-     * <pre>
+     * @return the index of the closest entry. If the data array of the lookup table is in the format
+     *     data[numBands][numEntries], then the value <i>v</i> for band <i>b</i> of the closest entry is
+     *     <pre>
      *     v = data[b][index - lookup.getOffset()]
      * </pre>
-     * where <i>index</i> is the returned value of this method.
-     *
+     *     where <i>index</i> is the returned value of this method.
      * @throws IllegalArgumentException if pixel is null.
      */
     public int findNearestEntry(float[] pixel) {
 
-        if ( pixel == null ) {
+        if (pixel == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -2019,154 +2205,152 @@ public class LookupTableJAI extends Object implements Serializable {
         int numEntries = getNumEntries();
         int index = -1;
 
-        if(dataType == DataBuffer.TYPE_BYTE) {
+        if (dataType == DataBuffer.TYPE_BYTE) {
             byte buffer[][] = getByteData();
 
             // Find the distance to the first entry and set result to 0.
             float minDistance = 0.0F;
             index = 0;
-            for(int b = 0; b < numBands; b++) {
-                float delta = pixel[b] - (float)(buffer[b][0] & 0xff);
-                minDistance += delta*delta;
+            for (int b = 0; b < numBands; b++) {
+                float delta = pixel[b] - (float) (buffer[b][0] & 0xff);
+                minDistance += delta * delta;
             }
 
             // Find the distance to each entry and set the result to
             // the index which is closest to the argument.
-            for(int i = 1; i < numEntries; i++) {
+            for (int i = 1; i < numEntries; i++) {
                 float distance = 0.0F;
-                for(int b = 0; b < numBands; b++) {
-                    float delta =
-                        pixel[b] - (float)(buffer[b][i] & 0xff);
-                    distance += delta*delta;
+                for (int b = 0; b < numBands; b++) {
+                    float delta = pixel[b] - (float) (buffer[b][i] & 0xff);
+                    distance += delta * delta;
                 }
 
-                if(distance < minDistance) {
+                if (distance < minDistance) {
                     minDistance = distance;
                     index = i;
                 }
             }
-        } else if(dataType == DataBuffer.TYPE_SHORT) {
+        } else if (dataType == DataBuffer.TYPE_SHORT) {
             short buffer[][] = getShortData();
 
             // Find the distance to the first entry and set result to 0.
             float minDistance = 0.0F;
             index = 0;
-            for(int b = 0; b < numBands; b++) {
+            for (int b = 0; b < numBands; b++) {
                 float delta = pixel[b] - buffer[b][0];
-                minDistance += delta*delta;
+                minDistance += delta * delta;
             }
 
             // Find the distance to each entry and set the result to
             // the index which is closest to the argument.
-            for(int i = 1; i < numEntries; i++) {
+            for (int i = 1; i < numEntries; i++) {
                 float distance = 0.0F;
-                for(int b = 0; b < numBands; b++) {
+                for (int b = 0; b < numBands; b++) {
                     float delta = pixel[b] - buffer[b][i];
-                    distance += delta*delta;
+                    distance += delta * delta;
                 }
 
-                if(distance < minDistance) {
+                if (distance < minDistance) {
                     minDistance = distance;
                     index = i;
                 }
             }
-        } else if(dataType == DataBuffer.TYPE_USHORT) {
+        } else if (dataType == DataBuffer.TYPE_USHORT) {
             short buffer[][] = getShortData();
 
             // Find the distance to the first entry and set result to 0.
             float minDistance = 0.0F;
             index = 0;
-            for(int b = 0; b < numBands; b++) {
-                float delta = pixel[b] - (float)(buffer[b][0] & 0xffff);
-                minDistance += delta*delta;
+            for (int b = 0; b < numBands; b++) {
+                float delta = pixel[b] - (float) (buffer[b][0] & 0xffff);
+                minDistance += delta * delta;
             }
 
             // Find the distance to each entry and set the result to
             // the index which is closest to the argument.
-            for(int i = 1; i < numEntries; i++) {
+            for (int i = 1; i < numEntries; i++) {
                 float distance = 0.0F;
-                for(int b = 0; b < numBands; b++) {
-                    float delta =
-                        pixel[b] - (float)(buffer[b][i] & 0xffff);
-                    distance += delta*delta;
+                for (int b = 0; b < numBands; b++) {
+                    float delta = pixel[b] - (float) (buffer[b][i] & 0xffff);
+                    distance += delta * delta;
                 }
 
-                if(distance < minDistance) {
+                if (distance < minDistance) {
                     minDistance = distance;
                     index = i;
                 }
             }
-        } else if(dataType == DataBuffer.TYPE_INT) {
+        } else if (dataType == DataBuffer.TYPE_INT) {
             int buffer[][] = getIntData();
 
             // Find the distance to the first entry and set result to 0.
             float minDistance = 0.0F;
             index = 0;
-            for(int b = 0; b < numBands; b++) {
+            for (int b = 0; b < numBands; b++) {
                 float delta = pixel[b] - buffer[b][0];
-                minDistance += delta*delta;
+                minDistance += delta * delta;
             }
 
             // Find the distance to each entry and set the result to
             // the index which is closest to the argument.
-            for(int i = 1; i < numEntries; i++) {
+            for (int i = 1; i < numEntries; i++) {
                 float distance = 0.0F;
-                for(int b = 0; b < numBands; b++) {
+                for (int b = 0; b < numBands; b++) {
                     float delta = pixel[b] - buffer[b][i];
-                    distance += delta*delta;
+                    distance += delta * delta;
                 }
 
-                if(distance < minDistance) {
+                if (distance < minDistance) {
                     minDistance = distance;
                     index = i;
                 }
             }
-        } else if(dataType == DataBuffer.TYPE_FLOAT) {
+        } else if (dataType == DataBuffer.TYPE_FLOAT) {
             float buffer[][] = getFloatData();
 
             // Find the distance to the first entry and set result to 0.
             float minDistance = 0.0F;
             index = 0;
-            for(int b = 0; b < numBands; b++) {
+            for (int b = 0; b < numBands; b++) {
                 float delta = pixel[b] - buffer[b][0];
-                minDistance += delta*delta;
+                minDistance += delta * delta;
             }
 
             // Find the distance to each entry and set the result to
             // the index which is closest to the argument.
-            for(int i = 1; i < numEntries; i++) {
+            for (int i = 1; i < numEntries; i++) {
                 float distance = 0.0F;
-                for(int b = 0; b < numBands; b++) {
+                for (int b = 0; b < numBands; b++) {
                     float delta = pixel[b] - buffer[b][i];
-                    distance += delta*delta;
+                    distance += delta * delta;
                 }
 
-                if(distance < minDistance) {
+                if (distance < minDistance) {
                     minDistance = distance;
                     index = i;
                 }
             }
-        } else if(dataType == DataBuffer.TYPE_DOUBLE) {
+        } else if (dataType == DataBuffer.TYPE_DOUBLE) {
             double buffer[][] = getDoubleData();
 
             // Find the distance to the first entry and set result to 0.
             double minDistance = 0.0F;
             index = 0;
-            for(int b = 0; b < numBands; b++) {
+            for (int b = 0; b < numBands; b++) {
                 double delta = pixel[b] - buffer[b][0];
-                minDistance += delta*delta;
+                minDistance += delta * delta;
             }
 
             // Find the distance to each entry and set the result to
             // the index which is closest to the argument.
-            for(int i = 1; i < numEntries; i++) {
+            for (int i = 1; i < numEntries; i++) {
                 double distance = 0.0F;
-                for(int b = 0; b < numBands; b++) {
+                for (int b = 0; b < numBands; b++) {
                     double delta = pixel[b] - buffer[b][i];
-                    distance += delta*delta;
+                    distance += delta * delta;
                 }
 
-                if(distance < minDistance) {
+                if (distance < minDistance) {
                     minDistance = distance;
                     index = i;
                 }
@@ -2182,43 +2366,38 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-      * Serialize the <code>LookupTableJAI</code>.
-      *
-      * @param out The <code>ObjectOutputStream</code>.
-      */
+     * Serialize the <code>LookupTableJAI</code>.
+     *
+     * @param out The <code>ObjectOutputStream</code>.
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         out.writeObject(SerializerFactory.getState(data));
     }
 
     /**
-      * Deserialize the <code>LookupTableJAI</code>.
-      *
-      * @param in The <code>ObjectInputStream</code>.
-      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+     * Deserialize the <code>LookupTableJAI</code>.
+     *
+     * @param in The <code>ObjectInputStream</code>.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         Object object = in.readObject();
-        SerializableState ss = (SerializableState)object;
-        data = (DataBuffer)ss.getObject();
+        SerializableState ss = (SerializableState) object;
+        data = (DataBuffer) ss.getObject();
     }
 
     private void initOffsets(int nbands, int offset) {
         tableOffsets = new int[nbands];
-        for (int i=0; i<nbands; i++) {
+        for (int i = 0; i < nbands; i++) {
             tableOffsets[i] = offset;
         }
     }
 
     private void initOffsets(int nbands, int[] offset) {
         tableOffsets = new int[nbands];
-        for (int i=0; i<nbands; i++) {
+        for (int i = 0; i < nbands; i++) {
             tableOffsets[i] = offset[i];
         }
     }
-
-
 }
-
-

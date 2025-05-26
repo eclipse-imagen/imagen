@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
@@ -28,7 +29,7 @@ public class RIFUtil {
         if (renderHints == null) {
             return null;
         } else {
-            return (ImageLayout)renderHints.get(JAI.KEY_IMAGE_LAYOUT);
+            return (ImageLayout) renderHints.get(JAI.KEY_IMAGE_LAYOUT);
         }
     }
 
@@ -36,16 +37,15 @@ public class RIFUtil {
         if (renderHints == null) {
             return null;
         } else {
-            return (TileCache)renderHints.get(JAI.KEY_TILE_CACHE);
+            return (TileCache) renderHints.get(JAI.KEY_TILE_CACHE);
         }
     }
 
-    public static BorderExtender
-        getBorderExtenderHint(RenderingHints renderHints) {
+    public static BorderExtender getBorderExtenderHint(RenderingHints renderHints) {
         if (renderHints == null) {
             return null;
         } else {
-            return (BorderExtender)renderHints.get(JAI.KEY_BORDER_EXTENDER);
+            return (BorderExtender) renderHints.get(JAI.KEY_BORDER_EXTENDER);
         }
     }
 }

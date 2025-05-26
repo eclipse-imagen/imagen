@@ -16,24 +16,18 @@
  */
 
 package org.eclipse.imagen;
+
 import java.util.NoSuchElementException;
 
 /**
- * A growable sorted integer set.  Adding an integer to the sequence
- * results in it being placed into the sequence in sorted order.  Adding
- * an integer that is already part of the sequence has no effect. 
+ * A growable sorted integer set. Adding an integer to the sequence results in it being placed into the sequence in
+ * sorted order. Adding an integer that is already part of the sequence has no effect.
  *
- * <p> This structure is used by various subclasses of
- * <code>OpImage</code> to keep track of horizontal and vertical
- * source splits.  Each instance of IntegerSequence provides an
- * internal enumeration by means of which the elements of the sequence
- * may be accessed in order.  The enumerator is initialized by the
- * <code>startEnumeration</code> method, and the
- * <code>hasMoreElements</code> and <code>nextElement</code> methods
- * allow looping through the elements.  Only one enumeration at a time
- * is supported.  Calling <code>insert()</code> from multiple threads
- * is not supported.
- *
+ * <p>This structure is used by various subclasses of <code>OpImage</code> to keep track of horizontal and vertical
+ * source splits. Each instance of IntegerSequence provides an internal enumeration by means of which the elements of
+ * the sequence may be accessed in order. The enumerator is initialized by the <code>startEnumeration</code> method, and
+ * the <code>hasMoreElements</code> and <code>nextElement</code> methods allow looping through the elements. Only one
+ * enumeration at a time is supported. Calling <code>insert()</code> from multiple threads is not supported.
  */
 public class IntegerSequence extends Object {
 
@@ -61,14 +55,15 @@ public class IntegerSequence extends Object {
     /** The current element of the iteration. */
     private int currentIndex = -1;
 
-    /** Constructs a sequence bounded by an inclusive range of values.
-     *  @param min Lower bound of the valid integer range.
-     *  @param max Upper bound of the valid integer range.
-     *  @throws  IllegalArgumentException if min > max.
+    /**
+     * Constructs a sequence bounded by an inclusive range of values.
+     *
+     * @param min Lower bound of the valid integer range.
+     * @param max Upper bound of the valid integer range.
+     * @throws IllegalArgumentException if min > max.
      */
     public IntegerSequence(int min, int max) {
-        if (min > max)
-	  throw new IllegalArgumentException(JaiI18N.getString("IntegerSequence1"));
+        if (min > max) throw new IllegalArgumentException(JaiI18N.getString("IntegerSequence1"));
         this.min = min;
         this.max = max;
 
@@ -84,21 +79,19 @@ public class IntegerSequence extends Object {
     }
 
     /**
-     * Inserts an integer into the sequence.  If the value falls out
-     * of the desired range, it will be silently rejected.  Inserting
-     * an element that is already a member of the sequence has no
-     * effect.
+     * Inserts an integer into the sequence. If the value falls out of the desired range, it will be silently rejected.
+     * Inserting an element that is already a member of the sequence has no effect.
      *
      * @param element The <code>int</code> to be inserted.
      */
     public void insert(int element) {
-      // Ignore elements that fall outside the desired range. 
+        // Ignore elements that fall outside the desired range.
         if (element < min || element > max) {
             return;
         }
 
         if (numElts >= capacity) {
-            int newCapacity = 2*capacity;
+            int newCapacity = 2 * capacity;
             int[] newArray = new int[newCapacity];
             System.arraycopy(iArray, 0, newArray, 0, capacity);
 
@@ -114,7 +107,7 @@ public class IntegerSequence extends Object {
         if (!isSorted) {
             // Sort the contents of iArray
             java.util.Arrays.sort(iArray, 0, numElts);
-            
+
             // Compact the array, removing duplicate entries.
             int readPos = 1;
             int writePos = 1;
@@ -131,7 +124,7 @@ public class IntegerSequence extends Object {
                     prevElt = currElt;
                 }
             }
-            
+
             numElts = writePos;
             isSorted = true;
         }
@@ -152,19 +145,17 @@ public class IntegerSequence extends Object {
      * @throws NoSuchElementException if the end of the array has
      * been reached.
      */
-     public int nextElement() {
-         if (currentIndex < numElts) {
-             return iArray[currentIndex++];
-         } else {
-             throw new NoSuchElementException(JaiI18N.getString("IntegerSequence0"));
-         }
-     }
+    public int nextElement() {
+        if (currentIndex < numElts) {
+            return iArray[currentIndex++];
+        } else {
+            throw new NoSuchElementException(JaiI18N.getString("IntegerSequence0"));
+        }
+    }
 
-    /**
-     * Returns the number of elements contained within this <code>IntegerSequence</code>.
-     */
+    /** Returns the number of elements contained within this <code>IntegerSequence</code>. */
     public int getNumElements() {
-	return numElts;
+        return numElts;
     }
 
     /** Returns a <code>String</code> representation of the sequence. */
@@ -178,15 +169,15 @@ public class IntegerSequence extends Object {
             s = "[";
 
             startEnumeration();
-            for (i = 0; i < numElts - 1; i++) { 
+            for (i = 0; i < numElts - 1; i++) {
                 s += iArray[i];
                 s += ", ";
             }
-            
+
             s += iArray[numElts - 1];
             s += "]";
         }
-        
+
         return s;
     }
 }

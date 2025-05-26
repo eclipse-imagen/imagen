@@ -20,12 +20,10 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "dataNature"
- * parameter of the "DFT" and "IDFT" operations.  Acceptable values for the
- * "dataNature" parameter are defined in the <code>DFTDescriptor</code>
- * and <code>IDFTDescriptor</code> by the constants
- * <code>REAL_TO_COMPLEX</code>, <code>COMPLEX_TO_COMPLEX</code>, and
- * <code>COMPLEX_TO_REAL</code>.
+ * Class used to represent the acceptable values of the "dataNature" parameter of the "DFT" and "IDFT" operations.
+ * Acceptable values for the "dataNature" parameter are defined in the <code>DFTDescriptor</code> and <code>
+ * IDFTDescriptor</code> by the constants <code>REAL_TO_COMPLEX</code>, <code>COMPLEX_TO_COMPLEX</code>, and <code>
+ * COMPLEX_TO_REAL</code>.
  *
  * @since JAI 1.1
  */

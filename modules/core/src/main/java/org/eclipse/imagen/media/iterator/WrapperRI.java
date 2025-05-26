@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
@@ -24,10 +25,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Vector;
 
-
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class WrapperRI implements RenderedImage {
 
     Raster ras;
@@ -47,7 +45,7 @@ public class WrapperRI implements RenderedImage {
     public String[] getPropertyNames() {
         return null;
     }
-    
+
     public ColorModel getColorModel() {
         return null;
     }
@@ -63,7 +61,7 @@ public class WrapperRI implements RenderedImage {
     public int getHeight() {
         return ras.getHeight();
     }
-    
+
     public int getMinX() {
         return ras.getMinX();
     }

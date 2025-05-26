@@ -11,15 +11,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
 
-public class JAIFileBrowser
-    extends WindowAdapter
-    implements ListSelectionListener {
+public class JAIFileBrowser extends WindowAdapter implements ListSelectionListener {
 
     String[] filenames;
 
@@ -39,21 +36,21 @@ public class JAIFileBrowser
 
         frame = new JFrame("JAI File Browser");
         frame2 = new JFrame(filenames[0]);
-        
+
         // Read first image
         image = JAIImageReader.readImage(filenames[0]);
         width = image.getWidth();
         height = image.getHeight();
 
-	// Create the filename list
+        // Create the filename list
         Vector filenameVector = new Vector();
         for (int i = 0; i < filenames.length; i++) {
             filenameVector.add(filenames[i]);
         }
 
-	JList filenameList = new JList(filenameVector);
-	filenameList.setSelectedIndex(0);
-	filenameList.addListSelectionListener(this);
+        JList filenameList = new JList(filenameVector);
+        filenameList.setSelectedIndex(0);
+        filenameList.addListSelectionListener(this);
         JScrollPane filenameScrollPane = new JScrollPane(filenameList);
 
         // Create the property table
@@ -77,8 +74,7 @@ public class JAIFileBrowser
         picturePanel = new JPanel();
         picturePanel.setLayout(new BorderLayout());
         JScrollPane pictureScrollPane = new JScrollPane(picture);
-        picturePanel.setPreferredSize(new Dimension(Math.min(w + 3, 800),
-                                                    Math.min(h + 3, 800)));
+        picturePanel.setPreferredSize(new Dimension(Math.min(w + 3, 800), Math.min(h + 3, 800)));
         picturePanel.add(new JScrollPane(picture), BorderLayout.CENTER);
 
         frame.getContentPane().setLayout(new BorderLayout());
@@ -97,7 +93,7 @@ public class JAIFileBrowser
     }
 
     public JTable createPropertyTable() {
-        String[] columnNames = { "Property Name", "Value" };
+        String[] columnNames = {"Property Name", "Value"};
         String[] propertyNames = image.getPropertyNames();
 
         int numProperties;
@@ -116,7 +112,7 @@ public class JAIFileBrowser
             if (property == null) {
                 values[i][1] = "<null>";
             } else if (property instanceof int[]) {
-                int[] nums = (int[])property;
+                int[] nums = (int[]) property;
                 String s = "[";
                 for (int j = 0; j < nums.length - 1; j++) {
                     s += nums[j] + ", ";
@@ -133,7 +129,7 @@ public class JAIFileBrowser
 
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            JList theList = (JList)e.getSource();
+            JList theList = (JList) e.getSource();
             int index = theList.getSelectedIndex();
 
             frame2.setTitle(filenames[index]);
@@ -147,12 +143,11 @@ public class JAIFileBrowser
             int w = icon.getIconWidth();
             int h = icon.getIconHeight();
             picture.setPreferredSize(new Dimension(w, h));
-            picturePanel.setPreferredSize(new Dimension(Math.min(w + 3, 800),
-                                                        Math.min(h + 3, 800)));
+            picturePanel.setPreferredSize(new Dimension(Math.min(w + 3, 800), Math.min(h + 3, 800)));
             picture.revalidate();
 
             propertyTable = createPropertyTable();
-            splitPane.setRightComponent(new JScrollPane(propertyTable)); 
+            splitPane.setRightComponent(new JScrollPane(propertyTable));
             frame.pack();
             frame2.pack();
         }

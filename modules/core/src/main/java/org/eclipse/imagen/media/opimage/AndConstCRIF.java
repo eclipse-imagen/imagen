@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "AndConst" operation in the rendered
- * and renderable image layers.
+ * A <code>CRIF</code> supporting the "AndConst" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.AndConstDescriptor
  * @see AndConstOpImage
- *
- *
  * @since EA2
  */
 public class AndConstCRIF extends CRIFImpl {
@@ -41,21 +38,15 @@ public class AndConstCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>AndConstOpImage</code>
-     * in the rendered layer.
+     * Creates a new instance of <code>AndConstOpImage</code> in the rendered layer.
      *
-     * @param args   The source image and the constants.
-     * @param hints  Optionally contains destination image layout.
+     * @param args The source image and the constants.
+     * @param hints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        
-        return new AndConstOpImage(args.getRenderedSource(0),
-                                   renderHints,
-                                   layout,
-				   (int[])args.getObjectParameter(0));
+
+        return new AndConstOpImage(args.getRenderedSource(0), renderHints, layout, (int[]) args.getObjectParameter(0));
     }
 }

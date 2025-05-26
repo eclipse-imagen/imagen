@@ -13,13 +13,12 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.registry.RIFRegistry;
 
-public class JAISamplePanel extends JAIDemoPanel
-    implements ChangeListener, ItemListener {
+public class JAISamplePanel extends JAIDemoPanel implements ChangeListener, ItemListener {
 
     int param1 = 0;
     int param2 = 255;
@@ -39,7 +38,7 @@ public class JAISamplePanel extends JAIDemoPanel
         String productName = "com.mycompany";
         OperationRegistry or = JAI.getDefaultInstance().getOperationRegistry();
         or.registerDescriptor(odesc);
-        RIFRegistry.register(or, operationName,productName,rif);
+        RIFRegistry.register(or, operationName, productName, rif);
         masterSetup();
     }
 
@@ -59,13 +58,12 @@ public class JAISamplePanel extends JAIDemoPanel
         p2Slider.setLabelTable(labels);
         p1Slider.setPaintLabels(true);
         p2Slider.setPaintLabels(true);
-        
+
         p1Slider.addChangeListener(this);
         p2Slider.addChangeListener(this);
 
         JPanel p1SliderPanel = new JPanel();
-        p1SliderPanel.setLayout(new BoxLayout(p1SliderPanel,
-                                              BoxLayout.X_AXIS));
+        p1SliderPanel.setLayout(new BoxLayout(p1SliderPanel, BoxLayout.X_AXIS));
         JLabel p1Label = new JLabel("Lower bound");
         p1SliderPanel.add(p1Label);
         p1SliderPanel.add(p1Slider);
@@ -100,16 +98,14 @@ public class JAISamplePanel extends JAIDemoPanel
         return JAI.create("sample", pb, renderHints);
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     public void animate() {
         int value = p1Slider.getValue();
         int temp = p2Slider.getValue();
         int newValue = value + sliderDelta;
 
-        if ( newValue < p1Slider.getMinimum() ||
-             newValue >= temp ) {
+        if (newValue < p1Slider.getMinimum() || newValue >= temp) {
             sliderDelta = -sliderDelta;
         }
 
@@ -124,23 +120,22 @@ public class JAISamplePanel extends JAIDemoPanel
     }
 
     public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
+        JSlider source = (JSlider) e.getSource();
         int value = source.getValue();
 
         if (source == p1Slider) {
-             param1 = value;
-             if (value > p2Slider.getValue()) {
-                 p2Slider.setValue(value);
-             }
+            param1 = value;
+            if (value > p2Slider.getValue()) {
+                p2Slider.setValue(value);
+            }
         } else {
-             param2 = value;
-             if (value < p1Slider.getValue()) {
-                 p1Slider.setValue(value);
-             }
+            param2 = value;
+            if (value < p1Slider.getValue()) {
+                p1Slider.setValue(value);
+            }
         }
         repaint();
     }
 
-    public void itemStateChanged(ItemEvent e) {
-    }
+    public void itemStateChanged(ItemEvent e) {}
 }

@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.codecimpl;
+
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.IndexColorModel;
@@ -23,22 +24,19 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
-import org.eclipse.imagen.media.codec.ImageEncoder;
+import org.eclipse.imagen.media.codec.ImageDecoder;
 import org.eclipse.imagen.media.codec.ImageEncodeParam;
+import org.eclipse.imagen.media.codec.ImageEncoder;
 import org.eclipse.imagen.media.codec.PNGDecodeParam;
 import org.eclipse.imagen.media.codec.PNGEncodeParam;
 import org.eclipse.imagen.media.codec.SeekableStream;
 
-
-/**
- * @since EA3
- */
+/** @since EA3 */
 public final class PNGCodec extends ImageCodec {
 
     public PNGCodec() {}
@@ -55,14 +53,12 @@ public final class PNGCodec extends ImageCodec {
         return org.eclipse.imagen.media.codec.PNGDecodeParam.class;
     }
 
-    public boolean canEncodeImage(RenderedImage im,
-                                  ImageEncodeParam param) {
+    public boolean canEncodeImage(RenderedImage im, ImageEncodeParam param) {
         SampleModel sampleModel = im.getSampleModel();
 
         // PNG doesn't handle float or double pixels
         int dataType = sampleModel.getTransferType();
-        if ((dataType == DataBuffer.TYPE_FLOAT) ||
-            (dataType == DataBuffer.TYPE_DOUBLE)) {
+        if ((dataType == DataBuffer.TYPE_FLOAT) || (dataType == DataBuffer.TYPE_DOUBLE)) {
             return false;
         }
 
@@ -99,15 +95,15 @@ public final class PNGCodec extends ImageCodec {
         if (param != null) {
             if (param instanceof PNGEncodeParam) {
                 if (colorModel instanceof IndexColorModel) {
-                    if (!(param instanceof PNGEncodeParam.Palette) ) {
+                    if (!(param instanceof PNGEncodeParam.Palette)) {
                         return false;
                     }
                 } else if (numBands < 3) {
-                    if (!(param instanceof PNGEncodeParam.Gray) ) {
+                    if (!(param instanceof PNGEncodeParam.Gray)) {
                         return false;
                     }
                 } else {
-                    if (!(param instanceof PNGEncodeParam.RGB) ) {
+                    if (!(param instanceof PNGEncodeParam.RGB)) {
                         return false;
                     }
                 }
@@ -119,39 +115,34 @@ public final class PNGCodec extends ImageCodec {
         return true;
     }
 
-    protected ImageEncoder createImageEncoder(OutputStream dst,
-                                              ImageEncodeParam param) {
+    protected ImageEncoder createImageEncoder(OutputStream dst, ImageEncodeParam param) {
         PNGEncodeParam p = null;
         if (param != null) {
-            p = (PNGEncodeParam)param;
+            p = (PNGEncodeParam) param;
         }
         return new PNGImageEncoder(dst, p);
     }
 
-    protected ImageDecoder createImageDecoder(InputStream src,
-                                              ImageDecodeParam param) {
+    protected ImageDecoder createImageDecoder(InputStream src, ImageDecodeParam param) {
         PNGDecodeParam p = null;
         if (param != null) {
-            p = (PNGDecodeParam)param;
+            p = (PNGDecodeParam) param;
         }
         return new PNGImageDecoder(src, p);
     }
 
-    protected ImageDecoder createImageDecoder(File src,
-                                              ImageDecodeParam param) 
-        throws IOException {
+    protected ImageDecoder createImageDecoder(File src, ImageDecodeParam param) throws IOException {
         PNGDecodeParam p = null;
         if (param != null) {
-            p = (PNGDecodeParam)param;
+            p = (PNGDecodeParam) param;
         }
         return new PNGImageDecoder(new FileInputStream(src), p);
     }
 
-    protected ImageDecoder createImageDecoder(SeekableStream src,
-                                              ImageDecodeParam param) {
+    protected ImageDecoder createImageDecoder(SeekableStream src, ImageDecodeParam param) {
         PNGDecodeParam p = null;
         if (param != null) {
-            p = (PNGDecodeParam)param;
+            p = (PNGDecodeParam) param;
         }
         return new PNGImageDecoder(src, p);
     }
@@ -161,13 +152,13 @@ public final class PNGCodec extends ImageCodec {
     }
 
     public boolean isFormatRecognized(byte[] header) {
-        return ((header[0] == (byte)0x89) &&
-                (header[1] == (byte)0x50) &&
-                (header[2] == (byte)0x4e) &&
-                (header[3] == (byte)0x47) &&
-                (header[4] == (byte)0x0d) &&
-                (header[5] == (byte)0x0a) &&
-                (header[6] == (byte)0x1a) &&
-                (header[7] == (byte)0x0a));
+        return ((header[0] == (byte) 0x89)
+                && (header[1] == (byte) 0x50)
+                && (header[2] == (byte) 0x4e)
+                && (header[3] == (byte) 0x47)
+                && (header[4] == (byte) 0x0d)
+                && (header[5] == (byte) 0x0a)
+                && (header[6] == (byte) 0x1a)
+                && (header[7] == (byte) 0x0a));
     }
 }

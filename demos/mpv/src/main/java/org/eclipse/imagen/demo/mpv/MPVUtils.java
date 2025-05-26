@@ -6,24 +6,19 @@
  * v1.0 which is available at http://www.eclipse.org/org/documents/edl-v10.php.
  */
 package org.eclipse.imagen.demo.mpv;
- 
+
 import javax.swing.JFrame;
 
-/** A utility class to contain the convenient methods for Multi-Pane Viewer.
- *
- */
-
-
-
+/** A utility class to contain the convenient methods for Multi-Pane Viewer. */
 public class MPVUtils {
 
     private static JFrame mainFrame = null;
 
     public static void setMainFrame(JFrame f) {
-	mainFrame = f;
+        mainFrame = f;
     }
 
     public static JFrame getMainFrame() {
-	return mainFrame;
+        return mainFrame;
     }
 }

@@ -16,21 +16,20 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
-import java.util.Map;
 import org.eclipse.imagen.operator.MaxFilterDescriptor;
 import org.eclipse.imagen.operator.MaxFilterShape;
 
 /**
- *  Creates a MaxFilterOpImage subclass for the given input
- *  mask type
- *  @see MaxFilterOpImage
+ * Creates a MaxFilterOpImage subclass for the given input mask type
+ *
+ * @see MaxFilterOpImage
  */
 public class MaxFilterRIF implements RenderedImageFactory {
 
@@ -38,49 +37,29 @@ public class MaxFilterRIF implements RenderedImageFactory {
     public MaxFilterRIF() {}
 
     /**
-     * Create a new instance of MaxFilterOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Create a new instance of MaxFilterOpImage in the rendered layer. This method satisfies the implementation of RIF.
      *
-     * @param paramBlock  The source image and the convolution kernel.
+     * @param paramBlock The source image and the convolution kernel.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
 
-        MaxFilterShape maskType =
-            (MaxFilterShape)paramBlock.getObjectParameter(0);
+        MaxFilterShape maskType = (MaxFilterShape) paramBlock.getObjectParameter(0);
         int maskSize = paramBlock.getIntParameter(1);
         RenderedImage ri = paramBlock.getRenderedSource(0);
-        
-        if(maskType.equals(MaxFilterDescriptor.MAX_MASK_SQUARE)) {
-           return new MaxFilterSquareOpImage(ri,
-                                             extender,
-                                             renderHints,
-                                             layout,
-                                             maskSize);
-        } else if(maskType.equals(MaxFilterDescriptor.MAX_MASK_PLUS)) {
-           return new MaxFilterPlusOpImage(ri,
-                                           extender,
-                                           renderHints,
-                                           layout,
-                                           maskSize);
-        } else if(maskType.equals(MaxFilterDescriptor.MAX_MASK_X)) {
-           return new MaxFilterXOpImage(ri,
-                                        extender,
-                                        renderHints,
-                                        layout,
-                                        maskSize);
-        } else if(maskType.equals(MaxFilterDescriptor.MAX_MASK_SQUARE_SEPARABLE)) {
-           return new MaxFilterSeparableOpImage(ri,
-                                                extender,
-                                                renderHints,
-                                                layout,
-                                                maskSize);
+
+        if (maskType.equals(MaxFilterDescriptor.MAX_MASK_SQUARE)) {
+            return new MaxFilterSquareOpImage(ri, extender, renderHints, layout, maskSize);
+        } else if (maskType.equals(MaxFilterDescriptor.MAX_MASK_PLUS)) {
+            return new MaxFilterPlusOpImage(ri, extender, renderHints, layout, maskSize);
+        } else if (maskType.equals(MaxFilterDescriptor.MAX_MASK_X)) {
+            return new MaxFilterXOpImage(ri, extender, renderHints, layout, maskSize);
+        } else if (maskType.equals(MaxFilterDescriptor.MAX_MASK_SQUARE_SEPARABLE)) {
+            return new MaxFilterSeparableOpImage(ri, extender, renderHints, layout, maskSize);
         }
         return null;
     }

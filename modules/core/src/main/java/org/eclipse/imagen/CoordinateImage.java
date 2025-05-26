@@ -18,13 +18,10 @@
 package org.eclipse.imagen;
 
 /**
- * A class representing an image that is associated with a coordinate.
- * This class is used with <code>ImageStack</code>.
+ * A class representing an image that is associated with a coordinate. This class is used with <code>ImageStack</code>.
  *
  * @see ImageStack
- *
- * @deprecated as of JAI 1.1. Use
- * <code>AttributedImage</code> instead.
+ * @deprecated as of JAI 1.1. Use <code>AttributedImage</code> instead.
  */
 public class CoordinateImage {
 
@@ -32,10 +29,8 @@ public class CoordinateImage {
     public PlanarImage image;
 
     /**
-     * The coordinate associated with the image.  The type of this
-     * parameter is <code>Object</code> so that the application may choose
-     * any class to represent a coordinate based on the individual's
-     * needs.
+     * The coordinate associated with the image. The type of this parameter is <code>Object</code> so that the
+     * application may choose any class to represent a coordinate based on the individual's needs.
      */
     public Object coordinate;
 
@@ -45,8 +40,7 @@ public class CoordinateImage {
      * @throws IllegalArgumentException if <code>pi</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>c</code> is <code>null</code>.
      */
-    public CoordinateImage(PlanarImage pi,
-                           Object c) {
+    public CoordinateImage(PlanarImage pi, Object c) {
         if (pi == null || c == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }

@@ -12,13 +12,12 @@ import java.awt.event.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.remote.RemoteJAI;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.remote.RemoteJAI;
 
-public class JAIAddConstPanel extends JAIDemoPanel
-    implements ChangeListener, ItemListener {
+public class JAIAddConstPanel extends JAIDemoPanel implements ChangeListener, ItemListener {
 
     boolean zeroState = true;
 
@@ -39,7 +38,6 @@ public class JAIAddConstPanel extends JAIDemoPanel
         return "AddConst";
     }
 
-
     public void makeControls(JPanel controls) {
         p1Slider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
         p2Slider = new JSlider(JSlider.HORIZONTAL, -255, 255, 0);
@@ -56,7 +54,7 @@ public class JAIAddConstPanel extends JAIDemoPanel
         p1Slider.setPaintLabels(true);
         p2Slider.setPaintLabels(true);
         p3Slider.setPaintLabels(true);
-        
+
         p1Slider.addChangeListener(this);
         p2Slider.addChangeListener(this);
         p3Slider.addChangeListener(this);
@@ -97,18 +95,15 @@ public class JAIAddConstPanel extends JAIDemoPanel
 
     public PlanarImage process() {
         PlanarImage im = getSource(0);
- 
+
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(im);
-        double consts[] = {param1, 
-                           param2,
-                           param3};
+        double consts[] = {param1, param2, param3};
         pb.add(consts);
         return client.create("addconst", pb, renderHints);
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
     int sliderDelta1 = 1;
     int sliderDelta2 = 1;
@@ -116,60 +111,20 @@ public class JAIAddConstPanel extends JAIDemoPanel
     boolean isAutoInit = false;
 
     public void animate() {
-        if(zeroState) {
-            int delta =
-                (int)((float)(p1Slider.getMaximum() -
-                              p1Slider.getMinimum())/3.0F);
-            p2Slider.setValue(Math.max(p2Slider.getMinimum(),
-                                       p1Slider.getValue() - delta));
-            p3Slider.setValue(Math.min(p3Slider.getMaximum(),
-                                       p1Slider.getValue() + delta));
+        if (zeroState) {
+            int delta = (int) ((float) (p1Slider.getMaximum() - p1Slider.getMinimum()) / 3.0F);
+            p2Slider.setValue(Math.max(p2Slider.getMinimum(), p1Slider.getValue() - delta));
+            p3Slider.setValue(Math.min(p3Slider.getMaximum(), p1Slider.getValue() + delta));
             zeroState = false;
         }
 
         int value = p1Slider.getValue();
         int newValue = value + sliderDelta1;
 
-        if (newValue < p1Slider.getMinimum() ||
-            newValue > p1Slider.getMaximum()) {
+        if (newValue < p1Slider.getMinimum() || newValue > p1Slider.getMaximum()) {
             sliderDelta1 = -sliderDelta1;
         }
         p1Slider.setValue(value + sliderDelta1);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public void reset() {
@@ -183,19 +138,18 @@ public class JAIAddConstPanel extends JAIDemoPanel
     }
 
     public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
+        JSlider source = (JSlider) e.getSource();
         int value = source.getValue();
 
         if (source == p1Slider) {
-             param1 = value;
+            param1 = value;
         } else if (source == p2Slider) {
-             param2 = value;
+            param2 = value;
         } else if (source == p3Slider) {
-             param3 = value;
+            param3 = value;
         }
         repaint();
     }
 
-    public void itemStateChanged(ItemEvent e) {
-    }
+    public void itemStateChanged(ItemEvent e) {}
 }

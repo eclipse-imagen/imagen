@@ -16,21 +16,20 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
-import java.util.Map;
 import org.eclipse.imagen.operator.MedianFilterDescriptor;
 import org.eclipse.imagen.operator.MedianFilterShape;
 
 /**
- *  Creates a MedianFilterOpImage subclass for the given input
- *  mask type
- *  @see MedianFilterOpImage
+ * Creates a MedianFilterOpImage subclass for the given input mask type
+ *
+ * @see MedianFilterOpImage
  */
 public class MedianFilterRIF implements RenderedImageFactory {
 
@@ -38,49 +37,30 @@ public class MedianFilterRIF implements RenderedImageFactory {
     public MedianFilterRIF() {}
 
     /**
-     * Create a new instance of MedianFilterOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Create a new instance of MedianFilterOpImage in the rendered layer. This method satisfies the implementation of
+     * RIF.
      *
-     * @param paramBlock  The source image and the convolution kernel.
+     * @param paramBlock The source image and the convolution kernel.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
 
-        MedianFilterShape maskType =
-            (MedianFilterShape)paramBlock.getObjectParameter(0);
+        MedianFilterShape maskType = (MedianFilterShape) paramBlock.getObjectParameter(0);
         int maskSize = paramBlock.getIntParameter(1);
         RenderedImage ri = paramBlock.getRenderedSource(0);
-        
-        if(maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_SQUARE)) {
-           return new MedianFilterSquareOpImage(ri,
-                                             extender,
-                                             renderHints,
-                                             layout,
-                                             maskSize);
-        } else if(maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_PLUS)) {
-           return new MedianFilterPlusOpImage(ri,
-                                           extender,
-                                           renderHints,
-                                           layout,
-                                           maskSize);
-        } else if(maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_X)) {
-           return new MedianFilterXOpImage(ri,
-                                        extender,
-                                        renderHints,
-                                        layout,
-                                        maskSize);
-        } else if(maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_SQUARE_SEPARABLE)) {
-           return new MedianFilterSeparableOpImage(ri,
-                                                extender,
-                                                renderHints,
-                                                layout,
-                                                maskSize);
+
+        if (maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_SQUARE)) {
+            return new MedianFilterSquareOpImage(ri, extender, renderHints, layout, maskSize);
+        } else if (maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_PLUS)) {
+            return new MedianFilterPlusOpImage(ri, extender, renderHints, layout, maskSize);
+        } else if (maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_X)) {
+            return new MedianFilterXOpImage(ri, extender, renderHints, layout, maskSize);
+        } else if (maskType.equals(MedianFilterDescriptor.MEDIAN_MASK_SQUARE_SEPARABLE)) {
+            return new MedianFilterSeparableOpImage(ri, extender, renderHints, layout, maskSize);
         }
         return null;
     }

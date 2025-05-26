@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -23,26 +24,20 @@ import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
-import java.awt.image.renderable.RenderedImageFactory;
-import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.InterpolationBilinear;
 import org.eclipse.imagen.InterpolationBicubic;
 import org.eclipse.imagen.InterpolationBicubic2;
-import org.eclipse.imagen.InterpolationTable;
+import org.eclipse.imagen.InterpolationBilinear;
+import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.TileCache;
-import org.eclipse.imagen.CRIFImpl;
-import java.util.Map;
 
-
-/**
- * @see ScaleOpImage
- */
+/** @see ScaleOpImage */
 public class ScaleCRIF extends CRIFImpl {
 
     private static final float TOLERANCE = 0.01F;
@@ -53,18 +48,15 @@ public class ScaleCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of ScaleOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Creates a new instance of ScaleOpImage in the rendered layer. This method satisfies the implementation of RIF.
      *
-     * @param paramBlock  The source image, the X and Y scale factor,
-     *                    and the interpolation method for resampling.
+     * @param paramBlock The source image, the X and Y scale factor, and the interpolation method for resampling.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
 
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
+
         // Get TileCache from renderHints if any.
         TileCache cache = RIFUtil.getTileCacheHint(renderHints);
 
@@ -76,33 +68,29 @@ public class ScaleCRIF extends CRIFImpl {
         float yScale = paramBlock.getFloatParameter(1);
         float xTrans = paramBlock.getFloatParameter(2);
         float yTrans = paramBlock.getFloatParameter(3);
-        Interpolation interp = (Interpolation)paramBlock.getObjectParameter(4);
+        Interpolation interp = (Interpolation) paramBlock.getObjectParameter(4);
 
-	// Check and see if we are scaling by 1.0 in both x and y and no
+        // Check and see if we are scaling by 1.0 in both x and y and no
         // translations. If so call the copy operation.
-	
-	if (xScale == 1.0F && yScale == 1.0F && 
-	    xTrans == 0.0F && yTrans == 0.0F) {
-	    return new CopyOpImage(source, renderHints, layout);
-	}
 
-	
-	// Check to see whether the operation specified is a pure 
-	// integer translation. If so call translate
-	// If the hints contain an ImageLayout hint, then we can't use
-	// TranslateIntOpImage since that can't deal with the ImageLayout hint
-	if (xScale == 1.0F && yScale == 1.0F &&
-	    (Math.abs(xTrans - (int)xTrans) < TOLERANCE) &&
-	    (Math.abs(yTrans - (int)yTrans) < TOLERANCE) &&
-	    layout == null) {
-	    // It's an integer translate.
-            return new TranslateIntOpImage(source,
-					   renderHints,
-					   (int)xTrans,
-					   (int)yTrans);
-	}
-	
-        if (interp instanceof InterpolationNearest)  {
+        if (xScale == 1.0F && yScale == 1.0F && xTrans == 0.0F && yTrans == 0.0F) {
+            return new CopyOpImage(source, renderHints, layout);
+        }
+
+        // Check to see whether the operation specified is a pure
+        // integer translation. If so call translate
+        // If the hints contain an ImageLayout hint, then we can't use
+        // TranslateIntOpImage since that can't deal with the ImageLayout hint
+        if (xScale == 1.0F
+                && yScale == 1.0F
+                && (Math.abs(xTrans - (int) xTrans) < TOLERANCE)
+                && (Math.abs(yTrans - (int) yTrans) < TOLERANCE)
+                && layout == null) {
+            // It's an integer translate.
+            return new TranslateIntOpImage(source, renderHints, (int) xTrans, (int) yTrans);
+        }
+
+        if (interp instanceof InterpolationNearest) {
             //
             // Special case -- if the image is represented using
             // a MultiPixelPackedSampleModel and a byte, ushort,
@@ -114,124 +102,78 @@ public class ScaleCRIF extends CRIFImpl {
             // forcing an actual tile to be computed.
             //
             SampleModel sm = source.getSampleModel();
-            if ((sm instanceof MultiPixelPackedSampleModel) &&
-                (sm.getSampleSize(0) == 1) &&
-                (sm.getDataType() == DataBuffer.TYPE_BYTE || 
-                 sm.getDataType() == DataBuffer.TYPE_USHORT || 
-                 sm.getDataType() == DataBuffer.TYPE_INT)) {
-                return new ScaleNearestBinaryOpImage(source,
-                                                      extender,
-                                                      renderHints,
-                                                      layout,
-                                                      xScale,
-                                                      yScale,
-                                                      xTrans,
-                                                      yTrans,
-                                                      interp);
+            if ((sm instanceof MultiPixelPackedSampleModel)
+                    && (sm.getSampleSize(0) == 1)
+                    && (sm.getDataType() == DataBuffer.TYPE_BYTE
+                            || sm.getDataType() == DataBuffer.TYPE_USHORT
+                            || sm.getDataType() == DataBuffer.TYPE_INT)) {
+                return new ScaleNearestBinaryOpImage(
+                        source, extender, renderHints, layout, xScale, yScale, xTrans, yTrans, interp);
             } else {
-	      return new ScaleNearestOpImage(source,
-					     extender,
-					     renderHints,
-					     layout,
-					     xScale, yScale,
-					     xTrans, yTrans,
-					     interp);
+                return new ScaleNearestOpImage(
+                        source, extender, renderHints, layout, xScale, yScale, xTrans, yTrans, interp);
             }
-        } 
-	else 
-	  if (interp instanceof InterpolationBilinear) 
-	  {
-	    SampleModel sm = source.getSampleModel();
-            if ((sm instanceof MultiPixelPackedSampleModel) &&
-                (sm.getSampleSize(0) == 1) &&
-                (sm.getDataType() == DataBuffer.TYPE_BYTE || 
-                 sm.getDataType() == DataBuffer.TYPE_USHORT || 
-                 sm.getDataType() == DataBuffer.TYPE_INT)) 
-	    {
-	      return new ScaleBilinearBinaryOpImage(source,
-						    extender,
-						    renderHints,
-						    layout,
-						    xScale,
-						    yScale,
-						    xTrans,
-						    yTrans,
-						    interp);
-            } 
-	    else 
-	    {
-	      return new ScaleBilinearOpImage(source, extender,
-					      renderHints,
-					      layout,
-					      xScale, yScale,
-					      xTrans, yTrans,
-					      interp);
-	    }
-        } else if ((interp instanceof InterpolationBicubic) ||
-		   (interp instanceof InterpolationBicubic2)) {
-	    return new ScaleBicubicOpImage(source, extender,
-					   renderHints,
-                                           layout,
-                                           xScale, yScale,
-                                           xTrans, yTrans,
-                                           interp);
-	} else {
-	    return new ScaleGeneralOpImage(source, extender,
-					   renderHints,
-					   layout,
-					   xScale, yScale,
-					   xTrans, yTrans,
-					   interp);
+        } else if (interp instanceof InterpolationBilinear) {
+            SampleModel sm = source.getSampleModel();
+            if ((sm instanceof MultiPixelPackedSampleModel)
+                    && (sm.getSampleSize(0) == 1)
+                    && (sm.getDataType() == DataBuffer.TYPE_BYTE
+                            || sm.getDataType() == DataBuffer.TYPE_USHORT
+                            || sm.getDataType() == DataBuffer.TYPE_INT)) {
+                return new ScaleBilinearBinaryOpImage(
+                        source, extender, renderHints, layout, xScale, yScale, xTrans, yTrans, interp);
+            } else {
+                return new ScaleBilinearOpImage(
+                        source, extender, renderHints, layout, xScale, yScale, xTrans, yTrans, interp);
+            }
+        } else if ((interp instanceof InterpolationBicubic) || (interp instanceof InterpolationBicubic2)) {
+            return new ScaleBicubicOpImage(
+                    source, extender, renderHints, layout, xScale, yScale, xTrans, yTrans, interp);
+        } else {
+            return new ScaleGeneralOpImage(
+                    source, extender, renderHints, layout, xScale, yScale, xTrans, yTrans, interp);
         }
     }
 
     /**
-     * Creates a new instance of <code>AffineOpImage</code>
-     * in the renderable layer. This method satisfies the
+     * Creates a new instance of <code>AffineOpImage</code> in the renderable layer. This method satisfies the
      * implementation of CRIF.
      */
-    public RenderedImage create(RenderContext renderContext,
-                                ParameterBlock paramBlock) {
+    public RenderedImage create(RenderContext renderContext, ParameterBlock paramBlock) {
         return paramBlock.getRenderedSource(0);
     }
 
     /**
-     * Maps the output RenderContext into the RenderContext for the ith
-     * source.
-     * This method satisfies the implementation of CRIF.
+     * Maps the output RenderContext into the RenderContext for the ith source. This method satisfies the implementation
+     * of CRIF.
      *
-     * @param i               The index of the source image.
-     * @param renderContext   The renderContext being applied to the operation.
-     * @param paramBlock      The ParameterBlock containing the sources
-     *                        and the translation factors.
-     * @param image           The RenderableImageOp from which this method
-     *                        was called.
+     * @param i The index of the source image.
+     * @param renderContext The renderContext being applied to the operation.
+     * @param paramBlock The ParameterBlock containing the sources and the translation factors.
+     * @param image The RenderableImageOp from which this method was called.
      */
-    public RenderContext mapRenderContext(int i,
-                                          RenderContext renderContext,
-					  ParameterBlock paramBlock,
-					  RenderableImage image) {
-	
-	float scale_x = paramBlock.getFloatParameter(0);
+    public RenderContext mapRenderContext(
+            int i, RenderContext renderContext, ParameterBlock paramBlock, RenderableImage image) {
+
+        float scale_x = paramBlock.getFloatParameter(0);
         float scale_y = paramBlock.getFloatParameter(1);
         float trans_x = paramBlock.getFloatParameter(2);
         float trans_y = paramBlock.getFloatParameter(3);
 
-        AffineTransform scale = new AffineTransform(scale_x, 0.0, 0.0, scale_y,
-                                                    trans_x, trans_y);
+        AffineTransform scale = new AffineTransform(scale_x, 0.0, 0.0, scale_y, trans_x, trans_y);
 
-        RenderContext RC = (RenderContext)renderContext.clone();
+        RenderContext RC = (RenderContext) renderContext.clone();
         AffineTransform usr2dev = RC.getTransform();
         usr2dev.concatenate(scale);
-	RC.setTransform(usr2dev);
-	return RC;
+        RC.setTransform(usr2dev);
+        return RC;
     }
 
     /**
-     * Gets the bounding box for the output of <code>ScaleOpImage</code>.
-     * This method satisfies the implementation of CRIF.
+     * Gets the bounding box for the output of <code>ScaleOpImage</code>. This method satisfies the implementation of
+     * CRIF.
      */
-    public Rectangle2D getBounds2D(ParameterBlock paramBlock) {        
+    public Rectangle2D getBounds2D(ParameterBlock paramBlock) {
 
         RenderableImage source = paramBlock.getRenderableSource(0);
 
@@ -239,21 +181,20 @@ public class ScaleCRIF extends CRIFImpl {
         float scale_y = paramBlock.getFloatParameter(1);
         float trans_x = paramBlock.getFloatParameter(2);
         float trans_y = paramBlock.getFloatParameter(3);
-        Interpolation interp = (Interpolation)paramBlock.getObjectParameter(4);
+        Interpolation interp = (Interpolation) paramBlock.getObjectParameter(4);
 
-	// Get the source dimensions
-	float x0 = (float)source.getMinX();
-	float y0 = (float)source.getMinY() ;
-	float w = (float)source.getWidth();
-	float h = (float)source.getHeight();
-	
-	// Forward map the source using x0, y0, w and h
-	float d_x0 = x0 * scale_x + trans_x;
-	float d_y0 = y0 * scale_y + trans_y;
-	float d_w = w * scale_x;
-	float d_h = h * scale_y;
-	
-	return new Rectangle2D.Float(d_x0, d_y0, d_w, d_h);
+        // Get the source dimensions
+        float x0 = (float) source.getMinX();
+        float y0 = (float) source.getMinY();
+        float w = (float) source.getWidth();
+        float h = (float) source.getHeight();
+
+        // Forward map the source using x0, y0, w and h
+        float d_x0 = x0 * scale_x + trans_x;
+        float d_y0 = y0 * scale_y + trans_y;
+        float d_w = w * scale_x;
+        float d_h = h * scale_y;
+
+        return new Rectangle2D.Float(d_x0, d_y0, d_w, d_h);
     }
-
 }

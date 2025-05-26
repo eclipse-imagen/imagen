@@ -16,32 +16,29 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import java.awt.image.renderable.ParameterBlock;
+import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 
-/**
- * An OpImage subclass that performs general Affine mapping
- */
+/** An OpImage subclass that performs general Affine mapping */
 final class AffineGeneralOpImage extends AffineOpImage {
 
     /* The number of subsampleBits */
     private int subsampleBits;
     private int shiftvalue;
 
-    private int interp_width, interp_height ;
+    private int interp_width, interp_height;
     private int interp_left, interp_top, interp_right, interp_bottom;
 
     /**
@@ -49,26 +46,19 @@ final class AffineGeneralOpImage extends AffineOpImage {
      *
      * @param source a RenderedImage.
      * @param extender a BorderExtender, or null.
-
-     * @param layout an ImageLayout optionally containing the tile grid layout,
-     *        SampleModel, and ColorModel, or null.
+     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param interp an Interpolation object to use for resampling
      * @param transform the desired AffineTransform.
      */
-    public AffineGeneralOpImage(RenderedImage source,
-                                BorderExtender extender,
-                                Map config,
-                                ImageLayout layout,
-                                AffineTransform transform,
-                                Interpolation interp,
-				double[] backgroundValues) {
-        super(source,
-              extender,
-              config,
-              layout,
-              transform,
-              interp,
-	      backgroundValues);
+    public AffineGeneralOpImage(
+            RenderedImage source,
+            BorderExtender extender,
+            Map config,
+            ImageLayout layout,
+            AffineTransform transform,
+            Interpolation interp,
+            double[] backgroundValues) {
+        super(source, extender, config, layout, transform, interp, backgroundValues);
 
         subsampleBits = interp.getSubsampleBitsH();
         shiftvalue = 1 << subsampleBits;
@@ -82,17 +72,14 @@ final class AffineGeneralOpImage extends AffineOpImage {
     }
 
     /**
-     * Performs an affine transform on a specified rectangle. The sources are
-     * cobbled.
+     * Performs an affine transform on a specified rectangle. The sources are cobbled.
      *
-     * @param sources an array of source Rasters, guaranteed to provide all
-     *                necessary source data for computing the output.
+     * @param sources an array of source Rasters, guaranteed to provide all necessary source data for computing the
+     *     output.
      * @param dest a WritableRaster tile containing the area to be computed.
      * @param destRect the rectangle within dest to be processed.
      */
-    protected void computeRect(Raster [] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
@@ -110,66 +97,35 @@ final class AffineGeneralOpImage extends AffineOpImage {
         //
         // See if we can cache the source to avoid multiple rasteraccesors
         //
-        RasterAccessor srcAccessor =
-            new RasterAccessor(source,
-                               srcRect,
-                               formatTags[0],
-                               getSourceImage(0).getColorModel());
-        RasterAccessor dstAccessor =
-            new RasterAccessor(dest,
-                               destRect,
-                               formatTags[1],
-                               getColorModel());
+        RasterAccessor srcAccessor = new RasterAccessor(
+                source, srcRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         switch (dstAccessor.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            byteLoop(srcAccessor,
-                     destRect,
-                     srcRectX,
-                     srcRectY,
-                     dstAccessor);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                byteLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_INT:
-            intLoop(srcAccessor,
-                    destRect,
-                    srcRectX,
-                    srcRectY,
-                    dstAccessor);
-            break;
+            case DataBuffer.TYPE_INT:
+                intLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_SHORT:
-            shortLoop(srcAccessor,
-                      destRect,
-                      srcRectX,
-                      srcRectY,
-                      dstAccessor);
-            break;
+            case DataBuffer.TYPE_SHORT:
+                shortLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_USHORT:
-            ushortLoop(srcAccessor,
-                       destRect,
-                       srcRectX,
-                       srcRectY,
-                       dstAccessor);
-	    break;
+            case DataBuffer.TYPE_USHORT:
+                ushortLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_FLOAT:
-            floatLoop(srcAccessor,
-                      destRect,
-                      srcRectX,
-                      srcRectY,
-                      dstAccessor);
-	    break;
+            case DataBuffer.TYPE_FLOAT:
+                floatLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_DOUBLE:
-            doubleLoop(srcAccessor,
-                       destRect,
-                       srcRectX,
-                       srcRectY,
-                       dstAccessor);
-	    break;
-	}
+            case DataBuffer.TYPE_DOUBLE:
+                doubleLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
+        }
 
         // If the RasterAccessor object set up a temporary buffer for the
         // op to write to, tell the RasterAccessor to write that data
@@ -180,11 +136,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
         }
     }
 
-    private void byteLoop(RasterAccessor src,
-                          Rectangle destRect,
-                          int srcRectX,
-                          int srcRectY,
-                          RasterAccessor dst) {
+    private void byteLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -227,17 +179,15 @@ final class AffineGeneralOpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	byte[] backgroundByte = new byte[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundByte[i] = (byte)backgroundValues[i];
+        byte[] backgroundByte = new byte[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundByte[i] = (byte) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -263,25 +213,23 @@ final class AffineGeneralOpImage extends AffineOpImage {
                 // Check against the source rectangle
                 //
 
-                if ((s_ix >= src_rect_x1 + interp_left) &&
-                    (s_ix < (src_rect_x2 - interp_right)) &&
-                    (s_iy >= (src_rect_y1 + interp_top)) &&
-                    (s_iy < (src_rect_y2 - interp_bottom))) {
-                    for (int k=0; k < dst_num_bands; k++) {
+                if ((s_ix >= src_rect_x1 + interp_left)
+                        && (s_ix < (src_rect_x2 - interp_right))
+                        && (s_iy >= (src_rect_y1 + interp_top))
+                        && (s_iy < (src_rect_y2 - interp_bottom))) {
+                    for (int k = 0; k < dst_num_bands; k++) {
                         byte srcData[] = srcDataArrays[k];
                         int tmp = bandOffsets[k];
 
                         // Get the pixels required for this interpolation
-                        int start = interp_left * srcPixelStride +
-                            interp_top * srcScanlineStride;
+                        int start = interp_left * srcPixelStride + interp_top * srcScanlineStride;
                         start = p_x + p_y - start;
                         int countH = 0, countV = 0;
 
                         for (int i = 0; i < interp_height; i++) {
                             int startY = start;
                             for (int j = 0; j < interp_width; j++) {
-                                samples[countV][countH++] =
-                                    srcData[start + tmp] & 0xff;
+                                samples[countV][countH++] = srcData[start + tmp] & 0xff;
                                 start += srcPixelStride;
                             }
                             countV++;
@@ -298,7 +246,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
 
                         // Clamp
                         if (s < 0) {
-                           result = 0;
+                            result = 0;
                         } else if (s > 255) {
                             result = 255;
                         } else {
@@ -306,15 +254,12 @@ final class AffineGeneralOpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k]
-                            [dstPixelOffset+dstBandOffsets[k]] =
-                            (byte) (result & 0xff);
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = (byte) (result & 0xff);
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundByte[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundByte[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -342,14 +287,9 @@ final class AffineGeneralOpImage extends AffineOpImage {
 
             dstOffset += dstScanlineStride;
         }
-
     }
 
-    private void intLoop(RasterAccessor src,
-                         Rectangle destRect,
-                         int srcRectX,
-                         int srcRectY,
-                         RasterAccessor dst) {
+    private void intLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -392,17 +332,15 @@ final class AffineGeneralOpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	int[] backgroundInt = new int[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundInt[i] = (int)backgroundValues[i];
+        int[] backgroundInt = new int[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundInt[i] = (int) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -428,25 +366,23 @@ final class AffineGeneralOpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + interp_left)) &&
-                    (s_ix < (src_rect_x2 - interp_right)) &&
-                    (s_iy >= (src_rect_y1 + interp_top)) &&
-                    (s_iy < (src_rect_y2 - interp_bottom))) {
-                    for (int k=0; k < dst_num_bands; k++) {
+                if ((s_ix >= (src_rect_x1 + interp_left))
+                        && (s_ix < (src_rect_x2 - interp_right))
+                        && (s_iy >= (src_rect_y1 + interp_top))
+                        && (s_iy < (src_rect_y2 - interp_bottom))) {
+                    for (int k = 0; k < dst_num_bands; k++) {
                         int srcData[] = srcDataArrays[k];
                         int tmp = bandOffsets[k];
 
                         // Get the pixels required for this interpolation
-                        int start = interp_left * srcPixelStride +
-                            interp_top * srcScanlineStride;
+                        int start = interp_left * srcPixelStride + interp_top * srcScanlineStride;
                         start = p_x + p_y - start;
                         int countH = 0, countV = 0;
 
                         for (int i = 0; i < interp_height; i++) {
                             int startY = start;
                             for (int j = 0; j < interp_width; j++) {
-                                samples[countV][countH++] =
-                                    srcData[start + tmp];
+                                samples[countV][countH++] = srcData[start + tmp];
                                 start += srcPixelStride;
                             }
                             countV++;
@@ -463,7 +399,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
 
                         // Clamp
                         if (s < Integer.MIN_VALUE) {
-                           result = Integer.MIN_VALUE;
+                            result = Integer.MIN_VALUE;
                         } else if (s > Integer.MAX_VALUE) {
                             result = Integer.MAX_VALUE;
                         } else {
@@ -471,14 +407,12 @@ final class AffineGeneralOpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k]
-                            [dstPixelOffset+dstBandOffsets[k]] = result;
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = result;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundInt[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundInt[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -508,11 +442,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
         }
     }
 
-    private void shortLoop(RasterAccessor src,
-                           Rectangle destRect,
-                           int srcRectX,
-                           int srcRectY,
-                           RasterAccessor dst) {
+    private void shortLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -556,18 +486,16 @@ final class AffineGeneralOpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	short[] backgroundShort = new short[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundShort[i] = (short)backgroundValues[i];
+        short[] backgroundShort = new short[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundShort[i] = (short) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
 
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -593,25 +521,23 @@ final class AffineGeneralOpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + interp_left)) &&
-                    (s_ix < (src_rect_x2 - interp_right)) &&
-                    (s_iy >= (src_rect_y1 + interp_top)) &&
-                    (s_iy < (src_rect_y2 - interp_bottom))) {
-                    for (int k=0; k < dst_num_bands; k++) {
+                if ((s_ix >= (src_rect_x1 + interp_left))
+                        && (s_ix < (src_rect_x2 - interp_right))
+                        && (s_iy >= (src_rect_y1 + interp_top))
+                        && (s_iy < (src_rect_y2 - interp_bottom))) {
+                    for (int k = 0; k < dst_num_bands; k++) {
                         short srcData[] = srcDataArrays[k];
                         int tmp = bandOffsets[k];
 
                         // Get the pixels required for this interpolation
-                        int start = interp_left * srcPixelStride +
-                            interp_top * srcScanlineStride;
+                        int start = interp_left * srcPixelStride + interp_top * srcScanlineStride;
                         start = p_x + p_y - start;
                         int countH = 0, countV = 0;
 
                         for (int i = 0; i < interp_height; i++) {
                             int startY = start;
                             for (int j = 0; j < interp_width; j++) {
-                                samples[countV][countH++] =
-                                    srcData[start + tmp];
+                                samples[countV][countH++] = srcData[start + tmp];
                                 start += srcPixelStride;
                             }
                             countV++;
@@ -628,7 +554,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
 
                         // Round the result
                         if (s < Short.MIN_VALUE) {
-                           result = Short.MIN_VALUE;
+                            result = Short.MIN_VALUE;
                         } else if (s > Short.MAX_VALUE) {
                             result = Short.MAX_VALUE;
                         } else {
@@ -636,14 +562,12 @@ final class AffineGeneralOpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k]
-                            [dstPixelOffset+dstBandOffsets[k]] = result;
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = result;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundShort[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundShort[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -673,11 +597,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
         }
     }
 
-    private void ushortLoop(RasterAccessor src,
-                            Rectangle destRect,
-                            int srcRectX,
-                            int srcRectY,
-                            RasterAccessor dst) {
+    private void ushortLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -721,17 +641,15 @@ final class AffineGeneralOpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	short[] backgroundUShort = new short[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundUShort[i] = (short)backgroundValues[i];
+        short[] backgroundUShort = new short[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundUShort[i] = (short) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -757,25 +675,23 @@ final class AffineGeneralOpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + interp_left)) &&
-                    (s_ix < (src_rect_x2 - interp_right)) &&
-                    (s_iy >= (src_rect_y1 + interp_top)) &&
-                    (s_iy < (src_rect_y2 - interp_bottom))) {
-                    for (int k=0; k < dst_num_bands; k++) {
+                if ((s_ix >= (src_rect_x1 + interp_left))
+                        && (s_ix < (src_rect_x2 - interp_right))
+                        && (s_iy >= (src_rect_y1 + interp_top))
+                        && (s_iy < (src_rect_y2 - interp_bottom))) {
+                    for (int k = 0; k < dst_num_bands; k++) {
                         short srcData[] = srcDataArrays[k];
                         int tmp = bandOffsets[k];
 
                         // Get the pixels required for this interpolation
-                        int start = interp_left * srcPixelStride +
-                            interp_top * srcScanlineStride;
+                        int start = interp_left * srcPixelStride + interp_top * srcScanlineStride;
                         start = p_x + p_y - start;
                         int countH = 0, countV = 0;
 
                         for (int i = 0; i < interp_height; i++) {
                             int startY = start;
                             for (int j = 0; j < interp_width; j++) {
-                                samples[countV][countH++] =
-                                    srcData[start + tmp] & 0xffff;
+                                samples[countV][countH++] = srcData[start + tmp] & 0xffff;
                                 start += srcPixelStride;
                             }
                             countV++;
@@ -792,23 +708,20 @@ final class AffineGeneralOpImage extends AffineOpImage {
 
                         // Round
                         if (s < 0) {
-                           result = 0;
+                            result = 0;
                         } else if (s > USHORT_MAX) {
                             result = USHORT_MAX;
                         } else {
-                            result =  s;
+                            result = s;
                         }
 
                         // write the result
-                        dstDataArrays[k]
-                            [dstPixelOffset+dstBandOffsets[k]] =
-                            (short)(result & 0xFFFF);
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = (short) (result & 0xFFFF);
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundUShort[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundUShort[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -838,11 +751,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
         }
     }
 
-    private void floatLoop(RasterAccessor src,
-                           Rectangle destRect,
-                           int srcRectX,
-                           int srcRectY,
-                           RasterAccessor dst) {
+    private void floatLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -884,18 +793,16 @@ final class AffineGeneralOpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	float[] backgroundFloat = new float[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundFloat[i] = (float)backgroundValues[i];
+        float[] backgroundFloat = new float[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundFloat[i] = (float) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
 
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -921,25 +828,23 @@ final class AffineGeneralOpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + interp_left)) &&
-                    (s_ix < (src_rect_x2 - interp_right)) &&
-                    (s_iy >= (src_rect_y1 + interp_top)) &&
-                    (s_iy < (src_rect_y2 - interp_bottom))) {
-                    for (int k=0; k < dst_num_bands; k++) {
+                if ((s_ix >= (src_rect_x1 + interp_left))
+                        && (s_ix < (src_rect_x2 - interp_right))
+                        && (s_iy >= (src_rect_y1 + interp_top))
+                        && (s_iy < (src_rect_y2 - interp_bottom))) {
+                    for (int k = 0; k < dst_num_bands; k++) {
                         float srcData[] = srcDataArrays[k];
                         int tmp = bandOffsets[k];
 
                         // Get the pixels required for this interpolation
-                        int start = interp_left * srcPixelStride +
-                            interp_top * srcScanlineStride;
+                        int start = interp_left * srcPixelStride + interp_top * srcScanlineStride;
                         start = p_x + p_y - start;
                         int countH = 0, countV = 0;
 
                         for (int i = 0; i < interp_height; i++) {
                             int startY = start;
                             for (int j = 0; j < interp_width; j++) {
-                                samples[countV][countH++] =
-                                    srcData[start + tmp];
+                                samples[countV][countH++] = srcData[start + tmp];
                                 start += srcPixelStride;
                             }
                             countV++;
@@ -951,14 +856,12 @@ final class AffineGeneralOpImage extends AffineOpImage {
                         s = interp.interpolate(samples, fracx, fracy);
 
                         // write the result
-                        dstDataArrays[k]
-                            [dstPixelOffset+dstBandOffsets[k]] = s;
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = s;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundFloat[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundFloat[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -988,11 +891,7 @@ final class AffineGeneralOpImage extends AffineOpImage {
         }
     }
 
-    private void doubleLoop(RasterAccessor src,
-                            Rectangle destRect,
-                            int srcRectX,
-                            int srcRectY,
-                            RasterAccessor dst) {
+    private void doubleLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -1034,15 +933,13 @@ final class AffineGeneralOpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
 
             dstPixelOffset = dstOffset;
 
-
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -1068,25 +965,23 @@ final class AffineGeneralOpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + interp_left)) &&
-                    (s_ix < (src_rect_x2 - interp_right)) &&
-                    (s_iy >= (src_rect_y1 + interp_top)) &&
-                    (s_iy < (src_rect_y2 - interp_bottom))) {
-                    for (int k=0; k < dst_num_bands; k++) {
+                if ((s_ix >= (src_rect_x1 + interp_left))
+                        && (s_ix < (src_rect_x2 - interp_right))
+                        && (s_iy >= (src_rect_y1 + interp_top))
+                        && (s_iy < (src_rect_y2 - interp_bottom))) {
+                    for (int k = 0; k < dst_num_bands; k++) {
                         double srcData[] = srcDataArrays[k];
                         int tmp = bandOffsets[k];
 
                         // Get the pixels required for this interpolation
-                        int start = interp_left * srcPixelStride +
-                            interp_top * srcScanlineStride;
+                        int start = interp_left * srcPixelStride + interp_top * srcScanlineStride;
                         start = p_x + p_y - start;
                         int countH = 0, countV = 0;
 
                         for (int i = 0; i < interp_height; i++) {
                             int startY = start;
                             for (int j = 0; j < interp_width; j++) {
-                                samples[countV][countH++] =
-                                    srcData[start + tmp];
+                                samples[countV][countH++] = srcData[start + tmp];
                                 start += srcPixelStride;
                             }
                             countV++;
@@ -1095,19 +990,15 @@ final class AffineGeneralOpImage extends AffineOpImage {
                         }
 
                         // Do the interpolation
-                        s = interp.interpolate(samples,
-                                               (float)fracx,
-                                               (float)fracy);
+                        s = interp.interpolate(samples, (float) fracx, (float) fracy);
 
                         // write the result
-                        dstDataArrays[k]
-                            [dstPixelOffset+dstBandOffsets[k]] = s;
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = s;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundValues[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundValues[k];
+                }
                 // walk
                 if (fracx < fracdx1) {
                     s_ix += incx;

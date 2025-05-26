@@ -16,18 +16,13 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.iterator.RandomIter;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public abstract class RandomIterCSM extends RandomIterFallback {
 
     protected ComponentSampleModel sampleModel;
@@ -38,17 +33,16 @@ public abstract class RandomIterCSM extends RandomIterFallback {
 
     public RandomIterCSM(RenderedImage im, Rectangle bounds) {
         super(im, bounds);
-        this.sampleModel = (ComponentSampleModel)im.getSampleModel();
+        this.sampleModel = (ComponentSampleModel) im.getSampleModel();
         this.numBands = sampleModel.getNumBands();
         this.pixelStride = sampleModel.getPixelStride();
-        this.scanlineStride = sampleModel.getScanlineStride();        
+        this.scanlineStride = sampleModel.getScanlineStride();
     }
 
     protected void dataBufferChanged() {}
 
     /**
-     * Sets dataBuffer to the correct buffer for the pixel
-     * (x, y) = (xLocal + boundsRect.x, yLocal + boundsRect.y).
+     * Sets dataBuffer to the correct buffer for the pixel (x, y) = (xLocal + boundsRect.x, yLocal + boundsRect.y).
      *
      * @param xLocal the X coordinate in the local coordinate system.
      * @param yLocal the Y coordinate in the local coordinate system.
@@ -70,11 +64,11 @@ public abstract class RandomIterCSM extends RandomIterFallback {
     }
 
     public float getSampleFloat(int x, int y, int b) {
-        return (float)getSample(x, y, b);
+        return (float) getSample(x, y, b);
     }
 
     public double getSampleDouble(int x, int y, int b) {
-        return (double)getSample(x, y, b);
+        return (double) getSample(x, y, b);
     }
 
     public int[] getPixel(int x, int y, int[] iArray) {

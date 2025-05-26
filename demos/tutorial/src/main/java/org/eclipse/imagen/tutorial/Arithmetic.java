@@ -12,13 +12,10 @@ import java.awt.event.*;
 import java.awt.image.renderable.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widgets.*;
 
-
-public class Arithmetic extends JPanel
-                        implements ActionListener {
+public class Arithmetic extends JPanel implements ActionListener {
 
     private PlanarImage src1 = null;
     private PlanarImage src2 = null;
@@ -40,13 +37,13 @@ public class Arithmetic extends JPanel
 
         // alter mask image a bit
         Byte[] bandValues = new Byte[3];
-        bandValues[0] = new Byte((byte)2);
-        bandValues[1] = new Byte((byte)2);
-        bandValues[2] = new Byte((byte)2);
+        bandValues[0] = new Byte((byte) 2);
+        bandValues[1] = new Byte((byte) 2);
+        bandValues[2] = new Byte((byte) 2);
 
         ParameterBlock pb = new ParameterBlock();
-        pb.add((float)src2.getWidth());
-        pb.add((float)src2.getHeight());
+        pb.add((float) src2.getWidth());
+        pb.add((float) src2.getHeight());
         pb.add(bandValues);
         PlanarImage temp = JAI.create("constant", pb, null);
 
@@ -58,11 +55,10 @@ public class Arithmetic extends JPanel
 
         ic1 = new ImageDisplay(src1);
         ic2 = new ImageDisplay(src2);
-        ic3 = new ImageDisplay(src1.getWidth(),
-                               src1.getHeight());
+        ic3 = new ImageDisplay(src1.getWidth(), src1.getHeight());
 
         JPanel imagePanel = new JPanel();
-        imagePanel.setLayout(new GridLayout(3,1,0,0));
+        imagePanel.setLayout(new GridLayout(3, 1, 0, 0));
         imagePanel.add(ic1);
         imagePanel.add(ic2);
         imagePanel.add(ic3);
@@ -70,8 +66,8 @@ public class Arithmetic extends JPanel
 
         // control panel
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1,4,4,4));
-        panel.setBorder(new EmptyBorder(10,10,10,10));
+        panel.setLayout(new GridLayout(1, 4, 4, 4));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         b1 = new JButton("Add");
         b2 = new JButton("Subtract");
@@ -96,18 +92,18 @@ public class Arithmetic extends JPanel
 
     public void actionPerformed(ActionEvent e) {
         PlanarImage target = null;
-        JButton b = (JButton)e.getSource();
+        JButton b = (JButton) e.getSource();
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(src1);
         pb.addSource(src2);
 
-        if ( b == b1 ) {
+        if (b == b1) {
             target = JAI.create("add", pb, null);
-        } else if ( b == b2 ) {
+        } else if (b == b2) {
             target = JAI.create("subtract", pb, null);
-        } else if ( b == b3 ) {
+        } else if (b == b3) {
             target = JAI.create("multiply", pb, null);
-        } else if ( b == b4 ) {
+        } else if (b == b4) {
             target = JAI.create("divide", pb, null);
         }
 

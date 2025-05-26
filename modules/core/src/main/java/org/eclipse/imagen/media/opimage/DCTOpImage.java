@@ -25,52 +25,41 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.util.Arrays;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.UntiledOpImage;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 import org.eclipse.imagen.media.util.MathJAI;
 
 /**
- * An <code>OpImage</code> implementing the forward and inverse even
- * discrete cosine transform (DCT) operations as described in
- * <code>org.eclipse.imagen.operator.DCTDescriptor</code> and
- * <code>org.eclipse.imagen.operator.IDCTDescriptor</code>.
+ * An <code>OpImage</code> implementing the forward and inverse even discrete cosine transform (DCT) operations as
+ * described in <code>org.eclipse.imagen.operator.DCTDescriptor</code> and <code>
+ * org.eclipse.imagen.operator.IDCTDescriptor</code>.
  *
- * <p> The DCT operation is implemented using a one-dimensional fast cosine
- * transform (FCT) which is applied successively to the rows and the columns
- * of the image. All image dimensions are enlarged to the next positive power
- * of 2 greater than or equal to the respective dimension unless the dimension
- * is unity in which case it is not modified. Source image values are padded
- * with zeros when the dimension is smaller than the output power-of-2
- * dimension.
+ * <p>The DCT operation is implemented using a one-dimensional fast cosine transform (FCT) which is applied successively
+ * to the rows and the columns of the image. All image dimensions are enlarged to the next positive power of 2 greater
+ * than or equal to the respective dimension unless the dimension is unity in which case it is not modified. Source
+ * image values are padded with zeros when the dimension is smaller than the output power-of-2 dimension.
  *
  * @since EA3
- *
  * @see org.eclipse.imagen.UntiledOpImage
  * @see org.eclipse.imagen.operator.DCTDescriptor
  * @see org.eclipse.imagen.operator.IDCTDescriptor
- *
  */
 public class DCTOpImage extends UntiledOpImage {
-    /**
-     * The Fast Cosine Transform object.
-     */
+    /** The Fast Cosine Transform object. */
     private FCT fct;
 
     /**
-     * Override the dimension specification for the destination such that it
-     * has width and height which are equal to non-negative powers of 2.
+     * Override the dimension specification for the destination such that it has width and height which are equal to
+     * non-negative powers of 2.
      */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source) {
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source) {
         // Create an ImageLayout or clone the one passed in.
-        ImageLayout il = layout == null ?
-            new ImageLayout() : (ImageLayout)layout.clone();
+        ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Force the origin to coincide with that of the source.
         il.setMinX(source.getMinX());
@@ -81,17 +70,17 @@ public class DCTOpImage extends UntiledOpImage {
         // of the FCT which supports arbitrary dimensions is used.
         boolean createNewSampleModel = false;
         int w = il.getWidth(source);
-        if(w > 1) {
+        if (w > 1) {
             int newWidth = MathJAI.nextPositivePowerOf2(w);
-            if(newWidth != w) {
+            if (newWidth != w) {
                 il.setWidth(w = newWidth);
                 createNewSampleModel = true;
             }
         }
         int h = il.getHeight(source);
-        if(h > 1) {
+        if (h > 1) {
             int newHeight = MathJAI.nextPositivePowerOf2(h);
-            if(newHeight != h) {
+            if (newHeight != h) {
                 il.setHeight(h = newHeight);
                 createNewSampleModel = true;
             }
@@ -100,22 +89,19 @@ public class DCTOpImage extends UntiledOpImage {
         // Force the image to contain floating point data.
         SampleModel sm = il.getSampleModel(source);
         int dataType = sm.getTransferType();
-        if(dataType != DataBuffer.TYPE_FLOAT &&
-           dataType != DataBuffer.TYPE_DOUBLE) {
+        if (dataType != DataBuffer.TYPE_FLOAT && dataType != DataBuffer.TYPE_DOUBLE) {
             dataType = DataBuffer.TYPE_FLOAT;
             createNewSampleModel = true;
         }
 
         // Create a new SampleModel for the destination.
-        if(createNewSampleModel) {
-            sm = RasterFactory.createComponentSampleModel(sm, dataType, w, h,
-                                                          sm.getNumBands());
+        if (createNewSampleModel) {
+            sm = RasterFactory.createComponentSampleModel(sm, dataType, w, h, sm.getNumBands());
             il.setSampleModel(sm);
 
             // Clear the ColorModel mask if needed.
             ColorModel cm = il.getColorModel(null);
-            if(cm != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
+            if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
                 // Clear the mask bit if incompatible.
                 il.unsetValid(ImageLayout.COLOR_MODEL_MASK);
             }
@@ -127,20 +113,15 @@ public class DCTOpImage extends UntiledOpImage {
     /**
      * Constructs a <code>DCTOpImage</code> object.
      *
-     * <p>The image dimensions are the respective next positive powers of 2
-     * greater than or equal to the dimensions of the source image. The tile
-     * grid layout, SampleModel, and ColorModel may optionally be specified
-     * by an ImageLayout object.
+     * <p>The image dimensions are the respective next positive powers of 2 greater than or equal to the dimensions of
+     * the source image. The tile grid layout, SampleModel, and ColorModel may optionally be specified by an ImageLayout
+     * object.
      *
      * @param source A RenderedImage.
-     * @param layout An ImageLayout optionally containing the tile grid layout,
-     * SampleModel, and ColorModel, or null.
+     * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param fct The Fast Cosine Transform object.
      */
-    public DCTOpImage(RenderedImage source,
-                      Map config,
-                      ImageLayout layout,
-                      FCT fct) {
+    public DCTOpImage(RenderedImage source, Map config, ImageLayout layout, FCT fct) {
         super(source, config, layoutHelper(layout, source));
 
         // Cache the FCT object.
@@ -150,14 +131,9 @@ public class DCTOpImage extends UntiledOpImage {
     /**
      * Computes the source point corresponding to the supplied point.
      *
-     * @param destPt the position in destination image coordinates
-     * to map to source image coordinates.
-     *
+     * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return <code>null</code>.
-     *
-     * @throws IllegalArgumentException if <code>destPt</code> is
-     * <code>null</code>.
-     *
+     * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
@@ -172,10 +148,7 @@ public class DCTOpImage extends UntiledOpImage {
      * Computes the destination point corresponding to the supplied point.
      *
      * @return <code>null</code>.
-     *
-     * @throws IllegalArgumentException if <code>sourcePt</code> is
-     * <code>null</code>.
-     *
+     * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
@@ -193,15 +166,12 @@ public class DCTOpImage extends UntiledOpImage {
      * @param dest The destination WritableRaster; should be the whole image.
      * @param destRect The destination Rectangle; should be the image bounds.
      */
-    protected void computeImage(Raster[] sources,
-                                WritableRaster dest,
-                                Rectangle destRect) {
+    protected void computeImage(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         Raster source = sources[0];
 
         // Degenerate case.
-        if(destRect.width == 1 && destRect.height == 1) {
-            double[] pixel =
-                source.getPixel(destRect.x, destRect.y, (double[])null);
+        if (destRect.width == 1 && destRect.height == 1) {
+            double[] pixel = source.getPixel(destRect.x, destRect.y, (double[]) null);
             dest.setPixel(destRect.x, destRect.y, pixel);
             return;
         }
@@ -218,15 +188,14 @@ public class DCTOpImage extends UntiledOpImage {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor srcAccessor =
-            new RasterAccessor(source,
-                               new Rectangle(srcX, srcY,
-                                             srcWidth, srcHeight),
-                               formatTags[0], 
-                               getSourceImage(0).getColorModel());
-        RasterAccessor dstAccessor =
-            new RasterAccessor(dest, destRect,  
-                               formatTags[1], getColorModel());
+        RasterAccessor srcAccessor = new RasterAccessor(
+                source,
+                new Rectangle(
+                        srcX, srcY,
+                        srcWidth, srcHeight),
+                formatTags[0],
+                getSourceImage(0).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         // Set data type flags.
         int srcDataType = srcAccessor.getDataType();
@@ -240,12 +209,12 @@ public class DCTOpImage extends UntiledOpImage {
 
         // Loop over the bands.
         int numBands = sampleModel.getNumBands();
-        for(int band = 0; band < numBands; band++) {
+        for (int band = 0; band < numBands; band++) {
             // Get the source and destination arrays for this band.
             Object srcData = srcAccessor.getDataArray(band);
             Object dstData = dstAccessor.getDataArray(band);
 
-            if(destRect.width > 1) {
+            if (destRect.width > 1) {
                 // Set the FCT length.
                 fct.setLength(getWidth());
 
@@ -254,18 +223,17 @@ public class DCTOpImage extends UntiledOpImage {
                 int dstOffset = dstAccessor.getBandOffset(band);
 
                 // Perform the row transforms.
-                for(int row = 0; row < srcHeight; row++) {
+                for (int row = 0; row < srcHeight; row++) {
                     // Set the input data of the FCT.
-                    fct.setData(srcDataType, srcData,
-                                srcOffset, srcPixelStride,
-                                srcWidth);
+                    fct.setData(srcDataType, srcData, srcOffset, srcPixelStride, srcWidth);
 
                     // Calculate the DFT of the row.
                     fct.transform();
 
                     // Get the output data of the FCT.
-                    fct.getData(dstDataType, dstData,
-                                dstOffset, dstPixelStride);
+                    fct.getData(
+                            dstDataType, dstData,
+                            dstOffset, dstPixelStride);
 
                     // Increment the data offsets.
                     srcOffset += srcScanlineStride;
@@ -273,23 +241,22 @@ public class DCTOpImage extends UntiledOpImage {
                 }
             }
 
-            if(destRect.width == 1) { // destRect.height > 1
+            if (destRect.width == 1) { // destRect.height > 1
                 // Initialize the data offsets for this band.
                 int srcOffset = srcAccessor.getBandOffset(band);
                 int dstOffset = dstAccessor.getBandOffset(band);
 
                 // Set the input data of the FCT.
-                fct.setData(srcDataType, srcData,
-                            srcOffset, srcScanlineStride,
-                            srcHeight);
+                fct.setData(srcDataType, srcData, srcOffset, srcScanlineStride, srcHeight);
 
                 // Calculate the DFT of the row.
                 fct.transform();
 
                 // Get the output data of the FCT.
-                fct.getData(dstDataType, dstData,
-                            dstOffset, dstScanlineStride);
-            } else if(destRect.height > 1) { // destRect.width > 1
+                fct.getData(
+                        dstDataType, dstData,
+                        dstOffset, dstScanlineStride);
+            } else if (destRect.height > 1) { // destRect.width > 1
                 // Reset the FCT length.
                 fct.setLength(getHeight());
 
@@ -297,18 +264,17 @@ public class DCTOpImage extends UntiledOpImage {
                 int dstOffset = dstAccessor.getBandOffset(band);
 
                 // Perform the column transforms.
-                for(int col = 0; col < destRect.width; col++) {
+                for (int col = 0; col < destRect.width; col++) {
                     // Set the input data of the FCT.
-                    fct.setData(dstDataType, dstData,
-                                dstOffset, dstScanlineStride,
-                                destRect.height);
+                    fct.setData(dstDataType, dstData, dstOffset, dstScanlineStride, destRect.height);
 
                     // Calculate the DFT of the column.
                     fct.transform();
 
                     // Get the output data of the FCT.
-                    fct.getData(dstDataType, dstData,
-                                dstOffset, dstScanlineStride);
+                    fct.getData(
+                            dstDataType, dstData,
+                            dstOffset, dstScanlineStride);
 
                     // Increment the data offset.
                     dstOffset += dstPixelStride;

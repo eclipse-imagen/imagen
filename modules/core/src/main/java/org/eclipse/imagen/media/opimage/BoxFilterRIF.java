@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -24,17 +25,13 @@ import java.util.Arrays;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
-import java.util.Map;
 
 /**
- * A <code>RIF</code> supporting the "BoxFilter" operation in the rendered
- * image layer.
+ * A <code>RIF</code> supporting the "BoxFilter" operation in the rendered image layer.
  *
  * @see org.eclipse.imagen.operator.BoxFilterDescriptor
  * @see org.eclipse.imagen.media.opimage.SeparableConvolveOpImage
- *
  * @since EA4
- *
  */
 public class BoxFilterRIF implements RenderedImageFactory {
 
@@ -42,16 +39,14 @@ public class BoxFilterRIF implements RenderedImageFactory {
     public BoxFilterRIF() {}
 
     /**
-     * Create a new instance of SeparableConvolveOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Create a new instance of SeparableConvolveOpImage in the rendered layer. This method satisfies the implementation
+     * of RIF.
      *
-     * @param paramBlock  The source image and the convolution kernel.
+     * @param paramBlock The source image and the convolution kernel.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
@@ -64,24 +59,19 @@ public class BoxFilterRIF implements RenderedImageFactory {
 
         // Allocate and initialize arrays.
         float[] dataH = new float[width];
-        Arrays.fill(dataH, 1.0F/(float)width);
+        Arrays.fill(dataH, 1.0F / (float) width);
         float[] dataV = null;
-        if(height == width) {
+        if (height == width) {
             dataV = dataH;
         } else {
             dataV = new float[height];
-            Arrays.fill(dataV, 1.0F/(float)height);
+            Arrays.fill(dataV, 1.0F / (float) height);
         }
 
         // Construct a separable kernel.
-        KernelJAI kernel = new KernelJAI(width, height, xOrigin, yOrigin,
-                                         dataH, dataV);
+        KernelJAI kernel = new KernelJAI(width, height, xOrigin, yOrigin, dataH, dataV);
 
         // Construct and return the OpImage.
-        return new SeparableConvolveOpImage(paramBlock.getRenderedSource(0),
-                                            extender,
-                                            renderHints,
-                                            layout,
-                                            kernel);
+        return new SeparableConvolveOpImage(paramBlock.getRenderedSource(0), extender, renderHints, layout, kernel);
     }
 }

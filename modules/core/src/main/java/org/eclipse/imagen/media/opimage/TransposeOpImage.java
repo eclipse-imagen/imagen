@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
@@ -24,53 +25,42 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import java.awt.image.renderable.ParameterBlock;
+import java.util.Map;
 import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.IntegerSequence;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.RasterFactory;
-import java.util.Map;
 
 /**
- * An OpImage class to perform transposition and 90 degree rotation
- * of an image.
+ * An OpImage class to perform transposition and 90 degree rotation of an image.
  *
  * @since EA2
- *
  */
 public class TransposeOpImage extends GeometricOpImage {
 
     /** The Transpose type */
     protected int type;
 
-    /**
-     * Store source width & height
-     */
+    /** Store source width & height */
     protected int src_width, src_height;
 
     protected Rectangle sourceBounds;
 
     // Set the bounds and tile grid of the output image.
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source,
-                                            int type) {
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, int type) {
         ImageLayout newLayout;
         if (layout != null) {
-            newLayout = (ImageLayout)layout.clone();
+            newLayout = (ImageLayout) layout.clone();
         } else {
             newLayout = new ImageLayout();
         }
 
         // Set the size of the destination to exactly cover the
         // forward-mapped source image bounds
-        Rectangle sourceBounds = new Rectangle(source.getMinX(),
-                                               source.getMinY(),
-                                               source.getWidth(),
-                                               source.getHeight());
+        Rectangle sourceBounds =
+                new Rectangle(source.getMinX(), source.getMinY(), source.getWidth(), source.getHeight());
         Rectangle rect = mapRect(sourceBounds, sourceBounds, type, true);
 
         newLayout.setMinX(rect.x);
@@ -79,10 +69,11 @@ public class TransposeOpImage extends GeometricOpImage {
         newLayout.setHeight(rect.height);
 
         // Make each destination tile correspond to a source tile
-        Rectangle tileRect = new Rectangle(source.getTileGridXOffset(),
-                                           source.getTileGridYOffset(),
-                                           source.getTileWidth(),
-                                           source.getTileHeight());
+        Rectangle tileRect = new Rectangle(
+                source.getTileGridXOffset(),
+                source.getTileGridYOffset(),
+                source.getTileWidth(),
+                source.getTileHeight());
         rect = mapRect(tileRect, sourceBounds, type, true);
 
         // Respect any pre-existing tile grid settings
@@ -103,31 +94,23 @@ public class TransposeOpImage extends GeometricOpImage {
     }
 
     /**
-     * Constructs an TransposeOpImage from a RenderedImage source,
-     * and Transpose type.  The image dimensions are determined by
-     * forward-mapping the source bounds.
-     * The tile grid layout, SampleModel, and ColorModel are specified
-     * by the image source, possibly overridden by values from the
-     * ImageLayout parameter.
+     * Constructs an TransposeOpImage from a RenderedImage source, and Transpose type. The image dimensions are
+     * determined by forward-mapping the source bounds. The tile grid layout, SampleModel, and ColorModel are specified
+     * by the image source, possibly overridden by values from the ImageLayout parameter.
      *
      * @param source a RenderedImage.
-     * @param layout an ImageLayout optionally containing the tile grid layout,
-     *        SampleModel, and ColorModel, or null.
+     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param type the desired Tranpose type.
      */
-    public TransposeOpImage(RenderedImage source,
-                            Map config,
-                            ImageLayout layout,
-                            int type) {
-        super(vectorize(source),
-              layoutHelper(layout,
-                           source,
-                           type),
-              config,
-              true,
-              null, // BorderExtender
-              null,
-              null); // Interpolation (superclass defaults to nearest neighbor)
+    public TransposeOpImage(RenderedImage source, Map config, ImageLayout layout, int type) {
+        super(
+                vectorize(source),
+                layoutHelper(layout, source, type),
+                config,
+                true,
+                null, // BorderExtender
+                null,
+                null); // Interpolation (superclass defaults to nearest neighbor)
 
         // If the source has an IndexColorModel, override the default setting
         // in OpImage. The dest shall have exactly the same SampleModel and
@@ -135,9 +118,8 @@ public class TransposeOpImage extends GeometricOpImage {
         // Note, in this case, the source should have an integral data type.
         ColorModel srcColorModel = source.getColorModel();
         if (srcColorModel instanceof IndexColorModel) {
-             sampleModel = source.getSampleModel().createCompatibleSampleModel(
-                                                   tileWidth, tileHeight);
-             colorModel = srcColorModel;
+            sampleModel = source.getSampleModel().createCompatibleSampleModel(tileWidth, tileHeight);
+            colorModel = srcColorModel;
         }
 
         // store the Transpose type
@@ -147,111 +129,90 @@ public class TransposeOpImage extends GeometricOpImage {
         this.src_width = source.getWidth();
         this.src_height = source.getHeight();
 
-        this.sourceBounds = new Rectangle(source.getMinX(),
-                                          source.getMinY(),
-                                          source.getWidth(),
-                                          source.getHeight());
+        this.sourceBounds = new Rectangle(source.getMinX(), source.getMinY(), source.getWidth(), source.getHeight());
     }
 
-    /**
-     * Forward map the source Rectangle.
-     */
-    protected Rectangle forwardMapRect(Rectangle sourceRect,
-                                       int sourceIndex) {
+    /** Forward map the source Rectangle. */
+    protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
         return mapRect(sourceRect, sourceBounds, type, true);
     }
 
-    /**
-     * Backward map the destination Rectangle.
-     */
-    protected Rectangle backwardMapRect(Rectangle destRect,
-                                        int sourceIndex) {
+    /** Backward map the destination Rectangle. */
+    protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         return mapRect(destRect, sourceBounds, type, false);
     }
 
     /**
-     * Map a point according to the transposition type.
-     * If <code>mapForwards</code> is <code>true</code>,
-     * the point is considered to lie in the source image and
-     * is mapping into the destination space.  Otherwise,
-     * the point lies in the destination and is mapped
-     * into the source space.
+     * Map a point according to the transposition type. If <code>mapForwards</code> is <code>true</code>, the point is
+     * considered to lie in the source image and is mapping into the destination space. Otherwise, the point lies in the
+     * destination and is mapped into the source space.
      *
-     * <p> In either case, the bounds of the source image
-     * must be supplied.  The bounds are given by the indices
-     * of the upper left and lower right pixels, i.e.,
-     * maxX = minX + width - 1 and similarly for maxY.
+     * <p>In either case, the bounds of the source image must be supplied. The bounds are given by the indices of the
+     * upper left and lower right pixels, i.e., maxX = minX + width - 1 and similarly for maxY.
      */
-    protected static void mapPoint(int[] pt,
-                                   int minX, int minY,
-                                   int maxX, int maxY,
-                                   int type,
-                                   boolean mapForwards) {
+    protected static void mapPoint(int[] pt, int minX, int minY, int maxX, int maxY, int type, boolean mapForwards) {
         int sx = pt[0];
         int sy = pt[1];
         int dx = -1;
         int dy = -1;
 
         switch (type) {
-        case 0: // FLIP_VERTICAL
-            dx = sx;
-            dy = minY + maxY - sy;
-            break;
+            case 0: // FLIP_VERTICAL
+                dx = sx;
+                dy = minY + maxY - sy;
+                break;
 
-        case 1: // FLIP_HORIZONTAL
-            dx = minX + maxX - sx;
-            dy = sy;
-            break;
+            case 1: // FLIP_HORIZONTAL
+                dx = minX + maxX - sx;
+                dy = sy;
+                break;
 
-        case 2: // FLIP_DIAGONAL
-            dx = minX - minY + sy;
-            dy = minY - minX + sx;
-            break;
-
-        case 3: // FLIP_ANTIDIAGONAL
-            if (mapForwards) {
-                dx = minX + maxY - sy;
-                dy = minY + maxX - sx;
-            } else {
-                dx = minY + maxX - sy;
-                dy = minX + maxY - sx;
-            }
-            break;
-
-        case 4: // ROTATE_90
-            if (mapForwards) {
-                dx = minX + maxY - sy;
-                dy = minY - minX + sx;
-            } else {
+            case 2: // FLIP_DIAGONAL
                 dx = minX - minY + sy;
-                dy = minX + maxY - sx;
-            }
-            break;
-
-        case 5: // ROTATE_180
-            dx = minX + maxX - sx;
-            dy = minY + maxY - sy;
-            break;
-
-        case 6: // ROTATE_270
-            if (mapForwards) {
-                dx = minX - minY + sy;
-                dy = maxX + minY - sx;
-            } else {
-                dx = maxX + minY - sy;
                 dy = minY - minX + sx;
-            }
-            break;
+                break;
+
+            case 3: // FLIP_ANTIDIAGONAL
+                if (mapForwards) {
+                    dx = minX + maxY - sy;
+                    dy = minY + maxX - sx;
+                } else {
+                    dx = minY + maxX - sy;
+                    dy = minX + maxY - sx;
+                }
+                break;
+
+            case 4: // ROTATE_90
+                if (mapForwards) {
+                    dx = minX + maxY - sy;
+                    dy = minY - minX + sx;
+                } else {
+                    dx = minX - minY + sy;
+                    dy = minX + maxY - sx;
+                }
+                break;
+
+            case 5: // ROTATE_180
+                dx = minX + maxX - sx;
+                dy = minY + maxY - sy;
+                break;
+
+            case 6: // ROTATE_270
+                if (mapForwards) {
+                    dx = minX - minY + sy;
+                    dy = maxX + minY - sx;
+                } else {
+                    dx = maxX + minY - sy;
+                    dy = minY - minX + sx;
+                }
+                break;
         }
 
         pt[0] = dx;
         pt[1] = dy;
     }
 
-    private static Rectangle mapRect(Rectangle rect,
-                                     Rectangle sourceBounds,
-                                     int type,
-                                     boolean mapForwards) {
+    private static Rectangle mapRect(Rectangle rect, Rectangle sourceBounds, int type, boolean mapForwards) {
         int sMinX = sourceBounds.x;
         int sMinY = sourceBounds.y;
         int sMaxX = sMinX + sourceBounds.width - 1;
@@ -289,9 +250,7 @@ public class TransposeOpImage extends GeometricOpImage {
         dMaxX = Math.max(dMaxX, pt[0]);
         dMaxY = Math.max(dMaxY, pt[1]);
 
-        return new Rectangle(dMinX, dMinY,
-                             dMaxX - dMinX + 1,
-                             dMaxY - dMinY + 1);
+        return new Rectangle(dMinX, dMinY, dMaxX - dMinX + 1, dMaxY - dMinY + 1);
     }
 
     public Raster computeTile(int tileX, int tileY) {
@@ -327,18 +286,14 @@ public class TransposeOpImage extends GeometricOpImage {
         }
 
         // Initialize the (possibly clipped) destination Rectangle.
-        Rectangle destRect = new Rectangle(destMinX, destMinY,
-                                           destMaxX - destMinX,
-                                           destMaxY - destMinY);
+        Rectangle destRect = new Rectangle(destMinX, destMinY, destMaxX - destMinX, destMaxY - destMinY);
 
         // Initialize X and Y split sequences with the dest bounds
-        IntegerSequence xSplits =
-            new IntegerSequence(destMinX, destMaxX);
+        IntegerSequence xSplits = new IntegerSequence(destMinX, destMaxX);
         xSplits.insert(destMinX);
         xSplits.insert(destMaxX);
 
-        IntegerSequence ySplits =
-            new IntegerSequence(destMinY, destMaxY);
+        IntegerSequence ySplits = new IntegerSequence(destMinY, destMaxY);
         ySplits.insert(destMinY);
         ySplits.insert(destMaxY);
 
@@ -386,61 +341,61 @@ public class TransposeOpImage extends GeometricOpImage {
 
         // Forward map the input tile size
         switch (type) {
-        case 0: // FLIP_VERTICAL
-            ++yStart;
-            xGap = sTileWidth;
-            yGap = sTileHeight;
-            break;
+            case 0: // FLIP_VERTICAL
+                ++yStart;
+                xGap = sTileWidth;
+                yGap = sTileHeight;
+                break;
 
-        case 1: // FLIP_HORIZONTAL
-            ++xStart;
-            xGap = sTileWidth;
-            yGap = sTileHeight;
-            break;
+            case 1: // FLIP_HORIZONTAL
+                ++xStart;
+                xGap = sTileWidth;
+                yGap = sTileHeight;
+                break;
 
-        case 2: // FLIP_DIAGONAL
-            xGap = sTileHeight;
-            yGap = sTileWidth;
-            break;
+            case 2: // FLIP_DIAGONAL
+                xGap = sTileHeight;
+                yGap = sTileWidth;
+                break;
 
-        case 3: // FLIP_ANTIDIAGONAL
-            ++xStart;
-            ++yStart;
-            xGap = sTileHeight;
-            yGap = sTileWidth;
-            break;
+            case 3: // FLIP_ANTIDIAGONAL
+                ++xStart;
+                ++yStart;
+                xGap = sTileHeight;
+                yGap = sTileWidth;
+                break;
 
-        case 4: // ROTATE_90
-            ++xStart;
-            xGap = sTileHeight;
-            yGap = sTileWidth;
-            break;
+            case 4: // ROTATE_90
+                ++xStart;
+                xGap = sTileHeight;
+                yGap = sTileWidth;
+                break;
 
-        case 5: // ROTATE_180
-            ++xStart;
-            ++yStart;
-            xGap = sTileWidth;
-            yGap = sTileHeight;
-            break;
+            case 5: // ROTATE_180
+                ++xStart;
+                ++yStart;
+                xGap = sTileWidth;
+                yGap = sTileHeight;
+                break;
 
-        case 6: // ROTATE_270
-            ++yStart;
-            xGap = sTileHeight;
-            yGap = sTileWidth;
-            break;
+            case 6: // ROTATE_270
+                ++yStart;
+                xGap = sTileHeight;
+                yGap = sTileWidth;
+                break;
         }
 
         // Now we identify the source splits that intersect
         // the destination rectangle and merge them in.
-        int kx = (int)Math.floor((double)(destMinX - xStart)/xGap);
-        int xSplit = xStart + kx*xGap;
+        int kx = (int) Math.floor((double) (destMinX - xStart) / xGap);
+        int xSplit = xStart + kx * xGap;
         while (xSplit < destMaxX) {
             xSplits.insert(xSplit);
             xSplit += xGap;
         }
 
-        int ky = (int)Math.floor((double)(destMinY - yStart)/yGap);
-        int ySplit = yStart + ky*yGap;
+        int ky = (int) Math.floor((double) (destMinY - yStart) / yGap);
+        int ySplit = yStart + ky * yGap;
         while (ySplit < destMaxY) {
             ySplits.insert(ySplit);
             ySplit += yGap;
@@ -462,8 +417,7 @@ public class TransposeOpImage extends GeometricOpImage {
             h = y2 - y1;
 
             xSplits.startEnumeration();
-            for (x1 = xSplits.nextElement();
-                 xSplits.hasMoreElements(); x1 = x2) {
+            for (x1 = xSplits.nextElement(); xSplits.hasMoreElements(); x1 = x2) {
                 x2 = xSplits.nextElement();
                 w = x2 - x1;
 
@@ -490,9 +444,7 @@ public class TransposeOpImage extends GeometricOpImage {
         return dest;
     }
 
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
         Raster src = sources[0];
@@ -516,11 +468,8 @@ public class TransposeOpImage extends GeometricOpImage {
         Rectangle srcRect = src.getBounds();
 
         RasterAccessor srcAccessor =
-            new RasterAccessor(src, srcRect,
-                               formatTags[0],
-                               getSource(0).getColorModel());
-        RasterAccessor dstAccessor =
-            new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
+                new RasterAccessor(src, srcRect, formatTags[0], getSource(0).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         int incr1 = 0, incr2 = 0, s_x = 0, s_y = 0;
         int srcPixelStride = srcAccessor.getPixelStride();
@@ -536,88 +485,63 @@ public class TransposeOpImage extends GeometricOpImage {
 
         // Determine source stride along dest row (incr1) and column (incr2)
         switch (type) {
-        case 0: // FLIP_VERTICAL
-            incr1 = srcPixelStride;
-            incr2 = -srcScanlineStride;
-            break;
+            case 0: // FLIP_VERTICAL
+                incr1 = srcPixelStride;
+                incr2 = -srcScanlineStride;
+                break;
 
-        case 1: // FLIP_HORIZONTAL
-            incr1 = -srcPixelStride;
-            incr2 = srcScanlineStride;
-            break;
+            case 1: // FLIP_HORIZONTAL
+                incr1 = -srcPixelStride;
+                incr2 = srcScanlineStride;
+                break;
 
-        case 2: // FLIP_DIAGONAL;
-            incr1 = srcScanlineStride;
-            incr2 = srcPixelStride;
-            break;
+            case 2: // FLIP_DIAGONAL;
+                incr1 = srcScanlineStride;
+                incr2 = srcPixelStride;
+                break;
 
-        case 3: // FLIP_ANTIDIAGONAL
-            incr1 = -srcScanlineStride;
-            incr2 = -srcPixelStride;
-            break;
+            case 3: // FLIP_ANTIDIAGONAL
+                incr1 = -srcScanlineStride;
+                incr2 = -srcPixelStride;
+                break;
 
-        case 4: // ROTATE_90
-            incr1 = -srcScanlineStride;
-            incr2 = srcPixelStride;
-            break;
+            case 4: // ROTATE_90
+                incr1 = -srcScanlineStride;
+                incr2 = srcPixelStride;
+                break;
 
-        case 5: // ROTATE_180
-            incr1 = -srcPixelStride;
-            incr2 = -srcScanlineStride;
-            break;
+            case 5: // ROTATE_180
+                incr1 = -srcPixelStride;
+                incr2 = -srcScanlineStride;
+                break;
 
-        case 6: // ROTATE_270
-            incr1 = srcScanlineStride;
-            incr2 = -srcPixelStride;
-            break;
+            case 6: // ROTATE_270
+                incr1 = srcScanlineStride;
+                incr2 = -srcPixelStride;
+                break;
         }
 
         switch (dstAccessor.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            byteLoop(srcAccessor,
-                     destRect,
-                     translateX,
-                     translateY,
-                     dstAccessor,
-                     incr1, incr2, s_x, s_y);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                byteLoop(srcAccessor, destRect, translateX, translateY, dstAccessor, incr1, incr2, s_x, s_y);
+                break;
 
-        case DataBuffer.TYPE_INT:
-            intLoop(srcAccessor,
-                    destRect,
-                    translateX,
-                    translateY,
-                    dstAccessor,
-                    incr1, incr2, s_x, s_y);
-            break;
+            case DataBuffer.TYPE_INT:
+                intLoop(srcAccessor, destRect, translateX, translateY, dstAccessor, incr1, incr2, s_x, s_y);
+                break;
 
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-            shortLoop(srcAccessor,
-                      destRect,
-                      translateX,
-                      translateY,
-                      dstAccessor,
-                      incr1, incr2, s_x, s_y);
-            break;
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_USHORT:
+                shortLoop(srcAccessor, destRect, translateX, translateY, dstAccessor, incr1, incr2, s_x, s_y);
+                break;
 
-        case DataBuffer.TYPE_FLOAT:
-            floatLoop(srcAccessor,
-                      destRect,
-                      translateX,
-                      translateY,
-                      dstAccessor,
-                      incr1, incr2, s_x, s_y);
-            break;
+            case DataBuffer.TYPE_FLOAT:
+                floatLoop(srcAccessor, destRect, translateX, translateY, dstAccessor, incr1, incr2, s_x, s_y);
+                break;
 
-        case DataBuffer.TYPE_DOUBLE:
-            doubleLoop(srcAccessor,
-                       destRect,
-                       translateX,
-                       translateY,
-                       dstAccessor,
-                       incr1, incr2, s_x, s_y);
-            break;
+            case DataBuffer.TYPE_DOUBLE:
+                doubleLoop(srcAccessor, destRect, translateX, translateY, dstAccessor, incr1, incr2, s_x, s_y);
+                break;
         }
 
         //
@@ -631,12 +555,16 @@ public class TransposeOpImage extends GeometricOpImage {
         }
     }
 
-    private void byteLoop(RasterAccessor src,
-                          Rectangle destRect,
-                          int srcTranslateX,
-                          int srcTranslateY,
-                          RasterAccessor dst,
-                          int incr1, int incr2, int s_x, int s_y) {
+    private void byteLoop(
+            RasterAccessor src,
+            Rectangle destRect,
+            int srcTranslateX,
+            int srcTranslateY,
+            RasterAccessor dst,
+            int incr1,
+            int incr2,
+            int s_x,
+            int s_y) {
         int dwidth = dst.getWidth();
         int dheight = dst.getHeight();
         int dnumBands = dst.getNumBands();
@@ -665,17 +593,16 @@ public class TransposeOpImage extends GeometricOpImage {
         int dstScanlineOffset = 0;
 
         // loop around
-        for (int y = dst_min_y; y < dst_max_y; y++)  {
-            for (int k2=0; k2 < dst_num_bands; k2++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
+            for (int k2 = 0; k2 < dst_num_bands; k2++) {
                 byte[] srcDataArray = srcDataArrays[k2];
                 byte[] dstDataArray = dstDataArrays[k2];
 
                 int dstPixelOffset = dstScanlineOffset + dstBandOffsets[k2];
                 int srcPixelOffset = srcScanlineOffset + bandOffsets[k2];
 
-                for (int x = dst_min_x; x < dst_max_x; x++)  {
-                    dstDataArray[dstPixelOffset] =
-                        srcDataArray[srcPixelOffset];
+                for (int x = dst_min_x; x < dst_max_x; x++) {
+                    dstDataArray[dstPixelOffset] = srcDataArray[srcPixelOffset];
                     srcPixelOffset += incr1;
 
                     // Go to next pixel
@@ -690,12 +617,16 @@ public class TransposeOpImage extends GeometricOpImage {
         }
     }
 
-    private void intLoop(RasterAccessor src,
-                         Rectangle destRect,
-                         int srcTranslateX,
-                         int srcTranslateY,
-                         RasterAccessor dst,
-                         int incr1, int incr2, int s_x, int s_y) {
+    private void intLoop(
+            RasterAccessor src,
+            Rectangle destRect,
+            int srcTranslateX,
+            int srcTranslateY,
+            RasterAccessor dst,
+            int incr1,
+            int incr2,
+            int s_x,
+            int s_y) {
         int dwidth = dst.getWidth();
         int dheight = dst.getHeight();
         int dnumBands = dst.getNumBands();
@@ -724,17 +655,16 @@ public class TransposeOpImage extends GeometricOpImage {
         int dstScanlineOffset = 0;
 
         // loop around
-        for (int y = dst_min_y; y < dst_max_y; y++)  {
-            for (int k2=0; k2 < dst_num_bands; k2++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
+            for (int k2 = 0; k2 < dst_num_bands; k2++) {
                 int[] srcDataArray = srcDataArrays[k2];
                 int[] dstDataArray = dstDataArrays[k2];
 
                 int dstPixelOffset = dstScanlineOffset + dstBandOffsets[k2];
                 int srcPixelOffset = srcScanlineOffset + bandOffsets[k2];
 
-                for (int x = dst_min_x; x < dst_max_x; x++)  {
-                    dstDataArray[dstPixelOffset] =
-                        srcDataArray[srcPixelOffset];
+                for (int x = dst_min_x; x < dst_max_x; x++) {
+                    dstDataArray[dstPixelOffset] = srcDataArray[srcPixelOffset];
                     srcPixelOffset += incr1;
 
                     // Go to next pixel
@@ -749,12 +679,16 @@ public class TransposeOpImage extends GeometricOpImage {
         }
     }
 
-    private void shortLoop(RasterAccessor src,
-                           Rectangle destRect,
-                           int srcTranslateX,
-                           int srcTranslateY,
-                           RasterAccessor dst,
-                           int incr1, int incr2, int s_x, int s_y) {
+    private void shortLoop(
+            RasterAccessor src,
+            Rectangle destRect,
+            int srcTranslateX,
+            int srcTranslateY,
+            RasterAccessor dst,
+            int incr1,
+            int incr2,
+            int s_x,
+            int s_y) {
         int dwidth = dst.getWidth();
         int dheight = dst.getHeight();
         int dnumBands = dst.getNumBands();
@@ -783,17 +717,16 @@ public class TransposeOpImage extends GeometricOpImage {
         int dstScanlineOffset = 0;
 
         // loop around
-        for (int y = dst_min_y; y < dst_max_y; y++)  {
-            for (int k2=0; k2 < dst_num_bands; k2++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
+            for (int k2 = 0; k2 < dst_num_bands; k2++) {
                 short[] srcDataArray = srcDataArrays[k2];
                 short[] dstDataArray = dstDataArrays[k2];
 
                 int dstPixelOffset = dstScanlineOffset + dstBandOffsets[k2];
                 int srcPixelOffset = srcScanlineOffset + bandOffsets[k2];
 
-                for (int x = dst_min_x; x < dst_max_x; x++)  {
-                    dstDataArray[dstPixelOffset] =
-                        srcDataArray[srcPixelOffset];
+                for (int x = dst_min_x; x < dst_max_x; x++) {
+                    dstDataArray[dstPixelOffset] = srcDataArray[srcPixelOffset];
                     srcPixelOffset += incr1;
 
                     // Go to next pixel
@@ -808,12 +741,16 @@ public class TransposeOpImage extends GeometricOpImage {
         }
     }
 
-    private void floatLoop(RasterAccessor src,
-                           Rectangle destRect,
-                           int srcTranslateX,
-                           int srcTranslateY,
-                           RasterAccessor dst,
-                           int incr1, int incr2, int s_x, int s_y) {
+    private void floatLoop(
+            RasterAccessor src,
+            Rectangle destRect,
+            int srcTranslateX,
+            int srcTranslateY,
+            RasterAccessor dst,
+            int incr1,
+            int incr2,
+            int s_x,
+            int s_y) {
         int dwidth = dst.getWidth();
         int dheight = dst.getHeight();
         int dnumBands = dst.getNumBands();
@@ -842,17 +779,16 @@ public class TransposeOpImage extends GeometricOpImage {
         int dstScanlineOffset = 0;
 
         // loop around
-        for (int y = dst_min_y; y < dst_max_y; y++)  {
-            for (int k2=0; k2 < dst_num_bands; k2++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
+            for (int k2 = 0; k2 < dst_num_bands; k2++) {
                 float[] srcDataArray = srcDataArrays[k2];
                 float[] dstDataArray = dstDataArrays[k2];
 
                 int dstPixelOffset = dstScanlineOffset + dstBandOffsets[k2];
                 int srcPixelOffset = srcScanlineOffset + bandOffsets[k2];
 
-                for (int x = dst_min_x; x < dst_max_x; x++)  {
-                    dstDataArray[dstPixelOffset] =
-                        srcDataArray[srcPixelOffset];
+                for (int x = dst_min_x; x < dst_max_x; x++) {
+                    dstDataArray[dstPixelOffset] = srcDataArray[srcPixelOffset];
                     srcPixelOffset += incr1;
 
                     // Go to next pixel
@@ -867,12 +803,16 @@ public class TransposeOpImage extends GeometricOpImage {
         }
     }
 
-    private void doubleLoop(RasterAccessor src,
-                            Rectangle destRect,
-                            int srcTranslateX,
-                            int srcTranslateY,
-                            RasterAccessor dst,
-                            int incr1, int incr2, int s_x, int s_y) {
+    private void doubleLoop(
+            RasterAccessor src,
+            Rectangle destRect,
+            int srcTranslateX,
+            int srcTranslateY,
+            RasterAccessor dst,
+            int incr1,
+            int incr2,
+            int s_x,
+            int s_y) {
         int dwidth = dst.getWidth();
         int dheight = dst.getHeight();
         int dnumBands = dst.getNumBands();
@@ -901,17 +841,16 @@ public class TransposeOpImage extends GeometricOpImage {
         int dstScanlineOffset = 0;
 
         // loop around
-        for (int y = dst_min_y; y < dst_max_y; y++)  {
-            for (int k2=0; k2 < dst_num_bands; k2++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
+            for (int k2 = 0; k2 < dst_num_bands; k2++) {
                 double[] srcDataArray = srcDataArrays[k2];
                 double[] dstDataArray = dstDataArrays[k2];
 
                 int dstPixelOffset = dstScanlineOffset + dstBandOffsets[k2];
                 int srcPixelOffset = srcScanlineOffset + bandOffsets[k2];
 
-                for (int x = dst_min_x; x < dst_max_x; x++)  {
-                    dstDataArray[dstPixelOffset] =
-                        srcDataArray[srcPixelOffset];
+                for (int x = dst_min_x; x < dst_max_x; x++) {
+                    dstDataArray[dstPixelOffset] = srcDataArray[srcPixelOffset];
                     srcPixelOffset += incr1;
 
                     // Go to next pixel

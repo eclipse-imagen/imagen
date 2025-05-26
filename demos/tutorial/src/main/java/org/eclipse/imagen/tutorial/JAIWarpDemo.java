@@ -25,9 +25,8 @@ import java.awt.image.renderable.ParameterBlock;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import java.util.Vector;
-import org.eclipse.imagen.*;
-
 import javax.swing.*;
+import org.eclipse.imagen.*;
 
 interface DemoListener {
 
@@ -36,8 +35,7 @@ interface DemoListener {
     void notifyPolynomial(String xpoly, String ypoly);
 }
 
-class WarpPanel extends JPanel
-    implements MouseListener, MouseMotionListener {
+class WarpPanel extends JPanel implements MouseListener, MouseMotionListener {
 
     Color grey;
     Color yellow;
@@ -55,17 +53,17 @@ class WarpPanel extends JPanel
 
     AffineTransform identityTransform = new AffineTransform();
     WarpPolynomial warp;
-    float[] coeffs = { 1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F };
+    float[] coeffs = {1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F};
 
     int degree = 1;
-    int pointsNeeded = (degree + 1)*(degree + 2)/2;
+    int pointsNeeded = (degree + 1) * (degree + 2) / 2;
 
     RenderedImage srcImage;
     RenderedImage dstImage;
     int width, height;
 
     Vector listeners = new Vector();
-    
+
     boolean showSourcePositions = true;
     boolean showDestPositions = true;
     boolean showWarpedImage = true;
@@ -103,36 +101,29 @@ class WarpPanel extends JPanel
         g.fillRect(0, 0, 512, 512);
 
         if (showWarpedImage) {
-            ((Graphics2D)g).drawRenderedImage(dstImage, identityTransform);
+            ((Graphics2D) g).drawRenderedImage(dstImage, identityTransform);
         } else {
-            ((Graphics2D)g).drawRenderedImage(srcImage, identityTransform);
+            ((Graphics2D) g).drawRenderedImage(srcImage, identityTransform);
         }
 
         if (showSourcePositions && showDestPositions) {
             g.setColor(blue);
             for (int i = 0; i < numPoints; i++) {
-                g.drawLine(getIntXCoord(0, i),
-                           getIntYCoord(0, i),
-                           getIntXCoord(1, i),
-                           getIntYCoord(1, i));
+                g.drawLine(getIntXCoord(0, i), getIntYCoord(0, i), getIntXCoord(1, i), getIntYCoord(1, i));
             }
         }
 
         if (showSourcePositions) {
             g.setColor(cyan);
             for (int i = 0; i < numPoints; i++) {
-                g.fillRect(getIntXCoord(0, i) - 2,
-                           getIntYCoord(0, i) - 2,
-                           4, 4);
+                g.fillRect(getIntXCoord(0, i) - 2, getIntYCoord(0, i) - 2, 4, 4);
             }
         }
 
         if (showDestPositions) {
             g.setColor(yellow);
             for (int i = 0; i < numPoints; i++) {
-                g.fillRect(getIntXCoord(1, i) - 2,
-                           getIntYCoord(1, i) - 2,
-                           4, 4);
+                g.fillRect(getIntXCoord(1, i) - 2, getIntYCoord(1, i) - 2, 4, 4);
             }
         }
     }
@@ -147,7 +138,7 @@ class WarpPanel extends JPanel
     private void notifyNumPoints() {
         Enumeration e = listeners.elements();
         while (e.hasMoreElements()) {
-            DemoListener l = (DemoListener)e.nextElement();
+            DemoListener l = (DemoListener) e.nextElement();
             l.notifyNumPoints(numPoints, pointsNeeded);
         }
     }
@@ -172,7 +163,7 @@ class WarpPanel extends JPanel
                 } else if (i - j > 1) {
                     s += "*x^" + (i - j);
                 }
-                
+
                 if (j == 1) {
                     s += "*y";
                 } else if (j > 1) {
@@ -185,19 +176,19 @@ class WarpPanel extends JPanel
     }
 
     private void notifyPolynomial() {
-        String xpoly="x'="+getPolyAsString(coeffs, 0, degree);
-        String ypoly="y'="+getPolyAsString(coeffs, pointsNeeded, degree);
+        String xpoly = "x'=" + getPolyAsString(coeffs, 0, degree);
+        String ypoly = "y'=" + getPolyAsString(coeffs, pointsNeeded, degree);
 
         Enumeration e = listeners.elements();
         while (e.hasMoreElements()) {
-            DemoListener l = (DemoListener)e.nextElement();
+            DemoListener l = (DemoListener) e.nextElement();
             l.notifyPolynomial(xpoly, ypoly);
         }
     }
 
     public void setDegree(int degree) {
         this.degree = degree;
-        this.pointsNeeded = (degree + 1)*(degree + 2)/2;
+        this.pointsNeeded = (degree + 1) * (degree + 2) / 2;
         notifyNumPoints();
 
         updateWarp();
@@ -226,20 +217,23 @@ class WarpPanel extends JPanel
 
     private void updateWarp() {
         if (numPoints >= pointsNeeded) {
-            warp = WarpPolynomial.createWarp(srcCoords, 0,
-                                             dstCoords, 0,
-                                             2*numPoints,
-                                             1.0F/width,
-                                             1.0F/height,
-                                             (float)width,
-                                             (float)height,
-                                             degree);
+            warp = WarpPolynomial.createWarp(
+                    srcCoords,
+                    0,
+                    dstCoords,
+                    0,
+                    2 * numPoints,
+                    1.0F / width,
+                    1.0F / height,
+                    (float) width,
+                    (float) height,
+                    degree);
             float[][] tcoeffs = warp.getCoeffs();
             int length = tcoeffs[0].length;
             coeffs = new float[2 * length];
             for (int i = 0; i < length; i++) {
                 coeffs[i] = tcoeffs[0][i];
-                coeffs[i+length] = tcoeffs[1][i];
+                coeffs[i + length] = tcoeffs[1][i];
             }
             notifyPolynomial();
 
@@ -249,7 +243,7 @@ class WarpPanel extends JPanel
             pb.add(new InterpolationNearest());
             dstImage = JAI.create("warp", pb);
         } else {
-            coeffs = new float[2*pointsNeeded];
+            coeffs = new float[2 * pointsNeeded];
             coeffs[1] = 1.0F;
             coeffs[pointsNeeded + 2] = 1.0F;
             notifyPolynomial();
@@ -262,56 +256,56 @@ class WarpPanel extends JPanel
         for (int i = 0; i < numPoints; i++) {
             int dx = getIntXCoord(srcDst, i) - x;
             int dy = getIntYCoord(srcDst, i) - y;
-            if (dx*dx + dy*dy < 36) {
+            if (dx * dx + dy * dy < 36) {
                 return i;
             }
         }
 
         return -1;
     }
-    
+
     private void setCoords(int srcDst, int index, int x, int y) {
         if (srcDst == 0) {
-            srcCoords[2*index] = (float)x;
-            srcCoords[2*index + 1] = (float)y;
+            srcCoords[2 * index] = (float) x;
+            srcCoords[2 * index + 1] = (float) y;
         } else {
             if (magnifyDisplacements) {
-                float dx = x - srcCoords[2*index];
-                float dy = y - srcCoords[2*index + 1];
+                float dx = x - srcCoords[2 * index];
+                float dy = y - srcCoords[2 * index + 1];
 
-                dstCoords[2*index] = srcCoords[2*index] + dx/mag;
-                dstCoords[2*index + 1] = srcCoords[2*index + 1] + dy/mag;
+                dstCoords[2 * index] = srcCoords[2 * index] + dx / mag;
+                dstCoords[2 * index + 1] = srcCoords[2 * index + 1] + dy / mag;
             } else {
-                dstCoords[2*index] = (float)x;
-                dstCoords[2*index + 1] = (float)y;
+                dstCoords[2 * index] = (float) x;
+                dstCoords[2 * index + 1] = (float) y;
             }
         }
     }
 
     private int getIntXCoord(int srcDst, int index) {
         if (srcDst == 0) {
-            return (int)Math.round(srcCoords[2*index]);
+            return (int) Math.round(srcCoords[2 * index]);
         } else {
             if (magnifyDisplacements) {
-                float x = srcCoords[2*index];
-                float dx = dstCoords[2*index] - x;
-                return (int)Math.round(x + mag*dx);
+                float x = srcCoords[2 * index];
+                float dx = dstCoords[2 * index] - x;
+                return (int) Math.round(x + mag * dx);
             } else {
-                return (int)Math.round(dstCoords[2*index]);
+                return (int) Math.round(dstCoords[2 * index]);
             }
         }
     }
 
     private int getIntYCoord(int srcDst, int index) {
         if (srcDst == 0) {
-            return (int)Math.round(srcCoords[2*index + 1]);
+            return (int) Math.round(srcCoords[2 * index + 1]);
         } else {
             if (magnifyDisplacements) {
-                float y = srcCoords[2*index + 1];
-                float dy = dstCoords[2*index + 1] - y;
-                return (int)Math.round(y + mag*dy);
+                float y = srcCoords[2 * index + 1];
+                float dy = dstCoords[2 * index + 1] - y;
+                return (int) Math.round(y + mag * dy);
             } else {
-                return (int)Math.round(dstCoords[2*index + 1]);
+                return (int) Math.round(dstCoords[2 * index + 1]);
             }
         }
     }
@@ -323,13 +317,13 @@ class WarpPanel extends JPanel
 
         notifyNumPoints();
     }
-    
+
     private void removePoint(int index) {
         if (numPoints > 1) {
-            srcCoords[2*index] = srcCoords[2*(numPoints - 1)];
-            srcCoords[2*index + 1] = srcCoords[2*(numPoints - 1) + 1];
-            dstCoords[2*index] = dstCoords[2*(numPoints - 1)];
-            dstCoords[2*index + 1] = dstCoords[2*(numPoints - 1) + 1];
+            srcCoords[2 * index] = srcCoords[2 * (numPoints - 1)];
+            srcCoords[2 * index + 1] = srcCoords[2 * (numPoints - 1) + 1];
+            dstCoords[2 * index] = dstCoords[2 * (numPoints - 1)];
+            dstCoords[2 * index + 1] = dstCoords[2 * (numPoints - 1) + 1];
         }
         --numPoints;
 
@@ -374,7 +368,7 @@ class WarpPanel extends JPanel
                 removePoint(index);
                 updateWarp();
                 repaint();
-            } 
+            }
         }
     }
 
@@ -385,12 +379,12 @@ class WarpPanel extends JPanel
         }
         dragIndex = -1;
     }
-    
+
     public void mouseDragged(MouseEvent e) {
         if (dragIndex != -1) {
             int x = e.getX();
             int y = e.getY();
-            
+
             setCoords(dragSrcDst, dragIndex, x, y);
             repaint();
         }
@@ -401,9 +395,7 @@ class WarpPanel extends JPanel
     }
 }
 
-
-public class JAIWarpDemo extends JPanel
-    implements ActionListener, DemoListener {
+public class JAIWarpDemo extends JPanel implements ActionListener, DemoListener {
 
     WarpPanel warpPanel;
 
@@ -469,7 +461,7 @@ public class JAIWarpDemo extends JPanel
 
         pointsLabel = new JLabel("Got 0 of 3 points or pairs");
         buttonPanel.add(pointsLabel);
-        
+
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BorderLayout());
         controlPanel.add(buttonPanel, "North");
@@ -479,7 +471,7 @@ public class JAIWarpDemo extends JPanel
 
         xPolyLabel = new JLabel("x' = 0.0 + 1.0*x + 0.0*y");
         yPolyLabel = new JLabel("y' = 0.0 + 0.0*x + 1.0*y");
-        
+
         polyPanel.add(xPolyLabel);
         polyPanel.add(yPolyLabel);
 
@@ -505,7 +497,7 @@ public class JAIWarpDemo extends JPanel
 
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
-        
+
         if (e.getSource() == combo) {
             int index = combo.getSelectedIndex();
             warpPanel.setDegree(index + 1);

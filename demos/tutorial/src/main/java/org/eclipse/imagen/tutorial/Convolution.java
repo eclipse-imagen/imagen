@@ -15,8 +15,7 @@ import javax.swing.border.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widgets.*;
 
-public class Convolution extends JPanel
-                         implements ActionListener {
+public class Convolution extends JPanel implements ActionListener {
 
     private PlanarImage source;
     private PlanarImage target;
@@ -29,17 +28,8 @@ public class Convolution extends JPanel
     private float sum = 9.0F;
     private Font btnFont = new Font("sanserif", Font.BOLD, 10);
     private final String[] labels = {
-                                      "Sharp1",
-                                      "Sharp2",
-                                      "Sharp3",
-                                      "Sharp4",
-                                      "Laplace1",
-                                      "Laplace2",
-                                      "Box",
-                                      "Low Pass",
-                                      "Emboss",
-                                      "Custom"
-                                    };
+        "Sharp1", "Sharp2", "Sharp3", "Sharp4", "Laplace1", "Laplace2", "Box", "Low Pass", "Emboss", "Custom"
+    };
 
     public Convolution(String filename) {
         super(true);
@@ -48,11 +38,11 @@ public class Convolution extends JPanel
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayout(1,2));
+        panel1.setLayout(new GridLayout(1, 2));
         panel1.setBackground(Color.white);
 
         JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayout(1,2));
+        panel2.setLayout(new GridLayout(1, 2));
         panel2.setBackground(Color.white);
 
         textline = new JLabel("Kernel coefficients are divided by " + sum);
@@ -91,12 +81,12 @@ public class Convolution extends JPanel
         kernel_panel.add(kernel_label, BorderLayout.NORTH);
 
         JPanel btn_panel = new JPanel();
-        btn_panel.setLayout(new GridLayout(5,3,8,15));
-        btn_panel.setBorder(new EmptyBorder(10,10,10,10));
+        btn_panel.setLayout(new GridLayout(5, 3, 8, 15));
+        btn_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         btns = new JButton[10];
 
-        for ( int i = 0; i < 10; i++ ) {
+        for (int i = 0; i < 10; i++) {
             btns[i] = new JButton(labels[i]);
             btns[i].setFont(btnFont);
             btns[i].addActionListener(this);
@@ -104,16 +94,16 @@ public class Convolution extends JPanel
         }
 
         convolve_panel.add(btn_panel, BorderLayout.CENTER);
-        convolve_panel.setBorder(new LineBorder(Color.black,1));
+        convolve_panel.setBorder(new LineBorder(Color.black, 1));
 
         JPanel krn_panel = new JPanel();
-        krn_panel.setLayout(new GridLayout(3,3,8,50));
-        krn_panel.setBorder(new EmptyBorder(20,20,20,20));
+        krn_panel.setLayout(new GridLayout(3, 3, 8, 50));
+        krn_panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         krn = new JTextField[3][3];
 
-        for ( int i = 0; i < 3; i++ ) {
-            for ( int j = 0; j < 3; j++ ) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 krn[i][j] = new JTextField();
                 krn[i][j].setDocument(new FloatDocument());
                 krn[i][j].setText("1.0");
@@ -122,7 +112,7 @@ public class Convolution extends JPanel
         }
 
         kernel_panel.add(krn_panel);
-        kernel_panel.setBorder(new LineBorder(Color.black,1));
+        kernel_panel.setBorder(new LineBorder(Color.black, 1));
 
         panel2.add(convolve_panel);
         panel2.add(kernel_panel);
@@ -138,11 +128,11 @@ public class Convolution extends JPanel
     }
 
     public void actionPerformed(ActionEvent e) {
-        JButton bt = (JButton)e.getSource();
+        JButton bt = (JButton) e.getSource();
         int k = -1;
 
-        for ( int i = 0; i < labels.length; i++ ) {
-            if ( bt == btns[i] ) {
+        for (int i = 0; i < labels.length; i++) {
+            if (bt == btns[i]) {
                 k = i;
             }
         }
@@ -158,7 +148,7 @@ public class Convolution extends JPanel
         target = JAI.create("convolve", pb, null);
 
         // emboss (special case)
-        if ( k == 8 ) {
+        if (k == 8) {
             double[] constants = new double[3];
 
             constants[0] = 128.0;
@@ -178,78 +168,132 @@ public class Convolution extends JPanel
 
         float[] data = new float[9];
 
-        switch( choice ) {
+        switch (choice) {
             case 0:
-                data[0] = 0.0F; data[1] =-1.0F; data[2] = 0.0F;
-                data[3] =-1.0F; data[4] = 5.0F; data[5] =-1.0F;
-                data[6] = 0.0F; data[7] =-1.0F; data[8] = 0.0F;
-            break;
+                data[0] = 0.0F;
+                data[1] = -1.0F;
+                data[2] = 0.0F;
+                data[3] = -1.0F;
+                data[4] = 5.0F;
+                data[5] = -1.0F;
+                data[6] = 0.0F;
+                data[7] = -1.0F;
+                data[8] = 0.0F;
+                break;
 
             case 1:
-                data[0] =-1.0F; data[1] =-1.0F; data[2] =-1.0F;
-                data[3] =-1.0F; data[4] = 9.0F; data[5] =-1.0F;
-                data[6] =-1.0F; data[7] =-1.0F; data[8] =-1.0F;
-            break;
+                data[0] = -1.0F;
+                data[1] = -1.0F;
+                data[2] = -1.0F;
+                data[3] = -1.0F;
+                data[4] = 9.0F;
+                data[5] = -1.0F;
+                data[6] = -1.0F;
+                data[7] = -1.0F;
+                data[8] = -1.0F;
+                break;
 
             case 2:
-                data[0] = 1.0F; data[1] =-2.0F; data[2] = 1.0F;
-                data[3] =-2.0F; data[4] = 5.0F; data[5] =-2.0F;
-                data[6] = 1.0F; data[7] =-2.0F; data[8] = 1.0F;
-            break;
+                data[0] = 1.0F;
+                data[1] = -2.0F;
+                data[2] = 1.0F;
+                data[3] = -2.0F;
+                data[4] = 5.0F;
+                data[5] = -2.0F;
+                data[6] = 1.0F;
+                data[7] = -2.0F;
+                data[8] = 1.0F;
+                break;
 
             case 3:
-                data[0] =-1.0F; data[1] = 1.0F; data[2] =-1.0F;
-                data[3] = 1.0F; data[4] = 1.0F; data[5] = 1.0F;
-                data[6] =-1.0F; data[7] = 1.0F; data[8] =-1.0F;
-            break;
+                data[0] = -1.0F;
+                data[1] = 1.0F;
+                data[2] = -1.0F;
+                data[3] = 1.0F;
+                data[4] = 1.0F;
+                data[5] = 1.0F;
+                data[6] = -1.0F;
+                data[7] = 1.0F;
+                data[8] = -1.0F;
+                break;
 
             case 4:
-                data[0] =-1.0F; data[1] =-1.0F; data[2] =-1.0F;
-                data[3] =-1.0F; data[4] = 8.0F; data[5] =-1.0F;
-                data[6] =-1.0F; data[7] =-1.0F; data[8] =-1.0F;
-            break;
+                data[0] = -1.0F;
+                data[1] = -1.0F;
+                data[2] = -1.0F;
+                data[3] = -1.0F;
+                data[4] = 8.0F;
+                data[5] = -1.0F;
+                data[6] = -1.0F;
+                data[7] = -1.0F;
+                data[8] = -1.0F;
+                break;
 
             case 5:
-                data[0] = 0.0F; data[1] =-1.0F; data[2] = 0.0F;
-                data[3] =-1.0F; data[4] = 4.0F; data[5] =-1.0F;
-                data[6] = 0.0F; data[7] =-1.0F; data[8] = 0.0F;
-            break;
+                data[0] = 0.0F;
+                data[1] = -1.0F;
+                data[2] = 0.0F;
+                data[3] = -1.0F;
+                data[4] = 4.0F;
+                data[5] = -1.0F;
+                data[6] = 0.0F;
+                data[7] = -1.0F;
+                data[8] = 0.0F;
+                break;
 
             case 6:
-                data[0] = 1.0F; data[1] = 1.0F; data[2] = 1.0F;
-                data[3] = 1.0F; data[4] = 1.0F; data[5] = 1.0F;
-                data[6] = 1.0F; data[7] = 1.0F; data[8] = 1.0F;
-            break;
+                data[0] = 1.0F;
+                data[1] = 1.0F;
+                data[2] = 1.0F;
+                data[3] = 1.0F;
+                data[4] = 1.0F;
+                data[5] = 1.0F;
+                data[6] = 1.0F;
+                data[7] = 1.0F;
+                data[8] = 1.0F;
+                break;
 
             case 7:
-                data[0] = 1.0F; data[1] = 2.0F; data[2] = 1.0F;
-                data[3] = 2.0F; data[4] = 4.0F; data[5] = 2.0F;
-                data[6] = 1.0F; data[7] = 2.0F; data[8] = 1.0F;
-            break;
+                data[0] = 1.0F;
+                data[1] = 2.0F;
+                data[2] = 1.0F;
+                data[3] = 2.0F;
+                data[4] = 4.0F;
+                data[5] = 2.0F;
+                data[6] = 1.0F;
+                data[7] = 2.0F;
+                data[8] = 1.0F;
+                break;
 
             case 8:
-                data[0] =-1.0F; data[1] =-2.0F; data[2] = 0.0F;
-                data[3] =-2.0F; data[4] = 0.0F; data[5] = 2.0F;
-                data[6] = 0.0F; data[7] = 2.0F; data[8] = 1.0F;
-            break;
+                data[0] = -1.0F;
+                data[1] = -2.0F;
+                data[2] = 0.0F;
+                data[3] = -2.0F;
+                data[4] = 0.0F;
+                data[5] = 2.0F;
+                data[6] = 0.0F;
+                data[7] = 2.0F;
+                data[8] = 1.0F;
+                break;
 
             case 9:
-                //get text for custom kernel
-                for ( int i = 0; i < 3; i++ ) {
-                    for ( int j = 0; j < 3; j++ ) {
+                // get text for custom kernel
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
                         try {
-                            data[3*i+j] = Float.parseFloat(krn[i][j].getText());
-                        } catch( NumberFormatException e ) {
-                            data[3*i+j] = 0.0F;
+                            data[3 * i + j] = Float.parseFloat(krn[i][j].getText());
+                        } catch (NumberFormatException e) {
+                            data[3 * i + j] = 0.0F;
                         }
                     }
                 }
-            break;
+                break;
         }
 
-        for ( int i = 0; i < 3; i++ ) {
-            for ( int j = 0; j < 3; j++ ) {
-                krn[i][j].setText("" + data[3*i+j]);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                krn[i][j].setText("" + data[3 * i + j]);
             }
         }
 
@@ -260,12 +304,12 @@ public class Convolution extends JPanel
     public void normalize(float[] data) {
         sum = 0.0F;
 
-        for ( int i = 0; i < data.length; i++ ) {
+        for (int i = 0; i < data.length; i++) {
             sum += data[i];
         }
 
-        if ( sum > 0.0F ) {
-            for ( int i = 0; i < data.length; i++ ) {
+        if (sum > 0.0F) {
+            for (int i = 0; i < data.length; i++) {
                 data[i] = data[i] / sum;
             }
         } else {

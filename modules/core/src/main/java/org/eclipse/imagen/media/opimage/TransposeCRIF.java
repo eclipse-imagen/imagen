@@ -16,26 +16,20 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.SampleModel;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.image.renderable.RenderContext;
+import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RenderedOp;
-import java.util.Map;
 
 /**
- * @see TransposeOpImage 
- * @see TransposeBinaryOpImage 
+ * @see TransposeOpImage
+ * @see TransposeBinaryOpImage
  */
 public class TransposeCRIF extends CRIFImpl {
 
@@ -44,31 +38,24 @@ public class TransposeCRIF extends CRIFImpl {
         super("transpose");
     }
 
-    /**
-     * Creates a Tranpose operation.
-     */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    /** Creates a Tranpose operation. */
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         RenderedImage source = paramBlock.getRenderedSource(0);
 
-        EnumeratedParameter type =
-            (EnumeratedParameter)paramBlock.getObjectParameter(0);
+        EnumeratedParameter type = (EnumeratedParameter) paramBlock.getObjectParameter(0);
 
         SampleModel sm = source.getSampleModel();
-        if ((sm instanceof MultiPixelPackedSampleModel) &&
-            (sm.getSampleSize(0) == 1) &&
-            (sm.getDataType() == DataBuffer.TYPE_BYTE || 
-             sm.getDataType() == DataBuffer.TYPE_USHORT || 
-             sm.getDataType() == DataBuffer.TYPE_INT)) {
-            return new TransposeBinaryOpImage(source, renderHints, layout,
-                                              type.getValue());
+        if ((sm instanceof MultiPixelPackedSampleModel)
+                && (sm.getSampleSize(0) == 1)
+                && (sm.getDataType() == DataBuffer.TYPE_BYTE
+                        || sm.getDataType() == DataBuffer.TYPE_USHORT
+                        || sm.getDataType() == DataBuffer.TYPE_INT)) {
+            return new TransposeBinaryOpImage(source, renderHints, layout, type.getValue());
         } else {
-            return new TransposeOpImage(source, renderHints, layout,
-                                        type.getValue());
+            return new TransposeOpImage(source, renderHints, layout, type.getValue());
         }
     }
 }

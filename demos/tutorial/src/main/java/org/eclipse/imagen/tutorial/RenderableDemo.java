@@ -7,19 +7,16 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.*;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widgets.*;
 
-
-
-public class RenderableDemo extends JPanel
-                            implements ActionListener {
+public class RenderableDemo extends JPanel implements ActionListener {
 
     private PlanarImage source = null;
     private ImageDisplay canvas = null;
@@ -28,7 +25,7 @@ public class RenderableDemo extends JPanel
     public RenderableDemo(String filename) {
         File f = new File(filename);
 
-        if ( f.exists() && f.canRead() ) {
+        if (f.exists() && f.canRead()) {
             source = JAI.create("fileload", filename);
         } else {
             return;
@@ -53,20 +50,17 @@ public class RenderableDemo extends JPanel
 
         RenderableImage inv = JAI.createRenderable("invert", pb);
 
-        int w = source.getWidth()/4;
-        int h = source.getHeight()/4;
+        int w = source.getWidth() / 4;
+        int h = source.getHeight() / 4;
 
-        PlanarImage dst = (PlanarImage)inv.createScaledRendering(w, h, null);
+        PlanarImage dst = (PlanarImage) inv.createScaledRendering(w, h, null);
 
         canvas = new ImageDisplay(dst);
         canvas.setBackground(Color.blue);
 
-        canvas.setBorder(new CompoundBorder(
-                                           new EtchedBorder(),
-                                           new LineBorder(Color.gray, 5)
-                                           ) );
+        canvas.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.gray, 5)));
 
-        JPanel yap = new JPanel();  // yet another panel
+        JPanel yap = new JPanel(); // yet another panel
         yap.setLayout(new BorderLayout());
         yap.add(new JLabel("Destination"), BorderLayout.NORTH);
 
@@ -93,10 +87,10 @@ public class RenderableDemo extends JPanel
         setLayout(new BorderLayout());
         setBackground(Color.white);
 
-        yap.add(panel,   BorderLayout.CENTER);
-        add(title,   BorderLayout.NORTH);
+        yap.add(panel, BorderLayout.CENTER);
+        add(title, BorderLayout.NORTH);
         add(display, BorderLayout.CENTER);
-        add(yap,   BorderLayout.SOUTH);
+        add(yap, BorderLayout.SOUTH);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -111,7 +105,7 @@ public class RenderableDemo extends JPanel
         pb = new ParameterBlock();
         pb.addSource(ren);
 
-        if ( state == false ) {
+        if (state == false) {
             inv = ren;
             state = true;
         } else {
@@ -119,10 +113,10 @@ public class RenderableDemo extends JPanel
             state = false;
         }
 
-        int w = source.getWidth()/4;
-        int h = source.getHeight()/4;
+        int w = source.getWidth() / 4;
+        int h = source.getHeight() / 4;
 
-        PlanarImage dst = (PlanarImage)inv.createScaledRendering(w, h, null);
+        PlanarImage dst = (PlanarImage) inv.createScaledRendering(w, h, null);
         canvas.set(dst);
     }
 }

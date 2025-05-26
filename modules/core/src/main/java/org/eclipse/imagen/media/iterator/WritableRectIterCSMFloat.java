@@ -16,25 +16,24 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.iterator.WritableRectIter;
 
-/**
- */
-public class WritableRectIterCSMFloat extends RectIterCSMFloat 
-    implements WritableRectIter {
+/** */
+public class WritableRectIterCSMFloat extends RectIterCSMFloat implements WritableRectIter {
 
     public WritableRectIterCSMFloat(RenderedImage im, Rectangle bounds) {
         super(im, bounds);
     }
 
     public void setSample(int s) {
-        bank[offset + bandOffset] = (float)s;
+        bank[offset + bandOffset] = (float) s;
     }
 
     public void setSample(int b, int s) {
-        bankData[b][offset + bandOffsets[b]] = (float)s;
+        bankData[b][offset + bandOffsets[b]] = (float) s;
     }
 
     public void setSample(float s) {
@@ -46,16 +45,16 @@ public class WritableRectIterCSMFloat extends RectIterCSMFloat
     }
 
     public void setSample(double s) {
-        bank[offset + bandOffset] = (float)s;
+        bank[offset + bandOffset] = (float) s;
     }
 
     public void setSample(int b, double s) {
-        bankData[b][offset + bandOffsets[b]] = (float)s;
+        bankData[b][offset + bandOffsets[b]] = (float) s;
     }
 
     public void setPixel(int[] iArray) {
         for (int b = 0; b < numBands; b++) {
-            bankData[b][offset + bandOffsets[b]] = (float)iArray[b];
+            bankData[b][offset + bandOffsets[b]] = (float) iArray[b];
         }
     }
 
@@ -67,7 +66,7 @@ public class WritableRectIterCSMFloat extends RectIterCSMFloat
 
     public void setPixel(double[] dArray) {
         for (int b = 0; b < numBands; b++) {
-            bankData[b][offset + bandOffsets[b]] = (float)dArray[b];
+            bankData[b][offset + bandOffsets[b]] = (float) dArray[b];
         }
     }
 }

@@ -7,20 +7,17 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.io.*;
-import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widgets.*;
 
-
-public class SFOViewer extends JPanel
-            implements ChangeListener, ActionListener {
+public class SFOViewer extends JPanel implements ChangeListener, ActionListener {
 
     private PlanarImage src = null;
     private ImageDisplay dsp = null;
@@ -35,7 +32,7 @@ public class SFOViewer extends JPanel
         super(true);
         File f = new File(file);
 
-        if ( f.exists() && f.canRead() ) {
+        if (f.exists() && f.canRead()) {
             src = JAI.create("fileload", file, null);
             createGUI(thumbnail);
         } else {
@@ -62,15 +59,12 @@ public class SFOViewer extends JPanel
         PlanarImage thumb = JAI.create("fileload", thumbnail);
         panner = new Panner(dsp, src, thumb);
 
-        panner.setBorder(new CompoundBorder(
-                           new EtchedBorder(3),
-                           new LineBorder(Color.gray, 3)
-                        ) );
+        panner.setBorder(new CompoundBorder(new EtchedBorder(3), new LineBorder(Color.gray, 3)));
 
         // holds the hot buttons for auto-positioning
         JPanel hotPanel = new JPanel();
-        hotPanel.setLayout( new GridLayout(3, 2, 10, 5) );
-        hotPanel.setBorder(new EmptyBorder(5,5,5,5));
+        hotPanel.setLayout(new GridLayout(3, 2, 10, 5));
+        hotPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         hotPanel.setOpaque(true);
         b1 = new JButton("Transamerica");
         b2 = new JButton("Pier 39");
@@ -126,33 +120,32 @@ public class SFOViewer extends JPanel
         add(controlPanel, BorderLayout.SOUTH);
 
         // center the view
-        panner.setSliderLocation(panner.getWidth()/2,
-                                 panner.getHeight()/2);
+        panner.setSliderLocation(panner.getWidth() / 2, panner.getHeight() / 2);
 
         panner.setSliderBorderColor(Color.red);
     }
 
     // coordinates are from the panner object space
     public void actionPerformed(ActionEvent e) {
-        JButton bt = (JButton)e.getSource();
+        JButton bt = (JButton) e.getSource();
 
-        if ( bt == b1 ) {
-            panner.setSliderLocation(113, 71);  // Transamerica
-        } else if ( bt == b2 ) {
-            panner.setSliderLocation(91, 18);   // Pier 39
-        } else if ( bt == b3 ) {
-            panner.setSliderLocation(39, 29);   // Fort Mason
-        } else if ( bt == b4 ) {
-            panner.setSliderLocation(103, 45);  // Coit Tower
-        } else if ( bt == b5 ) {
-            panner.setSliderLocation(68, 133);  // Civic Center
-        } else if ( bt == b6 ) {
-            panner.setSliderLocation(162, 92);  // Bay Bridge
+        if (bt == b1) {
+            panner.setSliderLocation(113, 71); // Transamerica
+        } else if (bt == b2) {
+            panner.setSliderLocation(91, 18); // Pier 39
+        } else if (bt == b3) {
+            panner.setSliderLocation(39, 29); // Fort Mason
+        } else if (bt == b4) {
+            panner.setSliderLocation(103, 45); // Coit Tower
+        } else if (bt == b5) {
+            panner.setSliderLocation(68, 133); // Civic Center
+        } else if (bt == b6) {
+            panner.setSliderLocation(162, 92); // Bay Bridge
         }
     }
 
     public final void stateChanged(ChangeEvent e) {
-        JSlider slider = (JSlider)e.getSource();
+        JSlider slider = (JSlider) e.getSource();
         int brightness = slider.getValue();
         dsp.setBrightness(brightness);
     }

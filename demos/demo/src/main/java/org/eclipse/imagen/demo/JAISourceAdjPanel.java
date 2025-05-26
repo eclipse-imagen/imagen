@@ -10,33 +10,27 @@ package org.eclipse.imagen.demo;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
-import org.eclipse.imagen.*;
 import javax.swing.*;
+import org.eclipse.imagen.*;
 
 public abstract class JAISourceAdjPanel extends JPanel implements ActionListener {
 
     Vector sourceVec = null;
-     /** Rendering hints to be used by subclasses. */
-
-
+    /** Rendering hints to be used by subclasses. */
     protected RenderingHints renderHints = null;
-    
+
     public JAISourceAdjPanel(Vector sourceVec) {
-        this.sourceVec = (Vector)sourceVec.clone();
+        this.sourceVec = (Vector) sourceVec.clone();
     }
 
     /**
-     * Performs the standard setup.  Subclasses should call this method
-     * immediately after calling super() in their constructors.
-     * The main image pane is constructed and placed in a JScrollPane.
-     * A control panel with a reset button is also constructed, and
-     * the makeControls method of the subclass is called to fill in
-     * the custom portion of the panel.
+     * Performs the standard setup. Subclasses should call this method immediately after calling super() in their
+     * constructors. The main image pane is constructed and placed in a JScrollPane. A control panel with a reset button
+     * is also constructed, and the makeControls method of the subclass is called to fill in the custom portion of the
+     * panel.
      */
-
-
     public void masterSetup() {
-     
+
         setLayout(new BorderLayout());
 
         JPanel controlPanel = new JPanel();
@@ -49,70 +43,51 @@ public abstract class JAISourceAdjPanel extends JPanel implements ActionListener
 
         JPanel customPanel = new JPanel();
         controlPanel.add("Center", customPanel);
-	JPanel adjPanel = new JPanel();
+        JPanel adjPanel = new JPanel();
         makeControls(adjPanel);
 
         add("South", controlPanel);
-	add("Center",adjPanel);
+        add("Center", adjPanel);
     }
-    
+
     /** Returns the current source image. */
-
-
     public PlanarImage getSource(int index) {
-        return (PlanarImage)sourceVec.elementAt(index);
+        return (PlanarImage) sourceVec.elementAt(index);
     }
 
     /** Sets the source and performs processing. */
-
-
     public void setSource(int sourceNum, PlanarImage source) {
         sourceVec.setElementAt(source, sourceNum);
         repaint();
     }
-    
+
     public void setRenderingHints(RenderingHints renderHints) {
         this.renderHints = renderHints;
-	repaint();
+        repaint();
     }
- 
 
     /** Creates a control panel that will affect the operation parameters. */
+    public void makeControls(JPanel controls) {}
 
-
-    public void makeControls(JPanel controls) {
-    }
-  
     /**
-     * Repaints the image panel.  The process() method is called
-     * to generate a new output image, which is then wrapped by an
-     * ImageIcon and set as the icon of the JLabel imageLabel.
+     * Repaints the image panel. The process() method is called to generate a new output image, which is then wrapped by
+     * an ImageIcon and set as the icon of the JLabel imageLabel.
      */
-
-
-    public void repaint(){
-      if (sourceVec == null) {
-	return;
-      }
-      process();
+    public void repaint() {
+        if (sourceVec == null) {
+            return;
+        }
+        process();
     }
-  
+
     /** Default method when any action is performed. */
-
-
     public void actionPerformed(ActionEvent e) {
         reset();
     }
 
-
     /** Returns the result of processing the source image. */
-
-
     public abstract PlanarImage process();
 
     /** Called when the reset button is pressed. */
-
-
-    public void reset() {
-    }
+    public void reset() {}
 }

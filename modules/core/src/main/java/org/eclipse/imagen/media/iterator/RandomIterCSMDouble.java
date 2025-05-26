@@ -16,13 +16,11 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.iterator.RandomIter;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RandomIterCSMDouble extends RandomIterCSM {
 
     public RandomIterCSMDouble(RenderedImage im, Rectangle bounds) {
@@ -30,11 +28,11 @@ public class RandomIterCSMDouble extends RandomIterCSM {
     }
 
     public final int getSample(int x, int y, int b) {
-        return (int)getSampleDouble(x, y, b);
+        return (int) getSampleDouble(x, y, b);
     }
 
     public final float getSampleFloat(int x, int y, int b) {
-        return (float)getSampleDouble(x, y, b);
+        return (float) getSampleDouble(x, y, b);
     }
 
     public final double getSampleDouble(int x, int y, int b) {

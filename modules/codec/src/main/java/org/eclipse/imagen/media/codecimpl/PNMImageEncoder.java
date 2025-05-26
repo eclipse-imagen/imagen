@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.codecimpl;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.ComponentSampleModel;
@@ -28,59 +29,49 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.io.IOException;
 import java.io.OutputStream;
-import org.eclipse.imagen.media.codec.ImageEncoderImpl;
 import org.eclipse.imagen.media.codec.ImageEncodeParam;
+import org.eclipse.imagen.media.codec.ImageEncoderImpl;
 import org.eclipse.imagen.media.codec.PNMEncodeParam;
 
 /**
  * An ImageEncoder for the PNM family of file formats.
  *
- * <p> The PNM file format includes PBM for monochrome images, PGM for
- * grey scale images, and PPM for color images. When writing the
- * source data out, the encoder chooses the appropriate file variant
- * based on the actual SampleModel of the source image. In case the
- * source image data is unsuitable for the PNM file format, for
- * example when source has 4 bands or float data type, the encoder
- * throws an Error.
+ * <p>The PNM file format includes PBM for monochrome images, PGM for grey scale images, and PPM for color images. When
+ * writing the source data out, the encoder chooses the appropriate file variant based on the actual SampleModel of the
+ * source image. In case the source image data is unsuitable for the PNM file format, for example when source has 4
+ * bands or float data type, the encoder throws an Error.
  *
- * <p> The raw file format is used wherever possible, unless the
- * PNMEncodeParam object supplied to the constructor returns
- * <code>true</code> from its <code>getRaw()</code> method.
- *
+ * <p>The raw file format is used wherever possible, unless the PNMEncodeParam object supplied to the constructor
+ * returns <code>true</code> from its <code>getRaw()</code> method.
  *
  * @since EA2
  */
 public class PNMImageEncoder extends ImageEncoderImpl {
 
-    private static final int PBM_ASCII  = '1';
-    private static final int PGM_ASCII  = '2';
-    private static final int PPM_ASCII  = '3';
-    private static final int PBM_RAW    = '4';
-    private static final int PGM_RAW    = '5';
-    private static final int PPM_RAW    = '6';
+    private static final int PBM_ASCII = '1';
+    private static final int PGM_ASCII = '2';
+    private static final int PPM_ASCII = '3';
+    private static final int PBM_RAW = '4';
+    private static final int PGM_RAW = '5';
+    private static final int PPM_RAW = '6';
 
-    private static final int SPACE      = ' ';
+    private static final int SPACE = ' ';
 
-    private static final String COMMENT = 
-        "# written by org.eclipse.imagen.media.codecimpl.PNMImageEncoder";
+    private static final String COMMENT = "# written by org.eclipse.imagen.media.codecimpl.PNMImageEncoder";
 
     private byte[] lineSeparator;
 
     private int variant;
     private int maxValue;
 
-    public PNMImageEncoder(OutputStream output,
-                           ImageEncodeParam param) {
+    public PNMImageEncoder(OutputStream output, ImageEncodeParam param) {
         super(output, param);
         if (this.param == null) {
             this.param = new PNMEncodeParam();
         }
     }
 
-    /**
-     * Encodes a RenderedImage and writes the output to the
-     * OutputStream associated with this ImageEncoder.
-     */
+    /** Encodes a RenderedImage and writes the output to the OutputStream associated with this ImageEncoder. */
     public void encode(RenderedImage im) throws IOException {
         int minX = im.getMinX();
         int minY = im.getMinY();
@@ -94,8 +85,7 @@ public class PNMImageEncoder extends ImageEncoderImpl {
         lineSeparator = ls.getBytes();
 
         int dataType = sampleModel.getTransferType();
-        if ((dataType == DataBuffer.TYPE_FLOAT) ||
-            (dataType == DataBuffer.TYPE_DOUBLE)) {
+        if ((dataType == DataBuffer.TYPE_FLOAT) || (dataType == DataBuffer.TYPE_DOUBLE)) {
             throw new RuntimeException(JaiI18N.getString("PNMImageEncoder0"));
         }
 
@@ -113,23 +103,21 @@ public class PNMImageEncoder extends ImageEncoderImpl {
 
         if (numBands == 1) {
             if (colorModel instanceof IndexColorModel) {
-                IndexColorModel icm = (IndexColorModel)colorModel;
+                IndexColorModel icm = (IndexColorModel) colorModel;
 
                 int mapSize = icm.getMapSize();
                 if (mapSize < (1 << sampleSize[0])) {
-                    throw new RuntimeException(
-                        JaiI18N.getString("PNMImageEncoder1"));
+                    throw new RuntimeException(JaiI18N.getString("PNMImageEncoder1"));
                 }
 
-                if(sampleSize[0] == 1) {
+                if (sampleSize[0] == 1) {
                     variant = PBM_RAW;
 
                     // Set PBM inversion flag if 1 maps to a higher color
                     // value than 0: PBM expects white-is-zero so if this
                     // does not obtain then inversion needs to occur.
-                    isPBMInverted =
-                        (icm.getRed(1) + icm.getGreen(1) + icm.getBlue(1)) >
-                        (icm.getRed(0) + icm.getGreen(0) + icm.getBlue(0));
+                    isPBMInverted = (icm.getRed(1) + icm.getGreen(1) + icm.getBlue(1))
+                            > (icm.getRed(0) + icm.getGreen(0) + icm.getBlue(0));
                 } else {
                     variant = PPM_RAW;
 
@@ -149,8 +137,7 @@ public class PNMImageEncoder extends ImageEncoderImpl {
                 variant = PGM_ASCII;
             }
         } else if (numBands == 3) {
-            if (sampleSize[0] <= 8 && sampleSize[1] <= 8 &&
-                sampleSize[2] <= 8) {	// all 3 bands must be <= 8
+            if (sampleSize[0] <= 8 && sampleSize[1] <= 8 && sampleSize[2] <= 8) { // all 3 bands must be <= 8
                 variant = PPM_RAW;
             } else {
                 variant = PPM_ASCII;
@@ -160,7 +147,7 @@ public class PNMImageEncoder extends ImageEncoderImpl {
         }
 
         // Read parameters
-        if (((PNMEncodeParam)param).getRaw()) {
+        if (((PNMEncodeParam) param).getRaw()) {
             if (!isRaw(variant)) {
                 boolean canUseRaw = true;
 
@@ -185,63 +172,58 @@ public class PNMImageEncoder extends ImageEncoderImpl {
         maxValue = (1 << sampleSize[0]) - 1;
 
         // Write PNM file.
-        output.write('P');			// magic value
+        output.write('P'); // magic value
         output.write(variant);
-        
+
         output.write(lineSeparator);
-        output.write(COMMENT.getBytes());	// comment line
-        
+        output.write(COMMENT.getBytes()); // comment line
+
         output.write(lineSeparator);
-        writeInteger(output, width);		// width
+        writeInteger(output, width); // width
         output.write(SPACE);
-        writeInteger(output, height);		// height
-        
+        writeInteger(output, height); // height
+
         // Writ esample max value for non-binary images
         if ((variant != PBM_RAW) && (variant != PBM_ASCII)) {
             output.write(lineSeparator);
             writeInteger(output, maxValue);
         }
-        
+
         // The spec allows a single character between the
         // last header value and the start of the raw data.
-        if (variant == PBM_RAW ||
-            variant == PGM_RAW ||
-            variant == PPM_RAW) {
+        if (variant == PBM_RAW || variant == PGM_RAW || variant == PPM_RAW) {
             output.write('\n');
         }
 
         // Set flag for optimal image writing case: row-packed data with
         // correct band order if applicable.
         boolean writeOptimal = false;
-        if (variant == PBM_RAW &&
-            sampleModel.getTransferType() == DataBuffer.TYPE_BYTE &&
-            sampleModel instanceof MultiPixelPackedSampleModel) {
+        if (variant == PBM_RAW
+                && sampleModel.getTransferType() == DataBuffer.TYPE_BYTE
+                && sampleModel instanceof MultiPixelPackedSampleModel) {
 
-            MultiPixelPackedSampleModel mppsm =
-                (MultiPixelPackedSampleModel)sampleModel;
+            MultiPixelPackedSampleModel mppsm = (MultiPixelPackedSampleModel) sampleModel;
 
             // Must have left-aligned bytes with unity bit stride.
-            if(mppsm.getDataBitOffset() == 0 &&
-               mppsm.getPixelBitStride() == 1) {
+            if (mppsm.getDataBitOffset() == 0 && mppsm.getPixelBitStride() == 1) {
 
                 writeOptimal = true;
             }
-        } else if ((variant == PGM_RAW || variant == PPM_RAW) &&
-                   sampleModel instanceof ComponentSampleModel &&
-                   !(colorModel instanceof IndexColorModel)) {
+        } else if ((variant == PGM_RAW || variant == PPM_RAW)
+                && sampleModel instanceof ComponentSampleModel
+                && !(colorModel instanceof IndexColorModel)) {
 
-            ComponentSampleModel csm =
-                (ComponentSampleModel)sampleModel;
+            ComponentSampleModel csm = (ComponentSampleModel) sampleModel;
 
             // Pixel stride must equal band count.
-            if(csm.getPixelStride() == numBands) {
+            if (csm.getPixelStride() == numBands) {
                 writeOptimal = true;
 
                 // Band offsets must equal band indices.
-                if(variant == PPM_RAW) {
+                if (variant == PPM_RAW) {
                     int[] bandOffsets = csm.getBandOffsets();
-                    for(int b = 0; b < numBands; b++) {
-                        if(bandOffsets[b] != b) {
+                    for (int b = 0; b < numBands; b++) {
+                        if (bandOffsets[b] != b) {
                             writeOptimal = false;
                             break;
                         }
@@ -251,54 +233,50 @@ public class PNMImageEncoder extends ImageEncoderImpl {
         }
 
         // Write using an optimal approach if possible.
-        if(writeOptimal) {
-            int bytesPerRow = variant == PBM_RAW ?
-                (width + 7)/8 : width*sampleModel.getNumBands();
+        if (writeOptimal) {
+            int bytesPerRow = variant == PBM_RAW ? (width + 7) / 8 : width * sampleModel.getNumBands();
             int numYTiles = im.getNumYTiles();
-	    Rectangle imageBounds = 
-		new Rectangle(im.getMinX(), im.getMinY(),
-			      im.getWidth(), im.getHeight());
-	    Rectangle stripRect =
-		new Rectangle(im.getMinX(), 
-			      im.getMinTileY() * im.getTileHeight() + im.getTileGridYOffset(),
-			      im.getWidth(), im.getTileHeight());
+            Rectangle imageBounds = new Rectangle(im.getMinX(), im.getMinY(), im.getWidth(), im.getHeight());
+            Rectangle stripRect = new Rectangle(
+                    im.getMinX(),
+                    im.getMinTileY() * im.getTileHeight() + im.getTileGridYOffset(),
+                    im.getWidth(),
+                    im.getTileHeight());
 
             byte[] invertedData = null;
-            if(isPBMInverted) {
+            if (isPBMInverted) {
                 invertedData = new byte[bytesPerRow];
             }
 
             // Loop over tiles to minimize cobbling.
-            for(int j = 0; j < numYTiles; j++) {
+            for (int j = 0; j < numYTiles; j++) {
                 // Clamp the strip to the image bounds.
-                if(j == numYTiles - 1) {
+                if (j == numYTiles - 1) {
                     stripRect.height = im.getHeight() - stripRect.y;
                 }
 
-		Rectangle encodedRect = stripRect.intersection(imageBounds);
+                Rectangle encodedRect = stripRect.intersection(imageBounds);
                 // Get a strip of data.
                 Raster strip = im.getData(encodedRect);
 
                 // Get the data array.
-                byte[] bdata =
-                    ((DataBufferByte)strip.getDataBuffer()).getData();
+                byte[] bdata = ((DataBufferByte) strip.getDataBuffer()).getData();
 
                 // Get the scanline stride.
-                int rowStride = variant == PBM_RAW ?
-                    ((MultiPixelPackedSampleModel)strip.getSampleModel()).getScanlineStride() :
-                    ((ComponentSampleModel)strip.getSampleModel()).getScanlineStride();
+                int rowStride = variant == PBM_RAW
+                        ? ((MultiPixelPackedSampleModel) strip.getSampleModel()).getScanlineStride()
+                        : ((ComponentSampleModel) strip.getSampleModel()).getScanlineStride();
 
-                if(rowStride == bytesPerRow && !isPBMInverted) {
+                if (rowStride == bytesPerRow && !isPBMInverted) {
                     // Write the entire strip at once.
                     output.write(bdata, 0, bdata.length);
                 } else {
                     // Write the strip row-by-row.
                     int offset = 0;
-                    for(int i = 0; i < encodedRect.height; i++) {
-                        if(isPBMInverted) {
-                            for(int k = 0; k < bytesPerRow; k++) {
-                                invertedData[k] =
-                                    (byte)(~(bdata[offset+k]&0xff));
+                    for (int i = 0; i < encodedRect.height; i++) {
+                        if (isPBMInverted) {
+                            for (int k = 0; k < bytesPerRow; k++) {
+                                invertedData[k] = (byte) (~(bdata[offset + k] & 0xff));
                             }
                             output.write(invertedData, 0, bytesPerRow);
                         } else {
@@ -319,12 +297,11 @@ public class PNMImageEncoder extends ImageEncoderImpl {
         }
 
         // Buffer for up to 8 rows of pixels
-        int[] pixels = new int[8*width*numBands];
+        int[] pixels = new int[8 * width * numBands];
 
         // Also allocate a buffer to hold the data to be written to the file,
         // so we can use array writes.
-        byte[] bpixels = reds == null ?
-                         new byte[8*width*numBands] : new byte[8*width*3];
+        byte[] bpixels = reds == null ? new byte[8 * width * numBands] : new byte[8 * width * 3];
 
         // The index of the sample being written, used to
         // place a line separator after every 16th sample in
@@ -336,35 +313,22 @@ public class PNMImageEncoder extends ImageEncoderImpl {
         int lastRow = minY + height;
         for (int row = minY; row < lastRow; row += 8) {
             int rows = Math.min(8, lastRow - row);
-            int size = rows*width*numBands;
-            
+            int size = rows * width * numBands;
+
             // Grab the pixels
             Raster src = im.getData(new Rectangle(minX, row, width, rows));
             src.getPixels(minX, row, width, rows, pixels);
 
             // Invert bits if necessary.
-            if(isPBMInverted) {
-                for(int k = 0; k < size; k++) {
+            if (isPBMInverted) {
+                for (int k = 0; k < size; k++) {
                     pixels[k] ^= 0x00000001;
                 }
             }
-        
-            switch (variant) {
-            case PBM_ASCII:
-            case PGM_ASCII:
-                for (int i = 0; i < size; i++) {
-                    if ((count++ % 16) == 0) {
-                        output.write(lineSeparator);
-                    } else {
-                        output.write(SPACE);
-                    }
-                    writeInteger(output, pixels[i]);
-                }
-                output.write(lineSeparator);
-                break;
 
-            case PPM_ASCII:
-                if (reds == null) {	// no need to expand
+            switch (variant) {
+                case PBM_ASCII:
+                case PGM_ASCII:
                     for (int i = 0; i < size; i++) {
                         if ((count++ % 16) == 0) {
                             output.write(lineSeparator);
@@ -373,76 +337,89 @@ public class PNMImageEncoder extends ImageEncoderImpl {
                         }
                         writeInteger(output, pixels[i]);
                     }
+                    output.write(lineSeparator);
+                    break;
 
-                } else {
-                    for (int i = 0; i < size; i++) {
-                        if ((count++ % 16) == 0) {
-                            output.write(lineSeparator);
-                        } else {
-                            output.write(SPACE);
+                case PPM_ASCII:
+                    if (reds == null) { // no need to expand
+                        for (int i = 0; i < size; i++) {
+                            if ((count++ % 16) == 0) {
+                                output.write(lineSeparator);
+                            } else {
+                                output.write(SPACE);
+                            }
+                            writeInteger(output, pixels[i]);
                         }
-                        writeInteger(output, (reds[pixels[i]] & 0xFF));
-                        output.write(SPACE);
-                        writeInteger(output, (greens[pixels[i]] & 0xFF));
-                        output.write(SPACE);
-                        writeInteger(output, (blues[pixels[i]] & 0xFF));
-                    }
-                }
-                output.write(lineSeparator);
-                break;
-            
-            case PBM_RAW:
-                // 8 pixels packed into 1 byte, the leftovers are padded.
-                int kdst = 0;
-                int ksrc = 0;
-                for (int i = 0; i < size/8; i++) {
-                    int b = (pixels[ksrc++] << 7) |
-                            (pixels[ksrc++] << 6) |
-                            (pixels[ksrc++] << 5) |
-                            (pixels[ksrc++] << 4) |
-                            (pixels[ksrc++] << 3) |
-                            (pixels[ksrc++] << 2) |
-                            (pixels[ksrc++] << 1) |
-                             pixels[ksrc++];
-                    bpixels[kdst++] = (byte)b;
-                }
-            
-                // Leftover pixels, only possible at the end of the file.
-                if (size%8 > 0) {
-                    int b = 0;
-                    for (int i=0; i<size%8; i++) {
-                        b |= pixels[size + i] << (7 - i);
-                    }
-                    bpixels[kdst++] = (byte)b;
-                }
-                output.write(bpixels, 0, (size+7)/8);
 
-                break;
-                
-            case PGM_RAW:
-                for(int i=0; i<size; i++) {
-                    bpixels[i] = (byte)(pixels[i]);
-                }
-                output.write(bpixels, 0, size);
-                break;
+                    } else {
+                        for (int i = 0; i < size; i++) {
+                            if ((count++ % 16) == 0) {
+                                output.write(lineSeparator);
+                            } else {
+                                output.write(SPACE);
+                            }
+                            writeInteger(output, (reds[pixels[i]] & 0xFF));
+                            output.write(SPACE);
+                            writeInteger(output, (greens[pixels[i]] & 0xFF));
+                            output.write(SPACE);
+                            writeInteger(output, (blues[pixels[i]] & 0xFF));
+                        }
+                    }
+                    output.write(lineSeparator);
+                    break;
 
-            case PPM_RAW:
-                if (reds == null) {	// no need to expand
-                    for (int i=0; i<size; i++) {
-                        bpixels[i] = (byte)(pixels[i] & 0xFF);
+                case PBM_RAW:
+                    // 8 pixels packed into 1 byte, the leftovers are padded.
+                    int kdst = 0;
+                    int ksrc = 0;
+                    for (int i = 0; i < size / 8; i++) {
+                        int b = (pixels[ksrc++] << 7)
+                                | (pixels[ksrc++] << 6)
+                                | (pixels[ksrc++] << 5)
+                                | (pixels[ksrc++] << 4)
+                                | (pixels[ksrc++] << 3)
+                                | (pixels[ksrc++] << 2)
+                                | (pixels[ksrc++] << 1)
+                                | pixels[ksrc++];
+                        bpixels[kdst++] = (byte) b;
                     }
-                } else {
-                    for (int i=0, j=0; i<size; i++) {
-                        bpixels[j++] = reds[pixels[i]];
-                        bpixels[j++] = greens[pixels[i]];
-                        bpixels[j++] = blues[pixels[i]];
+
+                    // Leftover pixels, only possible at the end of the file.
+                    if (size % 8 > 0) {
+                        int b = 0;
+                        for (int i = 0; i < size % 8; i++) {
+                            b |= pixels[size + i] << (7 - i);
+                        }
+                        bpixels[kdst++] = (byte) b;
                     }
-                }
-                output.write(bpixels, 0, bpixels.length);
-                break;
+                    output.write(bpixels, 0, (size + 7) / 8);
+
+                    break;
+
+                case PGM_RAW:
+                    for (int i = 0; i < size; i++) {
+                        bpixels[i] = (byte) (pixels[i]);
+                    }
+                    output.write(bpixels, 0, size);
+                    break;
+
+                case PPM_RAW:
+                    if (reds == null) { // no need to expand
+                        for (int i = 0; i < size; i++) {
+                            bpixels[i] = (byte) (pixels[i] & 0xFF);
+                        }
+                    } else {
+                        for (int i = 0, j = 0; i < size; i++) {
+                            bpixels[j++] = reds[pixels[i]];
+                            bpixels[j++] = greens[pixels[i]];
+                            bpixels[j++] = blues[pixels[i]];
+                        }
+                    }
+                    output.write(bpixels, 0, bpixels.length);
+                    break;
             }
         }
-        
+
         // Force all buffered bytes to be written out.
         output.flush();
     }

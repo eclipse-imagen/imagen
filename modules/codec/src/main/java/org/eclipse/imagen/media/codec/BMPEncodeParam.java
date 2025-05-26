@@ -18,18 +18,13 @@
 package org.eclipse.imagen.media.codec;
 
 /**
- * An instance of <code>ImageEncodeParam</code> for encoding images in
- * the BMP format.
+ * An instance of <code>ImageEncodeParam</code> for encoding images in the BMP format.
  *
- * <p> This class allows for the specification of various parameters
- * while encoding (writing) a BMP format image file.  By default, the
- * version used is VERSION_3, no compression is used, and the data layout
- * is bottom_up, such that the pixels are stored in bottom-up order, the
- * first scanline being stored last. 
+ * <p>This class allows for the specification of various parameters while encoding (writing) a BMP format image file. By
+ * default, the version used is VERSION_3, no compression is used, and the data layout is bottom_up, such that the
+ * pixels are stored in bottom-up order, the first scanline being stored last.
  *
- * <p><b> This class is not a committed part of the JAI API.  It may
- * be removed or changed in future releases of JAI.</b>
- * 
+ * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
  */
 public class BMPEncodeParam implements ImageEncodeParam {
 
@@ -48,57 +43,45 @@ public class BMPEncodeParam implements ImageEncodeParam {
     private int version = VERSION_3;
     private boolean compressed = false;
     private boolean topDown = false;
-    
-    /**
-     * Constructs an BMPEncodeParam object with default values for parameters.
-     */
+
+    /** Constructs an BMPEncodeParam object with default values for parameters. */
     public BMPEncodeParam() {}
 
     /** Sets the BMP version to be used. */
     public void setVersion(int versionNumber) {
-	checkVersion(versionNumber);
-	this.version = versionNumber;
+        checkVersion(versionNumber);
+        this.version = versionNumber;
     }
 
     /** Returns the BMP version to be used. */
     public int getVersion() {
-	return version;
+        return version;
     }
 
     /** If set, the data will be written out compressed, if possible. */
     public void setCompressed(boolean compressed) {
-	this.compressed = compressed;
+        this.compressed = compressed;
     }
 
-    /** 
-     * Returns the value of the parameter <code>compressed</code>.
-     */
+    /** Returns the value of the parameter <code>compressed</code>. */
     public boolean isCompressed() {
-	return compressed;
+        return compressed;
     }
 
-    /** 
-     * If set, the data will be written out in a top-down manner, the first
-     * scanline being written first.
-     */
+    /** If set, the data will be written out in a top-down manner, the first scanline being written first. */
     public void setTopDown(boolean topDown) {
-	this.topDown = topDown;
+        this.topDown = topDown;
     }
 
-    /**
-     * Returns the value of the <code>topDown</code> parameter.
-     */
+    /** Returns the value of the <code>topDown</code> parameter. */
     public boolean isTopDown() {
-	return topDown;
+        return topDown;
     }
 
     // Method to check whether we can handle the given version.
     private void checkVersion(int versionNumber) {
-	if ( !(versionNumber == VERSION_2 ||
-	       versionNumber == VERSION_3 ||
-	       versionNumber == VERSION_4) ) {
-	    throw new RuntimeException(JaiI18N.getString("BMPEncodeParam0")); 
-	}
+        if (!(versionNumber == VERSION_2 || versionNumber == VERSION_3 || versionNumber == VERSION_4)) {
+            throw new RuntimeException(JaiI18N.getString("BMPEncodeParam0"));
+        }
     }
-
 }

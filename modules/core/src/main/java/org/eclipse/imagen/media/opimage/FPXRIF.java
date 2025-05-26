@@ -16,21 +16,14 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.io.InputStream;
-import java.io.IOException;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.NullOpImage;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
-import org.eclipse.imagen.media.codec.SeekableStream;
 
 /**
- * A <code>RIF</code> supporting the "FPX" operation in the
- * rendered image layer.
+ * A <code>RIF</code> supporting the "FPX" operation in the rendered image layer.
  *
  * @see org.eclipse.imagen.operator.FPXDescriptor
  */
@@ -40,15 +33,12 @@ public class FPXRIF implements RenderedImageFactory {
     public FPXRIF() {}
 
     /**
-     * Creates a <code>RenderedImage</code> representing the contents
-     * of a FlashPIX-encoded image.
+     * Creates a <code>RenderedImage</code> representing the contents of a FlashPIX-encoded image.
      *
-     * @param paramBlock A <code>ParameterBlock</code> containing the FPX
-     *        <code>SeekableStream</code> to read.
+     * @param paramBlock A <code>ParameterBlock</code> containing the FPX <code>SeekableStream</code> to read.
      * @param renderHints Rendering hints.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         return CodecRIFUtil.create("fpx", paramBlock, renderHints);
     }
 }

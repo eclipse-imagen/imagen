@@ -7,9 +7,7 @@
  */
 package org.eclipse.imagen.builder;
 
-/**
- * Parameter used for RPE OperationDispatch, can be optional
- */
+/** Parameter used for RPE OperationDispatch, can be optional */
 public class Parameter {
     final String name;
     final Object value;

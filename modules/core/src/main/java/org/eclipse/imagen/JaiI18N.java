@@ -17,9 +17,9 @@
 
 package org.eclipse.imagen;
 
-import org.eclipse.imagen.media.util.PropertyUtil;
 import java.text.MessageFormat;
 import java.util.Locale;
+import org.eclipse.imagen.media.util.PropertyUtil;
 
 class JaiI18N {
     static String packageName = "org.eclipse.imagen";

@@ -16,37 +16,32 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
  * An <code>OpImage</code> implementing the "Clamp" operation.
  *
- * <p>This <code>OpImage</code> maps all the pixel values of an image
- * that are less than a lower bound to that lower bound value, and all that
- * are greater than a upper bound to that upper bound value. All pixel values
- * fall within these boundaries remain unchanged. The mapping is done on a 
- * per-band basis.
+ * <p>This <code>OpImage</code> maps all the pixel values of an image that are less than a lower bound to that lower
+ * bound value, and all that are greater than a upper bound to that upper bound value. All pixel values fall within
+ * these boundaries remain unchanged. The mapping is done on a per-band basis.
  *
- * <p>Each of the lower bound and upper bound arrays may have only
- * one value in it. If that is the case, that value is applied to all bands.
- * The number of elements in each array has to be consistent, i.e. either
- * all arrays contain one element in them or all they have the same number
- * of elements that matches the number of bands of the source image.
+ * <p>Each of the lower bound and upper bound arrays may have only one value in it. If that is the case, that value is
+ * applied to all bands. The number of elements in each array has to be consistent, i.e. either all arrays contain one
+ * element in them or all they have the same number of elements that matches the number of bands of the source image.
  *
  * @see org.eclipse.imagen.operator.ClampDescriptor
  * @see ClampCRIF
- *
- *
  * @since EA2
  */
 final class ClampOpImage extends PointOpImage {
@@ -62,44 +57,40 @@ final class ClampOpImage extends PointOpImage {
 
     private synchronized void initByteTable() {
 
-	if (byteTable == null) {
-	    /* Initialize byteTable. */
-	    int numBands = getSampleModel().getNumBands();
-	    byteTable = new byte[numBands][0x100];
-	    for (int b = 0; b < numBands; b++) {
-		byte[] t = byteTable[b];
-		int l = (int)low[b];
-		int h = (int)high[b];
+        if (byteTable == null) {
+            /* Initialize byteTable. */
+            int numBands = getSampleModel().getNumBands();
+            byteTable = new byte[numBands][0x100];
+            for (int b = 0; b < numBands; b++) {
+                byte[] t = byteTable[b];
+                int l = (int) low[b];
+                int h = (int) high[b];
 
-		byte bl = (byte)l;
-		byte bh = (byte)h;
+                byte bl = (byte) l;
+                byte bh = (byte) h;
 
-		for (int i = 0; i < 0x100; i++) {
-		    if (i < l) {
-			t[i] = bl;
-		    } else if (i > h) {
-			t[i] = bh;
-		    } else {
-			t[i] = (byte)i;
-		    }
-		}
-	    }
-	}
+                for (int i = 0; i < 0x100; i++) {
+                    if (i < l) {
+                        t[i] = bl;
+                    } else if (i > h) {
+                        t[i] = bh;
+                    } else {
+                        t[i] = (byte) i;
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Constructor.
      *
-     * @param source  The source image.
-     * @param layout  The destination image layout.
-     * @param low     The lower bound of the clamp.
-     * @param high    The upper bound of the clamp.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param low The lower bound of the clamp.
+     * @param high The upper bound of the clamp.
      */
-    public ClampOpImage(RenderedImage source,
-                        Map config,
-                        ImageLayout layout,
-                        double[] low,
-                        double[] high) {
+    public ClampOpImage(RenderedImage source, Map config, ImageLayout layout, double[] low, double[] high) {
         super(source, layout, config, true);
 
         int numBands = getSampleModel().getNumBands();
@@ -112,8 +103,8 @@ final class ClampOpImage extends PointOpImage {
                 this.high[i] = high[0];
             }
         } else {
-            this.low = (double[])low.clone();
-            this.high = (double[])high.clone();
+            this.low = (double[]) low.clone();
+            this.high = (double[]) high.clone();
         }
 
         // Set flag to permit in-place operation.
@@ -121,55 +112,48 @@ final class ClampOpImage extends PointOpImage {
     }
 
     /**
-     * Map the pixels inside a specified rectangle whose value is within a 
-     * range to a constant on a per-band basis.
+     * Map the pixels inside a specified rectangle whose value is within a range to a constant on a per-band basis.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
         Rectangle srcRect = mapDestRect(destRect, 0);
 
-        RasterAccessor src = new RasterAccessor(sources[0], srcRect,  
-                                                formatTags[0], 
-                                                getSourceImage(0).getColorModel());
-        RasterAccessor dst = new RasterAccessor(dest, destRect,  
-                                                formatTags[1], getColorModel());
+        RasterAccessor src = new RasterAccessor(
+                sources[0], srcRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor dst = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         switch (dst.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(src, dst);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(src, dst);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(src, dst);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(src, dst);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(src, dst);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(src, dst);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(src, dst);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(src, dst);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(src, dst);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(src, dst);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(src, dst);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(src, dst);
+                break;
         }
 
         dst.copyDataToRaster();
     }
 
-    private void computeRectByte(RasterAccessor src,
-                                 RasterAccessor dst) {
-	initByteTable();
+    private void computeRectByte(RasterAccessor src, RasterAccessor dst) {
+        initByteTable();
 
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
@@ -201,8 +185,7 @@ final class ClampOpImage extends PointOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] = t[s[srcPixelOffset] & 
-                                           ImageUtil.BYTE_MASK];
+                    d[dstPixelOffset] = t[s[srcPixelOffset] & ImageUtil.BYTE_MASK];
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -211,8 +194,7 @@ final class ClampOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectUShort(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectUShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -230,11 +212,11 @@ final class ClampOpImage extends PointOpImage {
         for (int b = 0; b < dstBands; b++) {
             short[] d = dstData[b];
             short[] s = srcData[b];
-            int lo = (int)low[b];
-            int hi = (int)high[b];
+            int lo = (int) low[b];
+            int hi = (int) high[b];
 
-            short slo = (short)lo;
-            short shi = (short)hi;
+            short slo = (short) lo;
+            short shi = (short) hi;
 
             int dstLineOffset = dstBandOffsets[b];
             int srcLineOffset = srcBandOffsets[b];
@@ -253,7 +235,7 @@ final class ClampOpImage extends PointOpImage {
                     } else if (p > hi) {
                         d[dstPixelOffset] = shi;
                     } else {
-                        d[dstPixelOffset] = (short)p;
+                        d[dstPixelOffset] = (short) p;
                     }
 
                     dstPixelOffset += dstPixelStride;
@@ -263,8 +245,7 @@ final class ClampOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -282,11 +263,11 @@ final class ClampOpImage extends PointOpImage {
         for (int b = 0; b < dstBands; b++) {
             short[] d = dstData[b];
             short[] s = srcData[b];
-            int lo = (int)low[b];
-            int hi = (int)high[b];
+            int lo = (int) low[b];
+            int hi = (int) high[b];
 
-            short slo = (short)lo;
-            short shi = (short)hi;
+            short slo = (short) lo;
+            short shi = (short) hi;
 
             int dstLineOffset = dstBandOffsets[b];
             int srcLineOffset = srcBandOffsets[b];
@@ -315,8 +296,7 @@ final class ClampOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -337,8 +317,8 @@ final class ClampOpImage extends PointOpImage {
             double lo = low[b];
             double hi = high[b];
 
-            int ilo = (int)lo;
-            int ihi = (int)hi;
+            int ilo = (int) lo;
+            int ihi = (int) hi;
 
             int dstLineOffset = dstBandOffsets[b];
             int srcLineOffset = srcBandOffsets[b];
@@ -367,8 +347,7 @@ final class ClampOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -389,8 +368,8 @@ final class ClampOpImage extends PointOpImage {
             double lo = low[b];
             double hi = high[b];
 
-            float flo = (float)lo;
-            float fhi = (float)hi;
+            float flo = (float) lo;
+            float fhi = (float) hi;
 
             int dstLineOffset = dstBandOffsets[b];
             int srcLineOffset = srcBandOffsets[b];
@@ -419,8 +398,7 @@ final class ClampOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();

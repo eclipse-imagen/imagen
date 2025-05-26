@@ -18,69 +18,60 @@
 package org.eclipse.imagen.media.util;
 
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RenderedOp;
 
 public class AreaOpPropertyGenerator extends PropertyGeneratorImpl {
     /** Constructor. */
     public AreaOpPropertyGenerator() {
-        super(new String[] {"ROI"},
-              new Class[] {ROI.class},
-              new Class[] {RenderedOp.class});
+        super(new String[] {"ROI"}, new Class[] {ROI.class}, new Class[] {RenderedOp.class});
     }
 
     /**
      * Returns the specified property in the rendered layer.
      *
-     * @param name   Property name.
+     * @param name Property name.
      * @param opNode Operation node.
      */
     public Object getProperty(String name, Object opNode) {
         validate(name, opNode);
 
-        if(opNode instanceof RenderedOp &&
-           name.equalsIgnoreCase("roi")) {
-            RenderedOp op = (RenderedOp)opNode;
+        if (opNode instanceof RenderedOp && name.equalsIgnoreCase("roi")) {
+            RenderedOp op = (RenderedOp) opNode;
 
             ParameterBlock pb = op.getParameterBlock();
 
             // Retrieve the rendered source image and its ROI.
-            PlanarImage src = (PlanarImage)pb.getRenderedSource(0);
+            PlanarImage src = (PlanarImage) pb.getRenderedSource(0);
             Object roiProperty = src.getProperty("ROI");
-            if(roiProperty == null ||
-               roiProperty == java.awt.Image.UndefinedProperty ||
-               !(roiProperty instanceof ROI)) {
+            if (roiProperty == null
+                    || roiProperty == java.awt.Image.UndefinedProperty
+                    || !(roiProperty instanceof ROI)) {
                 return java.awt.Image.UndefinedProperty;
             }
-            ROI roi = (ROI)roiProperty;
+            ROI roi = (ROI) roiProperty;
 
             // Determine the effective destination bounds.
             Rectangle dstBounds = null;
             PlanarImage dst = op.getRendering();
-            if(dst instanceof AreaOpImage &&
-               ((AreaOpImage)dst).getBorderExtender() == null) {
-                AreaOpImage aoi = (AreaOpImage)dst;
-                dstBounds =
-                    new Rectangle(aoi.getMinX() + aoi.getLeftPadding(),
-                                  aoi.getMinY() + aoi.getTopPadding(),
-                                  aoi.getWidth() -
-                                  aoi.getLeftPadding() -
-                                  aoi.getRightPadding(),
-                                  aoi.getHeight() -
-                                  aoi.getTopPadding() -
-                                  aoi.getBottomPadding());
+            if (dst instanceof AreaOpImage && ((AreaOpImage) dst).getBorderExtender() == null) {
+                AreaOpImage aoi = (AreaOpImage) dst;
+                dstBounds = new Rectangle(
+                        aoi.getMinX() + aoi.getLeftPadding(),
+                        aoi.getMinY() + aoi.getTopPadding(),
+                        aoi.getWidth() - aoi.getLeftPadding() - aoi.getRightPadding(),
+                        aoi.getHeight() - aoi.getTopPadding() - aoi.getBottomPadding());
             } else {
                 dstBounds = dst.getBounds();
             }
 
             // If necessary, clip the ROI to the destination bounds.
             // XXX Is this desirable?
-            if(!dstBounds.contains(roi.getBounds())) {
+            if (!dstBounds.contains(roi.getBounds())) {
                 roi = roi.intersect(new ROIShape(dstBounds));
             }
 

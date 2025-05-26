@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
@@ -30,24 +31,20 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
 import java.awt.image.WritableRenderedImage;
 import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Vector;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import org.eclipse.imagen.util.CaselessStringKey;
+import java.util.Map;
+import java.util.Vector;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
- * An abstract base class for image operators that require only the
- * (x, y) pixel from each source image in order to compute the
- * destination pixel (x, y).
+ * An abstract base class for image operators that require only the (x, y) pixel from each source image in order to
+ * compute the destination pixel (x, y).
  *
- * <p> <code>PointOpImage</code> is intended as a convenient
- * superclass for <code>OpImage</code>s that only need to look at each
- * destination pixel's corresponding source pixels.  Some examples are
- * lookup, contrast adjustment, pixel arithmetic, and color space
- * conversion.
+ * <p><code>PointOpImage</code> is intended as a convenient superclass for <code>OpImage</code>s that only need to look
+ * at each destination pixel's corresponding source pixels. Some examples are lookup, contrast adjustment, pixel
+ * arithmetic, and color space conversion.
  *
  * @see OpImage
  */
@@ -84,38 +81,37 @@ public abstract class PointOpImage extends OpImage {
     // END in-place fields.
 
     /** Fills in the default layout settings. */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            Vector sources,
-                                            Map config) {
+    private static ImageLayout layoutHelper(ImageLayout layout, Vector sources, Map config) {
         int numSources = sources.size();
 
-        if(numSources < 1) {
+        if (numSources < 1) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic5"));
         }
 
-        RenderedImage source0 = (RenderedImage)sources.get(0);
-        Rectangle isect =
-            new Rectangle(source0.getMinX(), source0.getMinY(),
-                          source0.getWidth(), source0.getHeight());
+        RenderedImage source0 = (RenderedImage) sources.get(0);
+        Rectangle isect = new Rectangle(
+                source0.getMinX(), source0.getMinY(),
+                source0.getWidth(), source0.getHeight());
 
         Rectangle rect = new Rectangle();
         for (int i = 1; i < numSources; i++) {
-            RenderedImage s = (RenderedImage)sources.get(i);
-            rect.setBounds(s.getMinX(), s.getMinY(),
-                           s.getWidth(), s.getHeight());
+            RenderedImage s = (RenderedImage) sources.get(i);
+            rect.setBounds(
+                    s.getMinX(), s.getMinY(),
+                    s.getWidth(), s.getHeight());
             isect = isect.intersection(rect);
         }
 
         if (isect.isEmpty()) {
-            throw new IllegalArgumentException(
-                JaiI18N.getString("PointOpImage0"));
+            throw new IllegalArgumentException(JaiI18N.getString("PointOpImage0"));
         }
 
-        if(layout == null) {
-            layout = new ImageLayout(isect.x, isect.y,
-                                     isect.width, isect.height);
+        if (layout == null) {
+            layout = new ImageLayout(
+                    isect.x, isect.y,
+                    isect.width, isect.height);
         } else {
-            layout = (ImageLayout)layout.clone();
+            layout = (ImageLayout) layout.clone();
             if (!layout.isValid(ImageLayout.MIN_X_MASK)) {
                 layout.setMinX(isect.x);
             }
@@ -129,18 +125,14 @@ public abstract class PointOpImage extends OpImage {
                 layout.setHeight(isect.height);
             }
 
-            Rectangle r = new Rectangle(layout.getMinX(null),
-                                        layout.getMinY(null),
-                                        layout.getWidth(null),
-                                        layout.getHeight(null));
+            Rectangle r = new Rectangle(
+                    layout.getMinX(null), layout.getMinY(null), layout.getWidth(null), layout.getHeight(null));
             if (r.isEmpty()) {
-                throw new IllegalArgumentException(
-                    JaiI18N.getString("PointOpImage1"));
+                throw new IllegalArgumentException(JaiI18N.getString("PointOpImage1"));
             }
 
             if (!isect.contains(r)) {
-                throw new IllegalArgumentException(
-                    JaiI18N.getString("PointOpImage2"));
+                throw new IllegalArgumentException(JaiI18N.getString("PointOpImage2"));
             }
         }
 
@@ -158,7 +150,7 @@ public abstract class PointOpImage extends OpImage {
             int bands = bands0;
 
             for (int i = 1; i < numSources; i++) {
-                RenderedImage source = (RenderedImage)sources.get(i);
+                RenderedImage source = (RenderedImage) sources.get(i);
                 sm = source.getSampleModel();
                 cm = source.getColorModel();
                 int sourceBands = getBandCount(sm, cm);
@@ -168,33 +160,27 @@ public abstract class PointOpImage extends OpImage {
             }
 
             // Force data type to byte for multi-band bilevel data.
-            if(dtype == PixelAccessor.TYPE_BIT && bands > 1) {
+            if (dtype == PixelAccessor.TYPE_BIT && bands > 1) {
                 dtype = DataBuffer.TYPE_BYTE;
             }
 
             // Set a new SampleModel if and only if that of source 0 is
             // not compatible.
             SampleModel sm0 = source0.getSampleModel();
-            if(dtype != sm0.getDataType() || bands != sm0.getNumBands()) {
+            if (dtype != sm0.getDataType() || bands != sm0.getNumBands()) {
                 int tw = layout.getTileWidth(source0);
                 int th = layout.getTileHeight(source0);
                 SampleModel sampleModel;
-                if(dtype == PixelAccessor.TYPE_BIT) {
-                    sampleModel =
-                        new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
-                                                        tw, th, 1);
+                if (dtype == PixelAccessor.TYPE_BIT) {
+                    sampleModel = new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE, tw, th, 1);
                 } else {
-                    sampleModel =
-                        RasterFactory.createPixelInterleavedSampleModel(dtype,
-                                                                        tw, th,
-                                                                        bands);
+                    sampleModel = RasterFactory.createPixelInterleavedSampleModel(dtype, tw, th, bands);
                 }
 
                 layout.setSampleModel(sampleModel);
 
                 // Set a new ColorModel only if this one is incompatible.
-                if(cm != null &&
-                   !JDKWorkarounds.areCompatibleDataModels(sampleModel, cm)) {
+                if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sampleModel, cm)) {
                     cm = ImageUtil.getCompatibleColorModel(sampleModel, config);
                     layout.setColorModel(cm);
                 }
@@ -204,39 +190,30 @@ public abstract class PointOpImage extends OpImage {
         return layout;
     }
 
-    /**
-     * Returns the pixel type.
-     */
+    /** Returns the pixel type. */
     private static int getPixelType(SampleModel sampleModel) {
-        return ImageUtil.isBinary(sampleModel) ?
-            PixelAccessor.TYPE_BIT : sampleModel.getDataType();
+        return ImageUtil.isBinary(sampleModel) ? PixelAccessor.TYPE_BIT : sampleModel.getDataType();
     }
 
-    /**
-     * Returns the number of bands.
-     */
-    private static int getBandCount(SampleModel sampleModel,
-                                    ColorModel colorModel) {
-        if(ImageUtil.isBinary(sampleModel)) {
+    /** Returns the number of bands. */
+    private static int getBandCount(SampleModel sampleModel, ColorModel colorModel) {
+        if (ImageUtil.isBinary(sampleModel)) {
             return 1;
-        } else  if (colorModel instanceof IndexColorModel) {
+        } else if (colorModel instanceof IndexColorModel) {
             return colorModel.getNumComponents();
         } else {
             return sampleModel.getNumBands();
         }
     }
 
-    /**
-     * Determine the appropriate data type for the SampleModel.
-     */
+    /** Determine the appropriate data type for the SampleModel. */
     private static int getAppropriateDataType(SampleModel sampleModel) {
         int dataType = sampleModel.getDataType();
         int retVal = dataType;
 
         if (ImageUtil.isBinary(sampleModel)) {
             retVal = PixelAccessor.TYPE_BIT;
-        } else if (dataType == DataBuffer.TYPE_USHORT ||
-            dataType == DataBuffer.TYPE_INT) {
+        } else if (dataType == DataBuffer.TYPE_USHORT || dataType == DataBuffer.TYPE_INT) {
             boolean canUseBytes = true;
             boolean canUseShorts = true;
 
@@ -263,13 +240,10 @@ public abstract class PointOpImage extends OpImage {
     }
 
     /**
-     * Returns a type (one of the enumerated constants from
-     * DataBuffer) that has sufficent range to contain values from
-     * either of two given types.  This corresponds to an upwards move
-     * in the type lattice.
+     * Returns a type (one of the enumerated constants from DataBuffer) that has sufficent range to contain values from
+     * either of two given types. This corresponds to an upwards move in the type lattice.
      *
-     * <p> Note that the merge of SHORT and USHORT is INT, so it is not
-     * correct to simply use the larger of the types.
+     * <p>Note that the merge of SHORT and USHORT is INT, so it is not correct to simply use the larger of the types.
      */
     private static int mergeTypes(int type0, int type1) {
         if (type0 == type1) {
@@ -281,40 +255,40 @@ public abstract class PointOpImage extends OpImage {
 
         // Use switch logic to avoid depending on monotonicity of
         // DataBuffer.TYPE_*.
-        switch(type0) {
-        case PixelAccessor.TYPE_BIT:
-        case DataBuffer.TYPE_BYTE:
-            // Do nothing.
-            break;
-        case DataBuffer.TYPE_SHORT:
-            if(type1 == DataBuffer.TYPE_BYTE) {
-                type = DataBuffer.TYPE_SHORT;
-            } else if(type1 == DataBuffer.TYPE_USHORT) {
-                type = DataBuffer.TYPE_INT;
-            }
-            break;
-        case DataBuffer.TYPE_USHORT:
-            if(type1 == DataBuffer.TYPE_BYTE) {
-                type = DataBuffer.TYPE_USHORT;
-            } else if(type1 == DataBuffer.TYPE_SHORT) {
-                type = DataBuffer.TYPE_INT;
-            }
-            break;
-        case DataBuffer.TYPE_INT:
-            if(type1 == DataBuffer.TYPE_BYTE ||
-               type1 == DataBuffer.TYPE_SHORT ||
-               type1 == DataBuffer.TYPE_USHORT) {
-                type = DataBuffer.TYPE_INT;
-            }
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            if(type1 != DataBuffer.TYPE_DOUBLE) {
-                type = DataBuffer.TYPE_FLOAT;
-            }
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            type = DataBuffer.TYPE_DOUBLE;
-            break;
+        switch (type0) {
+            case PixelAccessor.TYPE_BIT:
+            case DataBuffer.TYPE_BYTE:
+                // Do nothing.
+                break;
+            case DataBuffer.TYPE_SHORT:
+                if (type1 == DataBuffer.TYPE_BYTE) {
+                    type = DataBuffer.TYPE_SHORT;
+                } else if (type1 == DataBuffer.TYPE_USHORT) {
+                    type = DataBuffer.TYPE_INT;
+                }
+                break;
+            case DataBuffer.TYPE_USHORT:
+                if (type1 == DataBuffer.TYPE_BYTE) {
+                    type = DataBuffer.TYPE_USHORT;
+                } else if (type1 == DataBuffer.TYPE_SHORT) {
+                    type = DataBuffer.TYPE_INT;
+                }
+                break;
+            case DataBuffer.TYPE_INT:
+                if (type1 == DataBuffer.TYPE_BYTE
+                        || type1 == DataBuffer.TYPE_SHORT
+                        || type1 == DataBuffer.TYPE_USHORT) {
+                    type = DataBuffer.TYPE_INT;
+                }
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                if (type1 != DataBuffer.TYPE_DOUBLE) {
+                    type = DataBuffer.TYPE_FLOAT;
+                }
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                type = DataBuffer.TYPE_DOUBLE;
+                break;
         }
 
         return type;
@@ -323,151 +297,121 @@ public abstract class PointOpImage extends OpImage {
     /**
      * Constructor.
      *
-     * <p> There must be at least one valid source supplied via the
-     * <code>sources</code> argument.  However, there is no upper limit
-     * on the number of sources this image may have.
+     * <p>There must be at least one valid source supplied via the <code>sources</code> argument. However, there is no
+     * upper limit on the number of sources this image may have.
      *
-     * <p> The image's layout is encapsulated in the <code>layout</code>
-     * argument.  If the image bounds are supplied they must be contained
-     * within the intersected source bounds which must be non-empty.
-     * If the bounds are not supplied, they are calculated to be the
-     * intersection of the bounds of all sources.
+     * <p>The image's layout is encapsulated in the <code>layout</code> argument. If the image bounds are supplied they
+     * must be contained within the intersected source bounds which must be non-empty. If the bounds are not supplied,
+     * they are calculated to be the intersection of the bounds of all sources.
      *
-     * <p> If no <code>SampleModel</code> is specified in the layout, a new
-     * <code>SampleModel</code> will be created.  This <code>SampleModel</code>
-     * will have a number of bands equal to the minimum band count of all
-     * sources and a depth which can accomodate the data of all sources.
-     * The band count of sources which have an <code>IndexColorModel</code>
-     * will be set to the number of components of the
-     * <code>IndexColorModel</code> instead of to the number of bands of the
-     * <code>SampleModel</code>.
+     * <p>If no <code>SampleModel</code> is specified in the layout, a new <code>SampleModel</code> will be created.
+     * This <code>SampleModel</code> will have a number of bands equal to the minimum band count of all sources and a
+     * depth which can accomodate the data of all sources. The band count of sources which have an <code>IndexColorModel
+     * </code> will be set to the number of components of the <code>IndexColorModel</code> instead of to the number of
+     * bands of the <code>SampleModel</code>.
      *
-     * <p> In all cases, the layout is forwarded to the <code>OpImage</code>
-     * constructor which sets the default layout values in the standard way.
+     * <p>In all cases, the layout is forwarded to the <code>OpImage</code> constructor which sets the default layout
+     * values in the standard way.
      *
-     * @param layout  The layout parameters of the destination image.
-     * @param sources  The source images.
-     * @param configuration Configurable attributes of the image including
-     *        configuration variables indexed by
-     *        <code>RenderingHints.Key</code>s and image properties indexed
-     *        by <code>String</code>s or <code>CaselessStringKey</code>s.
-     *        This is simply forwarded to the superclass constructor.
-     * @param cobbleSources  <code>true</code> if computeRect() expects
-     *        contiguous sources.
-     *
-     * @throws IllegalArgumentException  If <code>sources</code> or any
-     *         object in <code>sources</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>sources</code> does not
-     *         contain at least one element.
-     * @throws ClassCastException  If any object in <code>sources</code>
-     *         is not a <code>RenderedImage</code>.
-     * @throws IllegalArgumentException  If combining the intersected
-     *         source bounds with the user-specified bounds, if any,
-     *         yields an empty rectangle, or the user-specified image bounds
-     *         extends beyond the intersection of all the source bounds.
-     *
+     * @param layout The layout parameters of the destination image.
+     * @param sources The source images.
+     * @param configuration Configurable attributes of the image including configuration variables indexed by <code>
+     *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
+     *     </code>s. This is simply forwarded to the superclass constructor.
+     * @param cobbleSources <code>true</code> if computeRect() expects contiguous sources.
+     * @throws IllegalArgumentException If <code>sources</code> or any object in <code>sources</code> is <code>null
+     *     </code>.
+     * @throws IllegalArgumentException if <code>sources</code> does not contain at least one element.
+     * @throws ClassCastException If any object in <code>sources</code> is not a <code>RenderedImage</code>.
+     * @throws IllegalArgumentException If combining the intersected source bounds with the user-specified bounds, if
+     *     any, yields an empty rectangle, or the user-specified image bounds extends beyond the intersection of all the
+     *     source bounds.
      * @since JAI 1.1
      */
-    public PointOpImage(Vector sources,
-                        ImageLayout layout,
-                        Map configuration,
-                        boolean cobbleSources) {
-        super(checkSourceVector(sources, true),
-              layoutHelper(layout, sources, configuration),
-              configuration,
-              cobbleSources);
+    public PointOpImage(Vector sources, ImageLayout layout, Map configuration, boolean cobbleSources) {
+        super(
+                checkSourceVector(sources, true),
+                layoutHelper(layout, sources, configuration),
+                configuration,
+                cobbleSources);
     }
 
     /**
-     * Constructs a <code>PointOpImage</code> with one source image.
-     * The image layout is computed as described in the constructor
-     * taking a <code>Vector</code> of sources.
-     *
-     * @param layout  The layout parameters of the destination image.
-     * @param source  The source image.
-     * @param configuration Configurable attributes of the image including
-     *        configuration variables indexed by
-     *        <code>RenderingHints.Key</code>s and image properties indexed
-     *        by <code>String</code>s or <code>CaselessStringKey</code>s.
-     *        This is simply forwarded to the superclass constructor.
-     * @param cobbleSources  Indicates whether <code>computeRect()</code>
-     *        expects contiguous sources.
-     *
-     * @throws IllegalArgumentException if <code>source</code>
-     *         is <code>null</code>.
-     *
-     * @since JAI 1.1
-     */
-    public PointOpImage(RenderedImage source,
-                        ImageLayout layout,
-                        Map configuration,
-                        boolean cobbleSources) {
-        this(vectorize(source), // vectorize() checks for null source.
-             layout, configuration, cobbleSources);
-    }
-
-    /**
-     * Constructs a <code>PointOpImage</code> with two source images.
-     * The image layout is computed as described in the constructor
-     * taking a <code>Vector</code> of sources.
-     *
-     * @param layout  The layout parameters of the destination image.
-     * @param source0  The first source image.
-     * @param source1  The second source image.
-     * @param configuration Configurable attributes of the image including
-     *        configuration variables indexed by
-     *        <code>RenderingHints.Key</code>s and image properties indexed
-     *        by <code>String</code>s or <code>CaselessStringKey</code>s.
-     *        This is simply forwarded to the superclass constructor.
-     * @param cobbleSources  Indicates whether <code>computeRect()</code>
-     *        expects contiguous sources.
-     *
-     * @throws IllegalArgumentException if <code>source0</code> or
-     *         <code>source1</code> is <code>null</code>.
-     *
-     * @since JAI 1.1
-     */
-    public PointOpImage(RenderedImage source0,
-                        RenderedImage source1,
-                        ImageLayout layout,
-                        Map configuration,
-                        boolean cobbleSources) {
-        this(vectorize(source0, source1), // vectorize() checks for null sources.
-             layout, configuration, cobbleSources);
-    }
-
-    /**
-     * Constructs a <code>PointOpImage</code> with three source
-     * images.  The image layout is computed as described in the
+     * Constructs a <code>PointOpImage</code> with one source image. The image layout is computed as described in the
      * constructor taking a <code>Vector</code> of sources.
      *
-     * @param layout  The layout parameters of the destination image.
-     * @param source0  The first source image.
-     * @param source1  The second source image.
-     * @param source2  The third source image.
-     * @param configuration Configurable attributes of the image including
-     *        configuration variables indexed by
-     *        <code>RenderingHints.Key</code>s and image properties indexed
-     *        by <code>String</code>s or <code>CaselessStringKey</code>s.
-     *        This is simply forwarded to the superclass constructor.
-     * @param cobbleSources  Indicates whether <code>computeRect()</code>
-     *        expects contiguous sources.
-     *
-     * @throws IllegalArgumentException if <code>source0</code> or
-     *         <code>source1</code> or <code>source2</code> is
-     *         <code>null</code>.
-     *
+     * @param layout The layout parameters of the destination image.
+     * @param source The source image.
+     * @param configuration Configurable attributes of the image including configuration variables indexed by <code>
+     *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
+     *     </code>s. This is simply forwarded to the superclass constructor.
+     * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
+     * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @since JAI 1.1
      */
-    public PointOpImage(RenderedImage source0,
-                        RenderedImage source1,
-                        RenderedImage source2,
-                        ImageLayout layout,
-                        Map configuration,
-                        boolean cobbleSources) {
-        this(vectorize(source0, source1, source2), // vectorize() checks null
-             layout, configuration, cobbleSources);
+    public PointOpImage(RenderedImage source, ImageLayout layout, Map configuration, boolean cobbleSources) {
+        this(
+                vectorize(source), // vectorize() checks for null source.
+                layout,
+                configuration,
+                cobbleSources);
+    }
 
+    /**
+     * Constructs a <code>PointOpImage</code> with two source images. The image layout is computed as described in the
+     * constructor taking a <code>Vector</code> of sources.
+     *
+     * @param layout The layout parameters of the destination image.
+     * @param source0 The first source image.
+     * @param source1 The second source image.
+     * @param configuration Configurable attributes of the image including configuration variables indexed by <code>
+     *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
+     *     </code>s. This is simply forwarded to the superclass constructor.
+     * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
+     * @throws IllegalArgumentException if <code>source0</code> or <code>source1</code> is <code>null</code>.
+     * @since JAI 1.1
+     */
+    public PointOpImage(
+            RenderedImage source0,
+            RenderedImage source1,
+            ImageLayout layout,
+            Map configuration,
+            boolean cobbleSources) {
+        this(
+                vectorize(source0, source1), // vectorize() checks for null sources.
+                layout,
+                configuration,
+                cobbleSources);
+    }
+
+    /**
+     * Constructs a <code>PointOpImage</code> with three source images. The image layout is computed as described in the
+     * constructor taking a <code>Vector</code> of sources.
+     *
+     * @param layout The layout parameters of the destination image.
+     * @param source0 The first source image.
+     * @param source1 The second source image.
+     * @param source2 The third source image.
+     * @param configuration Configurable attributes of the image including configuration variables indexed by <code>
+     *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
+     *     </code>s. This is simply forwarded to the superclass constructor.
+     * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
+     * @throws IllegalArgumentException if <code>source0</code> or <code>source1</code> or <code>source2</code> is
+     *     <code>null</code>.
+     * @since JAI 1.1
+     */
+    public PointOpImage(
+            RenderedImage source0,
+            RenderedImage source1,
+            RenderedImage source2,
+            ImageLayout layout,
+            Map configuration,
+            boolean cobbleSources) {
+        this(
+                vectorize(source0, source1, source2), // vectorize() checks null
+                layout,
+                configuration,
+                cobbleSources);
     }
 
     /*
@@ -475,8 +419,7 @@ public abstract class PointOpImage extends OpImage {
      */
     private synchronized void initializeFields() {
 
-        if (areFieldsInitialized)
-	    return;
+        if (areFieldsInitialized) return;
 
         PlanarImage source0 = getSource(0);
 
@@ -497,14 +440,14 @@ public abstract class PointOpImage extends OpImage {
             //      (source0 instanceof WritableRenderedImage &&
             //       isInPlaceHintSet))
             //
-	    Vector source0Sinks = source0.getSinks();
-            isInPlaceEnabled = source0 != null &&
-                getTileGridXOffset() == source0.getTileGridXOffset() &&
-                getTileGridYOffset() == source0.getTileGridYOffset() &&
-                getBounds().equals(source0.getBounds()) &&
-                source0 instanceof OpImage &&
-                hasCompatibleSampleModel(source0) &&
-		!(source0Sinks != null && source0Sinks.size() > 1);
+            Vector source0Sinks = source0.getSinks();
+            isInPlaceEnabled = source0 != null
+                    && getTileGridXOffset() == source0.getTileGridXOffset()
+                    && getTileGridYOffset() == source0.getTileGridYOffset()
+                    && getBounds().equals(source0.getBounds())
+                    && source0 instanceof OpImage
+                    && hasCompatibleSampleModel(source0)
+                    && !(source0Sinks != null && source0Sinks.size() > 1);
 
             // Ensure that source0 computes unique tiles, i.e.,
             // computesUniqueTiles() returns false.  This disqualifies
@@ -512,8 +455,7 @@ public abstract class PointOpImage extends OpImage {
             // of NullOpImage or of a subclass of NullOpImage or
             // SourcelessOpImage which does not override
             // computesUniqueTiles() to return true.
-            if (isInPlaceEnabled &&
-                !((OpImage)source0).computesUniqueTiles()) {
+            if (isInPlaceEnabled && !((OpImage) source0).computesUniqueTiles()) {
                 isInPlaceEnabled = false;
             }
 
@@ -521,21 +463,17 @@ public abstract class PointOpImage extends OpImage {
             // class of which source0 is an instance.
             if (isInPlaceEnabled) {
                 try {
-                    Method getTileMethod =
-                        source0.getClass().getMethod("getTile",
-                                                     new Class[] {int.class,
-                                                                  int.class});
-                    Class opImageClass =
-                        Class.forName("org.eclipse.imagen.OpImage");
+                    Method getTileMethod = source0.getClass().getMethod("getTile", new Class[] {int.class, int.class});
+                    Class opImageClass = Class.forName("org.eclipse.imagen.OpImage");
                     Class declaringClass = getTileMethod.getDeclaringClass();
 
                     // Unset in-place flag if getTile() is overridden.
-                    if(!declaringClass.equals(opImageClass)) {
+                    if (!declaringClass.equals(opImageClass)) {
                         isInPlaceEnabled = false;
                     }
-                } catch(ClassNotFoundException e) {
+                } catch (ClassNotFoundException e) {
                     isInPlaceEnabled = false;
-                } catch(NoSuchMethodException e) {
+                } catch (NoSuchMethodException e) {
                     isInPlaceEnabled = false;
                 }
             }
@@ -543,15 +481,13 @@ public abstract class PointOpImage extends OpImage {
             // Set local fields as a function of the in-place operation flag.
             if (isInPlaceEnabled) {
                 // Set the flag indicating source0's type.
-                source0IsWritableRenderedImage =
-                    source0 instanceof WritableRenderedImage;
+                source0IsWritableRenderedImage = source0 instanceof WritableRenderedImage;
 
                 // Cast the first source to one of the cached image variables.
                 if (source0IsWritableRenderedImage) {
-                    source0AsWritableRenderedImage =
-                        (WritableRenderedImage)source0;
+                    source0AsWritableRenderedImage = (WritableRenderedImage) source0;
                 } else {
-                    source0AsOpImage = (OpImage)source0;
+                    source0AsOpImage = (OpImage) source0;
                 }
             }
 
@@ -567,23 +503,25 @@ public abstract class PointOpImage extends OpImage {
         sameTileGrid = true;
 
         // Loop over all sources or until both flags are false.
-        for(int i = 0; i < numSources && (sameBounds || sameTileGrid); i++) {
+        for (int i = 0; i < numSources && (sameBounds || sameTileGrid); i++) {
             PlanarImage source = getSource(i);
 
             // Update the bounds flag.
             if (sameBounds) {
-                sameBounds = sameBounds &&
-                    minX == source.minX && minY == source.minY &&
-                    width == source.width && height == source.height;
+                sameBounds = sameBounds
+                        && minX == source.minX
+                        && minY == source.minY
+                        && width == source.width
+                        && height == source.height;
             }
 
             // Update the tile grid flag.
             if (sameTileGrid) {
-                sameTileGrid = sameTileGrid &&
-                    tileGridXOffset == source.tileGridXOffset &&
-                    tileGridYOffset == source.tileGridYOffset &&
-                    tileWidth == source.tileWidth &&
-                    tileHeight == source.tileHeight;
+                sameTileGrid = sameTileGrid
+                        && tileGridXOffset == source.tileGridXOffset
+                        && tileGridYOffset == source.tileGridYOffset
+                        && tileWidth == source.tileWidth
+                        && tileHeight == source.tileHeight;
             }
         }
 
@@ -604,52 +542,42 @@ public abstract class PointOpImage extends OpImage {
         SampleModel srcSM = src.getSampleModel();
         int numBands = sampleModel.getNumBands();
 
-        boolean isCompatible =
-            srcSM.getTransferType() == sampleModel.getTransferType() &&
-            srcSM.getWidth() == sampleModel.getWidth() &&
-            srcSM.getHeight() == sampleModel.getHeight() &&
-            srcSM.getNumBands() == numBands &&
-            srcSM.getClass().equals(sampleModel.getClass());
+        boolean isCompatible = srcSM.getTransferType() == sampleModel.getTransferType()
+                && srcSM.getWidth() == sampleModel.getWidth()
+                && srcSM.getHeight() == sampleModel.getHeight()
+                && srcSM.getNumBands() == numBands
+                && srcSM.getClass().equals(sampleModel.getClass());
 
         if (isCompatible) {
             if (sampleModel instanceof ComponentSampleModel) {
-                ComponentSampleModel smSrc = (ComponentSampleModel)srcSM;
-                ComponentSampleModel smDst = (ComponentSampleModel)sampleModel;
-                isCompatible = isCompatible &&
-                    smSrc.getPixelStride() == smDst.getPixelStride() &&
-                    smSrc.getScanlineStride() == smDst.getScanlineStride();
+                ComponentSampleModel smSrc = (ComponentSampleModel) srcSM;
+                ComponentSampleModel smDst = (ComponentSampleModel) sampleModel;
+                isCompatible = isCompatible
+                        && smSrc.getPixelStride() == smDst.getPixelStride()
+                        && smSrc.getScanlineStride() == smDst.getScanlineStride();
                 int[] biSrc = smSrc.getBankIndices();
                 int[] biDst = smDst.getBankIndices();
                 int[] boSrc = smSrc.getBandOffsets();
                 int[] boDst = smDst.getBandOffsets();
-                for(int b = 0; b < numBands && isCompatible; b++) {
-                    isCompatible = isCompatible &&
-                        biSrc[b] == biDst[b] &&
-                        boSrc[b] == boDst[b];
+                for (int b = 0; b < numBands && isCompatible; b++) {
+                    isCompatible = isCompatible && biSrc[b] == biDst[b] && boSrc[b] == boDst[b];
                 }
-            } else if (sampleModel instanceof
-                      SinglePixelPackedSampleModel) {
-                SinglePixelPackedSampleModel smSrc =
-                    (SinglePixelPackedSampleModel)srcSM;
-                SinglePixelPackedSampleModel smDst =
-                    (SinglePixelPackedSampleModel)sampleModel;
-                isCompatible = isCompatible &&
-                    smSrc.getScanlineStride() == smDst.getScanlineStride();
+            } else if (sampleModel instanceof SinglePixelPackedSampleModel) {
+                SinglePixelPackedSampleModel smSrc = (SinglePixelPackedSampleModel) srcSM;
+                SinglePixelPackedSampleModel smDst = (SinglePixelPackedSampleModel) sampleModel;
+                isCompatible = isCompatible && smSrc.getScanlineStride() == smDst.getScanlineStride();
                 int[] bmSrc = smSrc.getBitMasks();
                 int[] bmDst = smDst.getBitMasks();
-                for(int b = 0; b < numBands && isCompatible; b++) {
-                    isCompatible = isCompatible &&
-                        bmSrc[b] == bmDst[b];
+                for (int b = 0; b < numBands && isCompatible; b++) {
+                    isCompatible = isCompatible && bmSrc[b] == bmDst[b];
                 }
             } else if (sampleModel instanceof MultiPixelPackedSampleModel) {
-                MultiPixelPackedSampleModel smSrc =
-                    (MultiPixelPackedSampleModel)srcSM;
-                MultiPixelPackedSampleModel smDst =
-                    (MultiPixelPackedSampleModel)sampleModel;
-                isCompatible = isCompatible &&
-                    smSrc.getPixelBitStride() == smDst.getPixelBitStride() &&
-                    smSrc.getScanlineStride() == smDst.getScanlineStride() &&
-                    smSrc.getDataBitOffset() == smDst.getDataBitOffset();
+                MultiPixelPackedSampleModel smSrc = (MultiPixelPackedSampleModel) srcSM;
+                MultiPixelPackedSampleModel smDst = (MultiPixelPackedSampleModel) sampleModel;
+                isCompatible = isCompatible
+                        && smSrc.getPixelBitStride() == smDst.getPixelBitStride()
+                        && smSrc.getScanlineStride() == smDst.getScanlineStride()
+                        && smSrc.getDataBitOffset() == smDst.getDataBitOffset();
             } else {
                 isCompatible = false;
             }
@@ -659,53 +587,43 @@ public abstract class PointOpImage extends OpImage {
     }
 
     /**
-     * Causes a flag to be set to indicate that in-place operation should
-     * be permitted if the image bounds, tile grid offset, tile dimensions,
-     * and SampleModels of the source and destination images are compatible.
-     * This method should be invoked in the constructor of the implementation
-     * of a given operation only if that implementation is amenable to
-     * in-place computation.  Invocation of this method is a necessary but
-     * not a sufficient condition for in-place computation actually to occur.
-     * If the system property "org.eclipse.imagen.PointOpImage.InPlace" is equal
-     * to the string "false" in a case-insensitive fashion then in-place
-     * operation will not be permitted.
+     * Causes a flag to be set to indicate that in-place operation should be permitted if the image bounds, tile grid
+     * offset, tile dimensions, and SampleModels of the source and destination images are compatible. This method should
+     * be invoked in the constructor of the implementation of a given operation only if that implementation is amenable
+     * to in-place computation. Invocation of this method is a necessary but not a sufficient condition for in-place
+     * computation actually to occur. If the system property "org.eclipse.imagen.PointOpImage.InPlace" is equal to the
+     * string "false" in a case-insensitive fashion then in-place operation will not be permitted.
      */
     protected void permitInPlaceOperation() {
         // Retrieve the in-place property.
         Object inPlaceProperty = null;
         try {
-            inPlaceProperty =
-                AccessController.doPrivileged(new PrivilegedAction() {
-                    public Object run() {
-                        String name = "org.eclipse.imagen.PointOpImage.InPlace";
-                        return System.getProperty(name);
-                    }
-                });
+            inPlaceProperty = AccessController.doPrivileged(new PrivilegedAction() {
+                public Object run() {
+                    String name = "org.eclipse.imagen.PointOpImage.InPlace";
+                    return System.getProperty(name);
+                }
+            });
         } catch (SecurityException se) {
             /// as if the property isn't set
         }
         // Set the flag to false if and only if the property is set to
         // the string "false" (case-insensitive).
-        checkInPlaceOperation =
-            !(inPlaceProperty != null &&
-              inPlaceProperty instanceof String &&
-              ((String)inPlaceProperty).equalsIgnoreCase("false"));
+        checkInPlaceOperation = !(inPlaceProperty != null
+                && inPlaceProperty instanceof String
+                && ((String) inPlaceProperty).equalsIgnoreCase("false"));
     }
 
     /**
-     * Indicates whether the operation is being effected directly on the
-     * associated colormap.  This method will in general return
-     * <code>true</code> if the image is the destination of a unary,
-     * shift-invariant operation with an <code>IndexColorModel</code> equal
-     * to that of its unique source.
+     * Indicates whether the operation is being effected directly on the associated colormap. This method will in
+     * general return <code>true</code> if the image is the destination of a unary, shift-invariant operation with an
+     * <code>IndexColorModel</code> equal to that of its unique source.
      *
-     * <p> When this method returns <code>true</code> the
-     * <code>computeTile()</code> method in this class will return either
-     * a copy of the corresponding region of the first source image or,
-     * if the operation is being performed in place, the corresponding
-     * tile of the first source image.
+     * <p>When this method returns <code>true</code> the <code>computeTile()</code> method in this class will return
+     * either a copy of the corresponding region of the first source image or, if the operation is being performed in
+     * place, the corresponding tile of the first source image.
      *
-     * <p> The implementation in this class always returns <code>false</code>.
+     * <p>The implementation in this class always returns <code>false</code>.
      *
      * @since JAI 1.1
      */
@@ -714,19 +632,16 @@ public abstract class PointOpImage extends OpImage {
     }
 
     /**
-     * Computes a tile.  If source cobbling was requested at
-     * construction time, the source tile boundaries are overlayed
+     * Computes a tile. If source cobbling was requested at construction time, the source tile boundaries are overlayed
      * onto the destination and <code>computeRect(Raster[],
-     * WritableRaster, Rectangle)</code> is called for each of the
-     * resulting regions.  Otherwise, <code>computeRect(PlanarImage[],
-     * WritableRaster, Rectangle)</code> is called once to compute the
-     * entire active area of the tile.
+     * WritableRaster, Rectangle)</code> is called for each of the resulting regions. Otherwise, <code>
+     * computeRect(PlanarImage[],
+     * WritableRaster, Rectangle)</code> is called once to compute the entire active area of the tile.
      *
-     * <p> The image bounds may be larger than the bounds of the
-     * source image.  In this case, samples for which there are no
-     * corresponding sources are set to zero.
+     * <p>The image bounds may be larger than the bounds of the source image. In this case, samples for which there are
+     * no corresponding sources are set to zero.
      *
-     * @param tileX  The X index of the tile.
+     * @param tileX The X index of the tile.
      * @param tileY The Y index of the tile.
      */
     public Raster computeTile(int tileX, int tileY) {
@@ -735,29 +650,27 @@ public abstract class PointOpImage extends OpImage {
         }
 
         // Make sure the fields are initialized.
-	initializeFields();
+        initializeFields();
 
         // Get a WritableRaster to represent this tile.
         WritableRaster dest = null;
         if (isInPlaceEnabled) {
             if (source0IsWritableRenderedImage) {
                 // Check one out from the WritableRenderedImage source.
-                dest = source0AsWritableRenderedImage.getWritableTile(tileX,
-                                                                      tileY);
+                dest = source0AsWritableRenderedImage.getWritableTile(tileX, tileY);
             } else { // source0 is OpImage
                 // Re-use one from the OpImage source.
                 // First check whether the source raster is cached.
-                Raster raster =
-                    source0AsOpImage.getTileFromCache(tileX, tileY);
+                Raster raster = source0AsOpImage.getTileFromCache(tileX, tileY);
 
                 if (raster == null) {
                     // Compute the tile.
                     try {
                         raster = source0AsOpImage.computeTile(tileX, tileY);
                         if (raster instanceof WritableRaster) {
-                            dest = (WritableRaster)raster;
+                            dest = (WritableRaster) raster;
                         }
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         // Do nothing: this catch is simply in case the
                         // OpImage in question does not itself implement
                         // computeTile() in which case it may be resolved
@@ -779,8 +692,8 @@ public abstract class PointOpImage extends OpImage {
 
         // Colormap operation: return the source Raster if operating
         // in place or a copy thereof otherwise.
-        if(isColormapOperation()) {
-            if(!recyclingSource0Tile) {
+        if (isColormapOperation()) {
+            if (!recyclingSource0Tile) {
                 PlanarImage src = getSource(0);
                 Raster srcTile = null;
                 Rectangle srcRect = null;
@@ -792,14 +705,12 @@ public abstract class PointOpImage extends OpImage {
                     // Tile grids are aligned so the tile indices correspond
                     // to pixels at the same locations in source and destination
                     srcTile = getSource(0).getTile(tileX, tileY);
-                }
-                else if (dstRect.intersects(src.getBounds())) {
+                } else if (dstRect.intersects(src.getBounds())) {
                     // Tile grids are not aligned but the destination rectangle
                     // intersects the source bounds so get the data using
                     // the destination rectangle
                     srcTile = src.getData(dstRect);
-                }
-                else {
+                } else {
                     // The destination rectangle does not interest the source
                     // bounds so just return the destination.
                     return dest;
@@ -809,16 +720,16 @@ public abstract class PointOpImage extends OpImage {
 
                 // Ensure that the source tile doesn't lie outside the
                 // destination tile.
-                if(!dstRect.contains(srcRect)) {
+                if (!dstRect.contains(srcRect)) {
                     srcRect = dstRect.intersection(srcRect);
-                    srcTile =
-                        srcTile.createChild(srcTile.getMinX(),
-                                            srcTile.getMinY(),
-                                            srcRect.width,
-                                            srcRect.height,
-                                            srcRect.x,
-                                            srcRect.y,
-                                            null);
+                    srcTile = srcTile.createChild(
+                            srcTile.getMinX(),
+                            srcTile.getMinY(),
+                            srcRect.width,
+                            srcRect.height,
+                            srcRect.x,
+                            srcRect.y,
+                            null);
                 }
 
                 JDKWorkarounds.setRect(dest, srcTile, 0, 0);
@@ -857,20 +768,16 @@ public abstract class PointOpImage extends OpImage {
         if (recyclingSource0Tile && numSrcs == 1) {
             // Recycling tile from a single source.
             Raster[] sources = new Raster[] {dest};
-            Rectangle destRect = new Rectangle(destMinX, destMinY,
-                                               destMaxX - destMinX,
-                                               destMaxY - destMinY);
+            Rectangle destRect = new Rectangle(destMinX, destMinY, destMaxX - destMinX, destMaxY - destMinY);
             computeRect(sources, dest, destRect);
         } else if (recyclingSource0Tile && sameBounds && sameTileGrid) {
             // Recycling tile from first of layout-compatible sources.
             Raster[] sources = new Raster[numSrcs];
             sources[0] = dest;
-            for(int i = 1; i < numSrcs; i++) {
+            for (int i = 1; i < numSrcs; i++) {
                 sources[i] = getSource(i).getTile(tileX, tileY);
             }
-            Rectangle destRect = new Rectangle(destMinX, destMinY,
-                                               destMaxX - destMinX,
-                                               destMaxY - destMinY);
+            Rectangle destRect = new Rectangle(destMinX, destMinY, destMaxX - destMinX, destMaxY - destMinY);
             computeRect(sources, dest, destRect);
         } else {
             // Clip against source bounds only if necessary.
@@ -894,15 +801,13 @@ public abstract class PointOpImage extends OpImage {
                     }
 
                     if (destMinX >= destMaxX || destMinY >= destMaxY) {
-                        return dest;	// no corresponding source region
+                        return dest; // no corresponding source region
                     }
                 }
             }
 
             // Initialize the (possibly clipped) destination Rectangle.
-            Rectangle destRect = new Rectangle(destMinX, destMinY,
-                                               destMaxX - destMinX,
-                                               destMaxY - destMinY);
+            Rectangle destRect = new Rectangle(destMinX, destMinY, destMaxX - destMinX, destMaxY - destMinY);
 
             // Allocate memory for source Rasters.
             Raster[] sources = new Raster[numSrcs];
@@ -923,13 +828,11 @@ public abstract class PointOpImage extends OpImage {
                 // The tileWidth and tileHeight of the source image
                 // may differ from this tileWidth and tileHeight.
                 //
-                IntegerSequence xSplits =
-                    new IntegerSequence(destMinX, destMaxX);
+                IntegerSequence xSplits = new IntegerSequence(destMinX, destMaxX);
                 xSplits.insert(destMinX);
                 xSplits.insert(destMaxX);
 
-                IntegerSequence ySplits =
-                    new IntegerSequence(destMinY, destMaxY);
+                IntegerSequence ySplits = new IntegerSequence(destMinY, destMaxY);
                 ySplits.insert(destMinY);
                 ySplits.insert(destMaxY);
 
@@ -951,8 +854,7 @@ public abstract class PointOpImage extends OpImage {
                     h = y2 - y1;
 
                     xSplits.startEnumeration();
-                    for (x1 = xSplits.nextElement();
-                         xSplits.hasMoreElements(); x1 = x2) {
+                    for (x1 = xSplits.nextElement(); xSplits.hasMoreElements(); x1 = x2) {
                         x2 = xSplits.nextElement();
                         w = x2 - x1;
 
@@ -960,8 +862,7 @@ public abstract class PointOpImage extends OpImage {
                         if (recyclingSource0Tile) {
                             sources[0] = dest;
                         }
-                        for (int i = recyclingSource0Tile ? 1: 0;
-                             i < numSrcs; i++) {
+                        for (int i = recyclingSource0Tile ? 1 : 0; i < numSrcs; i++) {
                             PlanarImage s = getSource(i);
                             int tx = s.XToTileX(x1);
                             int ty = s.YToTileY(y1);
@@ -986,23 +887,20 @@ public abstract class PointOpImage extends OpImage {
     }
 
     /**
-     * Returns a conservative estimate of the destination region that
-     * can potentially be affected by the pixels of a rectangle of a
-     * given source. The resulting <code>Rectangle</code> is <u>not</u>
-     * clipped to the destination image bounds.
+     * Returns a conservative estimate of the destination region that can potentially be affected by the pixels of a
+     * rectangle of a given source. The resulting <code>Rectangle</code> is <u>not</u> clipped to the destination image
+     * bounds.
      *
      * @param sourceRect the <code>Rectangle</code> in source coordinates.
      * @param sourceIndex the index of the source image.
-     * @return a <code>Rectangle</code> indicating the potentially affected
-     *         destination region, or <code>null</code> if the region is unknown.
-     * @throws IllegalArgumentException if <code>sourceIndex</code> is
-     *         negative or greater than the index of the last source.
-     * @throws IllegalArgumentException if <code>sourceRect</code> is
-     *         <code>null</code>.
+     * @return a <code>Rectangle</code> indicating the potentially affected destination region, or <code>null</code> if
+     *     the region is unknown.
+     * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
+     *     source.
+     * @throws IllegalArgumentException if <code>sourceRect</code> is <code>null</code>.
      */
-    public final Rectangle mapSourceRect(Rectangle sourceRect,
-                                         int sourceIndex) {
-        if ( sourceRect == null ) {
+    public final Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
+        if (sourceRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -1013,24 +911,19 @@ public abstract class PointOpImage extends OpImage {
     }
 
     /**
-     * Returns a conservative estimate of the region of a specific
-     * source that is required in order to compute the pixels of a
-     * given destination rectangle. The resulting <code>Rectangle</code>
-     * is <u>not</u> clipped to the source image bounds.
+     * Returns a conservative estimate of the region of a specific source that is required in order to compute the
+     * pixels of a given destination rectangle. The resulting <code>Rectangle</code> is <u>not</u> clipped to the source
+     * image bounds.
      *
      * @param destRect the <code>Rectangle</code> in source coordinates.
      * @param sourceIndex the index of the source image.
-     * @return a <code>Rectangle</code> indicating the potentially affected
-     *         destination region.
-     *
-     * @throws IllegalArgumentException if <code>sourceIndex</code> is
-     *         negative or greater than the index of the last source.
-     * @throws IllegalArgumentException if <code>destRect</code> is
-     *         <code>null</code>.
+     * @return a <code>Rectangle</code> indicating the potentially affected destination region.
+     * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
+     *     source.
+     * @throws IllegalArgumentException if <code>destRect</code> is <code>null</code>.
      */
-    public final Rectangle mapDestRect(Rectangle destRect,
-                                       int sourceIndex) {
-        if ( destRect == null ) {
+    public final Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
+        if (destRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -1043,21 +936,20 @@ public abstract class PointOpImage extends OpImage {
     /**
      * Disposes of any remaining tiles in the <code>TileCache</code>.
      *
-     * <p>If <code>cache</code> is non-<code>null</code>, in place operation
-     * is enabled, and <code>tileRecycler</code> is non-<code>null</code>,
-     * then all tiles owned by this specific image are removed from the cache.
-     * Subsequent to this <code>super.dispose()</code> is invoked.</p>
+     * <p>If <code>cache</code> is non-<code>null</code>, in place operation is enabled, and <code>tileRecycler</code>
+     * is non-<code>null</code>, then all tiles owned by this specific image are removed from the cache. Subsequent to
+     * this <code>super.dispose()</code> is invoked.
      *
      * @since JAI 1.1.2
      */
     public synchronized void dispose() {
-        if(isDisposed) {
+        if (isDisposed) {
             return;
         }
 
         isDisposed = true;
 
-        if(cache != null && isInPlaceEnabled && tileRecycler != null) {
+        if (cache != null && isInPlaceEnabled && tileRecycler != null) {
             cache.removeTiles(this);
         }
 

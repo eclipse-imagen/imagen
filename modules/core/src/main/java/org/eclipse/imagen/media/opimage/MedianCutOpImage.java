@@ -16,31 +16,25 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Image;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.WritableRaster;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.LookupTableJAI;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.UnpackedImageData;
-import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
- * An <code>OpImage</code> implementing the "ColorQuantizer" operation as
- * described in <code>org.eclipse.imagen.operator.ExtremaDescriptor</code>
- * based on the median-cut algorithm.
+ * An <code>OpImage</code> implementing the "ColorQuantizer" operation as described in <code>
+ * org.eclipse.imagen.operator.ExtremaDescriptor</code> based on the median-cut algorithm.
  *
  * @see org.eclipse.imagen.operator.ExtremaDescriptor
  * @see ExtremaCRIF
@@ -55,9 +49,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
     /** The colors for the color histogram. */
     private int[] colors;
 
-    /** The partition of the RGB color space.  Each cube contains one
-     *  cluster.
-     */
+    /** The partition of the RGB color space. Each cube contains one cluster. */
     private Cube[] partition;
 
     /** The maximum number of bits to contains 32768 colors. */
@@ -72,16 +64,17 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
     /**
      * Constructs an <code>MedianCutOpImage</code>.
      *
-     * @param source  The source image.
+     * @param source The source image.
      */
-    public MedianCutOpImage(RenderedImage source,
-                            Map config,
-                            ImageLayout layout,
-                            int maxColorNum,
-                            int upperBound,
-                            ROI roi,
-                            int xPeriod,
-                            int yPeriod) {
+    public MedianCutOpImage(
+            RenderedImage source,
+            Map config,
+            ImageLayout layout,
+            int maxColorNum,
+            int upperBound,
+            ROI roi,
+            int xPeriod,
+            int yPeriod) {
         super(source, config, layout, maxColorNum, roi, xPeriod, yPeriod);
 
         colorMap = null;
@@ -90,8 +83,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
 
     protected synchronized void train() {
         PlanarImage source = getSourceImage(0);
-        if (roi == null)
-            roi = new ROIShape(source.getBounds());
+        if (roi == null) roi = new ROIShape(source.getBounds());
 
         // Cycle throw all source tiles.
         int minTileX = source.getMinTileX();
@@ -103,7 +95,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
 
         histogram = new HistogramHash(histogramSize);
 
-        while(true) {
+        while (true) {
             histogram.init();
             int oldbits = bits;
             mask = (255 << 8 - bits) & 255;
@@ -121,36 +113,26 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
 
                         // If checking for skipped tiles determine
                         // whether this tile is "hit".
-                        if (checkForSkippedTiles &&
-                            tileRect.x >= xStart &&
-                            tileRect.y >= yStart) {
+                        if (checkForSkippedTiles && tileRect.x >= xStart && tileRect.y >= yStart) {
                             // Determine the offset within the tile.
-                            int offsetX =
-                                (xPeriod - ((tileRect.x - xStart) % xPeriod)) %
-                                xPeriod;
-                            int offsetY =
-                                (yPeriod - ((tileRect.y - yStart) % yPeriod)) %
-                                yPeriod;
+                            int offsetX = (xPeriod - ((tileRect.x - xStart) % xPeriod)) % xPeriod;
+                            int offsetY = (yPeriod - ((tileRect.y - yStart) % yPeriod)) % yPeriod;
 
                             // Continue with next tile if offset
                             // is larger than either tile dimension.
-                            if (offsetX >= tileRect.width ||
-                                offsetY >= tileRect.height) {
+                            if (offsetX >= tileRect.width || offsetY >= tileRect.height) {
                                 continue;
                             }
                         }
 
                         // add the histogram.
                         computeHistogram(source.getData(tileRect));
-                        if (histogram.isFull())
-                            break;
+                        if (histogram.isFull()) break;
                     }
                 }
 
-                if (histogram.isFull())
-                    break;
+                if (histogram.isFull()) break;
             }
-
 
             if (oldbits == bits) {
                 counts = histogram.getCounts();
@@ -165,25 +147,20 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
     }
 
     private void computeHistogram(Raster source) {
-        if(!isInitialized) {
+        if (!isInitialized) {
             srcPA = new PixelAccessor(getSourceImage(0));
-            srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ?
-                DataBuffer.TYPE_BYTE : srcPA.sampleType;
+            srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ? DataBuffer.TYPE_BYTE : srcPA.sampleType;
             isInitialized = true;
         }
 
-        Rectangle srcBounds = getSourceImage(0).getBounds().intersection(
-                                                  source.getBounds());
+        Rectangle srcBounds = getSourceImage(0).getBounds().intersection(source.getBounds());
 
         LinkedList rectList;
-        if (roi == null) {	// ROI is the whole Raster
+        if (roi == null) { // ROI is the whole Raster
             rectList = new LinkedList();
             rectList.addLast(srcBounds);
         } else {
-            rectList = roi.getAsRectangleList(srcBounds.x,
-                                              srcBounds.y,
-                                              srcBounds.width,
-                                              srcBounds.height);
+            rectList = roi.getAsRectangleList(srcBounds.x, srcBounds.y, srcBounds.width, srcBounds.height);
             if (rectList == null) {
                 return; // ROI does not intersect with Raster boundary.
             }
@@ -194,7 +171,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
         int yStart = source.getMinY();
 
         while (iterator.hasNext()) {
-            Rectangle rect = srcBounds.intersection((Rectangle)iterator.next());
+            Rectangle rect = srcBounds.intersection((Rectangle) iterator.next());
             int tx = rect.x;
             int ty = rect.y;
 
@@ -205,15 +182,14 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
             rect.height = ty + rect.height - rect.y;
 
             if (rect.isEmpty()) {
-                continue;	// no pixel to count in this rectangle
+                continue; // no pixel to count in this rectangle
             }
 
-            UnpackedImageData uid = srcPA.getPixels(source, rect,
-                                                    srcSampleType, false);
+            UnpackedImageData uid = srcPA.getPixels(source, rect, srcSampleType, false);
             switch (uid.type) {
-            case DataBuffer.TYPE_BYTE:
-                computeHistogramByte(uid);
-                break;
+                case DataBuffer.TYPE_BYTE:
+                    computeHistogramByte(uid);
+                    break;
             }
         }
     }
@@ -236,9 +212,9 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
             int lastPixel = lo + rect.width * pixelStride;
 
             for (int po = lo; po < lastPixel; po += pixelInc) {
-                int p = ((rBand[po + uid.bandOffsets[0]] & 0xff)<<16) |
-                        ((gBand[po + uid.bandOffsets[1]] & 0xff) <<8) |
-                        (bBand[po + uid.bandOffsets[2]] & 0xff);
+                int p = ((rBand[po + uid.bandOffsets[0]] & 0xff) << 16)
+                        | ((gBand[po + uid.bandOffsets[1]] & 0xff) << 8)
+                        | (bBand[po + uid.bandOffsets[2]] & 0xff);
                 if (!histogram.insert(p & mask)) {
                     bits--;
                     return;
@@ -247,9 +223,9 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
         }
     }
 
-    /** Applies the Heckbert's median-cut algorithm to partition the color
-     *  space into <code>maxcubes</code> cubes. The centroids
-     *  of each cube are are used to create a color table.
+    /**
+     * Applies the Heckbert's median-cut algorithm to partition the color space into <code>maxcubes</code> cubes. The
+     * centroids of each cube are are used to create a color table.
      */
     public void medianCut(int expectedColorNum) {
         int k;
@@ -262,40 +238,39 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
         int numCubes = 0;
         Cube cube = new Cube();
         int numColors = 0;
-        for (int i=0; i < histogramSize; i++) {
+        for (int i = 0; i < histogramSize; i++) {
             if (counts[i] != 0) {
                 numColors++;
                 cube.count = cube.count + counts[i];
             }
         }
 
-        cube.lower = 0; cube.upper = numColors-1;
+        cube.lower = 0;
+        cube.upper = numColors - 1;
         cube.level = 0;
         shrinkCube(cube);
         partition[numCubes++] = cube;
 
-        //Partition the cubes until the expected number of cubes are reached, or
+        // Partition the cubes until the expected number of cubes are reached, or
         // cannot further partition
         while (numCubes < expectedColorNum) {
             // Search the list of cubes for next cube to split, the lowest level cube
             int level = 255;
             int splitableCube = -1;
 
-            for (k=0; k < numCubes; k++) {
-                if (partition[k].lower != partition[k].upper
-                    && partition[k].level < level) {
+            for (k = 0; k < numCubes; k++) {
+                if (partition[k].lower != partition[k].upper && partition[k].level < level) {
                     level = partition[k].level;
                     splitableCube = k;
                 }
             }
 
             // no more cubes to split
-            if (splitableCube == -1)
-                break;
+            if (splitableCube == -1) break;
 
             // Find longest dimension of this cube: 0 - red, 1 - green, 2 - blue
             cube = partition[splitableCube];
-	    level = cube.level;
+            level = cube.level;
 
             // Weigted with luminosities
             int lr = 77 * (cube.rmax - cube.rmin);
@@ -314,7 +289,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
             int count = 0;
             int median = cube.lower;
             for (; median <= cube.upper - 1; median++) {
-                if (count >= cube.count/2) break;
+                if (count >= cube.count / 2) break;
                 count = count + counts[median];
             }
 
@@ -322,11 +297,11 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
             // cubes to the list of cubes.
             cubeA = new Cube();
             cubeA.lower = cube.lower;
-            cubeA.upper = median-1;
+            cubeA.upper = median - 1;
             cubeA.count = count;
             cubeA.level = cube.level + 1;
             shrinkCube(cubeA);
-            partition[splitableCube] = cubeA;             // add in old slot
+            partition[splitableCube] = cubeA; // add in old slot
 
             cubeB = new Cube();
             cubeB.lower = median;
@@ -334,16 +309,14 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
             cubeB.count = cube.count - count;
             cubeB.level = cube.level + 1;
             shrinkCube(cubeB);
-            partition[numCubes++] = cubeB;             // add in new slot */
+            partition[numCubes++] = cubeB; // add in new slot */
         }
 
         // creates the lookup table and the inverse mapping
         createLUT(numCubes);
     }
 
-    /** Shrinks the provided <code>Cube</code> to a smallest contains
-     *  the same colors defined in the histogram.
-     */
+    /** Shrinks the provided <code>Cube</code> to a smallest contains the same colors defined in the histogram. */
     private void shrinkCube(Cube cube) {
         int rmin = 255;
         int rmax = 0;
@@ -351,7 +324,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
         int gmax = 0;
         int bmin = 255;
         int bmax = 0;
-        for (int i=cube.lower; i<=cube.upper; i++) {
+        for (int i = cube.lower; i <= cube.upper; i++) {
             int color = colors[i];
             int r = color >> 16;
             int g = (color >> 8) & 255;
@@ -366,11 +339,13 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
             else if (b < bmin) bmin = b;
         }
 
-        cube.rmin = rmin; cube.rmax = rmax;
-        cube.gmin = gmin; cube.gmax = gmax;
-        cube.bmin = bmin; cube.bmax = bmax;
+        cube.rmin = rmin;
+        cube.rmax = rmax;
+        cube.gmin = gmin;
+        cube.gmax = gmax;
+        cube.bmin = bmin;
+        cube.bmax = bmax;
     }
-
 
     /** Creates the lookup table and computes the inverse mapping. */
     private void createLUT(int ncubes) {
@@ -384,79 +359,73 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
 
         float scale = 255.0f / (mask & 255);
 
-        for (int k=0; k < ncubes; k++) {
+        for (int k = 0; k < ncubes; k++) {
             Cube cube = partition[k];
             float rsum = 0.0f, gsum = 0.0f, bsum = 0.0f;
             int r, g, b;
-            for (int i=cube.lower; i<=cube.upper; i++) {
+            for (int i = cube.lower; i <= cube.upper; i++) {
                 int color = colors[i];
                 r = color >> 16;
-                rsum += (float)r*(float)counts[i];
+                rsum += (float) r * (float) counts[i];
                 g = (color >> 8) & 255;
-                gsum += (float)g*(float)counts[i];
+                gsum += (float) g * (float) counts[i];
                 b = color & 255;
-                bsum += (float)b*(float)counts[i];
+                bsum += (float) b * (float) counts[i];
             }
 
             // Update the color map
-            rLUT[k] = (byte)(rsum/(float)cube.count * scale);
-            gLUT[k] = (byte)(gsum/(float)cube.count * scale);
-            bLUT[k] = (byte)(bsum/(float)cube.count * scale);
+            rLUT[k] = (byte) (rsum / (float) cube.count * scale);
+            gLUT[k] = (byte) (gsum / (float) cube.count * scale);
+            bLUT[k] = (byte) (bsum / (float) cube.count * scale);
         }
     }
 
     void quickSort(int a[], int lo0, int hi0, int longDimMask) {
-   // Based on the QuickSort method by James Gosling from Sun's SortDemo applet
+        // Based on the QuickSort method by James Gosling from Sun's SortDemo applet
 
-      int lo = lo0;
-      int hi = hi0;
-      int mid, t;
+        int lo = lo0;
+        int hi = hi0;
+        int mid, t;
 
-      if ( hi0 > lo0) {
-         mid = a[ ( lo0 + hi0 ) / 2 ] & longDimMask;
-         while( lo <= hi ) {
-            while( ( lo < hi0 ) && ( (a[lo] & longDimMask) < mid ) )
-               ++lo;
-            while( ( hi > lo0 ) && ( (a[hi] & longDimMask) > mid ) )
-               --hi;
-            if( lo <= hi ) {
-              t = a[lo];
-              a[lo] = a[hi];
-              a[hi] = t;
+        if (hi0 > lo0) {
+            mid = a[(lo0 + hi0) / 2] & longDimMask;
+            while (lo <= hi) {
+                while ((lo < hi0) && ((a[lo] & longDimMask) < mid)) ++lo;
+                while ((hi > lo0) && ((a[hi] & longDimMask) > mid)) --hi;
+                if (lo <= hi) {
+                    t = a[lo];
+                    a[lo] = a[hi];
+                    a[hi] = t;
 
-              t = counts[lo];
-              counts[lo] = counts[hi];
-              counts[hi] = t;
+                    t = counts[lo];
+                    counts[lo] = counts[hi];
+                    counts[hi] = t;
 
-               ++lo;
-               --hi;
+                    ++lo;
+                    --hi;
+                }
             }
-         }
-         if( lo0 < hi )
-            quickSort( a, lo0, hi, longDimMask);
-         if( lo < hi0 )
-            quickSort( a, lo, hi0, longDimMask);
-      }
-   }
+            if (lo0 < hi) quickSort(a, lo0, hi, longDimMask);
+            if (lo < hi0) quickSort(a, lo, hi0, longDimMask);
+        }
+    }
 }
 
-class Cube {            // structure for a cube in color space
-    int  lower;         // one corner's index in histogram
-    int  upper;         // another corner's index in histogram
-    int  count;         // cube's histogram count
-    int  level;         // cube's level
-    int  rmin, rmax;
-    int  gmin, gmax;
-    int  bmin, bmax;
+class Cube { // structure for a cube in color space
+    int lower; // one corner's index in histogram
+    int upper; // another corner's index in histogram
+    int count; // cube's histogram count
+    int level; // cube's level
+    int rmin, rmax;
+    int gmin, gmax;
+    int bmin, bmax;
 
     Cube() {
         count = 0;
     }
 }
 
-/** A hash table for the color histogram.  This is based on the first
- *  hashtable algorithm I learnt.
- */
+/** A hash table for the color histogram. This is based on the first hashtable algorithm I learnt. */
 class HistogramHash {
     int capacity;
     int[] colors;
@@ -557,14 +526,12 @@ class HistogramHash {
     }
 
     int[] getCounts() {
-        if (!packed)
-            pack();
+        if (!packed) pack();
         return newCounts;
     }
 
     int[] getColors() {
-        if (!packed)
-            pack();
+        if (!packed) pack();
         return newColors;
     }
 
@@ -584,8 +551,6 @@ class HistogramHash {
     }
 
     int hashCode(int value) {
-        return ((value >> 16) * 33023 + ((value >> 8) & 255) * 30013
-                + (value & 255) * 27011) % hashsize ;
-
+        return ((value >> 16) * 33023 + ((value >> 8) & 255) * 30013 + (value & 255) * 27011) % hashsize;
     }
 }

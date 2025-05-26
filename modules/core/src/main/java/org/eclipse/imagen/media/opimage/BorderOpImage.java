@@ -16,120 +16,86 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Point;
+
 import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.BorderExtenderConstant;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.IntegerSequence;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RasterFactory;
-import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import java.util.Map;
-import org.eclipse.imagen.iterator.RandomIter;
-import org.eclipse.imagen.iterator.RandomIterFactory;
-import org.eclipse.imagen.operator.BorderDescriptor;
-import org.eclipse.imagen.media.util.ImageUtil;
+import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.OpImage;
 
 /**
  * An <code>OpImage</code> implementing the "border" operation.
  *
- * <p>It adds a border around a source image. The size of the border
- * is specified by the left, right, top, and bottom padding parameters.
- * The border may be filled in a variety of ways specified by the
- * border type parameter, defined in
+ * <p>It adds a border around a source image. The size of the border is specified by the left, right, top, and bottom
+ * padding parameters. The border may be filled in a variety of ways specified by the border type parameter, defined in
  * <code>org.eclipse.imagen.operator.BorderDescriptor</code>:
+ *
  * <ul>
- * <li> it may be extended with zeros (BORDER_ZERO_FILL);
- * <li> it may be extended with a constant set of values (BORDER_CONST_FILL);
- * <li) it may be created by copying the edge and corner pixels
+ *   <li>it may be extended with zeros (BORDER_ZERO_FILL);
+ *   <li>it may be extended with a constant set of values (BORDER_CONST_FILL);
+ *   <li) it may be created by copying the edge and corner pixels
  *      (BORDER_EXTEND);
- * <li> it may be created by reflection about the edges of the image
- *      (BORDER_REFLECT); or,
- * <li> it may be extended by "wrapping" the image plane toroidally,
- *      that is, joining opposite edges of the image.
+ * <li>it may be created by
+ *       reflection about the edges of the image (BORDER_REFLECT); or,
+ *   <li>it may be extended by "wrapping" the image plane toroidally, that is, joining opposite edges of the image.
  * </ul>
  *
- * <p>When choosing the <code>BORDER_CONST_FILL</code> option, an array
- * of constants must be supplied. The array must have at least one element,
- * in which case this same constant is applied to all image bands. Or,
- * it may have a different constant entry for each cooresponding band.
- * For all other border types, this <code>constants</code> parameter may
- * be <code>null</code>.
+ * <p>When choosing the <code>BORDER_CONST_FILL</code> option, an array of constants must be supplied. The array must
+ * have at least one element, in which case this same constant is applied to all image bands. Or, it may have a
+ * different constant entry for each cooresponding band. For all other border types, this <code>constants</code>
+ * parameter may be <code>null</code>.
  *
- * <p>The layout information for this image may be specified via the
- * <code>layout</code> parameter. However, due to the nature of this
- * operation, the <code>minX</code>, <code>minY</code>, <code>width</code>,
- * and <code>height</code>, if specified, will be ignored. They will
- * be calculated based on the source's dimensions and the padding values.
- * Likewise, the <code>SampleModel</code> and </code>ColorModel</code> hints
- * will be ignored.
+ * <p>The layout information for this image may be specified via the <code>layout</code> parameter. However, due to the
+ * nature of this operation, the <code>minX</code>, <code>minY</code>, <code>width</code>, and <code>height</code>, if
+ * specified, will be ignored. They will be calculated based on the source's dimensions and the padding values.
+ * Likewise, the <code>SampleModel</code> and </code>ColorModel</code> hints will be ignored.
  *
  * @see org.eclipse.imagen.OpImage
  * @see org.eclipse.imagen.operator.BorderDescriptor
  * @see BorderRIF
- *
  */
 final class BorderOpImage extends OpImage {
-    /**
-     * The <code>BorderExtender</code> object used to extend the source data.
-     */
+    /** The <code>BorderExtender</code> object used to extend the source data. */
     protected BorderExtender extender;
 
     /**
      * Constructor.
      *
-     * @param source     The source image.
-     * @param layout     The destination image layout.
-     * @param leftPad    The amount of padding to the left of the source.
-     * @param rightPad   The amount of padding to the right of the source.
-     * @param topPad     The amount of padding to the top of the source.
-     * @param bottomPad  The amount of padding to the bottom of the source.
-     * @param type       The border type.
-     * @param constants  The constants used with border type
-     *                   <code>BorderDescriptor.BORDER_CONST_FILL</code>,
-     *                   stored as reference.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param leftPad The amount of padding to the left of the source.
+     * @param rightPad The amount of padding to the right of the source.
+     * @param topPad The amount of padding to the top of the source.
+     * @param bottomPad The amount of padding to the bottom of the source.
+     * @param type The border type.
+     * @param constants The constants used with border type <code>BorderDescriptor.BORDER_CONST_FILL</code>, stored as
+     *     reference.
      */
-    public BorderOpImage(RenderedImage source,
-                         Map config,
-                         ImageLayout layout,
-                         int leftPad,
-                         int rightPad,
-                         int topPad,
-                         int bottomPad,
-                         BorderExtender extender) {
-        super(vectorize(source),
-              layoutHelper(layout, source,
-                           leftPad, rightPad, topPad, bottomPad),
-              config, true);
+    public BorderOpImage(
+            RenderedImage source,
+            Map config,
+            ImageLayout layout,
+            int leftPad,
+            int rightPad,
+            int topPad,
+            int bottomPad,
+            BorderExtender extender) {
+        super(vectorize(source), layoutHelper(layout, source, leftPad, rightPad, topPad, bottomPad), config, true);
 
         this.extender = extender;
     }
 
     /**
-     * Sets up the image layout information for this Op.
-     * The minX, minY, width, and height are calculated based on
-     * the source's dimension and padding values. Any of these
-     * values specified in the layout parameter is ignored.
-     * All other variables are taken from the layout parameter or
-     * inherited from the source.
+     * Sets up the image layout information for this Op. The minX, minY, width, and height are calculated based on the
+     * source's dimension and padding values. Any of these values specified in the layout parameter is ignored. All
+     * other variables are taken from the layout parameter or inherited from the source.
      */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source,
-                                            int leftPad,
-                                            int rightPad,
-                                            int topPad,
-                                            int bottomPad) {
-        ImageLayout il = layout == null ?
-            new ImageLayout() : (ImageLayout)layout.clone();
+    private static ImageLayout layoutHelper(
+            ImageLayout layout, RenderedImage source, int leftPad, int rightPad, int topPad, int bottomPad) {
+        ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Set the image bounds according to the padding.
         il.setMinX(source.getMinX() - leftPad);
@@ -139,7 +105,7 @@ final class BorderOpImage extends OpImage {
 
         // Set tile grid offset to minimize the probability that a
         // tile's bounds does not intersect the source image bounds.
-        if(!il.isValid(ImageLayout.TILE_GRID_X_OFFSET_MASK)) {
+        if (!il.isValid(ImageLayout.TILE_GRID_X_OFFSET_MASK)) {
             il.setTileGridXOffset(il.getMinX(null));
         }
 
@@ -155,22 +121,18 @@ final class BorderOpImage extends OpImage {
     }
 
     /**
-     * Returns a conservative estimate of the destination region that
-     * can potentially be affected by the pixels of a rectangle of a
-     * given source.
+     * Returns a conservative estimate of the destination region that can potentially be affected by the pixels of a
+     * rectangle of a given source.
      *
      * @param sourceRect the Rectangle in source coordinates.
      * @param sourceIndex the index of the source image.
-     * @return a Rectangle indicating the potentially affected
-     *         destination region.  or null if the region is unknown.
-     * @throws IllegalArgumentException if the source index is
-     *         negative or greater than that of the last source.
+     * @return a Rectangle indicating the potentially affected destination region. or null if the region is unknown.
+     * @throws IllegalArgumentException if the source index is negative or greater than that of the last source.
      * @throws IllegalArgumentException if sourceRect is null.
      */
-    public Rectangle mapSourceRect(Rectangle sourceRect,
-                                   int sourceIndex) {
+    public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
-        if ( sourceRect == null ) {
+        if (sourceRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -182,21 +144,18 @@ final class BorderOpImage extends OpImage {
     }
 
     /**
-     * Returns a conservative estimate of the region of a specified
-     * source that is required in order to compute the pixels of a
-     * given destination rectangle.
+     * Returns a conservative estimate of the region of a specified source that is required in order to compute the
+     * pixels of a given destination rectangle.
      *
      * @param destRect the Rectangle in destination coordinates.
      * @param sourceIndex the index of the source image.
      * @return a Rectangle indicating the required source region.
-     * @throws IllegalArgumentException if the source index is
-     *         negative or greater than that of the last source.
+     * @throws IllegalArgumentException if the source index is negative or greater than that of the last source.
      * @throws IllegalArgumentException if destRect is null.
      */
-    public Rectangle mapDestRect(Rectangle destRect,
-                                 int sourceIndex) {
+    public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
-        if ( destRect == null ) {
+        if (destRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 

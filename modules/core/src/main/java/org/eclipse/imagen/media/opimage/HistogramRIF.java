@@ -16,23 +16,21 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.util.ImagingListener;
 import org.eclipse.imagen.media.util.ImageUtil;
+import org.eclipse.imagen.util.ImagingListener;
 
 /**
- * A <code>RIF</code> supporting the "Histogram" operation in the
- * rendered image layer.
+ * A <code>RIF</code> supporting the "Histogram" operation in the rendered image layer.
  *
  * @since EA2
  * @see org.eclipse.imagen.operator.HistogramDescriptor
  * @see HistogramOpImage
- *
  */
 public class HistogramRIF implements RenderedImageFactory {
 
@@ -40,35 +38,28 @@ public class HistogramRIF implements RenderedImageFactory {
     public HistogramRIF() {}
 
     /**
-     * Creates a new instance of <code>HistogramOpImage</code>
-     * in the rendered layer. Any image layout information in
-     * <code>RenderingHints</code> is ignored.
-     * This method satisfies the implementation of RIF.
+     * Creates a new instance of <code>HistogramOpImage</code> in the rendered layer. Any image layout information in
+     * <code>RenderingHints</code> is ignored. This method satisfies the implementation of RIF.
      */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints hints) {
+    public RenderedImage create(ParameterBlock args, RenderingHints hints) {
         RenderedImage src = args.getRenderedSource(0);
 
-        int xStart = src.getMinX();	// default values
+        int xStart = src.getMinX(); // default values
         int yStart = src.getMinY();
 
         int maxWidth = src.getWidth();
         int maxHeight = src.getHeight();
 
-        ROI roi = (ROI)args.getObjectParameter(0);
+        ROI roi = (ROI) args.getObjectParameter(0);
         int xPeriod = args.getIntParameter(1);
         int yPeriod = args.getIntParameter(2);
-        int[] numBins = (int[])args.getObjectParameter(3);
-        double[] lowValue = (double[])args.getObjectParameter(4);
-        double[] highValue = (double[])args.getObjectParameter(5);
+        int[] numBins = (int[]) args.getObjectParameter(3);
+        double[] lowValue = (double[]) args.getObjectParameter(4);
+        double[] highValue = (double[]) args.getObjectParameter(5);
 
         HistogramOpImage op = null;
         try {
-            op = new HistogramOpImage(src,
-                                      roi,
-                                      xStart, yStart,
-                                      xPeriod, yPeriod,
-                                      numBins, lowValue, highValue);
+            op = new HistogramOpImage(src, roi, xStart, yStart, xPeriod, yPeriod, numBins, lowValue, highValue);
         } catch (Exception e) {
             ImagingListener listener = ImageUtil.getImagingListener(hints);
             String message = JaiI18N.getString("HistogramRIF0");

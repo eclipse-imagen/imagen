@@ -7,18 +7,17 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.util.*;
 import java.awt.*;
 import java.awt.image.renderable.*;
+import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.border.*;
+import javax.swing.event.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.operator.*;
 import org.eclipse.imagen.widgets.*;
 
-public class Composite extends JPanel
-                              implements ChangeListener {
+public class Composite extends JPanel implements ChangeListener {
 
     JSlider slider1;
     JSlider slider2;
@@ -55,8 +54,7 @@ public class Composite extends JPanel
         JPanel borderedPanel1 = new JPanel();
         borderedPanel1.setLayout(new BorderLayout());
 
-        borderedPanel1.setBorder(
-            BorderFactory.createTitledBorder("Alpha1 Image"));
+        borderedPanel1.setBorder(BorderFactory.createTitledBorder("Alpha1 Image"));
 
         borderedPanel1.add(slider1, BorderLayout.NORTH);
 
@@ -69,8 +67,7 @@ public class Composite extends JPanel
         JPanel borderedPanel2 = new JPanel();
         borderedPanel2.setLayout(new BorderLayout());
 
-        borderedPanel2.setBorder(
-            BorderFactory.createTitledBorder("Alpha2 Image"));
+        borderedPanel2.setBorder(BorderFactory.createTitledBorder("Alpha2 Image"));
 
         borderedPanel2.add(slider2, BorderLayout.NORTH);
 
@@ -79,30 +76,30 @@ public class Composite extends JPanel
         src2 = ReadImage.getImage(im2);
 
         Byte[] bandValues = new Byte[3];
-        Byte alpha1 = new Byte((byte)0);
-        Byte alpha2 = new Byte((byte)0);
-        Byte alpha3 = new Byte((byte)0);
+        Byte alpha1 = new Byte((byte) 0);
+        Byte alpha2 = new Byte((byte) 0);
+        Byte alpha3 = new Byte((byte) 0);
 
         bandValues[0] = alpha1;
         bandValues[1] = alpha2;
         bandValues[2] = alpha3;
         ParameterBlock pb = new ParameterBlock();
-        pb.add((float)src1.getWidth());
-        pb.add((float)src1.getHeight());
+        pb.add((float) src1.getWidth());
+        pb.add((float) src1.getHeight());
         pb.add(bandValues);
         PlanarImage afa1 = JAI.create("constant", pb, null);
 
         bandValues = new Byte[3];
-        alpha1 = new Byte((byte)255);
-        alpha2 = new Byte((byte)255);
-        alpha3 = new Byte((byte)255);
+        alpha1 = new Byte((byte) 255);
+        alpha2 = new Byte((byte) 255);
+        alpha3 = new Byte((byte) 255);
 
         bandValues[0] = alpha1;
         bandValues[1] = alpha2;
         bandValues[2] = alpha3;
         pb = new ParameterBlock();
-        pb.add((float)src2.getWidth());
-        pb.add((float)src2.getHeight());
+        pb.add((float) src2.getWidth());
+        pb.add((float) src2.getHeight());
         pb.add(bandValues);
         PlanarImage afa2 = JAI.create("constant", pb, null);
 
@@ -111,8 +108,8 @@ public class Composite extends JPanel
         ic3 = new ImageDisplay(src1);
         ic4 = new ImageDisplay(src2);
 
-        ic1.setBorder(new LineBorder(Color.blue,1));
-        ic2.setBorder(new LineBorder(Color.blue,1));
+        ic1.setBorder(new LineBorder(Color.blue, 1));
+        ic2.setBorder(new LineBorder(Color.blue, 1));
 
         alpha1Panel.add(ic1, BorderLayout.CENTER);
         alpha1Panel.add(borderedPanel1, BorderLayout.SOUTH);
@@ -134,68 +131,65 @@ public class Composite extends JPanel
 
         RenderedOp tmp = JAI.create("composite", pb, null);
 
-/* if DESTINATION_ALPHA_LAST, convert to 3 band */
-/*
-        int[] bandIndices = new int[3];
-        bandIndices[0] = 0;
-        bandIndices[1] = 1;
-        bandIndices[2] = 2;
-        pb = new ParameterBlock();
-        pb.addSource(tmp);
-        pb.add(bandIndices);
+        /* if DESTINATION_ALPHA_LAST, convert to 3 band */
+        /*
+                int[] bandIndices = new int[3];
+                bandIndices[0] = 0;
+                bandIndices[1] = 1;
+                bandIndices[2] = 2;
+                pb = new ParameterBlock();
+                pb.addSource(tmp);
+                pb.add(bandIndices);
 
-        RenderedOp dst = JAI.create("bandselect", pb, null);
+                RenderedOp dst = JAI.create("bandselect", pb, null);
 
-        ic5 = new ImageDisplay(dst);
-*/
+                ic5 = new ImageDisplay(dst);
+        */
         ic5 = new ImageDisplay(tmp);
         ic5.setBackground(new Color(255, 0, 0));
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.add(new JLabel("Composite Image"),
-                  BorderLayout.SOUTH);
+        panel.add(new JLabel("Composite Image"), BorderLayout.SOUTH);
         panel.add(ic5, BorderLayout.CENTER);
 
         imagePanel.add(panel);
 
-        add(new JLabel("Source Images for Compositing"),
-                       BorderLayout.NORTH);
+        add(new JLabel("Source Images for Compositing"), BorderLayout.NORTH);
         add(imagePanel, BorderLayout.CENTER);
     }
 
-
-    final public void setBlend(int b1, int b2) {
+    public final void setBlend(int b1, int b2) {
         Byte[] bandValues = new Byte[3];
-        Byte alpha1 = new Byte((byte)b1);
-        Byte alpha2 = new Byte((byte)b1);
-        Byte alpha3 = new Byte((byte)b1);
+        Byte alpha1 = new Byte((byte) b1);
+        Byte alpha2 = new Byte((byte) b1);
+        Byte alpha3 = new Byte((byte) b1);
 
         // first alpha channel
         bandValues[0] = alpha1;
         bandValues[1] = alpha2;
         bandValues[2] = alpha3;
         ParameterBlock pb = new ParameterBlock();
-        pb.add((float)src1.getWidth());
-        pb.add((float)src1.getHeight());
+        pb.add((float) src1.getWidth());
+        pb.add((float) src1.getHeight());
         pb.add(bandValues);
-        PlanarImage afa1 = (PlanarImage)JAI.create("constant", pb, null);
+        PlanarImage afa1 = (PlanarImage) JAI.create("constant", pb, null);
         ic1.set(afa1);
 
         // second alpha channel
         bandValues = new Byte[3];
-        alpha1 = new Byte((byte)b2);
-        alpha2 = new Byte((byte)b2);
-        alpha3 = new Byte((byte)b2);
+        alpha1 = new Byte((byte) b2);
+        alpha2 = new Byte((byte) b2);
+        alpha3 = new Byte((byte) b2);
 
         bandValues[0] = alpha1;
         bandValues[1] = alpha2;
         bandValues[2] = alpha3;
         pb = new ParameterBlock();
-        pb.add((float)src2.getWidth());
-        pb.add((float)src2.getHeight());
+        pb.add((float) src2.getWidth());
+        pb.add((float) src2.getHeight());
         pb.add(bandValues);
-        PlanarImage afa2 = (PlanarImage)JAI.create("constant", pb, null);
+        PlanarImage afa2 = (PlanarImage) JAI.create("constant", pb, null);
         ic2.set(afa2);
 
         pb = new ParameterBlock();
@@ -208,26 +202,25 @@ public class Composite extends JPanel
 
         RenderedOp tmp = JAI.create("composite", pb, null);
 
-/* if DESTINATION_ALPHA_LAST, convert to 3band */
-/*
-        int[] bandIndices = new int[3];
-        bandIndices[0] = 0;
-        bandIndices[1] = 1;
-        bandIndices[2] = 2;
-        pb = new ParameterBlock();
-        pb.addSource(tmp);
-        pb.add(bandIndices);
+        /* if DESTINATION_ALPHA_LAST, convert to 3band */
+        /*
+                int[] bandIndices = new int[3];
+                bandIndices[0] = 0;
+                bandIndices[1] = 1;
+                bandIndices[2] = 2;
+                pb = new ParameterBlock();
+                pb.addSource(tmp);
+                pb.add(bandIndices);
 
-        RenderedOp op  = JAI.create("bandselect", pb, null);
+                RenderedOp op  = JAI.create("bandselect", pb, null);
 
-        ic5.set(op);
-*/
+                ic5.set(op);
+        */
         ic5.set(tmp);
     }
 
-
-    final public void stateChanged(ChangeEvent e) {
-        //JSlider slider = (JSlider)e.getSource();
+    public final void stateChanged(ChangeEvent e) {
+        // JSlider slider = (JSlider)e.getSource();
 
         int blend1 = slider1.getValue();
         int blend2 = slider2.getValue();
@@ -235,14 +228,13 @@ public class Composite extends JPanel
         setBlend(blend1, blend2);
     }
 
-
-    final private byte clampByte(int v) {
-        if ( v > 255 ) {
-             return (byte)255;
-        } else if ( v < 0 ) {
-             return (byte)0;
+    private final byte clampByte(int v) {
+        if (v > 255) {
+            return (byte) 255;
+        } else if (v < 0) {
+            return (byte) 0;
         } else {
-             return (byte)v;
+            return (byte) v;
         }
     }
 }

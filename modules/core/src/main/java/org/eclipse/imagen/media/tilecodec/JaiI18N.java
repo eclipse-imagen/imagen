@@ -15,12 +15,12 @@
  *
  */
 
-package org.eclipse.imagen.media.tilecodec ;
+package org.eclipse.imagen.media.tilecodec;
 
 import org.eclipse.imagen.media.util.PropertyUtil;
 
 class JaiI18N {
-    static String packageName = "org.eclipse.imagen.media.tilecodec" ;
+    static String packageName = "org.eclipse.imagen.media.tilecodec";
 
     public static String getString(String key) {
         return PropertyUtil.getString(packageName, key);

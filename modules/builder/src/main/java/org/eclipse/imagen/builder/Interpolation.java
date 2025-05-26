@@ -8,8 +8,8 @@
 package org.eclipse.imagen.builder;
 
 public enum Interpolation implements KeyedHint {
-    NEAREST("NearestNeighbor"), 
-    BILINEAR("Bilinear"), 
+    NEAREST("NearestNeighbor"),
+    BILINEAR("Bilinear"),
     BICUBIC("Bicubic");
 
     public static String KEY = "Interpoliation";
@@ -17,7 +17,7 @@ public enum Interpolation implements KeyedHint {
     private final String value;
 
     Interpolation(String value) {
-        this.value = value;        
+        this.value = value;
     }
 
     public String key() {

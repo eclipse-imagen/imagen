@@ -21,53 +21,43 @@ import java.awt.RenderingHints;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Vector;
 import java.util.Iterator;
-import org.eclipse.imagen.remote.SerializerFactory;
-import org.eclipse.imagen.remote.SerializableState;
+import java.util.Vector;
 
 /**
- * This class is a serializable proxy for a Vector object.
- * <br>(entries which are neither <code>Serializable</code> nor supported by
- * <code>SerializerFactory</code> are omitted);
- *
+ * This class is a serializable proxy for a Vector object. <br>
+ * (entries which are neither <code>Serializable</code> nor supported by <code>SerializerFactory</code> are omitted);
  *
  * @since 1.1
  */
 public class VectorState extends SerializableStateImpl {
-    /** 
-     * Returns the classes supported by this SerializableState.
-     */
+    /** Returns the classes supported by this SerializableState. */
     public static Class[] getSupportedClasses() {
-            return new Class[] {Vector.class};
+        return new Class[] {Vector.class};
     }
 
     /**
-      * Constructs a <code>VectorState</code> from a
-      * <code>Vector</code> object.
-      *
-      * @param c The <code>Class</code> of the object to be serialized.
-      * @param o The <code>Vector</code> object to be serialized.
-      * @param h The <code>RebderingHint</code> for this serialization.
-      */
+     * Constructs a <code>VectorState</code> from a <code>Vector</code> object.
+     *
+     * @param c The <code>Class</code> of the object to be serialized.
+     * @param o The <code>Vector</code> object to be serialized.
+     * @param h The <code>RebderingHint</code> for this serialization.
+     */
     public VectorState(Class c, Object o, RenderingHints h) {
         super(c, o, h);
     }
 
-    /**
-     * Serialize the VectorState.
-     */
+    /** Serialize the VectorState. */
     private void writeObject(ObjectOutputStream out) throws IOException {
         // -- Create a serializable form of the Vector object. --
-	Vector vector = (Vector)theObject;
-	Vector serializableVector = new Vector();
-	Iterator iterator = vector.iterator();
+        Vector vector = (Vector) theObject;
+        Vector serializableVector = new Vector();
+        Iterator iterator = vector.iterator();
 
         // If there are hints, add them to the vector.
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Object object = iterator.next();
-	    Object serializableObject = getSerializableForm(object);
+            Object serializableObject = getSerializableForm(object);
             serializableVector.add(serializableObject);
         }
 
@@ -75,17 +65,14 @@ public class VectorState extends SerializableStateImpl {
         out.writeObject(serializableVector);
     }
 
-    /**
-     * Deserialize the VectorState.
-     */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    /** Deserialize the VectorState. */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read serialized form from the stream.
-        Vector serializableVector = (Vector)in.readObject();
+        Vector serializableVector = (Vector) in.readObject();
 
         // Create an empty Vector object.
         Vector vector = new Vector();
-	theObject = vector;
+        theObject = vector;
 
         // If the vector is empty just return.
         if (serializableVector.isEmpty()) {

@@ -20,20 +20,16 @@ package org.eclipse.imagen.media.opimage;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "IDFT" operation in the rendered
- * image layer.
+ * A <code>CRIF</code> supporting the "IDFT" operation in the rendered image layer.
  *
  * @since Beta
  * @see org.eclipse.imagen.operator.DFTDescriptor
  * @see org.eclipse.imagen.operator.IDFTDescriptor
- *
  */
 public class IDFTCRIF extends CRIFImpl {
 
@@ -43,22 +39,17 @@ public class IDFTCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of an IDFT operator according to the scaling
-     * type.
+     * Creates a new instance of an IDFT operator according to the scaling type.
      *
      * @param paramBlock The scaling type.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         RenderedImage source = paramBlock.getRenderedSource(0);
-        EnumeratedParameter scalingType =
-            (EnumeratedParameter)paramBlock.getObjectParameter(0);
-        EnumeratedParameter dataNature =
-            (EnumeratedParameter)paramBlock.getObjectParameter(1);
+        EnumeratedParameter scalingType = (EnumeratedParameter) paramBlock.getObjectParameter(0);
+        EnumeratedParameter dataNature = (EnumeratedParameter) paramBlock.getObjectParameter(1);
 
         FFT fft = new FFT(false, new Integer(scalingType.getValue()), 2);
 

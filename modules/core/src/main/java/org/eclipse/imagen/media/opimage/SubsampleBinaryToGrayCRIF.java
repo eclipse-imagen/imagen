@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -23,18 +24,14 @@ import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
-import java.awt.image.renderable.RenderedImageFactory;
-import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
-/**
- * @see SubsampleBinaryToGrayOpImage
- */
+/** @see SubsampleBinaryToGrayOpImage */
 public class SubsampleBinaryToGrayCRIF extends CRIFImpl {
 
     /** Constructor. */
@@ -43,16 +40,14 @@ public class SubsampleBinaryToGrayCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of SubsampleBinaryToGrayOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Creates a new instance of SubsampleBinaryToGrayOpImage in the rendered layer. This method satisfies the
+     * implementation of RIF.
      *
-     * @param paramBlock  The source image, the X and Y scale factor
+     * @param paramBlock The source image, the X and Y scale factor
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
@@ -61,12 +56,11 @@ public class SubsampleBinaryToGrayCRIF extends CRIFImpl {
         float xScale = paramBlock.getFloatParameter(0);
         float yScale = paramBlock.getFloatParameter(1);
 
-	// Check and see if we are scaling by 1.0 in both x and y and no
+        // Check and see if we are scaling by 1.0 in both x and y and no
         // translations. If so call the copy operation.
-	if (xScale == 1.0F && yScale == 1.0F){
-	    return new CopyOpImage(source, renderHints, layout);
-	}
-
+        if (xScale == 1.0F && yScale == 1.0F) {
+            return new CopyOpImage(source, renderHints, layout);
+        }
 
         // The image is assumed to have
         // a MultiPixelPackedSampleModel and a byte, ushort,
@@ -78,109 +72,92 @@ public class SubsampleBinaryToGrayCRIF extends CRIFImpl {
         // forcing an actual tile to be computed.
         //
         SampleModel sm = source.getSampleModel();
-        if ((sm instanceof MultiPixelPackedSampleModel) &&
-            (sm.getSampleSize(0) == 1) &&
-            (sm.getDataType() == DataBuffer.TYPE_BYTE || 
-             sm.getDataType() == DataBuffer.TYPE_USHORT || 
-             sm.getDataType() == DataBuffer.TYPE_INT)) {
-	     
-	     int srcWidth = source.getWidth();
-	     int srcHeight= source.getHeight();
-	     float floatTol = .1F * Math.min(xScale/(srcWidth*xScale+1.0F), yScale/(srcHeight*yScale+1.0F));
-	     int invScale = (int) Math.round(1.0F/xScale);
-	     if(Math.abs((float)invScale - 1.0F/xScale) < floatTol  &&
-		Math.abs((float)invScale - 1.0F/yScale) < floatTol){
-	       switch (invScale){
-	       case 2:
-		 return new SubsampleBinaryToGray2x2OpImage(source, layout, renderHints);
-	       case 4:
-		 return new SubsampleBinaryToGray4x4OpImage(source, layout, renderHints);
-	       default:
-		 break;
-	       }
-	     }
-	     return new SubsampleBinaryToGrayOpImage(source,
-						     layout,
-						     renderHints,
-						     xScale,
-						     yScale);
-	     
-	}else{
-	    throw 
-		new IllegalArgumentException(JaiI18N.getString("SubsampleBinaryToGray3"));
-	}
+        if ((sm instanceof MultiPixelPackedSampleModel)
+                && (sm.getSampleSize(0) == 1)
+                && (sm.getDataType() == DataBuffer.TYPE_BYTE
+                        || sm.getDataType() == DataBuffer.TYPE_USHORT
+                        || sm.getDataType() == DataBuffer.TYPE_INT)) {
+
+            int srcWidth = source.getWidth();
+            int srcHeight = source.getHeight();
+            float floatTol = .1F * Math.min(xScale / (srcWidth * xScale + 1.0F), yScale / (srcHeight * yScale + 1.0F));
+            int invScale = (int) Math.round(1.0F / xScale);
+            if (Math.abs((float) invScale - 1.0F / xScale) < floatTol
+                    && Math.abs((float) invScale - 1.0F / yScale) < floatTol) {
+                switch (invScale) {
+                    case 2:
+                        return new SubsampleBinaryToGray2x2OpImage(source, layout, renderHints);
+                    case 4:
+                        return new SubsampleBinaryToGray4x4OpImage(source, layout, renderHints);
+                    default:
+                        break;
+                }
+            }
+            return new SubsampleBinaryToGrayOpImage(source, layout, renderHints, xScale, yScale);
+
+        } else {
+            throw new IllegalArgumentException(JaiI18N.getString("SubsampleBinaryToGray3"));
+        }
     }
 
-
-
-
     /**
-     * Creates a new instance of <code>AffineOpImage</code>
-     * in the renderable layer. This method satisfies the
+     * Creates a new instance of <code>AffineOpImage</code> in the renderable layer. This method satisfies the
      * implementation of CRIF.
      */
-    public RenderedImage create(RenderContext renderContext,
-                                ParameterBlock paramBlock) {
+    public RenderedImage create(RenderContext renderContext, ParameterBlock paramBlock) {
         return paramBlock.getRenderedSource(0);
     }
 
     /**
-     * Maps the output RenderContext into the RenderContext for the ith
-     * source.
-     * This method satisfies the implementation of CRIF.
+     * Maps the output RenderContext into the RenderContext for the ith source. This method satisfies the implementation
+     * of CRIF.
      *
-     * @param i               The index of the source image.
-     * @param renderContext   The renderContext being applied to the operation.
-     * @param paramBlock      The ParameterBlock containing the sources
-     *                        and the translation factors.
-     * @param image           The RenderableImageOp from which this method
-     *                        was called.
+     * @param i The index of the source image.
+     * @param renderContext The renderContext being applied to the operation.
+     * @param paramBlock The ParameterBlock containing the sources and the translation factors.
+     * @param image The RenderableImageOp from which this method was called.
      */
-    public RenderContext mapRenderContext(int i,
-                                          RenderContext renderContext,
-					  ParameterBlock paramBlock,
-					  RenderableImage image) {
-	
-	float scale_x = paramBlock.getFloatParameter(0);
+    public RenderContext mapRenderContext(
+            int i, RenderContext renderContext, ParameterBlock paramBlock, RenderableImage image) {
+
+        float scale_x = paramBlock.getFloatParameter(0);
         float scale_y = paramBlock.getFloatParameter(1);
 
-        AffineTransform scale = new AffineTransform(scale_x, 0.0, 0.0, scale_y,
-                                                    0.0, 0.0);
+        AffineTransform scale = new AffineTransform(scale_x, 0.0, 0.0, scale_y, 0.0, 0.0);
 
-        RenderContext RC = (RenderContext)renderContext.clone();
+        RenderContext RC = (RenderContext) renderContext.clone();
         AffineTransform usr2dev = RC.getTransform();
         usr2dev.concatenate(scale);
-	RC.setTransform(usr2dev);
-	return RC;
+        RC.setTransform(usr2dev);
+        return RC;
     }
 
     /**
-     * Gets the bounding box for the output of <code>SubsampleBinaryToGrayOpImage</code>.
-     * This method satisfies the implementation of CRIF.
+     * Gets the bounding box for the output of <code>SubsampleBinaryToGrayOpImage</code>. This method satisfies the
+     * implementation of CRIF.
      */
-    public Rectangle2D getBounds2D(ParameterBlock paramBlock) {        
+    public Rectangle2D getBounds2D(ParameterBlock paramBlock) {
 
         RenderableImage source = paramBlock.getRenderableSource(0);
 
         float scale_x = paramBlock.getFloatParameter(0);
         float scale_y = paramBlock.getFloatParameter(1);
 
-	// Get the source dimensions
-	float x0 = (float)source.getMinX();
-	float y0 = (float)source.getMinY() ;
-	float w = (float)source.getWidth();
-	float h = (float)source.getHeight();
-	
-	// Forward map the source using x0, y0, w and h
-	float d_x0 = x0 * scale_x;
-	float d_y0 = y0 * scale_y;
-	float d_w = w * scale_x;
-	float d_h = h * scale_y;
-	
-	// debugging
-	// System.out.println("*** CRIF getBounds2D() ");
+        // Get the source dimensions
+        float x0 = (float) source.getMinX();
+        float y0 = (float) source.getMinY();
+        float w = (float) source.getWidth();
+        float h = (float) source.getHeight();
 
-	return new Rectangle2D.Float(d_x0, d_y0, d_w, d_h);
+        // Forward map the source using x0, y0, w and h
+        float d_x0 = x0 * scale_x;
+        float d_y0 = y0 * scale_y;
+        float d_w = w * scale_x;
+        float d_h = h * scale_y;
+
+        // debugging
+        // System.out.println("*** CRIF getBounds2D() ");
+
+        return new Rectangle2D.Float(d_x0, d_y0, d_w, d_h);
     }
-
 }

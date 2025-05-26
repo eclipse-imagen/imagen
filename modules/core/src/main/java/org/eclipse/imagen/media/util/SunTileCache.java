@@ -16,49 +16,42 @@
  */
 
 package org.eclipse.imagen.media.util;
+
+import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Observable;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.awt.Point;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
+import java.util.Vector;
 import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**
- * This is Sun Microsystems' reference implementation of the
- * <code>org.eclipse.imagen.TileCache</code> interface.  It provides a
- * central location for images to cache computed tiles, and is used as
- * the default tile cache mechanism when no other tile cache objects
- * are specified.
+ * This is Sun Microsystems' reference implementation of the <code>org.eclipse.imagen.TileCache</code> interface. It
+ * provides a central location for images to cache computed tiles, and is used as the default tile cache mechanism when
+ * no other tile cache objects are specified.
  *
- * <p> In this implementation, the cache size is limited by the memory
- * capacity, which may be set at construction time or using the
- * <code>setMemoryCapacity(long)</code> method.  The tile capacity
- * is not used.  Different images may have very different tile sizes.
- * Therefore, the memory usage for a specific tile capacity may vary
- * greatly depends on the type of images involved.  In fact, the tile
- * capacity is rather meaningless.
+ * <p>In this implementation, the cache size is limited by the memory capacity, which may be set at construction time or
+ * using the <code>setMemoryCapacity(long)</code> method. The tile capacity is not used. Different images may have very
+ * different tile sizes. Therefore, the memory usage for a specific tile capacity may vary greatly depends on the type
+ * of images involved. In fact, the tile capacity is rather meaningless.
  *
  * @see org.eclipse.imagen.TileCache
- *
  */
 
 //
 // NOTE: code is inlined for performance reasons
 //
-public final class SunTileCache extends Observable
-                                implements TileCache,
-                                           CacheDiagnostics {
+public final class SunTileCache extends Observable implements TileCache, CacheDiagnostics {
 
     /** The default memory capacity of the cache (16 MB). */
     private static final long DEFAULT_MEMORY_CAPACITY = 16L * 1024L * 1024L;
@@ -70,18 +63,14 @@ public final class SunTileCache extends Observable
     private static final float LOAD_FACTOR = 0.5F;
 
     /**
-     * The tile cache.
-     * A Hashtable is used to cache the tiles.  The "key" is a 
-     * <code>Object</code> determined based on tile owner's UID if any or
-     * hashCode if the UID doesn't exist, and tile index.  The
-     * "value" is a SunCachedTile.
+     * The tile cache. A Hashtable is used to cache the tiles. The "key" is a <code>Object</code> determined based on
+     * tile owner's UID if any or hashCode if the UID doesn't exist, and tile index. The "value" is a SunCachedTile.
      */
     private Hashtable cache;
 
     /**
-     * Sorted (Tree) Set used with tile metrics.
-     * Adds another level of metrics used to determine
-     * which tiles are removed during memoryControl().
+     * Sorted (Tree) Set used with tile metrics. Adds another level of metrics used to determine which tiles are removed
+     * during memoryControl().
      */
     private SortedSet cacheSortedSet;
 
@@ -97,9 +86,7 @@ public final class SunTileCache extends Observable
     /** A indicator for tile access time. */
     private long timeStamp = 0;
 
-    /** Custom comparator used to determine tile cost or
-     *  priority ordering in the tile cache.
-     */
+    /** Custom comparator used to determine tile cost or priority ordering in the tile cache. */
     private Comparator comparator = null;
 
     /** Pointer to the first (newest) tile of the linked SunCachedTile list. */
@@ -123,50 +110,41 @@ public final class SunTileCache extends Observable
     // diagnostic actions
     // !!! If actions are changed in any way (removal, modification, addition)
     // then the getCachedTileActions() method below should be changed to match.
-    private static final int ADD                 = 0;
-    private static final int REMOVE              = 1;
-    private static final int REMOVE_FROM_FLUSH   = 2;
-    private static final int REMOVE_FROM_MEMCON  = 3;
-    private static final int UPDATE_FROM_ADD     = 4;
+    private static final int ADD = 0;
+    private static final int REMOVE = 1;
+    private static final int REMOVE_FROM_FLUSH = 2;
+    private static final int REMOVE_FROM_MEMCON = 3;
+    private static final int UPDATE_FROM_ADD = 4;
     private static final int UPDATE_FROM_GETTILE = 5;
-    private static final int ABOUT_TO_REMOVE     = 6;
+    private static final int ABOUT_TO_REMOVE = 6;
 
     /**
-     * Returns an array of <code>EnumeratedParameter</code>s corresponding
-     * to the numeric values returned by the <code>getAction()</code>
-     * method of the <code>CachedTile</code> implementation used by
-     * <code>SunTileCache</code>.  The "name" of each
-     * <code>EnumeratedParameter</code> provides a brief string
-     * describing the numeric action value.
+     * Returns an array of <code>EnumeratedParameter</code>s corresponding to the numeric values returned by the <code>
+     * getAction()</code> method of the <code>CachedTile</code> implementation used by <code>SunTileCache</code>. The
+     * "name" of each <code>EnumeratedParameter</code> provides a brief string describing the numeric action value.
      */
     public static EnumeratedParameter[] getCachedTileActions() {
         return new EnumeratedParameter[] {
             new EnumeratedParameter("add", ADD),
             new EnumeratedParameter("remove", REMOVE),
             new EnumeratedParameter("remove_by_flush", REMOVE_FROM_FLUSH),
-            new EnumeratedParameter("remove_by_memorycontrol",
-                                    REMOVE_FROM_MEMCON),
+            new EnumeratedParameter("remove_by_memorycontrol", REMOVE_FROM_MEMCON),
             new EnumeratedParameter("timestamp_update_by_add", UPDATE_FROM_ADD),
-            new EnumeratedParameter("timestamp_update_by_gettile",
-                                    UPDATE_FROM_GETTILE),
+            new EnumeratedParameter("timestamp_update_by_gettile", UPDATE_FROM_GETTILE),
             new EnumeratedParameter("preremove", ABOUT_TO_REMOVE)
         };
     }
 
-    /**
-     * No args constructor. Use the DEFAULT_MEMORY_CAPACITY of 16 Megs.
-     */
+    /** No args constructor. Use the DEFAULT_MEMORY_CAPACITY of 16 Megs. */
     public SunTileCache() {
         this(DEFAULT_MEMORY_CAPACITY);
     }
 
     /**
-     * Constructor.  The memory capacity should be explicitly specified.
+     * Constructor. The memory capacity should be explicitly specified.
      *
-     * @param memoryCapacity  The maximum cache memory size in bytes.
-     *
-     * @throws IllegalArgumentException  If <code>memoryCapacity</code>
-     *         is less than 0.
+     * @param memoryCapacity The maximum cache memory size in bytes.
+     * @throws IllegalArgumentException If <code>memoryCapacity</code> is less than 0.
      */
     public SunTileCache(long memoryCapacity) {
         if (memoryCapacity < 0) {
@@ -180,48 +158,38 @@ public final class SunTileCache extends Observable
         cache = new Hashtable(DEFAULT_HASHTABLE_CAPACITY, LOAD_FACTOR);
     }
 
-
     /**
      * Adds a tile to the cache.
      *
-     * <p> If the specified tile is already in the cache, it will not be
-     * cached again.  If by adding this tile, the cache exceeds the memory
-     * capacity, older tiles in the cache are removed to keep the cache
-     * memory usage under the specified limit.
+     * <p>If the specified tile is already in the cache, it will not be cached again. If by adding this tile, the cache
+     * exceeds the memory capacity, older tiles in the cache are removed to keep the cache memory usage under the
+     * specified limit.
      *
-     * @param owner            The image the tile blongs to.
-     * @param tileX            The tile's X index within the image.
-     * @param tileY            The tile's Y index within the image.
-     * @param tile             The tile to be cached.
+     * @param owner The image the tile blongs to.
+     * @param tileX The tile's X index within the image.
+     * @param tileY The tile's Y index within the image.
+     * @param tile The tile to be cached.
      */
-    public void add(RenderedImage owner,
-                    int tileX,
-                    int tileY,
-                    Raster tile) {
+    public void add(RenderedImage owner, int tileX, int tileY, Raster tile) {
         add(owner, tileX, tileY, tile, null);
     }
 
     /**
      * Adds a tile to the cache with an associated tile compute cost.
      *
-     * <p> If the specified tile is already in the cache, it will not be
-     * cached again.  If by adding this tile, the cache exceeds the memory
-     * capacity, older tiles in the cache are removed to keep the cache
-     * memory usage under the specified limit.
+     * <p>If the specified tile is already in the cache, it will not be cached again. If by adding this tile, the cache
+     * exceeds the memory capacity, older tiles in the cache are removed to keep the cache memory usage under the
+     * specified limit.
      *
-     * @param owner            The image the tile blongs to.
-     * @param tileX            The tile's X index within the image.
-     * @param tileY            The tile's Y index within the image.
-     * @param tile             The tile to be cached.
-     * @param tileCacheMetric  Metric for prioritizing tiles
+     * @param owner The image the tile blongs to.
+     * @param tileX The tile's X index within the image.
+     * @param tileY The tile's Y index within the image.
+     * @param tile The tile to be cached.
+     * @param tileCacheMetric Metric for prioritizing tiles
      */
-    public synchronized void add(RenderedImage owner,
-                                 int tileX,
-                                 int tileY,
-                                 Raster tile,
-                                 Object tileCacheMetric) {
+    public synchronized void add(RenderedImage owner, int tileX, int tileY, Raster tile, Object tileCacheMetric) {
 
-        if ( memoryCapacity == 0 ) {
+        if (memoryCapacity == 0) {
             return;
         }
 
@@ -230,7 +198,7 @@ public final class SunTileCache extends Observable
         Object key = SunCachedTile.hashKey(owner, tileX, tileY);
         SunCachedTile ct = (SunCachedTile) cache.get(key);
 
-        if ( ct != null ) {
+        if (ct != null) {
             // tile is cached, inlines update()
             ct.timeStamp = timeStamp++;
 
@@ -253,7 +221,7 @@ public final class SunTileCache extends Observable
 
             hitCount++;
 
-            if ( diagnostics ) {
+            if (diagnostics) {
                 ct.action = UPDATE_FROM_ADD;
                 setChanged();
                 notifyObservers(ct);
@@ -264,8 +232,8 @@ public final class SunTileCache extends Observable
 
             // Don't cache tile if adding it would provoke memoryControl()
             // which would in turn only end up removing the tile.
-            if(memoryUsage + ct.memorySize > memoryCapacity &&
-               ct.memorySize > (long)(memoryCapacity * memoryThreshold)) {
+            if (memoryUsage + ct.memorySize > memoryCapacity
+                    && ct.memorySize > (long) (memoryCapacity * memoryThreshold)) {
                 return;
             }
 
@@ -275,23 +243,23 @@ public final class SunTileCache extends Observable
 
             if (first == null && last == null) {
                 first = ct;
-                last  = ct;
+                last = ct;
             } else {
                 first.previous = ct;
-                first = ct;        // put this tile at the top of the list
+                first = ct; // put this tile at the top of the list
             }
 
             // add to tile cache
-            if ( cache.put(ct.key, ct) == null ) {
+            if (cache.put(ct.key, ct) == null) {
                 memoryUsage += ct.memorySize;
                 tileCount++;
-                //missCount++;  Not necessary?
+                // missCount++;  Not necessary?
 
-                if ( cacheSortedSet != null ) {
+                if (cacheSortedSet != null) {
                     cacheSortedSet.add(ct);
                 }
 
-                if ( diagnostics ) {
+                if (diagnostics) {
                     ct.action = ADD;
                     setChanged();
                     notifyObservers(ct);
@@ -308,21 +276,18 @@ public final class SunTileCache extends Observable
     /**
      * Removes a tile from the cache.
      *
-     * <p> If the specified tile is not in the cache, this method
-     * does nothing.
+     * <p>If the specified tile is not in the cache, this method does nothing.
      */
-    public synchronized void remove(RenderedImage owner,
-                                    int tileX,
-                                    int tileY) {
+    public synchronized void remove(RenderedImage owner, int tileX, int tileY) {
 
-        if ( memoryCapacity == 0 ) {
+        if (memoryCapacity == 0) {
             return;
         }
 
         Object key = SunCachedTile.hashKey(owner, tileX, tileY);
         SunCachedTile ct = (SunCachedTile) cache.get(key);
 
-        if ( ct != null ) {
+        if (ct != null) {
             // Notify observers that a tile is about to be removed.
             // It is possible that the tile will be removed from the
             // cache before the observers get notified.  This should
@@ -336,23 +301,23 @@ public final class SunTileCache extends Observable
             ct = (SunCachedTile) cache.remove(key);
 
             // recalculate memoryUsage only if tile is actually removed
-            if ( ct != null ) {
+            if (ct != null) {
                 memoryUsage -= ct.memorySize;
                 tileCount--;
 
-                if ( cacheSortedSet != null ) {
+                if (cacheSortedSet != null) {
                     cacheSortedSet.remove(ct);
                 }
 
-                if ( ct == first ) {
-                    if ( ct == last ) {
-                        first = null;  // only one tile in the list
-                        last  = null;
+                if (ct == first) {
+                    if (ct == last) {
+                        first = null; // only one tile in the list
+                        last = null;
                     } else {
                         first = ct.next;
                         first.previous = null;
                     }
-                } else if ( ct == last ) {
+                } else if (ct == last) {
                     last = ct.previous;
                     last.next = null;
                 } else {
@@ -372,7 +337,7 @@ public final class SunTileCache extends Observable
                 // If the soft references are GC'd, the timeStamp
                 // will no longer be contiguous, it will be
                 // unique, so this is ok.
-                if ( diagnostics ) {
+                if (diagnostics) {
                     ct.action = REMOVE;
                     setChanged();
                     notifyObservers(ct);
@@ -388,30 +353,27 @@ public final class SunTileCache extends Observable
     /**
      * Retrieves a tile from the cache.
      *
-     * <p> If the specified tile is not in the cache, this method
-     * returns <code>null</code>.  If the specified tile is in the
-     * cache, its last-access time is updated.
+     * <p>If the specified tile is not in the cache, this method returns <code>null</code>. If the specified tile is in
+     * the cache, its last-access time is updated.
      *
-     * @param owner  The image the tile blongs to.
-     * @param tileX  The tile's X index within the image.
-     * @param tileY  The tile's Y index within the image.
+     * @param owner The image the tile blongs to.
+     * @param tileX The tile's X index within the image.
+     * @param tileY The tile's Y index within the image.
      */
-    public synchronized Raster getTile(RenderedImage owner,
-                                       int tileX,
-                                       int tileY) {
+    public synchronized Raster getTile(RenderedImage owner, int tileX, int tileY) {
 
         Raster tile = null;
 
-        if ( memoryCapacity == 0 ) {
+        if (memoryCapacity == 0) {
             return null;
         }
 
         Object key = SunCachedTile.hashKey(owner, tileX, tileY);
-        SunCachedTile ct = (SunCachedTile)cache.get(key);
+        SunCachedTile ct = (SunCachedTile) cache.get(key);
 
-        if ( ct == null ) {
+        if (ct == null) {
             missCount++;
-        } else {    // found tile in cache
+        } else { // found tile in cache
             tile = (Raster) ct.getTile();
 
             // Update last-access time. (update() inlined for performance)
@@ -436,7 +398,7 @@ public final class SunTileCache extends Observable
 
             hitCount++;
 
-            if ( diagnostics ) {
+            if (diagnostics) {
                 ct.action = UPDATE_FROM_GETTILE;
                 setChanged();
                 notifyObservers(ct);
@@ -447,25 +409,23 @@ public final class SunTileCache extends Observable
     }
 
     /**
-     * Retrieves a contiguous array of all tiles in the cache which are
-     * owned by the specified image.  May be <code>null</code> if there
-     * were no tiles in the cache.  The array contains no null entries.
+     * Retrieves a contiguous array of all tiles in the cache which are owned by the specified image. May be <code>null
+     * </code> if there were no tiles in the cache. The array contains no null entries.
      *
      * @param owner The <code>RenderedImage</code> to which the tiles belong.
-     * @return An array of all tiles owned by the specified image or
-     *         <code>null</code> if there are none currently in the cache.
+     * @return An array of all tiles owned by the specified image or <code>null</code> if there are none currently in
+     *     the cache.
      */
     public synchronized Raster[] getTiles(RenderedImage owner) {
         Raster[] tiles = null;
 
-        if ( memoryCapacity == 0 ) {
+        if (memoryCapacity == 0) {
             return null;
         }
 
-        int size = Math.min(owner.getNumXTiles() * owner.getNumYTiles(),
-                            (int)tileCount);
+        int size = Math.min(owner.getNumXTiles() * owner.getNumYTiles(), (int) tileCount);
 
-        if ( size > 0 ) {
+        if (size > 0) {
             int minTx = owner.getMinTileX();
             int minTy = owner.getMinTileY();
             int maxTx = minTx + owner.getNumXTiles();
@@ -477,16 +437,16 @@ public final class SunTileCache extends Observable
             for (int y = minTy; y < maxTy; y++) {
                 for (int x = minTx; x < maxTx; x++) {
                     // inline this method
-                    //Raster raster = getTile(owner, x, y);
-                    //************************
+                    // Raster raster = getTile(owner, x, y);
+                    // ************************
                     Raster raster = null;
                     Object key = SunCachedTile.hashKey(owner, x, y);
-                    SunCachedTile ct = (SunCachedTile)cache.get(key);
+                    SunCachedTile ct = (SunCachedTile) cache.get(key);
 
-                    if ( ct == null ) {
+                    if (ct == null) {
                         raster = null;
                         missCount++;
-                    } else {    // found tile in cache
+                    } else { // found tile in cache
                         raster = (Raster) ct.getTile();
 
                         // Update last-access time. (update() inlined for performance)
@@ -511,23 +471,23 @@ public final class SunTileCache extends Observable
 
                         hitCount++;
 
-                        if ( diagnostics ) {
+                        if (diagnostics) {
                             ct.action = UPDATE_FROM_GETTILE;
                             setChanged();
                             notifyObservers(ct);
                         }
                     }
-                    //************************
+                    // ************************
 
-                    if ( raster != null ) {
+                    if (raster != null) {
                         temp.add(raster);
                     }
                 }
             }
 
             int tmpsize = temp.size();
-            if ( tmpsize > 0 ) {
-                tiles = (Raster[])temp.toArray(new Raster[tmpsize]);
+            if (tmpsize > 0) {
+                tiles = (Raster[]) temp.toArray(new Raster[tmpsize]);
             }
         }
 
@@ -535,20 +495,19 @@ public final class SunTileCache extends Observable
     }
 
     /**
-     * Removes all the tiles that belong to a <code>RenderedImage</code>
-     * from the cache.
+     * Removes all the tiles that belong to a <code>RenderedImage</code> from the cache.
      *
-     * @param owner  The image whose tiles are to be removed from the cache.
+     * @param owner The image whose tiles are to be removed from the cache.
      */
     public void removeTiles(RenderedImage owner) {
-        if ( memoryCapacity > 0 ) {
+        if (memoryCapacity > 0) {
             int minTx = owner.getMinTileX();
             int minTy = owner.getMinTileY();
             int maxTx = minTx + owner.getNumXTiles();
             int maxTy = minTy + owner.getNumYTiles();
 
-            for (int y=minTy; y<maxTy; y++) {
-                for (int x=minTx; x<maxTx; x++) {
+            for (int y = minTy; y < maxTy; y++) {
+                for (int x = minTx; x < maxTx; x++) {
                     remove(owner, x, y);
                 }
             }
@@ -559,24 +518,22 @@ public final class SunTileCache extends Observable
      * Adds an array of tiles to the tile cache.
      *
      * @param owner The <code>RenderedImage</code> that the tile belongs to.
-     * @param tileIndices An array of <code>Point</code>s containing the
-     *        <code>tileX</code> and <code>tileY</code> indices for each tile.
+     * @param tileIndices An array of <code>Point</code>s containing the <code>tileX</code> and <code>tileY</code>
+     *     indices for each tile.
      * @param tiles The array of tile <code>Raster</code>s containing tile data.
-     * @param tileCacheMetric Object which provides an ordering metric
-     *        associated with the <code>RenderedImage</code> owner.
+     * @param tileCacheMetric Object which provides an ordering metric associated with the <code>RenderedImage</code>
+     *     owner.
      * @since 1.1
      */
-    public synchronized void addTiles(RenderedImage owner,
-                                      Point[] tileIndices,
-                                      Raster[] tiles,
-                                      Object tileCacheMetric) {
+    public synchronized void addTiles(
+            RenderedImage owner, Point[] tileIndices, Raster[] tiles, Object tileCacheMetric) {
 
-        if ( memoryCapacity == 0 ) {
+        if (memoryCapacity == 0) {
             return;
         }
 
         // this just inlines the add routine (no sync overhead for each call).
-        for ( int i = 0; i < tileIndices.length; i++ ) {
+        for (int i = 0; i < tileIndices.length; i++) {
             int tileX = tileIndices[i].x;
             int tileY = tileIndices[i].y;
             Raster tile = tiles[i];
@@ -584,7 +541,7 @@ public final class SunTileCache extends Observable
             Object key = SunCachedTile.hashKey(owner, tileX, tileY);
             SunCachedTile ct = (SunCachedTile) cache.get(key);
 
-            if ( ct != null ) {
+            if (ct != null) {
                 // tile is cached, inlines update()
                 ct.timeStamp = timeStamp++;
 
@@ -607,7 +564,7 @@ public final class SunTileCache extends Observable
 
                 hitCount++;
 
-                if ( diagnostics ) {
+                if (diagnostics) {
                     ct.action = UPDATE_FROM_ADD;
                     setChanged();
                     notifyObservers(ct);
@@ -618,8 +575,8 @@ public final class SunTileCache extends Observable
 
                 // Don't cache tile if adding it would provoke memoryControl()
                 // which would in turn only end up removing the tile.
-                if(memoryUsage + ct.memorySize > memoryCapacity &&
-                   ct.memorySize > (long)(memoryCapacity * memoryThreshold)) {
+                if (memoryUsage + ct.memorySize > memoryCapacity
+                        && ct.memorySize > (long) (memoryCapacity * memoryThreshold)) {
                     return;
                 }
 
@@ -629,23 +586,23 @@ public final class SunTileCache extends Observable
 
                 if (first == null && last == null) {
                     first = ct;
-                    last  = ct;
+                    last = ct;
                 } else {
                     first.previous = ct;
-                    first = ct;        // put this tile at the top of the list
+                    first = ct; // put this tile at the top of the list
                 }
 
                 // add to tile cache
-                if ( cache.put(ct.key, ct) == null ) {
+                if (cache.put(ct.key, ct) == null) {
                     memoryUsage += ct.memorySize;
                     tileCount++;
-                    //missCount++;  Not necessary?
+                    // missCount++;  Not necessary?
 
-                    if ( cacheSortedSet != null ) {
+                    if (cacheSortedSet != null) {
                         cacheSortedSet.add(ct);
                     }
 
-                    if ( diagnostics ) {
+                    if (diagnostics) {
                         ct.action = ADD;
                         setChanged();
                         notifyObservers(ct);
@@ -661,34 +618,33 @@ public final class SunTileCache extends Observable
     }
 
     /**
-     * Returns an array of tile <code>Raster</code>s from the cache.
-     * Any or all of the elements of the returned array may be <code>null</code>
-     * if the corresponding tile is not in the cache.
+     * Returns an array of tile <code>Raster</code>s from the cache. Any or all of the elements of the returned array
+     * may be <code>null</code> if the corresponding tile is not in the cache.
      *
      * @param owner The <code>RenderedImage</code> that the tile belongs to.
-     * @param tileIndices  An array of <code>Point</code>s containing the
-     *        <code>tileX</code> and <code>tileY</code> indices for each tile.
+     * @param tileIndices An array of <code>Point</code>s containing the <code>tileX</code> and <code>tileY</code>
+     *     indices for each tile.
      * @since 1.1
      */
     public synchronized Raster[] getTiles(RenderedImage owner, Point[] tileIndices) {
 
-        if ( memoryCapacity == 0 ) {
+        if (memoryCapacity == 0) {
             return null;
         }
 
         Raster[] tiles = new Raster[tileIndices.length];
 
-        for ( int i = 0; i < tiles.length; i++ ) {
+        for (int i = 0; i < tiles.length; i++) {
             int tileX = tileIndices[i].x;
             int tileY = tileIndices[i].y;
 
             Object key = SunCachedTile.hashKey(owner, tileX, tileY);
-            SunCachedTile ct = (SunCachedTile)cache.get(key);
+            SunCachedTile ct = (SunCachedTile) cache.get(key);
 
-            if ( ct == null ) {
+            if (ct == null) {
                 tiles[i] = null;
                 missCount++;
-            } else {    // found tile in cache
+            } else { // found tile in cache
                 tiles[i] = (Raster) ct.getTile();
 
                 // Update last-access time. (update() inlined for performance)
@@ -713,7 +669,7 @@ public final class SunTileCache extends Observable
 
                 hitCount++;
 
-                if ( diagnostics ) {
+                if (diagnostics) {
                     ct.action = UPDATE_FROM_GETTILE;
                     setChanged();
                     notifyObservers(ct);
@@ -736,10 +692,10 @@ public final class SunTileCache extends Observable
         // to it in the hash map is null. It is not enough
         // to just set the object to null.
         //
-        Enumeration keys = cache.keys();    // all keys in Hashtable
+        Enumeration keys = cache.keys(); // all keys in Hashtable
 
         // reset counters before diagnostics
-        hitCount  = 0;
+        hitCount = 0;
         missCount = 0;
 
         while (keys.hasMoreElements()) {
@@ -747,19 +703,19 @@ public final class SunTileCache extends Observable
             SunCachedTile ct = (SunCachedTile) cache.remove(key);
 
             // recalculate memoryUsage only if tile is actually removed
-            if ( ct != null ) {
+            if (ct != null) {
                 memoryUsage -= ct.memorySize;
                 tileCount--;
 
-                if ( ct == first ) {
-                    if ( ct == last ) {
-                        first = null;  // only one tile in the list
-                        last  = null;
+                if (ct == first) {
+                    if (ct == last) {
+                        first = null; // only one tile in the list
+                        last = null;
                     } else {
                         first = ct.next;
                         first.previous = null;
                     }
-                } else if ( ct == last ) {
+                } else if (ct == last) {
                     last = ct.previous;
                     last.next = null;
                 } else {
@@ -771,7 +727,7 @@ public final class SunTileCache extends Observable
                 ct.next = null;
 
                 // diagnostics
-                if ( diagnostics ) {
+                if (diagnostics) {
                     ct.action = REMOVE_FROM_FLUSH;
                     setChanged();
                     notifyObservers(ct);
@@ -779,18 +735,18 @@ public final class SunTileCache extends Observable
             }
         }
 
-        if ( memoryCapacity > 0 ) {
+        if (memoryCapacity > 0) {
             cache = new Hashtable(DEFAULT_HASHTABLE_CAPACITY, LOAD_FACTOR);
         }
 
-        if ( cacheSortedSet != null ) {
+        if (cacheSortedSet != null) {
             cacheSortedSet.clear();
-            cacheSortedSet = Collections.synchronizedSortedSet( new TreeSet(comparator) );
+            cacheSortedSet = Collections.synchronizedSortedSet(new TreeSet(comparator));
         }
 
         // force reset after diagnostics
-        tileCount   = 0;
-        timeStamp   = 0;
+        tileCount = 0;
+        timeStamp = 0;
         memoryUsage = 0;
 
         // no System.gc() here, it's too slow and may occur anyway.
@@ -799,23 +755,21 @@ public final class SunTileCache extends Observable
     /**
      * Returns the cache's tile capacity.
      *
-     * <p> This implementation of <code>TileCache</code> does not use
-     * the tile capacity.  This method always returns 0.
+     * <p>This implementation of <code>TileCache</code> does not use the tile capacity. This method always returns 0.
      */
-    public int getTileCapacity() { return 0; }
+    public int getTileCapacity() {
+        return 0;
+    }
 
     /**
      * Sets the cache's tile capacity to the desired number of tiles.
      *
-     * <p> This implementation of <code>TileCache</code> does not use
-     * the tile capacity.  The cache size is limited by the memory
-     * capacity only.  This method does nothing and has no effect on
-     * the cache.
+     * <p>This implementation of <code>TileCache</code> does not use the tile capacity. The cache size is limited by the
+     * memory capacity only. This method does nothing and has no effect on the cache.
      *
-     * @param tileCapacity  The desired tile capacity for this cache
-     *        in number of tiles.
+     * @param tileCapacity The desired tile capacity for this cache in number of tiles.
      */
-    public void setTileCapacity(int tileCapacity) { }
+    public void setTileCapacity(int tileCapacity) {}
 
     /** Returns the cache's memory capacity in bytes. */
     public long getMemoryCapacity() {
@@ -823,28 +777,23 @@ public final class SunTileCache extends Observable
     }
 
     /**
-     * Sets the cache's memory capacity to the desired number of bytes.
-     * If the new memory capacity is smaller than the amount of memory
-     * currently being used by this cache, tiles are removed from the
-     * cache until the memory usage is less than the specified memory
-     * capacity.
+     * Sets the cache's memory capacity to the desired number of bytes. If the new memory capacity is smaller than the
+     * amount of memory currently being used by this cache, tiles are removed from the cache until the memory usage is
+     * less than the specified memory capacity.
      *
-     * @param memoryCapacity  The desired memory capacity for this cache
-     *        in bytes.
-     *
-     * @throws IllegalArgumentException  If <code>memoryCapacity</code>
-     *         is less than 0.
+     * @param memoryCapacity The desired memory capacity for this cache in bytes.
+     * @throws IllegalArgumentException If <code>memoryCapacity</code> is less than 0.
      */
     public void setMemoryCapacity(long memoryCapacity) {
         if (memoryCapacity < 0) {
             throw new IllegalArgumentException(JaiI18N.getString("SunTileCache"));
-        } else if ( memoryCapacity == 0 ) {
+        } else if (memoryCapacity == 0) {
             flush();
         }
 
         this.memoryCapacity = memoryCapacity;
 
-        if ( memoryUsage > memoryCapacity ) {
+        if (memoryUsage > memoryCapacity) {
             memoryControl();
         }
     }
@@ -881,7 +830,7 @@ public final class SunTileCache extends Observable
      * @since 1.1
      */
     public void resetCounts() {
-        hitCount  = 0;
+        hitCount = 0;
         missCount = 0;
     }
 
@@ -891,7 +840,7 @@ public final class SunTileCache extends Observable
      * @since 1.1
      */
     public void setMemoryThreshold(float mt) {
-        if ( mt < 0.0F || mt > 1.0F ) {
+        if (mt < 0.0F || mt > 1.0F) {
             throw new IllegalArgumentException(JaiI18N.getString("SunTileCache"));
         } else {
             memoryThreshold = mt;
@@ -910,10 +859,10 @@ public final class SunTileCache extends Observable
 
     /** Returns a string representation of the class object. */
     public String toString() {
-        return getClass().getName() + "@" + Integer.toHexString(hashCode()) +
-               ": memoryCapacity = " + Long.toHexString(memoryCapacity) +
-               " memoryUsage = " + Long.toHexString(memoryUsage) +
-               " #tilesInCache = " + Integer.toString(cache.size());
+        return getClass().getName() + "@" + Integer.toHexString(hashCode()) + ": memoryCapacity = "
+                + Long.toHexString(memoryCapacity) + " memoryUsage = "
+                + Long.toHexString(memoryUsage) + " #tilesInCache = "
+                + Integer.toString(cache.size());
     }
 
     /** Returns the <code>Object</code> that represents the actual cache. */
@@ -922,12 +871,11 @@ public final class SunTileCache extends Observable
     }
 
     /**
-     * Removes tiles from the cache based on their last-access time
-     * (old to new) until the memory usage is memoryThreshold % of that of the
-     * memory capacity.
+     * Removes tiles from the cache based on their last-access time (old to new) until the memory usage is
+     * memoryThreshold % of that of the memory capacity.
      */
     public synchronized void memoryControl() {
-        if ( cacheSortedSet == null ) {
+        if (cacheSortedSet == null) {
             standard_memory_control();
         } else {
             custom_memory_control();
@@ -936,12 +884,12 @@ public final class SunTileCache extends Observable
 
     // time stamp based memory control (LRU)
     private final void standard_memory_control() {
-        long limit = (long)(memoryCapacity * memoryThreshold);
+        long limit = (long) (memoryCapacity * memoryThreshold);
 
-        while( memoryUsage > limit && last != null ) {
+        while (memoryUsage > limit && last != null) {
             SunCachedTile ct = (SunCachedTile) cache.get(last.key);
 
-            if ( ct != null ) {
+            if (ct != null) {
                 ct = (SunCachedTile) cache.remove(last.key);
 
                 memoryUsage -= last.memorySize;
@@ -957,7 +905,7 @@ public final class SunTileCache extends Observable
                 }
 
                 // diagnostics
-                if ( diagnostics ) {
+                if (diagnostics) {
                     ct.action = REMOVE_FROM_MEMCON;
                     setChanged();
                     notifyObservers(ct);
@@ -968,11 +916,11 @@ public final class SunTileCache extends Observable
 
     // comparator based memory control (TreeSet)
     private final void custom_memory_control() {
-        long limit = (long)(memoryCapacity * memoryThreshold);
+        long limit = (long) (memoryCapacity * memoryThreshold);
         Iterator iter = cacheSortedSet.iterator();
         SunCachedTile ct;
 
-        while( iter.hasNext() && (memoryUsage > limit) ) {
+        while (iter.hasNext() && (memoryUsage > limit)) {
             ct = (SunCachedTile) iter.next();
 
             memoryUsage -= ct.memorySize;
@@ -981,45 +929,43 @@ public final class SunTileCache extends Observable
             // remove from sorted set
             try {
                 iter.remove();
-            } catch(ConcurrentModificationException e) {
-                ImagingListener listener =
-                    ImageUtil.getImagingListener((RenderingHints)null);
-                listener.errorOccurred(JaiI18N.getString("SunTileCache0"),
-                                       e, this, false);
-//                e.printStackTrace();
+            } catch (ConcurrentModificationException e) {
+                ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
+                listener.errorOccurred(JaiI18N.getString("SunTileCache0"), e, this, false);
+                //                e.printStackTrace();
             }
 
             // remove tile from the linked list
-            if ( ct == first ) {
-                if ( ct == last ) {
+            if (ct == first) {
+                if (ct == last) {
                     first = null;
-                    last  = null;
+                    last = null;
                 } else {
                     first = ct.next;
 
-                    if ( first != null ) {
+                    if (first != null) {
                         first.previous = null;
                         first.next = ct.next.next;
                     }
                 }
-            } else if ( ct == last ) {
+            } else if (ct == last) {
                 last = ct.previous;
 
-                if ( last != null ) {
+                if (last != null) {
                     last.next = null;
                     last.previous = ct.previous.previous;
                 }
             } else {
                 SunCachedTile ptr = first.next;
 
-                while( ptr != null ) {
+                while (ptr != null) {
 
-                    if ( ptr == ct ) {
-                        if ( ptr.previous != null ) {
+                    if (ptr == ct) {
+                        if (ptr.previous != null) {
                             ptr.previous.next = ptr.next;
                         }
 
-                        if ( ptr.next != null ) {
+                        if (ptr.next != null) {
                             ptr.next.previous = ptr.previous;
                         }
 
@@ -1034,7 +980,7 @@ public final class SunTileCache extends Observable
             cache.remove(ct.key);
 
             // diagnostics
-            if ( diagnostics ) {
+            if (diagnostics) {
                 ct.action = REMOVE_FROM_MEMCON;
                 setChanged();
                 notifyObservers(ct);
@@ -1044,36 +990,33 @@ public final class SunTileCache extends Observable
         // If the custom memory control didn't release sufficient
         // number of tiles to satisfy the memory limit, fallback
         // to the standard memory controller.
-        if ( memoryUsage > limit ) {
+        if (memoryUsage > limit) {
             standard_memory_control();
         }
     }
 
     /**
-     *  The <code>Comparator</code> is used to produce an
-     *  ordered list of tiles based on a user defined
-     *  compute cost or priority metric.  This determines
-     *  which tiles are subject to "ordered" removal
-     *  during a memory control operation.
+     * The <code>Comparator</code> is used to produce an ordered list of tiles based on a user defined compute cost or
+     * priority metric. This determines which tiles are subject to "ordered" removal during a memory control operation.
      *
-     *  @since 1.1
+     * @since 1.1
      */
     public synchronized void setTileComparator(Comparator c) {
         comparator = c;
 
-        if ( comparator == null ) {
+        if (comparator == null) {
             // turn of comparator
-            if ( cacheSortedSet != null ) {
+            if (cacheSortedSet != null) {
                 cacheSortedSet.clear();
                 cacheSortedSet = null;
             }
         } else {
             // copy tiles from hashtable to sorted tree set
-            cacheSortedSet = Collections.synchronizedSortedSet( new TreeSet(comparator) );
+            cacheSortedSet = Collections.synchronizedSortedSet(new TreeSet(comparator));
 
             Enumeration keys = cache.keys();
 
-            while( keys.hasMoreElements() ) {
+            while (keys.hasMoreElements()) {
                 Object key = keys.nextElement();
                 Object ct = cache.get(key);
                 cacheSortedSet.add(ct);
@@ -1099,7 +1042,7 @@ public final class SunTileCache extends Observable
         Iterator iter = cacheSortedSet.iterator();
         int k = 0;
 
-        while( iter.hasNext() ) {
+        while (iter.hasNext()) {
             SunCachedTile ct = (SunCachedTile) iter.next();
             System.out.println(k++);
             System.out.println(ct);
@@ -1107,8 +1050,7 @@ public final class SunTileCache extends Observable
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener =
-            ImageUtil.getImagingListener((RenderingHints)null);
+        ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
         listener.errorOccurred(message, e, this, false);
     }
 }

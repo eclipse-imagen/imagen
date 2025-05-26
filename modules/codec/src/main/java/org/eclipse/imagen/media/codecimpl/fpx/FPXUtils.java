@@ -16,46 +16,45 @@
  */
 
 package org.eclipse.imagen.media.codecimpl.fpx;
-import java.io.IOException;
+
 import java.text.DecimalFormat;
-import org.eclipse.imagen.media.codec.SeekableStream;
 
 public class FPXUtils {
 
-//     /** Reads a 2-byte little-endian value. */
-//     public static final int readInt2(SeekableStream file, int offset)
-//         throws IOException {
-//         file.seek(offset);
-//         return file.readShortLE();
-//     }
+    //     /** Reads a 2-byte little-endian value. */
+    //     public static final int readInt2(SeekableStream file, int offset)
+    //         throws IOException {
+    //         file.seek(offset);
+    //         return file.readShortLE();
+    //     }
 
-//     /** Reads a 4-byte little-endian value. */
-//     public static final int readInt4(SeekableStream file, int offset) 
-//         throws IOException {
-//         file.seek(offset);
-//         return file.readIntLE();
-//     }
+    //     /** Reads a 4-byte little-endian value. */
+    //     public static final int readInt4(SeekableStream file, int offset)
+    //         throws IOException {
+    //         file.seek(offset);
+    //         return file.readIntLE();
+    //     }
 
-//     /** Reads a 4-byte little-endian IEEE float. */
-//     public static final float readFloat(SeekableStream file, int offset) 
-//         throws IOException {
-//         file.seek(offset);
-//         return file.readFloatLE();
-//     }
+    //     /** Reads a 4-byte little-endian IEEE float. */
+    //     public static final float readFloat(SeekableStream file, int offset)
+    //         throws IOException {
+    //         file.seek(offset);
+    //         return file.readFloatLE();
+    //     }
 
-//     /** Reads an 8-byte little-endian IEEE double. */
-//     public static final double readDouble(SeekableStream file,
-//                                           int offset) 
-//         throws IOException {
-//         file.seek(offset);
-//         return file.readDoubleLE();
-//     }
+    //     /** Reads an 8-byte little-endian IEEE double. */
+    //     public static final double readDouble(SeekableStream file,
+    //                                           int offset)
+    //         throws IOException {
+    //         file.seek(offset);
+    //         return file.readDoubleLE();
+    //     }
 
     public static final short getShortLE(byte[] data, int offset) {
         int b0 = data[offset] & 0xff;
         int b1 = data[offset + 1] & 0xff;
 
-        return (short)((b1 << 8) | b0);
+        return (short) ((b1 << 8) | b0);
     }
 
     public static final int getUnsignedShortLE(byte[] data, int offset) {
@@ -87,12 +86,12 @@ public class FPXUtils {
         if (length == 0) {
             return "<none>";
         } else {
-            length = length/2 - 1; // workaround for Kodak bug
+            length = length / 2 - 1; // workaround for Kodak bug
         }
         StringBuffer b = new StringBuffer(length);
         for (int i = 0; i < length; i++) {
             int c = getUnsignedShortLE(data, offset);
-            b.append((char)c);
+            b.append((char) c);
             offset += 2;
         }
 
@@ -106,24 +105,24 @@ public class FPXUtils {
 
     private static void printHex(byte b) {
         int i = b & 0xff;
-        int hi = i/16;
+        int hi = i / 16;
         int lo = i % 16;
 
         if (hi < 10) {
-            System.out.print((char)('0' + hi));
+            System.out.print((char) ('0' + hi));
         } else {
-            System.out.print((char)('a' + hi - 10));
+            System.out.print((char) ('a' + hi - 10));
         }
 
         if (lo < 10) {
-            System.out.print((char)('0' + lo));
+            System.out.print((char) ('0' + lo));
         } else {
-            System.out.print((char)('a' + lo - 10));
+            System.out.print((char) ('a' + lo - 10));
         }
     }
 
     private static void printChar(byte b) {
-        char c = (char)(b & 0xff);
+        char c = (char) (b & 0xff);
 
         if (c >= '!' && c <= '~') {
             System.out.print(' ');
@@ -132,7 +131,7 @@ public class FPXUtils {
             System.out.print("^@");
         } else if (c < ' ') {
             System.out.print('^');
-            System.out.print((char)('A' + c - 1));
+            System.out.print((char) ('A' + c - 1));
         } else if (c == ' ') {
             System.out.print("__");
         } else {
@@ -140,14 +139,13 @@ public class FPXUtils {
         }
     }
 
-    public static void dumpBuffer(byte[] buf, int offset, int length,
-                                  int printOffset) {
-        int lines = length/8;
+    public static void dumpBuffer(byte[] buf, int offset, int length, int printOffset) {
+        int lines = length / 8;
 
         for (int j = 0; j < lines; j++) {
             printDecimal(printOffset);
             System.out.print(": ");
-            
+
             for (int i = 0; i < 8; i++) {
                 printHex(buf[offset + i]);
                 System.out.print("  ");

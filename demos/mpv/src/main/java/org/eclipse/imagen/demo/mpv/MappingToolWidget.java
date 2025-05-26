@@ -7,47 +7,40 @@
  */
 package org.eclipse.imagen.demo.mpv;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.border.*;
-import javax.swing.colorchooser.*;
-import javax.swing.filechooser.*;
-import javax.accessibility.*;
-
+import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import java.util.*;
 import java.io.*;
-import java.applet.*;
 import java.net.*;
+import java.util.*;
+import javax.accessibility.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.colorchooser.*;
+import javax.swing.event.*;
+import javax.swing.filechooser.*;
+import javax.swing.text.*;
 
-/** This widget generates a piecewise linear "mapping" from
- *  a source to destination.  The widget is not application 
- *  specific although it was written as a generalized window
- *  level interface for imaging applications.
+/**
+ * This widget generates a piecewise linear "mapping" from a source to destination. The widget is not application
+ * specific although it was written as a generalized window level interface for imaging applications.
  *
- * The user must implement PropertyChangeListener to receive
- * notification of any changes on the mapping values.
+ * <p>The user must implement PropertyChangeListener to receive notification of any changes on the mapping values.
  *
  * @version 1.0 5/15/01
  */
-
-
 public class MappingToolWidget extends JFrame {
 
     public static final int DEFAULT_HORIZONTAL_MIN = 0;
     public static final int DEFAULT_HORIZONTAL_MAX = 255;
-    public static final int DEFAULT_VERTICAL_MIN   = 0;
-    public static final int DEFAULT_VERTICAL_MAX   = 255;
-    public static final String DEFAULT_TITLE       = new String("MappingToolWidget");
-    public static final String DEFAULT_HELP_STRING =
-        new String("Use top and bottom sliders to adjust bright\n"+
-                   "and dark cutoff values.  Use the side slider\n"+
-                   "to adjust the center variable contrast point.\n");
+    public static final int DEFAULT_VERTICAL_MIN = 0;
+    public static final int DEFAULT_VERTICAL_MAX = 255;
+    public static final String DEFAULT_TITLE = new String("MappingToolWidget");
+    public static final String DEFAULT_HELP_STRING = new String("Use top and bottom sliders to adjust bright\n"
+            + "and dark cutoff values.  Use the side slider\n" + "to adjust the center variable contrast point.\n");
     private static final int PT_DIAMETER = 8;
-    private static final int PT_RADIUS = PT_DIAMETER/2;
+    private static final int PT_RADIUS = PT_DIAMETER / 2;
 
     private String title;
     private String helpString;
@@ -83,65 +76,74 @@ public class MappingToolWidget extends JFrame {
 
     // Main method allowing a standalone run
     public static void main(String[] args) {
-	MappingToolWidget mtw = new MappingToolWidget();
-	mtw.show();
+        MappingToolWidget mtw = new MappingToolWidget();
+        mtw.show();
     }
 
     /** Constructor for a JFrame with some widgets (most general case) */
-
-
-    public MappingToolWidget(String userTitle,
-                             int horizontalMin, int horizontalMax,
-                             int verticalMin, int verticalMax,
-                             PropertyChangeListener listener,
-                             String userPropertyId) {
+    public MappingToolWidget(
+            String userTitle,
+            int horizontalMin,
+            int horizontalMax,
+            int verticalMin,
+            int verticalMax,
+            PropertyChangeListener listener,
+            String userPropertyId) {
         super(userTitle);
 
-        setFields(userTitle, horizontalMin, horizontalMax, verticalMin, verticalMax,
-                  listener, userPropertyId);
-
+        setFields(userTitle, horizontalMin, horizontalMax, verticalMin, verticalMax, listener, userPropertyId);
     } // MappingToolWidget
 
     /** Constructor for a JFrame with some widgets (useful for mapping to bytes) */
-
-
-    public MappingToolWidget(String userTitle,
-                             int horizontalMin, int horizontalMax,
-                             PropertyChangeListener listener,
-                             String userPropertyId) {
+    public MappingToolWidget(
+            String userTitle,
+            int horizontalMin,
+            int horizontalMax,
+            PropertyChangeListener listener,
+            String userPropertyId) {
         super(userTitle);
 
-        setFields(userTitle, horizontalMin, horizontalMax, DEFAULT_VERTICAL_MIN,
-                  DEFAULT_VERTICAL_MAX, listener, userPropertyId);
-
+        setFields(
+                userTitle,
+                horizontalMin,
+                horizontalMax,
+                DEFAULT_VERTICAL_MIN,
+                DEFAULT_VERTICAL_MAX,
+                listener,
+                userPropertyId);
     } // MappingToolWidget
 
     /** Constructor for a JFrame with some widgets (toy/test mode) */
-
-
     public MappingToolWidget() {
         super(DEFAULT_TITLE);
 
-        setFields(DEFAULT_TITLE, DEFAULT_HORIZONTAL_MIN, DEFAULT_HORIZONTAL_MAX,
-             DEFAULT_VERTICAL_MIN, DEFAULT_VERTICAL_MAX, (PropertyChangeListener)null, (String)null);
+        setFields(
+                DEFAULT_TITLE,
+                DEFAULT_HORIZONTAL_MIN,
+                DEFAULT_HORIZONTAL_MAX,
+                DEFAULT_VERTICAL_MIN,
+                DEFAULT_VERTICAL_MAX,
+                (PropertyChangeListener) null,
+                (String) null);
 
         // No listener, so this is just running in "toy mode"
         System.out.println("Mapping tool widget running in toy mode!");
     }
 
     /** Constructor helper */
-
-
-    private void setFields(String userTitle,
-                           int horizontalMin, int horizontalMax,
-                           int verticalMin, int verticalMax,
-                           PropertyChangeListener listener,
-                           String userPropertyId) {
+    private void setFields(
+            String userTitle,
+            int horizontalMin,
+            int horizontalMax,
+            int verticalMin,
+            int verticalMax,
+            PropertyChangeListener listener,
+            String userPropertyId) {
 
         title = userTitle;
 
         // Set the size for this widget
-        setBounds(100,100,270,330);
+        setBounds(100, 100, 270, 330);
 
         // Set up the base panel
         basePanel = new JPanel();
@@ -156,7 +158,7 @@ public class MappingToolWidget extends JFrame {
 
         // Place the items in the gui onto base panel
         createSlidersButtonsAndDrawingArea();
- 
+
         // Store values to avoid repeating duplicates
         oldTop = topSliderValue;
         oldSide = sideSliderValue;
@@ -172,28 +174,22 @@ public class MappingToolWidget extends JFrame {
         helpString = DEFAULT_HELP_STRING;
 
         this.pack();
-
     } // setFields
 
-    /** Set a new string for help message
+    /**
+     * Set a new string for help message
      *
      * @param helpMessage new help message to be displayed when user presses "help" button
      */
-
-
     public void setHelpString(String helpMessage) {
         helpString = helpMessage;
     } // setHelpString
 
-    /** Send changed values to listeners and repaint the drawing area
-     */
-
-
+    /** Send changed values to listeners and repaint the drawing area */
     private void processUpdate() {
 
         drawingArea.repaint();
-        if ((topSliderValue == oldTop) && (sideSliderValue == oldSide) &&
-            (bottomSliderValue == oldBottom)) return;
+        if ((topSliderValue == oldTop) && (sideSliderValue == oldSide) && (bottomSliderValue == oldBottom)) return;
 
         oldTop = topSliderValue;
         oldSide = sideSliderValue;
@@ -202,44 +198,39 @@ public class MappingToolWidget extends JFrame {
         mtwPropertyValues.setElementAt(new Integer(topSliderValue), 0);
         mtwPropertyValues.setElementAt(new Integer(sideSliderValue), 1);
         mtwPropertyValues.setElementAt(new Integer(bottomSliderValue), 2);
-        firePropertyChange(propertyId, null, (Object)mtwPropertyValues);
-
+        firePropertyChange(propertyId, null, (Object) mtwPropertyValues);
     } // processUpdate()
 
-    /** Create panels to hold sliders (top, side, bottom), buttons
-     *  (bottom) and a drawing area.
-     */
-
-
+    /** Create panels to hold sliders (top, side, bottom), buttons (bottom) and a drawing area. */
     private void createSlidersButtonsAndDrawingArea() {
 
-	// Create panels to hold the layout:
-	//
-	//   ---------------------------
-	//   | <---slider--------++--> |
-	//   ---------------------------
-	//   | --------------------| ^ |
-	//   | |                   | s |
-	//   | |                   | l |
-	//   | |                   | i |
-	//   | |                   | d |
-	//   | |     Drawing       | e |
-	//   | |       Area        | r |
-	//   | |                   | | |
-	//   | |                   | | |
-	//   | |                   | + |
-	//   | |                   | + |
-	//   | |                   | | |
-	//   | |                   | | |
-	//   | |                   | | |
-	//   | --------------------| v |
-	//   ---------------------------
-	//   | <--+++--------slider--> |
-	//   ---------------------------
+        // Create panels to hold the layout:
+        //
+        //   ---------------------------
+        //   | <---slider--------++--> |
+        //   ---------------------------
+        //   | --------------------| ^ |
+        //   | |                   | s |
+        //   | |                   | l |
+        //   | |                   | i |
+        //   | |                   | d |
+        //   | |     Drawing       | e |
+        //   | |       Area        | r |
+        //   | |                   | | |
+        //   | |                   | | |
+        //   | |                   | + |
+        //   | |                   | + |
+        //   | |                   | | |
+        //   | |                   | | |
+        //   | |                   | | |
+        //   | --------------------| v |
+        //   ---------------------------
+        //   | <--+++--------slider--> |
+        //   ---------------------------
         //   |<btn1><btn2><btn3><btn4> |
-	//   ---------------------------
-	// 
-	JPanel topPanel = new JPanel();
+        //   ---------------------------
+        //
+        JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         JPanel midPanel = new JPanel();
         midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.X_AXIS));
@@ -249,14 +240,14 @@ public class MappingToolWidget extends JFrame {
 
         // Set default parameters
         topSliderValue = xMax;
-        sideSliderValue = (yMin + yMax)/2;
+        sideSliderValue = (yMin + yMax) / 2;
         bottomSliderValue = xMin;
 
         // Top slider
-	topSldr = new JSlider(xMin, xMax, topSliderValue);
+        topSldr = new JSlider(xMin, xMax, topSliderValue);
         topSldr.setPaintTicks(false);
         topSldr.setPaintLabels(false);
-	topSldr.addChangeListener(sListener);
+        topSldr.addChangeListener(sListener);
         topSldr.setOrientation(javax.swing.SwingConstants.HORIZONTAL);
         topPanel.add(topSldr);
 
@@ -264,19 +255,19 @@ public class MappingToolWidget extends JFrame {
         drawingArea = new DrawingArea();
 
         // Side slider
-	sideSldr = new JSlider(yMin, yMax, sideSliderValue);
+        sideSldr = new JSlider(yMin, yMax, sideSliderValue);
         sideSldr.setPaintTicks(false);
         sideSldr.setPaintLabels(false);
-	sideSldr.addChangeListener(sListener);
+        sideSldr.addChangeListener(sListener);
         sideSldr.setOrientation(javax.swing.SwingConstants.VERTICAL);
         midPanel.add(drawingArea);
         midPanel.add(sideSldr);
 
         // Bottom slider
-	bottomSldr = new JSlider(xMin, xMax, bottomSliderValue);
+        bottomSldr = new JSlider(xMin, xMax, bottomSliderValue);
         bottomSldr.setPaintTicks(false);
         bottomSldr.setPaintLabels(false);
-	bottomSldr.addChangeListener(sListener);
+        bottomSldr.addChangeListener(sListener);
         bottomSldr.setOrientation(javax.swing.SwingConstants.HORIZONTAL);
         lowerPanel.add(bottomSldr);
 
@@ -304,28 +295,22 @@ public class MappingToolWidget extends JFrame {
         basePanel.add(midPanel);
         basePanel.add(lowerPanel);
         basePanel.add(btnPanel);
-
     } // void createSlidersAndDrawingArea
 
     /** Reset the widget to input parameters */
-
-
     private void resetWidget() {
 
         // Set default parameters
         topSliderValue = xMax;
-        sideSliderValue = (yMin + yMax)/2;
+        sideSliderValue = (yMin + yMax) / 2;
         bottomSliderValue = xMin;
         topSldr.setValue(topSliderValue);
         sideSldr.setValue(sideSliderValue);
         bottomSldr.setValue(bottomSliderValue);
         processUpdate();
-
     }
 
     /** Reflect the segmented curve about the line y = x */
-
-
     private void invertWidget() {
 
         // Switch top and bottom parameters
@@ -337,34 +322,26 @@ public class MappingToolWidget extends JFrame {
         sideSldr.setValue(sideSliderValue);
         bottomSldr.setValue(bottomSliderValue);
         processUpdate();
-
     }
 
-    /** Display a helpful message (user can change <code>helpString</code> using
-     *  <code>setHelpString</code> method).
-     */
-
-
+    /** Display a helpful message (user can change <code>helpString</code> using <code>setHelpString</code> method). */
     private void showHelp() {
         JFrame frame = new JFrame("Graycale Tool Help");
-        JOptionPane.showMessageDialog(frame, helpString,
-            "User Help", JOptionPane.INFORMATION_MESSAGE);
-
+        JOptionPane.showMessageDialog(frame, helpString, "User Help", JOptionPane.INFORMATION_MESSAGE);
     } // void showHelp
 
     /** An inner class to handle button presses */
-
-
     class ButtonListener implements ActionListener {
-	public ButtonListener() {}
-	public void actionPerformed(ActionEvent e) {
-	    JButton b = (JButton)e.getSource();
+        public ButtonListener() {}
+
+        public void actionPerformed(ActionEvent e) {
+            JButton b = (JButton) e.getSource();
             if (b.equals(resetBtn)) {
 
                 // Reset the widget to the nominal setting
                 resetWidget();
 
-	    } else if (b.equals(invertBtn)) {
+            } else if (b.equals(invertBtn)) {
 
                 // Invert the input/output roles on the mapping
                 invertWidget();
@@ -374,23 +351,22 @@ public class MappingToolWidget extends JFrame {
                 // Display an information dialog
                 showHelp();
 
-	    } else if (b.equals(hideBtn)) {
+            } else if (b.equals(hideBtn)) {
 
                 // hide this widget from view
                 setVisible(false);
-
- 	    }
+            }
         }
-    }  // class ButtonListener
+    } // class ButtonListener
 
     /* An inner class to handle slider changes */
 
-
     class SliderListener implements ChangeListener {
 
-	public SliderListener() {}
+        public SliderListener() {}
+
         public void stateChanged(ChangeEvent e) {
-            JSlider s = (JSlider)e.getSource();
+            JSlider s = (JSlider) e.getSource();
 
             if (s.equals(topSldr)) {
                 topSliderValue = s.getValue();
@@ -408,51 +384,40 @@ public class MappingToolWidget extends JFrame {
                 processUpdate();
             }
         }
-    }  // class SliderListener
+    } // class SliderListener
 
     /** Fast version of ROUND operation */
-
-
     private static final int ROUND(double x) {
-        return (x > 0) ? (int)(x + 0.5) : (int)(x - 0.5);
+        return (x > 0) ? (int) (x + 0.5) : (int) (x - 0.5);
     }
 
     /** An inner class for the drawing area holding the widget's graphics */
-
-
     private class DrawingArea extends JPanel {
 
         /** Constructor */
-
-
         public DrawingArea() {
             super();
         }
 
-        /** Build graphic display as determined by 
-         *  top, bottom, and side slider positions and
-         *  their respective units.
+        /**
+         * Build graphic display as determined by top, bottom, and side slider positions and their respective units.
          *
          * @param g system supplied graphics context
          */
-
-
         public void paint(Graphics g) {
             int daWidth = drawingArea.getWidth();
             int daHeight = drawingArea.getHeight();
             Color lineColor = Color.black;
-            Color daColor = new Color(0,200,200);
+            Color daColor = new Color(0, 200, 200);
             int sliderWidth = xMax - xMin + 1;
             int sliderHeight = yMax - yMin + 1;
 
             /* Clear the drawing area */
 
-
             g.setColor(daColor);
             g.fillRect(0, 0, daWidth, daHeight);
 
             /* Set coordinates inside the drawing area */
-
 
             int xOff = PT_RADIUS;
             int yOff = PT_RADIUS;
@@ -461,22 +426,19 @@ public class MappingToolWidget extends JFrame {
 
             /* Compute display coords for points */
 
-
-            int xTop = xOff + ((topSliderValue - xMin)*width + sliderWidth/2)/sliderWidth;
-            int xBot = xOff + ((bottomSliderValue - xMin)*width+ sliderWidth/2)/sliderWidth;
+            int xTop = xOff + ((topSliderValue - xMin) * width + sliderWidth / 2) / sliderWidth;
+            int xBot = xOff + ((bottomSliderValue - xMin) * width + sliderWidth / 2) / sliderWidth;
             int yTop = yOff;
             int yBot = yOff + height - 1;
 
             /* The interior point varies along the complementary diagonal to top
-               and bottom points */
+            and bottom points */
 
-
-            double t = (double)(sideSliderValue - yMin)/(yMax - yMin);
-            int xInt = ROUND(t*xBot + (1 - t)*xTop);
-            int yInt = ROUND(t*yTop + (1 - t)*yBot);
+            double t = (double) (sideSliderValue - yMin) / (yMax - yMin);
+            int xInt = ROUND(t * xBot + (1 - t) * xTop);
+            int yInt = ROUND(t * yTop + (1 - t) * yBot);
 
             /* render top and bottom lines */
-
 
             g.setColor(lineColor);
             if (topSliderValue >= bottomSliderValue) {
@@ -489,27 +451,19 @@ public class MappingToolWidget extends JFrame {
 
             /* render middle lines */
 
-
             g.drawLine(xTop, yTop, xInt, yInt);
             g.drawLine(xBot, yBot, xInt, yInt);
 
             /* draw the points (filled circles) in green */
 
-
             g.setColor(Color.green);
-            g.fillArc(xTop - PT_RADIUS, yTop - PT_RADIUS,
-                      PT_DIAMETER, PT_DIAMETER, 0, 360);
+            g.fillArc(xTop - PT_RADIUS, yTop - PT_RADIUS, PT_DIAMETER, PT_DIAMETER, 0, 360);
             g.setColor(Color.blue);
-            g.fillArc(xBot - PT_RADIUS, yBot - PT_RADIUS,
-                      PT_DIAMETER, PT_DIAMETER, 0, 360);
+            g.fillArc(xBot - PT_RADIUS, yBot - PT_RADIUS, PT_DIAMETER, PT_DIAMETER, 0, 360);
             g.setColor(Color.red);
-            g.fillArc(xInt - PT_RADIUS, yInt - PT_RADIUS,
-                      PT_DIAMETER, PT_DIAMETER, 0, 360);
+            g.fillArc(xInt - PT_RADIUS, yInt - PT_RADIUS, PT_DIAMETER, PT_DIAMETER, 0, 360);
 
             return; /* done */
-
-
-
         } // paint()
     } // DrawingArea
 }

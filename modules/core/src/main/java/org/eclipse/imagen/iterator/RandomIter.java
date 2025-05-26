@@ -18,22 +18,17 @@
 package org.eclipse.imagen.iterator;
 
 /**
- * An iterator that allows random read-only access to any sample
- * within its bounding rectangle.  This flexibility will generally
- * exact a corresponding price in speed and setup overhead.
+ * An iterator that allows random read-only access to any sample within its bounding rectangle. This flexibility will
+ * generally exact a corresponding price in speed and setup overhead.
  *
- * <p> The iterator is initialized with a particular rectangle as its
- * bounds, which it is illegal to exceed.  This initialization takes
- * place in a factory method and is not a part of the iterator
- * interface itself.
+ * <p>The iterator is initialized with a particular rectangle as its bounds, which it is illegal to exceed. This
+ * initialization takes place in a factory method and is not a part of the iterator interface itself.
  *
- * <p> The getSample(), getSampleFloat(), and getSampleDouble()
- * methods are provided to allow read-only access to the source data.
- * The getPixel() methods allow retrieval of all bands simultaneously.
+ * <p>The getSample(), getSampleFloat(), and getSampleDouble() methods are provided to allow read-only access to the
+ * source data. The getPixel() methods allow retrieval of all bands simultaneously.
  *
- * <p> An instance of RandomIter may be obtained by means of the
- * RandomIterFactory.create() method, which returns an opaque
- * object implementing this interface.
+ * <p>An instance of RandomIter may be obtained by means of the RandomIterFactory.create() method, which returns an
+ * opaque object implementing this interface.
  *
  * @see WritableRandomIter
  * @see RandomIterFactory
@@ -68,8 +63,7 @@ public interface RandomIter {
     double getSampleDouble(int x, int y, int b);
 
     /**
-     * Returns the samples of the specified pixel from the image
-     * in an array of int.
+     * Returns the samples of the specified pixel from the image in an array of int.
      *
      * @param x the X coordinate of the desired pixel.
      * @param y the Y coordinate of the desired pixel.
@@ -79,8 +73,7 @@ public interface RandomIter {
     int[] getPixel(int x, int y, int[] iArray);
 
     /**
-     * Returns the samples of the specified pixel from the image
-     * in an array of float.
+     * Returns the samples of the specified pixel from the image in an array of float.
      *
      * @param x the X coordinate of the desired pixel.
      * @param y the Y coordinate of the desired pixel.
@@ -90,8 +83,7 @@ public interface RandomIter {
     float[] getPixel(int x, int y, float[] fArray);
 
     /**
-     * Returns the samples of the specified pixel from the image
-     * in an array of double.
+     * Returns the samples of the specified pixel from the image in an array of double.
      *
      * @param x the X coordinate of the desired pixel.
      * @param y the Y coordinate of the desired pixel.
@@ -101,9 +93,8 @@ public interface RandomIter {
     double[] getPixel(int x, int y, double[] dArray);
 
     /**
-     * Informs the iterator that it may discard its internal data
-     * structures.  This method should be called when the iterator
-     * will no longer be used.
+     * Informs the iterator that it may discard its internal data structures. This method should be called when the
+     * iterator will no longer be used.
      */
     void done();
 }

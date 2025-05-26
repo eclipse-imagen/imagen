@@ -15,29 +15,23 @@ public class FormatDemo {
 
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.out.println(
-"Format recognizer demo:\n");
-            System.out.println(
-"  Given a file, determine which file formats it may be encoded in.");
-            System.out.println(
-"  In addition to the standard formats, a \"samplepnm\" codec is");
-            System.out.println(
-"  registered.\n");
+            System.out.println("Format recognizer demo:\n");
+            System.out.println("  Given a file, determine which file formats it may be encoded in.");
+            System.out.println("  In addition to the standard formats, a \"samplepnm\" codec is");
+            System.out.println("  registered.\n");
             System.out.println("usage: java FormatDemo <filenames>");
             System.exit(0);
         }
 
         // Register the sample PNM codec
         ImageCodec.registerCodec(new SamplePNMCodec());
-        
+
         try {
             for (int i = 0; i < args.length; i++) {
                 SeekableStream stream = new FileSeekableStream(args[i]);
                 String[] names = ImageCodec.getDecoderNames(stream);
 
-                System.out.println("File " +
-                                   args[i] +
-                                   " may be in the following format(s):");
+                System.out.println("File " + args[i] + " may be in the following format(s):");
                 for (int j = 0; j < names.length; j++) {
                     System.out.println("\t" + names[j]);
                 }

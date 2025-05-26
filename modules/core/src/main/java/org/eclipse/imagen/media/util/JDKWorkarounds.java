@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.util;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
@@ -28,20 +29,16 @@ public final class JDKWorkarounds {
     private JDKWorkarounds() {}
 
     /**
-     * Faster implementation of setRect for bilevel Rasters
-     * with a SinglePixelPackedSampleModel and DataBufferByte.
-     * Based on sun.awt.image.BytePackedRaster.setDataElements
-     * (JDK1.3 beta version), with improvements.
+     * Faster implementation of setRect for bilevel Rasters with a SinglePixelPackedSampleModel and DataBufferByte.
+     * Based on sun.awt.image.BytePackedRaster.setDataElements (JDK1.3 beta version), with improvements.
      */
-    private static boolean setRectBilevel(WritableRaster dstRaster,
-                                          Raster srcRaster,
-                                          int dx, int dy) {
-        int width  = srcRaster.getWidth();
+    private static boolean setRectBilevel(WritableRaster dstRaster, Raster srcRaster, int dx, int dy) {
+        int width = srcRaster.getWidth();
         int height = srcRaster.getHeight();
         int srcOffX = srcRaster.getMinX();
         int srcOffY = srcRaster.getMinY();
-        int dstOffX = dx+srcOffX;
-        int dstOffY = dy+srcOffY;
+        int dstOffX = dx + srcOffX;
+        int dstOffY = dy + srcOffY;
 
         int dminX = dstRaster.getMinX();
         int dminY = dstRaster.getMinY();
@@ -104,7 +101,7 @@ public final class JDKWorkarounds {
         int dstTransY = dstRaster.getSampleModelTranslateY();
         int dstDataBitOffset = dstMPPSM.getDataBitOffset();
         int dstScanlineStride = dstMPPSM.getScanlineStride();
-        
+
         int dstYOffset = (dstOffY - dstTransY)*dstScanlineStride;
         int dstXOffset = dstDataBitOffset + (dstOffX - dstTransX);
 
@@ -142,7 +139,7 @@ public final class JDKWorkarounds {
                 int inbyte = inbit >> 3;
                 int outbyte = outbit >> 3;
                 int copybytes = copybits >> 3;
-                
+
                 if (copybytes == srcScanlineStride &&
                     srcScanlineStride == dstScanlineStride) {
                     System.arraycopy(srcData, inbyte,
@@ -185,7 +182,7 @@ public final class JDKWorkarounds {
 
                 int inbyte, outbyte;
                 int mask;
-                
+
                 int bits = outbit & 7;
                 if (bits > 0) {
                     inbyte = inbit >> 8;
@@ -225,7 +222,7 @@ public final class JDKWorkarounds {
                         ((srcData1 >>> shift1) & mask1);
                     srcData0 = srcData1;
                     dstData[outbyte] = (byte)val;
-                    
+
                     ++inbyte;
                     ++outbyte;
                     inbit += 8;
@@ -258,25 +255,22 @@ public final class JDKWorkarounds {
         setRect(dstRaster, srcRaster, 0, 0);
     }
 
-    public static void setRect(WritableRaster dstRaster, Raster srcRaster,
-                        int dx, int dy) {
+    public static void setRect(WritableRaster dstRaster, Raster srcRaster, int dx, int dy) {
         // Special case for bilevel Rasters
         SampleModel srcSampleModel = srcRaster.getSampleModel();
         SampleModel dstSampleModel = dstRaster.getSampleModel();
-        if (srcSampleModel instanceof MultiPixelPackedSampleModel &&
-            dstSampleModel instanceof MultiPixelPackedSampleModel) {
-            MultiPixelPackedSampleModel srcMPPSM =
-                (MultiPixelPackedSampleModel)srcSampleModel;
-            MultiPixelPackedSampleModel dstMPPSM =
-                (MultiPixelPackedSampleModel)dstSampleModel;
+        if (srcSampleModel instanceof MultiPixelPackedSampleModel
+                && dstSampleModel instanceof MultiPixelPackedSampleModel) {
+            MultiPixelPackedSampleModel srcMPPSM = (MultiPixelPackedSampleModel) srcSampleModel;
+            MultiPixelPackedSampleModel dstMPPSM = (MultiPixelPackedSampleModel) dstSampleModel;
 
             DataBuffer srcDB = srcRaster.getDataBuffer();
             DataBuffer dstDB = srcRaster.getDataBuffer();
 
-            if (srcDB instanceof DataBufferByte &&
-                dstDB instanceof DataBufferByte &&
-                srcMPPSM.getPixelBitStride() == 1 &&
-                dstMPPSM.getPixelBitStride() == 1) {
+            if (srcDB instanceof DataBufferByte
+                    && dstDB instanceof DataBufferByte
+                    && srcMPPSM.getPixelBitStride() == 1
+                    && dstMPPSM.getPixelBitStride() == 1) {
                 if (setRectBilevel(dstRaster, srcRaster, dx, dy)) {
                     return;
                 }
@@ -286,18 +280,17 @@ public final class JDKWorkarounds {
         // Use the regular JDK routines for everything else except
         // float and double images.
         int dataType = dstRaster.getSampleModel().getDataType();
-        if (dataType != DataBuffer.TYPE_FLOAT &&
-            dataType != DataBuffer.TYPE_DOUBLE) {
+        if (dataType != DataBuffer.TYPE_FLOAT && dataType != DataBuffer.TYPE_DOUBLE) {
             dstRaster.setRect(dx, dy, srcRaster);
             return;
         }
 
-        int width  = srcRaster.getWidth();
+        int width = srcRaster.getWidth();
         int height = srcRaster.getHeight();
         int srcOffX = srcRaster.getMinX();
         int srcOffY = srcRaster.getMinY();
-        int dstOffX = dx+srcOffX;
-        int dstOffY = dy+srcOffY;
+        int dstOffX = dx + srcOffX;
+        int dstOffY = dy + srcOffY;
 
         int dminX = dstRaster.getMinX();
         int dminY = dstRaster.getMinY();
@@ -313,67 +306,57 @@ public final class JDKWorkarounds {
         }
 
         switch (srcRaster.getSampleModel().getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_INT:
-            int[] iData = null;    
-            for (int startY=0; startY < height; startY++) {
-                // Grab one scanline at a time
-                iData =
-                    srcRaster.getPixels(srcOffX, srcOffY+startY, width, 1,
-                                        iData);
-                dstRaster.setPixels(dstOffX, dstOffY+startY, width, 1, iData);
-            }
-            break;
+            case DataBuffer.TYPE_BYTE:
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_USHORT:
+            case DataBuffer.TYPE_INT:
+                int[] iData = null;
+                for (int startY = 0; startY < height; startY++) {
+                    // Grab one scanline at a time
+                    iData = srcRaster.getPixels(srcOffX, srcOffY + startY, width, 1, iData);
+                    dstRaster.setPixels(dstOffX, dstOffY + startY, width, 1, iData);
+                }
+                break;
 
-        case DataBuffer.TYPE_FLOAT:
-            float[] fData = null;    
-            for (int startY=0; startY < height; startY++) {
-                fData =
-                    srcRaster.getPixels(srcOffX, srcOffY+startY, width, 1,
-                                        fData);
-                dstRaster.setPixels(dstOffX, dstOffY+startY, width, 1, fData);
-            }
-            break;
+            case DataBuffer.TYPE_FLOAT:
+                float[] fData = null;
+                for (int startY = 0; startY < height; startY++) {
+                    fData = srcRaster.getPixels(srcOffX, srcOffY + startY, width, 1, fData);
+                    dstRaster.setPixels(dstOffX, dstOffY + startY, width, 1, fData);
+                }
+                break;
 
-        case DataBuffer.TYPE_DOUBLE:
-            double[] dData = null;    
-            for (int startY=0; startY < height; startY++) {
-                // Grab one scanline at a time
-                dData =
-                    srcRaster.getPixels(srcOffX, srcOffY+startY, width, 1,
-                                        dData);
-                dstRaster.setPixels(dstOffX, dstOffY+startY, width, 1, dData);
-            }
-            break;
+            case DataBuffer.TYPE_DOUBLE:
+                double[] dData = null;
+                for (int startY = 0; startY < height; startY++) {
+                    // Grab one scanline at a time
+                    dData = srcRaster.getPixels(srcOffX, srcOffY + startY, width, 1, dData);
+                    dstRaster.setPixels(dstOffX, dstOffY + startY, width, 1, dData);
+                }
+                break;
         }
     }
 
     /**
      * Workaround for JDK 1.3 bug 4326636 (bpb 30 March 2000).
      *
-     * Check whether the given SampleModel and ColorModel are compatible.
+     * <p>Check whether the given SampleModel and ColorModel are compatible.
      *
-     * This is required because in JDK 1.3 the ComponentColorModel
-     * implementation of isCompatibleSampleModel() only checks whether
-     * the SampleModel is a ComponentSampleModel with the same transferType
-     * as the ColorModel. No check of the number of components or bit
-     * depth is effected.
+     * <p>This is required because in JDK 1.3 the ComponentColorModel implementation of isCompatibleSampleModel() only
+     * checks whether the SampleModel is a ComponentSampleModel with the same transferType as the ColorModel. No check
+     * of the number of components or bit depth is effected.
      *
      * @throws IllegalArgumentException if either parameter is null.
      */
-    public static boolean areCompatibleDataModels(SampleModel sm,
-                                                  ColorModel cm) {
-        if(sm == null || cm == null) {
-            throw new
-                IllegalArgumentException(JaiI18N.getString("JDKWorkarounds0"));
+    public static boolean areCompatibleDataModels(SampleModel sm, ColorModel cm) {
+        if (sm == null || cm == null) {
+            throw new IllegalArgumentException(JaiI18N.getString("JDKWorkarounds0"));
         }
 
         // Call the method we should be using instead of this workaround.
         // This checks the compatibility of the transferType and possibly
         // other quantities.
-        if(!cm.isCompatibleSampleModel(sm)) {
+        if (!cm.isCompatibleSampleModel(sm)) {
             return false;
         }
 
@@ -382,7 +365,7 @@ public final class JDKWorkarounds {
         // ComponentColorModel.isCompatibleSampleModel().
         // These tests might duplicate the implementation of some
         // subclasses of ComponentColorModel.
-        if(cm instanceof ComponentColorModel) {
+        if (cm instanceof ComponentColorModel) {
             // Check the number of samples per pixel.
             int numBands = sm.getNumBands();
             if (numBands != cm.getNumComponents()) {

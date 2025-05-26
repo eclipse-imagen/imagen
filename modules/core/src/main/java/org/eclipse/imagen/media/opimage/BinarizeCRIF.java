@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -23,13 +24,11 @@ import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
 
 /**
- * A <code>CRIF</code> supporting the "Binarize" operation in the rendered
- * and renderable image layers.
+ * A <code>CRIF</code> supporting the "Binarize" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.BinarizeDescriptor
  * @see org.eclipse.imagen.operator.BinarizeDescriptor
  * @see BinarizeOpImage
- *
  */
 public class BinarizeCRIF extends CRIFImpl {
 
@@ -39,20 +38,15 @@ public class BinarizeCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>BinarizeOpImage</code> in the
-     * rendered layer.
+     * Creates a new instance of <code>BinarizeOpImage</code> in the rendered layer.
      *
-     * @param args   The source image and the input parameters.
-     * @param hints  Optionally contains destination image layout.
+     * @param args The source image and the input parameters.
+     * @param hints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        return new BinarizeOpImage(args.getRenderedSource(0),
-				   renderHints,
-				   layout,
-				   args.getDoubleParameter(0));
+
+        return new BinarizeOpImage(args.getRenderedSource(0), renderHints, layout, args.getDoubleParameter(0));
     }
 }

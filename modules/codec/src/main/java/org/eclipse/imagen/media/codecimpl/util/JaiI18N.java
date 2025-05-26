@@ -17,7 +17,6 @@
 
 package org.eclipse.imagen.media.codecimpl.util;
 
-import org.eclipse.imagen.media.codecimpl.util.PropertyUtil;
 import java.text.MessageFormat;
 import java.util.Locale;
 

@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
@@ -23,9 +24,7 @@ import java.awt.image.SampleModel;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RookIter;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RookIterFallback implements RookIter {
 
     /** The source image. */
@@ -52,16 +51,16 @@ public class RookIterFallback implements RookIter {
     /** The Y offset of the source image tile grid. */
     protected int tileGridYOffset;
 
-    /** The tile index of the leftmost column in the iterator's bounds. */ 
+    /** The tile index of the leftmost column in the iterator's bounds. */
     protected int startTileX;
 
-    /** The tile index of the rightmost column in the iterator's bounds. */ 
+    /** The tile index of the rightmost column in the iterator's bounds. */
     protected int endTileX;
 
-    /** The tile index of the topmost row in the iterator's bounds. */ 
+    /** The tile index of the topmost row in the iterator's bounds. */
     protected int startTileY;
 
-    /** The tile index of the bottommost row in the iterator's bounds. */ 
+    /** The tile index of the bottommost row in the iterator's bounds. */
     protected int endTileY;
 
     /** The (inclusive) smallest X coordinate of the current tile. */
@@ -136,18 +135,10 @@ public class RookIterFallback implements RookIter {
         this.tileWidth = im.getTileWidth();
         this.tileHeight = im.getTileHeight();
 
-        this.startTileX = PlanarImage.XToTileX(bounds.x,
-                                               tileGridXOffset,
-                                               tileWidth);
-        this.endTileX = PlanarImage.XToTileX(bounds.x + bounds.width - 1,
-                                             tileGridXOffset,
-                                             tileWidth);
-        this.startTileY = PlanarImage.YToTileY(bounds.y,
-                                               tileGridYOffset,
-                                               tileHeight);
-        this.endTileY = PlanarImage.YToTileY(bounds.y + bounds.height - 1,
-                                             tileGridYOffset,
-                                             tileHeight);
+        this.startTileX = PlanarImage.XToTileX(bounds.x, tileGridXOffset, tileWidth);
+        this.endTileX = PlanarImage.XToTileX(bounds.x + bounds.width - 1, tileGridXOffset, tileWidth);
+        this.startTileY = PlanarImage.YToTileY(bounds.y, tileGridYOffset, tileHeight);
+        this.endTileY = PlanarImage.YToTileY(bounds.y + bounds.height - 1, tileGridYOffset, tileHeight);
 
         this.tileX = startTileX;
         this.tileY = startTileY;
@@ -167,7 +158,7 @@ public class RookIterFallback implements RookIter {
     }
 
     private final void setTileXBounds() {
-        tileXStart = tileX*tileWidth + tileGridXOffset;
+        tileXStart = tileX * tileWidth + tileGridXOffset;
         tileXEnd = tileXStart + tileWidth - 1;
         localX = x - tileXStart;
 
@@ -176,14 +167,14 @@ public class RookIterFallback implements RookIter {
     }
 
     private final void setTileYBounds() {
-        tileYStart = tileY*tileHeight + tileGridYOffset;
+        tileYStart = tileY * tileHeight + tileGridYOffset;
         tileYEnd = tileYStart + tileHeight - 1;
         localY = y - tileYStart;
 
         prevYBoundary = Math.max(tileYStart, firstY);
         nextYBoundary = Math.min(tileYEnd, lastY);
     }
-     
+
     private final void setDataBuffer() {
         this.dataBuffer = im.getTile(tileX, tileY).getDataBuffer();
     }
@@ -219,9 +210,7 @@ public class RookIterFallback implements RookIter {
         localY += num;
 
         if (y < tileYStart || y > tileYEnd) {
-            this.tileY = PlanarImage.YToTileY(y,
-                                              tileGridYOffset,
-                                              tileHeight);
+            this.tileY = PlanarImage.YToTileY(y, tileGridYOffset, tileHeight);
             setTileYBounds();
             setDataBuffer();
         }
@@ -305,11 +294,9 @@ public class RookIterFallback implements RookIter {
     public void jumpPixels(int num) {
         x += num;
         localX += num;
-        
+
         if (x < tileXStart || x > tileXEnd) {
-            this.tileX = PlanarImage.XToTileX(x,
-                                              tileGridXOffset,
-                                              tileWidth);
+            this.tileX = PlanarImage.XToTileX(x, tileGridXOffset, tileWidth);
             setTileXBounds();
             setDataBuffer();
         }
@@ -326,7 +313,7 @@ public class RookIterFallback implements RookIter {
                 localX -= tileWidth;
                 prevXBoundary = Math.max(tileXStart, firstX);
                 nextXBoundary = Math.min(tileXEnd, lastX);
-                
+
                 setDataBuffer();
                 return false;
             }

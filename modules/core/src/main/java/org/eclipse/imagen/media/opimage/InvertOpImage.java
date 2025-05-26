@@ -17,27 +17,25 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.ColormapOpImage;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.util.Map;
+import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 
 /**
- * An <code>OpImage</code> implementing the "Invert" operation as
- * described in <code>org.eclipse.imagen.operator.InvertDescriptor</code>.
+ * An <code>OpImage</code> implementing the "Invert" operation as described in <code>
+ * org.eclipse.imagen.operator.InvertDescriptor</code>.
  *
- * <p>This <code>OpImage</code> negates the pixel values of the source
- * image on a per-band basis by subtracting the pixel values from the
- * maximum value of the respective data type. Please note that data type
- * byte is treated as unsigned with a maximum value of 0xFF. The value
- * of the pixel (x, y) in the destination image is defined as:
+ * <p>This <code>OpImage</code> negates the pixel values of the source image on a per-band basis by subtracting the
+ * pixel values from the maximum value of the respective data type. Please note that data type byte is treated as
+ * unsigned with a maximum value of 0xFF. The value of the pixel (x, y) in the destination image is defined as:
+ *
  * <pre>
  * for (b = 0; b < dst.numBands; b++) {
  *     dst[y][x][b] = maximumValue - src[y][x][b];
@@ -46,28 +44,23 @@ import java.util.Map;
  *
  * @see org.eclipse.imagen.operator.InvertDescriptor
  * @see InvertRIF
- *
  */
 final class InvertOpImage extends ColormapOpImage {
 
     /**
      * Constructs an <code>InvertOpImage</code>.
      *
-     * <p>The <code>layout</code> parameter may optionally contains the
-     * tile grid layout, sample model, and/or color model. The image
-     * dimension is set to the same values as that of the source image.
+     * <p>The <code>layout</code> parameter may optionally contains the tile grid layout, sample model, and/or color
+     * model. The image dimension is set to the same values as that of the source image.
      *
-     * <p>The image layout of the source image is used as the fall-back
-     * for the image layout of the destination image. Any layout parameters
-     * not specified in the <code>layout</code> argument are set to the
-     * same value as that of the source.
+     * <p>The image layout of the source image is used as the fall-back for the image layout of the destination image.
+     * Any layout parameters not specified in the <code>layout</code> argument are set to the same value as that of the
+     * source.
      *
-     * @param source  The source image.
-     * @param layout  The destination image layout.
+     * @param source The source image.
+     * @param layout The destination image layout.
      */
-    public InvertOpImage(RenderedImage source,
-                         Map config,
-                         ImageLayout layout) {
+    public InvertOpImage(RenderedImage source, Map config, ImageLayout layout) {
         super(source, layout, config, true);
 
         // Set flag to permit in-place operation.
@@ -77,17 +70,15 @@ final class InvertOpImage extends ColormapOpImage {
         initializeColormapOperation();
     }
 
-    /**
-     * Transform the colormap according to the rescaling parameters.
-     */
+    /** Transform the colormap according to the rescaling parameters. */
     protected void transformColormap(byte[][] colormap) {
 
-        for(int b = 0; b < 3; b++) {
+        for (int b = 0; b < 3; b++) {
             byte[] map = colormap[b];
             int mapSize = map.length;
 
-            for(int i = 0; i < mapSize; i++) {
-                map[i] = (byte)(255 - (map[i] & 0xFF));
+            for (int i = 0; i < mapSize; i++) {
+                map[i] = (byte) (255 - (map[i] & 0xFF));
             }
         }
     }
@@ -95,49 +86,44 @@ final class InvertOpImage extends ColormapOpImage {
     /**
      * Inverts the pixel values within a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
         /* For ColormapOpImage, srcRect = destRect. */
-        RasterAccessor s = new RasterAccessor(sources[0], destRect,  
-                                              formatTags[0], 
-                                              getSourceImage(0).getColorModel());
-        RasterAccessor d = new RasterAccessor(dest, destRect,  
-                                              formatTags[1], getColorModel());
+        RasterAccessor s = new RasterAccessor(
+                sources[0], destRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
-        if(d.isBinary()) {
+        if (d.isBinary()) {
             byte[] srcBits = s.getBinaryDataArray();
             byte[] dstBits = d.getBinaryDataArray();
             int length = dstBits.length;
-            for(int i = 0; i < length; i++) {
-                dstBits[i] = (byte)(~(srcBits[i]));
+            for (int i = 0; i < length; i++) {
+                dstBits[i] = (byte) (~(srcBits[i]));
             }
             d.copyBinaryDataToRaster();
         } else {
             switch (d.getDataType()) {
-            case DataBuffer.TYPE_BYTE:
-                computeRectByte(s, d);
-                break;
-            case DataBuffer.TYPE_USHORT:
-                computeRectUShort(s, d);
-                break;
-            case DataBuffer.TYPE_SHORT:
-                computeRectShort(s, d);
-                break;
-            case DataBuffer.TYPE_INT:
-                computeRectInt(s, d);
-                break;
-            case DataBuffer.TYPE_FLOAT:
-            case DataBuffer.TYPE_DOUBLE:
-                throw new RuntimeException(JaiI18N.getString("InvertOpImage0"));
+                case DataBuffer.TYPE_BYTE:
+                    computeRectByte(s, d);
+                    break;
+                case DataBuffer.TYPE_USHORT:
+                    computeRectUShort(s, d);
+                    break;
+                case DataBuffer.TYPE_SHORT:
+                    computeRectShort(s, d);
+                    break;
+                case DataBuffer.TYPE_INT:
+                    computeRectInt(s, d);
+                    break;
+                case DataBuffer.TYPE_FLOAT:
+                case DataBuffer.TYPE_DOUBLE:
+                    throw new RuntimeException(JaiI18N.getString("InvertOpImage0"));
             }
 
             d.copyDataToRaster();
@@ -172,9 +158,9 @@ final class InvertOpImage extends ColormapOpImage {
                 sLineOffset += sLineStride;
                 dLineOffset += dLineStride;
 
-                int dstEnd = dPixelOffset + dwidth*dPixelStride;
+                int dstEnd = dPixelOffset + dwidth * dPixelStride;
                 while (dPixelOffset < dstEnd) {
-                    d[dPixelOffset] = (byte)(255 - (s[sPixelOffset]&0xFF));
+                    d[dPixelOffset] = (byte) (255 - (s[sPixelOffset] & 0xFF));
                     sPixelOffset += sPixelStride;
                     dPixelOffset += dPixelStride;
                 }
@@ -210,9 +196,9 @@ final class InvertOpImage extends ColormapOpImage {
                 sLineOffset += sLineStride;
                 dLineOffset += dLineStride;
 
-                int dstEnd = dPixelOffset + dwidth*dPixelStride;
+                int dstEnd = dPixelOffset + dwidth * dPixelStride;
                 while (dPixelOffset < dstEnd) {
-                    d[dPixelOffset] = (short)(65535 - (s[sPixelOffset]&0xFFFF));
+                    d[dPixelOffset] = (short) (65535 - (s[sPixelOffset] & 0xFFFF));
                     sPixelOffset += sPixelStride;
                     dPixelOffset += dPixelStride;
                 }
@@ -248,10 +234,9 @@ final class InvertOpImage extends ColormapOpImage {
                 sLineOffset += sLineStride;
                 dLineOffset += dLineStride;
 
-                int dstEnd = dPixelOffset + dwidth*dPixelStride;
+                int dstEnd = dPixelOffset + dwidth * dPixelStride;
                 while (dPixelOffset < dstEnd) {
-                    d[dPixelOffset] = (short)(Short.MAX_VALUE -
-                                              s[sPixelOffset]);
+                    d[dPixelOffset] = (short) (Short.MAX_VALUE - s[sPixelOffset]);
 
                     sPixelOffset += sPixelStride;
                     dPixelOffset += dPixelStride;
@@ -289,49 +274,49 @@ final class InvertOpImage extends ColormapOpImage {
          * stride, band offset, data offset, etc.
          */
         switch (sampleModel.getTransferType()) {
-        case DataBuffer.TYPE_BYTE:
-            for (int i = 0; i < pixels; i++) {
-                d[i] = (~s[i]) & 0xFF;
-            }
-            break;
+            case DataBuffer.TYPE_BYTE:
+                for (int i = 0; i < pixels; i++) {
+                    d[i] = (~s[i]) & 0xFF;
+                }
+                break;
 
-        case DataBuffer.TYPE_USHORT:
-            for (int i = 0; i < pixels; i++) {
-                d[i] = (~s[i]) & 0xFFFF;
-            }
-            break;
+            case DataBuffer.TYPE_USHORT:
+                for (int i = 0; i < pixels; i++) {
+                    d[i] = (~s[i]) & 0xFFFF;
+                }
+                break;
 
-        case DataBuffer.TYPE_SHORT:
-            for (int i = 0; i < pixels; i++) {
-                d[i] = Short.MAX_VALUE - s[i];
-            }
-            break;
+            case DataBuffer.TYPE_SHORT:
+                for (int i = 0; i < pixels; i++) {
+                    d[i] = Short.MAX_VALUE - s[i];
+                }
+                break;
 
-        case DataBuffer.TYPE_INT:
-            for (int b = 0; b < bands; b++) {
-                s = sData[b];
-                d = dData[b];
+            case DataBuffer.TYPE_INT:
+                for (int b = 0; b < bands; b++) {
+                    s = sData[b];
+                    d = dData[b];
 
-                int sLineOffset = sBandOffsets[b];
-                int dLineOffset = dBandOffsets[b];
+                    int sLineOffset = sBandOffsets[b];
+                    int dLineOffset = dBandOffsets[b];
 
-                for (int h = 0; h < dheight; h++) {
-                    int sPixelOffset = sLineOffset;
-                    int dPixelOffset = dLineOffset;
+                    for (int h = 0; h < dheight; h++) {
+                        int sPixelOffset = sLineOffset;
+                        int dPixelOffset = dLineOffset;
 
-                    sLineOffset += sLineStride;
-                    dLineOffset += dLineStride;
+                        sLineOffset += sLineStride;
+                        dLineOffset += dLineStride;
 
-                    int dstEnd = dPixelOffset + dwidth*dPixelStride;
-                    while (dPixelOffset < dstEnd) {
-                        d[dPixelOffset] = Integer.MAX_VALUE - s[sPixelOffset];
+                        int dstEnd = dPixelOffset + dwidth * dPixelStride;
+                        while (dPixelOffset < dstEnd) {
+                            d[dPixelOffset] = Integer.MAX_VALUE - s[sPixelOffset];
 
-                        sPixelOffset += sPixelStride;
-                        dPixelOffset += dPixelStride;
+                            sPixelOffset += sPixelStride;
+                            dPixelOffset += dPixelStride;
+                        }
                     }
                 }
-            }
-            break;
+                break;
         }
     }
 }

@@ -10,12 +10,12 @@ package org.eclipse.imagen.tutorial.network;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+import javax.swing.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.remote.*;
-import javax.swing.*;
 
 class AutoThread extends Thread {
-    
+
     JAIDemoPanel panel;
     boolean suspended = false;
     boolean stopped = false;
@@ -23,7 +23,7 @@ class AutoThread extends Thread {
     public AutoThread(JAIDemoPanel panel) {
         this.panel = panel;
     }
-    
+
     public void run() {
         while (!stopped) {
             if (!suspended) {
@@ -51,48 +51,39 @@ class AutoThread extends Thread {
     }
 }
 
-
 public abstract class JAIDemoPanel extends JPanel implements ActionListener {
 
     Vector sourceVec = null;
     Icon imageIcon = null;
     JLabel imageLabel = null;
-    
+
     boolean autoMode = false;
     AutoThread autoThread = null;
-    
+
     /** The RemoteJAI instance to be used by the subclasses */
-
-
     protected RemoteJAI client = null;
 
     /** Rendering hints to be used by subclasses. */
-
-
     protected RenderingHints renderHints = null;
-    
+
     public JAIDemoPanel(Vector sourceVec, RemoteJAI pClient) {
-        this.sourceVec = (Vector)sourceVec.clone();
-	this.client = pClient;
+        this.sourceVec = (Vector) sourceVec.clone();
+        this.client = pClient;
     }
 
     /**
-     * Performs the standard setup.  Subclasses should call this method
-     * immediately after calling super() in their constructors.
-     * The main image pane is constructed and placed in a JScrollPane.
-     * A control panel with a reset button is also constructed, and
-     * the makeControls method of the subclass is called to fill in
-     * the custom portion of the panel.
+     * Performs the standard setup. Subclasses should call this method immediately after calling super() in their
+     * constructors. The main image pane is constructed and placed in a JScrollPane. A control panel with a reset button
+     * is also constructed, and the makeControls method of the subclass is called to fill in the custom portion of the
+     * panel.
      */
-
-
     public void masterSetup() {
         imageIcon = new IconJAI(process(), client);
         imageLabel = new JLabel(imageIcon);
-        JScrollPane scrollPane =
-            new JScrollPane(imageLabel,
-                           ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                           ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(
+                imageLabel,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setLayout(new BorderLayout());
         add("Center", scrollPane);
@@ -122,17 +113,13 @@ public abstract class JAIDemoPanel extends JPanel implements ActionListener {
 
         add("South", controlPanel);
     }
-    
+
     /** Returns the current source image. */
-
-
     public PlanarImage getSource(int index) {
-        return (PlanarImage)sourceVec.elementAt(index);
+        return (PlanarImage) sourceVec.elementAt(index);
     }
 
     /** Sets the source and performs processing. */
-
-
     public void setSource(int sourceNum, PlanarImage source) {
         sourceVec.setElementAt(source, sourceNum);
         repaint();
@@ -144,12 +131,9 @@ public abstract class JAIDemoPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Repaints the image panel.  The process() method is called
-     * to generate a new output image, which is then wrapped by an
-     * ImageIcon and set as the icon of the JLabel imageLabel.
+     * Repaints the image panel. The process() method is called to generate a new output image, which is then wrapped by
+     * an ImageIcon and set as the icon of the JLabel imageLabel.
      */
-
-
     public void repaint() {
         // Beware of a race condition when Swing tries to repaint
         // before we've finished initialization.
@@ -159,21 +143,15 @@ public abstract class JAIDemoPanel extends JPanel implements ActionListener {
 
         imageIcon = new IconJAI(process(), client);
         imageLabel.setIcon(imageIcon);
-        Dimension iconSize = new Dimension(imageIcon.getIconWidth(),
-                                           imageIcon.getIconHeight());
+        Dimension iconSize = new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight());
         imageLabel.setPreferredSize(iconSize);
         imageLabel.revalidate();
     }
 
     /** Creates a control panel that will affect the operation parameters. */
-
-
-    public void makeControls(JPanel controls) {
-    }
+    public void makeControls(JPanel controls) {}
 
     /** Default method when any action is performed. */
-
-
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if (command.equals("Reset")) {
@@ -185,7 +163,7 @@ public abstract class JAIDemoPanel extends JPanel implements ActionListener {
                 autoThread = new AutoThread(this);
                 autoThread.start();
             } else {
-                //autoThread.interrupt();
+                // autoThread.interrupt();
                 autoThread.myStop();
                 autoThread = null;
             }
@@ -193,22 +171,16 @@ public abstract class JAIDemoPanel extends JPanel implements ActionListener {
     }
 
     /** Returns the name of the sub-demo. */
-
-
     public abstract String getDemoName();
 
     /** Returns true if the sub-demo supports auto mode. */
-
-
     public boolean supportsAutomatic() {
         return false;
     }
 
-    public void startAnimation() {
-    }
+    public void startAnimation() {}
 
-    public void animate() {
-    }
+    public void animate() {}
 
     public void activate() {
         if (autoMode) {
@@ -219,20 +191,15 @@ public abstract class JAIDemoPanel extends JPanel implements ActionListener {
 
     public void deactivate() {
         if (autoMode) {
-            //autoThread.interrupt();
+            // autoThread.interrupt();
             autoThread.myStop();
             autoThread = null;
         }
     }
 
     /** Returns the result of processing the source image. */
-
-
     public abstract PlanarImage process();
 
     /** Called when the reset button is pressed. */
-
-
-    public void reset() {
-    }
+    public void reset() {}
 }

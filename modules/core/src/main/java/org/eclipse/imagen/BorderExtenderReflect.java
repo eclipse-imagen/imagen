@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
@@ -23,29 +24,32 @@ import java.awt.image.WritableRaster;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
- * A subclass of <code>BorderExtender</code> that implements 
- * border extension by filling all pixels outside of the image
- * bounds with copies of the whole image.  For example, the image:
+ * A subclass of <code>BorderExtender</code> that implements border extension by filling all pixels outside of the image
+ * bounds with copies of the whole image. For example, the image:
  *
  * <p><center>
+ *
  * <table width="10%" border=1>
  * <tr align=center><td><tt>|><br>|\</td> </tr>
- * </table></center>
+ * </table>
  *
- * <br>if extended by adding two extra rows to the top and bottom and
- * one extra column on the left and right sides, would become:
+ * </center> <br>
+ * if extended by adding two extra rows to the top and bottom and one extra column on the left and right sides, would
+ * become:
  *
  * <p><center>
+ *
  * <table width="30%" border=1>
  * <tr align=center><td><tt><|<br>/|</tt></td> <td><tt>|><br>|\</tt></td> <td><tt><|<br>/|</tt></td> </tr>
  * <tr align=center><td><tt>\|<br><|</tt></td> <td><tt>|/<br>|></tt></td> <td><tt>\|<br><|</tt></td> </tr>
  * <tr align=center><td><tt><|<br>/|</tt></td> <td><tt>|><br>|\</tt></td> <td><tt><|<br>/|</tt></td> </tr>
  * <tr align=center><td><tt>\|<br><|</tt></td> <td><tt>|/<br>|></tt></td> <td><tt>\|<br><|</tt></td> </tr>
  * <tr align=center><td><tt><|<br>/|</tt></td> <td><tt>|><br>|\</tt></td> <td><tt><|<br>/|</tt></td> </tr>
- * </table></center>
+ * </table>
  *
- * <p> This form of extension avoids discontinuities around the edges
- * of the image.
+ * </center>
+ *
+ * <p>This form of extension avoids discontinuities around the edges of the image.
  */
 public final class BorderExtenderReflect extends BorderExtender {
 
@@ -60,47 +64,47 @@ public final class BorderExtenderReflect extends BorderExtender {
         int numBands = raster.getNumBands();
 
         switch (raster.getSampleModel().getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_INT:
-            int[] iData0 = new int[height*numBands];
-            int[] iData1 = new int[height*numBands];
+            case DataBuffer.TYPE_BYTE:
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_USHORT:
+            case DataBuffer.TYPE_INT:
+                int[] iData0 = new int[height * numBands];
+                int[] iData1 = new int[height * numBands];
 
-            for (int i = 0; i < width/2; i++) {
-                raster.getPixels(minX + i, minY, 1, height, iData0);
-                raster.getPixels(maxX - i, minY, 1, height, iData1);
+                for (int i = 0; i < width / 2; i++) {
+                    raster.getPixels(minX + i, minY, 1, height, iData0);
+                    raster.getPixels(maxX - i, minY, 1, height, iData1);
 
-                raster.setPixels(minX + i, minY, 1, height, iData1);
-                raster.setPixels(maxX - i, minY, 1, height, iData0);
-            }
-            break;
+                    raster.setPixels(minX + i, minY, 1, height, iData1);
+                    raster.setPixels(maxX - i, minY, 1, height, iData0);
+                }
+                break;
 
-        case DataBuffer.TYPE_FLOAT:
-            float[] fData0 = new float[height*numBands];
-            float[] fData1 = new float[height*numBands];
+            case DataBuffer.TYPE_FLOAT:
+                float[] fData0 = new float[height * numBands];
+                float[] fData1 = new float[height * numBands];
 
-            for (int i = 0; i < width/2; i++) {
-                raster.getPixels(minX + i, minY, 1, height, fData0);
-                raster.getPixels(maxX - i, minY, 1, height, fData1);
+                for (int i = 0; i < width / 2; i++) {
+                    raster.getPixels(minX + i, minY, 1, height, fData0);
+                    raster.getPixels(maxX - i, minY, 1, height, fData1);
 
-                raster.setPixels(minX + i, minY, 1, height, fData1);
-                raster.setPixels(maxX - i, minY, 1, height, fData0);
-            }
-            break;
+                    raster.setPixels(minX + i, minY, 1, height, fData1);
+                    raster.setPixels(maxX - i, minY, 1, height, fData0);
+                }
+                break;
 
-        case DataBuffer.TYPE_DOUBLE:
-            double[] dData0 = new double[height*numBands];
-            double[] dData1 = new double[height*numBands];
+            case DataBuffer.TYPE_DOUBLE:
+                double[] dData0 = new double[height * numBands];
+                double[] dData1 = new double[height * numBands];
 
-            for (int i = 0; i < width/2; i++) {
-                raster.getPixels(minX + i, minY, 1, height, dData0);
-                raster.getPixels(maxX - i, minY, 1, height, dData1);
+                for (int i = 0; i < width / 2; i++) {
+                    raster.getPixels(minX + i, minY, 1, height, dData0);
+                    raster.getPixels(maxX - i, minY, 1, height, dData1);
 
-                raster.setPixels(minX + i, minY, 1, height, dData1);
-                raster.setPixels(maxX - i, minY, 1, height, dData0);
-            }
-            break;
+                    raster.setPixels(minX + i, minY, 1, height, dData1);
+                    raster.setPixels(maxX - i, minY, 1, height, dData0);
+                }
+                break;
         }
     }
 
@@ -113,72 +117,65 @@ public final class BorderExtenderReflect extends BorderExtender {
         int numBands = raster.getNumBands();
 
         switch (raster.getSampleModel().getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_INT:
-            int[] iData0 = new int[width*numBands];
-            int[] iData1 = new int[width*numBands];
+            case DataBuffer.TYPE_BYTE:
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_USHORT:
+            case DataBuffer.TYPE_INT:
+                int[] iData0 = new int[width * numBands];
+                int[] iData1 = new int[width * numBands];
 
-            for (int i = 0; i < height/2; i++) {
-                raster.getPixels(minX, minY + i, width, 1, iData0);
-                raster.getPixels(minX, maxY - i, width, 1, iData1);
-                
-                raster.setPixels(minX, minY + i, width, 1, iData1);
-                raster.setPixels(minX, maxY - i, width, 1, iData0);
-            }
-            break;
+                for (int i = 0; i < height / 2; i++) {
+                    raster.getPixels(minX, minY + i, width, 1, iData0);
+                    raster.getPixels(minX, maxY - i, width, 1, iData1);
 
-        case DataBuffer.TYPE_FLOAT:
-            float[] fData0 = new float[width*numBands];
-            float[] fData1 = new float[width*numBands];
+                    raster.setPixels(minX, minY + i, width, 1, iData1);
+                    raster.setPixels(minX, maxY - i, width, 1, iData0);
+                }
+                break;
 
-            for (int i = 0; i < height/2; i++) {
-                raster.getPixels(minX, minY + i, width, 1, fData0);
-                raster.getPixels(minX, maxY - i, width, 1, fData1);
-                
-                raster.setPixels(minX, minY + i, width, 1, fData1);
-                raster.setPixels(minX, maxY - i, width, 1, fData0);
-            }
-            break;
+            case DataBuffer.TYPE_FLOAT:
+                float[] fData0 = new float[width * numBands];
+                float[] fData1 = new float[width * numBands];
 
-        case DataBuffer.TYPE_DOUBLE:
-            double[] dData0 = new double[width*numBands];
-            double[] dData1 = new double[width*numBands];
+                for (int i = 0; i < height / 2; i++) {
+                    raster.getPixels(minX, minY + i, width, 1, fData0);
+                    raster.getPixels(minX, maxY - i, width, 1, fData1);
 
-            for (int i = 0; i < height/2; i++) {
-                raster.getPixels(minX, minY + i, width, 1, dData0);
-                raster.getPixels(minX, maxY - i, width, 1, dData1);
-                
-                raster.setPixels(minX, minY + i, width, 1, dData1);
-                raster.setPixels(minX, maxY - i, width, 1, dData0);
-            }
-            break;
+                    raster.setPixels(minX, minY + i, width, 1, fData1);
+                    raster.setPixels(minX, maxY - i, width, 1, fData0);
+                }
+                break;
+
+            case DataBuffer.TYPE_DOUBLE:
+                double[] dData0 = new double[width * numBands];
+                double[] dData1 = new double[width * numBands];
+
+                for (int i = 0; i < height / 2; i++) {
+                    raster.getPixels(minX, minY + i, width, 1, dData0);
+                    raster.getPixels(minX, maxY - i, width, 1, dData1);
+
+                    raster.setPixels(minX, minY + i, width, 1, dData1);
+                    raster.setPixels(minX, maxY - i, width, 1, dData0);
+                }
+                break;
         }
     }
 
     /**
-     * Fills in the portions of a given <code>Raster</code> that lie
-     * outside the bounds of a given <code>PlanarImage</code> with
-     * suitably reflected copies of the entire image.
+     * Fills in the portions of a given <code>Raster</code> that lie outside the bounds of a given <code>PlanarImage
+     * </code> with suitably reflected copies of the entire image.
      *
-     * <p> The portion of <code>raster</code> that lies within 
-     * <code>im.getBounds()</code> is not altered.
+     * <p>The portion of <code>raster</code> that lies within <code>im.getBounds()</code> is not altered.
      *
-     * @param raster The <code>WritableRaster</code> the border area of
-     *               which is to be filled with suitably reflected copies
-     *               of portions of the specified image.
-     * @param im     The <code>PlanarImage</code> the data of which is
-     *               to be reflected and used to fill the
-     *               <code>WritableRaster</code> border.
-     *
-     * @throws <code>IllegalArgumentException</code> if either parameter is
-     *         <code>null</code>.
+     * @param raster The <code>WritableRaster</code> the border area of which is to be filled with suitably reflected
+     *     copies of portions of the specified image.
+     * @param im The <code>PlanarImage</code> the data of which is to be reflected and used to fill the <code>
+     *     WritableRaster</code> border.
+     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
      */
-    public final void extend(WritableRaster raster,
-                             PlanarImage im) {
+    public final void extend(WritableRaster raster, PlanarImage im) {
 
-        if ( raster == null || im == null ) {
+        if (raster == null || im == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -200,19 +197,19 @@ public final class BorderExtenderReflect extends BorderExtender {
         int validMinY = Math.max(imMinY, minY);
         int validMaxY = Math.min(imMinY + imHeight, maxY);
 
-        if(validMinX > validMaxX || validMinY > validMaxY) {
+        if (validMinX > validMaxX || validMinY > validMaxY) {
             // Raster does not intersect image. Determine the location
             // and size of the smallest rectangle containing the Raster
             // and which intersects the image.
-            if(validMinX > validMaxX) { // no intersetion in X
-                if(minX == validMinX) {
+            if (validMinX > validMaxX) { // no intersetion in X
+                if (minX == validMinX) {
                     minX = im.getMaxX() - 1;
                 } else {
                     maxX = im.getMinX();
                 }
             }
-            if(validMinY > validMaxY) { // no intersetion in Y
-                if(minY == validMinY) {
+            if (validMinY > validMaxY) { // no intersetion in Y
+                if (minY == validMinY) {
                     minY = im.getMaxY() - 1;
                 } else {
                     maxY = im.getMinY();
@@ -220,19 +217,20 @@ public final class BorderExtenderReflect extends BorderExtender {
             }
 
             // Create minimum Raster.
-            WritableRaster wr =
-                raster.createCompatibleWritableRaster(minX, minY,
-                                                      maxX - minX,
-                                                      maxY - minY);
+            WritableRaster wr = raster.createCompatibleWritableRaster(minX, minY, maxX - minX, maxY - minY);
 
             // Extend the data.
             extend(wr, im);
 
             // Create a child with same bounds as the target Raster.
-            Raster child =
-                wr.createChild(raster.getMinX(), raster.getMinY(),
-                               raster.getWidth(), raster.getHeight(),
-                               raster.getMinX(), raster.getMinY(), null);
+            Raster child = wr.createChild(
+                    raster.getMinX(),
+                    raster.getMinY(),
+                    raster.getWidth(),
+                    raster.getHeight(),
+                    raster.getMinX(),
+                    raster.getMinY(),
+                    null);
 
             // Copy the data from the child.
             JDKWorkarounds.setRect(raster, child, 0, 0);
@@ -241,7 +239,7 @@ public final class BorderExtenderReflect extends BorderExtender {
         }
 
         Rectangle rect = new Rectangle();
-        
+
         // Notionally extend the source image by treating it as a single
         // tile of an infinite tiled image.  Adjacent tiles are reflections
         // of one another.
@@ -255,9 +253,9 @@ public final class BorderExtenderReflect extends BorderExtender {
 
         // Loop over the tiles
         for (int tileY = minTileY; tileY <= maxTileY; tileY++) {
-            int ty = tileY*imHeight + imMinY;
+            int ty = tileY * imHeight + imMinY;
             for (int tileX = minTileX; tileX <= maxTileX; tileX++) {
-                int tx = tileX*imWidth + imMinX;
+                int tx = tileX * imWidth + imMinX;
 
                 // Don't touch the central "tile" (actual image)
                 if (tileX == 0 && tileY == 0) {
@@ -317,13 +315,8 @@ public final class BorderExtenderReflect extends BorderExtender {
 
                 // Create a child raster with coordinates within the
                 // actual image.
-                WritableRaster child = 
-                    RasterFactory.createWritableChild(raster,
-                                                      rect.x, rect.y,
-                                                      rect.width,
-                                                      rect.height,
-                                                      imX, imY,
-                                                      null);
+                WritableRaster child = RasterFactory.createWritableChild(
+                        raster, rect.x, rect.y, rect.width, rect.height, imX, imY, null);
 
                 // Copy the data into the Raster
                 im.copyData(child);

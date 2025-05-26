@@ -35,45 +35,32 @@ package org.eclipse.imagen;
  *
  * @since JAI 1.1
  */
-public interface WritablePropertySource
-    extends PropertySource, PropertyChangeEmitter {
+public interface WritablePropertySource extends PropertySource, PropertyChangeEmitter {
     /**
-     * Adds the property value associated with the supplied name to
-     * the <code>WritablePropertySource</code>.  Properties set by
-     * this means will supersede any properties of the same name
-     * which might otherwise be derived dynamically.
+     * Adds the property value associated with the supplied name to the <code>WritablePropertySource</code>. Properties
+     * set by this means will supersede any properties of the same name which might otherwise be derived dynamically.
      *
-     * <p> Implementing classes which should
-     * fire a <code>PropertySourceChangeEvent</code> with a name set to
-     * that of the set property (retaining case), source set to the
-     * <code>WritablePropertySource</code>, and old and new values set to
-     * the previous and current values of the property, respectively.
-     * Neither the old nor the new value may <code>null</code>: undefined
-     * properties must as usual be indicated by an the constant value
-     * <code>java.awt.Image.UndefinedProperty</code>.  It is however
-     * legal for either but not both of the old and new property values
-     * to equal <code>java.awt.Image.UndefinedProperty</code>.
+     * <p>Implementing classes which should fire a <code>PropertySourceChangeEvent</code> with a name set to that of the
+     * set property (retaining case), source set to the <code>WritablePropertySource</code>, and old and new values set
+     * to the previous and current values of the property, respectively. Neither the old nor the new value may <code>
+     * null</code>: undefined properties must as usual be indicated by an the constant value <code>
+     * java.awt.Image.UndefinedProperty</code>. It is however legal for either but not both of the old and new property
+     * values to equal <code>java.awt.Image.UndefinedProperty</code>.
      *
      * @param propertyName the name of the property, as a <code>String</code>.
      * @param propertyValue the property, as a general <code>Object</code>.
-     *
-     * @exception IllegalArgumentException if <code>propertyName</code>
-     *                                     or <code>propertyValue</code>
-     *                                     is <code>null</code>.
+     * @exception IllegalArgumentException if <code>propertyName</code> or <code>propertyValue</code> is <code>null
+     *     </code>.
      */
     void setProperty(String propertyName, Object propertyValue);
 
     /**
-     * Removes the named property from the <code>WritablePropertySource</code>.
-     * This method will clear any locally cached (static) properties
-     * but may have no effect on properties which would be derived
-     * dynamically.
+     * Removes the named property from the <code>WritablePropertySource</code>. This method will clear any locally
+     * cached (static) properties but may have no effect on properties which would be derived dynamically.
      *
      * @param propertyName the name of the property, as a <code>String</code>.
      * @param propertyValue the property, as a general <code>Object</code>.
-     *
-     * @exception IllegalArgumentException if <code>propertyName</code>
-     *                                     is <code>null</code>.
+     * @exception IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
      */
     void removeProperty(String propertyName);
 }

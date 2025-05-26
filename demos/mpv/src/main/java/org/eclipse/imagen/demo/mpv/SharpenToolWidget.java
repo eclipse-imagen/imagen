@@ -7,34 +7,30 @@
  */
 package org.eclipse.imagen.demo.mpv;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.border.*;
-import javax.swing.colorchooser.*;
-import javax.swing.filechooser.*;
-import javax.accessibility.*;
-
+import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import java.util.*;
 import java.io.*;
-import java.applet.*;
 import java.net.*;
+import java.util.*;
+import javax.accessibility.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.colorchooser.*;
+import javax.swing.event.*;
+import javax.swing.filechooser.*;
+import javax.swing.text.*;
 
 /**
  * SharpenToolWidget.java
  *
- * This widget is used to control an image sharpening widget.
+ * <p>This widget is used to control an image sharpening widget.
  *
- * The user must implement PropertyChangeListener to receive
- * notification of any changes on the sharpening values.
+ * <p>The user must implement PropertyChangeListener to receive notification of any changes on the sharpening values.
  *
  * @version 1.0 5/31/01
  */
-
-
 public class SharpenToolWidget extends JFrame {
 
     public static final String DEFAULT_TITLE = new String("Image Sharpener");
@@ -63,21 +59,23 @@ public class SharpenToolWidget extends JFrame {
 
     // Main method allowing a standalone run
     public static void main(String[] args) {
-	SharpenToolWidget stw = new SharpenToolWidget();
-	stw.show();
+        SharpenToolWidget stw = new SharpenToolWidget();
+        stw.show();
     }
 
     // Constructor for a JFrame with some widgets (most general case)
-    public SharpenToolWidget(String userTitle,
-                             int userSliderMin, int userSliderMax,
-                             int userSliderDefault,
-                             PropertyChangeListener listener,
-                             String userPropertyId) {
+    public SharpenToolWidget(
+            String userTitle,
+            int userSliderMin,
+            int userSliderMax,
+            int userSliderDefault,
+            PropertyChangeListener listener,
+            String userPropertyId) {
         super(userTitle);
         title = userTitle;
 
         // Set the size for this widget
-        setBounds(100,100,220,90);
+        setBounds(100, 100, 220, 90);
 
         // Set up the base panel
         basePanel = new JPanel();
@@ -86,13 +84,13 @@ public class SharpenToolWidget extends JFrame {
 
         // Load the slider values from the user
         sliderDefault = userSliderDefault;
-        sliderMin     = userSliderMin;
-        sliderMax     = userSliderMax;
-        sliderValue   = sliderDefault;
+        sliderMin = userSliderMin;
+        sliderMax = userSliderMax;
+        sliderValue = sliderDefault;
 
         // Place the items in the gui onto base panel
         createSliderAndButtons();
- 
+
         // Store value to avoid repeating duplicates
         oldSliderValue = sliderValue;
 
@@ -101,7 +99,6 @@ public class SharpenToolWidget extends JFrame {
         addPropertyChangeListener(userPropertyId, listener);
         this.propertyId = userPropertyId;
         this.pack();
-
     } // SharpenToolWidget
 
     // Constructor for a JFrame with some widgets (pseudocolor applications)
@@ -111,7 +108,7 @@ public class SharpenToolWidget extends JFrame {
         title = DEFAULT_TITLE;
 
         // Set the size for this widget
-        setBounds(100,100,220,90);
+        setBounds(100, 100, 220, 90);
 
         // Set up the base panel
         basePanel = new JPanel();
@@ -120,12 +117,12 @@ public class SharpenToolWidget extends JFrame {
 
         // Load default slider values
         sliderDefault = SLIDER_DEFAULT_VALUE;
-        sliderMin     = SLIDER_MIN_DEFAULT_VALUE;
-        sliderMax     = SLIDER_MAX_DEFAULT_VALUE;
-        sliderValue   = sliderDefault;
+        sliderMin = SLIDER_MIN_DEFAULT_VALUE;
+        sliderMax = SLIDER_MAX_DEFAULT_VALUE;
+        sliderValue = sliderDefault;
 
         // Place the items in the gui onto base panel
-	createSliderAndButtons();
+        createSliderAndButtons();
 
         // Store value to avoid repeating duplicates
         oldSliderValue = sliderValue;
@@ -136,32 +133,30 @@ public class SharpenToolWidget extends JFrame {
         this.pack();
     }
 
-    /** processChange
-     * 
-     * Send changed values to listeners and repaint the drawing area
+    /**
+     * processChange
+     *
+     * <p>Send changed values to listeners and repaint the drawing area
      */
-
-
     protected void processChange() {
 
         if (sliderValue == oldSliderValue) return;
         oldSliderValue = sliderValue;
-        firePropertyChange(propertyId, null, (Object)(new Integer(sliderValue)));
-
+        firePropertyChange(propertyId, null, (Object) (new Integer(sliderValue)));
     } // processChange()
 
     public void createSliderAndButtons() {
 
-	// Create panels to hold the layout:
+        // Create panels to hold the layout:
         //
-	//   ----------------------------
+        //   ----------------------------
         //   | Blur             Sharpen |
-	//   | <--+++---------slider--> |
-	//   ---------------------------
+        //   | <--+++---------slider--> |
+        //   ---------------------------
         //   |  <btn1>  <btn2>  <btn3>  |
-	//   ---------------------------
-	// 
-	JPanel topPanel = new JPanel();
+        //   ---------------------------
+        //
+        JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         // Labels
@@ -172,10 +167,10 @@ public class SharpenToolWidget extends JFrame {
 
         // Top slider
         SliderListener sListener = new SliderListener();
-	topSldr = new JSlider(sliderMin, sliderMax, sliderValue);
+        topSldr = new JSlider(sliderMin, sliderMax, sliderValue);
         topSldr.setPaintTicks(false);
         topSldr.setPaintLabels(false);
-	topSldr.addChangeListener(sListener);
+        topSldr.addChangeListener(sListener);
         topSldr.setOrientation(javax.swing.SwingConstants.HORIZONTAL);
         topPanel.add(topSldr);
 
@@ -199,7 +194,6 @@ public class SharpenToolWidget extends JFrame {
         basePanel.add(labelPanel);
         basePanel.add(topPanel);
         basePanel.add(btnPanel);
-
     } // void createSlidersAndDrawingArea
 
     private void resetWidget() {
@@ -208,25 +202,24 @@ public class SharpenToolWidget extends JFrame {
         sliderValue = sliderDefault;
         topSldr.setValue(sliderValue);
         processChange();
-
     }
 
     public void showHelp() {
 
         JFrame frame = new JFrame("Sharpen Tool Help");
-        JOptionPane.showMessageDialog(frame,
-            "Use the slider to sharpen an image.  Slide to\n"+
-            "the left to blur. Slide right to sharpen more.\n",
-            "User Help",
-            JOptionPane.INFORMATION_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                frame,
+                "Use the slider to sharpen an image.  Slide to\n" + "the left to blur. Slide right to sharpen more.\n",
+                "User Help",
+                JOptionPane.INFORMATION_MESSAGE);
     } // void showHelp
 
     // A class to handle button presses
     class ButtonListener implements ActionListener {
-	public ButtonListener() {}
-	public void actionPerformed(ActionEvent e) {
-	    JButton b = (JButton)e.getSource();
+        public ButtonListener() {}
+
+        public void actionPerformed(ActionEvent e) {
+            JButton b = (JButton) e.getSource();
             if (b.equals(resetBtn)) {
 
                 // Reset the widget to the nominal setting
@@ -237,21 +230,21 @@ public class SharpenToolWidget extends JFrame {
                 // Display an information dialog
                 showHelp();
 
-	    } else if (b.equals(hideBtn)) {
+            } else if (b.equals(hideBtn)) {
 
                 // hide this widget from view
                 setVisible(false);
-
- 	    }
+            }
         }
-    }  // class ButtonListener
+    } // class ButtonListener
 
     // A class to handle slider changes
     class SliderListener implements ChangeListener {
 
-	public SliderListener() {}
+        public SliderListener() {}
+
         public void stateChanged(ChangeEvent e) {
-            JSlider s = (JSlider)e.getSource();
+            JSlider s = (JSlider) e.getSource();
 
             if (s.equals(topSldr)) {
                 sliderValue = s.getValue();
@@ -263,6 +256,5 @@ public class SharpenToolWidget extends JFrame {
                 processChange();
             }
         }
-    }  // class SliderListener
-
+    } // class SliderListener
 }

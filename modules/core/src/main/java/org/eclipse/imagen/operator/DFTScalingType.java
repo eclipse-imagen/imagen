@@ -20,11 +20,10 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "scalingType"
- * parameter of the "DFT" and "IDFT" operations.  Acceptable values for the
- * "scalingType" parameter are defined in the <code>DFTDescriptor</code>
- * and <code>IDFTDescriptor</code> by the constants <code>SCALING_NONE</code>,
- * <code>SCALING_UNITARY</code>, and <code>SCALING_DIMENSIONS</code>.
+ * Class used to represent the acceptable values of the "scalingType" parameter of the "DFT" and "IDFT" operations.
+ * Acceptable values for the "scalingType" parameter are defined in the <code>DFTDescriptor</code> and <code>
+ * IDFTDescriptor</code> by the constants <code>SCALING_NONE</code>, <code>SCALING_UNITARY</code>, and <code>
+ * SCALING_DIMENSIONS</code>.
  *
  * @since JAI 1.1
  */

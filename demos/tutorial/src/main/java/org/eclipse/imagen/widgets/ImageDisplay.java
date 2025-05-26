@@ -8,28 +8,24 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import org.eclipse.imagen.*;
+import java.awt.image.*;
 import javax.swing.*;
+import org.eclipse.imagen.*;
 
 /**
- * An output widget for a PlanarImage.  ImageDisplay subclasses
- * javax.swing.JComponent, and can be used in any context that calls for a
- * JComponent.  It monitors resize and update events and automatically
- * requests tiles from its source on demand.
+ * An output widget for a PlanarImage. ImageDisplay subclasses javax.swing.JComponent, and can be used in any context
+ * that calls for a JComponent. It monitors resize and update events and automatically requests tiles from its source on
+ * demand.
  *
- * <p> Due to the limitations of BufferedImage, only TYPE_BYTE of band
- * 1, 2, 3, 4, and TYPE_USHORT of band 1, 2, 3 images can be displayed
- * using this widget.
+ * <p>Due to the limitations of BufferedImage, only TYPE_BYTE of band 1, 2, 3, 4, and TYPE_USHORT of band 1, 2, 3 images
+ * can be displayed using this widget.
  *
  * @author Daniel Rice
  * @author Dennis Sigel
  */
-
-public class ImageDisplay extends JComponent
-                          implements MouseListener, MouseMotionListener {
+public class ImageDisplay extends JComponent implements MouseListener, MouseMotionListener {
 
     /** The source PlanarImage. */
     protected PlanarImage source;
@@ -67,15 +63,16 @@ public class ImageDisplay extends JComponent
 
     /** Brightness control */
     protected BufferedImageOp biop = null;
+
     protected boolean brightnessEnabled = false;
     protected int brightness = 0;
     protected byte[] lutData;
 
     /** Initializes the ImageDisplay. */
     private synchronized void initialize() {
-        if ( source == null ) return;
+        if (source == null) return;
 
-        componentWidth  = source.getWidth();
+        componentWidth = source.getWidth();
         componentHeight = source.getHeight();
 
         setPreferredSize(new Dimension(componentWidth, componentHeight));
@@ -102,27 +99,25 @@ public class ImageDisplay extends JComponent
         tileGridYOffset = source.getTileGridYOffset();
     }
 
-    /**
-     * Default constructor
-     */
+    /** Default constructor */
     public ImageDisplay() {
         super();
         source = null;
 
         lutData = new byte[256];
 
-        for ( int i = 0; i < 256; i++ ) {
-            lutData[i] = (byte)i;
+        for (int i = 0; i < 256; i++) {
+            lutData[i] = (byte) i;
         }
 
-        componentWidth  = 64;
+        componentWidth = 64;
         componentHeight = 64;
         setPreferredSize(new Dimension(componentWidth, componentHeight));
         setOrigin(0, 0);
         setBrightnessEnabled(true);
     }
 
-    /** 
+    /**
      * Constructs an ImageDisplay to display a PlanarImage.
      *
      * @param source a PlanarImage to be displayed.
@@ -134,8 +129,8 @@ public class ImageDisplay extends JComponent
 
         lutData = new byte[256];
 
-        for ( int i = 0; i < 256; i++ ) {
-            lutData[i] = (byte)i;
+        for (int i = 0; i < 256; i++) {
+            lutData[i] = (byte) i;
         }
 
         setOrigin(0, 0);
@@ -154,11 +149,11 @@ public class ImageDisplay extends JComponent
 
         lutData = new byte[256];
 
-        for ( int i = 0; i < 256; i++ ) {
-            lutData[i] = (byte)i;
+        for (int i = 0; i < 256; i++) {
+            lutData[i] = (byte) i;
         }
 
-        componentWidth  = width;
+        componentWidth = width;
         componentHeight = height;
         setPreferredSize(new Dimension(componentWidth, componentHeight));
         setOrigin(0, 0);
@@ -183,7 +178,7 @@ public class ImageDisplay extends JComponent
     }
 
     public final JLabel getOdometer() {
-        if ( odometer == null ) {
+        if (odometer == null) {
             odometer = new JLabel();
             odometer.setVerticalAlignment(SwingConstants.CENTER);
             odometer.setHorizontalAlignment(SwingConstants.LEFT);
@@ -211,32 +206,32 @@ public class ImageDisplay extends JComponent
         return originY;
     }
 
-    /** Records a new size.  Called by the AWT. */
+    /** Records a new size. Called by the AWT. */
     public void setBounds(int x, int y, int width, int height) {
         Insets insets = getInsets();
         int w;
         int h;
 
-        if ( source == null ) {
+        if (source == null) {
             w = width;
             h = height;
         } else {
             w = source.getWidth();
             h = source.getHeight();
 
-            if ( width < w ) {
+            if (width < w) {
                 w = width;
             }
 
-            if ( height < h ) {
+            if (height < h) {
                 h = height;
             }
         }
 
-        componentWidth  = w + insets.left + insets.right;
-        componentHeight = h + insets.top  + insets.bottom;
+        componentWidth = w + insets.left + insets.right;
+        componentHeight = h + insets.top + insets.bottom;
 
-        super.setBounds(x+shift_x, y+shift_y, componentWidth, componentHeight);
+        super.setBounds(x + shift_x, y + shift_y, componentWidth, componentHeight);
     }
 
     public void setLocation(int x, int y) {
@@ -246,19 +241,19 @@ public class ImageDisplay extends JComponent
     }
 
     private final int XtoTileX(int x) {
-        return (int) Math.floor((double) (x - tileGridXOffset)/tileWidth);
+        return (int) Math.floor((double) (x - tileGridXOffset) / tileWidth);
     }
 
     private final int YtoTileY(int y) {
-        return (int) Math.floor((double) (y - tileGridYOffset)/tileHeight);
+        return (int) Math.floor((double) (y - tileGridYOffset) / tileHeight);
     }
 
     private final int TileXtoX(int tx) {
-        return tx*tileWidth + tileGridXOffset;
+        return tx * tileWidth + tileGridXOffset;
     }
 
     private final int TileYtoY(int ty) {
-        return ty*tileHeight + tileGridYOffset;
+        return ty * tileHeight + tileGridYOffset;
     }
 
     private static final void debug(String msg) {
@@ -266,21 +261,20 @@ public class ImageDisplay extends JComponent
     }
 
     private final byte clampByte(int v) {
-        if ( v > 255 ) {
-            return (byte)255;
-        } else if ( v < 0 ) {
-            return (byte)0;
+        if (v > 255) {
+            return (byte) 255;
+        } else if (v < 0) {
+            return (byte) 0;
         } else {
-            return (byte)v;
+            return (byte) v;
         }
     }
 
     private final void setBrightnessEnabled(boolean v) {
         brightnessEnabled = v;
 
-        if ( brightnessEnabled == true ) {
-            biop = new AffineTransformOp(new AffineTransform(),
-                                         AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        if (brightnessEnabled == true) {
+            biop = new AffineTransformOp(new AffineTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         } else {
             biop = null;
         }
@@ -291,9 +285,9 @@ public class ImageDisplay extends JComponent
     }
 
     public final void setBrightness(int b) {
-        if ( b != brightness && brightnessEnabled == true ) {
-            for ( int i = 0; i < 256; i++ ) {
-                lutData[i] = clampByte(i+b);
+        if (b != brightness && brightnessEnabled == true) {
+            for (int i = 0; i < 256; i++) {
+                lutData[i] = clampByte(i + b);
             }
 
             repaint();
@@ -301,22 +295,21 @@ public class ImageDisplay extends JComponent
     }
 
     /**
-     * Paint the image onto a Graphics object.  The painting is
-     * performed tile-by-tile, and includes a grey region covering the
-     * unused portion of image tiles as well as the general
-     * background.  At this point the image must be byte data.
+     * Paint the image onto a Graphics object. The painting is performed tile-by-tile, and includes a grey region
+     * covering the unused portion of image tiles as well as the general background. At this point the image must be
+     * byte data.
      */
     public synchronized void paintComponent(Graphics g) {
 
         Graphics2D g2D = null;
         if (g instanceof Graphics2D) {
-            g2D = (Graphics2D)g;
+            g2D = (Graphics2D) g;
         } else {
             return;
         }
 
         // if source is null, it's just a component
-        if ( source == null ) {
+        if (source == null) {
             g2D.setColor(getBackground());
             g2D.fillRect(0, 0, componentWidth, componentHeight);
             return;
@@ -333,10 +326,10 @@ public class ImageDisplay extends JComponent
         }
 
         // clear the background (clip it) [minimal optimization here]
-        if ( transX > 0 ||
-             transY > 0 ||
-             transX < (componentWidth-source.getWidth()) ||
-             transY < (componentHeight-source.getHeight())) {
+        if (transX > 0
+                || transY > 0
+                || transX < (componentWidth - source.getWidth())
+                || transY < (componentHeight - source.getHeight())) {
             g2D.setColor(getBackground());
             g2D.fillRect(0, 0, componentWidth, componentHeight);
         }
@@ -371,41 +364,33 @@ public class ImageDisplay extends JComponent
                 int ty = TileYtoY(tj);
 
                 Raster tile = source.getTile(ti, tj);
-                if ( tile != null ) {
+                if (tile != null) {
                     DataBuffer dataBuffer = tile.getDataBuffer();
 
-                    WritableRaster wr = tile.createWritableRaster(sampleModel,
-                                                                  dataBuffer,
-                                                                  null);
+                    WritableRaster wr = tile.createWritableRaster(sampleModel, dataBuffer, null);
 
-                    BufferedImage bi = new BufferedImage(colorModel,
-                                                         wr,
-                                                         colorModel.isAlphaPremultiplied(),
-                                                         null);
+                    BufferedImage bi = new BufferedImage(colorModel, wr, colorModel.isAlphaPremultiplied(), null);
 
                     // correctly handles band offsets
-                    if ( brightnessEnabled == true ) {
-                        SampleModel sm = sampleModel.createCompatibleSampleModel(tile.getWidth(),
-                                                                                 tile.getHeight());
+                    if (brightnessEnabled == true) {
+                        SampleModel sm = sampleModel.createCompatibleSampleModel(tile.getWidth(), tile.getHeight());
 
                         WritableRaster raster = RasterFactory.createWritableRaster(sm, null);
 
-                        BufferedImage bimg = new BufferedImage(colorModel,
-                                                               raster,
-                                                               colorModel.isAlphaPremultiplied(),
-                                                               null);
+                        BufferedImage bimg =
+                                new BufferedImage(colorModel, raster, colorModel.isAlphaPremultiplied(), null);
 
                         // don't move this code
                         ByteLookupTable lutTable = new ByteLookupTable(0, lutData);
                         LookupOp lookup = new LookupOp(lutTable, null);
                         lookup.filter(bi, bimg);
 
-                        g2D.drawImage(bimg, biop, tx+transX+insets.left, ty+transY+insets.top);
+                        g2D.drawImage(bimg, biop, tx + transX + insets.left, ty + transY + insets.top);
                     } else {
                         AffineTransform transform;
 
-                        transform = AffineTransform.getTranslateInstance(tx + transX + insets.left,
-                                                                         ty + transY + insets.top);
+                        transform = AffineTransform.getTranslateInstance(
+                                tx + transX + insets.left, ty + transY + insets.top);
 
                         g2D.drawRenderedImage(bi, transform);
                     }
@@ -415,40 +400,37 @@ public class ImageDisplay extends JComponent
     }
 
     // mouse interface
-    public final void mouseEntered(MouseEvent e) {
-    }
+    public final void mouseEntered(MouseEvent e) {}
 
-    public final void mouseExited(MouseEvent e) {
-    }
+    public final void mouseExited(MouseEvent e) {}
 
     public void mousePressed(MouseEvent e) {
         Point p = e.getPoint();
         int mods = e.getModifiers();
 
-        if ( odometer != null ) {
-             String output = " (" + p.x + ", " + p.y + ")";
-             odometer.setText(output);
+        if (odometer != null) {
+            String output = " (" + p.x + ", " + p.y + ")";
+            odometer.setText(output);
         }
     }
 
     public final void mouseReleased(MouseEvent e) {
         Point p = e.getPoint();
 
-        if ( odometer != null ) {
-             String output = " (" + p.x + ", " + p.y + ")";
-             odometer.setText(output);
+        if (odometer != null) {
+            String output = " (" + p.x + ", " + p.y + ")";
+            odometer.setText(output);
         }
     }
 
-    public final void mouseClicked(MouseEvent e) {
-    }
+    public final void mouseClicked(MouseEvent e) {}
 
     public final void mouseMoved(MouseEvent e) {
         Point p = e.getPoint();
 
-        if ( odometer != null ) {
-             String output = " (" + p.x + ", " + p.y + ")";
-             odometer.setText(output);
+        if (odometer != null) {
+            String output = " (" + p.x + ", " + p.y + ")";
+            odometer.setText(output);
         }
     }
 

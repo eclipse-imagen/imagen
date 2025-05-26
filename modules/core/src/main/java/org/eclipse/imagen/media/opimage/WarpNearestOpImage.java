@@ -16,65 +16,64 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.IndexColorModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 import org.eclipse.imagen.Warp;
 import org.eclipse.imagen.WarpOpImage;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
 
 /**
- * An <code>OpImage</code> implementing the general "Warp" operation as
- * described in <code>org.eclipse.imagen.operator.WarpDescriptor</code>.
- * It supports the nearest-neighbor interpolation.
+ * An <code>OpImage</code> implementing the general "Warp" operation as described in <code>
+ * org.eclipse.imagen.operator.WarpDescriptor</code>. It supports the nearest-neighbor interpolation.
  *
- * <p>The layout for the destination image may be specified via the
- * <code>ImageLayout</code> parameter. However, only those settings
- * suitable for this operation will be used. The unsuitable settings
- * will be replaced by default suitable values.
+ * <p>The layout for the destination image may be specified via the <code>ImageLayout</code> parameter. However, only
+ * those settings suitable for this operation will be used. The unsuitable settings will be replaced by default suitable
+ * values.
  *
  * @since EA2
  * @see org.eclipse.imagen.Warp
  * @see org.eclipse.imagen.WarpOpImage
  * @see org.eclipse.imagen.operator.WarpDescriptor
  * @see WarpRIF
- *
  */
 final class WarpNearestOpImage extends WarpOpImage {
 
     /**
      * Constructs a WarpNearestOpImage.
      *
-     * @param source  The source image.
-     * @param layout  The destination image layout.
-     * @param warp    An object defining the warp algorithm.
-     * @param interp  An object describing the interpolation method.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param warp An object defining the warp algorithm.
+     * @param interp An object describing the interpolation method.
      */
-    public WarpNearestOpImage(RenderedImage source,
-                              Map config,
-                              ImageLayout layout,
-                              Warp warp,
-                              Interpolation interp,
-                              double[] backgroundValues) {
-        super(source,
-              layout,
-              config,
-              false,
-              null,   // extender
-              interp,
-              warp,
-              backgroundValues);
+    public WarpNearestOpImage(
+            RenderedImage source,
+            Map config,
+            ImageLayout layout,
+            Warp warp,
+            Interpolation interp,
+            double[] backgroundValues) {
+        super(
+                source,
+                layout,
+                config,
+                false,
+                null, // extender
+                interp,
+                warp,
+                backgroundValues);
 
         /*
          * If the source has IndexColorModel, override the default setting
@@ -84,41 +83,37 @@ final class WarpNearestOpImage extends WarpOpImage {
          */
         ColorModel srcColorModel = source.getColorModel();
         if (srcColorModel instanceof IndexColorModel) {
-             sampleModel = source.getSampleModel().createCompatibleSampleModel(
-                                                   tileWidth, tileHeight);
-             colorModel = srcColorModel;
+            sampleModel = source.getSampleModel().createCompatibleSampleModel(tileWidth, tileHeight);
+            colorModel = srcColorModel;
         }
     }
 
     /** Warps a rectangle. */
-    protected void computeRect(PlanarImage[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(PlanarImage[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor d = new RasterAccessor(dest, destRect,
-                                              formatTags[1], getColorModel());
+        RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         switch (d.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(sources[0], d);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(sources[0], d);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(sources[0], d);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(sources[0], d);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(sources[0], d);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(sources[0], d);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(sources[0], d);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(sources[0], d);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(sources[0], d);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(sources[0], d);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(sources[0], d);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(sources[0], d);
+                break;
         }
 
         if (d.isDataCopy()) {
@@ -148,16 +143,14 @@ final class WarpNearestOpImage extends WarpOpImage {
 
         int lineOffset = 0;
 
-	byte[] backgroundByte = new byte[dstBands];
-	for (int i = 0; i < dstBands; i++)
-	    backgroundByte[i] = (byte)backgroundValues[i];
+        byte[] backgroundByte = new byte[dstBands];
+        for (int i = 0; i < dstBands; i++) backgroundByte[i] = (byte) backgroundValues[i];
 
         for (int h = 0; h < dstHeight; h++) {
             int pixelOffset = lineOffset;
             lineOffset += lineStride;
 
-            warp.warpRect(dst.getX(), dst.getY()+h, dstWidth, 1,
-                          warpData);
+            warp.warpRect(dst.getX(), dst.getY() + h, dstWidth, 1, warpData);
             int count = 0;
             for (int w = 0; w < dstWidth; w++) {
                 /*
@@ -173,14 +166,12 @@ final class WarpNearestOpImage extends WarpOpImage {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
-                            data[b][pixelOffset+bandOffsets[b]] =
-                                backgroundByte[b];
+                            data[b][pixelOffset + bandOffsets[b]] = backgroundByte[b];
                         }
                     }
                 } else {
                     for (int b = 0; b < dstBands; b++) {
-                        data[b][pixelOffset+bandOffsets[b]] =
-                            (byte)(iter.getSample(sx, sy, b) & 0xFF);
+                        data[b][pixelOffset + bandOffsets[b]] = (byte) (iter.getSample(sx, sy, b) & 0xFF);
                     }
                 }
 
@@ -210,16 +201,14 @@ final class WarpNearestOpImage extends WarpOpImage {
 
         int lineOffset = 0;
 
-	short[] backgroundUShort = new short[dstBands];
-	for (int i = 0; i < dstBands; i++)
-	    backgroundUShort[i] = (short)backgroundValues[i];
+        short[] backgroundUShort = new short[dstBands];
+        for (int i = 0; i < dstBands; i++) backgroundUShort[i] = (short) backgroundValues[i];
 
         for (int h = 0; h < dstHeight; h++) {
             int pixelOffset = lineOffset;
             lineOffset += lineStride;
 
-            warp.warpRect(dst.getX(), dst.getY()+h, dstWidth, 1,
-                          warpData);
+            warp.warpRect(dst.getX(), dst.getY() + h, dstWidth, 1, warpData);
             int count = 0;
             for (int w = 0; w < dstWidth; w++) {
                 /*
@@ -235,14 +224,12 @@ final class WarpNearestOpImage extends WarpOpImage {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
-                            data[b][pixelOffset+bandOffsets[b]] =
-                                backgroundUShort[b];
+                            data[b][pixelOffset + bandOffsets[b]] = backgroundUShort[b];
                         }
                     }
                 } else {
                     for (int b = 0; b < dstBands; b++) {
-                        data[b][pixelOffset+bandOffsets[b]] =
-                            (short)(iter.getSample(sx, sy, b) & 0xFFFF);
+                        data[b][pixelOffset + bandOffsets[b]] = (short) (iter.getSample(sx, sy, b) & 0xFFFF);
                     }
                 }
 
@@ -273,15 +260,13 @@ final class WarpNearestOpImage extends WarpOpImage {
         int lineOffset = 0;
 
         short[] backgroundShort = new short[dstBands];
-	for (int i = 0; i < dstBands; i++)
-	    backgroundShort[i] = (short)backgroundValues[i];
+        for (int i = 0; i < dstBands; i++) backgroundShort[i] = (short) backgroundValues[i];
 
         for (int h = 0; h < dstHeight; h++) {
             int pixelOffset = lineOffset;
             lineOffset += lineStride;
 
-            warp.warpRect(dst.getX(), dst.getY()+h, dstWidth, 1,
-                          warpData);
+            warp.warpRect(dst.getX(), dst.getY() + h, dstWidth, 1, warpData);
             int count = 0;
             for (int w = 0; w < dstWidth; w++) {
                 /*
@@ -297,14 +282,12 @@ final class WarpNearestOpImage extends WarpOpImage {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
-                            data[b][pixelOffset+bandOffsets[b]] =
-                                backgroundShort[b];
+                            data[b][pixelOffset + bandOffsets[b]] = backgroundShort[b];
                         }
                     }
                 } else {
                     for (int b = 0; b < dstBands; b++) {
-                        data[b][pixelOffset+bandOffsets[b]] =
-                            (short)iter.getSample(sx, sy, b);
+                        data[b][pixelOffset + bandOffsets[b]] = (short) iter.getSample(sx, sy, b);
                     }
                 }
 
@@ -334,16 +317,14 @@ final class WarpNearestOpImage extends WarpOpImage {
 
         int lineOffset = 0;
 
-	int[] backgroundInt = new int[dstBands];
-	for (int i = 0; i < dstBands; i++)
-	    backgroundInt[i] = (int)backgroundValues[i];
+        int[] backgroundInt = new int[dstBands];
+        for (int i = 0; i < dstBands; i++) backgroundInt[i] = (int) backgroundValues[i];
 
         for (int h = 0; h < dstHeight; h++) {
             int pixelOffset = lineOffset;
             lineOffset += lineStride;
 
-            warp.warpRect(dst.getX(), dst.getY()+h, dstWidth, 1,
-                          warpData);
+            warp.warpRect(dst.getX(), dst.getY() + h, dstWidth, 1, warpData);
             int count = 0;
             for (int w = 0; w < dstWidth; w++) {
                 /*
@@ -359,14 +340,12 @@ final class WarpNearestOpImage extends WarpOpImage {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
-                            data[b][pixelOffset+bandOffsets[b]] =
-                                backgroundInt[b];
+                            data[b][pixelOffset + bandOffsets[b]] = backgroundInt[b];
                         }
                     }
                 } else {
                     for (int b = 0; b < dstBands; b++) {
-                        data[b][pixelOffset+bandOffsets[b]] =
-                            iter.getSample(sx, sy, b);
+                        data[b][pixelOffset + bandOffsets[b]] = iter.getSample(sx, sy, b);
                     }
                 }
 
@@ -396,16 +375,14 @@ final class WarpNearestOpImage extends WarpOpImage {
 
         int lineOffset = 0;
 
-	float[] backgroundFloat = new float[dstBands];
-	for (int i = 0; i < dstBands; i++)
-	    backgroundFloat[i] = (float)backgroundValues[i];
+        float[] backgroundFloat = new float[dstBands];
+        for (int i = 0; i < dstBands; i++) backgroundFloat[i] = (float) backgroundValues[i];
 
         for (int h = 0; h < dstHeight; h++) {
             int pixelOffset = lineOffset;
             lineOffset += lineStride;
 
-            warp.warpRect(dst.getX(), dst.getY()+h, dstWidth, 1,
-                          warpData);
+            warp.warpRect(dst.getX(), dst.getY() + h, dstWidth, 1, warpData);
             int count = 0;
             for (int w = 0; w < dstWidth; w++) {
                 /*
@@ -421,14 +398,12 @@ final class WarpNearestOpImage extends WarpOpImage {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
-                            data[b][pixelOffset+bandOffsets[b]] =
-                                backgroundFloat[b];
+                            data[b][pixelOffset + bandOffsets[b]] = backgroundFloat[b];
                         }
                     }
                 } else {
                     for (int b = 0; b < dstBands; b++) {
-                        data[b][pixelOffset+bandOffsets[b]] =
-                            iter.getSampleFloat(sx, sy, b);
+                        data[b][pixelOffset + bandOffsets[b]] = iter.getSampleFloat(sx, sy, b);
                     }
                 }
 
@@ -462,8 +437,7 @@ final class WarpNearestOpImage extends WarpOpImage {
             int pixelOffset = lineOffset;
             lineOffset += lineStride;
 
-            warp.warpRect(dst.getX(), dst.getY()+h, dstWidth, 1,
-                          warpData);
+            warp.warpRect(dst.getX(), dst.getY() + h, dstWidth, 1, warpData);
             int count = 0;
             for (int w = 0; w < dstWidth; w++) {
                 /*
@@ -479,14 +453,12 @@ final class WarpNearestOpImage extends WarpOpImage {
                     /* Fill with a background color. */
                     if (setBackground) {
                         for (int b = 0; b < dstBands; b++) {
-                            data[b][pixelOffset+bandOffsets[b]] =
-                                backgroundValues[b];
+                            data[b][pixelOffset + bandOffsets[b]] = backgroundValues[b];
                         }
                     }
                 } else {
                     for (int b = 0; b < dstBands; b++) {
-                        data[b][pixelOffset+bandOffsets[b]] =
-                            iter.getSampleDouble(sx, sy, b);
+                        data[b][pixelOffset + bandOffsets[b]] = iter.getSampleDouble(sx, sy, b);
                     }
                 }
 
@@ -497,6 +469,6 @@ final class WarpNearestOpImage extends WarpOpImage {
 
     /** Returns the "round" value of a float. */
     private static final int round(float f) {
-        return f >= 0 ? (int)(f + 0.5F) : (int)(f - 0.5F);
+        return f >= 0 ? (int) (f + 0.5F) : (int) (f - 0.5F);
     }
 }

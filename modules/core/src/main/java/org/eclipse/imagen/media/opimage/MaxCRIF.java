@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "Max" operation in the
- * rendered and renderable image layer.
+ * A <code>CRIF</code> supporting the "Max" operation in the rendered and renderable image layer.
  *
  * @see org.eclipse.imagen.operator.MaxDescriptor
  * @see MaxOpImage
- *
  */
 public class MaxCRIF extends CRIFImpl {
 
@@ -40,23 +37,16 @@ public class MaxCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>MaxOpImage</code> in the rendered
-     * layer. This method satisfies the implementation of RIF.
+     * Creates a new instance of <code>MaxOpImage</code> in the rendered layer. This method satisfies the implementation
+     * of RIF.
      *
-     * @param paramBlock  The two source images from which the maximum
-     *        pixel values are chosen.
-     * @param renderHints  Optionally contains destination image layout
-     *        and tile cache.
+     * @param paramBlock The two source images from which the maximum pixel values are chosen.
+     * @param renderHints Optionally contains destination image layout and tile cache.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
-        
-        return new MaxOpImage(paramBlock.getRenderedSource(0),
-                              paramBlock.getRenderedSource(1),
-                              renderHints,
-                              layout);
+
+        return new MaxOpImage(paramBlock.getRenderedSource(0), paramBlock.getRenderedSource(1), renderHints, layout);
     }
 }

@@ -26,13 +26,10 @@ import java.awt.image.DataBufferUShort;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
- * This class is a serializable proxy for a DataBuffer from which the
- * DataBuffer may be reconstituted.
- *
+ * This class is a serializable proxy for a DataBuffer from which the DataBuffer may be reconstituted.
  *
  * @since 1.1
  */
@@ -50,14 +47,14 @@ public class DataBufferState extends SerializableStateImpl {
             Class dbfClass = Class.forName("java.awt.image.DataBufferFloat");
             Class dbdClass = Class.forName("java.awt.image.DataBufferDouble");
             J2DDataBufferClasses = new Class[] {dbfClass, dbdClass};
-        } catch(ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             // Ignore the exception.
         }
     }
 
     public static Class[] getSupportedClasses() {
         Class[] supportedClasses = null;
-        if(J2DDataBufferClasses != null) {
+        if (J2DDataBufferClasses != null) {
             // Java 2 1.4.0 and higher.
             supportedClasses = new Class[] {
                 DataBufferByte.class,
@@ -89,13 +86,12 @@ public class DataBufferState extends SerializableStateImpl {
     }
 
     /**
-      * Constructs a <code>DataBufferState</code> from a
-      * <code>DataBuffer</code>.
-      *
-      * @param source The <code>DataBuffer</code> to be serialized.
-      * @param o The <code>SampleModel</code> to be serialized.
-      * @param h The <code>RenderingHints</code> (ignored).
-      */
+     * Constructs a <code>DataBufferState</code> from a <code>DataBuffer</code>.
+     *
+     * @param source The <code>DataBuffer</code> to be serialized.
+     * @param o The <code>SampleModel</code> to be serialized.
+     * @param h The <code>RenderingHints</code> (ignored).
+     */
     public DataBufferState(Class c, Object o, RenderingHints h) {
         super(c, o, h);
     }
@@ -104,12 +100,12 @@ public class DataBufferState extends SerializableStateImpl {
     // the readObject() and writeObject() methods.
 
     /**
-      * Serialize the <code>DataBufferState</code>.
-      *
-      * @param out The <code>ObjectOutputStream</code>.
-      */
+     * Serialize the <code>DataBufferState</code>.
+     *
+     * @param out The <code>ObjectOutputStream</code>.
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
-        DataBuffer dataBuffer = (DataBuffer)theObject;
+        DataBuffer dataBuffer = (DataBuffer) theObject;
 
         // Write serialized form to the stream.
         int dataType = dataBuffer.getDataType();
@@ -118,37 +114,36 @@ public class DataBufferState extends SerializableStateImpl {
         out.writeInt(dataBuffer.getSize());
         Object dataArray = null;
         switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataArray = ((DataBufferByte)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_SHORT:
-            dataArray = ((DataBufferShort)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataArray = ((DataBufferUShort)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_INT:
-            dataArray = ((DataBufferInt)dataBuffer).getBankData();
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            dataArray = DataBufferUtils.getBankDataFloat(dataBuffer);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            dataArray = DataBufferUtils.getBankDataDouble(dataBuffer);
-            break;
-        default:
-            throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
+            case DataBuffer.TYPE_BYTE:
+                dataArray = ((DataBufferByte) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_SHORT:
+                dataArray = ((DataBufferShort) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_USHORT:
+                dataArray = ((DataBufferUShort) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_INT:
+                dataArray = ((DataBufferInt) dataBuffer).getBankData();
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                dataArray = DataBufferUtils.getBankDataFloat(dataBuffer);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                dataArray = DataBufferUtils.getBankDataDouble(dataBuffer);
+                break;
+            default:
+                throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
         }
         out.writeObject(dataArray);
     }
 
     /**
-      * Deserialize the <code>DataBufferState</code>.
-      *
-      * @param out The <code>ObjectInputStream</code>.
-      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+     * Deserialize the <code>DataBufferState</code>.
+     *
+     * @param out The <code>ObjectInputStream</code>.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         DataBuffer dataBuffer = null;
 
         // Read serialized form from the stream.
@@ -157,38 +152,32 @@ public class DataBufferState extends SerializableStateImpl {
         int size = -1;
         Object dataArray = null;
         dataType = in.readInt();
-        offsets = (int[])in.readObject();
+        offsets = (int[]) in.readObject();
         size = in.readInt();
         dataArray = in.readObject();
 
         // Restore the transient DataBuffer.
         switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataBuffer =
-                new DataBufferByte((byte[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            dataBuffer =
-                new DataBufferShort((short[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataBuffer =
-                new DataBufferUShort((short[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_INT:
-            dataBuffer =
-                new DataBufferInt((int[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            dataBuffer =
-                DataBufferUtils.createDataBufferFloat((float[][])dataArray, size, offsets);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            dataBuffer =
-                DataBufferUtils.createDataBufferDouble((double[][])dataArray, size, offsets);
-            break;
-        default:
-            throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
+            case DataBuffer.TYPE_BYTE:
+                dataBuffer = new DataBufferByte((byte[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                dataBuffer = new DataBufferShort((short[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                dataBuffer = new DataBufferUShort((short[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_INT:
+                dataBuffer = new DataBufferInt((int[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                dataBuffer = DataBufferUtils.createDataBufferFloat((float[][]) dataArray, size, offsets);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                dataBuffer = DataBufferUtils.createDataBufferDouble((double[][]) dataArray, size, offsets);
+                break;
+            default:
+                throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
         }
 
         theObject = dataBuffer;

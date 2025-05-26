@@ -26,7 +26,6 @@ import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -35,23 +34,20 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 /**
  * An <code>OperationDescriptor</code> describing the "Crop" operation.
  *
- * <p> The Crop operation takes one rendered or renderable image and
- * crops the image to a specified rectangular area.  The rectangular
- * area must not be empty, and must be fully contained with the source
- * image bounds.
+ * <p>The Crop operation takes one rendered or renderable image and crops the image to a specified rectangular area. The
+ * rectangular area must not be empty, and must be fully contained with the source image bounds.
  *
- * <p> For rendered images the supplied origin and dimensions are used to
- * determine the smallest rectangle with integral origin and dimensions which
- * encloses the rectangular area requested.
+ * <p>For rendered images the supplied origin and dimensions are used to determine the smallest rectangle with integral
+ * origin and dimensions which encloses the rectangular area requested.
  *
- * <p> For renderable images the rectangular area is specified in
- * rendering-independent coordinates.  When the image is rendered this area
- * will be mapped to rendered image coordinates using the affine transform
- * supplied for the rendering.  The crop bounds in rendered coordinates are
- * defined to be the minimum bounding box of the rectangular area mapped to
- * rendered image coordinates.
+ * <p>For renderable images the rectangular area is specified in rendering-independent coordinates. When the image is
+ * rendered this area will be mapped to rendered image coordinates using the affine transform supplied for the
+ * rendering. The crop bounds in rendered coordinates are defined to be the minimum bounding box of the rectangular area
+ * mapped to rendered image coordinates.
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
  * <tr><td>GlobalName</td>  <td>Crop</td></tr>
@@ -65,9 +61,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>arg1Desc</td>    <td>The y origin for each band.</td></tr>
  * <tr><td>arg2Desc</td>    <td>The width for each band.</td></tr>
  * <tr><td>arg3Desc</td>    <td>The height for each band.</td></tr>
- * </table></p>
+ * </table>
  *
- * <p><table border=1>
+ * <p>
+ *
+ * <table border=1>
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>   <th>Class Type</th>
  *                     <th>Default Value</th></tr>
@@ -79,91 +77,76 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                     <td>NO_PARAMETER_DEFAULT</td>
  * <tr><td>height</td> <td>Float</td>
  *                     <td>NO_PARAMETER_DEFAULT</td>
- * </table></p>
+ * </table>
  *
- * @see org.eclipse.imagen.OperationDescriptor */
+ * @see org.eclipse.imagen.OperationDescriptor
+ */
 public class CropDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation
-     * and specify the parameter list for this operation.
+     * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName",  "Crop"},
-        {"LocalName",   "Crop"},
-        {"Vendor",      "org.eclipse.imagen.media"},
+        {"GlobalName", "Crop"},
+        {"LocalName", "Crop"},
+        {"Vendor", "org.eclipse.imagen.media"},
         {"Description", JaiI18N.getString("CropDescriptor0")},
-        {"DocURL",      "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/CropDescriptor.html"},
-        {"Version",     JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc",    JaiI18N.getString("CropDescriptor1")},
-        {"arg1Desc",    JaiI18N.getString("CropDescriptor2")},
-        {"arg2Desc",    JaiI18N.getString("CropDescriptor3")},
-        {"arg3Desc",    JaiI18N.getString("CropDescriptor4")}
+        {
+            "DocURL",
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/CropDescriptor.html"
+        },
+        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"arg0Desc", JaiI18N.getString("CropDescriptor1")},
+        {"arg1Desc", JaiI18N.getString("CropDescriptor2")},
+        {"arg2Desc", JaiI18N.getString("CropDescriptor3")},
+        {"arg3Desc", JaiI18N.getString("CropDescriptor4")}
     };
 
     /** The parameter class list for this operation. */
-    private static final Class[] paramClasses = {
-	Float.class,
-        Float.class,
-        Float.class,
-        Float.class
-    };
+    private static final Class[] paramClasses = {Float.class, Float.class, Float.class, Float.class};
 
     /** The parameter name list for this operation. */
-    private static final String[] paramNames = {
-        "x", "y", "width", "height"
-    };
+    private static final String[] paramNames = {"x", "y", "width", "height"};
 
     /** The parameter default value list for this operation. */
     private static final Object[] paramDefaults = {
         NO_PARAMETER_DEFAULT, NO_PARAMETER_DEFAULT, NO_PARAMETER_DEFAULT, NO_PARAMETER_DEFAULT
     };
 
-    private static final String[] supportedModes = {
-	"rendered",
-	"renderable"
-    };
+    private static final String[] supportedModes = {"rendered", "renderable"};
 
     /** Constructor. */
     public CropDescriptor() {
-        super(resources, supportedModes, 1,
-		paramNames, paramClasses, paramDefaults, null);
+        super(resources, supportedModes, 1, paramNames, paramClasses, paramDefaults, null);
     }
 
     /**
      * Validates the input source and parameters.
      *
-     * <p> In addition to the standard checks performed by the
-     * superclass method, this method checks that "x", "y", "width",
-     * and "height" form a rectangle that is not empty and that
-     * is fully contained within the bounds of the source image.
+     * <p>In addition to the standard checks performed by the superclass method, this method checks that "x", "y",
+     * "width", and "height" form a rectangle that is not empty and that is fully contained within the bounds of the
+     * source image.
      */
-    public boolean validateArguments(String modeName,
-				     ParameterBlock args,
-                                     StringBuffer msg) {
+    public boolean validateArguments(String modeName, ParameterBlock args, StringBuffer msg) {
         if (!super.validateArguments(modeName, args, msg)) {
             return false;
         }
 
-	if (modeName.equalsIgnoreCase("rendered"))
-	    return validateRenderedArgs(args, msg);
+        if (modeName.equalsIgnoreCase("rendered")) return validateRenderedArgs(args, msg);
 
-	if (modeName.equalsIgnoreCase("renderable"))
-	    return validateRenderableArgs(args, msg);
+        if (modeName.equalsIgnoreCase("renderable")) return validateRenderableArgs(args, msg);
 
-	return true;
+        return true;
     }
 
     /**
      * Validates the input source and parameters in the rendered mode.
      *
-     * <p> In addition to the standard checks performed by the
-     * superclass method, this method checks that "x", "y", "width",
-     * and "height" form a rectangle that is not empty and that
-     * is fully contained within the bounds of the source image.
+     * <p>In addition to the standard checks performed by the superclass method, this method checks that "x", "y",
+     * "width", and "height" form a rectangle that is not empty and that is fully contained within the bounds of the
+     * source image.
      */
-    private boolean validateRenderedArgs(ParameterBlock args,
-                                     StringBuffer msg) {
+    private boolean validateRenderedArgs(ParameterBlock args, StringBuffer msg) {
 
         // Get parameters.
         float x_req = args.getFloatParameter(0);
@@ -172,45 +155,35 @@ public class CropDescriptor extends OperationDescriptorImpl {
         float h_req = args.getFloatParameter(3);
 
         // Create required rectangle.
-        Rectangle rect_req =
-            (new Rectangle2D.Float(x_req, y_req, w_req, h_req)).getBounds();
+        Rectangle rect_req = (new Rectangle2D.Float(x_req, y_req, w_req, h_req)).getBounds();
 
         // Check for an empty rectangle.
-        if(rect_req.isEmpty()) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("CropDescriptor5"));
+        if (rect_req.isEmpty()) {
+            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor5"));
             return false;
         }
 
         // Check for out-of-bounds
-        RenderedImage src = (RenderedImage)args.getSource(0);
-	
-	Rectangle srcBounds = 
-	  new Rectangle(src.getMinX(),
-			src.getMinY(),
-			src.getWidth(),
-			src.getHeight());
+        RenderedImage src = (RenderedImage) args.getSource(0);
+
+        Rectangle srcBounds = new Rectangle(src.getMinX(), src.getMinY(), src.getWidth(), src.getHeight());
 
         if (!srcBounds.contains(rect_req)) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("CropDescriptor6"));
+            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor6"));
             return false;
         }
 
         return true;
     }
-
 
     /**
      * Validates the input source and parameters in the renderable mode.
      *
-     * <p> In addition to the standard checks performed by the
-     * superclass method, this method checks that "x", "y", "width",
-     * and "height" form a rectangle that is not empty and that
-     * is fully contained within the bounds of the source image.
+     * <p>In addition to the standard checks performed by the superclass method, this method checks that "x", "y",
+     * "width", and "height" form a rectangle that is not empty and that is fully contained within the bounds of the
+     * source image.
      */
-    private boolean validateRenderableArgs(ParameterBlock args,
-                                               StringBuffer msg) {
+    private boolean validateRenderableArgs(ParameterBlock args, StringBuffer msg) {
         // Get parameters.
         float x_req = args.getFloatParameter(0);
         float y_req = args.getFloatParameter(1);
@@ -218,53 +191,42 @@ public class CropDescriptor extends OperationDescriptorImpl {
         float h_req = args.getFloatParameter(3);
 
         // Create required rectangle.
-        Rectangle2D rect_req =
-            new Rectangle2D.Float(x_req, y_req, w_req, h_req);
+        Rectangle2D rect_req = new Rectangle2D.Float(x_req, y_req, w_req, h_req);
 
         // Check for an empty rectangle.
-        if(rect_req.isEmpty()) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("CropDescriptor5"));
+        if (rect_req.isEmpty()) {
+            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor5"));
             return false;
         }
 
         // Check for out-of-bounds
-        RenderableImage src = (RenderableImage)args.getSource(0);
+        RenderableImage src = (RenderableImage) args.getSource(0);
 
-        Rectangle2D rect_src =
-            new Rectangle2D.Float(src.getMinX(),
-                                  src.getMinY(),
-                                  src.getWidth(),
-                                  src.getHeight());
+        Rectangle2D rect_src = new Rectangle2D.Float(src.getMinX(), src.getMinY(), src.getWidth(), src.getHeight());
 
         if (!rect_src.contains(rect_req)) {
-            msg.append(getName() + " " +
-                       JaiI18N.getString("CropDescriptor6"));
+            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor6"));
             return false;
         }
 
         return true;
     }
 
-
     /**
      * Performs cropping to a specified bounding box.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderedOp
-     *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param x The x origin of the cropping operation.
      * @param y The y origin of the cropping operation.
      * @param width The width of the cropping operation.
      * @param height The height of the cropping operation.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>x</code> is <code>null</code>.
@@ -272,15 +234,9 @@ public class CropDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>width</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>height</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0,
-                                    Float x,
-                                    Float y,
-                                    Float width,
-                                    Float height,
-                                    RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Crop",
-                                  RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(
+            RenderedImage source0, Float x, Float y, Float width, Float height, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Crop", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -295,21 +251,18 @@ public class CropDescriptor extends OperationDescriptorImpl {
     /**
      * Performs cropping to a specified bounding box.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all
-     * supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI
      * @see ParameterBlockJAI
      * @see RenderableOp
-     *
      * @param source0 <code>RenderableImage</code> source 0.
      * @param x The x origin of the cropping operation.
      * @param y The y origin of the cropping operation.
      * @param width The width of the cropping operation.
      * @param height The height of the cropping operation.
-     * @param hints The <code>RenderingHints</code> to use.
-     * May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderableOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>x</code> is <code>null</code>.
@@ -317,15 +270,9 @@ public class CropDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>width</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>height</code> is <code>null</code>.
      */
-    public static RenderableOp createRenderable(RenderableImage source0,
-                                                Float x,
-                                                Float y,
-                                                Float width,
-                                                Float height,
-                                                RenderingHints hints)  {
-        ParameterBlockJAI pb =
-            new ParameterBlockJAI("Crop",
-                                  RenderableRegistryMode.MODE_NAME);
+    public static RenderableOp createRenderable(
+            RenderableImage source0, Float x, Float y, Float width, Float height, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Crop", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

@@ -22,23 +22,20 @@ import java.awt.Rectangle;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.RasterFactory;
-import java.util.Map;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
  * The OpImage implementation of the "PeriodicShift" operation as described in
  * org.eclipse.imagen.operator.PeriodicShiftDescriptor.
  *
- * <p> The layout the extended shifted image is copied from its source if
- * the layout parameter is null.
+ * <p>The layout the extended shifted image is copied from its source if the layout parameter is null.
  *
  * @see org.eclipse.imagen.operator.PeriodicShiftDescriptor
  * @see org.eclipse.imagen.ImageLayout
  * @see org.eclipse.imagen.OpImage
- *
  * @since EA4
  */
 final class PeriodicShiftOpImage extends OpImage {
@@ -59,26 +56,16 @@ final class PeriodicShiftOpImage extends OpImage {
      * Creates a OpImage to return the tiles of a periodic extension.
      *
      * @param source a RenderedImage.
-     * @param layout an ImageLayout optionally containing the tile grid
-     *        layout, SampleModel, and ColorModel, or null.
+     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param shiftX the number of pixels of horizontal translation.
      * @param shiftY the number of pixels of vertical translation.
      */
-    public PeriodicShiftOpImage(RenderedImage source,
-                                Map config,
-                                ImageLayout layout,
-                                int shiftX,
-                                int shiftY) {
-        super(vectorize(source),
-              layout == null ? new ImageLayout() : (ImageLayout)layout.clone(),
-              config,
-              false);
+    public PeriodicShiftOpImage(RenderedImage source, Map config, ImageLayout layout, int shiftX, int shiftY) {
+        super(vectorize(source), layout == null ? new ImageLayout() : (ImageLayout) layout.clone(), config, false);
 
         // Calculate the four translation factors.
-        xTrans =
-            new int[] {-shiftX, -shiftX, width - shiftX, width - shiftX};
-        yTrans =
-            new int[] {-shiftY, height - shiftY, -shiftY, height - shiftY};
+        xTrans = new int[] {-shiftX, -shiftX, width - shiftX, width - shiftX};
+        yTrans = new int[] {-shiftY, height - shiftY, -shiftY, height - shiftY};
 
         // Translate the source image in four separate directions.
         images = new TranslateIntOpImage[4];
@@ -94,10 +81,10 @@ final class PeriodicShiftOpImage extends OpImage {
             bounds[i] = destBounds.intersection(images[i].getBounds());
         }
     }
-                
-    /** 
-     * Computes a tile of the destination by copying the data which
-     * overlaps the tile in the four translated source images.
+
+    /**
+     * Computes a tile of the destination by copying the data which overlaps the tile in the four translated source
+     * images.
      *
      * @param tileX the X index of the tile.
      * @param tileY the Y index of the tile.
@@ -108,9 +95,7 @@ final class PeriodicShiftOpImage extends OpImage {
         WritableRaster dest = createWritableRaster(sampleModel, org);
 
         // Clip output rectangle to image bounds.
-        Rectangle rect = new Rectangle(org.x, org.y,
-                                       sampleModel.getWidth(),
-                                       sampleModel.getHeight());
+        Rectangle rect = new Rectangle(org.x, org.y, sampleModel.getWidth(), sampleModel.getHeight());
         Rectangle destRect = rect.intersection(getBounds());
 
         // Fill the destination raster.
@@ -120,31 +105,27 @@ final class PeriodicShiftOpImage extends OpImage {
 
             // If the overlap is non-empty, copy the data within it.
             if (!overlap.isEmpty()) {
-                //dest.setRect(images[i].getData(overlap));
+                // dest.setRect(images[i].getData(overlap));
                 JDKWorkarounds.setRect(dest, images[i].getData(overlap));
             }
         }
 
-        return dest; 
+        return dest;
     }
 
     /**
-     * Returns a conservative estimate of the destination region that
-     * can potentially be affected by the pixels of a rectangle of a
-     * given source.
+     * Returns a conservative estimate of the destination region that can potentially be affected by the pixels of a
+     * rectangle of a given source.
      *
      * @param sourceRect the Rectangle in source coordinates.
      * @param sourceIndex the index of the source image.
-     * @return a Rectangle indicating the potentially affected
-     *         destination region.  or null if the region is unknown.
-     * @throws IllegalArgumentException if the source index is
-     *         negative or greater than that of the last source.
+     * @return a Rectangle indicating the potentially affected destination region. or null if the region is unknown.
+     * @throws IllegalArgumentException if the source index is negative or greater than that of the last source.
      * @throws IllegalArgumentException if sourceRect is null.
      */
-    public Rectangle mapSourceRect(Rectangle sourceRect,
-                                   int sourceIndex) {
+    public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
-        if ( sourceRect == null ) {
+        if (sourceRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -158,30 +139,26 @@ final class PeriodicShiftOpImage extends OpImage {
             srcRect.translate(xTrans[i], yTrans[i]);
             Rectangle overlap = srcRect.intersection(getBounds());
             if (!overlap.isEmpty()) {
-                destRect = destRect == null ?
-                    overlap : destRect.union(overlap);
+                destRect = destRect == null ? overlap : destRect.union(overlap);
             }
         }
 
         return destRect;
     }
-    
+
     /**
-     * Returns a conservative estimate of the region of a specified
-     * source that is required in order to compute the pixels of a
-     * given destination rectangle.
+     * Returns a conservative estimate of the region of a specified source that is required in order to compute the
+     * pixels of a given destination rectangle.
      *
      * @param destRect the Rectangle in destination coordinates.
      * @param sourceIndex the index of the source image.
      * @return a Rectangle indicating the required source region.
-     * @throws IllegalArgumentException if the source index is
-     *         negative or greater than that of the last source.
+     * @throws IllegalArgumentException if the source index is negative or greater than that of the last source.
      * @throws IllegalArgumentException if destRect is null.
      */
-    public Rectangle mapDestRect(Rectangle destRect,
-                                 int sourceIndex) {
+    public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
-        if ( destRect == null ) {
+        if (destRect == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -194,8 +171,7 @@ final class PeriodicShiftOpImage extends OpImage {
             Rectangle overlap = destRect.intersection(bounds[i]);
             if (!overlap.isEmpty()) {
                 overlap.translate(-xTrans[i], -yTrans[i]);
-                sourceRect = sourceRect == null ?
-                    overlap : sourceRect.union(overlap);
+                sourceRect = sourceRect == null ? overlap : sourceRect.union(overlap);
             }
         }
 

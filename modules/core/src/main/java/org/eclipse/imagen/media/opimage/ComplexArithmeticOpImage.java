@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
@@ -23,27 +24,24 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.RasterFactory;
-import java.util.Map;
+import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
- * An <code>OpImage</code> implementing complex multiplication and division
- * as described in
- * <code>org.eclipse.imagen.operator.MultiplyComplexDescriptor</code> and
- * <code>org.eclipse.imagen.operator.DivideComplexDescriptor</code>.
+ * An <code>OpImage</code> implementing complex multiplication and division as described in <code>
+ * org.eclipse.imagen.operator.MultiplyComplexDescriptor</code> and <code>
+ * org.eclipse.imagen.operator.DivideComplexDescriptor</code>.
  *
  * @since EA4
- *
  * @see org.eclipse.imagen.PointOpImage
  * @see org.eclipse.imagen.operator.MultiplyComplexDescriptor
  * @see org.eclipse.imagen.operator.DivideComplexDescriptor
- *
  */
 final class ComplexArithmeticOpImage extends PointOpImage {
     /** Flag indicating division (true) or multiplication (false). */
@@ -61,36 +59,28 @@ final class ComplexArithmeticOpImage extends PointOpImage {
     /* Array of indices into imaginary bands of second source. */
     private int[] s2i;
 
-    /**
-     * Force the destination band count to be even.
-     */
-
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source){
+    /** Force the destination band count to be even. */
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source) {
         // Create an ImageLayout or clone the one passed in.
         ImageLayout il;
         if (layout == null) {
             il = new ImageLayout();
         } else {
-            il = (ImageLayout)layout.clone();
+            il = (ImageLayout) layout.clone();
         }
 
-        if(il.isValid(ImageLayout.SAMPLE_MODEL_MASK)) {
+        if (il.isValid(ImageLayout.SAMPLE_MODEL_MASK)) {
             SampleModel sm = il.getSampleModel(null);
             int nBands = sm.getNumBands();
-            if(nBands % 2 != 0) {
+            if (nBands % 2 != 0) {
                 nBands++;
-                sm = RasterFactory.createComponentSampleModel(sm,
-                                                              sm.getTransferType(),
-                                                              sm.getWidth(),
-                                                              sm.getHeight(),
-                                                              nBands);
-		il.setSampleModel(sm);   // newly added
+                sm = RasterFactory.createComponentSampleModel(
+                        sm, sm.getTransferType(), sm.getWidth(), sm.getHeight(), nBands);
+                il.setSampleModel(sm); // newly added
 
                 // Clear the ColorModel mask if needed.
                 ColorModel cm = layout.getColorModel(null);
-                if(cm != null &&
-                   !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
+                if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
                     // Clear the mask bit if incompatible.
                     il.unsetValid(ImageLayout.COLOR_MODEL_MASK);
                 }
@@ -103,27 +93,20 @@ final class ComplexArithmeticOpImage extends PointOpImage {
     /**
      * Constructs a <code>ComplexArithmeticOpImage</code> object.
      *
-     * <p>The <code>layout</code> parameter may optionally contains the
-     * tile grid layout, sample model, and/or color model. The image
-     * dimension is determined by the intersection of the bounding boxes
-     * of the two source images.
+     * <p>The <code>layout</code> parameter may optionally contains the tile grid layout, sample model, and/or color
+     * model. The image dimension is determined by the intersection of the bounding boxes of the two source images.
      *
-     * <p>The image layout of the first source image, <code>source1</code>,
-     * is used as the fall-back for the image layout of the destination
-     * image. Any layout parameters not specified in the <code>layout</code>
-     * argument are set to the same value as that of <code>source1</code>.
+     * <p>The image layout of the first source image, <code>source1</code>, is used as the fall-back for the image
+     * layout of the destination image. Any layout parameters not specified in the <code>layout</code> argument are set
+     * to the same value as that of <code>source1</code>.
      *
-     * @param source1    The first source image.
-     * @param source2    The second source image.
-     * @param layout     The destination image layout.
-     * @param isDivision Whether the operation is division; if not, it's
-     * multiplication.
+     * @param source1 The first source image.
+     * @param source2 The second source image.
+     * @param layout The destination image layout.
+     * @param isDivision Whether the operation is division; if not, it's multiplication.
      */
-    public ComplexArithmeticOpImage(RenderedImage source1,
-                                    RenderedImage source2,
-                                    Map config,
-                                    ImageLayout layout,
-                                    boolean isDivision) {
+    public ComplexArithmeticOpImage(
+            RenderedImage source1, RenderedImage source2, Map config, ImageLayout layout, boolean isDivision) {
         super(source1, source2, layoutHelper(layout, source1), config, true);
 
         // Cache the division parameter.
@@ -134,44 +117,39 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int numBands2 = source2.getSampleModel().getNumBands();
 
         // Handle the special case (cf. descriptor).
-	int numBandsDst = Math.min(numBands1, numBands2); 
+        int numBandsDst = Math.min(numBands1, numBands2);
 
-	int numBandsFromHint = 0;
-	if(layout != null)
-	   numBandsFromHint = layout.getSampleModel(null).getNumBands();
+        int numBandsFromHint = 0;
+        if (layout != null) numBandsFromHint = layout.getSampleModel(null).getNumBands();
 
-        if(layout != null && layout.isValid(ImageLayout.SAMPLE_MODEL_MASK) &&
-	   ((numBands1 == 2 && numBands2 > 2) ||
-	    (numBands2 == 2 && numBands1 > 2) ||
-	    (numBands1 >= numBandsFromHint && numBands2 >= numBandsFromHint && numBandsFromHint > 0)) ){
-	        if(numBandsFromHint % 2 == 0){
-		  numBandsDst = numBandsFromHint;
-		  // Clamp the destination band count to the maximum
-		  // number of bands in the sources.
-		  numBandsDst = Math.min(Math.max(numBands1, numBands2),
-					 numBandsDst);
-		}
-	}
-	
-	if(numBandsDst != sampleModel.getNumBands()){
-            sampleModel =
-                RasterFactory.createComponentSampleModel(
-                        sampleModel,
-                        sampleModel.getTransferType(),
-                        sampleModel.getWidth(),
-                        sampleModel.getHeight(),
-                        numBandsDst);
-
-            if(colorModel != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sampleModel,
-                                                       colorModel)) {
-                colorModel = ImageUtil.getCompatibleColorModel(sampleModel,
-                                                               config);
+        if (layout != null
+                && layout.isValid(ImageLayout.SAMPLE_MODEL_MASK)
+                && ((numBands1 == 2 && numBands2 > 2)
+                        || (numBands2 == 2 && numBands1 > 2)
+                        || (numBands1 >= numBandsFromHint && numBands2 >= numBandsFromHint && numBandsFromHint > 0))) {
+            if (numBandsFromHint % 2 == 0) {
+                numBandsDst = numBandsFromHint;
+                // Clamp the destination band count to the maximum
+                // number of bands in the sources.
+                numBandsDst = Math.min(Math.max(numBands1, numBands2), numBandsDst);
             }
-	}
+        }
+
+        if (numBandsDst != sampleModel.getNumBands()) {
+            sampleModel = RasterFactory.createComponentSampleModel(
+                    sampleModel,
+                    sampleModel.getTransferType(),
+                    sampleModel.getWidth(),
+                    sampleModel.getHeight(),
+                    numBandsDst);
+
+            if (colorModel != null && !JDKWorkarounds.areCompatibleDataModels(sampleModel, colorModel)) {
+                colorModel = ImageUtil.getCompatibleColorModel(sampleModel, config);
+            }
+        }
 
         // Initialize index arrays.
-        int numElements = sampleModel.getNumBands()/2;
+        int numElements = sampleModel.getNumBands() / 2;
         s1r = new int[numElements];
         s1i = new int[numElements];
         s2r = new int[numElements];
@@ -180,7 +158,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int s2Inc = numBands2 > 2 ? 2 : 0;
         int i1 = 0;
         int i2 = 0;
-        for(int b = 0; b < numElements; b++) {
+        for (int b = 0; b < numElements; b++) {
             s1r[b] = i1;
             s1i[b] = i1 + 1;
             s2r[b] = i2;
@@ -196,52 +174,43 @@ final class ComplexArithmeticOpImage extends PointOpImage {
     /**
      * Calculate the product or quotient of the source images.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-        RasterAccessor src1Accessor =
-            new RasterAccessor(sources[0], destRect,  
-                               formatTags[0], 
-                               getSourceImage(0).getColorModel());
-        RasterAccessor src2Accessor =
-            new RasterAccessor(sources[1], destRect,  
-                               formatTags[1], 
-                               getSourceImage(1).getColorModel());
-        RasterAccessor dstAccessor = 
-            new RasterAccessor(dest, destRect,  
-                               formatTags[2], getColorModel());
+        RasterAccessor src1Accessor = new RasterAccessor(
+                sources[0], destRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor src2Accessor = new RasterAccessor(
+                sources[1], destRect, formatTags[1], getSourceImage(1).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[2], getColorModel());
 
         // Branch to the method appropriate to the accessor data type.
-        switch(dstAccessor.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(src1Accessor, src2Accessor, dstAccessor);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(src1Accessor, src2Accessor, dstAccessor);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(src1Accessor, src2Accessor, dstAccessor);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(src1Accessor, src2Accessor, dstAccessor);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(src1Accessor, src2Accessor, dstAccessor);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(src1Accessor, src2Accessor, dstAccessor);
-            break;
-        default:
-            // NB: This statement should be unreachable.
-            throw new RuntimeException(JaiI18N.getString("ComplexArithmeticOpImage0"));
+        switch (dstAccessor.getDataType()) {
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(src1Accessor, src2Accessor, dstAccessor);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(src1Accessor, src2Accessor, dstAccessor);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(src1Accessor, src2Accessor, dstAccessor);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(src1Accessor, src2Accessor, dstAccessor);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(src1Accessor, src2Accessor, dstAccessor);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(src1Accessor, src2Accessor, dstAccessor);
+                break;
+            default:
+                // NB: This statement should be unreachable.
+                throw new RuntimeException(JaiI18N.getString("ComplexArithmeticOpImage0"));
         }
 
         if (dstAccessor.needsClamping()) {
@@ -251,9 +220,8 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         dstAccessor.copyDataToRaster();
     }
 
-    private void computeRectDouble(RasterAccessor src1Accessor,
-                                   RasterAccessor src2Accessor,
-                                   RasterAccessor dstAccessor) {
+    private void computeRectDouble(
+            RasterAccessor src1Accessor, RasterAccessor src2Accessor, RasterAccessor dstAccessor) {
         // Set the size of the rectangle.
         int numRows = dstAccessor.getHeight();
         int numCols = dstAccessor.getWidth();
@@ -267,10 +235,10 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
 
         // Loop over the destination bands.
-        int numElements = sampleModel.getNumBands()/2;
-        for(int element = 0; element < numElements; element++) {
+        int numElements = sampleModel.getNumBands() / 2;
+        for (int element = 0; element < numElements; element++) {
             // Set band indices.
-            int realBand = 2*element;
+            int realBand = 2 * element;
             int imagBand = realBand + 1;
 
             // Get the source and destination arrays for this element.
@@ -297,7 +265,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
             int dstLineReal = dstOffsetReal;
             int dstLineImag = dstOffsetImag;
 
-            for(int row = 0; row < numRows; row++) {
+            for (int row = 0; row < numRows; row++) {
                 // Initialize pixel offsets for this row.
                 int src1PixelReal = src1LineReal;
                 int src1PixelImag = src1LineImag;
@@ -307,16 +275,16 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 int dstPixelImag = dstLineImag;
 
                 // Switch per line depending on operation type.
-                if(isDivision) { // Division
-                    for(int col = 0; col < numCols; col++) {
+                if (isDivision) { // Division
+                    for (int col = 0; col < numCols; col++) {
                         double a = src1Real[src1PixelReal];
                         double b = src1Imag[src1PixelImag];
                         double c = src2Real[src2PixelReal];
                         double d = src2Imag[src2PixelImag];
 
-                        double denom = c*c + d*d;
-                        dstReal[dstPixelReal] = (a*c + b*d)/denom;
-                        dstImag[dstPixelImag] = (b*c - a*d)/denom;
+                        double denom = c * c + d * d;
+                        dstReal[dstPixelReal] = (a * c + b * d) / denom;
+                        dstImag[dstPixelImag] = (b * c - a * d) / denom;
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -326,14 +294,14 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                         dstPixelImag += dstPixelStride;
                     }
                 } else { // Multiplication
-                    for(int col = 0; col < numCols; col++) {
+                    for (int col = 0; col < numCols; col++) {
                         double a = src1Real[src1PixelReal];
                         double b = src1Imag[src1PixelImag];
                         double c = src2Real[src2PixelReal];
                         double d = src2Imag[src2PixelImag];
 
-                        dstReal[dstPixelReal] = a*c - b*d;
-                        dstImag[dstPixelImag] = a*d + b*c;
+                        dstReal[dstPixelReal] = a * c - b * d;
+                        dstImag[dstPixelImag] = a * d + b * c;
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -355,9 +323,8 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src1Accessor,
-                                  RasterAccessor src2Accessor,
-                                  RasterAccessor dstAccessor) {
+    private void computeRectFloat(
+            RasterAccessor src1Accessor, RasterAccessor src2Accessor, RasterAccessor dstAccessor) {
         // Set the size of the rectangle.
         int numRows = dstAccessor.getHeight();
         int numCols = dstAccessor.getWidth();
@@ -371,10 +338,10 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
 
         // Loop over the destination bands.
-        int numElements = sampleModel.getNumBands()/2;
-        for(int element = 0; element < numElements; element++) {
+        int numElements = sampleModel.getNumBands() / 2;
+        for (int element = 0; element < numElements; element++) {
             // Set band indices.
-            int realBand = 2*element;
+            int realBand = 2 * element;
             int imagBand = realBand + 1;
 
             // Get the source and destination arrays for this element.
@@ -401,7 +368,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
             int dstLineReal = dstOffsetReal;
             int dstLineImag = dstOffsetImag;
 
-            for(int row = 0; row < numRows; row++) {
+            for (int row = 0; row < numRows; row++) {
                 // Initialize pixel offsets for this row.
                 int src1PixelReal = src1LineReal;
                 int src1PixelImag = src1LineImag;
@@ -411,16 +378,16 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 int dstPixelImag = dstLineImag;
 
                 // Switch per line depending on operation type.
-                if(isDivision) { // Division
-                    for(int col = 0; col < numCols; col++) {
+                if (isDivision) { // Division
+                    for (int col = 0; col < numCols; col++) {
                         float a = src1Real[src1PixelReal];
                         float b = src1Imag[src1PixelImag];
                         float c = src2Real[src2PixelReal];
                         float d = src2Imag[src2PixelImag];
 
-                        float denom = c*c + d*d;
-                        dstReal[dstPixelReal] = (a*c + b*d)/denom;
-                        dstImag[dstPixelImag] = (b*c - a*d)/denom;
+                        float denom = c * c + d * d;
+                        dstReal[dstPixelReal] = (a * c + b * d) / denom;
+                        dstImag[dstPixelImag] = (b * c - a * d) / denom;
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -430,14 +397,14 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                         dstPixelImag += dstPixelStride;
                     }
                 } else { // Multiplication
-                    for(int col = 0; col < numCols; col++) {
+                    for (int col = 0; col < numCols; col++) {
                         float a = src1Real[src1PixelReal];
                         float b = src1Imag[src1PixelImag];
                         float c = src2Real[src2PixelReal];
                         float d = src2Imag[src2PixelImag];
 
-                        dstReal[dstPixelReal] = a*c - b*d;
-                        dstImag[dstPixelImag] = a*d + b*c;
+                        dstReal[dstPixelReal] = a * c - b * d;
+                        dstImag[dstPixelImag] = a * d + b * c;
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -459,9 +426,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src1Accessor,
-                                RasterAccessor src2Accessor,
-                                RasterAccessor dstAccessor) {
+    private void computeRectInt(RasterAccessor src1Accessor, RasterAccessor src2Accessor, RasterAccessor dstAccessor) {
         // Set the size of the rectangle.
         int numRows = dstAccessor.getHeight();
         int numCols = dstAccessor.getWidth();
@@ -475,10 +440,10 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
 
         // Loop over the destination bands.
-        int numElements = sampleModel.getNumBands()/2;
-        for(int element = 0; element < numElements; element++) {
+        int numElements = sampleModel.getNumBands() / 2;
+        for (int element = 0; element < numElements; element++) {
             // Set band indices.
-            int realBand = 2*element;
+            int realBand = 2 * element;
             int imagBand = realBand + 1;
 
             // Get the source and destination arrays for this element.
@@ -505,7 +470,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
             int dstLineReal = dstOffsetReal;
             int dstLineImag = dstOffsetImag;
 
-            for(int row = 0; row < numRows; row++) {
+            for (int row = 0; row < numRows; row++) {
                 // Initialize pixel offsets for this row.
                 int src1PixelReal = src1LineReal;
                 int src1PixelImag = src1LineImag;
@@ -515,18 +480,16 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 int dstPixelImag = dstLineImag;
 
                 // Switch per line depending on operation type.
-                if(isDivision) { // Division
-                    for(int col = 0; col < numCols; col++) {
+                if (isDivision) { // Division
+                    for (int col = 0; col < numCols; col++) {
                         int a = src1Real[src1PixelReal];
                         int b = src1Imag[src1PixelImag];
                         int c = src2Real[src2PixelReal];
                         int d = src2Imag[src2PixelImag];
 
-                        float denom = c*c + d*d;
-                        dstReal[dstPixelReal] =
-                            ImageUtil.clampRoundInt((a*c + b*d)/denom);
-                        dstImag[dstPixelImag] =
-                            ImageUtil.clampRoundInt((b*c - a*d)/denom);
+                        float denom = c * c + d * d;
+                        dstReal[dstPixelReal] = ImageUtil.clampRoundInt((a * c + b * d) / denom);
+                        dstImag[dstPixelImag] = ImageUtil.clampRoundInt((b * c - a * d) / denom);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -536,14 +499,14 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                         dstPixelImag += dstPixelStride;
                     }
                 } else { // Multiplication
-                    for(int col = 0; col < numCols; col++) {
+                    for (int col = 0; col < numCols; col++) {
                         long a = src1Real[src1PixelReal];
                         long b = src1Imag[src1PixelImag];
                         long c = src2Real[src2PixelReal];
                         long d = src2Imag[src2PixelImag];
 
-                        dstReal[dstPixelReal] = ImageUtil.clampInt(a*c - b*d);
-                        dstImag[dstPixelImag] = ImageUtil.clampInt(a*d + b*c);
+                        dstReal[dstPixelReal] = ImageUtil.clampInt(a * c - b * d);
+                        dstImag[dstPixelImag] = ImageUtil.clampInt(a * d + b * c);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -565,9 +528,8 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectUShort(RasterAccessor src1Accessor,
-                                   RasterAccessor src2Accessor,
-                                   RasterAccessor dstAccessor) {
+    private void computeRectUShort(
+            RasterAccessor src1Accessor, RasterAccessor src2Accessor, RasterAccessor dstAccessor) {
         // Set the size of the rectangle.
         int numRows = dstAccessor.getHeight();
         int numCols = dstAccessor.getWidth();
@@ -581,10 +543,10 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
 
         // Loop over the destination bands.
-        int numElements = sampleModel.getNumBands()/2;
-        for(int element = 0; element < numElements; element++) {
+        int numElements = sampleModel.getNumBands() / 2;
+        for (int element = 0; element < numElements; element++) {
             // Set band indices.
-            int realBand = 2*element;
+            int realBand = 2 * element;
             int imagBand = realBand + 1;
 
             // Get the source and destination arrays for this element.
@@ -611,7 +573,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
             int dstLineReal = dstOffsetReal;
             int dstLineImag = dstOffsetImag;
 
-            for(int row = 0; row < numRows; row++) {
+            for (int row = 0; row < numRows; row++) {
                 // Initialize pixel offsets for this row.
                 int src1PixelReal = src1LineReal;
                 int src1PixelImag = src1LineImag;
@@ -621,16 +583,16 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 int dstPixelImag = dstLineImag;
 
                 // Switch per line depending on operation type.
-                if(isDivision) { // Division
-                    for(int col = 0; col < numCols; col++) {
-                        int a = src1Real[src1PixelReal]&0xffff;
-                        int b = src1Imag[src1PixelImag]&0xffff;
-                        int c = src2Real[src2PixelReal]&0xffff;
-                        int d = src2Imag[src2PixelImag]&0xffff;
+                if (isDivision) { // Division
+                    for (int col = 0; col < numCols; col++) {
+                        int a = src1Real[src1PixelReal] & 0xffff;
+                        int b = src1Imag[src1PixelImag] & 0xffff;
+                        int c = src2Real[src2PixelReal] & 0xffff;
+                        int d = src2Imag[src2PixelImag] & 0xffff;
 
-                        int denom = c*c + d*d;
-                        dstReal[dstPixelReal] = ImageUtil.clampUShort((a*c + b*d)/denom);
-                        dstImag[dstPixelImag] = ImageUtil.clampUShort((b*c - a*d)/denom);
+                        int denom = c * c + d * d;
+                        dstReal[dstPixelReal] = ImageUtil.clampUShort((a * c + b * d) / denom);
+                        dstImag[dstPixelImag] = ImageUtil.clampUShort((b * c - a * d) / denom);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -640,14 +602,14 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                         dstPixelImag += dstPixelStride;
                     }
                 } else { // Multiplication
-                    for(int col = 0; col < numCols; col++) {
-                        int a = src1Real[src1PixelReal]&0xffff;
-                        int b = src1Imag[src1PixelImag]&0xffff;
-                        int c = src2Real[src2PixelReal]&0xffff;
-                        int d = src2Imag[src2PixelImag]&0xffff;
+                    for (int col = 0; col < numCols; col++) {
+                        int a = src1Real[src1PixelReal] & 0xffff;
+                        int b = src1Imag[src1PixelImag] & 0xffff;
+                        int c = src2Real[src2PixelReal] & 0xffff;
+                        int d = src2Imag[src2PixelImag] & 0xffff;
 
-                        dstReal[dstPixelReal] = ImageUtil.clampUShort(a*c - b*d);
-                        dstImag[dstPixelImag] = ImageUtil.clampUShort(a*d + b*c);
+                        dstReal[dstPixelReal] = ImageUtil.clampUShort(a * c - b * d);
+                        dstImag[dstPixelImag] = ImageUtil.clampUShort(a * d + b * c);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -669,9 +631,8 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src1Accessor,
-                                  RasterAccessor src2Accessor,
-                                  RasterAccessor dstAccessor) {
+    private void computeRectShort(
+            RasterAccessor src1Accessor, RasterAccessor src2Accessor, RasterAccessor dstAccessor) {
         // Set the size of the rectangle.
         int numRows = dstAccessor.getHeight();
         int numCols = dstAccessor.getWidth();
@@ -685,10 +646,10 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
 
         // Loop over the destination bands.
-        int numElements = sampleModel.getNumBands()/2;
-        for(int element = 0; element < numElements; element++) {
+        int numElements = sampleModel.getNumBands() / 2;
+        for (int element = 0; element < numElements; element++) {
             // Set band indices.
-            int realBand = 2*element;
+            int realBand = 2 * element;
             int imagBand = realBand + 1;
 
             // Get the source and destination arrays for this element.
@@ -715,7 +676,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
             int dstLineReal = dstOffsetReal;
             int dstLineImag = dstOffsetImag;
 
-            for(int row = 0; row < numRows; row++) {
+            for (int row = 0; row < numRows; row++) {
                 // Initialize pixel offsets for this row.
                 int src1PixelReal = src1LineReal;
                 int src1PixelImag = src1LineImag;
@@ -725,16 +686,16 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 int dstPixelImag = dstLineImag;
 
                 // Switch per line depending on operation type.
-                if(isDivision) { // Division
-                    for(int col = 0; col < numCols; col++) {
+                if (isDivision) { // Division
+                    for (int col = 0; col < numCols; col++) {
                         int a = src1Real[src1PixelReal];
                         int b = src1Imag[src1PixelImag];
                         int c = src2Real[src2PixelReal];
                         int d = src2Imag[src2PixelImag];
 
-                        int denom = c*c + d*d;
-                        dstReal[dstPixelReal] = ImageUtil.clampShort((a*c + b*d)/denom);
-                        dstImag[dstPixelImag] = ImageUtil.clampShort((b*c - a*d)/denom);
+                        int denom = c * c + d * d;
+                        dstReal[dstPixelReal] = ImageUtil.clampShort((a * c + b * d) / denom);
+                        dstImag[dstPixelImag] = ImageUtil.clampShort((b * c - a * d) / denom);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -744,14 +705,14 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                         dstPixelImag += dstPixelStride;
                     }
                 } else { // Multiplication
-                    for(int col = 0; col < numCols; col++) {
+                    for (int col = 0; col < numCols; col++) {
                         int a = src1Real[src1PixelReal];
                         int b = src1Imag[src1PixelImag];
                         int c = src2Real[src2PixelReal];
                         int d = src2Imag[src2PixelImag];
 
-                        dstReal[dstPixelReal] = ImageUtil.clampShort(a*c - b*d);
-                        dstImag[dstPixelImag] = ImageUtil.clampShort(a*d + b*c);
+                        dstReal[dstPixelReal] = ImageUtil.clampShort(a * c - b * d);
+                        dstImag[dstPixelImag] = ImageUtil.clampShort(a * d + b * c);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -773,9 +734,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectByte(RasterAccessor src1Accessor,
-                                 RasterAccessor src2Accessor,
-                                 RasterAccessor dstAccessor) {
+    private void computeRectByte(RasterAccessor src1Accessor, RasterAccessor src2Accessor, RasterAccessor dstAccessor) {
         // Set the size of the rectangle.
         int numRows = dstAccessor.getHeight();
         int numCols = dstAccessor.getWidth();
@@ -789,10 +748,10 @@ final class ComplexArithmeticOpImage extends PointOpImage {
         int dstScanlineStride = dstAccessor.getScanlineStride();
 
         // Loop over the destination bands.
-        int numElements = sampleModel.getNumBands()/2;
-        for(int element = 0; element < numElements; element++) {
+        int numElements = sampleModel.getNumBands() / 2;
+        for (int element = 0; element < numElements; element++) {
             // Set band indices.
-            int realBand = 2*element;
+            int realBand = 2 * element;
             int imagBand = realBand + 1;
 
             // Get the source and destination arrays for this element.
@@ -819,7 +778,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
             int dstLineReal = dstOffsetReal;
             int dstLineImag = dstOffsetImag;
 
-            for(int row = 0; row < numRows; row++) {
+            for (int row = 0; row < numRows; row++) {
                 // Initialize pixel offsets for this row.
                 int src1PixelReal = src1LineReal;
                 int src1PixelImag = src1LineImag;
@@ -829,16 +788,16 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 int dstPixelImag = dstLineImag;
 
                 // Switch per line depending on operation type.
-                if(isDivision) { // Division
-                    for(int col = 0; col < numCols; col++) {
-                        int a = src1Real[src1PixelReal]&0xff;
-                        int b = src1Imag[src1PixelImag]&0xff;
-                        int c = src2Real[src2PixelReal]&0xff;
-                        int d = src2Imag[src2PixelImag]&0xff;
+                if (isDivision) { // Division
+                    for (int col = 0; col < numCols; col++) {
+                        int a = src1Real[src1PixelReal] & 0xff;
+                        int b = src1Imag[src1PixelImag] & 0xff;
+                        int c = src2Real[src2PixelReal] & 0xff;
+                        int d = src2Imag[src2PixelImag] & 0xff;
 
-                        int denom = c*c + d*d;
-                        dstReal[dstPixelReal] = ImageUtil.clampByte((a*c + b*d)/denom);
-                        dstImag[dstPixelImag] = ImageUtil.clampByte((b*c - a*d)/denom);
+                        int denom = c * c + d * d;
+                        dstReal[dstPixelReal] = ImageUtil.clampByte((a * c + b * d) / denom);
+                        dstImag[dstPixelImag] = ImageUtil.clampByte((b * c - a * d) / denom);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;
@@ -848,14 +807,14 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                         dstPixelImag += dstPixelStride;
                     }
                 } else { // Multiplication
-                    for(int col = 0; col < numCols; col++) {
-                        int a = src1Real[src1PixelReal]&0xff;
-                        int b = src1Imag[src1PixelImag]&0xff;
-                        int c = src2Real[src2PixelReal]&0xff;
-                        int d = src2Imag[src2PixelImag]&0xff;
+                    for (int col = 0; col < numCols; col++) {
+                        int a = src1Real[src1PixelReal] & 0xff;
+                        int b = src1Imag[src1PixelImag] & 0xff;
+                        int c = src2Real[src2PixelReal] & 0xff;
+                        int d = src2Imag[src2PixelImag] & 0xff;
 
-                        dstReal[dstPixelReal] = ImageUtil.clampByte(a*c - b*d);
-                        dstImag[dstPixelImag] = ImageUtil.clampByte(a*d + b*c);
+                        dstReal[dstPixelReal] = ImageUtil.clampByte(a * c - b * d);
+                        dstImag[dstPixelImag] = ImageUtil.clampByte(a * d + b * c);
 
                         src1PixelReal += src1PixelStride;
                         src1PixelImag += src1PixelStride;

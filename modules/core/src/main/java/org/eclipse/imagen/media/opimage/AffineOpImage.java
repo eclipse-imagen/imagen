@@ -16,66 +16,48 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.DataBuffer;
+import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.InterpolationBicubic;
-import org.eclipse.imagen.InterpolationBicubic2;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.util.ImagingException;
 import org.eclipse.imagen.util.ImagingListener;
-import org.eclipse.imagen.util.Range;
-import java.util.Map;
-import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
- * An OpImage class to perform (possibly filtered) affine mapping between
- * a source and destination image.
+ * An OpImage class to perform (possibly filtered) affine mapping between a source and destination image.
  *
- * The geometric relationship between source and destination pixels
- * is defined as the following (<code>x</code> and <code>y</code> denote
- * the source pixel coordinates; <code>x'</code> and <code>y'</code>
- * denote the destination pixel coordinates; <code>m</code> denotes the
- * 3x2 transform matrix):
+ * <p>The geometric relationship between source and destination pixels is defined as the following (<code>x</code> and
+ * <code>y</code> denote the source pixel coordinates; <code>x'</code> and <code>y'</code> denote the destination pixel
+ * coordinates; <code>m</code> denotes the 3x2 transform matrix):
+ *
  * <ul>
- * <code>
+ *   <code>
  * x' = m[0][0] * x + m[0][1] * y + m[0][2]
  * <br>
  * y' = m[1][0] * x + m[1][1] * y + m[1][2]
  * </code>
  * </ul>
- *
  */
 class AffineOpImage extends GeometricOpImage {
 
-    /**
-     * Unsigned short Max Value
-     */
+    /** Unsigned short Max Value */
     protected static final int USHORT_MAX = Short.MAX_VALUE - Short.MIN_VALUE;
 
-    /**
-     * The forward AffineTransform describing the image transformation.
-     */
+    /** The forward AffineTransform describing the image transformation. */
     protected AffineTransform f_transform;
 
-    /**
-     * The inverse AffineTransform describing the image transformation.
-     */
+    /** The inverse AffineTransform describing the image transformation. */
     protected AffineTransform i_transform;
 
     /** The Interpolation object. */
@@ -93,9 +75,7 @@ class AffineOpImage extends GeometricOpImage {
     /** Cache the ImagingListener. */
     private ImagingListener listener;
 
-    /**
-     * Scanline walking : variables & constants
-     */
+    /** Scanline walking : variables & constants */
 
     /** The fixed-point denominator of the fractional offsets. */
     protected static final int geom_frac_max = 0x100000;
@@ -105,15 +85,10 @@ class AffineOpImage extends GeometricOpImage {
     int incx, incx1, incy, incy1;
     int ifracdx, ifracdx1, ifracdy, ifracdy1;
 
-    /**
-     * Padding values for interpolation
-     */
+    /** Padding values for interpolation */
     public int lpad, rpad, tpad, bpad;
 
-    /**
-     * Computes floor(num/denom) using integer arithmetic.
-     * denom must not be equal to 0.
-     */
+    /** Computes floor(num/denom) using integer arithmetic. denom must not be equal to 0. */
     protected static int floorRatio(long num, long denom) {
         if (denom < 0) {
             denom = -denom;
@@ -121,16 +96,13 @@ class AffineOpImage extends GeometricOpImage {
         }
 
         if (num >= 0) {
-            return (int)(num/denom);
+            return (int) (num / denom);
         } else {
-            return (int)((num - denom + 1)/denom);
+            return (int) ((num - denom + 1) / denom);
         }
     }
 
-    /**
-     * Computes ceil(num/denom) using integer arithmetic.
-     * denom must not be equal to 0.
-     */
+    /** Computes ceil(num/denom) using integer arithmetic. denom must not be equal to 0. */
     protected static int ceilRatio(long num, long denom) {
         if (denom < 0) {
             denom = -denom;
@@ -138,19 +110,17 @@ class AffineOpImage extends GeometricOpImage {
         }
 
         if (num >= 0) {
-            return (int)((num + denom - 1)/denom);
+            return (int) ((num + denom - 1) / denom);
         } else {
-            return (int)(num/denom);
+            return (int) (num / denom);
         }
     }
 
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source,
-                                            AffineTransform forward_tr) {
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, AffineTransform forward_tr) {
 
         ImageLayout newLayout;
         if (layout != null) {
-            newLayout = (ImageLayout)layout.clone();
+            newLayout = (ImageLayout) layout.clone();
         } else {
             newLayout = new ImageLayout();
         }
@@ -170,9 +140,9 @@ class AffineOpImage extends GeometricOpImage {
         //
         Point2D[] pts = new Point2D[4];
         pts[0] = new Point2D.Float(sx0, sy0);
-        pts[1] = new Point2D.Float((sx0+sw), sy0);
-        pts[2] = new Point2D.Float((sx0+sw), (sy0+sh));
-        pts[3] = new Point2D.Float(sx0, (sy0+sh));
+        pts[1] = new Point2D.Float((sx0 + sw), sy0);
+        pts[2] = new Point2D.Float((sx0 + sw), (sy0 + sh));
+        pts[3] = new Point2D.Float(sx0, (sy0 + sh));
 
         // Forward map
         forward_tr.transform(pts, 0, pts, 0, 4);
@@ -182,8 +152,8 @@ class AffineOpImage extends GeometricOpImage {
         float dx1 = -Float.MAX_VALUE;
         float dy1 = -Float.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
-            float px = (float)pts[i].getX();
-            float py = (float)pts[i].getY();
+            float px = (float) pts[i].getX();
+            float py = (float) pts[i].getY();
 
             dx0 = Math.min(dx0, px);
             dy0 = Math.min(dy0, py);
@@ -195,8 +165,8 @@ class AffineOpImage extends GeometricOpImage {
         // Get the width & height of the resulting bounding box.
         // This is set on the layout
         //
-        int lw = (int)(dx1 - dx0);
-        int lh = (int)(dy1 - dy0);
+        int lw = (int) (dx1 - dx0);
+        int lh = (int) (dy1 - dy0);
 
         //
         // Set the starting integral coordinate
@@ -206,14 +176,14 @@ class AffineOpImage extends GeometricOpImage {
         //
         int lx0, ly0;
 
-        int i_dx0 = (int)Math.floor(dx0);
+        int i_dx0 = (int) Math.floor(dx0);
         if (Math.abs(dx0 - i_dx0) <= 0.5) {
             lx0 = i_dx0;
         } else {
             lx0 = (int) Math.ceil(dx0);
         }
 
-        int i_dy0 = (int)Math.floor(dy0);
+        int i_dy0 = (int) Math.floor(dy0);
         if (Math.abs(dy0 - i_dy0) <= 0.5) {
             ly0 = i_dy0;
         } else {
@@ -232,38 +202,34 @@ class AffineOpImage extends GeometricOpImage {
     }
 
     /**
-     * Constructs an AffineOpImage from a RenderedImage source,
-     * AffineTransform, and Interpolation object.  The image
-     * dimensions are determined by forward-mapping the source bounds.
-     * The tile grid layout, SampleModel, and ColorModel are specified
-     * by the image source, possibly overridden by values from the
-     * ImageLayout parameter.
+     * Constructs an AffineOpImage from a RenderedImage source, AffineTransform, and Interpolation object. The image
+     * dimensions are determined by forward-mapping the source bounds. The tile grid layout, SampleModel, and ColorModel
+     * are specified by the image source, possibly overridden by values from the ImageLayout parameter.
      *
      * @param source a RenderedImage.
      * @param extender a BorderExtender, or null.
-     * @param layout an ImageLayout optionally containing the tile grid layout,
-     *        SampleModel, and ColorModel, or null.
+     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param transform the desired AffineTransform.
      * @param interp an Interpolation object.
      */
-    public AffineOpImage(RenderedImage source,
-                         BorderExtender extender,
-                         Map config,
-                         ImageLayout layout,
-                         AffineTransform transform,
-                         Interpolation interp,
-			 double[] backgroundValues) {
-        super(vectorize(source),
-              layoutHelper(layout,
-                           source,
-                           transform),
-              config,
-              true,
-              extender,
-              interp,
-	      backgroundValues);
+    public AffineOpImage(
+            RenderedImage source,
+            BorderExtender extender,
+            Map config,
+            ImageLayout layout,
+            AffineTransform transform,
+            Interpolation interp,
+            double[] backgroundValues) {
+        super(
+                vectorize(source),
+                layoutHelper(layout, source, transform),
+                config,
+                true,
+                extender,
+                interp,
+                backgroundValues);
 
-        listener = ImageUtil.getImagingListener((java.awt.RenderingHints)config);
+        listener = ImageUtil.getImagingListener((java.awt.RenderingHints) config);
 
         // store the interp and extender objects
         this.interp = interp;
@@ -281,14 +247,13 @@ class AffineOpImage extends GeometricOpImage {
         // Store source bounds rectangle
         // and the padded rectangle (for extension cases)
         //
-        srcimg = new Rectangle(getSourceImage(0).getMinX(),
-                               getSourceImage(0).getMinY(),
-                               getSourceImage(0).getWidth(),
-                               getSourceImage(0).getHeight());
-        padimg = new Rectangle(srcimg.x - lpad,
-                               srcimg.y - tpad,
-                               srcimg.width + lpad + rpad,
-                               srcimg.height + tpad + bpad);
+        srcimg = new Rectangle(
+                getSourceImage(0).getMinX(),
+                getSourceImage(0).getMinY(),
+                getSourceImage(0).getWidth(),
+                getSourceImage(0).getHeight());
+        padimg = new Rectangle(
+                srcimg.x - lpad, srcimg.y - tpad, srcimg.width + lpad + rpad, srcimg.height + tpad + bpad);
 
         if (extender == null) {
             //
@@ -308,10 +273,10 @@ class AffineOpImage extends GeometricOpImage {
             //
             // get padding amounts as per interpolation
             //
-            float f_lpad = (float)lpad;
-            float f_rpad = (float)rpad;
-            float f_tpad = (float)tpad;
-            float f_bpad = (float)bpad;
+            float f_lpad = (float) lpad;
+            float f_rpad = (float) rpad;
+            float f_tpad = (float) tpad;
+            float f_bpad = (float) bpad;
 
             //
             // As per pixel defined to be at (0.5, 0.5)
@@ -345,13 +310,13 @@ class AffineOpImage extends GeometricOpImage {
             // Forward map
             transform.transform(pts, 0, pts, 0, 4);
 
-            float dx0 =  Float.MAX_VALUE;
-            float dy0 =  Float.MAX_VALUE;
+            float dx0 = Float.MAX_VALUE;
+            float dy0 = Float.MAX_VALUE;
             float dx1 = -Float.MAX_VALUE;
             float dy1 = -Float.MAX_VALUE;
             for (int i = 0; i < 4; i++) {
-                float px = (float)pts[i].getX();
-                float py = (float)pts[i].getY();
+                float px = (float) pts[i].getX();
+                float py = (float) pts[i].getY();
 
                 dx0 = Math.min(dx0, px);
                 dy0 = Math.min(dy0, py);
@@ -366,15 +331,12 @@ class AffineOpImage extends GeometricOpImage {
             // would increase the size of the rect, so we need to ceil the
             // upper corner and floor the lower corner.
             //
-            int lx0 = (int)Math.ceil(dx0);
-            int ly0 = (int)Math.ceil(dy0);
-            int lx1 = (int)Math.floor(dx1);
-            int ly1 = (int)Math.floor(dy1);
+            int lx0 = (int) Math.ceil(dx0);
+            int ly0 = (int) Math.ceil(dy0);
+            int lx1 = (int) Math.floor(dx1);
+            int ly1 = (int) Math.floor(dy1);
 
-            theDest = new Rectangle(lx0,
-                                    ly0,
-                                    lx1 - lx0,
-                                    ly1 - ly0);
+            theDest = new Rectangle(lx0, ly0, lx1 - lx0, ly1 - ly0);
         } else {
             theDest = getBounds();
         }
@@ -384,12 +346,10 @@ class AffineOpImage extends GeometricOpImage {
             this.i_transform = transform.createInverse();
         } catch (Exception e) {
             String message = JaiI18N.getString("AffineOpImage0");
-            listener.errorOccurred(message,
-                                   new ImagingException(message, e),
-                                   this, false);
-//            throw new RuntimeException(JaiI18N.getString("AffineOpImage0"));
+            listener.errorOccurred(message, new ImagingException(message, e), this, false);
+            //            throw new RuntimeException(JaiI18N.getString("AffineOpImage0"));
         }
-        this.f_transform = (AffineTransform)transform.clone();
+        this.f_transform = (AffineTransform) transform.clone();
 
         //
         // Store the incremental values used in scanline walking.
@@ -399,7 +359,7 @@ class AffineOpImage extends GeometricOpImage {
         fracdx = m00 - flr_m00;
         fracdx1 = 1.0F - fracdx;
         incx = (int) flr_m00; // Movement
-        incx1 = incx + 1;     // along x
+        incx1 = incx + 1; // along x
         ifracdx = (int) Math.round(fracdx * geom_frac_max);
         ifracdx1 = geom_frac_max - ifracdx;
 
@@ -408,7 +368,7 @@ class AffineOpImage extends GeometricOpImage {
         fracdy = m10 - flr_m10;
         fracdy1 = 1.0F - fracdy;
         incy = (int) flr_m10; // Movement
-        incy1 = incy + 1;     // along y
+        incy1 = incy + 1; // along y
         ifracdy = (int) Math.round(fracdy * geom_frac_max);
         ifracdy1 = geom_frac_max - ifracdy;
     }
@@ -416,15 +376,9 @@ class AffineOpImage extends GeometricOpImage {
     /**
      * Computes the source point corresponding to the supplied point.
      *
-     * @param destPt the position in destination image coordinates
-     * to map to source image coordinates.
-     *
-     * @return a <code>Point2D</code> of the same class as
-     * <code>destPt</code>.
-     *
-     * @throws IllegalArgumentException if <code>destPt</code> is
-     * <code>null</code>.
-     *
+     * @param destPt the position in destination image coordinates to map to source image coordinates.
+     * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
+     * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
@@ -432,7 +386,7 @@ class AffineOpImage extends GeometricOpImage {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        Point2D dpt = (Point2D)destPt.clone();
+        Point2D dpt = (Point2D) destPt.clone();
         dpt.setLocation(dpt.getX() + 0.5, dpt.getY() + 0.5);
 
         Point2D spt = i_transform.transform(dpt, null);
@@ -444,15 +398,9 @@ class AffineOpImage extends GeometricOpImage {
     /**
      * Computes the destination point corresponding to the supplied point.
      *
-     * @param sourcePt the position in source image coordinates
-     * to map to destination image coordinates.
-     *
-     * @return a <code>Point2D</code> of the same class as
-     * <code>sourcePt</code>.
-     *
-     * @throws IllegalArgumentException if <code>destPt</code> is
-     * <code>null</code>.
-     *
+     * @param sourcePt the position in source image coordinates to map to destination image coordinates.
+     * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
+     * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @since JAI 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
@@ -460,7 +408,7 @@ class AffineOpImage extends GeometricOpImage {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
-        Point2D spt = (Point2D)sourcePt.clone();
+        Point2D spt = (Point2D) sourcePt.clone();
         spt.setLocation(spt.getX() + 0.5, spt.getY() + 0.5);
 
         Point2D dpt = f_transform.transform(spt, null);
@@ -469,19 +417,13 @@ class AffineOpImage extends GeometricOpImage {
         return dpt;
     }
 
-    /**
-     * Forward map the source Rectangle.
-     */
-    protected Rectangle forwardMapRect(Rectangle sourceRect,
-                                       int sourceIndex) {
+    /** Forward map the source Rectangle. */
+    protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
         return f_transform.createTransformedShape(sourceRect).getBounds();
     }
 
-    /**
-     * Backward map the destination Rectangle.
-     */
-    protected Rectangle backwardMapRect(Rectangle destRect,
-                                        int sourceIndex) {
+    /** Backward map the destination Rectangle. */
+    protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         //
         // Backward map the destination to get the corresponding
         // source Rectangle
@@ -499,13 +441,13 @@ class AffineOpImage extends GeometricOpImage {
 
         i_transform.transform(pts, 0, pts, 0, 4);
 
-        float f_sx0 =  Float.MAX_VALUE;
-        float f_sy0 =  Float.MAX_VALUE;
+        float f_sx0 = Float.MAX_VALUE;
+        float f_sy0 = Float.MAX_VALUE;
         float f_sx1 = -Float.MAX_VALUE;
         float f_sy1 = -Float.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
-            float px = (float)pts[i].getX();
-            float py = (float)pts[i].getY();
+            float px = (float) pts[i].getX();
+            float py = (float) pts[i].getY();
 
             f_sx0 = Math.min(f_sx0, px);
             f_sy0 = Math.min(f_sy0, py);
@@ -536,16 +478,12 @@ class AffineOpImage extends GeometricOpImage {
         //
         // Return the new rectangle
         //
-        return new Rectangle(s_x0,
-                             s_y0,
-                             s_x1 - s_x0,
-                             s_y1 - s_y0);
+        return new Rectangle(s_x0, s_y0, s_x1 - s_x0, s_y1 - s_y0);
     }
 
     /**
-     * Backward map a destination coordinate (using inverse_transform)
-     * to get the corresponding source coordinate.
-     * We need not worry about interpolation here.
+     * Backward map a destination coordinate (using inverse_transform) to get the corresponding source coordinate. We
+     * need not worry about interpolation here.
      *
      * @param destPt the destination point to backward map
      * @return source point result of the backward map
@@ -564,10 +502,7 @@ class AffineOpImage extends GeometricOpImage {
         //
         // Clip output rectangle to image bounds.
         //
-        Rectangle rect = new Rectangle(org.x,
-                                       org.y,
-                                       tileWidth,
-                                       tileHeight);
+        Rectangle rect = new Rectangle(org.x, org.y, tileWidth, tileHeight);
 
         //
         // Clip destination tile against the writable destination
@@ -578,8 +513,7 @@ class AffineOpImage extends GeometricOpImage {
         Rectangle destRect1 = rect.intersection(getBounds());
         if ((destRect.width <= 0) || (destRect.height <= 0)) {
             // No area to write
-	    if (setBackground)
-		ImageUtil.fillBackground(dest, destRect1, backgroundValues);
+            if (setBackground) ImageUtil.fillBackground(dest, destRect1, backgroundValues);
 
             return dest;
         }
@@ -595,18 +529,15 @@ class AffineOpImage extends GeometricOpImage {
         }
 
         if (!(srcRect.width > 0 && srcRect.height > 0)) {
-	    if (setBackground)
-	        ImageUtil.fillBackground(dest, destRect1, backgroundValues);
+            if (setBackground) ImageUtil.fillBackground(dest, destRect1, backgroundValues);
 
             return dest;
         }
 
-
-	if (!destRect1.equals(destRect)) {
-	    // beware that estRect1 contains destRect
-	    ImageUtil.fillBordersWithBackgroundValues(destRect1, destRect,
-						      dest, backgroundValues);
-	}
+        if (!destRect1.equals(destRect)) {
+            // beware that estRect1 contains destRect
+            ImageUtil.fillBordersWithBackgroundValues(destRect1, destRect, dest, backgroundValues);
+        }
 
         Raster[] sources = new Raster[1];
 
@@ -621,7 +552,7 @@ class AffineOpImage extends GeometricOpImage {
         computeRect(sources, dest, destRect);
 
         // Recycle the source tile
-        if(getSourceImage(0).overlapsMultipleTiles(srcRect)) {
+        if (getSourceImage(0).overlapsMultipleTiles(srcRect)) {
             recycleTile(sources[0]);
         }
 

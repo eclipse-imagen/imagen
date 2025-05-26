@@ -16,9 +16,7 @@
  */
 
 package org.eclipse.imagen.media.codecimpl.fpx;
-import java.awt.RenderingHints;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.StringTokenizer;
@@ -49,13 +47,14 @@ class SSDirectoryEntry {
     long SIDRightSibling;
     long SIDChild;
 
-    public SSDirectoryEntry(int index,
-                            String name,
-                            long size,
-                            long startSector,
-                            long SIDLeftSibling,
-                            long SIDRightSibling,
-                            long SIDChild) {
+    public SSDirectoryEntry(
+            int index,
+            String name,
+            long size,
+            long startSector,
+            long SIDLeftSibling,
+            long SIDRightSibling,
+            long SIDChild) {
         this.name = name;
         this.index = index;
         this.size = size;
@@ -100,7 +99,7 @@ public class StructuredStorage {
     private static final long FAT_ENDOFCHAIN = 0xFFFFFFFEL;
 
     // Free sector
-    private static final long FAT_FREESECT   = 0xFFFFFFFFL;
+    private static final long FAT_FREESECT = 0xFFFFFFFFL;
 
     SeekableStream file;
 
@@ -192,8 +191,8 @@ public class StructuredStorage {
 
     private void getFat() throws IOException {
         int size = getSectorSize();
-        int sectsPerFat = size/4;
-        int fatsPerDif = size/4 - 1;
+        int sectsPerFat = size / 4;
+        int fatsPerDif = size / 4 - 1;
         // int index = 0;
 
         // this.FAT =
@@ -209,7 +208,7 @@ public class StructuredStorage {
         System.out.println("sectsPerFat = " + sectsPerFat);
         */
 
-        int numFATSectors = (int)(csectFat + csectDif*fatsPerDif);
+        int numFATSectors = (int) (csectFat + csectDif * fatsPerDif);
         long[] FATSectors = new long[numFATSectors];
         int count = 0;
 
@@ -231,7 +230,7 @@ public class StructuredStorage {
             for (int i = 0; i < csectDif; i++) {
                 readSector(dif, difBuf, 0);
                 for (int j = 0; j < fatsPerDif; j++) {
-                    int sec = FPXUtils.getIntLE(difBuf, 4*j);
+                    int sec = FPXUtils.getIntLE(difBuf, 4 * j);
                     FATSectors[count++] = getOffsetOfSector(sec);
                     // readFatSector(sec, index);
                     // index += sectsPerFat;
@@ -241,19 +240,15 @@ public class StructuredStorage {
             }
         }
 
-        FATStream = new SegmentedSeekableStream(file,
-                                                FATSectors,
-                                                size,
-                                                numFATSectors*size,
-                                                true);
+        FATStream = new SegmentedSeekableStream(file, FATSectors, size, numFATSectors * size, true);
     }
 
     private void getMiniFat() throws IOException {
         int size = getSectorSize();
-        int sectsPerFat = size/4;
+        int sectsPerFat = size / 4;
         int index = 0;
 
-        this.MINIFAT = new long[(int)(csectMiniFat*sectsPerFat)];
+        this.MINIFAT = new long[(int) (csectMiniFat * sectsPerFat)];
 
         long sector = sectMiniFatStart;
         // System.out.println("minifat start sector = " + sector);
@@ -262,7 +257,7 @@ public class StructuredStorage {
             // System.out.println("minifat sector = " + sector);
             readSector(sector, buf, 0);
             for (int j = 0; j < sectsPerFat; j++) {
-                MINIFAT[index++] = FPXUtils.getIntLE(buf, 4*j);
+                MINIFAT[index++] = FPXUtils.getIntLE(buf, 4 * j);
             }
             sector = getFATSector(sector);
         }
@@ -279,7 +274,7 @@ public class StructuredStorage {
             ++numDirectorySectors;
         }
 
-        int directoryEntries = 4*numDirectorySectors;
+        int directoryEntries = 4 * numDirectorySectors;
         this.DIR = new SSDirectoryEntry[directoryEntries];
 
         sector = sectDirStart;
@@ -306,22 +301,14 @@ public class StructuredStorage {
                 */
 
                 String name = FPXUtils.getString(buf, offset + 0x00, length);
-                long SIDLeftSibling =
-                    FPXUtils.getUnsignedIntLE(buf, offset + 0x44);
-                long SIDRightSibling =
-                    FPXUtils.getUnsignedIntLE(buf, offset + 0x48);
+                long SIDLeftSibling = FPXUtils.getUnsignedIntLE(buf, offset + 0x44);
+                long SIDRightSibling = FPXUtils.getUnsignedIntLE(buf, offset + 0x48);
                 long SIDChild = FPXUtils.getUnsignedIntLE(buf, offset + 0x4c);
-                long startSector =
-                    FPXUtils.getUnsignedIntLE(buf, offset + 0x74);
+                long startSector = FPXUtils.getUnsignedIntLE(buf, offset + 0x74);
                 long streamSize = FPXUtils.getUnsignedIntLE(buf, offset + 0x78);
 
-                DIR[index] = new SSDirectoryEntry(index,
-                                                  name,
-                                                  streamSize,
-                                                  startSector,
-                                                  SIDLeftSibling,
-                                                  SIDRightSibling,
-                                                  SIDChild);
+                DIR[index] = new SSDirectoryEntry(
+                        index, name, streamSize, startSector, SIDLeftSibling, SIDRightSibling, SIDChild);
                 ++index;
                 offset += 128;
             }
@@ -333,7 +320,7 @@ public class StructuredStorage {
     private void getMiniStream() throws IOException {
         int length = getLength(0L);
         int sectorSize = getSectorSize();
-        int sectors = (int)((length + sectorSize - 1)/sectorSize);
+        int sectors = (int) ((length + sectorSize - 1) / sectorSize);
 
         long[] segmentPositions = new long[sectors];
 
@@ -342,15 +329,11 @@ public class StructuredStorage {
         for (int i = 0; i < sectors - 1; i++) {
             segmentPositions[i] = getOffsetOfSector(sector);
             sector = getFATSector(sector);
-            if(sector == FAT_ENDOFCHAIN) break;
+            if (sector == FAT_ENDOFCHAIN) break;
         }
         segmentPositions[sectors - 1] = getOffsetOfSector(sector);
 
-        miniStream = new SegmentedSeekableStream(file,
-                                                 segmentPositions,
-                                                 sectorSize,
-                                                 length,
-                                                 true);
+        miniStream = new SegmentedSeekableStream(file, segmentPositions, sectorSize, length, true);
     }
 
     /*
@@ -372,7 +355,7 @@ public class StructuredStorage {
     }
 
     private long getOffsetOfSector(long sector) {
-        return sector*getSectorSize() + 512;
+        return sector * getSectorSize() + 512;
     }
 
     private int getMiniSectorSize() {
@@ -380,56 +363,51 @@ public class StructuredStorage {
     }
 
     private long getOffsetOfMiniSector(long sector) {
-        return sector*getMiniSectorSize();
+        return sector * getMiniSectorSize();
     }
 
-    private void readMiniSector(long sector, byte[] buf,
-                                int offset, int length)
-        throws IOException {
+    private void readMiniSector(long sector, byte[] buf, int offset, int length) throws IOException {
         miniStream.seek(getOffsetOfMiniSector(sector));
         miniStream.read(buf, offset, length);
     }
 
-    private void readMiniSector(long sector, byte[] buf, int offset)
-        throws IOException {
+    private void readMiniSector(long sector, byte[] buf, int offset) throws IOException {
         readMiniSector(sector, buf, offset, getMiniSectorSize());
     }
 
-    private void readSector(long sector, byte[] buf, int offset, int length)
-        throws IOException {
+    private void readSector(long sector, byte[] buf, int offset, int length) throws IOException {
         file.seek(getOffsetOfSector(sector));
         file.read(buf, offset, length);
     }
 
-    private void readSector(long sector, byte[] buf, int offset)
-        throws IOException {
+    private void readSector(long sector, byte[] buf, int offset) throws IOException {
         readSector(sector, buf, offset, getSectorSize());
     }
 
     private SSDirectoryEntry getDirectoryEntry(long index) {
         // Assume #streams < 2^31
-        return DIR[(int)index];
+        return DIR[(int) index];
     }
 
     private long getStartSector(long index) {
         // Assume #streams < 2^31
-        return DIR[(int)index].getStartSector();
+        return DIR[(int) index].getStartSector();
     }
 
     private int getLength(long index) {
         // Assume #streams < 2^31
         // Assume size < 2GB
-        return (int)DIR[(int)index].getSize();
+        return (int) DIR[(int) index].getSize();
     }
 
     private long getFATSector(long sector) throws IOException {
-        FATStream.seek(4*sector);
+        FATStream.seek(4 * sector);
         return FATStream.readUnsignedIntLE();
         // return FAT[(int)sector];
     }
 
     private long getMiniFATSector(long sector) {
-        return MINIFAT[(int)sector];
+        return MINIFAT[(int) sector];
     }
 
     private int getCurrentIndex() {
@@ -458,14 +436,12 @@ public class StructuredStorage {
             // System.out.println("Matched!");
             return index;
         } else {
-            long lindex =
-                searchDirectory(name, dirent.getSIDLeftSibling());
+            long lindex = searchDirectory(name, dirent.getSIDLeftSibling());
             if (lindex != -1L) {
                 return lindex;
             }
 
-            long rindex =
-                searchDirectory(name, dirent.getSIDRightSibling());
+            long rindex = searchDirectory(name, dirent.getSIDRightSibling());
             if (rindex != -1L) {
                 return rindex;
             }
@@ -533,7 +509,7 @@ public class StructuredStorage {
 
         if (length > miniSectorCutoff) {
             int sectorSize = getSectorSize();
-            int sectors = (int)((length + sectorSize - 1)/sectorSize);
+            int sectors = (int) ((length + sectorSize - 1) / sectorSize);
 
             long sector = getStartSector(index);
             int offset = 0;
@@ -542,13 +518,13 @@ public class StructuredStorage {
                 offset += sectorSize;
                 sector = getFATSector(sector);
                 // System.out.println("next sector = " + sector);
-                if(sector == FAT_ENDOFCHAIN) break;
+                if (sector == FAT_ENDOFCHAIN) break;
             }
 
             readSector(sector, buf, offset, length - offset);
         } else {
             int sectorSize = getMiniSectorSize();
-            int sectors = (int)((length + sectorSize - 1)/sectorSize);
+            int sectors = (int) ((length + sectorSize - 1) / sectorSize);
 
             long sector = getStartSector(index);
 
@@ -581,25 +557,21 @@ public class StructuredStorage {
 
         if (length > miniSectorCutoff) {
             sectorSize = getSectorSize();
-            sectors = (int)((length + sectorSize - 1)/sectorSize);
+            sectors = (int) ((length + sectorSize - 1) / sectorSize);
             segmentPositions = new long[sectors];
 
             long sector = getStartSector(index);
             for (int i = 0; i < sectors - 1; i++) {
                 segmentPositions[i] = getOffsetOfSector(sector);
                 sector = getFATSector(sector);
-                if(sector == FAT_ENDOFCHAIN) break;
+                if (sector == FAT_ENDOFCHAIN) break;
             }
             segmentPositions[sectors - 1] = getOffsetOfSector(sector);
 
-            return new SegmentedSeekableStream(file,
-                                               segmentPositions,
-                                               sectorSize,
-                                               length,
-                                               true);
+            return new SegmentedSeekableStream(file, segmentPositions, sectorSize, length, true);
         } else {
             sectorSize = getMiniSectorSize();
-            sectors = (int)((length + sectorSize - 1)/sectorSize);
+            sectors = (int) ((length + sectorSize - 1) / sectorSize);
             segmentPositions = new long[sectors];
 
             long sector = getStartSector(index);
@@ -609,11 +581,7 @@ public class StructuredStorage {
             }
             segmentPositions[sectors - 1] = getOffsetOfMiniSector(sector);
 
-            return new SegmentedSeekableStream(miniStream,
-                                               segmentPositions,
-                                               sectorSize,
-                                               length,
-                                               true);
+            return new SegmentedSeekableStream(miniStream, segmentPositions, sectorSize, length, true);
         }
     }
 
@@ -635,20 +603,20 @@ public class StructuredStorage {
             // Emit it as a BMP file
             System.out.print("BM");
             int fs = (thumb.length - 8) + 14 + 40;
-            System.out.print((char)(fs & 0xff));
-            System.out.print((char)((fs >>  8) & 0xff));
-            System.out.print((char)((fs >> 16) & 0xff));
-            System.out.print((char)((fs >> 24) & 0xff));
-            System.out.print((char)0);
-            System.out.print((char)0);
-            System.out.print((char)0);
-            System.out.print((char)0);
+            System.out.print((char) (fs & 0xff));
+            System.out.print((char) ((fs >> 8) & 0xff));
+            System.out.print((char) ((fs >> 16) & 0xff));
+            System.out.print((char) ((fs >> 24) & 0xff));
+            System.out.print((char) 0);
+            System.out.print((char) 0);
+            System.out.print((char) 0);
+            System.out.print((char) 0);
             System.out.print('6');
-            System.out.print((char)0);
-            System.out.print((char)0);
-            System.out.print((char)0);
+            System.out.print((char) 0);
+            System.out.print((char) 0);
+            System.out.print((char) 0);
             for (int i = 8; i < thumb.length; i++) {
-                System.out.print((char)(thumb[i] & 0xff));
+                System.out.print((char) (thumb[i] & 0xff));
             }
 
             /*

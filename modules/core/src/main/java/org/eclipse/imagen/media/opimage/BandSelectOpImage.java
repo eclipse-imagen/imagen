@@ -16,10 +16,8 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Point;
-import java.awt.Rectangle;
+
 import java.awt.image.ColorModel;
-import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
@@ -35,13 +33,11 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
 /**
  * An <code>OpImage</code> implementing the "BandSelect" operation.
  *
- * <p>This <code>OpImage</code> copies the specified bands of the source
- * image to the destination image in the order that is specified.
+ * <p>This <code>OpImage</code> copies the specified bands of the source image to the destination image in the order
+ * that is specified.
  *
  * @see org.eclipse.imagen.operator.BandSelectDescriptor
  * @see BandSelectCRIF
- *
- *
  * @since EA2
  */
 final class BandSelectOpImage extends PointOpImage {
@@ -52,11 +48,8 @@ final class BandSelectOpImage extends PointOpImage {
 
     private int[] bandIndices;
 
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            RenderedImage source,
-                                            int[] bandIndices) {
-        ImageLayout il = layout == null ?
-            new ImageLayout() : (ImageLayout)layout.clone();
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, int[] bandIndices) {
+        ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
         // Create a sub-banded SampleModel.
         SampleModel sourceSM = source.getSampleModel();
@@ -67,12 +60,14 @@ final class BandSelectOpImage extends PointOpImage {
         // ColorSpace.TYPE_RGB. Therefore if there are fewer than 3 bands
         // a data copy is obligatory if a ColorModel will be possible.
         SampleModel sm = null;
-        if(sourceSM instanceof SinglePixelPackedSampleModel && numBands < 3) {
+        if (sourceSM instanceof SinglePixelPackedSampleModel && numBands < 3) {
             sm = new PixelInterleavedSampleModel(
-                     DataBuffer.TYPE_BYTE,
-                     sourceSM.getWidth(), sourceSM.getHeight(),
-                     numBands, sourceSM.getWidth()*numBands,
-                     numBands == 1 ? new int[] {0} : new int[] {0, 1});
+                    DataBuffer.TYPE_BYTE,
+                    sourceSM.getWidth(),
+                    sourceSM.getHeight(),
+                    numBands,
+                    sourceSM.getWidth() * numBands,
+                    numBands == 1 ? new int[] {0} : new int[] {0, 1});
         } else {
             sm = sourceSM.createSubsetSampleModel(bandIndices);
         }
@@ -80,8 +75,7 @@ final class BandSelectOpImage extends PointOpImage {
 
         // Clear the ColorModel mask if needed.
         ColorModel cm = il.getColorModel(null);
-        if(cm != null &&
-           !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
+        if (cm != null && !JDKWorkarounds.areCompatibleDataModels(sm, cm)) {
             // Clear the mask bit if incompatible.
             il.unsetValid(ImageLayout.COLOR_MODEL_MASK);
         }
@@ -98,24 +92,16 @@ final class BandSelectOpImage extends PointOpImage {
     /**
      * Constructor.
      *
-     * @param source       The source image.
-     * @param layout       The destination image layout.
-     * @param bandIndices  The selected band indices of the source.
-     *                     The number of bands of the destination is
-     *                     determined by <code>bandIndices.length</code>.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param bandIndices The selected band indices of the source. The number of bands of the destination is determined
+     *     by <code>bandIndices.length</code>.
      */
-    public BandSelectOpImage(RenderedImage source,
-                             Map config,
-                             ImageLayout layout,
-                             int[] bandIndices) {
-        super(vectorize(source),
-              layoutHelper(layout, source, bandIndices),
-              config, true);
+    public BandSelectOpImage(RenderedImage source, Map config, ImageLayout layout, int[] bandIndices) {
+        super(vectorize(source), layoutHelper(layout, source, bandIndices), config, true);
 
-        this.areDataCopied =
-            source.getSampleModel() instanceof SinglePixelPackedSampleModel &&
-            bandIndices.length < 3;
-        this.bandIndices = (int[])bandIndices.clone();
+        this.areDataCopied = source.getSampleModel() instanceof SinglePixelPackedSampleModel && bandIndices.length < 3;
+        this.bandIndices = (int[]) bandIndices.clone();
     }
 
     public boolean computesUniqueTiles() {
@@ -125,23 +111,31 @@ final class BandSelectOpImage extends PointOpImage {
     public Raster computeTile(int tileX, int tileY) {
         Raster tile = getSourceImage(0).getTile(tileX, tileY);
 
-        if(areDataCopied) {
+        if (areDataCopied) {
             // Copy the data as there is no concrete ColorModel for
             // a SinglePixelPackedSampleModel with numBands < 3.
-            tile = tile.createChild(tile.getMinX(), tile.getMinY(),
-                                    tile.getWidth(), tile.getHeight(),
-                                    tile.getMinX(), tile.getMinY(),
-                                    bandIndices);
+            tile = tile.createChild(
+                    tile.getMinX(),
+                    tile.getMinY(),
+                    tile.getWidth(),
+                    tile.getHeight(),
+                    tile.getMinX(),
+                    tile.getMinY(),
+                    bandIndices);
             WritableRaster raster = createTile(tileX, tileY);
             raster.setRect(tile);
 
             return raster;
         } else {
             // Simply return a child of the corresponding source tile.
-            return tile.createChild(tile.getMinX(), tile.getMinY(),
-                                    tile.getWidth(), tile.getHeight(),
-                                    tile.getMinX(), tile.getMinY(),
-                                    bandIndices);
+            return tile.createChild(
+                    tile.getMinX(),
+                    tile.getMinY(),
+                    tile.getWidth(),
+                    tile.getHeight(),
+                    tile.getMinX(),
+                    tile.getMinY(),
+                    bandIndices);
         }
     }
 

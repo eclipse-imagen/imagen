@@ -17,9 +17,6 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.media.util.JDKWorkarounds;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
@@ -32,68 +29,53 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.RasterFormatTag;
+import org.eclipse.imagen.media.util.ImageUtil;
+import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
  * An <code>OpImage</code> implementing the "Overlay" operation.
  *
- * <p>This <code>OpImage</code> overlays one rendered image (source2)
- * on top of another (source1). The two sources are required to have
- * the same data type and number of bands.
+ * <p>This <code>OpImage</code> overlays one rendered image (source2) on top of another (source1). The two sources are
+ * required to have the same data type and number of bands.
  *
  * @see org.eclipse.imagen.operator.OverlayDescriptor
  * @see OverlayCRIF
- *
  */
 final class OverlayOpImage extends PointOpImage {
 
     /**
-     * OverlayOpImage always has the bounds of the sourceUnder image.
-     * The image bounds specified in the "layout" are always ignored.
-     * Hence unset the image bounds so that PointImage.layoutHelper checks
-     * dont fail.
+     * OverlayOpImage always has the bounds of the sourceUnder image. The image bounds specified in the "layout" are
+     * always ignored. Hence unset the image bounds so that PointImage.layoutHelper checks dont fail.
      */
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            Vector sources,
-                                            Map config) {
+    private static ImageLayout layoutHelper(ImageLayout layout, Vector sources, Map config) {
 
-	if (layout != null) {
-            layout = (ImageLayout)layout.clone();
-	    layout.unsetImageBounds();
-	}
+        if (layout != null) {
+            layout = (ImageLayout) layout.clone();
+            layout.unsetImageBounds();
+        }
 
-	return layout;
+        return layout;
     }
 
     /**
      * Construct an <code>OverlayOpImage</code>.
      *
-     * @param sourceUnder  The source image on the bottom.
-     * @param sourceOver   The source image to be overlayed on top of
-     *                     <code>sourceUnder</code>.
-     * @param layout       The image layout for the destination image.
+     * @param sourceUnder The source image on the bottom.
+     * @param sourceOver The source image to be overlayed on top of <code>sourceUnder</code>.
+     * @param layout The image layout for the destination image.
      */
-    public OverlayOpImage(RenderedImage sourceUnder,
-                          RenderedImage sourceOver,
-                          Map config,
-                          ImageLayout layout) {
-        super(sourceUnder, sourceOver,
-	      layoutHelper(layout, vectorize(sourceUnder, sourceOver), config),
-	      config, true);
+    public OverlayOpImage(RenderedImage sourceUnder, RenderedImage sourceOver, Map config, ImageLayout layout) {
+        super(sourceUnder, sourceOver, layoutHelper(layout, vectorize(sourceUnder, sourceOver), config), config, true);
 
         /* Validate destination sampleModel. */
         SampleModel srcSM = sourceUnder.getSampleModel();
-        if (sampleModel.getTransferType() != srcSM.getTransferType() ||
-            sampleModel.getNumBands() != srcSM.getNumBands()) {
-            sampleModel = srcSM.createCompatibleSampleModel(
-                                tileWidth, tileHeight);
+        if (sampleModel.getTransferType() != srcSM.getTransferType()
+                || sampleModel.getNumBands() != srcSM.getNumBands()) {
+            sampleModel = srcSM.createCompatibleSampleModel(tileWidth, tileHeight);
 
-            if(colorModel != null &&
-               !JDKWorkarounds.areCompatibleDataModels(sampleModel,
-                                                       colorModel)) {
-                colorModel = ImageUtil.getCompatibleColorModel(sampleModel,
-                                                               config);
+            if (colorModel != null && !JDKWorkarounds.areCompatibleDataModels(sampleModel, colorModel)) {
+                colorModel = ImageUtil.getCompatibleColorModel(sampleModel, config);
             }
         }
 
@@ -111,8 +93,8 @@ final class OverlayOpImage extends PointOpImage {
     /**
      * Computes a tile. This method overrides PointOpImage.computeTile()
      *
-     * @param tileX  The X index of the tile.
-     * @param tileY  The Y index of the tile.
+     * @param tileX The X index of the tile.
+     * @param tileY The Y index of the tile.
      */
     public Raster computeTile(int tileX, int tileY) {
         /* Create a new WritableRaster to represent this tile. */
@@ -136,20 +118,19 @@ final class OverlayOpImage extends PointOpImage {
             computeRect(sources, dest, destRect);
 
             // Recycle the source tile
-            if(srcOver.overlapsMultipleTiles(destRect)) {
+            if (srcOver.overlapsMultipleTiles(destRect)) {
                 recycleTile(sources[0]);
             }
 
             return dest;
 
-        } else if (srcUnderBounds.contains(destRect) &&
-                   !srcOverBounds.intersects(destRect)) {
+        } else if (srcUnderBounds.contains(destRect) && !srcOverBounds.intersects(destRect)) {
             /* Tile is entirely inside sourceUnder. */
             sources[0] = srcUnder.getData(destRect);
             computeRect(sources, dest, destRect);
 
             // Recycle the source tile
-            if(srcUnder.overlapsMultipleTiles(destRect)) {
+            if (srcUnder.overlapsMultipleTiles(destRect)) {
                 recycleTile(sources[0]);
             }
 
@@ -162,7 +143,7 @@ final class OverlayOpImage extends PointOpImage {
             computeRect(sources, dest, isectUnder);
 
             // Recycle the source tile
-            if(srcUnder.overlapsMultipleTiles(isectUnder)) {
+            if (srcUnder.overlapsMultipleTiles(isectUnder)) {
                 recycleTile(sources[0]);
             }
 
@@ -172,7 +153,7 @@ final class OverlayOpImage extends PointOpImage {
                 computeRect(sources, dest, isectOver);
 
                 // Recycle the source tile
-                if(srcOver.overlapsMultipleTiles(isectOver)) {
+                if (srcOver.overlapsMultipleTiles(isectOver)) {
                     recycleTile(sources[0]);
                 }
             }
@@ -182,51 +163,43 @@ final class OverlayOpImage extends PointOpImage {
     }
 
     /**
-     * Copies the pixel values of a source image within a specified
-     * rectangle.
+     * Copies the pixel values of a source image within a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
-
-        RasterAccessor src = new RasterAccessor(sources[0], destRect,  
-                                                formatTags[0], 
-                                                getSource(0).getColorModel());
-        RasterAccessor dst = new RasterAccessor(dest, destRect,  
-                                                formatTags[1], getColorModel());
+        RasterAccessor src = new RasterAccessor(
+                sources[0], destRect, formatTags[0], getSource(0).getColorModel());
+        RasterAccessor dst = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         switch (dst.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(src, dst);
-            break;
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(src, dst);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(src, dst);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(src, dst);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(src, dst);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(src, dst);
+                break;
+            case DataBuffer.TYPE_USHORT:
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(src, dst);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(src, dst);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(src, dst);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(src, dst);
+                break;
         }
 
         dst.copyDataToRaster();
     }
 
-    private void computeRectByte(RasterAccessor src,
-                                 RasterAccessor dst) {
+    private void computeRectByte(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -265,8 +238,7 @@ final class OverlayOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -305,8 +277,7 @@ final class OverlayOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -345,8 +316,7 @@ final class OverlayOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -385,8 +355,7 @@ final class OverlayOpImage extends PointOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();

@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "SubtractConst" operation in the rendered
- * and renderable image layers.
+ * A <code>CRIF</code> supporting the "SubtractConst" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.SubtractConstDescriptor
  * @see AddConstOpImage
- *
  */
 public class SubtractConstCRIF extends CRIFImpl {
 
@@ -40,19 +37,18 @@ public class SubtractConstCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>SubtractConstOpImage</code> in the
-     * rendered layer. This method satisfies the implementation of RIF.
+     * Creates a new instance of <code>SubtractConstOpImage</code> in the rendered layer. This method satisfies the
+     * implementation of RIF.
      *
-     * @param args   The source image and the constants.
-     * @param hints  Optionally contains destination image layout.
+     * @param args The source image and the constants.
+     * @param hints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock args,
-                                RenderingHints hints) {
+    public RenderedImage create(ParameterBlock args, RenderingHints hints) {
         // Get ImageLayout from redering hints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(hints);
-        
+
         // Negate the constants vector
-        double[] constants = (double[])args.getObjectParameter(0);
+        double[] constants = (double[]) args.getObjectParameter(0);
         int length = constants.length;
 
         double[] negConstants = new double[length];
@@ -61,8 +57,6 @@ public class SubtractConstCRIF extends CRIFImpl {
             negConstants[i] = -constants[i];
         }
 
-        return new AddConstOpImage(args.getRenderedSource(0),
-                                   hints, layout,
-                                   negConstants);
+        return new AddConstOpImage(args.getRenderedSource(0), hints, layout, negConstants);
     }
 }

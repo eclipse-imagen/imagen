@@ -16,26 +16,24 @@
  */
 
 package org.eclipse.imagen.media.codecimpl;
+
 import java.awt.image.DataBuffer;
-import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
-import org.eclipse.imagen.media.codec.ImageDecodeParam;
-import org.eclipse.imagen.media.codec.ImageEncoder;
-import org.eclipse.imagen.media.codec.ImageEncodeParam;
 import org.eclipse.imagen.media.codec.BMPEncodeParam;
+import org.eclipse.imagen.media.codec.ImageCodec;
+import org.eclipse.imagen.media.codec.ImageDecodeParam;
+import org.eclipse.imagen.media.codec.ImageDecoder;
+import org.eclipse.imagen.media.codec.ImageEncodeParam;
+import org.eclipse.imagen.media.codec.ImageEncoder;
 import org.eclipse.imagen.media.codec.SeekableStream;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public final class BMPCodec extends ImageCodec {
 
     public BMPCodec() {}
@@ -52,12 +50,10 @@ public final class BMPCodec extends ImageCodec {
         return Object.class;
     }
 
-    public boolean canEncodeImage(RenderedImage im,
-                                  ImageEncodeParam param) {
+    public boolean canEncodeImage(RenderedImage im, ImageEncodeParam param) {
         SampleModel sampleModel = im.getSampleModel();
         int dataType = sampleModel.getTransferType();
-        if (dataType != DataBuffer.TYPE_BYTE &&
-            !CodecUtils.isPackedByteImage(im)) {
+        if (dataType != DataBuffer.TYPE_BYTE && !CodecUtils.isPackedByteImage(im)) {
             return false;
         }
 
@@ -65,11 +61,10 @@ public final class BMPCodec extends ImageCodec {
             if (!(param instanceof BMPEncodeParam)) {
                 return false;
             }
-            BMPEncodeParam BMPParam = (BMPEncodeParam)param;
+            BMPEncodeParam BMPParam = (BMPEncodeParam) param;
 
             int version = BMPParam.getVersion();
-            if ((version == BMPEncodeParam.VERSION_2) ||
-                (version == BMPEncodeParam.VERSION_4)) {
+            if ((version == BMPEncodeParam.VERSION_2) || (version == BMPEncodeParam.VERSION_4)) {
                 return false;
             }
         }
@@ -77,29 +72,24 @@ public final class BMPCodec extends ImageCodec {
         return true;
     }
 
-    protected ImageEncoder createImageEncoder(OutputStream dst,
-                                              ImageEncodeParam param) {
+    protected ImageEncoder createImageEncoder(OutputStream dst, ImageEncodeParam param) {
         BMPEncodeParam p = null;
         if (param != null) {
-            p = (BMPEncodeParam)param;
+            p = (BMPEncodeParam) param;
         }
 
         return new BMPImageEncoder(dst, p);
     }
 
-    protected ImageDecoder createImageDecoder(InputStream src,
-                                              ImageDecodeParam param) {
+    protected ImageDecoder createImageDecoder(InputStream src, ImageDecodeParam param) {
         return new BMPImageDecoder(src, null);
     }
 
-    protected ImageDecoder createImageDecoder(File src,
-                                              ImageDecodeParam param) 
-        throws IOException {
+    protected ImageDecoder createImageDecoder(File src, ImageDecodeParam param) throws IOException {
         return new BMPImageDecoder(new FileInputStream(src), null);
     }
 
-    protected ImageDecoder createImageDecoder(SeekableStream src,
-                                              ImageDecodeParam param) {
+    protected ImageDecoder createImageDecoder(SeekableStream src, ImageDecodeParam param) {
         return new BMPImageDecoder(src, null);
     }
 
@@ -108,11 +98,6 @@ public final class BMPCodec extends ImageCodec {
     }
 
     public boolean isFormatRecognized(byte[] header) {
-        return ((header[0] == 0x42) &&
-                (header[1] == 0x4d));
+        return ((header[0] == 0x42) && (header[1] == 0x4d));
     }
 }
-
-
-
-

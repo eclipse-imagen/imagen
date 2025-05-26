@@ -16,36 +16,34 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.util.Map;
 import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
  * An <code>OpImage</code> implementing the "Rescale" operation.
  *
- * <p> The "Rescale" operation maps the pixel values of an image from
- * one range to another range by multiplying each pixel value by one
- * of a set of constants and then adding another constant to the
- * result of the multiplication. The pixel values of the destination
- * image are defined by the pseudocode:
+ * <p>The "Rescale" operation maps the pixel values of an image from one range to another range by multiplying each
+ * pixel value by one of a set of constants and then adding another constant to the result of the multiplication. The
+ * pixel values of the destination image are defined by the pseudocode:
  *
  * <pre>
  *     for (int h = 0; h < dstHeight; h++) {
  *         for (int w = 0; w < dstWidth; w++) {
  *             for (int b = 0; b < dstNumBands; b++) {
- *		   scale = (scales.length < dstNumBands)? 
- *			    scales[0]:scales[b];
- *		   offset = (offsets.length < dstNumBands)?
- *			    offsets[0]:offsets[b];
+ * 	   scale = (scales.length < dstNumBands)?
+ * 		    scales[0]:scales[b];
+ * 	   offset = (offsets.length < dstNumBands)?
+ * 		    offsets[0]:offsets[b];
  *                 dst[h][w][b] = srcs[h][w][b] * scale + offset;
  *             }
  *         }
@@ -54,14 +52,13 @@ import org.eclipse.imagen.media.util.ImageUtil;
  *
  * @see org.eclipse.imagen.operator.RescaleDescriptor
  * @see RescaleCRIF
- *
- *
  * @since EA3
  */
 final class RescaleOpImage extends ColormapOpImage {
 
     /** The constants to be multiplied, one for each band. */
     protected double[] constants;
+
     protected double[] offsets;
 
     private byte[][] byteTable = null;
@@ -77,12 +74,12 @@ final class RescaleOpImage extends ColormapOpImage {
         byteTable = new byte[nbands][256];
 
         // Initialize table which implements Rescale and clamp
-        for(int band=0; band<nbands; band++) {
+        for (int band = 0; band < nbands; band++) {
             byte[] t = byteTable[band];
-	    double c = constants[band];
-	    double o = offsets[band];
+            double c = constants[band];
+            double o = offsets[band];
             for (int i = 0; i < 256; i++) {
-		t[i] = ImageUtil.clampRoundByte(i * c + o);
+                t[i] = ImageUtil.clampRoundByte(i * c + o);
             }
         }
     }
@@ -90,21 +87,15 @@ final class RescaleOpImage extends ColormapOpImage {
     /**
      * Constructor.
      *
-     * @param source     The source image.
-     * @param configuration Configurable attributes of the image including
-     *        configuration variables indexed by
-     *        <code>RenderingHints.Key</code>s and image properties indexed
-     *        by <code>String</code>s or <code>CaselessStringKey</code>s.
-     *        This is simply forwarded to the superclass constructor.
-     * @param layout     The destination image layout.
-     * @param constants  The constants to be multiplied, stored as reference.
-     * @param offsets    The offsets to be added, stored as reference.
+     * @param source The source image.
+     * @param configuration Configurable attributes of the image including configuration variables indexed by <code>
+     *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
+     *     </code>s. This is simply forwarded to the superclass constructor.
+     * @param layout The destination image layout.
+     * @param constants The constants to be multiplied, stored as reference.
+     * @param offsets The offsets to be added, stored as reference.
      */
-    public RescaleOpImage(RenderedImage source,
-                          Map config,
-                          ImageLayout layout,
-                          double[] constants,
-                          double[] offsets) {
+    public RescaleOpImage(RenderedImage source, Map config, ImageLayout layout, double[] constants, double[] offsets) {
         super(source, layout, config, true);
 
         int numBands = getSampleModel().getNumBands();
@@ -119,9 +110,9 @@ final class RescaleOpImage extends ColormapOpImage {
         }
 
         if (offsets.length < numBands) {
-            this.offsets   = new double[numBands];
+            this.offsets = new double[numBands];
             for (int i = 0; i < numBands; i++) {
-                this.offsets[i]   = offsets[0];
+                this.offsets[i] = offsets[0];
             }
         } else {
             this.offsets = offsets;
@@ -134,18 +125,14 @@ final class RescaleOpImage extends ColormapOpImage {
         initializeColormapOperation();
     }
 
-    /**
-     * Transform the colormap according to the rescaling parameters.
-     */
+    /** Transform the colormap according to the rescaling parameters. */
     protected void transformColormap(byte[][] colormap) {
         for (int b = 0; b < 3; b++) {
             byte[] map = colormap[b];
             int mapSize = map.length;
 
-            float c = (float)(b < constants.length ?
-                              constants[b] : constants[0]);
-            float o = (float)(b < constants.length ?
-                              offsets[b] : offsets[0]);
+            float c = (float) (b < constants.length ? constants[b] : constants[0]);
+            float o = (float) (b < constants.length ? offsets[b] : offsets[0]);
 
             for (int i = 0; i < mapSize; i++) {
                 map[i] = ImageUtil.clampRoundByte((map[i] & 0xFF) * c + o);
@@ -156,44 +143,39 @@ final class RescaleOpImage extends ColormapOpImage {
     /**
      * Rescales to the pixel values within a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
         Rectangle srcRect = mapDestRect(destRect, 0);
 
-        RasterAccessor dst = new RasterAccessor(dest, destRect,  
-                                                formatTags[1], getColorModel());
-        RasterAccessor src = new RasterAccessor(sources[0], srcRect,  
-                                                formatTags[0], 
-                                                getSource(0).getColorModel());
+        RasterAccessor dst = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
+        RasterAccessor src = new RasterAccessor(
+                sources[0], srcRect, formatTags[0], getSource(0).getColorModel());
 
         switch (dst.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(src, dst);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(src, dst);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(src, dst);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(src, dst);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(src, dst);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(src, dst);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(src, dst);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(src, dst);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(src, dst);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(src, dst);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(src, dst);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(src, dst);
+                break;
         }
 
         if (dst.needsClamping()) {
@@ -203,8 +185,7 @@ final class RescaleOpImage extends ColormapOpImage {
         dst.copyDataToRaster();
     }
 
-    private void computeRectByte(RasterAccessor src,
-                                 RasterAccessor dst) {
+    private void computeRectByte(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -219,7 +200,7 @@ final class RescaleOpImage extends ColormapOpImage {
         int[] srcBandOffsets = src.getBandOffsets();
         byte[][] srcData = src.getByteDataArrays();
 
-	initByteTable();
+        initByteTable();
 
         for (int b = 0; b < dstBands; b++) {
             byte[] d = dstData[b];
@@ -228,9 +209,9 @@ final class RescaleOpImage extends ColormapOpImage {
             int dstLineOffset = dstBandOffsets[b];
             int srcLineOffset = srcBandOffsets[b];
 
-	    byte[] clamp = byteTable[b];
-	    double c = constants[b];
-	    double o = offsets[b];
+            byte[] clamp = byteTable[b];
+            double c = constants[b];
+            double o = offsets[b];
 
             for (int h = 0; h < dstHeight; h++) {
                 int dstPixelOffset = dstLineOffset;
@@ -248,9 +229,8 @@ final class RescaleOpImage extends ColormapOpImage {
             }
         }
     }
-    
-    private void computeRectUShort(RasterAccessor src,
-                                   RasterAccessor dst) {
+
+    private void computeRectUShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -266,8 +246,8 @@ final class RescaleOpImage extends ColormapOpImage {
         short[][] srcData = src.getShortDataArrays();
 
         for (int b = 0; b < dstBands; b++) {
-            float c = (float)constants[b];
-            float o = (float)offsets[b];
+            float c = (float) constants[b];
+            float o = (float) offsets[b];
             short[] d = dstData[b];
             short[] s = srcData[b];
 
@@ -282,8 +262,7 @@ final class RescaleOpImage extends ColormapOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] = ImageUtil.clampRoundUShort(
-                                        (s[srcPixelOffset] & 0xFFFF) * c + o);
+                    d[dstPixelOffset] = ImageUtil.clampRoundUShort((s[srcPixelOffset] & 0xFFFF) * c + o);
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -292,8 +271,7 @@ final class RescaleOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -309,8 +287,8 @@ final class RescaleOpImage extends ColormapOpImage {
         short[][] srcData = src.getShortDataArrays();
 
         for (int b = 0; b < dstBands; b++) {
-            float c = (float)constants[b];
-            float o = (float)offsets[b];
+            float c = (float) constants[b];
+            float o = (float) offsets[b];
             short[] d = dstData[b];
             short[] s = srcData[b];
 
@@ -334,8 +312,7 @@ final class RescaleOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -376,8 +353,7 @@ final class RescaleOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -418,8 +394,7 @@ final class RescaleOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();

@@ -18,11 +18,10 @@
 package org.eclipse.imagen;
 
 /**
- * A class representing an image that is associated with a time stamp
- * and a camera position.  This class is used with <code>ImageSequence</code>.
+ * A class representing an image that is associated with a time stamp and a camera position. This class is used with
+ * <code>ImageSequence</code>.
  *
- * <p> This class is equivalent to an <code>AttributedImage</code> with an
- * attribute defined as:
+ * <p>This class is equivalent to an <code>AttributedImage</code> with an attribute defined as:
  *
  * <pre>
  * public class SequentialAttribute {
@@ -36,19 +35,17 @@ package org.eclipse.imagen;
  *
  *     public boolean equals(Object o) {
  *         if(o instanceof SequentialAttribute) {
- *	       SequentialAttribute sa = (SequentialAttribute)o;
- *	       return sa.getPosition().equals(position) &&
- *	              sa.getTimeStamp().equals(timeStamp);
- *	   }
+ *        SequentialAttribute sa = (SequentialAttribute)o;
+ *        return sa.getPosition().equals(position) &&
+ *               sa.getTimeStamp().equals(timeStamp);
+ *    }
  *         return false;
  *     }
  * }
  * </pre>
  *
  * @see ImageSequence
- *
- * @deprecated as of JAI 1.1. Use
- * <code>AttributedImage</code> instead.
+ * @deprecated as of JAI 1.1. Use <code>AttributedImage</code> instead.
  */
 public class SequentialImage {
 
@@ -59,10 +56,8 @@ public class SequentialImage {
     public float timeStamp;
 
     /**
-     * The camera position associated with the image.  The type of this
-     * parameter is <code>Object</code> so that the application may choose
-     * any class to represent a camera position based on the individual's
-     * needs.
+     * The camera position associated with the image. The type of this parameter is <code>Object</code> so that the
+     * application may choose any class to represent a camera position based on the individual's needs.
      */
     public Object cameraPosition;
 
@@ -74,9 +69,7 @@ public class SequentialImage {
      * @param cp The camera position object.
      * @throws IllegalArgumentException if <code>pi</code> is <code>null</code>.
      */
-    public SequentialImage(PlanarImage pi,
-                           float ts,
-                           Object cp) {
+    public SequentialImage(PlanarImage pi, float ts, Object cp) {
         if (pi == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }

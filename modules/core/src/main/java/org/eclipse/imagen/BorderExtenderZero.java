@@ -16,27 +16,28 @@
  */
 
 package org.eclipse.imagen;
-import java.awt.Rectangle;
+
 import java.awt.image.DataBuffer;
 import java.awt.image.WritableRaster;
 
 /**
- * A subclass of <code>BorderExtender</code> that implements 
- * border extension by filling all pixels outside of the image
- * bounds with zeros.  For example, the image:
+ * A subclass of <code>BorderExtender</code> that implements border extension by filling all pixels outside of the image
+ * bounds with zeros. For example, the image:
  *
  * <p><center>
+ *
  * <table border=1>
  * <tr align=center><td>A</td><td>B</td><td>C</td> </tr>
  * <tr align=center><td>D</td><td>E</td><td>F</td> </tr>
  * <tr align=center><td>G</td><td>H</td><td>I</td> </tr>
- * </table></center>
-
+ * </table>
  *
- * <br>if extended by adding two extra rows to the top and bottom and
- * two extra columns on the left and right sides, would become:
+ * </center> <br>
+ * if extended by adding two extra rows to the top and bottom and two extra columns on the left and right sides, would
+ * become:
  *
  * <p><center>
+ *
  * <table border=1>
  * <tr align=center>
  * <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td> </tr>
@@ -46,7 +47,9 @@ import java.awt.image.WritableRaster;
  * <td>0</td><td>0</td><td>G</td><td>H</td><td>I</td><td>0</td><td>0</td> </tr>
  * <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td> </tr>
  * <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td> </tr>
- * </table></center>
+ * </table>
+ *
+ * </center>
  *
  * @see BorderExtender
  */
@@ -55,26 +58,19 @@ public final class BorderExtenderZero extends BorderExtender {
     BorderExtenderZero() {}
 
     /**
-     * Fills in the portions of a given <code>Raster</code> that lie
-     * outside the bounds of a given <code>PlanarImage</code> with
-     * zeros.
+     * Fills in the portions of a given <code>Raster</code> that lie outside the bounds of a given <code>PlanarImage
+     * </code> with zeros.
      *
-     * <p> The portion of <code>raster</code> that lies within 
-     * <code>im.getBounds()</code> is not altered.
+     * <p>The portion of <code>raster</code> that lies within <code>im.getBounds()</code> is not altered.
      *
-     * @param raster The <code>WritableRaster</code> the border area of
-     *               which is to be filled with zero.
-     * @param im     The <code>PlanarImage</code> which determines the
-     *               portion of the <code>WritableRaster</code> <i>not</i>
-     *               to be filled.
-     *
-     * @throws <code>IllegalArgumentException</code> if either parameter is
-     *         <code>null</code>.
+     * @param raster The <code>WritableRaster</code> the border area of which is to be filled with zero.
+     * @param im The <code>PlanarImage</code> which determines the portion of the <code>WritableRaster</code> <i>not</i>
+     *     to be filled.
+     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
      */
-    public final void extend(WritableRaster raster,
-                             PlanarImage im) {
+    public final void extend(WritableRaster raster, PlanarImage im) {
 
-        if ( raster == null || im == null ) {
+        if (raster == null || im == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
 
@@ -98,8 +94,8 @@ public final class BorderExtenderZero extends BorderExtender {
             case DataBuffer.TYPE_SHORT:
             case DataBuffer.TYPE_USHORT:
             case DataBuffer.TYPE_INT:
-                int[] iData = new int[width*numBands];
-                if(validMinX > validMaxX || validMinY > validMaxY) {
+                int[] iData = new int[width * numBands];
+                if (validMinX > validMaxX || validMinY > validMaxY) {
                     // Raster does not intersect image.
                     for (row = minY; row < maxY; row++) {
                         raster.setPixels(minX, row, width, 1, iData);
@@ -110,12 +106,10 @@ public final class BorderExtenderZero extends BorderExtender {
                     }
                     for (row = validMinY; row < validMaxY; row++) {
                         if (minX < validMinX) {
-                            raster.setPixels(minX, row,
-                                             validMinX - minX, 1, iData);
+                            raster.setPixels(minX, row, validMinX - minX, 1, iData);
                         }
                         if (validMaxX < maxX) {
-                            raster.setPixels(validMaxX, row,
-                                             maxX - validMaxX, 1, iData);
+                            raster.setPixels(validMaxX, row, maxX - validMaxX, 1, iData);
                         }
                     }
                     for (row = validMaxY; row < maxY; row++) {
@@ -125,8 +119,8 @@ public final class BorderExtenderZero extends BorderExtender {
                 break;
 
             case DataBuffer.TYPE_FLOAT:
-                float[] fData = new float[width*numBands];
-                if(validMinX > validMaxX || validMinY > validMaxY) {
+                float[] fData = new float[width * numBands];
+                if (validMinX > validMaxX || validMinY > validMaxY) {
                     // Raster does not intersect image.
                     for (row = minY; row < maxY; row++) {
                         raster.setPixels(minX, row, width, 1, fData);
@@ -137,12 +131,10 @@ public final class BorderExtenderZero extends BorderExtender {
                     }
                     for (row = validMinY; row < validMaxY; row++) {
                         if (minX < validMinX) {
-                            raster.setPixels(minX, row,
-                                             validMinX - minX, 1, fData);
+                            raster.setPixels(minX, row, validMinX - minX, 1, fData);
                         }
                         if (validMaxX < maxX) {
-                            raster.setPixels(validMaxX, row,
-                                             maxX - validMaxX, 1, fData);
+                            raster.setPixels(validMaxX, row, maxX - validMaxX, 1, fData);
                         }
                     }
                     for (row = validMaxY; row < maxY; row++) {
@@ -152,8 +144,8 @@ public final class BorderExtenderZero extends BorderExtender {
                 break;
 
             case DataBuffer.TYPE_DOUBLE:
-                double[] dData = new double[width*numBands];
-                if(validMinX > validMaxX || validMinY > validMaxY) {
+                double[] dData = new double[width * numBands];
+                if (validMinX > validMaxX || validMinY > validMaxY) {
                     // Raster does not intersect image.
                     for (row = minY; row < maxY; row++) {
                         raster.setPixels(minX, row, width, 1, dData);
@@ -164,12 +156,10 @@ public final class BorderExtenderZero extends BorderExtender {
                     }
                     for (row = validMinY; row < validMaxY; row++) {
                         if (minX < validMinX) {
-                            raster.setPixels(minX, row,
-                                             validMinX - minX, 1, dData);
+                            raster.setPixels(minX, row, validMinX - minX, 1, dData);
                         }
                         if (validMaxX < maxX) {
-                            raster.setPixels(validMaxX, row,
-                                             maxX - validMaxX, 1, dData);
+                            raster.setPixels(validMaxX, row, maxX - validMaxX, 1, dData);
                         }
                     }
                     for (row = validMaxY; row < maxY; row++) {

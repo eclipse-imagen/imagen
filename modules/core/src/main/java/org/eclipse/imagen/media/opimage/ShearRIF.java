@@ -16,44 +16,35 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.SampleModel;
 import java.awt.image.RenderedImage;
+import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.InterpolationBicubic2;
 import org.eclipse.imagen.InterpolationBicubic;
+import org.eclipse.imagen.InterpolationBicubic2;
 import org.eclipse.imagen.InterpolationBilinear;
 import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.InterpolationTable;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RenderedOp;
-import java.util.Map;
 import org.eclipse.imagen.operator.ShearDescriptor;
 
-/**
- * @see AffineOpimage
- */
+/** @see AffineOpimage */
 public class ShearRIF implements RenderedImageFactory {
 
     /** Constructor. */
     public ShearRIF() {}
 
-    /**
-     * Creates an shear operation as an instance of AffineOpImage.
-     */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    /** Creates an shear operation as an instance of AffineOpImage. */
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
@@ -61,16 +52,15 @@ public class ShearRIF implements RenderedImageFactory {
         RenderedImage source = paramBlock.getRenderedSource(0);
 
         float shear_amt = paramBlock.getFloatParameter(0);
-        EnumeratedParameter shear_dir =
-            (EnumeratedParameter)paramBlock.getObjectParameter(1);
+        EnumeratedParameter shear_dir = (EnumeratedParameter) paramBlock.getObjectParameter(1);
 
         float xTrans = paramBlock.getFloatParameter(2);
         float yTrans = paramBlock.getFloatParameter(3);
 
         Object arg1 = paramBlock.getObjectParameter(4);
-        Interpolation interp = (Interpolation)arg1;
+        Interpolation interp = (Interpolation) arg1;
 
-        double[] backgroundValues = (double[])paramBlock.getObjectParameter(5);
+        double[] backgroundValues = (double[]) paramBlock.getObjectParameter(5);
 
         // Create the affine transform
         AffineTransform tr = new AffineTransform();
@@ -86,59 +76,25 @@ public class ShearRIF implements RenderedImageFactory {
         // Do Affine
         if (interp instanceof InterpolationNearest) {
             SampleModel sm = source.getSampleModel();
-            boolean isBinary = (sm instanceof MultiPixelPackedSampleModel) &&
-                (sm.getSampleSize(0) == 1) &&
-                (sm.getDataType() == DataBuffer.TYPE_BYTE ||
-                 sm.getDataType() == DataBuffer.TYPE_USHORT ||
-                 sm.getDataType() == DataBuffer.TYPE_INT);
-            if(isBinary) {
-                return new AffineNearestBinaryOpImage(source,
-                                                      extender,
-                                                      renderHints,
-                                                      layout,
-                                                      tr,
-                                                      interp,
-                                                      backgroundValues);
+            boolean isBinary = (sm instanceof MultiPixelPackedSampleModel)
+                    && (sm.getSampleSize(0) == 1)
+                    && (sm.getDataType() == DataBuffer.TYPE_BYTE
+                            || sm.getDataType() == DataBuffer.TYPE_USHORT
+                            || sm.getDataType() == DataBuffer.TYPE_INT);
+            if (isBinary) {
+                return new AffineNearestBinaryOpImage(
+                        source, extender, renderHints, layout, tr, interp, backgroundValues);
             } else {
-                return new AffineNearestOpImage(source, extender,
-                                                renderHints,
-                                                layout,
-                                                tr,
-                                                interp,
-                                                backgroundValues);
+                return new AffineNearestOpImage(source, extender, renderHints, layout, tr, interp, backgroundValues);
             }
         } else if (interp instanceof InterpolationBilinear) {
-            return new AffineBilinearOpImage(source,
-                                             extender,
-                                             renderHints,
-                                             layout,
-                                             tr,
-                                             interp,
-                                             backgroundValues);
+            return new AffineBilinearOpImage(source, extender, renderHints, layout, tr, interp, backgroundValues);
         } else if (interp instanceof InterpolationBicubic) {
-            return new AffineBicubicOpImage(source,
-                                            extender,
-                                            renderHints,
-                                            layout,
-                                            tr,
-                                            interp,
-                                            backgroundValues);
+            return new AffineBicubicOpImage(source, extender, renderHints, layout, tr, interp, backgroundValues);
         } else if (interp instanceof InterpolationBicubic2) {
-            return new AffineBicubic2OpImage(source,
-                                             extender,
-                                             renderHints,
-                                             layout,
-                                             tr,
-                                             interp,
-                                             backgroundValues);
+            return new AffineBicubic2OpImage(source, extender, renderHints, layout, tr, interp, backgroundValues);
         } else {
-            return new AffineGeneralOpImage(source,
-                                            extender,
-                                            renderHints,
-                                            layout,
-                                            tr,
-                                            interp,
-                                            backgroundValues);
+            return new AffineGeneralOpImage(source, extender, renderHints, layout, tr, interp, backgroundValues);
         }
     }
 }

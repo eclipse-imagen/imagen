@@ -20,13 +20,10 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "type"
- * parameter of the "Transpose" operation.  Acceptable values for the
- * "type" parameter are defined in the <code>TransposeDescriptor</code>
- * by the constants <code>FLIP_VERTICAL</code>, <code>FLIP_HORIZONTAL</code>,
- * <code>FLIP_DIAGONAL</code>, <code>FLIP_ANTIDIAGONAL</code>,
- * <code>ROTATE_90</code>, <code>ROTATE_180</code>, and
- * <code>ROTATE_270</code>.
+ * Class used to represent the acceptable values of the "type" parameter of the "Transpose" operation. Acceptable values
+ * for the "type" parameter are defined in the <code>TransposeDescriptor</code> by the constants <code>FLIP_VERTICAL
+ * </code>, <code>FLIP_HORIZONTAL</code>, <code>FLIP_DIAGONAL</code>, <code>FLIP_ANTIDIAGONAL</code>, <code>ROTATE_90
+ * </code>, <code>ROTATE_180</code>, and <code>ROTATE_270</code>.
  *
  * @since JAI 1.1
  */

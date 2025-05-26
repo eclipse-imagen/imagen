@@ -16,16 +16,13 @@
  */
 
 /**
- * <p>
- * This class has been deprecated.  The source
- * code has been moved to the samples/widget
- * directory.  These widgets are no longer
- * supported.
+ * This class has been deprecated. The source code has been moved to the samples/widget directory. These widgets are no
+ * longer supported.
  *
  * @deprecated as of JAI 1.1
  */
-
 package org.eclipse.imagen.widget;
+
 import org.eclipse.imagen.media.util.PropertyUtil;
 
 class JaiI18N {

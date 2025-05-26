@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -23,15 +24,12 @@ import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
-import java.util.Map;
 
 /**
- * A <code>RIF</code> supporting the "OrderedDither" operation in the rendered
- * image layer.
+ * A <code>RIF</code> supporting the "OrderedDither" operation in the rendered image layer.
  *
  * @since EA3
  * @see org.eclipse.imagen.operator.OrderedDitherDescriptor
- *
  */
 public class OrderedDitherRIF implements RenderedImageFactory {
 
@@ -39,23 +37,18 @@ public class OrderedDitherRIF implements RenderedImageFactory {
     public OrderedDitherRIF() {}
 
     /**
-     * Creates a new instance of an ordered dither operator according to the
-     * color map and dither mask kernel array.
+     * Creates a new instance of an ordered dither operator according to the color map and dither mask kernel array.
      *
-     * @param paramBlock  The color map and dither mask kernel array objects.
+     * @param paramBlock The color map and dither mask kernel array objects.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         RenderedImage source = paramBlock.getRenderedSource(0);
-        ColorCube colorMap =
-            (ColorCube)paramBlock.getObjectParameter(0);
-        KernelJAI[] ditherMask = (KernelJAI[])paramBlock.getObjectParameter(1);
+        ColorCube colorMap = (ColorCube) paramBlock.getObjectParameter(0);
+        KernelJAI[] ditherMask = (KernelJAI[]) paramBlock.getObjectParameter(1);
 
-        return new OrderedDitherOpImage(source, renderHints, layout,
-                                        colorMap, ditherMask);
+        return new OrderedDitherOpImage(source, renderHints, layout, colorMap, ditherMask);
     }
 }

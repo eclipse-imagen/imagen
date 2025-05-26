@@ -22,29 +22,26 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
 
 /**
- * This property generator returns <code>Boolean.TRUE</code> for the
- * "COMPLEX" property for the rendered and renderable modes.
+ * This property generator returns <code>Boolean.TRUE</code> for the "COMPLEX" property for the rendered and renderable
+ * modes.
  */
 class ComplexPropertyGenerator extends PropertyGeneratorImpl {
 
     /** Constructor. */
     public ComplexPropertyGenerator() {
-        super(new String[] {"COMPLEX"},
-              new Class[] {Boolean.class},
-              new Class[] {RenderedOp.class, RenderableOp.class});
+        super(new String[] {"COMPLEX"}, new Class[] {Boolean.class}, new Class[] {RenderedOp.class, RenderableOp.class
+        });
     }
 
     /**
      * Returns the specified property.
      *
-     * @param name  Property name.
+     * @param name Property name.
      * @param op Operation node.
      */
-    public Object getProperty(String name,
-                              Object op) {
+    public Object getProperty(String name, Object op) {
         validate(name, op);
 
-        return name.equalsIgnoreCase("complex") ?
-            Boolean.TRUE : java.awt.Image.UndefinedProperty;
+        return name.equalsIgnoreCase("complex") ? Boolean.TRUE : java.awt.Image.UndefinedProperty;
     }
 }

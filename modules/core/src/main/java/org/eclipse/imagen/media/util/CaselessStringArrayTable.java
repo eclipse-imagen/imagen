@@ -21,59 +21,47 @@ import java.util.Hashtable;
 import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
- * A class that maps an array of <code>String</code>s or 
- * <code>CaselessStringKey</code>s into the array indices and
- * vice versa (all in a caseless fashion).
+ * A class that maps an array of <code>String</code>s or <code>CaselessStringKey</code>s into the array indices and vice
+ * versa (all in a caseless fashion).
  *
- * This is used to map source names and parameter names to their
- * indices in a case insensitive fashion.
+ * <p>This is used to map source names and parameter names to their indices in a case insensitive fashion.
  */
 public class CaselessStringArrayTable implements java.io.Serializable {
 
     private CaselessStringKey[] keys;
     private Hashtable indices;
 
-    /**
-     * Constructor for an array of <code>CaselessStringKey</code>s.
-     */
+    /** Constructor for an array of <code>CaselessStringKey</code>s. */
     public CaselessStringArrayTable() {
-	this((CaselessStringKey[])null);
+        this((CaselessStringKey[]) null);
     }
 
-    /**
-     * Constructor for an array of <code>CaselessStringKey</code>s.
-     */
+    /** Constructor for an array of <code>CaselessStringKey</code>s. */
     public CaselessStringArrayTable(CaselessStringKey[] keys) {
 
-	this.keys = keys;
-	this.indices = new Hashtable();
+        this.keys = keys;
+        this.indices = new Hashtable();
 
-	if (keys != null)
-	    for (int i = 0; i < keys.length; i++) {
-		this.indices.put(keys[i], new Integer(i));
-	    }
+        if (keys != null)
+            for (int i = 0; i < keys.length; i++) {
+                this.indices.put(keys[i], new Integer(i));
+            }
     }
 
-    /**
-     * Constructor for an array of <code>String</code>s.
-     */
+    /** Constructor for an array of <code>String</code>s. */
     public CaselessStringArrayTable(String[] keys) {
-	this(toCaselessStringKey(keys));
+        this(toCaselessStringKey(keys));
     }
 
-    /**
-     * Map an array of <code>String</code>s to <code>CaselessStringKey</code>s.
-     */
+    /** Map an array of <code>String</code>s to <code>CaselessStringKey</code>s. */
     private static CaselessStringKey[] toCaselessStringKey(String strings[]) {
-	if (strings == null)
-	    return null;
+        if (strings == null) return null;
 
-	CaselessStringKey[] keys = new CaselessStringKey[strings.length];
+        CaselessStringKey[] keys = new CaselessStringKey[strings.length];
 
-	for (int i = 0; i < strings.length; i++)
-	    keys[i] = new CaselessStringKey(strings[i]);
-				
-	return keys;
+        for (int i = 0; i < strings.length; i++) keys[i] = new CaselessStringKey(strings[i]);
+
+        return keys;
     }
 
     /**
@@ -83,19 +71,17 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      *	if the key is not found.
      */
     public int indexOf(CaselessStringKey key) {
-	if (key == null) {
-	    throw new IllegalArgumentException(
-		      JaiI18N.getString("CaselessStringArrayTable0"));
-	}
+        if (key == null) {
+            throw new IllegalArgumentException(JaiI18N.getString("CaselessStringArrayTable0"));
+        }
 
-	Integer i = (Integer)indices.get(key);
+        Integer i = (Integer) indices.get(key);
 
-	if (i == null) {
-	    throw new IllegalArgumentException(key.getName() + " - " +
-		      JaiI18N.getString("CaselessStringArrayTable1"));
-	}
+        if (i == null) {
+            throw new IllegalArgumentException(key.getName() + " - " + JaiI18N.getString("CaselessStringArrayTable1"));
+        }
 
-	return i.intValue();
+        return i.intValue();
     }
 
     /**
@@ -105,7 +91,7 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      *	if the key is not found.
      */
     public int indexOf(String key) {
-	return indexOf(new CaselessStringKey(key));
+        return indexOf(new CaselessStringKey(key));
     }
 
     /**
@@ -114,23 +100,20 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      * @throws ArrayIndexOutOfBoundsException if <code>i</code> is out of range.
      */
     public String getName(int i) {
-	if (keys == null)
-	    throw new ArrayIndexOutOfBoundsException();
+        if (keys == null) throw new ArrayIndexOutOfBoundsException();
 
-	return keys[i].getName();
+        return keys[i].getName();
     }
 
     /**
-     * Get the <code>CaselessStringKey</code> corresponding to the
-     * index <code>i</code>.
+     * Get the <code>CaselessStringKey</code> corresponding to the index <code>i</code>.
      *
      * @throws ArrayIndexOutOfBoundsException if <code>i</code> is out of range.
      */
     public CaselessStringKey get(int i) {
-	if (keys == null)
-	    throw new ArrayIndexOutOfBoundsException();
+        if (keys == null) throw new ArrayIndexOutOfBoundsException();
 
-	return keys[i];
+        return keys[i];
     }
 
     /**
@@ -139,12 +122,11 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      * @return true if the key is present. false otherwise.
      */
     public boolean contains(CaselessStringKey key) {
-	if (key == null) {
-	    throw new IllegalArgumentException(
-		      JaiI18N.getString("CaselessStringArrayTable0"));
-	}
+        if (key == null) {
+            throw new IllegalArgumentException(JaiI18N.getString("CaselessStringArrayTable0"));
+        }
 
-	return indices.get(key) != null;
+        return indices.get(key) != null;
     }
 
     /**
@@ -153,6 +135,6 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      * @return true if the key is present. false otherwise.
      */
     public boolean contains(String key) {
-	return contains(new CaselessStringKey(key));
+        return contains(new CaselessStringKey(key));
     }
 }

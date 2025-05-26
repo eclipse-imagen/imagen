@@ -20,13 +20,10 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * Class used to represent the acceptable values of the "maskShape"
- * parameter of the "MedianFilter" operation.  Acceptable values for the
- * "maskShape" parameter are defined in the <code>MedianFilterDescriptor</code>
- * by the constants <code>MEDIAN_MASK_SQUARE</code>,
- * <code>MEDIAN_MASK_PLUS</code>,
- * <code>MEDIAN_MASK_X</code>, and
- * <code>MEDIAN_MASK_SQUARE_SEPARABLE</code>.
+ * Class used to represent the acceptable values of the "maskShape" parameter of the "MedianFilter" operation.
+ * Acceptable values for the "maskShape" parameter are defined in the <code>MedianFilterDescriptor</code> by the
+ * constants <code>MEDIAN_MASK_SQUARE</code>, <code>MEDIAN_MASK_PLUS</code>, <code>MEDIAN_MASK_X</code>, and <code>
+ * MEDIAN_MASK_SQUARE_SEPARABLE</code>.
  *
  * @since JAI 1.1
  */

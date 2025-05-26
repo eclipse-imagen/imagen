@@ -18,27 +18,22 @@
 package org.eclipse.imagen.iterator;
 
 /**
- * An iterator that allows random read/write access to any sample
- * within its bounding rectangle.  This flexibility will generally
- * exact a corresponding price in speed and setup overhead.
+ * An iterator that allows random read/write access to any sample within its bounding rectangle. This flexibility will
+ * generally exact a corresponding price in speed and setup overhead.
  *
- * <p> The iterator is initialized with a particular rectangle as its
- * bounds, which it is illegal to exceed.  This initialization takes
- * place in a factory method and is not a part of the iterator
- * interface itself.
+ * <p>The iterator is initialized with a particular rectangle as its bounds, which it is illegal to exceed. This
+ * initialization takes place in a factory method and is not a part of the iterator interface itself.
  *
- * <p> The setSample() and setPixel() methods allow individual source
- * samples and whole pixels to be written.
+ * <p>The setSample() and setPixel() methods allow individual source samples and whole pixels to be written.
  *
- * <p> An instance of RandomIter may be obtained by means of the
- * RandomIterFactory.createWritable() method, which returns an
- * opaque object implementing this interface.
+ * <p>An instance of RandomIter may be obtained by means of the RandomIterFactory.createWritable() method, which returns
+ * an opaque object implementing this interface.
  *
  * @see RandomIter
  * @see RandomIterFactory
  */
 public interface WritableRandomIter extends RandomIter {
-    
+
     /**
      * Sets the specified sample of the image to an integral value.
      *

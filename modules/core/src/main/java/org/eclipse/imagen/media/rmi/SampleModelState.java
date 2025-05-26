@@ -28,14 +28,11 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import org.eclipse.imagen.ComponentSampleModelJAI;
 import org.eclipse.imagen.RasterFactory;
 
 /**
- * This class is a serializable proxy for a SampleModel from which the
- * SampleModel may be reconstituted.
- *
+ * This class is a serializable proxy for a SampleModel from which the SampleModel may be reconstituted.
  *
  * @since 1.1
  */
@@ -87,62 +84,58 @@ public class SampleModelState extends SerializableStateImpl {
     */
 
     /**
-      * Constructs a <code>SampleModelState</code> from a
-      * <code>SampleModel</code>.
-      *
-      * @param c The <code>SampleModel</code> subclass.
-      * @param o The <code>SampleModel</code> to be serialized.
-      * @param h The <code>RenderingHints</code> (ignored).
-      */
+     * Constructs a <code>SampleModelState</code> from a <code>SampleModel</code>.
+     *
+     * @param c The <code>SampleModel</code> subclass.
+     * @param o The <code>SampleModel</code> to be serialized.
+     * @param h The <code>RenderingHints</code> (ignored).
+     */
     public SampleModelState(Class c, Object o, RenderingHints h) {
         super(c, o, h);
     }
 
     /**
-      * Serialize the <code>SampleModelState</code>.
-      *
-      * @param out The <code>ObjectOutputStream</code>.
-      */
+     * Serialize the <code>SampleModelState</code>.
+     *
+     * @param out The <code>ObjectOutputStream</code>.
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
-        SampleModel sampleModel = (SampleModel)theObject;
-        if(sampleModel instanceof ComponentSampleModel) {
-            ComponentSampleModel sm = (ComponentSampleModel)sampleModel;
+        SampleModel sampleModel = (SampleModel) theObject;
+        if (sampleModel instanceof ComponentSampleModel) {
+            ComponentSampleModel sm = (ComponentSampleModel) sampleModel;
             int sampleModelType = TYPE_COMPONENT;
             int transferType = sm.getTransferType();
-            if(sampleModel instanceof PixelInterleavedSampleModel) {
+            if (sampleModel instanceof PixelInterleavedSampleModel) {
                 sampleModelType = TYPE_PIXEL_INTERLEAVED;
-            } else if(sampleModel instanceof BandedSampleModel) {
+            } else if (sampleModel instanceof BandedSampleModel) {
                 sampleModelType = TYPE_BANDED;
-            } else if(sampleModel instanceof ComponentSampleModelJAI ||
-                      transferType == DataBuffer.TYPE_FLOAT ||
-                      transferType == DataBuffer.TYPE_DOUBLE) {
+            } else if (sampleModel instanceof ComponentSampleModelJAI
+                    || transferType == DataBuffer.TYPE_FLOAT
+                    || transferType == DataBuffer.TYPE_DOUBLE) {
                 sampleModelType = TYPE_COMPONENT_JAI;
             }
             out.writeInt(sampleModelType);
             out.writeInt(transferType);
             out.writeInt(sm.getWidth());
             out.writeInt(sm.getHeight());
-            if(sampleModelType != TYPE_BANDED) {
+            if (sampleModelType != TYPE_BANDED) {
                 out.writeInt(sm.getPixelStride());
             }
             out.writeInt(sm.getScanlineStride());
-            if(sampleModelType != TYPE_PIXEL_INTERLEAVED) {
+            if (sampleModelType != TYPE_PIXEL_INTERLEAVED) {
                 out.writeObject(sm.getBankIndices());
             }
             out.writeObject(sm.getBandOffsets());
-        } else if(sampleModel instanceof
-                  SinglePixelPackedSampleModel) {
-            SinglePixelPackedSampleModel sm =
-                (SinglePixelPackedSampleModel)sampleModel;
+        } else if (sampleModel instanceof SinglePixelPackedSampleModel) {
+            SinglePixelPackedSampleModel sm = (SinglePixelPackedSampleModel) sampleModel;
             out.writeInt(TYPE_SINGLE_PIXEL_PACKED);
             out.writeInt(sm.getTransferType());
             out.writeInt(sm.getWidth());
             out.writeInt(sm.getHeight());
             out.writeInt(sm.getScanlineStride());
             out.writeObject(sm.getBitMasks());
-        } else if(sampleModel instanceof MultiPixelPackedSampleModel) {
-            MultiPixelPackedSampleModel sm =
-                (MultiPixelPackedSampleModel)sampleModel;
+        } else if (sampleModel instanceof MultiPixelPackedSampleModel) {
+            MultiPixelPackedSampleModel sm = (MultiPixelPackedSampleModel) sampleModel;
             out.writeInt(TYPE_MULTI_PIXEL_PACKED);
             out.writeInt(sm.getTransferType());
             out.writeInt(sm.getWidth());
@@ -156,70 +149,53 @@ public class SampleModelState extends SerializableStateImpl {
     }
 
     /**
-      * Deserialize the <code>SampleModelState</code>.
-      *
-      * @param out The <code>ObjectInputStream</code>.
-      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+     * Deserialize the <code>SampleModelState</code>.
+     *
+     * @param out The <code>ObjectInputStream</code>.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         SampleModel sampleModel = null;
-        int sampleModelType = (int)in.readInt();
-        switch(sampleModelType) {
-        case TYPE_PIXEL_INTERLEAVED:
-            sampleModel =
-                RasterFactory.createPixelInterleavedSampleModel(in.readInt(),
-                                                                in.readInt(),
-                                                                in.readInt(),
-                                                                in.readInt(),
-                                                                in.readInt(),
-                                                                (int[])in.readObject());
-            break;
-        case TYPE_BANDED:
-            sampleModel =
-                RasterFactory.createBandedSampleModel(in.readInt(),
-                                                      in.readInt(),
-                                                      in.readInt(),
-                                                      in.readInt(),
-                                                      (int[])in.readObject(),
-                                                      (int[])in.readObject());
-            break;
-        case TYPE_COMPONENT_JAI:
-            sampleModel =
-                new ComponentSampleModelJAI(in.readInt(),
-                                            in.readInt(),
-                                            in.readInt(),
-                                            in.readInt(),
-                                            in.readInt(),
-                                            (int[])in.readObject(),
-                                            (int[])in.readObject());
-            break;
-        case TYPE_COMPONENT:
-            sampleModel =
-                new ComponentSampleModel(in.readInt(),
-                                         in.readInt(),
-                                         in.readInt(),
-                                         in.readInt(),
-                                         in.readInt(),
-                                         (int[])in.readObject(),
-                                         (int[])in.readObject());
-            break;
-        case TYPE_SINGLE_PIXEL_PACKED:
-            sampleModel = new SinglePixelPackedSampleModel(in.readInt(),
-                                                           in.readInt(),
-                                                           in.readInt(),
-                                                           in.readInt(),
-                                                           (int[])in.readObject());
-            break;
-        case TYPE_MULTI_PIXEL_PACKED:
-            sampleModel = new MultiPixelPackedSampleModel(in.readInt(),
-                                                          in.readInt(),
-                                                          in.readInt(),
-                                                          in.readInt(),
-                                                          in.readInt(),
-                                                          in.readInt());
-            break;
-        default:
-            throw new RuntimeException(JaiI18N.getString("SampleModelState0"));
+        int sampleModelType = (int) in.readInt();
+        switch (sampleModelType) {
+            case TYPE_PIXEL_INTERLEAVED:
+                sampleModel = RasterFactory.createPixelInterleavedSampleModel(
+                        in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt(), (int[]) in.readObject());
+                break;
+            case TYPE_BANDED:
+                sampleModel = RasterFactory.createBandedSampleModel(
+                        in.readInt(), in.readInt(), in.readInt(), in.readInt(), (int[]) in.readObject(), (int[])
+                                in.readObject());
+                break;
+            case TYPE_COMPONENT_JAI:
+                sampleModel = new ComponentSampleModelJAI(
+                        in.readInt(),
+                        in.readInt(),
+                        in.readInt(),
+                        in.readInt(),
+                        in.readInt(),
+                        (int[]) in.readObject(),
+                        (int[]) in.readObject());
+                break;
+            case TYPE_COMPONENT:
+                sampleModel = new ComponentSampleModel(
+                        in.readInt(),
+                        in.readInt(),
+                        in.readInt(),
+                        in.readInt(),
+                        in.readInt(),
+                        (int[]) in.readObject(),
+                        (int[]) in.readObject());
+                break;
+            case TYPE_SINGLE_PIXEL_PACKED:
+                sampleModel = new SinglePixelPackedSampleModel(
+                        in.readInt(), in.readInt(), in.readInt(), in.readInt(), (int[]) in.readObject());
+                break;
+            case TYPE_MULTI_PIXEL_PACKED:
+                sampleModel = new MultiPixelPackedSampleModel(
+                        in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt());
+                break;
+            default:
+                throw new RuntimeException(JaiI18N.getString("SampleModelState0"));
         }
         theObject = sampleModel;
     }

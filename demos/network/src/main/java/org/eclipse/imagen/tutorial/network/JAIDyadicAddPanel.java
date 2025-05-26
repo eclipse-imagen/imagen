@@ -13,25 +13,23 @@ import org.eclipse.imagen.*;
 import org.eclipse.imagen.remote.RemoteJAI;
 
 public class JAIDyadicAddPanel extends JAIDyadicPanel {
-  
-    public JAIDyadicAddPanel(JAINetworkDemo demo, 
-			     Vector sourceVec, 
-			     RemoteJAI pClient) {
+
+    public JAIDyadicAddPanel(JAINetworkDemo demo, Vector sourceVec, RemoteJAI pClient) {
         super(demo, sourceVec, pClient);
-    }  
-    
+    }
+
     public String getDemoName() {
         return "Add";
     }
-    
+
     public PlanarImage process() {
         PlanarImage im0 = getSource(0);
         PlanarImage im1 = getSource(1);
-        
+
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(im1);
-        pb.addSource(im0); 
-   
+        pb.addSource(im0);
+
         return client.create("add", pb, renderHints);
     }
 }

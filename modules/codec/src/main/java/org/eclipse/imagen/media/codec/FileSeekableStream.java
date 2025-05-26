@@ -16,21 +16,19 @@
  */
 
 package org.eclipse.imagen.media.codec;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * A subclass of <code>SeekableStream</code> that takes its input
- * from a <code>File</code> or <code>RandomAccessFile</code>.
- * Backwards seeking is supported.  The <code>mark()</code> and
- * <code>reset()</code> methods are supported.
+ * A subclass of <code>SeekableStream</code> that takes its input from a <code>File</code> or <code>RandomAccessFile
+ * </code>. Backwards seeking is supported. The <code>mark()</code> and <code>reset()</code> methods are supported.
  *
- * <p><b> This class is not a committed part of the JAI API.  It may
- * be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
  */
 public class FileSeekableStream extends SeekableStream {
-    
+
     private RandomAccessFile file;
     private long markPos = -1;
 
@@ -51,7 +49,7 @@ public class FileSeekableStream extends SeekableStream {
 
     // The page cache
     private byte[][] pageBuf = new byte[PAGE_SIZE][NUM_PAGES];
-    
+
     // The index of the file page held in a given cache entry,
     // -1 = invalid.
     private int[] currentPage = new int[NUM_PAGES];
@@ -60,10 +58,7 @@ public class FileSeekableStream extends SeekableStream {
 
     private long pointer = 0L;
 
-    /**
-     * Constructs a <code>FileSeekableStream</code> from a 
-     * <code>RandomAccessFile</code>.
-     */
+    /** Constructs a <code>FileSeekableStream</code> from a <code>RandomAccessFile</code>. */
     public FileSeekableStream(RandomAccessFile file) throws IOException {
         this.file = file;
         file.seek(0L);
@@ -76,18 +71,12 @@ public class FileSeekableStream extends SeekableStream {
         }
     }
 
-    /**
-     * Constructs a <code>FileSeekableStream</code> from a 
-     * <code>File</code>.
-     */
+    /** Constructs a <code>FileSeekableStream</code> from a <code>File</code>. */
     public FileSeekableStream(File file) throws IOException {
         this(new RandomAccessFile(file, "r"));
     }
 
-    /**
-     * Constructs a <code>FileSeekableStream</code> from a 
-     * <code>String</code> path name.
-     */
+    /** Constructs a <code>FileSeekableStream</code> from a <code>String</code> path name. */
     public FileSeekableStream(String name) throws IOException {
         this(new RandomAccessFile(name, "r"));
     }
@@ -100,9 +89,8 @@ public class FileSeekableStream extends SeekableStream {
     /**
      * Returns the current offset in this stream.
      *
-     * @return     the offset from the beginning of the stream, in bytes,
-     *             at which the next read occurs.
-     * @exception  IOException  if an I/O error occurs.
+     * @return the offset from the beginning of the stream, in bytes, at which the next read occurs.
+     * @exception IOException if an I/O error occurs.
      */
     public final long getFilePointer() throws IOException {
         return pointer;
@@ -121,7 +109,7 @@ public class FileSeekableStream extends SeekableStream {
     }
 
     private byte[] readPage(long pointer) throws IOException {
-        int page = (int)(pointer >> PAGE_SHIFT);
+        int page = (int) (pointer >> PAGE_SHIFT);
 
         for (int i = 0; i < NUM_PAGES; i++) {
             if (currentPage[i] == page) {
@@ -130,12 +118,12 @@ public class FileSeekableStream extends SeekableStream {
         }
 
         // Use random replacement for now
-        int index = (int)(Math.random()*NUM_PAGES);
+        int index = (int) (Math.random() * NUM_PAGES);
         currentPage[index] = page;
 
-        long pos = ((long)page) << PAGE_SHIFT;
+        long pos = ((long) page) << PAGE_SHIFT;
         long remaining = length - pos;
-        int len = PAGE_SIZE < remaining ? PAGE_SIZE : (int)remaining;
+        int len = PAGE_SIZE < remaining ? PAGE_SIZE : (int) remaining;
         file.seek(pos);
         file.readFully(pageBuf[index], 0, len);
 
@@ -149,7 +137,7 @@ public class FileSeekableStream extends SeekableStream {
         }
 
         byte[] buf = readPage(pointer);
-        return buf[(int)(pointer++ & PAGE_MASK)] & 0xff;
+        return buf[(int) (pointer++ & PAGE_MASK)] & 0xff;
     }
 
     /** Forwards the request to the real <code>File</code>. */
@@ -164,7 +152,7 @@ public class FileSeekableStream extends SeekableStream {
             return 0;
         }
 
-        len = (int)Math.min((long)len, length - pointer);
+        len = (int) Math.min((long) len, length - pointer);
         if (len <= 0) {
             return -1;
         }
@@ -177,12 +165,12 @@ public class FileSeekableStream extends SeekableStream {
             return nbytes;
         } else {
             byte[] buf = readPage(pointer);
-        
+
             // Compute length to end of page
-            int remaining = PAGE_SIZE - (int)(pointer & PAGE_MASK);
+            int remaining = PAGE_SIZE - (int) (pointer & PAGE_MASK);
             int newLen = len < remaining ? len : remaining;
-            System.arraycopy(buf, (int)(pointer & PAGE_MASK), b, off, newLen);
-            
+            System.arraycopy(buf, (int) (pointer & PAGE_MASK), b, off, newLen);
+
             pointer += newLen;
             return newLen;
         }
@@ -193,20 +181,16 @@ public class FileSeekableStream extends SeekableStream {
         file.close();
     }
 
-    /**
-     * Marks the current file position for later return using
-     * the <code>reset()</code> method.
-     */
-    public synchronized final void mark(int readLimit) {
+    /** Marks the current file position for later return using the <code>reset()</code> method. */
+    public final synchronized void mark(int readLimit) {
         markPos = pointer;
     }
 
     /**
-     * Returns the file position to its position at the time of
-     * the immediately previous call to the <code>mark()</code>
+     * Returns the file position to its position at the time of the immediately previous call to the <code>mark()</code>
      * method.
      */
-    public synchronized final void reset() throws IOException {
+    public final synchronized void reset() throws IOException {
         if (markPos != -1) {
             pointer = markPos;
         }

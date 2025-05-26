@@ -16,47 +16,43 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.registry.RIFRegistry;
-import org.eclipse.imagen.util.ImagingListener;
+import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.SeekableStream;
 import org.eclipse.imagen.media.util.ImageUtil;
+import org.eclipse.imagen.registry.RIFRegistry;
+import org.eclipse.imagen.util.ImagingListener;
 
 /**
  * @see org.eclipse.imagen.operator.URLDescriptor
- *
  * @since EA4
- *
  */
 public class URLRIF implements RenderedImageFactory {
 
     /** Constructor. */
     public URLRIF() {}
 
-    /**
-     * Creates an image from a URL.
-     */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    /** Creates an image from a URL. */
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         try {
             // Create a SeekableStream from the URL (first parameter).
-            URL url = (URL)paramBlock.getObjectParameter(0);
+            URL url = (URL) paramBlock.getObjectParameter(0);
             InputStream stream = url.openStream();
             SeekableStream src = SeekableStream.wrapInputStream(stream, true);
 
             ImageDecodeParam param = null;
             if (paramBlock.getNumParameters() > 1) {
-                param = (ImageDecodeParam)paramBlock.getObjectParameter(1);
+                param = (ImageDecodeParam) paramBlock.getObjectParameter(1);
             }
 
             ParameterBlock newParamBlock = new ParameterBlock();
@@ -73,21 +69,18 @@ public class URLRIF implements RenderedImageFactory {
 
             // Get the registry from the hints, if any.
             // Don't check for null hints as it cannot be null here.
-            OperationRegistry registry =
-                (OperationRegistry)renderHints.get(JAI.KEY_OPERATION_REGISTRY);
+            OperationRegistry registry = (OperationRegistry) renderHints.get(JAI.KEY_OPERATION_REGISTRY);
 
             // Create the image using the most preferred RIF for "stream".
-            RenderedImage image =
-                RIFRegistry.create(registry, "stream", newParamBlock, renderHints);
+            RenderedImage image = RIFRegistry.create(registry, "stream", newParamBlock, renderHints);
 
             // NB: StreamImage is defined in FileLoadRIF.java.
             return image == null ? null : new StreamImage(image, src);
         } catch (IOException e) {
-            ImagingListener listener =
-                ImageUtil.getImagingListener(renderHints);
+            ImagingListener listener = ImageUtil.getImagingListener(renderHints);
             String message = JaiI18N.getString("URLRIF0");
             listener.errorOccurred(message, e, this, false);
-//            e.printStackTrace();
+            //            e.printStackTrace();
             return null;
         }
     }

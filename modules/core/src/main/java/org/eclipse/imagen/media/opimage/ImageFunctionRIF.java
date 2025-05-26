@@ -16,17 +16,16 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderedImageFactory;
 import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ImageFunction;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>RIF</code> supporting the "ImageFunction" operation in the rendered
- * image layer.
+ * A <code>RIF</code> supporting the "ImageFunction" operation in the rendered image layer.
  *
  * @see org.eclipse.imagen.operator.ImageFunctionDescriptor
  * @see org.eclipse.imagen.ImageFunction
@@ -38,28 +37,23 @@ public class ImageFunctionRIF implements RenderedImageFactory {
     public ImageFunctionRIF() {}
 
     /**
-     * Creates a new instance of ImageFunctionOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Creates a new instance of ImageFunctionOpImage in the rendered layer. This method satisfies the implementation of
+     * RIF.
      *
-     * @param paramBlock  The source image, the X and Y scale factor,
-     *                    and the interpolation method for resampling.
+     * @param paramBlock The source image, the X and Y scale factor, and the interpolation method for resampling.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
-        ImageFunction function =
-            (ImageFunction)paramBlock.getObjectParameter(0);
+        ImageFunction function = (ImageFunction) paramBlock.getObjectParameter(0);
 
         // Ascertain that a supplied SampleModel has the requisite
         // number of bands vis-a-vis the ImageFunction.
-        int numBandsRequired = function.isComplex() ?
-            function.getNumElements() * 2 : function.getNumElements();
-        if(layout != null &&
-           layout.isValid(ImageLayout.SAMPLE_MODEL_MASK) &&
-           layout.getSampleModel(null).getNumBands() != numBandsRequired ) {
+        int numBandsRequired = function.isComplex() ? function.getNumElements() * 2 : function.getNumElements();
+        if (layout != null
+                && layout.isValid(ImageLayout.SAMPLE_MODEL_MASK)
+                && layout.getSampleModel(null).getNumBands() != numBandsRequired) {
             throw new RuntimeException(JaiI18N.getString("ImageFunctionRIF0"));
         }
 
@@ -81,11 +75,7 @@ public class ImageFunctionRIF implements RenderedImageFactory {
         float xTrans = paramBlock.getFloatParameter(5);
         float yTrans = paramBlock.getFloatParameter(6);
 
-        return new ImageFunctionOpImage(function,
-                                        minX, minY,
-                                        width, height,
-                                        xScale, yScale,
-                                        xTrans, yTrans,
-                                        renderHints, layout);
+        return new ImageFunctionOpImage(
+                function, minX, minY, width, height, xScale, yScale, xTrans, yTrans, renderHints, layout);
     }
 }

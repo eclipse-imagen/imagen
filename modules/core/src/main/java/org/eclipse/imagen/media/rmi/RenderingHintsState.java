@@ -36,64 +36,58 @@ import org.eclipse.imagen.remote.SerializableState;
 import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
- * This class is a serializable proxy for a RenderingHints object from which
- * the RenderingHints object may be reconstituted.
- *
+ * This class is a serializable proxy for a RenderingHints object from which the RenderingHints object may be
+ * reconstituted.
  *
  * @since 1.1
  */
 public class RenderingHintsState extends SerializableStateImpl {
-    /** 
-     * Returns the classes supported by this SerializableState.
-     */
+    /** Returns the classes supported by this SerializableState. */
     public static Class[] getSupportedClasses() {
-            return new Class[] {RenderingHints.class};
+        return new Class[] {RenderingHints.class};
     }
 
     /**
-     * The classes wherein all possible relevant public static
-     * RenderingHints.Key objects are defined. Classes which contain
-     * declarations of such keys should be added to this array.
+     * The classes wherein all possible relevant public static RenderingHints.Key objects are defined. Classes which
+     * contain declarations of such keys should be added to this array.
      */
-    private static final Class[] KEY_CLASSES = {RenderingHints.class,
-                                                JAI.class};
+    private static final Class[] KEY_CLASSES = {RenderingHints.class, JAI.class};
 
     /**
-     * Instances of keys which should not be serialized. Objects which
-     * represent such keys should be added to this array. Presumably such
-     * objects would be static and final members of one of the classes
-     * in the KEY_CLASSES array.
+     * Instances of keys which should not be serialized. Objects which represent such keys should be added to this
+     * array. Presumably such objects would be static and final members of one of the classes in the KEY_CLASSES array.
      */
-    private static final Object[] SUPPRESSED_KEYS = {JAI.KEY_OPERATION_REGISTRY,
-						     JAI.KEY_TILE_CACHE,
-						     JAI.KEY_RETRY_INTERVAL,
-						     JAI.KEY_NUM_RETRIES,
-                                                     JAI.KEY_NEGOTIATION_PREFERENCES}; 
+    private static final Object[] SUPPRESSED_KEYS = {
+        JAI.KEY_OPERATION_REGISTRY,
+        JAI.KEY_TILE_CACHE,
+        JAI.KEY_RETRY_INTERVAL,
+        JAI.KEY_NUM_RETRIES,
+        JAI.KEY_NEGOTIATION_PREFERENCES
+    };
 
     /** A SoftReference to a Vector of keys which are to be suppressed. */
     private static SoftReference suppressedKeyReference = null;
 
     /**
-     * A SoftReference to a Hashtable containing serializable versions of
-     * all public static fields in the classes in the KEY_CLASSES array.
+     * A SoftReference to a Hashtable containing serializable versions of all public static fields in the classes in the
+     * KEY_CLASSES array.
      */
     private static SoftReference hintTableReference = null;
 
     /**
-      * Constructs a <code>RenderingHintsState</code> from a
-      * <code>RenderingHints</code> object.
-      *
-      * @param source The <code>RenderingHints</code> object to be serialized.
-      */
+     * Constructs a <code>RenderingHintsState</code> from a <code>RenderingHints</code> object.
+     *
+     * @param source The <code>RenderingHints</code> object to be serialized.
+     */
     public RenderingHintsState(Class c, Object o, RenderingHints h) {
         super(c, o, h);
     }
 
-    /** An inner class representing either a hint key or a hint value. For a
-     * hint key, the name of the class which contains the declaration of this
-     * key and the field name of this declaration are recorded. For a value, if
-     * it is serializable, the object is recorded. Otherwise, if it is
-     * predefined, the class name and the field name are recorded.
+    /**
+     * An inner class representing either a hint key or a hint value. For a hint key, the name of the class which
+     * contains the declaration of this key and the field name of this declaration are recorded. For a value, if it is
+     * serializable, the object is recorded. Otherwise, if it is predefined, the class name and the field name are
+     * recorded.
      */
     static class HintElement implements Serializable {
         /** The class represents a serializable object. */
@@ -156,8 +150,7 @@ public class RenderingHintsState extends SerializableStateImpl {
 
         if (SUPPRESSED_KEYS != null) {
             // Initialize the Vector to the SoftReference's referent or null.
-            suppressedKeys = suppressedKeyReference != null ?
-                (Vector)suppressedKeyReference.get() : null;
+            suppressedKeys = suppressedKeyReference != null ? (Vector) suppressedKeyReference.get() : null;
 
             if (suppressedKeys == null) {
                 // Cache the number of suppressed keys.
@@ -177,14 +170,10 @@ public class RenderingHintsState extends SerializableStateImpl {
         return suppressedKeys;
     }
 
-    /**
-     * Returns a Hashtable wherein the keys are instances of
-     * RenderingHints.Key and the values are HintElements.
-     */
+    /** Returns a Hashtable wherein the keys are instances of RenderingHints.Key and the values are HintElements. */
     static synchronized Hashtable getHintTable() {
         // Initialize the table to the SoftReference's referent or null.
-        Hashtable table = hintTableReference != null ?
-            (Hashtable)hintTableReference.get() : null;
+        Hashtable table = hintTableReference != null ? (Hashtable) hintTableReference.get() : null;
 
         if (table == null) {
             // Allocate a table for the field values.
@@ -202,12 +191,10 @@ public class RenderingHintsState extends SerializableStateImpl {
                 for (int j = 0; j < fields.length; j++) {
                     Field fld = fields[j];
                     int modifiers = fld.getModifiers();
-                    if (Modifier.isPublic(modifiers) &&
-                       Modifier.isStatic(modifiers)) {
+                    if (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)) {
                         try {
                             Object fieldValue = fld.get(null);
-                            table.put(fieldValue,
-                                      new HintElement(cls, fld));
+                            table.put(fieldValue, new HintElement(cls, fld));
                         } catch (Exception e) {
                             // Ignore exception.
                         }
@@ -229,12 +216,10 @@ public class RenderingHintsState extends SerializableStateImpl {
      * classes.
      */
 
-    /**
-     * Serialize the RenderingHintsState.
-     */
+    /** Serialize the RenderingHintsState. */
     private void writeObject(ObjectOutputStream out) throws IOException {
         // -- Create a serializable form of the RenderingHints object. --
-	RenderingHints hints = (RenderingHints)theObject;
+        RenderingHints hints = (RenderingHints) theObject;
 
         // Create an empty Hashtable.
         Hashtable table = new Hashtable();
@@ -261,8 +246,7 @@ public class RenderingHintsState extends SerializableStateImpl {
                     Object key = keyIterator.next();
 
                     // Skip this element if the key is suppressed.
-                    if (suppressedKeys != null &&
-                        suppressedKeys.indexOf(key) != -1) {
+                    if (suppressedKeys != null && suppressedKeys.indexOf(key) != -1) {
                         continue;
                     }
 
@@ -287,7 +271,7 @@ public class RenderingHintsState extends SerializableStateImpl {
                         // The value is not serializable so try to get a
                         // HintElement from the table in case the value is
                         // a public static field in one of the KEY_CLASSES.
-                        valueElement = (HintElement)hintTable.get(value);
+                        valueElement = (HintElement) hintTable.get(value);
                     }
 
                     // If the value element is valid add it and its key.
@@ -302,18 +286,15 @@ public class RenderingHintsState extends SerializableStateImpl {
         out.writeObject(table);
     }
 
-    /**
-     * Deserialize the RenderingHintsState.
-     */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    /** Deserialize the RenderingHintsState. */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read serialized form from the stream.
-        Hashtable table = (Hashtable)in.readObject();
+        Hashtable table = (Hashtable) in.readObject();
 
         // Create an empty RenderingHints object.
         RenderingHints hints = new RenderingHints(null);
 
-	theObject = hints;
+        theObject = hints;
 
         // If the table is empty just return.
         if (table.isEmpty()) {
@@ -328,13 +309,13 @@ public class RenderingHintsState extends SerializableStateImpl {
         // Loop over the table keys.
         while (keys.hasMoreElements()) {
             // Get the next key element.
-            SerializableState keyElement = (SerializableState)keys.nextElement();
+            SerializableState keyElement = (SerializableState) keys.nextElement();
 
             // Get the key object corresponding to this key element.
             Object key = keyElement.getObject();
 
             // Get the value element.
-            HintElement valueElement = (HintElement)table.get(keyElement);
+            HintElement valueElement = (HintElement) table.get(keyElement);
 
             // Get the value object corresponding to this value element.
             Object value = valueElement.getObject();

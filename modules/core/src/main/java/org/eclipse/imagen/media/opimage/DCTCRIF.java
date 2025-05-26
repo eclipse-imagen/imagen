@@ -16,21 +16,18 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * A <code>CRIF</code> supporting the "DCT" operation in the rendered
- * image layer.
+ * A <code>CRIF</code> supporting the "DCT" operation in the rendered image layer.
  *
  * @since Beta
  * @see org.eclipse.imagen.operator.DCTDescriptor
- *
  */
 public class DCTCRIF extends CRIFImpl {
 
@@ -44,11 +41,9 @@ public class DCTCRIF extends CRIFImpl {
      *
      * @param paramBlock The scaling type.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         RenderedImage source = paramBlock.getRenderedSource(0);
 

@@ -16,43 +16,36 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Image;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.ListIterator;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PixelAccessor;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.StatisticsOpImage;
 import org.eclipse.imagen.UnpackedImageData;
 
 /**
- * An <code>OpImage</code> implementing the "Mean" operation as
- * described in <code>org.eclipse.imagen.operator.MeanDescriptor</code>.
+ * An <code>OpImage</code> implementing the "Mean" operation as described in <code>
+ * org.eclipse.imagen.operator.MeanDescriptor</code>.
  *
  * @since EA2
  * @see org.eclipse.imagen.operator.MeanDescriptor
  * @see MeanCRIF
- *
  */
 public class MeanOpImage extends StatisticsOpImage {
 
     private boolean isInitialized = false;
 
     /**
-     * Note: For very large images, these two variables may be overflowed.
-     * An alternative would be to have a set for each tile. But then, the
-     * user could specify very large tile size.
+     * Note: For very large images, these two variables may be overflowed. An alternative would be to have a set for
+     * each tile. But then, the user could specify very large tile size.
      */
     private double[] totalPixelValue;
+
     private int totalPixelCount;
 
     private PixelAccessor srcPA;
@@ -60,25 +53,19 @@ public class MeanOpImage extends StatisticsOpImage {
     private int srcSampleType;
 
     private final boolean tileIntersectsROI(int tileX, int tileY) {
-        if (roi == null) {	// ROI is entire tile
+        if (roi == null) { // ROI is entire tile
             return true;
         } else {
-            return roi.intersects(tileXToX(tileX), tileYToY(tileY),
-                                  tileWidth, tileHeight);
+            return roi.intersects(tileXToX(tileX), tileYToY(tileY), tileWidth, tileHeight);
         }
     }
 
     /**
      * Constructs an <code>MeanOpImage</code>.
      *
-     * @param source  The source image.
+     * @param source The source image.
      */
-    public MeanOpImage(RenderedImage source,
-                       ROI roi,
-                       int xStart,
-                       int yStart,
-                       int xPeriod,
-                       int yPeriod) {
+    public MeanOpImage(RenderedImage source, ROI roi, int xStart, int yStart, int xPeriod, int yPeriod) {
         super(source, roi, xStart, yStart, xPeriod, yPeriod);
     }
 
@@ -106,31 +93,24 @@ public class MeanOpImage extends StatisticsOpImage {
         }
     }
 
-    protected void accumulateStatistics(String name,
-                                        Raster source,
-                                        Object stats) {
-        if(!isInitialized) {
+    protected void accumulateStatistics(String name, Raster source, Object stats) {
+        if (!isInitialized) {
             srcPA = new PixelAccessor(getSourceImage(0));
-            srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ?
-                DataBuffer.TYPE_BYTE : srcPA.sampleType;
+            srcSampleType = srcPA.sampleType == PixelAccessor.TYPE_BIT ? DataBuffer.TYPE_BYTE : srcPA.sampleType;
 
             totalPixelValue = new double[srcPA.numBands];
             totalPixelCount = 0;
             isInitialized = true;
         }
 
-        Rectangle srcBounds = getSourceImage(0).getBounds().intersection(
-                                                  source.getBounds());
+        Rectangle srcBounds = getSourceImage(0).getBounds().intersection(source.getBounds());
 
         LinkedList rectList;
-        if (roi == null) {	// ROI is the whole Raster
+        if (roi == null) { // ROI is the whole Raster
             rectList = new LinkedList();
             rectList.addLast(srcBounds);
         } else {
-            rectList = roi.getAsRectangleList(srcBounds.x,
-                                              srcBounds.y,
-                                              srcBounds.width,
-                                              srcBounds.height);
+            rectList = roi.getAsRectangleList(srcBounds.x, srcBounds.y, srcBounds.width, srcBounds.height);
             if (rectList == null) {
                 return; // ROI does not intersect with Raster boundary.
             }
@@ -138,7 +118,7 @@ public class MeanOpImage extends StatisticsOpImage {
         ListIterator iterator = rectList.listIterator(0);
 
         while (iterator.hasNext()) {
-            Rectangle rect = srcBounds.intersection((Rectangle)iterator.next());
+            Rectangle rect = srcBounds.intersection((Rectangle) iterator.next());
             int tx = rect.x;
             int ty = rect.y;
 
@@ -149,42 +129,40 @@ public class MeanOpImage extends StatisticsOpImage {
             rect.height = ty + rect.height - rect.y;
 
             if (rect.isEmpty()) {
-                continue;	// no pixel to count in this rectangle
+                continue; // no pixel to count in this rectangle
             }
 
-            UnpackedImageData uid = srcPA.getPixels(source, rect,
-                                                    srcSampleType, false);
+            UnpackedImageData uid = srcPA.getPixels(source, rect, srcSampleType, false);
 
             switch (uid.type) {
-            case DataBuffer.TYPE_BYTE:
-                accumulateStatisticsByte(uid);
-                break;
-            case DataBuffer.TYPE_USHORT:
-                accumulateStatisticsUShort(uid);
-                break;
-            case DataBuffer.TYPE_SHORT:
-                accumulateStatisticsShort(uid);
-                break;
-            case DataBuffer.TYPE_INT:
-                accumulateStatisticsInt(uid);
-                break;
-            case DataBuffer.TYPE_FLOAT:
-                accumulateStatisticsFloat(uid);
-                break;
-            case DataBuffer.TYPE_DOUBLE:
-                accumulateStatisticsDouble(uid);
-                break;
+                case DataBuffer.TYPE_BYTE:
+                    accumulateStatisticsByte(uid);
+                    break;
+                case DataBuffer.TYPE_USHORT:
+                    accumulateStatisticsUShort(uid);
+                    break;
+                case DataBuffer.TYPE_SHORT:
+                    accumulateStatisticsShort(uid);
+                    break;
+                case DataBuffer.TYPE_INT:
+                    accumulateStatisticsInt(uid);
+                    break;
+                case DataBuffer.TYPE_FLOAT:
+                    accumulateStatisticsFloat(uid);
+                    break;
+                case DataBuffer.TYPE_DOUBLE:
+                    accumulateStatisticsDouble(uid);
+                    break;
             }
         }
 
-        if(name.equalsIgnoreCase("mean")) {
+        if (name.equalsIgnoreCase("mean")) {
             // This is a totally disgusting hack but no worse than the
             // code was before ... bpb 1 September 2000
-            double[] mean = (double[])stats;
+            double[] mean = (double[]) stats;
             if (totalPixelCount != 0) {
                 for (int i = 0; i < srcPA.numBands; i++) {
-                    mean[i] = totalPixelValue[i] /
-                        (double)totalPixelCount;
+                    mean[i] = totalPixelValue[i] / (double) totalPixelCount;
                 }
             }
         }
@@ -211,8 +189,8 @@ public class MeanOpImage extends StatisticsOpImage {
                 }
             }
         }
-        totalPixelCount += (int)Math.ceil((double)rect.height / yPeriod) *
-                           (int)Math.ceil((double)rect.width / xPeriod);
+        totalPixelCount +=
+                (int) Math.ceil((double) rect.height / yPeriod) * (int) Math.ceil((double) rect.width / xPeriod);
     }
 
     private void accumulateStatisticsUShort(UnpackedImageData uid) {
@@ -236,8 +214,8 @@ public class MeanOpImage extends StatisticsOpImage {
                 }
             }
         }
-        totalPixelCount += (int)Math.ceil((double)rect.height / yPeriod) *
-                           (int)Math.ceil((double)rect.width / xPeriod);
+        totalPixelCount +=
+                (int) Math.ceil((double) rect.height / yPeriod) * (int) Math.ceil((double) rect.width / xPeriod);
     }
 
     private void accumulateStatisticsShort(UnpackedImageData uid) {
@@ -261,8 +239,8 @@ public class MeanOpImage extends StatisticsOpImage {
                 }
             }
         }
-        totalPixelCount += (int)Math.ceil((double)rect.height / yPeriod) *
-                           (int)Math.ceil((double)rect.width / xPeriod);
+        totalPixelCount +=
+                (int) Math.ceil((double) rect.height / yPeriod) * (int) Math.ceil((double) rect.width / xPeriod);
     }
 
     private void accumulateStatisticsInt(UnpackedImageData uid) {
@@ -286,8 +264,8 @@ public class MeanOpImage extends StatisticsOpImage {
                 }
             }
         }
-        totalPixelCount += (int)Math.ceil((double)rect.height / yPeriod) *
-                           (int)Math.ceil((double)rect.width / xPeriod);
+        totalPixelCount +=
+                (int) Math.ceil((double) rect.height / yPeriod) * (int) Math.ceil((double) rect.width / xPeriod);
     }
 
     private void accumulateStatisticsFloat(UnpackedImageData uid) {
@@ -311,8 +289,8 @@ public class MeanOpImage extends StatisticsOpImage {
                 }
             }
         }
-        totalPixelCount += (int)Math.ceil((double)rect.height / yPeriod) *
-                           (int)Math.ceil((double)rect.width / xPeriod);
+        totalPixelCount +=
+                (int) Math.ceil((double) rect.height / yPeriod) * (int) Math.ceil((double) rect.width / xPeriod);
     }
 
     private void accumulateStatisticsDouble(UnpackedImageData uid) {
@@ -336,7 +314,7 @@ public class MeanOpImage extends StatisticsOpImage {
                 }
             }
         }
-        totalPixelCount += (int)Math.ceil((double)rect.height / yPeriod) *
-                           (int)Math.ceil((double)rect.width / xPeriod);
+        totalPixelCount +=
+                (int) Math.ceil((double) rect.height / yPeriod) * (int) Math.ceil((double) rect.width / xPeriod);
     }
 }

@@ -16,7 +16,6 @@
  */
 
 package org.eclipse.imagen.media.util;
-import org.eclipse.imagen.media.util.PropertyUtil;
 
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.util";

@@ -16,25 +16,22 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
-import java.awt.image.renderable.ParameterBlock;
+import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
 
-/**
- * An OpImage subclass that performs bicubic2 Affine mapping
- */
+/** An OpImage subclass that performs bicubic2 Affine mapping */
 final class AffineBicubic2OpImage extends AffineOpImage {
 
     /* The number of subsampleBits */
@@ -46,42 +43,33 @@ final class AffineBicubic2OpImage extends AffineOpImage {
      *
      * @param source a RenderedImage.
      * @param extender a BorderExtender, or null.
-     * @param layout an ImageLayout optionally containing the tile grid layout,
-     *        SampleModel, and ColorModel, or null.
+     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param interp an Interpolation object to use for resampling
      * @param transform the desired AffineTransform.
      */
-    public AffineBicubic2OpImage(RenderedImage source,
-                                 BorderExtender extender,
-                                 Map config,
-                                 ImageLayout layout,
-                                 AffineTransform transform,
-                                 Interpolation interp,
-                                 double[] backgroundValues) {
-        super(source,
-              extender,
-              config,
-              layout,
-              transform,
-              interp,
-              backgroundValues);
+    public AffineBicubic2OpImage(
+            RenderedImage source,
+            BorderExtender extender,
+            Map config,
+            ImageLayout layout,
+            AffineTransform transform,
+            Interpolation interp,
+            double[] backgroundValues) {
+        super(source, extender, config, layout, transform, interp, backgroundValues);
 
         subsampleBits = interp.getSubsampleBitsH();
         shiftvalue = 1 << subsampleBits;
     }
 
     /**
-     * Performs an affine transform on a specified rectangle. The sources are
-     * cobbled.
+     * Performs an affine transform on a specified rectangle. The sources are cobbled.
      *
-     * @param sources an array of source Rasters, guaranteed to provide all
-     *                necessary source data for computing the output.
+     * @param sources an array of source Rasters, guaranteed to provide all necessary source data for computing the
+     *     output.
      * @param dest a WritableRaster tile containing the area to be computed.
      * @param destRect the rectangle within dest to be processed.
      */
-    protected void computeRect(Raster [] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
@@ -99,66 +87,35 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         //
         // See if we can cache the source to avoid multiple rasteraccesors
         //
-        RasterAccessor srcAccessor =
-            new RasterAccessor(source,
-                               srcRect,
-                               formatTags[0],
-                               getSourceImage(0).getColorModel());
-        RasterAccessor dstAccessor =
-            new RasterAccessor(dest,
-                               destRect,
-                               formatTags[1],
-                               getColorModel());
+        RasterAccessor srcAccessor = new RasterAccessor(
+                source, srcRect, formatTags[0], getSourceImage(0).getColorModel());
+        RasterAccessor dstAccessor = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
 
         switch (dstAccessor.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            byteLoop(srcAccessor,
-                     destRect,
-                     srcRectX,
-                     srcRectY,
-                     dstAccessor);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                byteLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_INT:
-            intLoop(srcAccessor,
-                    destRect,
-                    srcRectX,
-                    srcRectY,
-                    dstAccessor);
-            break;
+            case DataBuffer.TYPE_INT:
+                intLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_SHORT:
-            shortLoop(srcAccessor,
-                      destRect,
-                      srcRectX,
-                      srcRectY,
-                      dstAccessor);
-            break;
+            case DataBuffer.TYPE_SHORT:
+                shortLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_USHORT:
-            ushortLoop(srcAccessor,
-                       destRect,
-                       srcRectX,
-                       srcRectY,
-                       dstAccessor);
-	    break;
+            case DataBuffer.TYPE_USHORT:
+                ushortLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_FLOAT:
-            floatLoop(srcAccessor,
-                      destRect,
-                      srcRectX,
-                      srcRectY,
-                      dstAccessor);
-	    break;
+            case DataBuffer.TYPE_FLOAT:
+                floatLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
 
-        case DataBuffer.TYPE_DOUBLE:
-            doubleLoop(srcAccessor,
-                       destRect,
-                       srcRectX,
-                       srcRectY,
-                       dstAccessor);
-	    break;
-	}
+            case DataBuffer.TYPE_DOUBLE:
+                doubleLoop(srcAccessor, destRect, srcRectX, srcRectY, dstAccessor);
+                break;
+        }
 
         // If the RasterAccessor object set up a temporary buffer for the
         // op to write to, tell the RasterAccessor to write that data
@@ -169,11 +126,7 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         }
     }
 
-    private void byteLoop(RasterAccessor src,
-                          Rectangle destRect,
-                          int srcRectX,
-                          int srcRectY,
-                          RasterAccessor dst) {
+    private void byteLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -230,16 +183,14 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         int dst_max_y = destRect.y + destRect.height;
 
         byte[] backgroundByte = new byte[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundByte[i] = (byte)backgroundValues[i];
+        for (int i = 0; i < dst_num_bands; i++) backgroundByte[i] = (byte) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -292,11 +243,11 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                 // Check against the source rectangle
                 //
 
-                if ((s_ix >= src_rect_x1 + 1) &&
-                    (s_ix < (src_rect_x2 - 2)) &&
-                    (s_iy >= (src_rect_y1 + 1)) &&
-                    (s_iy < (src_rect_y2 - 2))) {
-                    for (int k2=0; k2 < dst_num_bands; k2++) {
+                if ((s_ix >= src_rect_x1 + 1)
+                        && (s_ix < (src_rect_x2 - 2))
+                        && (s_iy >= (src_rect_y1 + 1))
+                        && (s_iy < (src_rect_y2 - 2))) {
+                    for (int k2 = 0; k2 < dst_num_bands; k2++) {
                         //
                         // Get the pixels
                         //
@@ -332,16 +283,13 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         // For example s0_ here is actually s_0 in the
                         // Interpolation class
 
-                        s = interp.interpolate(s__, s0_, s1_, s2_,
-                                               s_0, s00, s10, s20,
-                                               s_1, s01, s11, s21,
-                                               s_2, s02, s12, s22,
-                                               xfrac, yfrac);
-
+                        s = interp.interpolate(
+                                s__, s0_, s1_, s2_, s_0, s00, s10, s20, s_1, s01, s11, s21, s_2, s02, s12, s22, xfrac,
+                                yfrac);
 
                         // Round
                         if (s < 0.5F) {
-                           result = 0;
+                            result = 0;
                         } else if (s > 254.5F) {
                             result = 255;
                         } else {
@@ -349,15 +297,12 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k2]
-                            [dstPixelOffset+dstBandOffsets[k2]] =
-                            (byte) (result & 0xff);
+                        dstDataArrays[k2][dstPixelOffset + dstBandOffsets[k2]] = (byte) (result & 0xff);
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundByte[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundByte[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -419,14 +364,9 @@ final class AffineBicubic2OpImage extends AffineOpImage {
 
             dstOffset += dstScanlineStride;
         }
-
     }
 
-    private void intLoop(RasterAccessor src,
-                         Rectangle destRect,
-                         int srcRectX,
-                         int srcRectY,
-                         RasterAccessor dst) {
+    private void intLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -482,17 +422,15 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	int[] backgroundInt = new int[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundInt[i] = (int)backgroundValues[i];
+        int[] backgroundInt = new int[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundInt[i] = (int) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -544,11 +482,11 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + 1)) &&
-                    (s_ix < (src_rect_x2 - 2)) &&
-                    (s_iy >= (src_rect_y1 + 1)) &&
-                    (s_iy < (src_rect_y2 - 2))) {
-                    for (int k2=0; k2 < dst_num_bands; k2++) {
+                if ((s_ix >= (src_rect_x1 + 1))
+                        && (s_ix < (src_rect_x2 - 2))
+                        && (s_iy >= (src_rect_y1 + 1))
+                        && (s_iy < (src_rect_y2 - 2))) {
+                    for (int k2 = 0; k2 < dst_num_bands; k2++) {
                         //
                         // Get the pixels
                         //
@@ -584,16 +522,14 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         // For example s0_ here is actually s_0 in the
                         // Interpolation class
 
-                        s = interp.interpolate(s__, s0_, s1_, s2_,
-                                               s_0, s00, s10, s20,
-                                               s_1, s01, s11, s21,
-                                               s_2, s02, s12, s22,
-                                               xfrac, yfrac);
+                        s = interp.interpolate(
+                                s__, s0_, s1_, s2_, s_0, s00, s10, s20, s_1, s01, s11, s21, s_2, s02, s12, s22, xfrac,
+                                yfrac);
 
                         // Round the result
-                        if (s < (float)(Integer.MIN_VALUE)) {
-                           result = Integer.MIN_VALUE;
-                        } else if (s > (float)(Integer.MAX_VALUE)) {
+                        if (s < (float) (Integer.MIN_VALUE)) {
+                            result = Integer.MIN_VALUE;
+                        } else if (s > (float) (Integer.MAX_VALUE)) {
                             result = Integer.MAX_VALUE;
                         } else if (s > 0.0) {
                             result = (int) (s + 0.5F);
@@ -602,14 +538,12 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k2]
-                            [dstPixelOffset+dstBandOffsets[k2]] = result;
+                        dstDataArrays[k2][dstPixelOffset + dstBandOffsets[k2]] = result;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundInt[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundInt[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -673,11 +607,7 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         }
     }
 
-    private void shortLoop(RasterAccessor src,
-                           Rectangle destRect,
-                           int srcRectX,
-                           int srcRectY,
-                           RasterAccessor dst) {
+    private void shortLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -734,18 +664,16 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	short[] backgroundShort = new short[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundShort[i] = (short)backgroundValues[i];
+        short[] backgroundShort = new short[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundShort[i] = (short) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
 
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -797,11 +725,11 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + 1)) &&
-                    (s_ix < (src_rect_x2 - 2)) &&
-                    (s_iy >= (src_rect_y1 + 1)) &&
-                    (s_iy < (src_rect_y2 - 2))) {
-                    for (int k2=0; k2 < dst_num_bands; k2++) {
+                if ((s_ix >= (src_rect_x1 + 1))
+                        && (s_ix < (src_rect_x2 - 2))
+                        && (s_iy >= (src_rect_y1 + 1))
+                        && (s_iy < (src_rect_y2 - 2))) {
+                    for (int k2 = 0; k2 < dst_num_bands; k2++) {
                         //
                         // Get the pixels
                         //
@@ -837,16 +765,14 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         // For example s0_ here is actually s_0 in the
                         // Interpolation class
 
-                        s = interp.interpolate(s__, s0_, s1_, s2_,
-                                               s_0, s00, s10, s20,
-                                               s_1, s01, s11, s21,
-                                               s_2, s02, s12, s22,
-                                               xfrac, yfrac);
+                        s = interp.interpolate(
+                                s__, s0_, s1_, s2_, s_0, s00, s10, s20, s_1, s01, s11, s21, s_2, s02, s12, s22, xfrac,
+                                yfrac);
 
                         // Round the result
-                        if (s < (float)Short.MIN_VALUE) {
-                           result = Short.MIN_VALUE;
-                        } else if (s > (float)Short.MAX_VALUE) {
+                        if (s < (float) Short.MIN_VALUE) {
+                            result = Short.MIN_VALUE;
+                        } else if (s > (float) Short.MAX_VALUE) {
                             result = Short.MAX_VALUE;
                         } else if (s > 0.0) {
                             result = (short) (s + 0.5F);
@@ -855,14 +781,12 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k2]
-                            [dstPixelOffset+dstBandOffsets[k2]] = result;
+                        dstDataArrays[k2][dstPixelOffset + dstBandOffsets[k2]] = result;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundShort[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundShort[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -926,11 +850,7 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         }
     }
 
-    private void ushortLoop(RasterAccessor src,
-                            Rectangle destRect,
-                            int srcRectX,
-                            int srcRectY,
-                            RasterAccessor dst) {
+    private void ushortLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -987,17 +907,15 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	short[] backgroundUShort = new short[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundUShort[i] = (short)backgroundValues[i];
+        short[] backgroundUShort = new short[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundUShort[i] = (short) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -1049,11 +967,11 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + 1)) &&
-                    (s_ix < (src_rect_x2 - 2)) &&
-                    (s_iy >= (src_rect_y1 + 1)) &&
-                    (s_iy < (src_rect_y2 - 2))) {
-                    for (int k2=0; k2 < dst_num_bands; k2++) {
+                if ((s_ix >= (src_rect_x1 + 1))
+                        && (s_ix < (src_rect_x2 - 2))
+                        && (s_iy >= (src_rect_y1 + 1))
+                        && (s_iy < (src_rect_y2 - 2))) {
+                    for (int k2 = 0; k2 < dst_num_bands; k2++) {
                         //
                         // Get the pixels
                         //
@@ -1090,15 +1008,13 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         // For example s0_ here is actually s_0 in the
                         // Interpolation class
 
-                        s = interp.interpolate(s__, s0_, s1_, s2_,
-                                               s_0, s00, s10, s20,
-                                               s_1, s01, s11, s21,
-                                               s_2, s02, s12, s22,
-                                               xfrac, yfrac);
+                        s = interp.interpolate(
+                                s__, s0_, s1_, s2_, s_0, s00, s10, s20, s_1, s01, s11, s21, s_2, s02, s12, s22, xfrac,
+                                yfrac);
 
                         // Round
                         if (s < 0.0) {
-                           result = 0;
+                            result = 0;
                         } else if (s > (float) USHORT_MAX) {
                             result = USHORT_MAX;
                         } else {
@@ -1106,15 +1022,12 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         }
 
                         // write the result
-                        dstDataArrays[k2]
-                            [dstPixelOffset+dstBandOffsets[k2]] =
-                            (short)(result & 0xFFFF);
+                        dstDataArrays[k2][dstPixelOffset + dstBandOffsets[k2]] = (short) (result & 0xFFFF);
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundUShort[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundUShort[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -1178,11 +1091,7 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         }
     }
 
-    private void floatLoop(RasterAccessor src,
-                           Rectangle destRect,
-                           int srcRectX,
-                           int srcRectY,
-                           RasterAccessor dst) {
+    private void floatLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -1235,18 +1144,16 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-	float[] backgroundFloat = new float[dst_num_bands];
-	for (int i = 0; i < dst_num_bands; i++)
-	    backgroundFloat[i] = (float)backgroundValues[i];
+        float[] backgroundFloat = new float[dst_num_bands];
+        for (int i = 0; i < dst_num_bands; i++) backgroundFloat[i] = (float) backgroundValues[i];
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
 
             dstPixelOffset = dstOffset;
 
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -1298,11 +1205,11 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + 1)) &&
-                    (s_ix < (src_rect_x2 - 2)) &&
-                    (s_iy >= (src_rect_y1 + 1)) &&
-                    (s_iy < (src_rect_y2 - 2))) {
-                    for (int k2=0; k2 < dst_num_bands; k2++) {
+                if ((s_ix >= (src_rect_x1 + 1))
+                        && (s_ix < (src_rect_x2 - 2))
+                        && (s_iy >= (src_rect_y1 + 1))
+                        && (s_iy < (src_rect_y2 - 2))) {
+                    for (int k2 = 0; k2 < dst_num_bands; k2++) {
                         //
                         // Get the pixels
                         //
@@ -1329,26 +1236,21 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         s12 = tmp_row[p12 + tmp_col];
                         s22 = tmp_row[p22 + tmp_col];
 
-
                         // Note that the notations are different from
                         // what's mentioned in the interpolation class
                         // For example s0_ here is actually s_0 in the
                         // Interpolation class
-                        s = interp.interpolate(s__, s0_, s1_, s2_,
-                                               s_0, s00, s10, s20,
-                                               s_1, s01, s11, s21,
-                                               s_2, s02, s12, s22,
-                                               fracx, fracy);
+                        s = interp.interpolate(
+                                s__, s0_, s1_, s2_, s_0, s00, s10, s20, s_1, s01, s11, s21, s_2, s02, s12, s22, fracx,
+                                fracy);
 
                         // write the result
-                        dstDataArrays[k2]
-                            [dstPixelOffset+dstBandOffsets[k2]] = s;
+                        dstDataArrays[k2][dstPixelOffset + dstBandOffsets[k2]] = s;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundFloat[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundFloat[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {
@@ -1412,11 +1314,7 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         }
     }
 
-    private void doubleLoop(RasterAccessor src,
-                            Rectangle destRect,
-                            int srcRectX,
-                            int srcRectY,
-                            RasterAccessor dst) {
+    private void doubleLoop(RasterAccessor src, Rectangle destRect, int srcRectX, int srcRectY, RasterAccessor dst) {
 
         float src_rect_x1 = src.getX();
         float src_rect_y1 = src.getY();
@@ -1469,15 +1367,13 @@ final class AffineBicubic2OpImage extends AffineOpImage {
         int dst_max_x = destRect.x + destRect.width;
         int dst_max_y = destRect.y + destRect.height;
 
-        for (int y = dst_min_y; y < dst_max_y ; y++) {
+        for (int y = dst_min_y; y < dst_max_y; y++) {
 
             dstPixelOffset = dstOffset;
 
-
             // Backward map the first point in the line
             // The energy is at the (pt_x + 0.5, pt_y + 0.5)
-            dst_pt.setLocation((double)dst_min_x + 0.5,
-                               (double)y + 0.5);
+            dst_pt.setLocation((double) dst_min_x + 0.5, (double) y + 0.5);
             mapDestPoint(dst_pt, src_pt);
 
             // Get the mapped source coordinates
@@ -1529,11 +1425,11 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                 //
                 // Check against the source rectangle
                 //
-                if ((s_ix >= (src_rect_x1 + 1)) &&
-                    (s_ix < (src_rect_x2 - 2)) &&
-                    (s_iy >= (src_rect_y1 + 1)) &&
-                    (s_iy < (src_rect_y2 - 2))) {
-                    for (int k2=0; k2 < dst_num_bands; k2++) {
+                if ((s_ix >= (src_rect_x1 + 1))
+                        && (s_ix < (src_rect_x2 - 2))
+                        && (s_iy >= (src_rect_y1 + 1))
+                        && (s_iy < (src_rect_y2 - 2))) {
+                    for (int k2 = 0; k2 < dst_num_bands; k2++) {
                         //
                         // Get the pixels
                         //
@@ -1565,21 +1461,33 @@ final class AffineBicubic2OpImage extends AffineOpImage {
                         // For example s0_ here is actually s_0 in the
                         // Interpolation class
 
-                        s = interp.interpolate(s__, s0_, s1_, s2_,
-                                               s_0, s00, s10, s20,
-                                               s_1, s01, s11, s21,
-                                               s_2, s02, s12, s22,
-                                               (float)fracx, (float)fracy);
+                        s = interp.interpolate(
+                                s__,
+                                s0_,
+                                s1_,
+                                s2_,
+                                s_0,
+                                s00,
+                                s10,
+                                s20,
+                                s_1,
+                                s01,
+                                s11,
+                                s21,
+                                s_2,
+                                s02,
+                                s12,
+                                s22,
+                                (float) fracx,
+                                (float) fracy);
 
                         // write the result
-                        dstDataArrays[k2]
-                            [dstPixelOffset+dstBandOffsets[k2]] = s;
+                        dstDataArrays[k2][dstPixelOffset + dstBandOffsets[k2]] = s;
                     }
                 } else if (setBackground) {
-		    for (int k=0; k < dst_num_bands; k++)
-			dstDataArrays[k][dstPixelOffset+dstBandOffsets[k]] =
-			    backgroundValues[k];
-		}
+                    for (int k = 0; k < dst_num_bands; k++)
+                        dstDataArrays[k][dstPixelOffset + dstBandOffsets[k]] = backgroundValues[k];
+                }
 
                 // walk
                 if (fracx < fracdx1) {

@@ -20,16 +20,12 @@ package org.eclipse.imagen.operator;
 import org.eclipse.imagen.EnumeratedParameter;
 
 /**
- * <p>Class used to represent the acceptable values of the "quantizationAlgorithm"
- * parameter of the "ColorQuantizer" operation.  Acceptable values for the
- * "quantizationAlgorithm" parameter are defined in the
- * <code>ColorQuantizerDescriptor</code> by the constants
- * <code>MEDIANCUT</code>,
- * <code>NEUQUANT</code>, and
- * <code>OCTTREE</code>. </p>
+ * Class used to represent the acceptable values of the "quantizationAlgorithm" parameter of the "ColorQuantizer"
+ * operation. Acceptable values for the "quantizationAlgorithm" parameter are defined in the <code>
+ * ColorQuantizerDescriptor</code> by the constants <code>MEDIANCUT</code>, <code>NEUQUANT</code>, and <code>OCTTREE
+ * </code>.
  *
  * @see ColorQuantizerDescriptor
- * 
  * @since JAI 1.1.2
  */
 public final class ColorQuantizerType extends EnumeratedParameter {

@@ -17,24 +17,24 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.ColormapOpImage;
-import org.eclipse.imagen.media.util.ImageUtil;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.util.Map;
+import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
-import java.util.Map;
+import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
  * An <code>OpImage</code> implementing the "MultiplyConst" operation.
  *
- * <p>This <code>OpImage</code> multiplies a set of constants, one for
- * each band of the source image, to the pixels of a rendered image.
- * The destination pixel values are calculated as:
+ * <p>This <code>OpImage</code> multiplies a set of constants, one for each band of the source image, to the pixels of a
+ * rendered image. The destination pixel values are calculated as:
+ *
  * <pre>
  *     for (int h = 0; h < dstHeight; h++) {
  *         for (int w = 0; w < dstWidth; w++) {
@@ -51,8 +51,6 @@ import java.util.Map;
  *
  * @see org.eclipse.imagen.operator.MultiplyConstDescriptor
  * @see MultiplyConstCRIF
- *
- *
  * @since EA2
  */
 final class MultiplyConstOpImage extends ColormapOpImage {
@@ -63,14 +61,11 @@ final class MultiplyConstOpImage extends ColormapOpImage {
     /**
      * Constructor.
      *
-     * @param source     The source image.
-     * @param layout     The destination image layout.
-     * @param constants  The constants to be multiplied, stored as reference.
+     * @param source The source image.
+     * @param layout The destination image layout.
+     * @param constants The constants to be multiplied, stored as reference.
      */
-    public MultiplyConstOpImage(RenderedImage source,
-                                Map config,
-                                ImageLayout layout,
-                                double[] constants) {
+    public MultiplyConstOpImage(RenderedImage source, Map config, ImageLayout layout, double[] constants) {
         super(source, layout, config, true);
 
         int numBands = getSampleModel().getNumBands();
@@ -81,7 +76,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
                 this.constants[i] = constants[0];
             }
         } else {
-            this.constants = (double[])constants.clone();
+            this.constants = (double[]) constants.clone();
         }
 
         // Set flag to permit in-place operation.
@@ -91,17 +86,15 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         initializeColormapOperation();
     }
 
-    /**
-     * Transform the colormap according to the rescaling parameters.
-     */
+    /** Transform the colormap according to the rescaling parameters. */
     protected void transformColormap(byte[][] colormap) {
-        for(int b = 0; b < 3; b++) {
+        for (int b = 0; b < 3; b++) {
             byte[] map = colormap[b];
             int mapSize = map.length;
 
             double c = b < constants.length ? constants[b] : constants[0];
 
-            for(int i = 0; i < mapSize; i++) {
+            for (int i = 0; i < mapSize; i++) {
                 map[i] = ImageUtil.clampRoundByte((map[i] & 0xFF) * c);
             }
         }
@@ -110,44 +103,39 @@ final class MultiplyConstOpImage extends ColormapOpImage {
     /**
      * Multiplies a constant to the pixel values within a specified rectangle.
      *
-     * @param sources   Cobbled sources, guaranteed to provide all the
-     *                  source data necessary for computing the rectangle.
-     * @param dest      The tile containing the rectangle to be computed.
-     * @param destRect  The rectangle within the tile to be computed.
+     * @param sources Cobbled sources, guaranteed to provide all the source data necessary for computing the rectangle.
+     * @param dest The tile containing the rectangle to be computed.
+     * @param destRect The rectangle within the tile to be computed.
      */
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         // Retrieve format tags.
         RasterFormatTag[] formatTags = getFormatTags();
 
         Rectangle srcRect = mapDestRect(destRect, 0);
 
-        RasterAccessor dst = new RasterAccessor(dest, destRect,  
-                                                formatTags[1], getColorModel());
-        RasterAccessor src = new RasterAccessor(sources[0], srcRect,  
-                                                formatTags[0], 
-                                                getSource(0).getColorModel());
+        RasterAccessor dst = new RasterAccessor(dest, destRect, formatTags[1], getColorModel());
+        RasterAccessor src = new RasterAccessor(
+                sources[0], srcRect, formatTags[0], getSource(0).getColorModel());
 
         switch (dst.getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            computeRectByte(src, dst);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            computeRectUShort(src, dst);
-            break;
-        case DataBuffer.TYPE_SHORT:
-            computeRectShort(src, dst);
-            break;
-        case DataBuffer.TYPE_INT:
-            computeRectInt(src, dst);
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            computeRectFloat(src, dst);
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            computeRectDouble(src, dst);
-            break;
+            case DataBuffer.TYPE_BYTE:
+                computeRectByte(src, dst);
+                break;
+            case DataBuffer.TYPE_USHORT:
+                computeRectUShort(src, dst);
+                break;
+            case DataBuffer.TYPE_SHORT:
+                computeRectShort(src, dst);
+                break;
+            case DataBuffer.TYPE_INT:
+                computeRectInt(src, dst);
+                break;
+            case DataBuffer.TYPE_FLOAT:
+                computeRectFloat(src, dst);
+                break;
+            case DataBuffer.TYPE_DOUBLE:
+                computeRectDouble(src, dst);
+                break;
         }
 
         if (dst.needsClamping()) {
@@ -156,8 +144,8 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         }
         dst.copyDataToRaster();
     }
-    private void computeRectByte(RasterAccessor src,
-                                 RasterAccessor dst) {
+
+    private void computeRectByte(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -173,7 +161,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         byte[][] srcData = src.getByteDataArrays();
 
         for (int b = 0; b < dstBands; b++) {
-            float c = (float)constants[b];
+            float c = (float) constants[b];
             byte[] d = dstData[b];
             byte[] s = srcData[b];
 
@@ -188,8 +176,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] = ImageUtil.clampRoundByte(
-                                        (s[srcPixelOffset] & 0xFF) * c);
+                    d[dstPixelOffset] = ImageUtil.clampRoundByte((s[srcPixelOffset] & 0xFF) * c);
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -197,9 +184,8 @@ final class MultiplyConstOpImage extends ColormapOpImage {
             }
         }
     }
-    
-    private void computeRectUShort(RasterAccessor src,
-                                   RasterAccessor dst) {
+
+    private void computeRectUShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -215,7 +201,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         short[][] srcData = src.getShortDataArrays();
 
         for (int b = 0; b < dstBands; b++) {
-            float c = (float)constants[b];
+            float c = (float) constants[b];
             short[] d = dstData[b];
             short[] s = srcData[b];
 
@@ -230,8 +216,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] = ImageUtil.clampRoundUShort(
-                                        (s[srcPixelOffset] & 0xFFFF) * c);
+                    d[dstPixelOffset] = ImageUtil.clampRoundUShort((s[srcPixelOffset] & 0xFFFF) * c);
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -240,8 +225,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectShort(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectShort(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -257,7 +241,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         short[][] srcData = src.getShortDataArrays();
 
         for (int b = 0; b < dstBands; b++) {
-            float c = (float)constants[b];
+            float c = (float) constants[b];
             short[] d = dstData[b];
             short[] s = srcData[b];
 
@@ -281,8 +265,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectInt(RasterAccessor src,
-                                RasterAccessor dst) {
+    private void computeRectInt(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -322,8 +305,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectFloat(RasterAccessor src,
-                                  RasterAccessor dst) {
+    private void computeRectFloat(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();
@@ -363,8 +345,7 @@ final class MultiplyConstOpImage extends ColormapOpImage {
         }
     }
 
-    private void computeRectDouble(RasterAccessor src,
-                                   RasterAccessor dst) {
+    private void computeRectDouble(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
         int dstBands = dst.getNumBands();

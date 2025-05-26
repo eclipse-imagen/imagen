@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen;
+
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
@@ -29,20 +30,16 @@ import org.eclipse.imagen.remote.SerializerFactory;
 /**
  * A class describing the desired layout of an <code>OpImage</code>.
  *
- * <p> The <code>ImageLayout</code> class encapsulates three types of information about
- * an image:
+ * <p>The <code>ImageLayout</code> class encapsulates three types of information about an image:
  *
  * <ul>
- * <li> The image bounds, comprising the min X and Y coordinates,
- *      image width, and image height;
- * <li> The tile grid layout, comprising the tile grid X and Y offsets,
- *      the tile width, and the tile height; and
- * <li> The <code>SampleModel</code> and <code>ColorModel</code> of the image.
+ *   <li>The image bounds, comprising the min X and Y coordinates, image width, and image height;
+ *   <li>The tile grid layout, comprising the tile grid X and Y offsets, the tile width, and the tile height; and
+ *   <li>The <code>SampleModel</code> and <code>ColorModel</code> of the image.
  * </ul>
  *
- * <p> Each of these parameters may be set individually, or left unset.
- * An unset parameter will cause the corresponding value of a given
- * <code>RenderedImage</code> to be used.  For example, the code:
+ * <p>Each of these parameters may be set individually, or left unset. An unset parameter will cause the corresponding
+ * value of a given <code>RenderedImage</code> to be used. For example, the code:
  *
  * <pre>
  * ImageLayout layout;
@@ -51,23 +48,18 @@ import org.eclipse.imagen.remote.SerializerFactory;
  * int width = layout.getTileWidth(im);
  * </pre>
  *
- * will return the tile width of the <code>ImageLayout</code> if it is set,
- * or the tile width of the image <code>im</code> if it is not.
+ * will return the tile width of the <code>ImageLayout</code> if it is set, or the tile width of the image <code>im
+ * </code> if it is not.
  *
- * <p> <code>ImageLayout</code> objects are primarily intended to be passed as part
- * of the <code>renderingHints</code> argument of the <code>create()</code> method of
- * <code>RenderedImageFactory</code>.  The <code>create()</code> method may remove parameter
- * settings that it cannot deal with, prior to passing the
- * <code>ImageLayout</code> to any <code>OpImage</code> constructors.  New <code>OpImage</code> subclasses
- * are not required to accept an <code>ImageLayout</code> parameter, but most will
- * at least need to synthesize one to be passed up the constructor
- * chain.
+ * <p><code>ImageLayout</code> objects are primarily intended to be passed as part of the <code>renderingHints</code>
+ * argument of the <code>create()</code> method of <code>RenderedImageFactory</code>. The <code>create()</code> method
+ * may remove parameter settings that it cannot deal with, prior to passing the <code>ImageLayout</code> to any <code>
+ * OpImage</code> constructors. New <code>OpImage</code> subclasses are not required to accept an <code>ImageLayout
+ * </code> parameter, but most will at least need to synthesize one to be passed up the constructor chain.
  *
- * <p> Methods that modify the state of an <code>ImageLayout</code> return a reference
- * to 'this' following the change.  This allows multiple modifications to
- * be made in a single expression.  This provides a way of modifying an
- * <code>ImageLayout</code> within a superclass constructor call.
- *
+ * <p>Methods that modify the state of an <code>ImageLayout</code> return a reference to 'this' following the change.
+ * This allows multiple modifications to be made in a single expression. This provides a way of modifying an <code>
+ * ImageLayout</code> within a superclass constructor call.
  */
 public class ImageLayout extends Object implements Cloneable, Serializable {
     /** A bitmask to specify the validity of <code>minX</code>. */
@@ -131,8 +123,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     public ImageLayout() {}
 
     /**
-     * Constructs an <code>ImageLayout</code> with all its parameters set.
-     * The <code>sampleModel</code> and <code>colorModel</code> parameters are ignored if null.
+     * Constructs an <code>ImageLayout</code> with all its parameters set. The <code>sampleModel</code> and <code>
+     * colorModel</code> parameters are ignored if null.
      *
      * @param minX the image's minimum X coordinate.
      * @param minY the image's minimum Y coordinate.
@@ -145,16 +137,17 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      * @param sampleModel the image's <code>SampleModel</code>.
      * @param colorModel the image's <code>ColorModel</code>.
      */
-    public ImageLayout(int minX,
-                       int minY,
-                       int width,
-                       int height,
-                       int tileGridXOffset,
-                       int tileGridYOffset,
-                       int tileWidth,
-                       int tileHeight,
-                       SampleModel sampleModel,
-                       ColorModel colorModel) {
+    public ImageLayout(
+            int minX,
+            int minY,
+            int width,
+            int height,
+            int tileGridXOffset,
+            int tileGridYOffset,
+            int tileWidth,
+            int tileHeight,
+            SampleModel sampleModel,
+            ColorModel colorModel) {
         setMinX(minX);
         setMinY(minY);
         setWidth(width);
@@ -171,20 +164,15 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
         }
     }
 
-
     /**
-     * Constructs an <code>ImageLayout</code> with only the image dimension
-     * parameters set.
+     * Constructs an <code>ImageLayout</code> with only the image dimension parameters set.
      *
      * @param minX the image's minimum X coordinate.
      * @param minY the image's minimum Y coordinate.
      * @param width the image's width.
      * @param height the image's height.
      */
-    public ImageLayout(int minX,
-                       int minY,
-                       int width,
-                       int height) {
+    public ImageLayout(int minX, int minY, int width, int height) {
         setMinX(minX);
         setMinY(minY);
         setWidth(width);
@@ -192,9 +180,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Constructs an <code>ImageLayout</code> with its tile grid layout,
-     * <code>SampleModel</code>, and <code>ColorModel</code> parameters set.
-     * The <code>sampleModel</code> and <code>colorModel</code> parameters are ignored if null.
+     * Constructs an <code>ImageLayout</code> with its tile grid layout, <code>SampleModel</code>, and <code>ColorModel
+     * </code> parameters set. The <code>sampleModel</code> and <code>colorModel</code> parameters are ignored if null.
      *
      * @param tileGridXOffset the X coordinate of tile (0, 0).
      * @param tileGridYOffset the Y coordinate of tile (0, 0).
@@ -203,12 +190,13 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      * @param sampleModel the image's <code>SampleModel</code>.
      * @param colorModel the image's <code>ColorModel</code>.
      */
-    public ImageLayout(int tileGridXOffset,
-                       int tileGridYOffset,
-                       int tileWidth,
-                       int tileHeight,
-                       SampleModel sampleModel,
-                       ColorModel colorModel) {
+    public ImageLayout(
+            int tileGridXOffset,
+            int tileGridYOffset,
+            int tileWidth,
+            int tileHeight,
+            SampleModel sampleModel,
+            ColorModel colorModel) {
         setTileGridXOffset(tileGridXOffset);
         setTileGridYOffset(tileGridYOffset);
         setTileWidth(tileWidth);
@@ -222,35 +210,33 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Constructs an <code>ImageLayout</code> with all its parameters set
-     * to equal those of a given <code>RenderedImage</code>.
+     * Constructs an <code>ImageLayout</code> with all its parameters set to equal those of a given <code>RenderedImage
+     * </code>.
      *
      * @param im a <code>RenderedImage</code> whose layout will be copied.
      */
     public ImageLayout(RenderedImage im) {
-        this(im.getMinX(),
-             im.getMinY(),
-             im.getWidth(),
-             im.getHeight(),
-             im.getTileGridXOffset(),
-             im.getTileGridYOffset(),
-             im.getTileWidth(),
-             im.getTileHeight(),
-             im.getSampleModel(),
-             im.getColorModel());
+        this(
+                im.getMinX(),
+                im.getMinY(),
+                im.getWidth(),
+                im.getHeight(),
+                im.getTileGridXOffset(),
+                im.getTileGridYOffset(),
+                im.getTileWidth(),
+                im.getTileHeight(),
+                im.getSampleModel(),
+                im.getColorModel());
     }
 
     /**
-     * Returns the 'or'-ed together bitmask indicating parameter validity.
-     * To determine the validity of a particular parameter, say tile width,
-     * test <code>getValidMask() & ImageLayout.TILE_WIDTH_MASK</code>
-     * against <code>0</code>.
+     * Returns the 'or'-ed together bitmask indicating parameter validity. To determine the validity of a particular
+     * parameter, say tile width, test <code>getValidMask() & ImageLayout.TILE_WIDTH_MASK</code> against <code>0</code>.
      *
-     * <p> To test a single mask value or set of mask values, the
-     * convenience method isValid() may be used.
+     * <p>To test a single mask value or set of mask values, the convenience method isValid() may be used.
      *
-     * @return an int that is the logical 'or' of the valid mask values,
-     *         with a '1' bit representing the setting of a value.
+     * @return an int that is the logical 'or' of the valid mask values, with a '1' bit representing the setting of a
+     *     value.
      */
     public int getValidMask() {
         return validMask;
@@ -267,8 +253,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Sets selected bits of the valid bitmask.  The valid bitmask is
-     * set to the logical 'or' of its prior value and a new value.
+     * Sets selected bits of the valid bitmask. The valid bitmask is set to the logical 'or' of its prior value and a
+     * new value.
      *
      * @param mask the new mask value to be 'or'-ed with the prior value.
      * @return a reference to this <code>ImageLayout</code> following the change.
@@ -279,13 +265,10 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Clears selected bits of the valid bitmask.  The valid bitmask
-     * is set to the logical 'and' of its prior value and the negation
-     * of the new mask value.  This effectively subtracts from the set of
-     * valid parameters.
+     * Clears selected bits of the valid bitmask. The valid bitmask is set to the logical 'and' of its prior value and
+     * the negation of the new mask value. This effectively subtracts from the set of valid parameters.
      *
-     * @param mask the new mask value to be negated and 'and'-ed with
-     *        the prior value.
+     * @param mask the new mask value to be negated and 'and'-ed with the prior value.
      * @return a reference to this <code>ImageLayout</code> following the change.
      */
     public ImageLayout unsetValid(int mask) {
@@ -294,37 +277,29 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Marks the parameters dealing with the image bounds
-     * (minX, minY, width, and height) as being invalid.
+     * Marks the parameters dealing with the image bounds (minX, minY, width, and height) as being invalid.
      *
      * @return a reference to this <code>ImageLayout</code> following the change.
      */
     public ImageLayout unsetImageBounds() {
-        unsetValid(MIN_X_MASK |
-                   MIN_Y_MASK |
-                   WIDTH_MASK |
-                   HEIGHT_MASK);
+        unsetValid(MIN_X_MASK | MIN_Y_MASK | WIDTH_MASK | HEIGHT_MASK);
         return this;
     }
 
     /**
-     * Marks the parameters dealing with the tile layout (tileGridXOffset,
-     * tileGridYOffset, tileWidth, and tileHeight) as being invalid.
+     * Marks the parameters dealing with the tile layout (tileGridXOffset, tileGridYOffset, tileWidth, and tileHeight)
+     * as being invalid.
      *
      * @return a reference to this <code>ImageLayout</code> following the change.
      */
     public ImageLayout unsetTileLayout() {
-        unsetValid(TILE_GRID_X_OFFSET_MASK |
-                   TILE_GRID_Y_OFFSET_MASK |
-                   TILE_WIDTH_MASK |
-                   TILE_HEIGHT_MASK);
+        unsetValid(TILE_GRID_X_OFFSET_MASK | TILE_GRID_Y_OFFSET_MASK | TILE_WIDTH_MASK | TILE_HEIGHT_MASK);
         return this;
     }
 
     /**
-     * Returns the value of <code>minX</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>minX</code> is not valid and fallback is null, 0 is returned.
+     * Returns the value of <code>minX</code> if it is valid, and otherwise returns the value from the supplied <code>
+     * RenderedImage</code>. If <code>minX</code> is not valid and fallback is null, 0 is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of minX.
@@ -354,9 +329,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the value of <code>minY</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>minY</code> is not valid and fallback is null, 0 is returned.
+     * Returns the value of <code>minY</code> if it is valid, and otherwise returns the value from the supplied <code>
+     * RenderedImage</code>. If <code>minY</code> is not valid and fallback is null, 0 is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of minY.
@@ -386,9 +360,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the value of <code>width</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>width</code> is not valid and fallback is null, 0 is returned.
+     * Returns the value of <code>width</code> if it is valid, and otherwise returns the value from the supplied <code>
+     * RenderedImage</code>. If <code>width</code> is not valid and fallback is null, 0 is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of width.
@@ -412,19 +385,18 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      * @return a reference to this <code>ImageLayout</code> following the change.
      * @throws IllegalArgumentException if <code>width</code> is non-positive.
      */
-   public ImageLayout setWidth(int width) {
-       if(width <= 0) {
-           throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
-       }
-       this.width = width;
-       setValid(WIDTH_MASK);
-       return this;
+    public ImageLayout setWidth(int width) {
+        if (width <= 0) {
+            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+        }
+        this.width = width;
+        setValid(WIDTH_MASK);
+        return this;
     }
 
     /**
-     * Returns the value of height if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If height is not valid and fallback is null, 0 is returned.
+     * Returns the value of height if it is valid, and otherwise returns the value from the supplied <code>RenderedImage
+     * </code>. If height is not valid and fallback is null, 0 is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of height.
@@ -449,18 +421,18 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      * @throws IllegalArgumentException if <code>height</code> is non-positive.
      */
     public ImageLayout setHeight(int height) {
-       if(height <= 0) {
-           throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
-       }
-       this.height = height;
-       setValid(HEIGHT_MASK);
-       return this;
+        if (height <= 0) {
+            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+        }
+        this.height = height;
+        setValid(HEIGHT_MASK);
+        return this;
     }
 
     /**
-     * Returns the value of <code>tileGridXOffset</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>tileGridXOffset</code> is not valid and fallback is null, 0 is returned.
+     * Returns the value of <code>tileGridXOffset</code> if it is valid, and otherwise returns the value from the
+     * supplied <code>RenderedImage</code>. If <code>tileGridXOffset</code> is not valid and fallback is null, 0 is
+     * returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of tileGridXOffset.
@@ -490,9 +462,9 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the value of <code>tileGridYOffset</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>tileGridYOffset</code> is not valid and fallback is null, 0 is returned.
+     * Returns the value of <code>tileGridYOffset</code> if it is valid, and otherwise returns the value from the
+     * supplied <code>RenderedImage</code>. If <code>tileGridYOffset</code> is not valid and fallback is null, 0 is
+     * returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of tileGridYOffset.
@@ -522,9 +494,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the value of <code>tileWidth</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>tileWidth</code> is not valid and fallback is null, 0 is returned.
+     * Returns the value of <code>tileWidth</code> if it is valid, and otherwise returns the value from the supplied
+     * <code>RenderedImage</code>. If <code>tileWidth</code> is not valid and fallback is null, 0 is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of tileWidth.
@@ -546,22 +517,20 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      *
      * @param tileWidth the width of a tile, as an int.
      * @return a reference to this <code>ImageLayout</code> following the change.
-     * @throws IllegalArgumentException if <code>tileWidth</code> is
-     *                                  non-positive.
+     * @throws IllegalArgumentException if <code>tileWidth</code> is non-positive.
      */
     public ImageLayout setTileWidth(int tileWidth) {
-       if(tileWidth <= 0) {
-           throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
-       }
-       this.tileWidth = tileWidth;
-       setValid(TILE_WIDTH_MASK);
-       return this;
+        if (tileWidth <= 0) {
+            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+        }
+        this.tileWidth = tileWidth;
+        setValid(TILE_WIDTH_MASK);
+        return this;
     }
 
     /**
-     * Returns the value of tileHeight if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If tileHeight is not valid and fallback is null, 0 is returned.
+     * Returns the value of tileHeight if it is valid, and otherwise returns the value from the supplied <code>
+     * RenderedImage</code>. If tileHeight is not valid and fallback is null, 0 is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of tileHeight.
@@ -583,22 +552,20 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      *
      * @param tileHeight the height of a tile, as an int.
      * @return a reference to this <code>ImageLayout</code> following the change.
-     * @throws IllegalArgumentException if <code>tileHeight</code> is
-     *                                  non-positive.
+     * @throws IllegalArgumentException if <code>tileHeight</code> is non-positive.
      */
     public ImageLayout setTileHeight(int tileHeight) {
-       if(tileHeight <= 0) {
-           throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
-       }
-       this.tileHeight = tileHeight;
-       setValid(TILE_HEIGHT_MASK);
-       return this;
+        if (tileHeight <= 0) {
+            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+        }
+        this.tileHeight = tileHeight;
+        setValid(TILE_HEIGHT_MASK);
+        return this;
     }
 
     /**
-     * Returns the value of <code>sampleModel</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>sampleModel</code> is not valid and fallback is null, null is returned.
+     * Returns the value of <code>sampleModel</code> if it is valid, and otherwise returns the value from the supplied
+     * <code>RenderedImage</code>. If <code>sampleModel</code> is not valid and fallback is null, null is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of <code>sampleModel</code>.
@@ -628,9 +595,8 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the value of <code>colorModel</code> if it is valid, and
-     * otherwise returns the value from the supplied <code>RenderedImage</code>.
-     * If <code>colorModel</code> is not valid and fallback is null, null is returned.
+     * Returns the value of <code>colorModel</code> if it is valid, and otherwise returns the value from the supplied
+     * <code>RenderedImage</code>. If <code>colorModel</code> is not valid and fallback is null, null is returned.
      *
      * @param fallback the <code>RenderedImage</code> fallback.
      * @return the appropriate value of <code>colorModel</code>.
@@ -744,9 +710,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
         return s;
     }
 
-    /**
-     * Returns a clone of the <code>ImageLayout</code> as an Object.
-     */
+    /** Returns a clone of the <code>ImageLayout</code> as an Object. */
     public Object clone() {
         try {
             return super.clone();
@@ -757,6 +721,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
 
     /**
      * Serialize the <code>ImageLayout</code>.
+     *
      * @throws IOException
      */
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -764,115 +729,102 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
         out.defaultWriteObject();
 
         // Create and write a serializable SampleModel.
-        if(isValid(SAMPLE_MODEL_MASK)) {
+        if (isValid(SAMPLE_MODEL_MASK)) {
             out.writeObject(SerializerFactory.getState(sampleModel, null));
         }
 
         // Create and write a serializable ColorModel.
-        if(isValid(COLOR_MODEL_MASK)) {
+        if (isValid(COLOR_MODEL_MASK)) {
             out.writeObject(SerializerFactory.getState(colorModel, null));
         }
     }
 
     /**
      * Deserialize the <code>ImageLayout</code>.
+     *
      * @throws IOException
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read the non-static and non-transient fields.
         in.defaultReadObject();
 
         // Read the serializable form of the SampleModel.
-        if(isValid(SAMPLE_MODEL_MASK)) {
+        if (isValid(SAMPLE_MODEL_MASK)) {
             Object object = in.readObject();
-            if (!(object instanceof SerializableState))
-                sampleModel = null;
+            if (!(object instanceof SerializableState)) sampleModel = null;
 
-            SerializableState ss = (SerializableState)object;
+            SerializableState ss = (SerializableState) object;
             Class c = ss.getObjectClass();
-            if (SampleModel.class.isAssignableFrom(c))
-                sampleModel = (SampleModel)ss.getObject();
-            else
-                sampleModel = null;
+            if (SampleModel.class.isAssignableFrom(c)) sampleModel = (SampleModel) ss.getObject();
+            else sampleModel = null;
         }
 
         // Read the serializable form of the ColorModel.
-        if(isValid(COLOR_MODEL_MASK)) {
+        if (isValid(COLOR_MODEL_MASK)) {
             Object object = in.readObject();
-            if (!(object instanceof SerializableState))
-                colorModel = null;
+            if (!(object instanceof SerializableState)) colorModel = null;
 
-            SerializableState ss = (SerializableState)object;
+            SerializableState ss = (SerializableState) object;
             Class c = ss.getObjectClass();
-            if (ColorModel.class.isAssignableFrom(c))
-                colorModel = (ColorModel)ss.getObject();
-            else
-                colorModel = null;
+            if (ColorModel.class.isAssignableFrom(c)) colorModel = (ColorModel) ss.getObject();
+            else colorModel = null;
         }
     }
 
     /**
-     * Tests if the specified <code>Object</code> equals this
-     * <code>ImageLayout</code>.
+     * Tests if the specified <code>Object</code> equals this <code>ImageLayout</code>.
      *
      * @param obj the <code>Object</code> to test for equality
-     *
-     * @return <code>true</code> if the specified <code>Object</code>
-     * is an instance of <code>ImageLayout</code> and equals this
-     * <code>ImageLayout</code>; <code>false</code> otherwise.
-     *
+     * @return <code>true</code> if the specified <code>Object</code> is an instance of <code>ImageLayout</code> and
+     *     equals this <code>ImageLayout</code>; <code>false</code> otherwise.
      * @since JAI 1.1
      */
     public boolean equals(Object obj) {
 
-	if (this == obj)
-	    return true;
+        if (this == obj) return true;
 
-	if (!(obj instanceof ImageLayout))
-	    return false;
+        if (!(obj instanceof ImageLayout)) return false;
 
-	ImageLayout il = (ImageLayout)obj;
+        ImageLayout il = (ImageLayout) obj;
 
-	return (validMask       == il.validMask      ) &&
-	       (width           == il.width          ) &&
-	       (height          == il.height         ) &&
-	       (minX            == il.minX           ) &&
-	       (minY            == il.minY           ) &&
-	       (tileHeight      == il.tileHeight     ) &&
-	       (tileWidth       == il.tileWidth      ) &&
-	       (tileGridXOffset == il.tileGridXOffset) &&
-	       (tileGridYOffset == il.tileGridYOffset) &&
-	       (sampleModel.equals(il.sampleModel   )) &&
-	       (colorModel.equals(il.colorModel));
+        return (validMask == il.validMask)
+                && (width == il.width)
+                && (height == il.height)
+                && (minX == il.minX)
+                && (minY == il.minY)
+                && (tileHeight == il.tileHeight)
+                && (tileWidth == il.tileWidth)
+                && (tileGridXOffset == il.tileGridXOffset)
+                && (tileGridYOffset == il.tileGridYOffset)
+                && (sampleModel.equals(il.sampleModel))
+                && (colorModel.equals(il.colorModel));
     }
 
     /**
      * Returns the hash code for this <code>ImageLayout</code>.
      *
      * @return a hash code for this <code>ImageLayout</code>.
-     *
      * @since JAI 1.1
      */
     public int hashCode() {
 
-	int code = 0, i = 1;
+        int code = 0, i = 1;
 
-	// This implementation is quite arbitrary.
-	// hashCode's NEED not be uniqe for two "different" objects
-	code += (width           * i++);
-	code += (height          * i++);
-	code += (minX            * i++);
-	code += (minY            * i++);
-	code += (tileHeight      * i++);
-	code += (tileWidth       * i++);
-	code += (tileGridXOffset * i++);
-	code += (tileGridYOffset * i++);
+        // This implementation is quite arbitrary.
+        // hashCode's NEED not be uniqe for two "different" objects
+        code += (width * i++);
+        code += (height * i++);
+        code += (minX * i++);
+        code += (minY * i++);
+        code += (tileHeight * i++);
+        code += (tileWidth * i++);
+        code += (tileGridXOffset * i++);
+        code += (tileGridYOffset * i++);
 
-	code ^= sampleModel.hashCode();
-	code ^= validMask;
-	code ^= colorModel.hashCode();
+        code ^= sampleModel.hashCode();
+        code ^= validMask;
+        code ^= colorModel.hashCode();
 
-	return code;
+        return code;
     }
 }

@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
@@ -24,9 +25,7 @@ import java.awt.image.SampleModel;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RandomIterFallback implements RandomIter {
 
     protected RenderedImage im;
@@ -49,8 +48,9 @@ public class RandomIterFallback implements RandomIter {
     public RandomIterFallback(RenderedImage im, Rectangle bounds) {
         this.im = im;
 
-        Rectangle imBounds = new Rectangle(im.getMinX(), im.getMinY(),
-                                           im.getWidth(), im.getHeight());
+        Rectangle imBounds = new Rectangle(
+                im.getMinX(), im.getMinY(),
+                im.getWidth(), im.getHeight());
         this.boundsRect = imBounds.intersection(bounds);
         this.sampleModel = im.getSampleModel();
 
@@ -67,8 +67,7 @@ public class RandomIterFallback implements RandomIter {
         int tileWidth = im.getTileWidth();
         int tileGridXOffset = im.getTileGridXOffset();
         int minTileX = PlanarImage.XToTileX(x, tileGridXOffset, tileWidth);
-        int offsetX =
-            x - PlanarImage.tileXToX(minTileX, tileGridXOffset, tileWidth);
+        int offsetX = x - PlanarImage.tileXToX(minTileX, tileGridXOffset, tileWidth);
         int tileX = minTileX;
 
         for (int i = 0; i < width; i++) {
@@ -83,8 +82,7 @@ public class RandomIterFallback implements RandomIter {
         int tileHeight = im.getTileHeight();
         int tileGridYOffset = im.getTileGridYOffset();
         int minTileY = PlanarImage.YToTileY(y, tileGridYOffset, tileHeight);
-        int offsetY =
-            y - PlanarImage.tileYToY(minTileY, tileGridYOffset, tileHeight);
+        int offsetY = y - PlanarImage.tileYToY(minTileY, tileGridYOffset, tileHeight);
         int tileY = minTileY;
 
         for (int i = 0; i < height; i++) {
@@ -98,8 +96,7 @@ public class RandomIterFallback implements RandomIter {
     }
 
     /**
-     * Sets dataBuffer to the correct buffer for the pixel
-     * (x, y) = (xLocal + boundsRect.x, yLocal + boundsRect.y).
+     * Sets dataBuffer to the correct buffer for the pixel (x, y) = (xLocal + boundsRect.x, yLocal + boundsRect.y).
      *
      * @param xLocal the X coordinate in the local coordinate system.
      * @param yLocal the Y coordinate in the local coordinate system.
@@ -121,50 +118,32 @@ public class RandomIterFallback implements RandomIter {
 
     public int getSample(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsY);
-        return sampleModel.getSample(x - sampleModelTranslateX,
-                                     y - sampleModelTranslateY,
-                                     b,
-                                     dataBuffer);
+        return sampleModel.getSample(x - sampleModelTranslateX, y - sampleModelTranslateY, b, dataBuffer);
     }
 
     public float getSampleFloat(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsY);
-        return sampleModel.getSampleFloat(x - sampleModelTranslateX,
-                                          y - sampleModelTranslateY,
-                                          b,
-                                          dataBuffer);
+        return sampleModel.getSampleFloat(x - sampleModelTranslateX, y - sampleModelTranslateY, b, dataBuffer);
     }
 
     public double getSampleDouble(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsY);
-        return sampleModel.getSampleDouble(x - sampleModelTranslateX,
-                                           y - sampleModelTranslateY,
-                                           b,
-                                           dataBuffer);
+        return sampleModel.getSampleDouble(x - sampleModelTranslateX, y - sampleModelTranslateY, b, dataBuffer);
     }
 
     public int[] getPixel(int x, int y, int[] iArray) {
         makeCurrent(x - boundsX, y - boundsY);
-        return sampleModel.getPixel(x - sampleModelTranslateX,
-                                    y - sampleModelTranslateY,
-                                    iArray,
-                                    dataBuffer);
+        return sampleModel.getPixel(x - sampleModelTranslateX, y - sampleModelTranslateY, iArray, dataBuffer);
     }
 
     public float[] getPixel(int x, int y, float[] fArray) {
         makeCurrent(x - boundsX, y - boundsY);
-        return sampleModel.getPixel(x - sampleModelTranslateX,
-                                    y - sampleModelTranslateY,
-                                    fArray,
-                                    dataBuffer);
+        return sampleModel.getPixel(x - sampleModelTranslateX, y - sampleModelTranslateY, fArray, dataBuffer);
     }
 
     public double[] getPixel(int x, int y, double[] dArray) {
         makeCurrent(x - boundsX, y - boundsY);
-        return sampleModel.getPixel(x - sampleModelTranslateX,
-                                    y - sampleModelTranslateY,
-                                    dArray,
-                                    dataBuffer);
+        return sampleModel.getPixel(x - sampleModelTranslateX, y - sampleModelTranslateY, dArray, dataBuffer);
     }
 
     public void done() {

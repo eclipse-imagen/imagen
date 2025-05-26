@@ -7,12 +7,12 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.io.File;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JPanel;
+import java.awt.Font;
+import java.io.File;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.*;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
@@ -25,7 +25,7 @@ public class About extends JPanel {
     public About(String filename) {
         File f = new File(filename);
 
-        if ( f.exists() && f.canRead() ) {
+        if (f.exists() && f.canRead()) {
             source = JAI.create("fileload", filename);
         } else {
             return;
@@ -34,10 +34,7 @@ public class About extends JPanel {
         ImageDisplay canvas = new ImageDisplay(source);
         canvas.setBackground(Color.blue);
 
-        canvas.setBorder(new CompoundBorder(
-                            new EtchedBorder(),
-                            new LineBorder(Color.gray, 20)
-                        ) );
+        canvas.setBorder(new CompoundBorder(new EtchedBorder(), new LineBorder(Color.gray, 20)));
 
         Font font = new Font("SansSerif", Font.BOLD, 12);
         JLabel title = new JLabel(" Use the mouse to position magnifier.");
@@ -48,7 +45,7 @@ public class About extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.white);
 
-        add(title,  BorderLayout.NORTH);
+        add(title, BorderLayout.NORTH);
         add(canvas, BorderLayout.CENTER);
 
         JLabel label = new JLabel(" Magnifier");
@@ -59,7 +56,7 @@ public class About extends JPanel {
         mag.setMagnification(3.0F);
         mag.setSize(128, 128);
         mag.setLocation(150, 150);
-        mag.setBorder(new LineBorder(Color.white,1));
+        mag.setBorder(new LineBorder(Color.white, 1));
         mag.setLayout(new BorderLayout());
 
         mag.add(label, BorderLayout.NORTH);

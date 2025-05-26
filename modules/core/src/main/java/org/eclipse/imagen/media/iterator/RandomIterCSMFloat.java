@@ -16,13 +16,12 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.media.util.DataBufferUtils;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RandomIterCSMFloat extends RandomIterCSM {
 
     float[][] bankData;
@@ -37,23 +36,26 @@ public class RandomIterCSMFloat extends RandomIterCSM {
 
     public final int getSample(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsX);
-        return (int)bankData[b][(x - sampleModelTranslateX)*pixelStride + 
-                               (y - sampleModelTranslateY)*scanlineStride +
-                               bandOffsets[b]];
+        return (int) bankData[b][
+                (x - sampleModelTranslateX) * pixelStride
+                        + (y - sampleModelTranslateY) * scanlineStride
+                        + bandOffsets[b]];
     }
 
     public final float getSampleFloat(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsX);
-        return bankData[b][(x - sampleModelTranslateX)*pixelStride + 
-                          (y - sampleModelTranslateY)*scanlineStride +
-                          bandOffsets[b]];
+        return bankData[b][
+                (x - sampleModelTranslateX) * pixelStride
+                        + (y - sampleModelTranslateY) * scanlineStride
+                        + bandOffsets[b]];
     }
 
     public final double getSampleDouble(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsX);
-        return (double)bankData[b][(x - sampleModelTranslateX)*pixelStride + 
-                                  (y - sampleModelTranslateY)*scanlineStride +
-                                  bandOffsets[b]];
+        return (double) bankData[b][
+                (x - sampleModelTranslateX) * pixelStride
+                        + (y - sampleModelTranslateY) * scanlineStride
+                        + bandOffsets[b]];
     }
 
     public float[] getPixel(int x, int y, float[] fArray) {
@@ -61,8 +63,7 @@ public class RandomIterCSMFloat extends RandomIterCSM {
             fArray = new float[numBands];
         }
 
-        int offset = (x - sampleModelTranslateX)*pixelStride + 
-            (y - sampleModelTranslateY)*scanlineStride;
+        int offset = (x - sampleModelTranslateX) * pixelStride + (y - sampleModelTranslateY) * scanlineStride;
         for (int b = 0; b < numBands; b++) {
             fArray[b] = bankData[b][offset + bandOffsets[b]];
         }

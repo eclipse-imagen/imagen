@@ -16,28 +16,20 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.image.renderable.RenderContext;
-import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import java.util.Map;
 
 /**
- * This image factory supports image operator <code>AbsoluteOpImage</code>
- * in the rendered and renderable image layers.
+ * This image factory supports image operator <code>AbsoluteOpImage</code> in the rendered and renderable image layers.
  *
  * @since EA2
  * @see org.eclipse.imagen.operator.AbsoluteDescriptor
  * @see AbsoluteOpImage
- *
  */
-
 public class AbsoluteCRIF extends CRIFImpl {
 
     /** Constructor. */
@@ -46,19 +38,16 @@ public class AbsoluteCRIF extends CRIFImpl {
     }
 
     /**
-     * Creates a new instance of <code>AbsoluteOpImage</code> in the
-     * rendered layer. This method satisfies the implementation of RIF.
+     * Creates a new instance of <code>AbsoluteOpImage</code> in the rendered layer. This method satisfies the
+     * implementation of RIF.
      *
-     * @param paramBlock   The source image and the constants.
-     * @param renderHints  Optionally contains destination image layout.
+     * @param paramBlock The source image and the constants.
+     * @param renderHints Optionally contains destination image layout.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
-        return new AbsoluteOpImage(paramBlock.getRenderedSource(0),
-                                   renderHints, layout);
+        return new AbsoluteOpImage(paramBlock.getRenderedSource(0), renderHints, layout);
     }
 }

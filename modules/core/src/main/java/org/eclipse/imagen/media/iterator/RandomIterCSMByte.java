@@ -16,14 +16,12 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.DataBufferByte;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 
-/**
- * @since EA2
- */
+/** @since EA2 */
 public class RandomIterCSMByte extends RandomIterCSM {
 
     byte[][] bankData;
@@ -33,28 +31,34 @@ public class RandomIterCSMByte extends RandomIterCSM {
     }
 
     protected final void dataBufferChanged() {
-        this.bankData = ((DataBufferByte)dataBuffer).getBankData();
+        this.bankData = ((DataBufferByte) dataBuffer).getBankData();
     }
 
     public final int getSample(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsY);
-        return bankData[b][(x - sampleModelTranslateX)*pixelStride + 
-                          (y - sampleModelTranslateY)*scanlineStride +
-                          bandOffsets[b]] & 0xff;
+        return bankData[b][
+                        (x - sampleModelTranslateX) * pixelStride
+                                + (y - sampleModelTranslateY) * scanlineStride
+                                + bandOffsets[b]]
+                & 0xff;
     }
 
     public final float getSampleFloat(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsX);
-        return (float)(bankData[b][(x - sampleModelTranslateX)*pixelStride + 
-                                  (y - sampleModelTranslateY)*scanlineStride +
-                                  bandOffsets[b]] & 0xff);
+        return (float) (bankData[b][
+                        (x - sampleModelTranslateX) * pixelStride
+                                + (y - sampleModelTranslateY) * scanlineStride
+                                + bandOffsets[b]]
+                & 0xff);
     }
 
     public final double getSampleDouble(int x, int y, int b) {
         makeCurrent(x - boundsX, y - boundsX);
-        return (double)(bankData[b][(x - sampleModelTranslateX)*pixelStride + 
-                                   (y - sampleModelTranslateY)*scanlineStride +
-                                   bandOffsets[b]] & 0xff);
+        return (double) (bankData[b][
+                        (x - sampleModelTranslateX) * pixelStride
+                                + (y - sampleModelTranslateY) * scanlineStride
+                                + bandOffsets[b]]
+                & 0xff);
     }
 
     public int[] getPixel(int x, int y, int[] iArray) {
@@ -62,8 +66,7 @@ public class RandomIterCSMByte extends RandomIterCSM {
             iArray = new int[numBands];
         }
 
-        int offset = (x - sampleModelTranslateX)*pixelStride +
-            (y - sampleModelTranslateY)*scanlineStride;
+        int offset = (x - sampleModelTranslateX) * pixelStride + (y - sampleModelTranslateY) * scanlineStride;
         for (int b = 0; b < numBands; b++) {
             iArray[b] = bankData[b][offset + bandOffsets[b]] & 0xff;
         }

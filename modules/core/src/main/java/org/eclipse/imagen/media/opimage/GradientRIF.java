@@ -16,53 +16,39 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.KernelJAI;
-import java.awt.image.SampleModel;
-import java.awt.image.DataBuffer;
-import java.util.Map;
 
-/**
- * @see GradientOpImage
- */
+/** @see GradientOpImage */
 public class GradientRIF implements RenderedImageFactory {
 
     /** Constructor. */
     public GradientRIF() {}
 
     /**
-     * Create a new instance of GradientOpImage in the rendered layer.
-     * This method satisfies the implementation of RIF.
+     * Create a new instance of GradientOpImage in the rendered layer. This method satisfies the implementation of RIF.
      *
-     * @param paramBlock  The source image and the gradient's
-     *                    horizontal kernel & vertical kernel.
+     * @param paramBlock The source image and the gradient's horizontal kernel & vertical kernel.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
-         // Get ImageLayout from renderHints if any.
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
+        // Get ImageLayout from renderHints if any.
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
-        
 
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
-        
+
         RenderedImage source = paramBlock.getRenderedSource(0);
 
         // Get the Horizontal & Vertical kernels
-        KernelJAI kern_h = (KernelJAI)paramBlock.getObjectParameter(0);
-        KernelJAI kern_v = (KernelJAI)paramBlock.getObjectParameter(1);
-        
-        return new GradientOpImage(source,
-                                   extender,
-                                   renderHints,
-                                   layout,
-                                   kern_h,
-                                   kern_v);
+        KernelJAI kern_h = (KernelJAI) paramBlock.getObjectParameter(0);
+        KernelJAI kern_v = (KernelJAI) paramBlock.getObjectParameter(1);
+
+        return new GradientOpImage(source, extender, renderHints, layout, kern_h, kern_v);
     }
 }

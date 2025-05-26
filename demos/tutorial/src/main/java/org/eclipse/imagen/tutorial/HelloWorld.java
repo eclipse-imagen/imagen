@@ -7,12 +7,12 @@
  */
 package org.eclipse.imagen.tutorial;
 
-import java.io.File;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JPanel;
+import java.awt.Font;
+import java.io.File;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.widgets.*;
@@ -24,7 +24,7 @@ public class HelloWorld extends JPanel {
     public HelloWorld(String filename) {
         File f = new File(filename);
 
-        if ( f.exists() && f.canRead() ) {
+        if (f.exists() && f.canRead()) {
             source = JAI.create("fileload", filename);
         } else {
             return;
@@ -41,7 +41,7 @@ public class HelloWorld extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.white);
 
-        add(title,  BorderLayout.NORTH);
+        add(title, BorderLayout.NORTH);
         add(canvas, BorderLayout.CENTER);
         canvas.setLocation(0, 42);
     }

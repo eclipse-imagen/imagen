@@ -16,6 +16,7 @@
  */
 
 package org.eclipse.imagen.media.test;
+
 import java.awt.Frame;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -36,25 +37,23 @@ final class RandomOpImage extends SourcelessOpImage {
     private int maxValue;
     private int transtype;
 
-    public RandomOpImage(int minX, int minY,
-                         int width, int height,
-                         SampleModel sampleModel,
-                         Map configuration, ImageLayout layout) {
+    public RandomOpImage(
+            int minX, int minY, int width, int height, SampleModel sampleModel, Map configuration, ImageLayout layout) {
         super(layout, configuration, sampleModel, minX, minY, width, height);
 
         switch (this.transtype = sampleModel.getTransferType()) {
-        case DataBuffer.TYPE_BYTE:
-            maxValue = 255;
-            break;
-        case DataBuffer.TYPE_USHORT:
-            maxValue = 65535;
-            break;
-        case DataBuffer.TYPE_SHORT:
-            maxValue = Short.MAX_VALUE;
-            break;
-        case DataBuffer.TYPE_INT:
-            maxValue = Integer.MAX_VALUE;
-            break;
+            case DataBuffer.TYPE_BYTE:
+                maxValue = 255;
+                break;
+            case DataBuffer.TYPE_USHORT:
+                maxValue = 65535;
+                break;
+            case DataBuffer.TYPE_SHORT:
+                maxValue = Short.MAX_VALUE;
+                break;
+            case DataBuffer.TYPE_INT:
+                maxValue = Integer.MAX_VALUE;
+                break;
         }
 
         /*
@@ -72,12 +71,9 @@ final class RandomOpImage extends SourcelessOpImage {
         int orgX = tileXToX(tileX);
         int orgY = tileYToY(tileY);
 
-        WritableRaster dst = RasterFactory.createWritableRaster(
-            sampleModel, new Point(orgX, orgY));
+        WritableRaster dst = RasterFactory.createWritableRaster(sampleModel, new Point(orgX, orgY));
 
-        Rectangle rect = new Rectangle(orgX, orgY,
-                                       sampleModel.getWidth(),
-                                       sampleModel.getHeight());
+        Rectangle rect = new Rectangle(orgX, orgY, sampleModel.getWidth(), sampleModel.getHeight());
         rect = rect.intersection(getBounds());
 
         int numBands = sampleModel.getNumBands();
@@ -86,18 +82,17 @@ final class RandomOpImage extends SourcelessOpImage {
         for (int y = rect.y; y < (rect.y + rect.height); y++) {
             for (int x = rect.x; x < (rect.x + rect.width); x++) {
                 for (int i = 0; i < numBands; i++) {
-                    switch ( transtype ) {
-                    case DataBuffer.TYPE_BYTE:
-                    case DataBuffer.TYPE_USHORT:
-                    // For unsigned data, limint the random number to [0, 1]
-                    // and the result to [0, MAX_VALUE];
-                        p[i] = (int)(maxValue * Math.random());
-                        break;
-                    default:
-                    // For signed data, limint the random number to [-1, 1]
-                    // and the result to [MIN_VALUE, MAX_VALUE];
-                        p[i] = (int)((maxValue+1.0F) *
-                                 (Math.random() - 0.5F) * 2.0F);
+                    switch (transtype) {
+                        case DataBuffer.TYPE_BYTE:
+                        case DataBuffer.TYPE_USHORT:
+                            // For unsigned data, limint the random number to [0, 1]
+                            // and the result to [0, MAX_VALUE];
+                            p[i] = (int) (maxValue * Math.random());
+                            break;
+                        default:
+                            // For signed data, limint the random number to [-1, 1]
+                            // and the result to [MIN_VALUE, MAX_VALUE];
+                            p[i] = (int) ((maxValue + 1.0F) * (Math.random() - 0.5F) * 2.0F);
                     }
                 }
                 dst.setPixel(x, y, p);
@@ -106,17 +101,20 @@ final class RandomOpImage extends SourcelessOpImage {
         return dst;
     }
 
-    public static void main (String args[]) {
+    public static void main(String args[]) {
         ImageLayout layout = new ImageLayout();
         layout.setTileWidth(64);
         layout.setTileHeight(64);
         layout.setColorModel(OpImageTester.createComponentColorModel());
 
-        PlanarImage image =
-            new RandomOpImage(0, 0, 100, 100,
-                              RasterFactory.createPixelInterleavedSampleModel(
-                                              DataBuffer.TYPE_BYTE, 64, 64, 3),
-                              null, layout);
+        PlanarImage image = new RandomOpImage(
+                0,
+                0,
+                100,
+                100,
+                RasterFactory.createPixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, 64, 64, 3),
+                null,
+                layout);
 
         ScrollingImagePanel panel = new ScrollingImagePanel(image, 120, 120);
 

@@ -16,23 +16,17 @@
  */
 
 package org.eclipse.imagen.media.opimage;
+
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.NullOpImage;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.media.codec.ImageCodec;
-import org.eclipse.imagen.media.codec.ImageDecoder;
-import org.eclipse.imagen.media.codec.SeekableStream;
 
 /**
- * A <code>RIF</code> supporting the "GIF" operation in the rendered
- * layer.
+ * A <code>RIF</code> supporting the "GIF" operation in the rendered layer.
  *
  * @since EA2
  * @see org.eclipse.imagen.operator.GIFDescriptor
- *
  */
 public class GIFRIF implements RenderedImageFactory {
 
@@ -40,16 +34,13 @@ public class GIFRIF implements RenderedImageFactory {
     public GIFRIF() {}
 
     /**
-     * Creates a <code>RenderedImage</code> representing the contents
-     * of a GIF-encoded image. Any layout information is ignored.
+     * Creates a <code>RenderedImage</code> representing the contents of a GIF-encoded image. Any layout information is
+     * ignored.
      *
-     * @param paramBlock A <code>ParameterBlock</code> containing the GIF
-     *        <code>SeekableStream</code> to read.
-     * @param renderHints An instance of <code>RenderingHints</code>,
-     *        or null.
+     * @param paramBlock A <code>ParameterBlock</code> containing the GIF <code>SeekableStream</code> to read.
+     * @param renderHints An instance of <code>RenderingHints</code>, or null.
      */
-    public RenderedImage create(ParameterBlock paramBlock,
-                                RenderingHints renderHints) {
+    public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         return CodecRIFUtil.create("gif", paramBlock, renderHints);
     }
 }

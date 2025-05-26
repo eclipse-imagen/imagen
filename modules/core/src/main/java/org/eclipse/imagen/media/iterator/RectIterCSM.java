@@ -16,17 +16,14 @@
  */
 
 package org.eclipse.imagen.media.iterator;
+
 import java.awt.Rectangle;
 import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
 import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.iterator.RectIter;
 
-/**
- */
+/** */
 public abstract class RectIterCSM extends RectIterFallback {
 
     protected int[] bankIndices;
@@ -41,8 +38,8 @@ public abstract class RectIterCSM extends RectIterFallback {
     public RectIterCSM(RenderedImage im, Rectangle bounds) {
         super(im, bounds);
 
-        ComponentSampleModel csm = (ComponentSampleModel)sampleModel;
-        
+        ComponentSampleModel csm = (ComponentSampleModel) sampleModel;
+
         this.scanlineStride = csm.getScanlineStride();
         this.pixelStride = csm.getPixelStride();
         this.bankIndices = csm.getBankIndices();
@@ -56,8 +53,7 @@ public abstract class RectIterCSM extends RectIterFallback {
 
         this.DBOffsets = new int[numBands];
 
-        this.offset = (y - sampleModelTranslateY)*scanlineStride +
-            (x - sampleModelTranslateX)*pixelStride;
+        this.offset = (y - sampleModelTranslateY) * scanlineStride + (x - sampleModelTranslateX) * pixelStride;
         this.bandOffset = bandOffsets[0];
     }
 
@@ -83,14 +79,14 @@ public abstract class RectIterCSM extends RectIterFallback {
         int deltaX = sampleModelTranslateX - newSampleModelTranslateX;
         int deltaY = sampleModelTranslateY - newSampleModelTranslateY;
 
-        offset += deltaY*scanlineStride + deltaX*pixelStride;
+        offset += deltaY * scanlineStride + deltaX * pixelStride;
 
         this.sampleModelTranslateX = newSampleModelTranslateX;
         this.sampleModelTranslateY = newSampleModelTranslateY;
     }
 
     public void startLines() {
-        offset += (bounds.y - y)*scanlineStride;
+        offset += (bounds.y - y) * scanlineStride;
         y = bounds.y;
 
         tileY = startTileY;
@@ -111,19 +107,17 @@ public abstract class RectIterCSM extends RectIterFallback {
         }
 
         y = jumpY;
-        offset += num*scanlineStride;
+        offset += num * scanlineStride;
 
         if (y < prevYBoundary || y > nextYBoundary) {
-            this.tileY = PlanarImage.YToTileY(y,
-                                              tileGridYOffset,
-                                              tileHeight);
+            this.tileY = PlanarImage.YToTileY(y, tileGridYOffset, tileHeight);
             setTileYBounds();
             setDataBuffer();
         }
     }
 
     public void startPixels() {
-        offset += (bounds.x - x)*pixelStride;
+        offset += (bounds.x - x) * pixelStride;
         x = bounds.x;
 
         tileX = startTileX;
@@ -144,13 +138,11 @@ public abstract class RectIterCSM extends RectIterFallback {
         }
 
         x = jumpX;
-        offset += num*pixelStride;
+        offset += num * pixelStride;
 
         if (x < prevXBoundary || x > nextXBoundary) {
-            this.tileX = PlanarImage.XToTileX(x,
-                                              tileGridXOffset,
-                                              tileWidth);
-            
+            this.tileX = PlanarImage.XToTileX(x, tileGridXOffset, tileWidth);
+
             setTileXBounds();
             setDataBuffer();
         }

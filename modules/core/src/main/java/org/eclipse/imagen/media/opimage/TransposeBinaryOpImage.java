@@ -16,7 +16,7 @@
  */
 
 package org.eclipse.imagen.media.opimage;
-import java.awt.Point;
+
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.ColorModel;
@@ -24,42 +24,31 @@ import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferUShort;
-import java.awt.image.IndexColorModel;
 import java.awt.image.MultiPixelPackedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.RasterFactory;
 import java.util.Map;
+import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.WarpAffine;
-import org.eclipse.imagen.WarpOpImage;
+import org.eclipse.imagen.PlanarImage;
 
 /**
- * An OpImage class to perform a transpose (flip) of an image with a
- * single 1-bit channel, represented using a
+ * An OpImage class to perform a transpose (flip) of an image with a single 1-bit channel, represented using a
  * MultiPixelPackedSampleModel and byte, short, or int DataBuffer.
  *
  * @since 1.0.1
  * @see TransposeOpImage
  */
 final class TransposeBinaryOpImage extends TransposeOpImage {
-    
+
     // Force the SampleModel and ColorModel to be the same as for
     // the source image.
-    private static ImageLayout layoutHelper(ImageLayout layout,
-                                            SampleModel sm,
-                                            ColorModel cm) {
+    private static ImageLayout layoutHelper(ImageLayout layout, SampleModel sm, ColorModel cm) {
         ImageLayout newLayout;
         if (layout != null) {
-            newLayout = (ImageLayout)layout.clone();
+            newLayout = (ImageLayout) layout.clone();
         } else {
             newLayout = new ImageLayout();
         }
@@ -74,57 +63,45 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
     // to expand the IndexColorModel
     private static Map configHelper(Map configuration) {
 
-	Map config;
+        Map config;
 
-	if (configuration == null) {
-	    config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL,
-					Boolean.FALSE);
-	} else {
-	    
-	    config = configuration;
+        if (configuration == null) {
+            config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+        } else {
 
-	    if (!(config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL))) {
-		RenderingHints hints = (RenderingHints)configuration;
-		config = (RenderingHints)hints.clone();
-		config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
-	    }
-	}
+            config = configuration;
 
-	return config;
+            if (!(config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL))) {
+                RenderingHints hints = (RenderingHints) configuration;
+                config = (RenderingHints) hints.clone();
+                config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+            }
+        }
+
+        return config;
     }
-    
+
     /**
-     * Constructs an TransposeBinaryOpImage from a RenderedImage source,
-     * and Transpose type.  The image dimensions are determined by
-     * forward-mapping the source bounds.
-     * The tile grid layout, SampleModel, and ColorModel are specified
-     * by the image source, possibly overridden by values from the
-     * ImageLayout parameter.
-     * 
+     * Constructs an TransposeBinaryOpImage from a RenderedImage source, and Transpose type. The image dimensions are
+     * determined by forward-mapping the source bounds. The tile grid layout, SampleModel, and ColorModel are specified
+     * by the image source, possibly overridden by values from the ImageLayout parameter.
+     *
      * @param source a RenderedImage.
-     * @param layout an ImageLayout optionally containing the tile grid layout,
-     *        SampleModel, and ColorModel, or null.
+     * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param type the desired Tranpose type.
      */
-    public TransposeBinaryOpImage(RenderedImage source,
-                                   Map config,
-                                   ImageLayout layout,
-                                   int type) {
-        super(source, 
-	      configHelper(config),
-              layoutHelper(layout,
-                           source.getSampleModel(),
-                           source.getColorModel()),
-              type); 
-   }
+    public TransposeBinaryOpImage(RenderedImage source, Map config, ImageLayout layout, int type) {
+        super(
+                source,
+                configHelper(config),
+                layoutHelper(layout, source.getSampleModel(), source.getColorModel()),
+                type);
+    }
 
-    protected void computeRect(Raster[] sources,
-                               WritableRaster dest,
-                               Rectangle destRect) {
+    protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         Raster source = sources[0];
 
-        MultiPixelPackedSampleModel mppsm =
-            (MultiPixelPackedSampleModel)source.getSampleModel();
+        MultiPixelPackedSampleModel mppsm = (MultiPixelPackedSampleModel) source.getSampleModel();
         int srcScanlineStride = mppsm.getScanlineStride();
 
         int incr1 = 0, incr2 = 0, s_x = 0, s_y = 0;
@@ -155,84 +132,69 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
 
         // Determine source stride along dest row (incr1) and column (incr2)
         switch (type) {
-        case 0: // FLIP_VERTICAL
-            incr1 = 1;
-            incr2 = -bits*srcScanlineStride;
-            break;
+            case 0: // FLIP_VERTICAL
+                incr1 = 1;
+                incr2 = -bits * srcScanlineStride;
+                break;
 
-        case 1: // FLIP_HORIZONTAL
-            incr1 = -1;
-            incr2 = bits*srcScanlineStride;
-            break;
+            case 1: // FLIP_HORIZONTAL
+                incr1 = -1;
+                incr2 = bits * srcScanlineStride;
+                break;
 
-        case 2: // FLIP_DIAGONAL;
-            incr1 = bits*srcScanlineStride;
-            incr2 = 1;
-            break;
+            case 2: // FLIP_DIAGONAL;
+                incr1 = bits * srcScanlineStride;
+                incr2 = 1;
+                break;
 
-        case 3: // FLIP_ANTIDIAGONAL
-            incr1 = -bits*srcScanlineStride;
-            incr2 = -1;
-            break;
+            case 3: // FLIP_ANTIDIAGONAL
+                incr1 = -bits * srcScanlineStride;
+                incr2 = -1;
+                break;
 
-        case 4: // ROTATE_90
-            incr1 = -bits*srcScanlineStride;
-            incr2 = 1;
-            break;
+            case 4: // ROTATE_90
+                incr1 = -bits * srcScanlineStride;
+                incr2 = 1;
+                break;
 
-        case 5: // ROTATE_180
-            incr1 = -1;
-            incr2 = -bits*srcScanlineStride;
-            break;
+            case 5: // ROTATE_180
+                incr1 = -1;
+                incr2 = -bits * srcScanlineStride;
+                break;
 
-        case 6: // ROTATE_270
-            incr1 = bits*srcScanlineStride;
-            incr2 = -1;
-            break;
+            case 6: // ROTATE_270
+                incr1 = bits * srcScanlineStride;
+                incr2 = -1;
+                break;
         }
- 
-        switch (source.getSampleModel().getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-            byteLoop(source,
-                     dest,
-                     destRect,
-                     incr1, incr2, s_x, s_y);
-            break;
-            
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-            shortLoop(source,
-                      dest,
-                      destRect,
-                      incr1, incr2, s_x, s_y);
-            break;
 
-        case DataBuffer.TYPE_INT:
-            intLoop(source,
-                    dest,
-                    destRect,
-                    incr1, incr2, s_x, s_y);
-            break;
+        switch (source.getSampleModel().getDataType()) {
+            case DataBuffer.TYPE_BYTE:
+                byteLoop(source, dest, destRect, incr1, incr2, s_x, s_y);
+                break;
+
+            case DataBuffer.TYPE_SHORT:
+            case DataBuffer.TYPE_USHORT:
+                shortLoop(source, dest, destRect, incr1, incr2, s_x, s_y);
+                break;
+
+            case DataBuffer.TYPE_INT:
+                intLoop(source, dest, destRect, incr1, incr2, s_x, s_y);
+                break;
         }
     }
 
-    private void byteLoop(Raster source,
-                          WritableRaster dest,
-                          Rectangle destRect,
-                          int incr1, int incr2, int s_x, int s_y) {
-        MultiPixelPackedSampleModel sourceSM = 
-            (MultiPixelPackedSampleModel)source.getSampleModel();
-        DataBufferByte sourceDB =
-            (DataBufferByte)source.getDataBuffer();
+    private void byteLoop(
+            Raster source, WritableRaster dest, Rectangle destRect, int incr1, int incr2, int s_x, int s_y) {
+        MultiPixelPackedSampleModel sourceSM = (MultiPixelPackedSampleModel) source.getSampleModel();
+        DataBufferByte sourceDB = (DataBufferByte) source.getDataBuffer();
         int sourceTransX = source.getSampleModelTranslateX();
         int sourceTransY = source.getSampleModelTranslateY();
         int sourceDataBitOffset = sourceSM.getDataBitOffset();
         int sourceScanlineStride = sourceSM.getScanlineStride();
 
-        MultiPixelPackedSampleModel destSM = 
-            (MultiPixelPackedSampleModel)dest.getSampleModel();
-        DataBufferByte destDB =
-            (DataBufferByte)dest.getDataBuffer();
+        MultiPixelPackedSampleModel destSM = (MultiPixelPackedSampleModel) dest.getSampleModel();
+        DataBufferByte destDB = (DataBufferByte) dest.getDataBuffer();
         int destMinX = dest.getMinX();
         int destMinY = dest.getMinY();
         int destTransX = dest.getSampleModelTranslateX();
@@ -251,17 +213,13 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
         int dwidth = destRect.width;
         int dheight = destRect.height;
 
-        int sourceOffset = 
-            8*(s_y - sourceTransY)*sourceScanlineStride +
-            8*sourceDBOffset +
-            (s_x - sourceTransX) +
-            sourceDataBitOffset;
+        int sourceOffset = 8 * (s_y - sourceTransY) * sourceScanlineStride
+                + 8 * sourceDBOffset
+                + (s_x - sourceTransX)
+                + sourceDataBitOffset;
 
-        int destOffset = 
-            8*(dy - destTransY)*destScanlineStride +
-            8*destDBOffset +
-            (dx - destTransX) +
-            destDataBitOffset;
+        int destOffset =
+                8 * (dy - destTransY) * destScanlineStride + 8 * destDBOffset + (dx - destTransX) + destDataBitOffset;
 
         for (int j = 0; j < dheight; j++) {
             int sOffset = sourceOffset;
@@ -277,13 +235,13 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                 int dshift = 7 - (dOffset & 7);
                 delement = destData[dindex];
                 delement |= val << dshift;
-                destData[dindex] = (byte)delement;
+                destData[dindex] = (byte) delement;
 
                 sOffset += incr1;
                 ++dOffset;
                 ++i;
             }
-        
+
             dindex = dOffset >> 3;
             if ((incr1 & 7) == 0) {
                 //
@@ -300,45 +258,45 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                     val = (selement >> shift) & 0x1;
                     delement = val << 7;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val << 6;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val << 5;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val << 4;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val << 3;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val << 2;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val << 1;
                     offset += incr;
-                    
+
                     selement = sourceData[offset];
                     val = (selement >> shift) & 0x1;
                     delement |= val;
                     offset += incr;
-                    
-                    destData[dindex] = (byte)delement;
-                    
-                    sOffset += 8*incr1;
+
+                    destData[dindex] = (byte) delement;
+
+                    sOffset += 8 * incr1;
                     dOffset += 8;
                     i += 8;
                     ++dindex;
@@ -353,44 +311,44 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement = val << 7;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val << 6;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val << 5;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val << 4;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val << 3;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val << 2;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val << 1;
                     sOffset += incr1;
-                    
+
                     selement = sourceData[sOffset >> 3];
                     val = (selement >> (7 - (sOffset & 7))) & 0x1;
                     delement |= val;
                     sOffset += incr1;
-                    
-                    destData[dindex] = (byte)delement;
-                    
+
+                    destData[dindex] = (byte) delement;
+
                     dOffset += 8;
                     i += 8;
                     ++dindex;
@@ -405,7 +363,7 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                 int dshift = 7 - (dOffset & 7);
                 delement = destData[dindex];
                 delement |= val << dshift;
-                destData[dindex] = (byte)delement;
+                destData[dindex] = (byte) delement;
 
                 sOffset += incr1;
                 ++dOffset;
@@ -413,27 +371,20 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
             }
 
             sourceOffset += incr2;
-            destOffset += 8*destScanlineStride;
+            destOffset += 8 * destScanlineStride;
         }
     }
 
-    private void shortLoop(Raster source,
-                           Raster dest,
-                           Rectangle destRect,
-                           int incr1, int incr2, int s_x, int s_y) {
-        MultiPixelPackedSampleModel sourceSM = 
-            (MultiPixelPackedSampleModel)source.getSampleModel();
-        DataBufferUShort sourceDB =
-            (DataBufferUShort)source.getDataBuffer();
+    private void shortLoop(Raster source, Raster dest, Rectangle destRect, int incr1, int incr2, int s_x, int s_y) {
+        MultiPixelPackedSampleModel sourceSM = (MultiPixelPackedSampleModel) source.getSampleModel();
+        DataBufferUShort sourceDB = (DataBufferUShort) source.getDataBuffer();
         int sourceTransX = source.getSampleModelTranslateX();
         int sourceTransY = source.getSampleModelTranslateY();
         int sourceDataBitOffset = sourceSM.getDataBitOffset();
         int sourceScanlineStride = sourceSM.getScanlineStride();
 
-        MultiPixelPackedSampleModel destSM = 
-            (MultiPixelPackedSampleModel)dest.getSampleModel();
-        DataBufferUShort destDB =
-            (DataBufferUShort)dest.getDataBuffer();
+        MultiPixelPackedSampleModel destSM = (MultiPixelPackedSampleModel) dest.getSampleModel();
+        DataBufferUShort destDB = (DataBufferUShort) dest.getDataBuffer();
         int destMinX = dest.getMinX();
         int destMinY = dest.getMinY();
         int destTransX = dest.getSampleModelTranslateX();
@@ -452,17 +403,13 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
         int dwidth = destRect.width;
         int dheight = destRect.height;
 
-        int sourceOffset = 
-            16*(s_y - sourceTransY)*sourceScanlineStride +
-            16*sourceDBOffset +
-            (s_x - sourceTransX) +
-            sourceDataBitOffset;
+        int sourceOffset = 16 * (s_y - sourceTransY) * sourceScanlineStride
+                + 16 * sourceDBOffset
+                + (s_x - sourceTransX)
+                + sourceDataBitOffset;
 
-        int destOffset = 
-            16*(dy - destTransY)*destScanlineStride +
-            16*destDBOffset +
-            (dx - destTransX) +
-            destDataBitOffset;
+        int destOffset =
+                16 * (dy - destTransY) * destScanlineStride + 16 * destDBOffset + (dx - destTransX) + destDataBitOffset;
 
         for (int j = 0; j < dheight; j++) {
             int sOffset = sourceOffset;
@@ -478,13 +425,13 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                 int dshift = 15 - (dOffset & 15);
                 delement = destData[dindex];
                 delement |= val << dshift;
-                destData[dindex] = (short)delement;
+                destData[dindex] = (short) delement;
 
                 sOffset += incr1;
                 ++dOffset;
                 ++i;
             }
-        
+
             dindex = dOffset >> 4;
             if ((incr1 & 15) == 0) {
                 int shift = 15 - (sOffset & 5);
@@ -499,10 +446,10 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                         delement |= val << b;
                         offset += incr;
                     }
-                    
-                    destData[dindex] = (short)delement;
 
-                    sOffset += 16*incr1;
+                    destData[dindex] = (short) delement;
+
+                    sOffset += 16 * incr1;
                     dOffset += 16;
                     i += 16;
                     ++dindex;
@@ -516,8 +463,8 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                         delement |= val << b;
                         sOffset += incr1;
                     }
-                    
-                    destData[dindex] = (short)delement;
+
+                    destData[dindex] = (short) delement;
 
                     dOffset += 15;
                     i += 16;
@@ -533,7 +480,7 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                 int dshift = 15 - (dOffset & 15);
                 delement = destData[dindex];
                 delement |= val << dshift;
-                destData[dindex] = (short)delement;
+                destData[dindex] = (short) delement;
 
                 sOffset += incr1;
                 ++dOffset;
@@ -541,27 +488,20 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
             }
 
             sourceOffset += incr2;
-            destOffset += 16*destScanlineStride;
+            destOffset += 16 * destScanlineStride;
         }
     }
 
-    private void intLoop(Raster source,
-                         Raster dest,
-                         Rectangle destRect,
-                         int incr1, int incr2, int s_x, int s_y) {
-        MultiPixelPackedSampleModel sourceSM = 
-            (MultiPixelPackedSampleModel)source.getSampleModel();
-        DataBufferInt sourceDB =
-            (DataBufferInt)source.getDataBuffer();
+    private void intLoop(Raster source, Raster dest, Rectangle destRect, int incr1, int incr2, int s_x, int s_y) {
+        MultiPixelPackedSampleModel sourceSM = (MultiPixelPackedSampleModel) source.getSampleModel();
+        DataBufferInt sourceDB = (DataBufferInt) source.getDataBuffer();
         int sourceTransX = source.getSampleModelTranslateX();
         int sourceTransY = source.getSampleModelTranslateY();
         int sourceDataBitOffset = sourceSM.getDataBitOffset();
         int sourceScanlineStride = sourceSM.getScanlineStride();
 
-        MultiPixelPackedSampleModel destSM = 
-            (MultiPixelPackedSampleModel)dest.getSampleModel();
-        DataBufferInt destDB =
-            (DataBufferInt)dest.getDataBuffer();
+        MultiPixelPackedSampleModel destSM = (MultiPixelPackedSampleModel) dest.getSampleModel();
+        DataBufferInt destDB = (DataBufferInt) dest.getDataBuffer();
         int destMinX = dest.getMinX();
         int destMinY = dest.getMinY();
         int destTransX = dest.getSampleModelTranslateX();
@@ -580,17 +520,13 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
         int dwidth = destRect.width;
         int dheight = destRect.height;
 
-        int sourceOffset = 
-            32*(s_y - sourceTransY)*sourceScanlineStride +
-            32*sourceDBOffset +
-            (s_x - sourceTransX) +
-            sourceDataBitOffset;
+        int sourceOffset = 32 * (s_y - sourceTransY) * sourceScanlineStride
+                + 32 * sourceDBOffset
+                + (s_x - sourceTransX)
+                + sourceDataBitOffset;
 
-        int destOffset = 
-            32*(dy - destTransY)*destScanlineStride +
-            32*destDBOffset +
-            (dx - destTransX) +
-            destDataBitOffset;
+        int destOffset =
+                32 * (dy - destTransY) * destScanlineStride + 32 * destDBOffset + (dx - destTransX) + destDataBitOffset;
 
         for (int j = 0; j < dheight; j++) {
             int sOffset = sourceOffset;
@@ -606,13 +542,13 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                 int dshift = 31 - (dOffset & 31);
                 delement = destData[dindex];
                 delement |= val << dshift;
-                destData[dindex] = (int)delement;
+                destData[dindex] = (int) delement;
 
                 sOffset += incr1;
                 ++dOffset;
                 ++i;
             }
-        
+
             dindex = dOffset >> 5;
             if ((incr1 & 31) == 0) {
                 int shift = 31 - (sOffset & 5);
@@ -627,10 +563,10 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                         delement |= val << b;
                         offset += incr;
                     }
-                    
-                    destData[dindex] = (int)delement;
 
-                    sOffset += 32*incr1;
+                    destData[dindex] = (int) delement;
+
+                    sOffset += 32 * incr1;
                     dOffset += 32;
                     i += 32;
                     ++dindex;
@@ -644,8 +580,8 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                         delement |= val << b;
                         sOffset += incr1;
                     }
-                    
-                    destData[dindex] = (int)delement;
+
+                    destData[dindex] = (int) delement;
 
                     dOffset += 31;
                     i += 32;
@@ -661,7 +597,7 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
                 int dshift = 31 - (dOffset & 31);
                 delement = destData[dindex];
                 delement |= val << dshift;
-                destData[dindex] = (int)delement;
+                destData[dindex] = (int) delement;
 
                 sOffset += incr1;
                 ++dOffset;
@@ -669,7 +605,7 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
             }
 
             sourceOffset += incr2;
-            destOffset += 32*destScanlineStride;
+            destOffset += 32 * destScanlineStride;
         }
     }
 }
