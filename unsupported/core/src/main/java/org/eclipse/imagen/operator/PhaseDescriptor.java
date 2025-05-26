@@ -21,12 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.PropertyGenerator;
-import org.eclipse.imagen.RenderableOp;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
@@ -77,12 +72,12 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Phase"},
         {"LocalName", "Phase"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("PhaseDescriptor0")},
+        {"Description", org.eclipse.imagen.operator.JaiI18N.getString("PhaseDescriptor0")},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PhaseDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", org.eclipse.imagen.operator.JaiI18N.getString("DescriptorVersion")}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -110,7 +105,7 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
         int bands = src.getSampleModel().getNumBands();
 
         if (bands % 2 != 0) {
-            msg.append(getName() + " " + JaiI18N.getString("PhaseDescriptor1"));
+            msg.append(getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("PhaseDescriptor1"));
             return false;
         }
 

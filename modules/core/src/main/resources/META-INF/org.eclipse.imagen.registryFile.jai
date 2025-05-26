@@ -121,8 +121,8 @@ descriptor	org.eclipse.imagen.operator.InvertDescriptor
 descriptor	org.eclipse.imagen.operator.JPEGDescriptor
 descriptor	org.eclipse.imagen.operator.LogDescriptor
 descriptor	org.eclipse.imagen.operator.LookupDescriptor
-descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
-descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
+#descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
+#descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
 descriptor	org.eclipse.imagen.operator.MaxDescriptor
 descriptor	org.eclipse.imagen.operator.MaxFilterDescriptor
 descriptor	org.eclipse.imagen.operator.MatchCDFDescriptor
@@ -142,7 +142,7 @@ descriptor	org.eclipse.imagen.operator.OrderedDitherDescriptor
 descriptor	org.eclipse.imagen.operator.OverlayDescriptor
 descriptor	org.eclipse.imagen.operator.PatternDescriptor
 descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
-descriptor	org.eclipse.imagen.operator.PhaseDescriptor
+#descriptor	org.eclipse.imagen.operator.PhaseDescriptor
 descriptor	org.eclipse.imagen.operator.PiecewiseDescriptor
 descriptor	org.eclipse.imagen.operator.PNGDescriptor
 descriptor	org.eclipse.imagen.operator.PNMDescriptor
@@ -233,8 +233,8 @@ rendered    org.eclipse.imagen.media.opimage.InvertCRIF		org.eclipse.imagen.medi
 rendered    org.eclipse.imagen.media.opimage.JPEGRIF		        org.eclipse.imagen.media	jpeg			sunjpegrif
 rendered    org.eclipse.imagen.media.opimage.LogCRIF		        org.eclipse.imagen.media	log			sunlogrif
 rendered    org.eclipse.imagen.media.opimage.LookupCRIF		org.eclipse.imagen.media	lookup			sunlookuprif
-rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
-rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
+#rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
+#rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
 rendered    org.eclipse.imagen.media.opimage.MatchCDFCRIF		org.eclipse.imagen.media	matchcdf		sunmatchcdfrif
 rendered    org.eclipse.imagen.media.opimage.MaxCRIF		        org.eclipse.imagen.media	max			sunmaxrif
 rendered    org.eclipse.imagen.media.opimage.MaxFilterRIF		org.eclipse.imagen.media	maxfilter		sunmaxfilterrif
@@ -253,7 +253,7 @@ rendered    org.eclipse.imagen.media.opimage.OrCRIF			org.eclipse.imagen.media	o
 rendered    org.eclipse.imagen.media.opimage.OrderedDitherRIF		org.eclipse.imagen.media	ordereddither		sunorderedditherrif
 rendered    org.eclipse.imagen.media.opimage.OverlayCRIF		org.eclipse.imagen.media	overlay			sunoverlayrif
 rendered    org.eclipse.imagen.media.opimage.PatternRIF		org.eclipse.imagen.media	pattern			sunpatternrif
-rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
+#rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
 rendered    org.eclipse.imagen.media.opimage.PeriodicShiftCRIF		org.eclipse.imagen.media	periodicshift		sunperiodicshiftrif
 rendered    org.eclipse.imagen.media.opimage.PiecewiseCRIF		org.eclipse.imagen.media	piecewise		sunpiecewiserif
 rendered    org.eclipse.imagen.media.opimage.PNGRIF			org.eclipse.imagen.media	png			sunpngrif
@@ -313,8 +313,8 @@ renderable	org.eclipse.imagen.media.opimage.IDFTCRIF		idft
 renderable	org.eclipse.imagen.media.opimage.InvertCRIF		invert
 renderable	org.eclipse.imagen.media.opimage.LogCRIF		log
 renderable	org.eclipse.imagen.media.opimage.LookupCRIF		lookup
-renderable	org.eclipse.imagen.media.opimage.MagnitudeCRIF		magnitude
-renderable	org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	magnitudesquared
+#renderable	org.eclipse.imagen.media.opimage.MagnitudeCRIF		magnitude
+#renderable	org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	magnitudesquared
 renderable	org.eclipse.imagen.media.opimage.MatchCDFCRIF		matchcdf
 renderable	org.eclipse.imagen.media.opimage.MaxCRIF		max
 renderable	org.eclipse.imagen.media.opimage.MinCRIF		min
@@ -327,7 +327,7 @@ renderable	org.eclipse.imagen.media.opimage.OrConstCRIF		orconst
 renderable	org.eclipse.imagen.media.opimage.OrCRIF		or
 renderable	org.eclipse.imagen.media.opimage.OverlayCRIF		overlay
 renderable	org.eclipse.imagen.media.opimage.PeriodicShiftCRIF	periodicshift
-renderable	org.eclipse.imagen.media.opimage.PhaseCRIF		phase
+#renderable	org.eclipse.imagen.media.opimage.PhaseCRIF		phase
 renderable	org.eclipse.imagen.media.opimage.PiecewiseCRIF		piecewise
 renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
 #renderable	org.eclipse.imagen.media.opimage.RenderableCRIF	renderable

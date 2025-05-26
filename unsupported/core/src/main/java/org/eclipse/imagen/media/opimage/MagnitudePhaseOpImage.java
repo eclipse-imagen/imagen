@@ -23,13 +23,10 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.util.Map;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.PointOpImage;
-import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFactory;
-import org.eclipse.imagen.RasterFormatTag;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
+import org.eclipse.imagen.operator.PhaseDescriptor;
 
 /// XXX Testing
 /// import java.awt.Point;
@@ -47,7 +44,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * @see org.eclipse.imagen.UntiledOpImage
  * @see org.eclipse.imagen.operator.MagnitudeDescriptor
  * @see org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
- * @see org.eclipse.imagen.operator.PhaseDescriptor
+ * @see PhaseDescriptor
  */
 final class MagnitudePhaseOpImage extends PointOpImage {
     /** A flag indicating a magnitude or modulus operation. */

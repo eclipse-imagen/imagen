@@ -22,12 +22,13 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.operator.PhaseDescriptor;
 
 /**
  * A <code>CRIF</code> supporting the "Phase" operation in the rendered image layer.
  *
  * @since Beta
- * @see org.eclipse.imagen.operator.PhaseDescriptor
+ * @see PhaseDescriptor
  */
 public class PhaseCRIF extends CRIFImpl {
 
