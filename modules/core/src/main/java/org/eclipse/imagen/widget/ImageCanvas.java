@@ -16,36 +16,17 @@
  */
 
 package org.eclipse.imagen.widget;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.MemoryImageSource;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.awt.image.renderable.ParameterBlock;
-import java.awt.peer.ComponentPeer;
-import java.util.HashSet;
-import java.util.Iterator;
-import org.eclipse.imagen.Interpolation;
+
 import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.*;
+import java.awt.image.renderable.ParameterBlock;
+import java.util.HashSet;
+import java.util.Iterator;
 
 
 /**

@@ -228,8 +228,6 @@ rendered    org.eclipse.imagen.media.opimage.GradientRIF		org.eclipse.imagen.med
 rendered    org.eclipse.imagen.media.opimage.HistogramRIF		org.eclipse.imagen.media	histogram		sunhistogramrif
 rendered    org.eclipse.imagen.media.opimage.IDCTCRIF			org.eclipse.imagen.media	idct			sunidctrif
 rendered    org.eclipse.imagen.media.opimage.IDFTCRIF			org.eclipse.imagen.media	idft			sunidftrif
-rendered    org.eclipse.imagen.media.opimage.IIPCRIF			org.eclipse.imagen.media	iip			suniipcrif
-rendered    org.eclipse.imagen.media.opimage.IIPResolutionRIF		org.eclipse.imagen.media	iipresolution		suniipresolutionrif
 rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
 rendered    org.eclipse.imagen.media.opimage.InvertCRIF		org.eclipse.imagen.media	invert			suninvertrif
 rendered    org.eclipse.imagen.media.opimage.JPEGRIF		        org.eclipse.imagen.media	jpeg			sunjpegrif
@@ -312,7 +310,6 @@ renderable	org.eclipse.imagen.media.opimage.ExpCRIF		exp
 renderable	org.eclipse.imagen.media.opimage.FormatCRIF		format
 renderable	org.eclipse.imagen.media.opimage.IDCTCRIF		idct
 renderable	org.eclipse.imagen.media.opimage.IDFTCRIF		idft
-renderable	org.eclipse.imagen.media.opimage.IIPCRIF		iip
 renderable	org.eclipse.imagen.media.opimage.InvertCRIF		invert
 renderable	org.eclipse.imagen.media.opimage.LogCRIF		log
 renderable	org.eclipse.imagen.media.opimage.LookupCRIF		lookup
@@ -357,14 +354,12 @@ collection	org.eclipse.imagen.media.opimage.AddConstToCollectionCIF	org.eclipse.
 # tile decoder factory objects
 #
 tileDecoder org.eclipse.imagen.media.tilecodec.GZIPTileDecoderFactory	org.eclipse.imagen.media	gzip			sungziptiledecoderfactory
-tileDecoder org.eclipse.imagen.media.tilecodec.JPEGTileDecoderFactory	org.eclipse.imagen.media	jpeg			suntiledecoderfactory	
 tileDecoder org.eclipse.imagen.media.tilecodec.RawTileDecoderFactory	org.eclipse.imagen.media	raw			sunrawtiledecoderfactory
 
 #
 # tile encoder factory objects
 #
 tileEncoder org.eclipse.imagen.media.tilecodec.GZIPTileEncoderFactory	org.eclipse.imagen.media	gzip			sungziptileencoderfactory
-tileEncoder org.eclipse.imagen.media.tilecodec.JPEGTileEncoderFactory	org.eclipse.imagen.media	jpeg			sunjpegtileencoderfactory
 tileEncoder org.eclipse.imagen.media.tilecodec.RawTileEncoderFactory	org.eclipse.imagen.media	raw			sunrawtileencoderfactory
 
 #

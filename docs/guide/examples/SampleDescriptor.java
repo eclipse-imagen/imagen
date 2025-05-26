@@ -9,11 +9,8 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.PointOpImage;
-import org.eclipse.imagen.RasterAccessor;
+
+import org.eclipse.imagen.*;
 
 // A single class that is both an OperationDescriptor and
 // a RenderedImageFactory along with the one OpImage it is
@@ -29,10 +26,8 @@ public class SampleDescriptor extends OperationDescriptorImpl
        {"GlobalName",  "Sample"},
        {"LocalName",   "Sample"},
        {"Vendor",      "com.mycompany"},
-       {"Description", "A sample operation that thresholds source
-                        pixels"},
-       {"DocURL",      "http://www.mycompany.com/
-                        SampleDescriptor.html"},
+       {"Description", "A sample operation that thresholds source  pixels"},
+       {"DocURL",      "http://www.mycompany.com/SampleDescriptor.html"},
        {"Version",     "1.0"},
        {"arg0Desc",    "param1"},
        {"arg1Desc",    "param2"}
@@ -99,9 +94,6 @@ class SampleOpImage extends PointOpImage {
     private int param1;
     private int param2;
 
-    // A dummy constructor used by the class loader. */
-    public SampleOpImage() {}
-
     /** Constructs an SampleOpImage. The image dimensions are copied
     *  from the source image.  The tile grid layout, SampleModel, and
     *  ColorModel may optionally be specified by an ImageLayout
@@ -116,7 +108,7 @@ class SampleOpImage extends PointOpImage {
                          ImageLayout layout,
                          Integer param1,
                          Integer param2) {
-        super(source, null, layout, true);
+        super(source, layout, null, true);
         this.param1 = param1.intValue();
         this.param2 = param2.intValue();
     }
@@ -240,7 +232,7 @@ class SampleOpImage extends PointOpImage {
             int pixel = srcData[srcPixelOffset] & 0xff;
             if (pixel < param1) {
                 dstData[dstPixelOffset] = 0; // bp1;
-            } else if (pixel param2) {
+            } else if (pixel > param2) {
                 dstData[dstPixelOffset] = (byte)255; // bp2;
             } else {
                 dstData[dstPixelOffset] = srcData[srcPixelOffset];
@@ -286,7 +278,7 @@ class SampleOpImage extends PointOpImage {
                     int pixel = srcData[srcPixelOffset];
                     if (pixel < param1) {
                        dstData[dstPixelOffset] = 0;
-                    } else if (pixel param2) {
+                    } else if (pixel > param2) {
                        dstData[dstPixelOffset] = 255;
                     } else {
                  dstData[dstPixelOffset] = srcData[srcPixelOffset];

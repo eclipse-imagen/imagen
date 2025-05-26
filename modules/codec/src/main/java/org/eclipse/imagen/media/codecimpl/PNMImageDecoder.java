@@ -102,8 +102,7 @@ class PNMImage extends SimpleRenderedImage {
 
         this.input = input;
 
-        String ls = (String)java.security.AccessController.doPrivileged(
-               new sun.security.action.GetPropertyAction("line.separator"));
+        String ls = System.lineSeparator();
         lineSeparator = ls.getBytes();
 
         // Read file header.
