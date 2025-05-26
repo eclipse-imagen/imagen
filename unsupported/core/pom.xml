@@ -6,10 +6,10 @@
     <artifactId>imagen-unsupported</artifactId>
     <version>0.4-SNAPSHOT</version>
   </parent>
-  <artifactId>imagen-unsupported-operators</artifactId>
+  <artifactId>imagen-unsupported-core</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>ImageN Unsupported ops</description>
+  <description>ImageN Unsupported Core</description>
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
