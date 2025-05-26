@@ -16,25 +16,11 @@
  */
 
 package org.eclipse.imagen.widget;
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Panel;
-import java.awt.Point;
-import java.awt.Scrollbar;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.RenderedImage;
 import java.util.Vector;
-
-import java.awt.ScrollPane;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.Container;
-import java.awt.peer.ScrollPanePeer;
 
 /**
  * An extension of java.awt.Panel that contains an ImageCanvas and

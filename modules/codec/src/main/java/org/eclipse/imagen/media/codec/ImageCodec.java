@@ -16,7 +16,6 @@
  */
 
 package org.eclipse.imagen.media.codec;
-import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.image.ColorModel;
@@ -33,12 +32,9 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 import org.eclipse.imagen.media.codecimpl.BMPCodec;
-import org.eclipse.imagen.media.codecimpl.FPXCodec;
 import org.eclipse.imagen.media.codecimpl.GIFCodec;
-import org.eclipse.imagen.media.codecimpl.JPEGCodec;
 import org.eclipse.imagen.media.codecimpl.PNGCodec;
 import org.eclipse.imagen.media.codecimpl.PNMCodec;
-import org.eclipse.imagen.media.codecimpl.TIFFCodec;
 import org.eclipse.imagen.media.codecimpl.WBMPCodec;
 import org.eclipse.imagen.media.codecimpl.ImagingListenerProxy;
 import org.eclipse.imagen.media.codecimpl.util.FloatDoubleColorModel;
@@ -82,11 +78,8 @@ public abstract class ImageCodec {
     static {
         registerCodec(new BMPCodec());
         registerCodec(new GIFCodec());
-        registerCodec(new FPXCodec());
-        registerCodec(new JPEGCodec());
         registerCodec(new PNGCodec());
         registerCodec(new PNMCodec());
-        registerCodec(new TIFFCodec());
         registerCodec(new WBMPCodec());
     }
 
