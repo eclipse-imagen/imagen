@@ -14,7 +14,6 @@
     <module>tutorial</module>
     <module>demo</module>
     <module>mpv</module>
-    <module>codec</module>
     <module>medical</module>
   </modules>
 
