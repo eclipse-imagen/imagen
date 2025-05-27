@@ -74,6 +74,8 @@ descriptor	org.eclipse.imagen.operator.AddConstDescriptor
 descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
 descriptor	org.eclipse.imagen.operator.AddDescriptor
 descriptor	org.eclipse.imagen.operator.AffineDescriptor
+descriptor	org.eclipse.imagen.operator.AndConstDescriptor
+descriptor	org.eclipse.imagen.operator.AndDescriptor
 
 
 
@@ -95,6 +97,8 @@ rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imag
 rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
 rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
 rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
+rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
+rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
 
 
 
@@ -106,6 +110,8 @@ renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
 renderable	org.eclipse.imagen.media.opimage.AddConstCRIF		addconst
 renderable	org.eclipse.imagen.media.opimage.AddCRIF		add
 renderable	org.eclipse.imagen.media.opimage.AffineCRIF		affine
+renderable	org.eclipse.imagen.media.opimage.AndConstCRIF		andconst
+renderable	org.eclipse.imagen.media.opimage.AndCRIF		and
 
 
 
