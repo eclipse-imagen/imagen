@@ -45,13 +45,14 @@ class ZoomableImageDisplay extends JPanel {
 
     protected boolean useRescaled = false;
 
-    /** Constructs a <code>DisplayJAI</code> and sets its the layout to <code>null</code>. */
+    /** Constructs a <code>ZoomableImageDisplay</code> and sets its the layout to <code>null</code>. */
     public ZoomableImageDisplay() {
         setLayout(null);
     }
 
     /**
-     * Constructs a <code>DisplayJAI</code>, sets its layout to <code>null</code>, and sets its displayed image.
+     * Constructs a <code>ZoomableImageDisplay</code>, sets its layout to <code>null</code>, and sets its displayed
+     * image.
      *
      * <p>The preferred size is set such that its width is the image width plus the left and right insets and its height
      * is the image height plus the top and bottom insets.

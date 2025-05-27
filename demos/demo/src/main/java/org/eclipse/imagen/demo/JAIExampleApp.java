@@ -18,6 +18,7 @@ import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.registry.RIFRegistry;
+import org.eclipse.imagen.widget.ImageCanvas;
 
 /**
  * JAIExampleApp is a simple program that demonstrates how to incorporate an extension imaging operation into JAI and
