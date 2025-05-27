@@ -53,8 +53,8 @@ import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
 
 /**
- * Extends the JAI widget DisplayJAI. Displays an image gets information about the pixel location and value(s) under the
- * mouse cursor to be displayed by the owning frame (e.g. an ImageFrame object).
+ * Displays an image gets information about the pixel location and value(s) under the mouse cursor to be displayed by
+ * the owning frame (e.g. an ImageFrame object).
  *
  * @author Michael Bedward
  * @since 1.0

@@ -15,14 +15,12 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-core</artifactId>
-      <version>0.4-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-legacy-core</artifactId>
-      <version>0.4-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>
