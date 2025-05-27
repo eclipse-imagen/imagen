@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Script to migrate java files to use imagen instead of jai and jai-ext -->
+<project name="imagen-pom-update" default="update">
+    <!-- Use this property to run script on your project location -->
+    <property name="project.dir" location="."/>
+
+    <target name="imports" description="Update common import patterns from jai and jai-ext to imagen">
+        <echo level="info"/>
+        <echo level="info" message="Update jai/jai-ext to imagen in java files"/>
+        <replace dir="${project.dir}" includes="**/*.java" summary="yes">
+            <replacefilter>
+                <replacetoken>com.sun.media.imageioimpl.common.BogusColorSpace</replacetoken>
+                <replacevalue>org.eclipse.imagen.NotAColorSpace</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>BogusColorSpace</replacetoken>
+                <replacevalue>NotAColorSpace</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai</replacetoken>
+                <replacevalue>org.eclipse.imagen.media</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai</replacetoken>
+                <replacevalue>org.eclipse.imagen</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>it.geosolutions.jaiext</replacetoken>
+                <replacevalue>org.eclipse.imagen.media</replacevalue>
+            </replacefilter>
+        </replace>
+    </target>
+
+    <target name="update" depends="imports" description="Update project in current directory from jai to imagen">
+        <echo level="warning">UPDATE COMPLETED: ${project.dir}</echo>
+        <echo level="info">The update is partial, you might have to fix version numbers and the like</echo>
+    </target>
+</project>

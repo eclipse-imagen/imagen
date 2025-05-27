@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tentative script to migrate pom files to use imagen instead of jai and jai-ext. It's not comprehensive, and
+     it's GT/GWC/GS specific, other projects with different conventions will have to adapt it -->
+<project name="imagen-pom-update" default="update">
+    <!-- Use this property to run script on your project location -->
+    <property name="project.dir" location="."/>
+
+    <target name="pom_jai" description="Update pom.xml to migrate jai to imagen">
+        <echo level="info"/>
+        <echo level="info" message="Update jai to imagen in pom.xml files"/>
+        <!-- Replace jai_core dependency with imagen-core -->
+        <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
+        <replaceregexp byline="false" flags="s">
+            <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*javax\.media\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jai_codec\s*&lt;/artifactId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;/dependency&gt;\s*"/>
+            <substitution expression=""/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="s">
+            <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*javax\.media\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jai_imageio\s*&lt;/artifactId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;/dependency&gt;\s*"/>
+            <substitution expression=""/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="s">
+            <regexp pattern="&lt;dependency&gt;\s*&lt;groupId&gt;\s*javax\.media\s*&lt;/groupId&gt;\s*&lt;artifactId&gt;\s*jai_core\s*&lt;/artifactId&gt;\s*&lt;version&gt;\s*1\.1\.3\s*&lt;/version&gt;\s*&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;imagen-core&lt;/artifactId&gt;&#10;  &lt;version&gt;${imagen.version}&lt;/version&gt;&#10;&lt;/dependency&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="s">
+            <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*javax\.media\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jai_core\s*&lt;/artifactId&gt;(?:(?!&lt;/version&gt;).)*?&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;imagen-core&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="gs">
+            <regexp pattern="&lt;dependency&gt;\s*&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.([a-z0-9\-]+)\s*&lt;/groupId&gt;\s*&lt;artifactId&gt;\s*jt-([a-z0-9\-]+)\s*&lt;/artifactId&gt;\s*&lt;version&gt;\s*\$\{jaiext.version\}\s*&lt;/version&gt;\s*&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;\1&lt;/artifactId&gt;&#10;  &lt;version&gt;${imagen.version}&lt;/version&gt;&#10;&lt;/dependency&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="gs">
+            <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.([a-z0-9\-]+)\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jt-\1\s*&lt;/artifactId&gt;(?:(?!&lt;version&gt;).)*?&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;\1&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="gs">
+            <regexp pattern="&lt;jaiext\.version&gt;.*&lt;/jaiext\.version&gt;"/>
+            <substitution
+                    expression="&lt;imagen\.version&gt;0.4-SNAPSHOT&lt;/imagen\.version&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+    </target>
+
+    <target name="update" depends="pom_jai" description="Update project in current directory from jai to imagen">
+        <echo level="warning">UPDATE COMPLETED: ${project.dir}</echo>
+        <echo level="info">The update is partial, you might have to fix version numbers and the like</echo>
+    </target>
+</project>

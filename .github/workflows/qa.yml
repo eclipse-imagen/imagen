@@ -35,4 +35,3 @@ jobs:
     - name: Remove SNAPSHOT jars from repository
       run: |
         find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
-~                                                                                
