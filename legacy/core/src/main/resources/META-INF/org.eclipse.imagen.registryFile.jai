@@ -70,6 +70,7 @@
 #
 descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
 descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
+descriptor	org.eclipse.imagen.media.opimage.AddConstDescriptor
 
 
 #
@@ -85,6 +86,7 @@ descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
 #
 rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.media	absolute		sunabsoluterif
 rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
+rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
 
 
 
@@ -93,6 +95,7 @@ rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imag
 #
 renderable	org.eclipse.imagen.media.opimage.AbsoluteCRIF		absolute
 renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
+renderable	org.eclipse.imagen.media.opimage.AddConstCRIF		addconst
 
 
 
