@@ -17,26 +17,16 @@
 
 package org.eclipse.imagen.operator;
 
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
+import org.eclipse.imagen.registry.RenderableRegistryMode;
+import org.eclipse.imagen.registry.RenderedRegistryMode;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.GeometricOpImage;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.PropertyGenerator;
-import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.ROIShape;
-import org.eclipse.imagen.RenderableOp;
-import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
-import org.eclipse.imagen.registry.RenderableRegistryMode;
-import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /** This property generator computes the properties for the operation "Rotate" dynamically. */
 class RotatePropertyGenerator extends PropertyGeneratorImpl {
@@ -180,7 +170,7 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
  *                            <td>{0.0}</td>
  * </table>
  *
- * @see org.eclipse.imagen.Interpolation
+ * @see Interpolation
  * @see org.eclipse.imagen.OperationDescriptor
  */
 public class RotateDescriptor extends OperationDescriptorImpl {
@@ -211,10 +201,10 @@ public class RotateDescriptor extends OperationDescriptorImpl {
 
     /** The parameter class types for the "Rotate" operation. */
     private static final Class[] paramClasses = {
-        java.lang.Float.class,
-        java.lang.Float.class,
-        java.lang.Float.class,
-        org.eclipse.imagen.Interpolation.class,
+        Float.class,
+        Float.class,
+        Float.class,
+        Interpolation.class,
         double[].class
     };
 

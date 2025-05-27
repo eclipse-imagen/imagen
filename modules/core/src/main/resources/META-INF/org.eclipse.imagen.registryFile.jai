@@ -149,14 +149,14 @@ descriptor	org.eclipse.imagen.operator.PiecewiseDescriptor
 #descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
 descriptor	org.eclipse.imagen.operator.RenderableDescriptor
 descriptor	org.eclipse.imagen.operator.RescaleDescriptor
-descriptor	org.eclipse.imagen.operator.RotateDescriptor
+#descriptor	org.eclipse.imagen.operator.RotateDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
-descriptor	org.eclipse.imagen.operator.ShearDescriptor
 #descriptor	org.eclipse.imagen.operator.StreamDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
+#descriptor	org.eclipse.imagen.operator.ShearDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractDescriptor
-descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
+#descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
 #descriptor	org.eclipse.imagen.operator.TIFFDescriptor
 descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
@@ -261,14 +261,14 @@ rendered    org.eclipse.imagen.media.opimage.PiecewiseCRIF		org.eclipse.imagen.m
 #rendered    org.eclipse.imagen.media.opimage.PNMRIF			org.eclipse.imagen.media	pnm			sunpnmrif
 #rendered    org.eclipse.imagen.media.opimage.PolarToComplexCRIF	org.eclipse.imagen.media	polartocomplex		sunpolartocomplexrif
 rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
-rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
+#rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
-rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
-#rendered    org.eclipse.imagen.media.opimage.StreamRIF			org.eclipse.imagen.media	stream			sunstreamrif
+#rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
+rendered    org.eclipse.imagen.media.opimage.StreamRIF			org.eclipse.imagen.media	stream			sunstreamrif
 #rendered    org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	org.eclipse.imagen.media	subsamplebinarytogray	sunsubsamplebinarytograyrif
 #rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.imagen.media	subsampleaverage	sunsubsampleaveragerif
 rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.media	subtract		sunsubtractrif
-rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
+#rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
 #rendered    org.eclipse.imagen.media.opimage.TIFFRIF			org.eclipse.imagen.media	tiff			suntiffrif
 rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
@@ -333,12 +333,12 @@ renderable	org.eclipse.imagen.media.opimage.PiecewiseCRIF		piecewise
 #renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
 #renderable	org.eclipse.imagen.media.opimage.RenderableCRIF	renderable
 renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
-renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
-renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
+#renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
+#renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 #renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsamplebinarytogray
 #renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
 renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
-renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
+#renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
 renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
 renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate

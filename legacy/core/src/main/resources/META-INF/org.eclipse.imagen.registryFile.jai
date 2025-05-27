@@ -81,7 +81,9 @@ descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
 descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
 descriptor	org.eclipse.imagen.operator.BinarizeDescriptor
 descriptor	org.eclipse.imagen.operator.BorderDescriptor
-
+descriptor	org.eclipse.imagen.operator.RotateDescriptor
+descriptor	org.eclipse.imagen.operator.ShearDescriptor
+descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 
 
 
@@ -108,6 +110,9 @@ rendered    org.eclipse.imagen.media.opimage.BandMergeCRIF		org.eclipse.imagen.m
 rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
 rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
 rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
+rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
+rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
+rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 
 
 #
@@ -124,6 +129,9 @@ renderable	org.eclipse.imagen.media.opimage.BandCombineCRIF	bandcombine
 renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
 renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
 renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
+renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
+renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
+renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 
 
 
