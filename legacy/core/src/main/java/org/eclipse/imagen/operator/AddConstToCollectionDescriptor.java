@@ -15,7 +15,7 @@
  *
  */
 
-package org.eclipse.imagen.media.opimage;
+package org.eclipse.imagen.operator;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
