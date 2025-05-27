@@ -76,17 +76,16 @@
 #descriptor	org.eclipse.imagen.operator.AffineDescriptor
 #descriptor	org.eclipse.imagen.operator.AndConstDescriptor
 #descriptor	org.eclipse.imagen.operator.AndDescriptor
-descriptor	org.eclipse.imagen.operator.AndConstDescriptor
 #descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
-descriptor	org.eclipse.imagen.operator.BandCombineDescriptor
-descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
-descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
-descriptor	org.eclipse.imagen.operator.BinarizeDescriptor
+descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
+#descriptor	org.eclipse.imagen.operator.BandCombineDescriptor
+#descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
+#descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
+#descriptor	org.eclipse.imagen.operator.BinarizeDescriptor
 #descriptor	org.eclipse.imagen.operator.BMPDescriptor
-descriptor	org.eclipse.imagen.operator.BorderDescriptor
+#descriptor	org.eclipse.imagen.operator.BorderDescriptor
 descriptor	org.eclipse.imagen.operator.BoxFilterDescriptor
-descriptor	org.eclipse.imagen.operator.ClampDescriptor
-descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
+#descriptor	org.eclipse.imagen.operator.ClampDescriptor
 #descriptor	org.eclipse.imagen.operator.ColorQuantizerDescriptor
 descriptor	org.eclipse.imagen.operator.ConstantDescriptor
 #descriptor	org.eclipse.imagen.operator.CompositeDescriptor
@@ -192,12 +191,12 @@ descriptor	org.eclipse.imagen.operator.XorDescriptor
 #rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
 #rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
 #rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
-rendered    org.eclipse.imagen.media.opimage.BandCombineCRIF		org.eclipse.imagen.media	bandcombine		sunbandcombinerif
-rendered    org.eclipse.imagen.media.opimage.BandMergeCRIF		org.eclipse.imagen.media	bandmerge		sunbandmergerif
-rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
-rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
+#rendered    org.eclipse.imagen.media.opimage.BandCombineCRIF		org.eclipse.imagen.media	bandcombine		sunbandcombinerif
+#rendered    org.eclipse.imagen.media.opimage.BandMergeCRIF		org.eclipse.imagen.media	bandmerge		sunbandmergerif
+#rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
+#rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
 #rendered    org.eclipse.imagen.media.opimage.BMPRIF			org.eclipse.imagen.media	bmp			sunbmprif
-rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
+#rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
 rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.media	boxfilter		sunboxfilterrif
 rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
@@ -291,9 +290,9 @@ rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	
 #renderable	org.eclipse.imagen.media.opimage.AffineCRIF		affine
 #renderable	org.eclipse.imagen.media.opimage.AndConstCRIF		andconst
 #renderable	org.eclipse.imagen.media.opimage.AndCRIF		and
-renderable	org.eclipse.imagen.media.opimage.BandCombineCRIF	bandcombine
-renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
-renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
+#renderable	org.eclipse.imagen.media.opimage.BandCombineCRIF	bandcombine
+#renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
+#renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
 renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
 renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
 renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
