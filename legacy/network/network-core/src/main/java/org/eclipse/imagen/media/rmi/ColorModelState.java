@@ -167,14 +167,14 @@ public class ColorModelState extends SerializableStateImpl {
             FloatDoubleColorModel.class,
             IndexColorModel.class,
             DirectColorModel.class,
-            org.eclipse.imagen.media.codecimpl.util.FloatDoubleColorModel.class
+            FloatDoubleColorModel.class
         };
     }
 
     /**
      * Constructs a <code>ColorModelState</code> from a <code>ColorModel</code>.
      *
-     * @param source The <code>ColorModel</code> to be serialized.
+     * @param c The <code>ColorModel</code> to be serialized.
      * @param o The <code>SampleModel</code> to be serialized.
      * @param h The <code>RenderingHints</code> (ignored).
      */
@@ -256,7 +256,7 @@ public class ColorModelState extends SerializableStateImpl {
     /**
      * Deserialize the <code>ColorModelState</code>.
      *
-     * @param out The <code>ObjectInputStream</code>.
+     * @param in The <code>ObjectInputStream</code>.
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         ColorModel colorModel = null;

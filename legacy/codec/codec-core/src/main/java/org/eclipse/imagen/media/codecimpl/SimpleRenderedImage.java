@@ -1,11 +1,21 @@
 /*
  * Copyright (c) 2019, Oracle and/or its affiliates. All rights reserved.
  *
- * This Example Content is intended to demonstrate usage of Eclipse technology. It is
- * provided to you under the terms and conditions of the Eclipse Distribution License
- * v1.0 which is available at http://www.eclipse.org/org/documents/edl-v10.php.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
-package org.eclipse.imagen.demo.codec;
+
+package org.eclipse.imagen.media.codecimpl;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -18,13 +28,15 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
+import org.eclipse.imagen.RasterFactory;
 
 /**
  * A simple class implemented the <code>RenderedImage</code> interface. Only the <code>getTile()</code> method needs to
  * be implemented by subclasses. The instance variables must also be filled in properly.
  *
- * <p>Normally in JAI <code>PlanarImage</code> is used for this purpose, but in the interest of modularity the use of
- * <code>PlanarImage</code> has been avoided.
+ * <p>Normally in JAI <code>PlanarImage</code> is used for this purpose, but in the interest of making <code>
+ * org.eclipse.imagen.media.codec</code> and <code>org.eclipse.imagen.media.codecimpl</code> be as modular as possible
+ * the use of <code>PlanarImage</code> has been avoided.
  */
 public abstract class SimpleRenderedImage implements RenderedImage {
 
@@ -196,7 +208,8 @@ public abstract class SimpleRenderedImage implements RenderedImage {
      */
     public Object getProperty(String name) {
         name = name.toLowerCase();
-        return properties.get(name);
+        Object value = properties.get(name);
+        return value != null ? value : java.awt.Image.UndefinedProperty;
     }
 
     /**
@@ -206,13 +219,17 @@ public abstract class SimpleRenderedImage implements RenderedImage {
      * @return an array of <code>String</code>s representing valid property names.
      */
     public String[] getPropertyNames() {
-        String[] names = new String[properties.size()];
-        int index = 0;
+        String[] names = null;
 
-        Enumeration e = properties.keys();
-        while (e.hasMoreElements()) {
-            String name = (String) e.nextElement();
-            names[index++] = name;
+        if (properties.size() > 0) {
+            names = new String[properties.size()];
+            int index = 0;
+
+            Enumeration e = properties.keys();
+            while (e.hasMoreElements()) {
+                String name = (String) e.nextElement();
+                names[index++] = name;
+            }
         }
 
         return names;
@@ -377,25 +394,52 @@ public abstract class SimpleRenderedImage implements RenderedImage {
      * @param bounds the region of the RenderedImage to be returned.
      */
     public Raster getData(Rectangle bounds) {
+        // Get the image bounds.
+        Rectangle imageBounds = getBounds();
+
+        // Check for parameter validity.
+        if (bounds == null) {
+            bounds = imageBounds;
+        } else if (!bounds.intersects(imageBounds)) {
+            throw new IllegalArgumentException(JaiI18N.getString("SimpleRenderedImage0"));
+        }
+
+        // Determine tile limits for the prescribed bounds.
         int startX = XToTileX(bounds.x);
         int startY = YToTileY(bounds.y);
         int endX = XToTileX(bounds.x + bounds.width - 1);
         int endY = YToTileY(bounds.y + bounds.height - 1);
-        Raster tile;
 
+        // If the bounds are contained in a single tile, return a child
+        // of that tile's Raster.
         if ((startX == endX) && (startY == endY)) {
-            tile = getTile(startX, startY);
+            Raster tile = getTile(startX, startY);
             return tile.createChild(bounds.x, bounds.y, bounds.width, bounds.height, bounds.x, bounds.y, null);
         } else {
+            // Recalculate the tile limits if the data bounds are not a
+            // subset of the image bounds.
+            if (!imageBounds.contains(bounds)) {
+                Rectangle xsect = bounds.intersection(imageBounds);
+                startX = XToTileX(xsect.x);
+                startY = YToTileY(xsect.y);
+                endX = XToTileX(xsect.x + xsect.width - 1);
+                endY = YToTileY(xsect.y + xsect.height - 1);
+            }
+
             // Create a WritableRaster of the desired size
             SampleModel sm = sampleModel.createCompatibleSampleModel(bounds.width, bounds.height);
 
             // Translate it
-            WritableRaster dest = Raster.createWritableRaster(sm, bounds.getLocation());
+            WritableRaster dest = RasterFactory.createWritableRaster(sm, bounds.getLocation());
 
+            // Loop over the tiles in the intersection.
             for (int j = startY; j <= endY; j++) {
                 for (int i = startX; i <= endX; i++) {
-                    tile = getTile(i, j);
+                    // Retrieve the tile.
+                    Raster tile = getTile(i, j);
+
+                    // Create a child of the tile for the intersection of
+                    // the tile bounds and the bounds of the requested area.
                     Rectangle tileRect = tile.getBounds();
                     Rectangle intersectRect = bounds.intersection(tile.getBounds());
                     Raster liveRaster = tile.createChild(
@@ -406,9 +450,12 @@ public abstract class SimpleRenderedImage implements RenderedImage {
                             intersectRect.x,
                             intersectRect.y,
                             null);
-                    dest.setDataElements(0, 0, liveRaster);
+
+                    // Copy the data from the child.
+                    dest.setRect(liveRaster);
                 }
             }
+
             return dest;
         }
     }
@@ -425,28 +472,36 @@ public abstract class SimpleRenderedImage implements RenderedImage {
      * @return a reference to the supplied WritableRaster, or to a new WritableRaster if the supplied one was null.
      */
     public WritableRaster copyData(WritableRaster dest) {
+        // Get the image bounds.
+        Rectangle imageBounds = getBounds();
+
         Rectangle bounds;
-        Raster tile;
-
         if (dest == null) {
-            bounds = getBounds();
+            // Create a WritableRaster for the entire image.
+            bounds = imageBounds;
             Point p = new Point(minX, minY);
-            /* A SampleModel to hold the entire image. */
-
             SampleModel sm = sampleModel.createCompatibleSampleModel(width, height);
-            dest = Raster.createWritableRaster(sm, p);
+            dest = RasterFactory.createWritableRaster(sm, p);
         } else {
             bounds = dest.getBounds();
         }
 
-        int startX = XToTileX(bounds.x);
-        int startY = YToTileY(bounds.y);
-        int endX = XToTileX(bounds.x + bounds.width - 1);
-        int endY = YToTileY(bounds.y + bounds.height - 1);
+        // Determine tile limits for the intersection of the prescribed
+        // bounds with the image bounds.
+        Rectangle xsect = imageBounds.contains(bounds) ? bounds : bounds.intersection(imageBounds);
+        int startX = XToTileX(xsect.x);
+        int startY = YToTileY(xsect.y);
+        int endX = XToTileX(xsect.x + xsect.width - 1);
+        int endY = YToTileY(xsect.y + xsect.height - 1);
 
+        // Loop over the tiles in the intersection.
         for (int j = startY; j <= endY; j++) {
             for (int i = startX; i <= endX; i++) {
-                tile = getTile(i, j);
+                // Retrieve the tile.
+                Raster tile = getTile(i, j);
+
+                // Create a child of the tile for the intersection of
+                // the tile bounds and the bounds of the requested area.
                 Rectangle tileRect = tile.getBounds();
                 Rectangle intersectRect = bounds.intersection(tile.getBounds());
                 Raster liveRaster = tile.createChild(
@@ -458,17 +513,11 @@ public abstract class SimpleRenderedImage implements RenderedImage {
                         intersectRect.y,
                         null);
 
-                /*
-                 * WritableRaster.setDataElements takes into account of
-                 * inRaster's minX and minY and add these to x and y. Since
-                 * liveRaster has the origin at the correct location, the
-                 * following call should not again give these coordinates in
-                 * places of x and y.
-                 */
-
-                dest.setDataElements(0, 0, liveRaster);
+                // Copy the data from the child.
+                dest.setRect(liveRaster);
             }
         }
+
         return dest;
     }
 }

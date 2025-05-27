@@ -39,6 +39,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.FloatDoubleColorModel;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.NotAColorSpace;
@@ -51,7 +52,6 @@ import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.UnpackedImageData;
 import org.eclipse.imagen.iterator.RectIterFactory;
 import org.eclipse.imagen.iterator.WritableRectIter;
-import org.eclipse.imagen.media.codecimpl.util.FloatDoubleColorModel;
 
 public class ImageUtilities {
 

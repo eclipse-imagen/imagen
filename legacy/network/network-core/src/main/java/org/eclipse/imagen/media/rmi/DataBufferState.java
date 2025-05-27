@@ -64,9 +64,7 @@ public class DataBufferState extends SerializableStateImpl {
                 J2DDataBufferClasses[0],
                 J2DDataBufferClasses[1],
                 org.eclipse.imagen.DataBufferFloat.class,
-                org.eclipse.imagen.DataBufferDouble.class,
-                org.eclipse.imagen.media.codecimpl.util.DataBufferFloat.class,
-                org.eclipse.imagen.media.codecimpl.util.DataBufferDouble.class
+                org.eclipse.imagen.DataBufferDouble.class
             };
         } else {
             // Java 2 pre-1.4.0.
@@ -76,9 +74,7 @@ public class DataBufferState extends SerializableStateImpl {
                 DataBufferUShort.class,
                 DataBufferInt.class,
                 org.eclipse.imagen.DataBufferFloat.class,
-                org.eclipse.imagen.DataBufferDouble.class,
-                org.eclipse.imagen.media.codecimpl.util.DataBufferFloat.class,
-                org.eclipse.imagen.media.codecimpl.util.DataBufferDouble.class
+                org.eclipse.imagen.DataBufferDouble.class
             };
         }
 
@@ -88,7 +84,7 @@ public class DataBufferState extends SerializableStateImpl {
     /**
      * Constructs a <code>DataBufferState</code> from a <code>DataBuffer</code>.
      *
-     * @param source The <code>DataBuffer</code> to be serialized.
+     * @param c The <code>DataBuffer</code> to be serialized.
      * @param o The <code>SampleModel</code> to be serialized.
      * @param h The <code>RenderingHints</code> (ignored).
      */
@@ -141,7 +137,7 @@ public class DataBufferState extends SerializableStateImpl {
     /**
      * Deserialize the <code>DataBufferState</code>.
      *
-     * @param out The <code>ObjectInputStream</code>.
+     * @param in The <code>ObjectInputStream</code>.
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         DataBuffer dataBuffer = null;

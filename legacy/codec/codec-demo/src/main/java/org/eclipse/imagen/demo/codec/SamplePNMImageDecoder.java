@@ -23,6 +23,7 @@ import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.ImageDecoderImpl;
 import org.eclipse.imagen.media.codec.SeekableStream;
+import org.eclipse.imagen.media.codecimpl.SimpleRenderedImage;
 
 /**
  * An <code>ImageDecoder</code> for the PNM family of file formats.
