@@ -77,7 +77,7 @@ public class AbsoluteDescriptor extends OperationDescriptorImpl {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AbsoluteDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", JaiI18N.getString("")}
     };
 
     /** Constructor. */
