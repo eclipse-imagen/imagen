@@ -33,11 +33,11 @@ import java.awt.image.WritableRaster;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.ImageDecoderImpl;
 import org.eclipse.imagen.media.codecimpl.util.ImagingException;
-import org.eclipse.imagen.media.codecimpl.util.RasterFactory;
 
 /** @since EA2 */
 public class BMPImageDecoder extends ImageDecoderImpl {

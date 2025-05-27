@@ -62,8 +62,7 @@ public class SampleModelState extends SerializableStateImpl {
             ComponentSampleModel.class,
             MultiPixelPackedSampleModel.class,
             SinglePixelPackedSampleModel.class,
-            ComponentSampleModelJAI.class,
-            org.eclipse.imagen.media.codecimpl.util.ComponentSampleModelJAI.class
+            ComponentSampleModelJAI.class
         };
     }
 
@@ -151,7 +150,7 @@ public class SampleModelState extends SerializableStateImpl {
     /**
      * Deserialize the <code>SampleModelState</code>.
      *
-     * @param out The <code>ObjectInputStream</code>.
+     * @param in The <code>ObjectInputStream</code>.
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         SampleModel sampleModel = null;

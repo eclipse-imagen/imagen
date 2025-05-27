@@ -28,12 +28,12 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.media.codec.ImageDecoderImpl;
 import org.eclipse.imagen.media.codec.SeekableStream;
 import org.eclipse.imagen.media.codecimpl.util.ImagingException;
-import org.eclipse.imagen.media.codecimpl.util.RasterFactory;
 
 /** @since EA2 */
 public class PNMImageDecoder extends ImageDecoderImpl {
