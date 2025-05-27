@@ -69,7 +69,7 @@
 # Image operation descriptors :
 #
 #descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
-descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
+#descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
 descriptor	org.eclipse.imagen.operator.AddConstDescriptor
 descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
 descriptor	org.eclipse.imagen.operator.AddDescriptor
@@ -184,7 +184,7 @@ descriptor	org.eclipse.imagen.operator.XorDescriptor
 # "rendered" factory objects
 #
 #rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.media	absolute		sunabsoluterif
-rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
+#rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
 rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
 rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
 rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
@@ -284,7 +284,7 @@ rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	
 # "renderable" factory objects
 #
 #renderable	org.eclipse.imagen.media.opimage.AbsoluteCRIF		absolute
-renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
+#renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
 renderable	org.eclipse.imagen.media.opimage.AddConstCRIF		addconst
 renderable	org.eclipse.imagen.media.opimage.AddCRIF		add
 renderable	org.eclipse.imagen.media.opimage.AffineCRIF		affine
