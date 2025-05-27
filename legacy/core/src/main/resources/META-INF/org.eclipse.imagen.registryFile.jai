@@ -69,6 +69,7 @@
 # Image operation descriptors :
 #
 descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
+descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
 
 
 #
@@ -83,11 +84,19 @@ descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
 # "rendered" factory objects
 #
 rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.media	absolute		sunabsoluterif
+rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
+
+
 
 #
 # "renderable" factory objects
 #
 renderable	org.eclipse.imagen.media.opimage.AbsoluteCRIF		absolute
+renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
+
+
+
+
 
 #
 # "collection" factory objects
