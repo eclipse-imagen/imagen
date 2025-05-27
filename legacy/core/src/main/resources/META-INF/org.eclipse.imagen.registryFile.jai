@@ -76,6 +76,9 @@ descriptor	org.eclipse.imagen.operator.AddDescriptor
 descriptor	org.eclipse.imagen.operator.AffineDescriptor
 descriptor	org.eclipse.imagen.operator.AndConstDescriptor
 descriptor	org.eclipse.imagen.operator.AndDescriptor
+descriptor	org.eclipse.imagen.operator.BandCombineDescriptor
+descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
+descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
 
 
 
@@ -99,7 +102,9 @@ rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	
 rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
 rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
 rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
-
+rendered    org.eclipse.imagen.media.opimage.BandCombineCRIF		org.eclipse.imagen.media	bandcombine		sunbandcombinerif
+rendered    org.eclipse.imagen.media.opimage.BandMergeCRIF		org.eclipse.imagen.media	bandmerge		sunbandmergerif
+rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
 
 
 #
@@ -112,6 +117,9 @@ renderable	org.eclipse.imagen.media.opimage.AddCRIF		add
 renderable	org.eclipse.imagen.media.opimage.AffineCRIF		affine
 renderable	org.eclipse.imagen.media.opimage.AndConstCRIF		andconst
 renderable	org.eclipse.imagen.media.opimage.AndCRIF		and
+renderable	org.eclipse.imagen.media.opimage.BandCombineCRIF	bandcombine
+renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
+renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
 
 
 
