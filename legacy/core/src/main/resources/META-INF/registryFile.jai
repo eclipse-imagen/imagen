@@ -85,7 +85,7 @@ descriptor	org.eclipse.imagen.operator.RotateDescriptor
 descriptor	org.eclipse.imagen.operator.ShearDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.ClampDescriptor
-
+descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
 
 #
 # tile codec descriptor
@@ -114,6 +114,7 @@ rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.medi
 rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
 rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
+rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 
 
 #
@@ -134,6 +135,7 @@ renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
+renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 
 
 
