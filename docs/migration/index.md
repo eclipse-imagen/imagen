@@ -8,6 +8,25 @@ nav_order: 5
 
 Eclipse ImageN offers a migration path for developers using the Java Advanced Imaging Framework.
 
+1. Download ant migration scripts:
+   
+   * [pom-updates.xml](https://raw.githubusercontent.com/eclipse-imagen/imagen/refs/heads/master/docs/migration/pom-update.xml)
+   * [code-updates.xml](https://raw.githubusercontent.com/eclipse-imagen/imagen/refs/heads/master/docs/migration/code-update.xml)
+
+2. Ant refactoring script for ``pom.xml``:
+
+   ```bash
+   ant -f pom-updates.xml -Dproject.dir=(absolute path to your project directory)
+   ```
+   
+3. And refactoring script for ``java`` files.
+   
+   ```
+   ant -f code-updates.xml -Dproject.dir=(absolute path to your project directory)
+   ```
+   
+## Manual Update
+
 To upgrade:
 
 1. To migrate from a project depending on JAI 1.1.3:
