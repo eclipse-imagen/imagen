@@ -59,12 +59,13 @@ To upgrade:
    ...
    <dependency>
      <groupId>org.eclipse.imagen</groupId>
-     <artifactId>imagen-core</artifactId>
+     <artifactId>imagen-legacy-all</artifactId>
      <version>${imagen.version}</version>
    </dependency>
    ```
    
-   Note `imagen-core` is includes `imagen-codec` as a transitive dependency.
+   Note `imagen-legacy-all` includes the origional legacy operators, and unsupported functionality
+   such as the `jai_codec` for which better replacements are avaialble. 
 
 3. Source code imports:
    

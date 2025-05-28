@@ -12,5 +12,6 @@
 
   <modules>
     <module>core</module>
+    <module>all</module>
   </modules>
 </project>

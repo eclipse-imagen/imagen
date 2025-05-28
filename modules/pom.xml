@@ -55,6 +55,7 @@
     <module>classbreaks</module>
     <module>rendered-image-browser</module>
     <module>imageread</module>
+    <module>all</module>
   </modules>
 
   <!-- =========================================================== -->
