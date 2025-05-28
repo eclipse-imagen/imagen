@@ -10,4 +10,12 @@
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>ImageN core interfaces</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>convolve</artifactId>
+      <version>0.4-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 </project>
