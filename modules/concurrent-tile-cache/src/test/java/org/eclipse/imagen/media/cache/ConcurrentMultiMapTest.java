@@ -29,8 +29,8 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import junit.framework.Assert;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.imageread.ImageReadDescriptor;
 import org.eclipse.imagen.media.testclasses.TestData;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,18 +44,13 @@ public class ConcurrentMultiMapTest {
     private static final int TOTAL = 100;
 
     @Test
-    @Ignore // remove once ImageReadDescriptor is implemented
     public void testAddAndGetTile() throws InterruptedException, FileNotFoundException, IOException {
         // Input stream to use
         ImageInputStream stream_in = null;
         try {
             stream_in = new FileImageInputStream(TestData.file(this, "world.tiff"));
-            RenderedOp input = null;
-            // Input RenderedImage to use
-            // TODO: implement ImageRead and uncomment the following line
-            //            final RenderedOp input =
-            //                    ImageReadDescriptor.create(stream_in, 0, false, false, false, null, null, null, null,
-            // null);
+            final RenderedOp input =
+                    ImageReadDescriptor.create(stream_in, 0, false, false, false, null, null, null, null, null);
 
             // Boolean used for checking if the conditions are passed
             final AtomicBoolean passed = new AtomicBoolean(true);
@@ -105,16 +100,14 @@ public class ConcurrentMultiMapTest {
     }
 
     @Test
-    @Ignore
     public void testRemoveTile() throws InterruptedException, FileNotFoundException, IOException {
         // Input stream to use
         ImageInputStream stream_in = null;
         try {
             stream_in = new FileImageInputStream(TestData.file(this, "world.tiff"));
             // Input RenderedImage to use
-            final RenderedOp input = null;
-            // TODO: implement ImageRead and uncomment the following line
-            // ImageReadDescriptor.create(stream_in, 0, false, false, false, null, null, null, null, null);
+            final RenderedOp input =
+                    ImageReadDescriptor.create(stream_in, 0, false, false, false, null, null, null, null, null);
 
             // Boolean used for checking if the conditions are passed
             final AtomicBoolean passed = new AtomicBoolean(true);

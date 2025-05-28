@@ -12,6 +12,7 @@ import javax.imageio.stream.FileImageInputStream;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.imageread.ImageReadDescriptor;
 import org.eclipse.imagen.media.jiffle.JiffleException;
 
 public class SentinelNDVI {
@@ -54,8 +55,6 @@ public class SentinelNDVI {
     private static RenderedOp readImage(File file) throws IOException {
         FileImageInputStream stream = new FileImageInputStream(file);
         ImageReader reader = ImageIO.getImageReaders(stream).next();
-        // TODO: reimplement ImageRead and uncomment the following line
-        // return ImageReadDescriptor.create(stream, 0, false, false, false, null, null, null, reader, null);
-        return null;
+        return ImageReadDescriptor.create(stream, 0, false, false, false, null, null, null, reader, null);
     }
 }

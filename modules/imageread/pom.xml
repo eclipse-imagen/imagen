@@ -3,25 +3,35 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.eclipse.imagen</groupId>
-    <artifactId>jiffle</artifactId>
+    <artifactId>imagen-modules</artifactId>
     <version>0.4-SNAPSHOT</version>
   </parent>
-  <artifactId>jiffle-demo</artifactId>
-  <packaging>jar</packaging>
-  <name>${project.groupId}:${project.artifactId}</name>
-  <description>A collection of program which demonstrate using the Jiffle language</description>
 
+  <artifactId>imageread</artifactId>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>jiffle-language</artifactId>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-core</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.media</groupId>
+      <artifactId>jai_imageio</artifactId>
+      <version>1.1</version>
+      <scope>test</scope>
+      <!-- used to read test images -->
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imageread</artifactId>
-      <version>${project.version}</version>
+      <artifactId>utilities</artifactId>
+      <version>0.4-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
-
   </dependencies>
 </project>

@@ -29,8 +29,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>javax.media</groupId>
-      <artifactId>jai_imageio</artifactId>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imageread</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>
