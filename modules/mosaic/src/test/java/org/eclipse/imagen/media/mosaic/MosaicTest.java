@@ -30,11 +30,11 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.bandmerge.BandMergeDescriptor;
+import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.operator.BandMergeDescriptor;
-import org.eclipse.imagen.operator.BandSelectDescriptor;
 import org.eclipse.imagen.operator.FormatDescriptor;
 import org.eclipse.imagen.operator.MosaicType;
 import org.eclipse.imagen.operator.TranslateDescriptor;
@@ -2518,7 +2518,9 @@ public class MosaicTest extends TestBase {
 
         // translate to have some pixels off area, testing proper pixel offset support,
         // making sure we are not going to align with tiles, which are 32x32 by default
-        PlanarImage combined = BandMergeDescriptor.create(base, alphaBase, null);
+        // TODO: BandMergeDescriptor moved to legacy and using the new one.
+        //      arguments have changed - need to verify these "default" arguments.
+        PlanarImage combined = BandMergeDescriptor.create(null, 0, false, null, base, alphaBase);
         PlanarImage image = TranslateDescriptor.create(combined, 112f, 0F, null, null);
         PlanarImage alpha = BandSelectDescriptor.create(image, new int[] {3}, null);
 

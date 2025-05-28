@@ -17,12 +17,11 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.CRIFImpl;
-import org.eclipse.imagen.ImageLayout;
-
 import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
+import org.eclipse.imagen.CRIFImpl;
+import org.eclipse.imagen.ImageLayout;
 
 /**
  * A <code>CRIF</code> supporting the "SubtractConst" operation in the rendered and renderable image layers.

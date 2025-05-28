@@ -36,10 +36,10 @@ import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.iterator.RandomIter;
+import org.eclipse.imagen.media.bandcombine.BandCombineDescriptor;
 import org.eclipse.imagen.media.iterators.RandomIterFactory;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.operator.BandCombineDescriptor;
 
 /**
  * An Artifacts Filter operation.
@@ -321,7 +321,9 @@ public final class ArtifactsFilterOpImage extends PointOpImage {
             RenderedImage image = inputRI;
             if (threshold != Integer.MAX_VALUE) {
                 if (numBands == 3) {
-                    image = BandCombineDescriptor.create(image, RGB_TO_GRAY_MATRIX, null);
+                    // TODO: verify that this is correct.
+                    //      BandCombineDescriptor moved to legacy, #create() changed
+                    image = BandCombineDescriptor.create(image, RGB_TO_GRAY_MATRIX, null, null, 0, null);
                 } else {
                     // do we have transparency
                     // combination matrix
@@ -332,8 +334,9 @@ public final class ArtifactsFilterOpImage extends PointOpImage {
                     for (int i = 0; i < numBands; i++) {
                         matrix[0][i] = fillValue;
                     }
-
-                    image = BandCombineDescriptor.create(image, matrix, null);
+                    // TODO: verify that this is correct.
+                    //      BandCombineDescriptor moved to legacy, #create() changed
+                    image = BandCombineDescriptor.create(image, matrix, null, null, 0, null);
                 }
                 thresholdRoi = new ROI(image, threshold);
                 thresholdRoi = thresholdRoi.intersect(sourceROI);

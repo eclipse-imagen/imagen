@@ -17,14 +17,13 @@
 
 package org.eclipse.imagen.operator;
 
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
-import org.eclipse.imagen.registry.RenderedRegistryMode;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
+import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /** This property generator computes the properties for the operation "Shear" dynamically. */
 class ShearPropertyGenerator extends PropertyGeneratorImpl {
@@ -222,12 +221,7 @@ public class ShearDescriptor extends OperationDescriptorImpl {
 
     /** The parameter class types for the "Shear" operation. */
     private static final Class[] paramClasses = {
-        Float.class,
-        ShearDir.class,
-        Float.class,
-        Float.class,
-        Interpolation.class,
-        double[].class
+        Float.class, ShearDir.class, Float.class, Float.class, Interpolation.class, double[].class
     };
 
     /** The parameter default values for the "Shear" operation. */
