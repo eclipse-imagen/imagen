@@ -451,8 +451,8 @@ public final class JAI {
      * default dimensions.
      *
      * @param tileDimensions The default tile dimensions or <code>null</code>.
-     * @throws <code>IllegalArgumentException</code> if <code>tileDimensions</code> is non-<code>null</code> and has
-     *     non-positive width or height.
+     * @throws IllegalArgumentException if <code>tileDimensions</code> is non-<code>null</code> and has non-positive
+     *     width or height.
      * @since JAI 1.1
      */
     public static final void setDefaultTileSize(Dimension tileDimensions) {
@@ -487,8 +487,8 @@ public final class JAI {
      * which produces a default rendering of height 512 and width 512*aspect_ratio.
      *
      * @param defaultSize The default rendering size or <code>null</code>.
-     * @throws <code>IllegalArgumentException</code> if <code>defaultSize</code> is non-<code>null</code> and both the
-     *     width and height are non-positive.
+     * @throws IllegalArgumentException if <code>defaultSize</code> is non-<code>null</code> and both the width and
+     *     height are non-positive.
      * @since JAI 1.1
      */
     public static final void setDefaultRenderingSize(Dimension defaultSize) {

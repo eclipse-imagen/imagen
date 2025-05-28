@@ -239,7 +239,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param hints The rendering hints. If <code>null</code>, it is assumed that no hints are associated with the
      *     rendering. This parameter is cloned.
      * @param isRenderable Whether the operation is being executed in renderable mode.
-     * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
      * @since JAI 1.1
      */
     public CollectionOp(
@@ -338,7 +338,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *     parameters. This parameter is cloned.
      * @param hints The rendering hints. If <code>null</code>, it is assumed that no hints are associated with the
      *     rendering. This parameter is cloned.
-     * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
      */
     public CollectionOp(String opName, ParameterBlock pb, RenderingHints hints) {
         this(null, opName, pb, hints);
@@ -361,7 +361,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param opName The operation name. Saved by reference.
      * @param pb The sources and other parameters. If <code>null</code>, it is assumed that this node has no sources and
      *     parameters. This parameter is cloned.
-     * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
      * @deprecated as of JAI 1.1.
      * @see #CollectionOp(OperationRegistry,String,ParameterBlock,RenderingHints)
      */
@@ -424,7 +424,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * rendered.
      *
      * @param opName The new operation name to be set.
-     * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
      */
     public synchronized void setOperationName(String opName) {
         nodeSupport.setOperationName(opName);
@@ -1058,7 +1058,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * removeProperty()</code> should be used.
      *
      * @param name a String naming the property to be suppressed.
-     * @throws <code>IllegalArgumentException</code> if <code>name</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @since JAI 1.1
      */
     public void suppressProperty(String name) {
@@ -1120,8 +1120,8 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * Creates the <code>Collection</code> rendering if none yet exists, and returns an array containing all of the
      * elements in this <code>Collection</code> whose runtime type is that of the specified array.
      *
-     * @throws <code>ArrayStoreException</code> if the runtime type of the specified array is not a supertype of the
-     *     runtime type of every element in this <code>Collection</code>.
+     * @throws ArrayStoreException if the runtime type of the specified array is not a supertype of the runtime type of
+     *     every element in this <code>Collection</code>.
      */
     public Object[] toArray(Object[] a) {
         createCollection();

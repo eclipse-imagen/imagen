@@ -171,7 +171,7 @@ public final class BorderExtenderReflect extends BorderExtender {
      *     copies of portions of the specified image.
      * @param im The <code>PlanarImage</code> the data of which is to be reflected and used to fill the <code>
      *     WritableRaster</code> border.
-     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
+     * @throws IllegalArgumentException if either parameter is <code>null</code>.
      */
     public final void extend(WritableRaster raster, PlanarImage im) {
 

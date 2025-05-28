@@ -41,7 +41,7 @@ public class ClampCRIF extends CRIFImpl {
      * Creates a new instance of <code>ClampOpImage</code> in the rendered layer.
      *
      * @param args The source image and the low and high boundary values.
-     * @param hints Optionally contains destination image layout.
+     * @param renderHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.

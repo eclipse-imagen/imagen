@@ -38,7 +38,7 @@ public class ClampCRIF extends CRIFImpl {
      * Creates a new instance of <code>ThresholdOpImage</code> in the rendered layer.
      *
      * @param paramBlock ParameterBlock with the source image and the input parameters.
-     * @param hints Optionally contains destination image layout.
+     * @param renderHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.

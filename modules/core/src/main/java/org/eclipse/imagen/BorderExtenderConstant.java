@@ -104,9 +104,9 @@ public final class BorderExtenderConstant extends BorderExtender {
      * @param raster The <code>WritableRaster</code> the border area of which is to be filled with constants.
      * @param im The <code>PlanarImage</code> which determines the portion of the <code>WritableRaster</code> <i>not</i>
      *     to be filled.
-     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
-     * @throws <code>UnsupportedOperationException</code> if the number of image bands exceeds the number of constants
-     *     and the latter is not unity.
+     * @throws IllegalArgumentException if either parameter is <code>null</code>.
+     * @throws UnsupportedOperationException if the number of image bands exceeds the number of constants and the latter
+     *     is not unity.
      */
     public final void extend(WritableRaster raster, PlanarImage im) {
 

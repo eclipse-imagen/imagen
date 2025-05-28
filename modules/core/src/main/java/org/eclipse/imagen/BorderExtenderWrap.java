@@ -70,7 +70,7 @@ public class BorderExtenderWrap extends BorderExtender {
      *     image.
      * @param im The <code>PlanarImage</code> which will be copied to fill the border area of the <code>WritableRaster
      *     </code>.
-     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
+     * @throws IllegalArgumentException if either parameter is <code>null</code>.
      */
     public final void extend(WritableRaster raster, PlanarImage im) {
 

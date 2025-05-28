@@ -497,7 +497,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * from the source image.
      *
      * @param im A <code>RenderedImage</code> source to overlay.
-     * @throws <code>IllegalArgumentException</code> if <code>im</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>im</code> is <code>null</code>.
      */
     public void set(RenderedImage im) {
 
@@ -568,7 +568,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      *
      * @param im A <code>RenderedImage</code> source to overlay.
      * @param roi The region of interest.
-     * @throws <code>IllegalArgumentException</code> either parameter is <code>null</code>.
+     * @throws IllegalArgumentException either parameter is <code>null</code>.
      */
     public void set(RenderedImage im, ROI roi) {
 
@@ -803,7 +803,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      *
      * @param bandSelect an array of band indices.
      * @param cm the <code>ColorModel</code> of the sub-image.
-     * @throws <code>IllegalArgumentException</code> is <code>bandSelect</code> is <code>null</code>.
+     * @throws IllegalArgumentException is <code>bandSelect</code> is <code>null</code>.
      * @since JAI 1.1
      */
     public TiledImage getSubImage(int[] bandSelect, ColorModel cm) {

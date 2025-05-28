@@ -787,7 +787,7 @@ public class RasterFactory {
      *     Transparency.TRANSLUCENT</code>. If <code>useAlpha</code> is <code>false</code>, the value of <code>
      *     transparency</code> is ignored. If <code>useAlpha</code> is <code>true</code>, <code>transparency</code> must
      *     not equal <code>Transparency.OPQAUE</code>.
-     * @throws IllegalArgumentExceptionException if <code>colorSpace</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>colorSpace</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>transparency</code> has an unknown value, if <code>useAlpha == true
      *     </code> but <code>transparency == Transparency.OPAQUE</code>, or if <code>dataType</code> is not one of the
      *     standard types listed above.

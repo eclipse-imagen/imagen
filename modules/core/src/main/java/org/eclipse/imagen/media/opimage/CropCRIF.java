@@ -44,7 +44,7 @@ public class CropCRIF extends CRIFImpl {
      * Creates a new instance of <code>CropOpImage</code> in the rendered layer.
      *
      * @param args The source image and bounding rectangle
-     * @param hints Optionally contains destination image layout.
+     * @param renderHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get the source image.

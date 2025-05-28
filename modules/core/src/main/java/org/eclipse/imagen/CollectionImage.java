@@ -269,7 +269,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * <p>The default implementation calls <code>getPropertyNames()</code> and searches the list of names for matches.
      *
      * @return An array of <code>String</code>s giving the valid property names or <code>null</code> if there are none.
-     * @throws <code>IllegalArgumentException</code> if <code>prefix</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>prefix</code> is <code>null</code>.
      */
     public String[] getPropertyNames(String prefix) {
         return PropertyUtil.getPropertyNames(getPropertyNames(), prefix);

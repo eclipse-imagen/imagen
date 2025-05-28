@@ -367,9 +367,9 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @param layout an ImageLayout that is used to selectively override the image's layout, <code>SampleModel</code>,
      *     and <code>ColorModel</code>. Only valid fields, i.e., those for which <code>ImageLayout.isValid()</code>
      *     returns <code>true</code> for the appropriate mask, are used.
-     * @throws <code>IllegalArgumentException</code> if <code>layout</code> is <code>null</code>.
-     * @throws <code>IllegalArgumentException</code> if a <code>ColorModel</code> is specified in the layout and it is
-     *     incompatible with the <code>SampleModel</code>
+     * @throws IllegalArgumentException if <code>layout</code> is <code>null</code>.
+     * @throws IllegalArgumentException if a <code>ColorModel</code> is specified in the layout and it is incompatible
+     *     with the <code>SampleModel</code>
      * @since JAI 1.1
      */
     protected void setImageLayout(ImageLayout layout) {

@@ -73,8 +73,8 @@ public class NullOpImage extends PointOpImage {
      * @param computeType A tag indicating whether the source is <code>OpImage.OP_COMPUTE_BOUND</code>, <code>
      *     OpImage.OP_IO_BOUND</code> or <code>OpImage.OP_NETWORK_BOUND</code>. This information is used as a hint to
      *     optimize <code>OpImage</code> computation.
-     * @throws <code>IllegalArgumentException</code> if <code>source</code> is <code>null</code>.
-     * @throws <code>IllegalArgumentException</code> if <code>computeType</code> is not one of the known <code>
+     * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>computeType</code> is not one of the known <code>
      *     OP_*_BOUND</code> values.
      * @since JAI 1.1
      */

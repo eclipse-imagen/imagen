@@ -475,7 +475,7 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
      * @param xTrans The X translation. May be <code>null</code>.
      * @param yTrans The Y translation. May be <code>null</code>.
      * @param interpolation The interpolation method for resampling. May be <code>null</code>.
-     * @param ROI The ROI parameter. May be <code>null</code>.
+     * @param roi The ROI parameter. May be <code>null</code>.
      * @param nodata The nodata Range parameter. May be <code>null</code>.
      * @param backgroundValues The destination no data parameters. May be <code>null</code>.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -528,7 +528,7 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
      * @param xTrans The X translation. May be <code>null</code>.
      * @param yTrans The Y translation. May be <code>null</code>.
      * @param interpolation The interpolation method for resampling. May be <code>null</code>.
-     * @param ROI The ROI parameter. May be <code>null</code>.
+     * @param roi The ROI parameter. May be <code>null</code>.
      * @param nodata The nodata Range parameter. May be <code>null</code>.
      * @param backgroundValues The destination no data parameters. May be <code>null</code>.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.

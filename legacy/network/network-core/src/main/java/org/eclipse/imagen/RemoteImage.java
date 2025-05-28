@@ -409,8 +409,8 @@ public class RemoteImage extends PlanarImage {
      * @param fieldIndex the index of the desired field.
      * @param retries the maximum number of retries; must be positive.
      * @param timeout the timeout interval between retries, in milliseconds; must be positive.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if fieldIndex is negative or >= NUM_VARS.
-     * @throws <code>IllegalArgumentException</code> if retries or timeout is non-positive.
+     * @throws ArrayIndexOutOfBoundsException if fieldIndex is negative or >= NUM_VARS.
+     * @throws IllegalArgumentException if retries or timeout is non-positive.
      */
     protected void requestField(int fieldIndex, int retries, int timeout) {
         if (retries < 0) {
@@ -486,7 +486,7 @@ public class RemoteImage extends PlanarImage {
      * timeout.
      *
      * @param fieldIndex the index of the desired field.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if fieldIndex is negative or >= NUM_VARS.
+     * @throws ArrayIndexOutOfBoundsException if fieldIndex is negative or >= NUM_VARS.
      */
     protected void requestField(int fieldIndex) {
         requestField(fieldIndex, numRetries, timeout);

@@ -48,7 +48,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      * Constructs a <code>WritableRenderedImageAdapter</code>.
      *
      * @param im A <code>WritableRenderedImage</code> to be `wrapped' as a <code>PlanarImage</code>.
-     * @throws <code>IllegalArgumentException</code> if <code>im</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>im</code> is <code>null</code>.
      */
     public WritableRenderedImageAdapter(WritableRenderedImage im) {
         super(im);
@@ -59,7 +59,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      * Adds an observer. If the observer is already present, it will receive multiple notifications.
      *
      * @param tileObserver The <code>TileObserver</code> to be added.
-     * @throws <code>IllegalArgumentException</code> if <code>tileObserver</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>tileObserver</code> is <code>null</code>.
      */
     public final void addTileObserver(TileObserver tileObserver) {
         if (tileObserver == null) {
@@ -73,7 +73,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      * multiple notifications, it will now be registered for one fewer.
      *
      * @param tileObserver The <code>TileObserver</code> to be removed.
-     * @throws <code>IllegalArgumentException</code> if <code>tileObserver</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>tileObserver</code> is <code>null</code>.
      */
     public final void removeTileObserver(TileObserver tileObserver) {
         if (tileObserver == null) {
@@ -144,7 +144,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      * Sets a rectangular region of the image to the contents of <code>raster</code>.
      *
      * @param raster A <code>Raster</code>.
-     * @throws <code>IllegalArgumentException</code> if <code>raster</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>raster</code> is <code>null</code>.
      */
     public final void setData(Raster raster) {
         if (raster == null) {

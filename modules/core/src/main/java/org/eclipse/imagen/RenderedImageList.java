@@ -71,10 +71,10 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
     /**
      * Creates a <code>RenderedImageList</code> from the supplied <code>List</code>.
      *
-     * @throws <code>IllegalArgumentException</code> if any objects in the <code>List</code> are not <code>RenderedImage
+     * @throws IllegalArgumentException if any objects in the <code>List</code> are not <code>RenderedImage
      *     </code>s.
-     * @throws <code>IllegalArgumentException</code> if the <code>List</code> is empty.
-     * @throws <code>IllegalArgumentException</code> if the <code>List</code> parameter is <code>null</code>.
+     * @throws IllegalArgumentException if the <code>List</code> is empty.
+     * @throws IllegalArgumentException if the <code>List</code> parameter is <code>null</code>.
      */
     public RenderedImageList(List renderedImageList) {
         super();

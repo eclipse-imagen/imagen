@@ -35,7 +35,7 @@ public class SquareRootStretchCRIF extends CRIFImpl {
      * Creates a new instance of <code>SquareRootStretchOpImage</code> in the rendered layer.
      *
      * @param args The source image and the factors.
-     * @param hints Optionally contains destination image layout.
+     * @param renderHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.

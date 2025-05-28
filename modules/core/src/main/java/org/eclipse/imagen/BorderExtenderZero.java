@@ -66,7 +66,7 @@ public final class BorderExtenderZero extends BorderExtender {
      * @param raster The <code>WritableRaster</code> the border area of which is to be filled with zero.
      * @param im The <code>PlanarImage</code> which determines the portion of the <code>WritableRaster</code> <i>not</i>
      *     to be filled.
-     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
+     * @throws IllegalArgumentException if either parameter is <code>null</code>.
      */
     public final void extend(WritableRaster raster, PlanarImage im) {
 

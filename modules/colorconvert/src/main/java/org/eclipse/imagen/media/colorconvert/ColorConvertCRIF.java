@@ -44,7 +44,7 @@ public class ColorConvertCRIF extends CRIFImpl {
      * Creates a new instance of <code>ColorConvertOpImage</code>.
      *
      * @param args The source image, destination ColorModel and other optional parameters.
-     * @param hints Optionally contains destination image layout.
+     * @param renderingHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock pb, RenderingHints renderingHints) {
         // Get ImageLayout from renderHints if any.

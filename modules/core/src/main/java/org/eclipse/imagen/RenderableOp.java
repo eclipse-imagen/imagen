@@ -798,7 +798,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * removeProperty()</code> should be used.
      *
      * @param name a String naming the property to be suppressed.
-     * @throws <code>IllegalArgumentException</code> if <code>name</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
      */
     public void suppressProperty(String name) {
         nodeSupport.suppressProperty(name);

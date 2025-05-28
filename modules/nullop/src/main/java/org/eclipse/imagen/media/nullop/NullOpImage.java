@@ -70,8 +70,8 @@ public class NullOpImage extends OpImage {
      * @param configuration Configurable attributes of the image including configuration variables indexed by <code>
      *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
      *     </code>s. This is simply forwarded to the superclass constructor.
-     * @throws <code>IllegalArgumentException</code> if <code>source</code> is <code>null</code>.
-     * @throws <code>IllegalArgumentException</code> if <code>computeType</code> is not one of the known <code>
+     * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>computeType</code> is not one of the known <code>
      *     OP_*_BOUND</code> values.
      */
     public NullOpImage(RenderedImage source, ImageLayout layout, Map configuration) {

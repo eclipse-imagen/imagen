@@ -150,7 +150,7 @@ class TiledImageGraphics extends Graphics2D {
      * UnsupportedOperationException</code> will be thrown.
      *
      * @param im The <code>TiledImage</code> which will serve as the graphics canvas.
-     * @throws <code>UnsupportedOperationException</code> if no appropriate <code>ColorModel</code> can be derived.
+     * @throws UnsupportedOperationException if no appropriate <code>ColorModel</code> can be derived.
      */
     public TiledImageGraphics(TiledImage im) {
         // Check for non-integral data type.
@@ -258,7 +258,7 @@ class TiledImageGraphics extends Graphics2D {
      * thrown.
      *
      * @return An appropriate <code>ColorModel</code>.
-     * @throws <code>UnsupportedOperationException</code> if no appropriate <code>ColorModel</code> can be derived.
+     * @throws UnsupportedOperationException if no appropriate <code>ColorModel</code> can be derived.
      */
     private static ColorModel getColorModel(TiledImage ti) {
         // Derive an appropriate ColorModel for the BufferedImage:

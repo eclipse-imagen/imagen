@@ -90,7 +90,7 @@ public abstract class BorderExtender implements Serializable {
      *     the <code>BorderExtender</code>.
      * @param im The <code>PlanarImage</code> which may provide the data with which to fill the border area of the
      *     <code>WritableRaster</code>.
-     * @throws <code>IllegalArgumentException</code> if either parameter is <code>null</code>.
+     * @throws IllegalArgumentException if either parameter is <code>null</code>.
      */
     public abstract void extend(WritableRaster raster, PlanarImage im);
 
@@ -117,8 +117,7 @@ public abstract class BorderExtender implements Serializable {
      * @param extenderType The type of <code>BorderExtender</code> to create. Must be one of the predefined class
      *     constants <code>BORDER_COPY</code>, <code>BORDER_REFLECT</code>, <code>BORDER_WRAP</code>, or <code>
      *     BORDER_ZERO</code>.
-     * @throws <code>IllegalArgumentException</code> if the supplied parameter is not one of the supported predefined
-     *     constants.
+     * @throws IllegalArgumentException if the supplied parameter is not one of the supported predefined constants.
      */
     public static BorderExtender createInstance(int extenderType) {
         switch (extenderType) {

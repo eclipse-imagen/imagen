@@ -269,9 +269,9 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param y The Y coordinate of the pixel location.
      * @param obj If non-null, a primitive array in which to return the pixel data.
      * @param data The <code>DataBuffer</code> containing the image data.
-     * @throws <code>ClassCastException</code> if obj is non-null and is not a primitive array of type TransferType.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if the coordinates are not in bounds, or if obj is non-null
-     *     and is not large enough to hold the pixel data.
+     * @throws ClassCastException if obj is non-null and is not a primitive array of type TransferType.
+     * @throws ArrayIndexOutOfBoundsException if the coordinates are not in bounds, or if obj is non-null and is not
+     *     large enough to hold the pixel data.
      */
     public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
 
@@ -399,9 +399,9 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @see #getNumDataElements
      * @see #getTransferType
      * @see java.awt.image.DataBuffer
-     * @throws <code>ClassCastException</code> if obj is non-null and is not a primitive array of type TransferType.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if the coordinates are not in bounds, or if obj is non-null
-     *     and is not large enough to hold the pixel data.
+     * @throws ClassCastException if obj is non-null and is not a primitive array of type TransferType.
+     * @throws ArrayIndexOutOfBoundsException if the coordinates are not in bounds, or if obj is non-null and is not
+     *     large enough to hold the pixel data.
      */
     public Object getDataElements(int x, int y, int w, int h, Object obj, DataBuffer data) {
 
@@ -570,9 +570,9 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param y The Y coordinate of the pixel location.
      * @param obj A primitive array containing pixel data.
      * @param data The <code>DataBuffer</code> containing the image data.
-     * @throws <code>ClassCastException</code> if obj is non-null and is not a primitive array of type TransferType.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if the coordinates are not in bounds, or if obj is non-null
-     *     and is not large enough to hold the pixel data.
+     * @throws ClassCastException if obj is non-null and is not a primitive array of type TransferType.
+     * @throws ArrayIndexOutOfBoundsException if the coordinates are not in bounds, or if obj is non-null and is not
+     *     large enough to hold the pixel data.
      */
     public void setDataElements(int x, int y, Object obj, DataBuffer data) {
 
@@ -664,9 +664,9 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param h The height of the pixel rectangle.
      * @param obj A primitive array containing pixel data.
      * @param data The <code>DataBuffer</code> containing the image data.
-     * @throws <code>ClassCastException</code> if obj is non-null and is not a primitive array of type TransferType.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if the coordinates are not in bounds, or if obj is non-null
-     *     and is not large enough to hold the pixel data.
+     * @throws ClassCastException if obj is non-null and is not a primitive array of type TransferType.
+     * @throws ArrayIndexOutOfBoundsException if the coordinates are not in bounds, or if obj is non-null and is not
+     *     large enough to hold the pixel data.
      * @see #getNumDataElements
      * @see #getTransferType
      * @see java.awt.image.DataBuffer
@@ -788,7 +788,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param b The band to set.
      * @param s The input sample as a <code>float</code>.
      * @param data The <code>DataBuffer</code> containing the image data.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if coordinates are not in bounds
+     * @throws ArrayIndexOutOfBoundsException if coordinates are not in bounds
      */
     public void setSample(int x, int y, int b, float s, DataBuffer data) {
         data.setElemFloat(bankIndices[b], y * scanlineStride + x * pixelStride + bandOffsets[b], s);
@@ -803,7 +803,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param b The band to return.
      * @param data The <code>DataBuffer</code> containing the image data.
      * @return sample The floating point sample value
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if coordinates are not in bounds
+     * @throws ArrayIndexOutOfBoundsException if coordinates are not in bounds
      */
     public float getSampleFloat(int x, int y, int b, DataBuffer data) {
         float sample = data.getElemFloat(bankIndices[b], y * scanlineStride + x * pixelStride + bandOffsets[b]);
@@ -820,7 +820,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param b The band to set.
      * @param s The input sample as a <code>double</code>.
      * @param data The <code>DataBuffer</code> containing the image data.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if coordinates are not in bounds
+     * @throws ArrayIndexOutOfBoundsException if coordinates are not in bounds
      */
     public void setSample(int x, int y, int b, double s, DataBuffer data) {
         data.setElemDouble(bankIndices[b], y * scanlineStride + x * pixelStride + bandOffsets[b], s);
@@ -835,7 +835,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param b The band to return.
      * @param data The <code>DataBuffer</code> containing the image data.
      * @return sample The <code>double</code> sample value
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if coordinates are not in bounds
+     * @throws ArrayIndexOutOfBoundsException if coordinates are not in bounds
      */
     public double getSampleDouble(int x, int y, int b, DataBuffer data) {
         double sample = data.getElemDouble(bankIndices[b], y * scanlineStride + x * pixelStride + bandOffsets[b]);
@@ -852,7 +852,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param h The height of the pixel rectangle.
      * @param dArray If non-null, returns the samples in this array.
      * @param data The <code>DataBuffer</code> containing the image data.
-     * @throws <code>ArrayIndexOutOfBoundsException</code> if coordinates are not in bounds
+     * @throws ArrayIndexOutOfBoundsException if coordinates are not in bounds
      */
     public double[] getPixels(int x, int y, int w, int h, double dArray[], DataBuffer data) {
         double pixels[];

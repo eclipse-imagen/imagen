@@ -40,7 +40,7 @@ public class BinarizeCRIF extends CRIFImpl {
      * Creates a new instance of <code>BinarizeOpImage</code> in the rendered layer.
      *
      * @param pb The source image and the input parameters.
-     * @param hints Optionally contains destination image layout.
+     * @param renderHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock pb, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.

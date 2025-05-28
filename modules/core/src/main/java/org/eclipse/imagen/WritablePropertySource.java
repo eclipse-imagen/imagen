@@ -18,21 +18,17 @@
 package org.eclipse.imagen;
 
 /**
- * Sub-interface of <code>PropertySource</code> which permits setting
- * the values of JAI properties in addition to obtaining their names
- * and values.  As the values of properties managed by classes which
- * implement this interface may change, this is also a sub-interface
- * of <code>PropertyChangeEmitter</code>.  This permits other objects
- * to register as listeners of particular JAI properties.
+ * Sub-interface of <code>PropertySource</code> which permits setting the values of JAI properties in addition to
+ * obtaining their names and values. As the values of properties managed by classes which implement this interface may
+ * change, this is also a sub-interface of <code>PropertyChangeEmitter</code>. This permits other objects to register as
+ * listeners of particular JAI properties.
  *
- * <p> The case of the names of properties added via this interface
- * should be retained although the case will be ignored in queries via
- * <code>getProperty()</code> and will be forced to lower case in
- * emitted <code>PropertySourceChangeEvent<code>.
+ * <p>The case of the names of properties added via this interface should be retained although the case will be ignored
+ * in queries via <code>getProperty()</code> and will be forced to lower case in emitted <code>PropertySourceChangeEvent
+ * </code>.
  *
  * @see PropertySource
  * @see PropertyChangeEmitter
- *
  * @since JAI 1.1
  */
 public interface WritablePropertySource extends PropertySource, PropertyChangeEmitter {

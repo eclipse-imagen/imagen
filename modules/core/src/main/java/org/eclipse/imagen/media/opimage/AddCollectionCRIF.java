@@ -42,7 +42,7 @@ public class AddCollectionCRIF extends CRIFImpl {
      * Creates a new instance of <code>AddCollectionOpImage</code> in the rendered layer.
      *
      * @param args A collection of rendered images to be added.
-     * @param hints Optionally contains destination image layout.
+     * @param renderHints Optionally contains destination image layout.
      */
     public RenderedImage create(ParameterBlock args, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
