@@ -53,6 +53,7 @@
     <module>shadedrelief</module>
     <module>jiffle</module>
     <module>classbreaks</module>
+    <module>rendered-image-browser</module>
   </modules>
 
   <!-- =========================================================== -->

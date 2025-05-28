@@ -47,6 +47,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>rendered-image-browser</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.media</groupId>
       <artifactId>jai_imageio</artifactId>
     </dependency>
