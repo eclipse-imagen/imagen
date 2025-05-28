@@ -49,7 +49,7 @@ public class FileStoreRIF implements RenderedImageFactory {
     public FileStoreRIF() {}
 
     /*
-     * Private class which merely adds a finalize() method to close
+     * Private class which merely adds a dispose() method to close
      * the associated stream.
      */
     private class FileStoreImage extends RenderedImageAdapter {

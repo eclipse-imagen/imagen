@@ -1123,17 +1123,6 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
     }
 
     /**
-     * If a deep copy is not being used, unset the data server availability flag and wait for the server thread to
-     * rejoin the current thread.
-     */
-    protected void finalize() throws Throwable {
-        dispose();
-
-        // Forward to the parent class.
-        super.finalize();
-    }
-
-    /**
      * Provides a hint that an image will no longer be accessed from a reference in user space. The results are
      * equivalent to those that occur when the program loses its last reference to this image, the garbage collector
      * discovers this, and finalize is called. This can be used as a hint in situations where waiting for garbage

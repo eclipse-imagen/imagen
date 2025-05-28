@@ -34,7 +34,7 @@ import java.awt.image.Raster;
  * notifying any listeners. In neither case is it expected that the tiles will be re-scheduled for computation this
  * instead being left to the application.
  */
-public interface TileScheduler {
+public interface TileScheduler extends AutoCloseable {
 
     /**
      * Schedules a tile for computation. Called by <code>OpImage.getTile()</code>, this method makes <code>

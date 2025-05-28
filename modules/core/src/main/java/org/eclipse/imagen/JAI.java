@@ -108,7 +108,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * @see TileCache
  * @see ImagingListener
  */
-public final class JAI {
+public final class JAI implements AutoCloseable {
 
     //
     // Private hint keys. Each of these keys must be assigned a unique value.
@@ -2200,5 +2200,10 @@ public final class JAI {
     private void sendExceptionToListener(String message, Exception e) {
         ImagingListener listener = getImagingListener();
         listener.errorOccurred(message, e, this, false);
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (tileScheduler != null) tileScheduler.close();
     }
 }

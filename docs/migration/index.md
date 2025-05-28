@@ -83,7 +83,7 @@ To upgrade:
      }
    ```
 
-3. Can be directly replaced:
+4. Can be directly replaced:
    
    * Replace `javax.media.jai` with package `org.eclipse.imagen`
    * Replace `com.sun.media.jai` with package `org.eclipse.imagen.media`
@@ -139,3 +139,29 @@ The key format missing from Java 8 is TIFF, which is included in `ImageIO` from 
  </profile>
 </profiles>
 ```
+
+# Finalize() removed
+Finalizers are deprecated and will soon be removed from Java, as they  are unpredictable, slow, error-prone, and pose security and resource management risks, making them fundamentally unsafe for modern applications. A number of legacy classes have been updated to no longer implement the `finalize` method. In some cases, it has been replaced with a more appropriate cleanup method; in others, a suitable method already existed. The table below summarizes these changes:
+
+Class                       | Removed Method | Replaced by New Method  | Existing Method
+----------------------------|----------------|-------------------------|----------------
+RMIServerProxy              | finalize       | dispose                 |
+RemoteImage                 | finalize       | dispose                 |
+PlanarImageServerProxy      | finalize       | dispose                 |
+FlieLoadRIF                 | finalize       | close                   |
+SeekableStream              | finalize       |                         | close
+SerializableRenderableImage | finalize       |                         | dispose
+SerializableRenderedImage   | finalize       |                         | dispose
+
+
+If your code relies on the classes mentioned above, consider updating it to ensure proper resource cleanup is performed.
+
+The following core classes have been updated:
+
+1. `TileScheduler`: it now extends `AutoCloseable`
+2. `SunTileScheduler`: it now implements `close` replacing the `finalize` method.
+3. `PlanarImage`: the `finalize` method has been removed. `dispose` method already exists to cleanup resources.
+4. `JAI`: it now implements `AutoCloseable`, implementing a `close` method that will cleanup the tileScheduler.
+
+If your code relies on the classes mentioned above, consider updating it to ensure proper resource cleanup is performed.
+ 

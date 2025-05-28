@@ -2268,17 +2268,6 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         }
     }
 
-    /**
-     * Performs cleanup prior to garbage collection.
-     *
-     * <p><code>PlanarImage</code> defines this method to invoke the <code>dispose()</code> method.
-     *
-     * @exception <code>Throwable</code> if an error occurs in the garbage collector.
-     */
-    protected void finalize() throws Throwable {
-        dispose();
-    }
-
     /** For debugging. */
     private void printBounds() {
         System.out.println("Bounds: [x=" + getMinX() + ", y="
