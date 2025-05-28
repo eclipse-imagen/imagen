@@ -98,20 +98,4 @@ public final class HTMLRenderers {
             return StringifyUtilities.printWarpAffine(warpAffine, false);
         }
     }
-    //
-    //    private static class ROIGeometryRenderer implements HTMLRenderer
-    //    {
-    //
-    //        public boolean canRender(Object o)
-    //        {
-    //            return false;
-    //        }
-    //
-    //        public String render(Object o)
-    //        {
-    //            return ((ROIGeometry) o).getAsGeometry().toString();
-    //        }
-    //
-    //    }
-
 }

@@ -39,7 +39,14 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-import org.eclipse.imagen.*;
+import org.eclipse.imagen.EnumeratedParameter;
+import org.eclipse.imagen.Interpolation;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.TileCache;
+import org.eclipse.imagen.TileScheduler;
+import org.eclipse.imagen.WarpAffine;
 
 /**
  * Full rendered image browser, made up of tree for rendered image source hierarchy navigation and a info panel with

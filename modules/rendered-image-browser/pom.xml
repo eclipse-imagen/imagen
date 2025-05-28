@@ -7,7 +7,7 @@
     <version>0.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>rescale</artifactId>
+  <artifactId>rendered-image-browser</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <properties>
@@ -16,26 +16,15 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>iterators</artifactId>
+      <artifactId>imagen-core</artifactId>
       <version>${project.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>utilities</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
-      <version>${project.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>rendered-image-browser</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>
