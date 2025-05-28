@@ -71,33 +71,26 @@
           </execution>
         </executions>
       </plugin>
-      <!--
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
         <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-             <archive>
-                 <manifest>
-                     <mainClass>org.eclipse.imagen.All</mainClass>
-                 </manifest>
-             </archive>
-          <finalName>imagen-all-${project.version}</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
+          <skip>false</skip>
+          <keepBlankLines>true</keepBlankLines>
+          <spaceBeforeCloseEmptyElement>false</spaceBeforeCloseEmptyElement>
+          <createBackupFile>false</createBackupFile>
+          <verifyFail>warn</verifyFail>
+          <verifyFailOn>strict</verifyFailOn>
         </configuration>
         <executions>
           <execution>
-            <id>make-assembly</id>
             <goals>
-              <goal>single</goal>
+              <goal>sort</goal>
             </goals>
             <phase>package</phase>
           </execution>
         </executions>
       </plugin>
-      -->
     </plugins>
   </build>
 
