@@ -21,11 +21,16 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
+import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.operator.BandSelectDescriptor;
+import org.eclipse.imagen.WarpAffine;
+import org.eclipse.imagen.operator.WarpDescriptor;
 import org.junit.Test;
+
+// TODO: moved this to Op "WarpDescriptor" for compiling.  Likely will need to be updated later.
 
 public class BufferedImageAdapterTest {
 
@@ -40,7 +45,8 @@ public class BufferedImageAdapterTest {
         assertEquals(0, adapter.getMinTileY());
         assertEquals(0, adapter.getTileGridXOffset());
         assertEquals(0, adapter.getTileGridYOffset());
-        RenderedOp op = BandSelectDescriptor.create(adapter, new int[1], null);
+        RenderedOp op = WarpDescriptor.create(
+                adapter, new WarpAffine(new AffineTransform()), new InterpolationNearest(), null, null);
         // JAI did not need to wrap it
         assertSame(adapter, op.getSourceObject(0));
         // no NPE (we do not expect one here actually)
@@ -60,7 +66,8 @@ public class BufferedImageAdapterTest {
         assertEquals(0, adapter.getMinTileY());
         assertEquals(0, adapter.getTileGridXOffset());
         assertEquals(0, adapter.getTileGridYOffset());
-        RenderedOp op = BandSelectDescriptor.create(adapter, new int[1], null);
+        RenderedOp op = WarpDescriptor.create(
+                adapter, new WarpAffine(new AffineTransform()), new InterpolationNearest(), null, null);
         // JAI did not need to wrap it
         assertSame(adapter, op.getSourceObject(0));
         // no NPE (RenderedImageAdapter would blow up here)
