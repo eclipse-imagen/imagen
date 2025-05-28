@@ -25,6 +25,9 @@ import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.media.convolve.Convolve3x3OpImage;
+import org.eclipse.imagen.media.convolve.ConvolveGeneralOpImage;
+import org.eclipse.imagen.media.convolve.ConvolveOpImage;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /** @see UnsharpMaskOpImage */
@@ -65,12 +68,16 @@ public class UnsharpMaskRIF implements RenderedImageFactory {
                 && (kJAI.getXOrigin() == 1)
                 && (kJAI.getYOrigin() == 1)
                 && dataTypeOk) {
-            return new Convolve3x3OpImage(source, extender, renderHints, layout, kJAI);
+            //TODO: Convolve3x3OpImage was moved to legacy
+            //      constructor has changed.  Veryify this is correct.
+            return new Convolve3x3OpImage(source, extender, renderHints, layout, kJAI, null, null,0, false);
         } else if (kJAI.isSeparable()) {
             return new SeparableConvolveOpImage(source, extender, renderHints, layout, kJAI);
 
         } else {
-            return new ConvolveOpImage(source, extender, renderHints, layout, kJAI);
+            //TODO: ConvolveOpImage In jai this was a final class, in the new implementation, this is an abstract class
+            //TODO: I moved this to ConvolveGeneralOpImage - not sure if this is correct.
+            return new ConvolveGeneralOpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
         }
     }
 }
