@@ -86,7 +86,7 @@ jobs:
           cd ~
           cd mapfish-print-v2
           git checkout imagen
-          ant -f docs/migration/code-update.xml -Dproject.dir=`pwd`
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
           mvn -B install -nsu -DskipTests -T1C -fae
           mvn -B -f pom.xml test -fae -nsu -T1C
       - name: Build GeoServer with tests
@@ -99,11 +99,18 @@ jobs:
           cd geoserver/src
           ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
           git checkout imagen
-          sed -i "s/<mf.version>2.2.0<\/mf.version>/<mf.version>2.3-SNAPSHOT<\/mf.version>/g" geoserver/src/pom.xml
-          sed -i "s/<gf.version>3.6.0<\/gf.version>/<gf.version>3.6-SNAPSHOT<\/gf.version>/g" geoserver/src/pom.xml
+          sed -i "s/<mf.version>2.2.0<\/mf.version>/<mf.version>2.3-SNAPSHOT<\/mf.version>/g" pom.xml
+          sed -i "s/<gf.version>3.6.0<\/gf.version>/<gf.version>3.6-SNAPSHOT<\/gf.version>/g" pom.xml
           mvn -B -f pom.xml install -nsu -Prelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
           mvn -B -f community/pom.xml install -nsu -DcommunityRelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
           mvn -B -f src/pom.xml test -fae -T1C -nsu -Dtest.maxHeapSize=512m -Djvm.opts="$TEST_OPTS" -Prelease -Dspotless.apply.skip=true
+      - name: Remove intagration checkouts
+        if: success() || failure()
+        run: |
+          cd ~
+          echo "Removing clone geotools, geoserver, mapfish-print-v2, geowebcache"
+          rm -rf geotools geoserver mapfish-print-v2 geowebcache
       - name: Remove SNAPSHOT jars from repository
+        if: success() || failure()
         run: |
           find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
