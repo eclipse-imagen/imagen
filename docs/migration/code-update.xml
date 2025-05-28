@@ -17,6 +17,116 @@
                 <replacevalue>NotAColorSpace</replacevalue>
             </replacefilter>
             <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.AffineDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.affine.AffineDescriptor</replacevalue>
+            </replacefilter>
+            <!-- TODO: switch old direct operators to this one ?
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.AlgebraDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            -->
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.OperationConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.operationconst.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ArtifactsFilterDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.artifactsfilter.ArtifactsFilterDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.BandCombineDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.bandcombine.BandCombineDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.BandMergeDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.bandmerge.BandMergeDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.BandSelectDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.bandselect.BandSelectDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.BinarizeDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.binarize.BinarizeDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.BorderDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.border.BorderDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ClampDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.clamp.ClampDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ColorConvertDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.colorconvert.ColorConvertDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ConvolveDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.convolve.ConvolveDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.CropDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.crop.CropDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ErrorDiffusionDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.errordiffusion.ErrorDiffusionDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.FormatDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.format.FormatDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ImageFunctionDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.imagefunction.ImageFunctionDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ImageReadDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.imageread.ImageReadDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.LookupDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.lookup.LookupDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.MosaicDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.mosaic.MosaicDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.NullDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.null.NullDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.OrderedDitherDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.ordereddither.OrderedDitherDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.RescaleDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.rescale.RescaleDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ScaleDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.scale.ScaleDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ThresholdDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.threshold.ThresholdDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.TranslateDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.translate.TranslateDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.WarpDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.warp.WarpDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ZonalStatsDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.zonalstats.ZonalStatsDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
                 <replacetoken>com.sun.media.jai</replacetoken>
                 <replacevalue>org.eclipse.imagen.media</replacevalue>
             </replacefilter>
@@ -27,6 +137,10 @@
             <replacefilter>
                 <replacetoken>it.geosolutions.jaiext</replacetoken>
                 <replacevalue>org.eclipse.imagen.media</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>it.geosolutions.rendered.viewer</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.viewer</replacevalue>
             </replacefilter>
         </replace>
     </target>
