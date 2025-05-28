@@ -17,14 +17,13 @@
 
 package org.eclipse.imagen.operator;
 
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.registry.RenderableRegistryMode;
-import org.eclipse.imagen.registry.RenderedRegistryMode;
-
 import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.registry.RenderableRegistryMode;
+import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
  * An <code>OperationDescriptor</code> describing the "Clamp" operation.
