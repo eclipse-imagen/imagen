@@ -35,9 +35,9 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.TiledImage;
+import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
-import org.eclipse.imagen.operator.BandSelectDescriptor;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -309,7 +309,6 @@ public class BilinearScaleTest extends TestScale2 {
             }
         }
         printValues(image, image.getData());
-
         RenderedImage source = BandSelectDescriptor.create(image, new int[] {1, 3}, null);
         Polygon shape = new Polygon();
         shape.addPoint(1, 1);

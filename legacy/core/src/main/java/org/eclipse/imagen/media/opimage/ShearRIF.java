@@ -17,9 +17,6 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.operator.ShearDescriptor;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.DataBuffer;
@@ -28,6 +25,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.operator.ShearDescriptor;
 
 /** @see AffineOpimage */
 public class ShearRIF implements RenderedImageFactory {

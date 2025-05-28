@@ -207,7 +207,10 @@ public class ComparisonTest extends TestBase {
             // creation of the image
             if (OLD_DESCRIPTOR) {
                 JAIExt.registerJAIDescriptor("BandCombine");
-                finalImage = org.eclipse.imagen.operator.BandCombineDescriptor.create(image, matrix, null);
+                // TODO: BandCombineDescriptor moved to legacy
+                //      replace this with something else
+                //                finalImage = org.eclipse.imagen.operator.BandCombineDescriptor.create(image, matrix,
+                // null);
             } else {
                 finalImage = BandCombineDescriptor.create(image, matrix, roi, range, destinationNoData, null);
             }

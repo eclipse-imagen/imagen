@@ -17,8 +17,6 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import org.eclipse.imagen.*;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
@@ -31,6 +29,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.RenderableImage;
+import org.eclipse.imagen.*;
 
 /**
  * @since EA4

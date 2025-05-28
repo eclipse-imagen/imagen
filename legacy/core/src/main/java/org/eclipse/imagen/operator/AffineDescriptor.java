@@ -17,16 +17,15 @@
 
 package org.eclipse.imagen.operator;
 
-import org.eclipse.imagen.*;
-import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
-import org.eclipse.imagen.registry.RenderableRegistryMode;
-import org.eclipse.imagen.registry.RenderedRegistryMode;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
+import org.eclipse.imagen.registry.RenderableRegistryMode;
+import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /** This property generator computes the properties for the operation "Affine" dynamically. */
 class AffinePropertyGenerator extends PropertyGeneratorImpl {
@@ -208,9 +207,7 @@ public class AffineDescriptor extends OperationDescriptorImpl {
     };
 
     /** The parameter class list for this operation. */
-    private static final Class[] paramClasses = {
-        AffineTransform.class, Interpolation.class, double[].class
-    };
+    private static final Class[] paramClasses = {AffineTransform.class, Interpolation.class, double[].class};
 
     /** The parameter name list for this operation. */
     private static final String[] paramNames = {"transform", "interpolation", "backgroundValues"};
