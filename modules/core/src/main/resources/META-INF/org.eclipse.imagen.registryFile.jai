@@ -92,7 +92,7 @@ descriptor	org.eclipse.imagen.operator.BoxFilterDescriptor
 descriptor	org.eclipse.imagen.operator.ConstantDescriptor
 #descriptor	org.eclipse.imagen.operator.CompositeDescriptor
 #descriptor	org.eclipse.imagen.operator.ConjugateDescriptor
-descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
+#descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
 descriptor	org.eclipse.imagen.operator.CropDescriptor
 #descriptor	org.eclipse.imagen.operator.DCTDescriptor
 #descriptor	org.eclipse.imagen.operator.DFTDescriptor
@@ -207,7 +207,7 @@ rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.me
 #rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 rendered    org.eclipse.imagen.media.opimage.ConstantCRIF		org.eclipse.imagen.media	constant		sunconstrif1
 #rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
-rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
+#rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
 rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
 #rendered    org.eclipse.imagen.media.opimage.DCTCRIF			org.eclipse.imagen.media	dct			sundctrif
 #rendered    org.eclipse.imagen.media.opimage.DFTCRIF			org.eclipse.imagen.media	dft			sundftrif
