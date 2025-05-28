@@ -36,16 +36,21 @@ Use maven to build on the command line:
 
 The build uses the `javac` compiler argument `-XDignore.symbol.file` to reference JDK codecs directly. This functionality is only available from the `javac` command line and requires maven (or your IDE) to fork each call to `javac`.
 
+Maven build QA modules:
+
+    mvn sortpom:sort
+    mvn spotless:apply
+
 ## Supported Java Environment
 
-The *ImageN* codebase is in the process of being migrated from a Java Extension to a jar compatible with both Java 8 and Java 11 "jigsaw" module system.
+The *ImageN* codebase is in the process of being migrated from a Java Extension to a jar compatible with Java "jigsaw" module system.
 
-This process is incomplete, the supported build environments are outlined below:
-
-| module | Oracle JDK 8 | OpenJDK 8 | OpenJDK 11 |
-|--------|--------------|-----------|------------|
-| codec  | compiles     |           |            |
-| core   | compiles     |           |            |
+| module       | OpenJDK 11 | OpenJDK 17 | OpenJDK 21 |
+|--------------|------------|------------|------------|
+| modules      | compiles   | compiles   | compiles   | 
+| unsupported  | compiles   | compiles   | compiles   | 
+| legacy       | compiles   | compiles   | compiles   | 
+| legacy/codec | compiles   | compiles   | compiles   | 
 
 If using an unsupported environment:
 
