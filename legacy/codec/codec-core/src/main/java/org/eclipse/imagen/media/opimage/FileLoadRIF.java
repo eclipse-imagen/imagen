@@ -37,7 +37,7 @@ import org.eclipse.imagen.registry.RIFRegistry;
 import org.eclipse.imagen.util.ImagingListener;
 
 /*
- * Package-scope class which merely adds a finalize() method to close
+ * Package-scope class which merely adds a close() method to close
  * the associated stream and a dispose() method to forward the dispose()
  * call if possible.
  */
@@ -78,9 +78,9 @@ class StreamImage extends RenderedImageAdapter {
     /*
      * Close the stream.
      */
-    protected void finalize() throws Throwable {
+    public void close() throws Exception {
         stream.close();
-        super.finalize();
+        super.dispose();
     }
 }
 

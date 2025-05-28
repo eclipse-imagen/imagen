@@ -827,10 +827,4 @@ public abstract class SeekableStream extends InputStream implements DataInput {
     public final String readUTF() throws IOException {
         return DataInputStream.readUTF(this);
     }
-
-    /** Releases any system resources associated with this stream by calling the <code>close()</code> method. */
-    protected void finalize() throws Throwable {
-        super.finalize();
-        close();
-    }
 }

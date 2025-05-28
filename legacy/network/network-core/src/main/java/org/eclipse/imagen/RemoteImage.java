@@ -361,7 +361,7 @@ public class RemoteImage extends PlanarImage {
     }
 
     /** Disposes of any resources allocated for remote operation. */
-    protected void finalize() {
+    public void dispose() {
         try {
             remoteImage.dispose(id);
         } catch (Exception e) {

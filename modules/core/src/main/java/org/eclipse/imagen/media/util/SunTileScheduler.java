@@ -1459,10 +1459,10 @@ public final class SunTileScheduler implements TileScheduler {
     }
 
     /** Queue WorkerThread.TERMINATEs to all workers. */
-    protected void finalize() throws Throwable {
+    @Override
+    public void close() throws Exception {
         terminateAll(false);
         terminateAll(true);
-        super.finalize();
     }
 
     /** Queue WorkerThread.TERMINATEs to all appropriate workers. */
