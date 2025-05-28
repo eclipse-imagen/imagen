@@ -86,6 +86,10 @@ descriptor	org.eclipse.imagen.operator.ShearDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
+descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
+
+
+
 
 #
 # tile codec descriptor
@@ -115,6 +119,7 @@ rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media
 rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
+rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
 
 
 #
