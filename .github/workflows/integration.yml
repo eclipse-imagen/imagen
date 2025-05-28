@@ -74,14 +74,14 @@ jobs:
           ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
           mvn -B install -nsu -Dspotless.apply.skip=true -DskipTests -T1C -fae
           mvn -B test -fae -nsu -T1C -Dspotless.apply.skip=true
-     - name: Build Mapfish-print v2 with tests
-       run: |
-         cd ~
-         cd mapfish-print-v2
-         git checkout imagen
-         ant -f docs/migration/code-update.xml -Dproject.dir=`pwd`
-         mvn -B install -nsu -DskipTests -T1C -fae
-         mvn -B -f pom.xml test -fae -nsu -T1C
+      - name: Build Mapfish-print v2 with tests
+        run: |
+          cd ~
+          cd mapfish-print-v2
+          git checkout imagen
+          ant -f docs/migration/code-update.xml -Dproject.dir=`pwd`
+          mvn -B install -nsu -DskipTests -T1C -fae
+          mvn -B -f pom.xml test -fae -nsu -T1C
       - name: Build GeoServer with tests
         run: |
           echo "Building GeoServer"
