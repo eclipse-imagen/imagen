@@ -87,6 +87,7 @@
 descriptor	org.eclipse.imagen.operator.BoxFilterDescriptor
 #descriptor	org.eclipse.imagen.operator.ClampDescriptor
 #descriptor	org.eclipse.imagen.operator.ColorQuantizerDescriptor
+#descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ConstantDescriptor
 #descriptor	org.eclipse.imagen.operator.CompositeDescriptor
 #descriptor	org.eclipse.imagen.operator.ConjugateDescriptor
@@ -199,7 +200,7 @@ descriptor	org.eclipse.imagen.operator.XorDescriptor
 #rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
 #rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
 rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.media	boxfilter		sunboxfilterrif
-rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
+#rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 #rendered    org.eclipse.imagen.media.opimage.ColorQuantizerRIF		org.eclipse.imagen.media	colorquantizer		suncolorquantizerrif
 #rendered    org.eclipse.imagen.media.opimage.CompositeCRIF		org.eclipse.imagen.media	composite		suncompositerif
@@ -295,7 +296,7 @@ rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	
 #renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
 #renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
 #renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
-renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
+#renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
 renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 #renderable	org.eclipse.imagen.media.opimage.CompositeCRIF		composite
 #renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate

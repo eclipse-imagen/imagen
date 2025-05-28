@@ -84,7 +84,7 @@ descriptor	org.eclipse.imagen.operator.BorderDescriptor
 descriptor	org.eclipse.imagen.operator.RotateDescriptor
 descriptor	org.eclipse.imagen.operator.ShearDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
-
+descriptor	org.eclipse.imagen.operator.ClampDescriptor
 
 
 #
@@ -113,6 +113,7 @@ rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.medi
 rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
 rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
+rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 
 
 #
@@ -132,7 +133,7 @@ renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
 renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
-
+renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
 
 
 
