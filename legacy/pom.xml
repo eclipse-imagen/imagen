@@ -14,5 +14,6 @@
     <module>core</module>
     <module>codec</module>
     <module>network</module>
+    <module>all</module>
   </modules>
 </project>
