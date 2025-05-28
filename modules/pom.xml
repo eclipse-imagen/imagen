@@ -54,6 +54,7 @@
     <module>jiffle</module>
     <module>classbreaks</module>
     <module>rendered-image-browser</module>
+    <module>imageread</module>
   </modules>
 
   <!-- =========================================================== -->
