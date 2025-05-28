@@ -6,7 +6,31 @@ nav_order: 5
 
 # {{ page.title }}
 
-Eclipse ImageN offers a migration path for developers using the Java Advanced Imaging Framework.
+Eclipse ImageN offers a migration path for developers using the Java Advanced Imaging Framework:
+
+* ``org.eclipse.imagen:imagen-all``: includes the core library, bundled with supported operators for which test cases
+  have been provided.
+  
+  The supported operators have been battle tested by the Java Geospatial community and include functionality
+  such as NO_DATA (allowing the operators to skip over areas of an image  that are masked out).
+  
+* ``org.eclipse.imagen:imagen-unsupported-all``: includes the core library bundled with supported operators, and
+  unsupported functionality for which no tests are available.
+  
+  Developers are welcome to pick up any unsupported functionality and write tests.
+
+* ``org.eclipse.imagen:imagen-legacy-all``: includes the core library, bundled with legacy operators only, and
+  unsupported functionality for which no tests are available.
+  
+  Legacy functionality has been identified for removal and will not be avaialble in future releases of ImageN.
+  As an example ``codec`` support which has long been superseded by Java and ImageIO.
+
+* In addition to these combined jars, maven projects wishing greater control can depend on only the functionality used
+  as individual modules.
+  
+  Unsupported functionality is provided "as is", and requires test case coverage to be fully supported.
+
+## Automatic Update
 
 1. Download ant migration scripts:
    
@@ -19,11 +43,16 @@ Eclipse ImageN offers a migration path for developers using the Java Advanced Im
    ant -f pom-updates.xml -Dproject.dir=(absolute path to your project directory)
    ```
    
+   This is a best-effort script recognizing ``jai_core``, ``jai_codec`` dependencies used with ``jai.version``.
+   
 3. And refactoring script for ``java`` files.
    
    ```
    ant -f code-updates.xml -Dproject.dir=(absolute path to your project directory)
    ```
+   
+   This is a simple refactoring script to fix imports and class references, and adjust to any
+   class name changes made during transition to ImageN library.
    
 ## Manual Update
 
@@ -103,6 +132,13 @@ To upgrade:
       ...
    }
    ```
+
+4. Once your application compiles change to ``org.eclipse.imagen:imagen-all` dependency
+   (for core library and supported operators) and add additional unsupported or legacy dependencies as needed.
+   
+   * Legacy functionality has been identified for removal and will not be avaialble in future releases of ImageN.
+   
+   * Unsupported functionality is provided "as is", and requires test case coverage to be fully supported.
 
 # Java Image Formats
 
