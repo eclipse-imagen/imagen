@@ -50,16 +50,16 @@ jobs:
           mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
           echo "Checking out GeoTools"
           mkdir geotools
-          git clone https://github.com/geotools/geotools.git geotools
+          git clone --filter=tree:0 https://github.com/geotools/geotools.git geotools
           echo "Checking out GeoWebCache"
           mkdir geowebcache
-          git clone https://github.com/GeoWebCache/geowebcache.git geowebcache
+          git clone --filter=tree:0 https://github.com/GeoWebCache/geowebcache.git geowebcache
           echo "Checking out GeoServer"
           mkdir geoserver
-          git clone https://github.com/geoserver/geoserver.git geoserver
+          git clone --filter=tree:0 https://github.com/geoserver/geoserver.git geoserver
           echo "Checking out mapfish-print-v2"
           mkdir mapfish-print-v2
-          git clone https://github.com/mapfish/mapfish-print-v2.git mapfish-print-v2
+          git clone --filter=tree:0 https://github.com/mapfish/mapfish-print-v2.git mapfish-print-v2
       - name: Build GeoTools v2 with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
