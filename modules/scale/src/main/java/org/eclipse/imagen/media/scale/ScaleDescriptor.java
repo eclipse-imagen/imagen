@@ -521,6 +521,46 @@ public class ScaleDescriptor extends OperationDescriptorImpl {
      * Resizes an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param xScale The X scale factor. May be <code>null</code>.
+     * @param yScale The Y scale factor. May be <code>null</code>.
+     * @param xTrans The X translation. May be <code>null</code>.
+     * @param yTrans The Y translation. May be <code>null</code>.
+     * @param interpolation The interpolation method for resampling. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     */
+    public static RenderedOp create(
+            RenderedImage source0,
+            Float xScale,
+            Float yScale,
+            Float xTrans,
+            Float yTrans,
+            Interpolation interpolation,
+            RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Scale", RenderedRegistryMode.MODE_NAME);
+
+        pb.setSource("source0", source0);
+
+        pb.setParameter("xScale", xScale);
+        pb.setParameter("yScale", yScale);
+        pb.setParameter("xTrans", xTrans);
+        pb.setParameter("yTrans", yTrans);
+        pb.setParameter("interpolation", interpolation);
+
+        return JAI.create("Scale", pb, hints);
+    }
+
+    /**
+     * Resizes an image.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see JAI

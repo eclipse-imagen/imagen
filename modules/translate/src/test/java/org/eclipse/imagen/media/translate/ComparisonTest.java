@@ -124,8 +124,11 @@ public class ComparisonTest {
 
             // creation of the image with the selected interpolator
             if (old) {
-                imageTranslate =
-                        org.eclipse.imagen.operator.TranslateDescriptor.create(image, transX, transY, interp, null);
+                // TODO: commented out because the old implementation was moved to legacy
+                // TODO: need to do something different here!
+                //                imageTranslate =
+                //                        org.eclipse.imagen.operator.TranslateDescriptor.create(image, transX, transY,
+                // interp, null);
             } else {
                 imageTranslate = TranslateDescriptor.create(image, transX, transY, null, null);
             }

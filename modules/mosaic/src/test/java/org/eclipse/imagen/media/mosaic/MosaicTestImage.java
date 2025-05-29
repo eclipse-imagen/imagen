@@ -33,9 +33,9 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
+import org.eclipse.imagen.media.translate.TranslateDescriptor;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
 import org.eclipse.imagen.operator.NullDescriptor;
-import org.eclipse.imagen.operator.TranslateDescriptor;
 import org.junit.Test;
 
 /**

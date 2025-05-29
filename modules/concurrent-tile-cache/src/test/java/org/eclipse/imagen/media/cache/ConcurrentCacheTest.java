@@ -33,8 +33,8 @@ import javax.imageio.ImageIO;
 import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.TileCache;
+import org.eclipse.imagen.media.scale.ScaleDescriptor;
 import org.eclipse.imagen.media.util.SunTileCache;
-import org.eclipse.imagen.operator.ScaleDescriptor;
 import org.junit.Test;
 
 public class ConcurrentCacheTest {
