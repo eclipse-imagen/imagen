@@ -30,12 +30,12 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.bandmerge.BandMergeDescriptor;
+import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
+import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.operator.BandMergeDescriptor;
-import org.eclipse.imagen.operator.BandSelectDescriptor;
-import org.eclipse.imagen.operator.FormatDescriptor;
 import org.eclipse.imagen.operator.MosaicType;
 import org.eclipse.imagen.operator.TranslateDescriptor;
 import org.eclipse.imagen.util.ImagingException;
@@ -2518,7 +2518,7 @@ public class MosaicTest extends TestBase {
 
         // translate to have some pixels off area, testing proper pixel offset support,
         // making sure we are not going to align with tiles, which are 32x32 by default
-        PlanarImage combined = BandMergeDescriptor.create(base, alphaBase, null);
+        PlanarImage combined = BandMergeDescriptor.create(null, Double.NaN, false, null, base, alphaBase);
         PlanarImage image = TranslateDescriptor.create(combined, 112f, 0F, null, null);
         PlanarImage alpha = BandSelectDescriptor.create(image, new int[] {3}, null);
 
@@ -2636,5 +2636,18 @@ public class MosaicTest extends TestBase {
         // Before the fix, this call was throwing a NullPointerException.
         final Raster data = mosaic.getTile(0, 0);
         assertNotNull(data);
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Mosaic");
+        assertNotNull(descriptor);
+        assertEquals("Mosaic", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"mosaicType", "sourceAlpha", "sourceROI", "sourceThreshold", "backgroundValues", "nodata"
+                },
+                parameters.getParamNames());
     }
 }

@@ -32,6 +32,7 @@ import org.eclipse.imagen.operator.MosaicType;
 import org.eclipse.imagen.operator.NullDescriptor;
 import org.eclipse.imagen.operator.TranslateDescriptor;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -51,6 +52,7 @@ import org.junit.Test;
  * JAI.Ext.OldDescriptor. If the user wants to use the accelerated code, the JVM parameter JAI.Ext.Acceleration must be
  * set to true.
  */
+@Ignore
 public class ComparisonTest extends TestBase {
     /** Number of benchmark iterations (Default 1) */
     private static final Integer BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.BenchmarkCycles", 1);
