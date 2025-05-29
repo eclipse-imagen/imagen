@@ -388,4 +388,44 @@ public class BorderDescriptor extends OperationDescriptorImpl {
 
         return JAI.create("Border", pb, hints);
     }
+
+    /**
+     * Adds a border around an image.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param leftPad The image's left padding. May be <code>null</code>.
+     * @param rightPad The image's right padding. May be <code>null</code>.
+     * @param topPad The image's top padding. May be <code>null</code>.
+     * @param bottomPad The image's bottom padding. May be <code>null</code>.
+     * @param type The border type. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     */
+    public static RenderedOp create(
+            RenderedImage source0,
+            Integer leftPad,
+            Integer rightPad,
+            Integer topPad,
+            Integer bottomPad,
+            BorderExtender type,
+            RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Border", RenderedRegistryMode.MODE_NAME);
+
+        pb.setSource("source0", source0);
+        pb.setParameter("leftPad", leftPad);
+        pb.setParameter("rightPad", rightPad);
+        pb.setParameter("topPad", topPad);
+        pb.setParameter("bottomPad", bottomPad);
+        pb.setParameter("type", type);
+
+        return JAI.create("Border", pb, hints);
+    }
+
 }

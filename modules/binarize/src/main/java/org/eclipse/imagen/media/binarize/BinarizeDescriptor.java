@@ -137,6 +137,29 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
     }
 
     /**
+     * Binarize an image from a threshold value.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param threshold Argment must be of type java.lang.Double.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>threshold</code> is <code>null</code>.
+     */
+    public static RenderedOp create(RenderedImage source0, Double threshold, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Binarize", RenderedRegistryMode.MODE_NAME);
+        pb.setSource("source0", source0);
+        pb.setParameter("threshold", threshold);
+        return JAI.create("Binarize", pb, hints);
+    }
+
+    /**
      * Binarize an image from a threshold value, taking into account the presence of ROI and NoData
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes

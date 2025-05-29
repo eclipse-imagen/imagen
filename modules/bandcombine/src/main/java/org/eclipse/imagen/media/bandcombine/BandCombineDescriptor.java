@@ -215,6 +215,29 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
     }
 
     /**
+     * Performs arbitrary interband linear combination using a specified matrix.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param matrix The matrix specifying the band combination.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>matrix</code> is <code>null</code>.
+     */
+    public static RenderedOp create(RenderedImage source0, double[][] matrix, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("BandCombine", RenderedRegistryMode.MODE_NAME);
+        pb.setSource("source0", source0);
+        pb.setParameter("matrix", matrix);
+        return JAI.create("BandCombine", pb, hints);
+    }
+
+    /**
      * Performs arbitrary interband linear combination using a specified matrix and checking ROI and NoData if defined.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes

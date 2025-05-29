@@ -321,9 +321,7 @@ public final class ArtifactsFilterOpImage extends PointOpImage {
             RenderedImage image = inputRI;
             if (threshold != Integer.MAX_VALUE) {
                 if (numBands == 3) {
-                    // TODO: verify that this is correct.
-                    //      BandCombineDescriptor moved to legacy, #create() changed
-                    image = BandCombineDescriptor.create(image, RGB_TO_GRAY_MATRIX, null, null, 0, null);
+                    image = BandCombineDescriptor.create(image, RGB_TO_GRAY_MATRIX, null);
                 } else {
                     // do we have transparency
                     // combination matrix
@@ -334,9 +332,7 @@ public final class ArtifactsFilterOpImage extends PointOpImage {
                     for (int i = 0; i < numBands; i++) {
                         matrix[0][i] = fillValue;
                     }
-                    // TODO: verify that this is correct.
-                    //      BandCombineDescriptor moved to legacy, #create() changed
-                    image = BandCombineDescriptor.create(image, matrix, null, null, 0, null);
+                    image = BandCombineDescriptor.create(image, matrix, null);
                 }
                 thresholdRoi = new ROI(image, threshold);
                 thresholdRoi = thresholdRoi.intersect(sourceROI);

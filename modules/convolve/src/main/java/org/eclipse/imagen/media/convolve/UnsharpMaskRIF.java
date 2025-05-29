@@ -66,6 +66,8 @@ public class UnsharpMaskRIF implements RenderedImageFactory {
                 && (kJAI.getYOrigin() == 1)
                 && dataTypeOk) {
             // TODO: Constructor has changed.  Verify this is correct.
+            // TODO: this isn't accessed via the descriptor and the new  Convolve3x3OpImage is
+            //       subclassed from another parent class.  This needs to be reviewed.
             return new Convolve3x3OpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
         } else if (kJAI.isSeparable()) {
             return new SeparableConvolveOpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
