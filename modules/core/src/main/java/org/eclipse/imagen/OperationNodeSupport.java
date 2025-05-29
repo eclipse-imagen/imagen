@@ -18,17 +18,12 @@
 package org.eclipse.imagen;
 
 import java.awt.RenderingHints;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
-import org.eclipse.imagen.remote.SerializableState;
 
 /**
  * This is a utility class that can be used by <code>OperationNode</code>s to consolidate common functionality. An
@@ -681,40 +676,43 @@ public class OperationNodeSupport implements Serializable {
             out.writeObject(SerializerFactory.getState(hints, null));
         }
     */
+
     /** Deserializes the <code>OperationNodeSupport</code>. */
-    private synchronized void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    /* TODO check deserialization
+     private synchronized void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 
-        // Read non-static and non-transient fields.
-        in.defaultReadObject();
-        // Read ParameterBlock.
-        pb = (ParameterBlock) in.readObject();
-        // Read RenderingHints.
-        SerializableState ss = (SerializableState) in.readObject();
-        hints = (RenderingHints) ss.getObject();
+         // Read non-static and non-transient fields.
+         in.defaultReadObject();
+         // Read ParameterBlock.
+         pb = (ParameterBlock) in.readObject();
+         // Read RenderingHints.
+         SerializableState ss = (SerializableState) in.readObject();
+         hints = (RenderingHints) ss.getObject();
 
-        // Wrap any RenderedImageState sources in PlanarImage objects.
-        for (int index = 0; index < pb.getNumSources(); index++) {
-            Object source = pb.getSource(index);
-            if (source instanceof SerializableState) {
-                ss = (SerializableState) source;
-                PlanarImage pi = PlanarImage.wrapRenderedImage((RenderedImage) ss.getObject());
-                pb.setSource(pi, index);
-            }
-        }
+         // Wrap any RenderedImageState sources in PlanarImage objects.
+         for (int index = 0; index < pb.getNumSources(); index++) {
+             Object source = pb.getSource(index);
+             if (source instanceof SerializableState) {
+                 ss = (SerializableState) source;
+                 PlanarImage pi = PlanarImage.wrapRenderedImage((RenderedImage) ss.getObject());
+                 pb.setSource(pi, index);
+             }
+         }
 
-        // Extract Raster and PlanarImage parameters from RasterState and
-        // RenderedImageState wrappers, respectively.
-        for (int index = 0; index < pb.getNumParameters(); index++) {
-            Object parameter = pb.getObjectParameter(index);
-            if (parameter instanceof SerializableState) {
-                Object object = ((SerializableState) parameter).getObject();
-                if (object instanceof Raster) pb.set(object, index);
-                else if (object instanceof RenderedImage)
-                    pb.set(PlanarImage.wrapRenderedImage((RenderedImage) object), index);
-                else pb.set(object, index);
-            }
-        }
+         // Extract Raster and PlanarImage parameters from RasterState and
+         // RenderedImageState wrappers, respectively.
+         for (int index = 0; index < pb.getNumParameters(); index++) {
+             Object parameter = pb.getObjectParameter(index);
+             if (parameter instanceof SerializableState) {
+                 Object object = ((SerializableState) parameter).getObject();
+                 if (object instanceof Raster) pb.set(object, index);
+                 else if (object instanceof RenderedImage)
+                     pb.set(PlanarImage.wrapRenderedImage((RenderedImage) object), index);
+                 else pb.set(object, index);
+             }
+         }
 
-        registry = JAI.getDefaultInstance().getOperationRegistry();
-    }
+         registry = JAI.getDefaultInstance().getOperationRegistry();
+     }
+    */
 }
