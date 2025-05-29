@@ -17,8 +17,10 @@
 */
 package org.eclipse.imagen.media.scale;
 
+import org.eclipse.imagen.media.util.PropertyUtil;
+
 class JaiI18N {
-    static String packageName = "org.eclipse.imagen.media.scale";
+    static String packageName = "org.eclipse.imagen.media.scale2";
 
     public static String getString(String key) {
         return PropertyUtil.getString(packageName, key);
