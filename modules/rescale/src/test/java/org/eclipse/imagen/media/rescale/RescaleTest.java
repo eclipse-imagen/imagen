@@ -24,9 +24,12 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -506,5 +509,17 @@ public class RescaleTest extends TestBase {
                 }
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Rescale");
+        assertNotNull(descriptor);
+        assertEquals("Rescale", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"constants", "offsets", "ROI", "noData", "useRoiAccessor", "destNoData"},
+                parameters.getParamNames());
     }
 }

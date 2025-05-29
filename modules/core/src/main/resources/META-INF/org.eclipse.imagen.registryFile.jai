@@ -148,7 +148,7 @@ descriptor	org.eclipse.imagen.operator.PiecewiseDescriptor
 #descriptor	org.eclipse.imagen.operator.PNMDescriptor
 #descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
 descriptor	org.eclipse.imagen.operator.RenderableDescriptor
-descriptor	org.eclipse.imagen.operator.RescaleDescriptor
+# descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 descriptor	org.eclipse.imagen.operator.RotateDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
 descriptor	org.eclipse.imagen.operator.ShearDescriptor
@@ -259,7 +259,7 @@ rendered    org.eclipse.imagen.media.opimage.PiecewiseCRIF		org.eclipse.imagen.m
 #rendered    org.eclipse.imagen.media.opimage.PNGRIF			org.eclipse.imagen.media	png			sunpngrif
 #rendered    org.eclipse.imagen.media.opimage.PNMRIF			org.eclipse.imagen.media	pnm			sunpnmrif
 #rendered    org.eclipse.imagen.media.opimage.PolarToComplexCRIF	org.eclipse.imagen.media	polartocomplex		sunpolartocomplexrif
-rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
+#rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
 rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
 rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
@@ -331,7 +331,7 @@ renderable	org.eclipse.imagen.media.opimage.OrCRIF		or
 renderable	org.eclipse.imagen.media.opimage.PiecewiseCRIF		piecewise
 #renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
 #renderable	org.eclipse.imagen.media.opimage.RenderableCRIF	renderable
-renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
+# renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
 renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 #renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsamplebinarytogray
