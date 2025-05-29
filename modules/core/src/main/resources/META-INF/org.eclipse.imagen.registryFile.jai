@@ -107,7 +107,7 @@ descriptor	org.eclipse.imagen.operator.ExtremaDescriptor
 #descriptor	org.eclipse.imagen.operator.FileLoadDescriptor
 #descriptor	org.eclipse.imagen.operator.FileStoreDescriptor
 descriptor	org.eclipse.imagen.operator.FilteredSubsampleDescriptor
-descriptor	org.eclipse.imagen.operator.FormatDescriptor
+# descriptor	org.eclipse.imagen.operator.FormatDescriptor
 #descriptor	org.eclipse.imagen.operator.FPXDescriptor
 #descriptor	org.eclipse.imagen.operator.GIFDescriptor
 #descriptor	org.eclipse.imagen.operator.GradientMagnitudeDescriptor
@@ -221,7 +221,7 @@ rendered    org.eclipse.imagen.media.opimage.ExtremaRIF		org.eclipse.imagen.medi
 #rendered    org.eclipse.imagen.media.opimage.FileLoadRIF		org.eclipse.imagen.media	fileload		sunfileloadrif
 #rendered    org.eclipse.imagen.media.opimage.FileStoreRIF		org.eclipse.imagen.media	filestore		sunfilestorerif
 rendered    org.eclipse.imagen.media.opimage.FilteredSubsampleRIF      org.eclipse.imagen.media       filteredsubsample       sunfilteredsubsamplerif
-rendered    org.eclipse.imagen.media.opimage.FormatCRIF		org.eclipse.imagen.media	format			sunformatrif
+# rendered    org.eclipse.imagen.media.opimage.FormatCRIF		org.eclipse.imagen.media	format			sunformatrif
 #rendered    org.eclipse.imagen.media.opimage.FPXRIF		        org.eclipse.imagen.media	fpx			sunfpxrif
 #rendered    org.eclipse.imagen.media.opimage.GIFRIF		        org.eclipse.imagen.media	gif			sungifrif
 #rendered    org.eclipse.imagen.media.opimage.GradientRIF		org.eclipse.imagen.media	gradientmagnitude	sungradientrif
@@ -307,7 +307,7 @@ renderable	org.eclipse.imagen.media.opimage.DivideCRIF		divide
 renderable	org.eclipse.imagen.media.opimage.DivideByConstCRIF	dividebyconst
 renderable	org.eclipse.imagen.media.opimage.DivideIntoConstCRIF	divideintoconst
 renderable	org.eclipse.imagen.media.opimage.ExpCRIF		exp
-renderable	org.eclipse.imagen.media.opimage.FormatCRIF		format
+#renderable	org.eclipse.imagen.media.opimage.FormatCRIF		format
 #renderable	org.eclipse.imagen.media.opimage.IDCTCRIF		idct
 #renderable	org.eclipse.imagen.media.opimage.IDFTCRIF		idft
 renderable	org.eclipse.imagen.media.opimage.InvertCRIF		invert
