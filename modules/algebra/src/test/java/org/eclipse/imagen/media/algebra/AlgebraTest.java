@@ -25,7 +25,6 @@ import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
@@ -1627,7 +1626,6 @@ public class AlgebraTest extends TestBase {
         assertNotNull(descriptor);
         assertEquals("algebric", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
-        assertArrayEquals(
-                new String[] {"operation", "roi", "noData", "destinationNoData"}, parameters.getParamNames());
+        assertArrayEquals(new String[] {"operation", "roi", "noData", "destinationNoData"}, parameters.getParamNames());
     }
 }
