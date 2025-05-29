@@ -65,10 +65,15 @@
 #	pref	<modeName>  <descriptor-name>	<product-name>	<preferred-factory-local-name>	<other-factory-local-name>
 #
 ############################################################################
+
+
 #
 # Image operation descriptors :
 #
 
+descriptor	org.eclipse.imagen.operator.PhaseDescriptor
+descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
+descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
 descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
 descriptor	org.eclipse.imagen.operator.ColorQuantizerDescriptor
 descriptor	org.eclipse.imagen.operator.CompositeDescriptor
@@ -92,8 +97,21 @@ descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
 descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
 
 #
+# tile codec descriptor
+#
+
+
+#
+# remote descriptor
+#
+
+
+#
 # "rendered" factory objects
 #
+rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
+rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
+rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
 rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
 rendered    org.eclipse.imagen.media.opimage.ColorQuantizerRIF		org.eclipse.imagen.media	colorquantizer		suncolorquantizerrif
 rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
@@ -117,6 +135,10 @@ rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.im
 # "renderable" factory objects
 #
 
+
+renderable	org.eclipse.imagen.media.opimage.PhaseCRIF		phase
+renderable	org.eclipse.imagen.media.opimage.MagnitudeCRIF		magnitude
+renderable	org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	magnitudesquared
 renderable	org.eclipse.imagen.media.opimage.CompositeCRIF		composite
 renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate
 renderable	org.eclipse.imagen.media.opimage.DCTCRIF		dct
@@ -131,3 +153,23 @@ renderable	org.eclipse.imagen.media.opimage.PeriodicShiftCRIF	periodicshift
 renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
 renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsamplebinarytogray
 renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
+
+#
+# "collection" factory objects
+#
+
+#
+# tile decoder factory objects
+#
+
+#
+# tile encoder factory objects
+#
+
+#
+# remote rendered factory objects
+#
+
+#
+# remote renderable factory objects
+#
