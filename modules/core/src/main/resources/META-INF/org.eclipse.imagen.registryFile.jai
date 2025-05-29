@@ -164,7 +164,7 @@ descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
 descriptor	org.eclipse.imagen.operator.TransposeDescriptor
 descriptor	org.eclipse.imagen.operator.UnsharpMaskDescriptor
 #descriptor	org.eclipse.imagen.operator.URLDescriptor
-descriptor	org.eclipse.imagen.operator.WarpDescriptor
+# descriptor	org.eclipse.imagen.operator.WarpDescriptor
 descriptor	org.eclipse.imagen.operator.XorConstDescriptor
 descriptor	org.eclipse.imagen.operator.XorDescriptor
 
@@ -275,7 +275,7 @@ rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.i
 rendered    org.eclipse.imagen.media.opimage.TransposeCRIF		org.eclipse.imagen.media	transpose		suntransposerif
 rendered    org.eclipse.imagen.media.opimage.UnsharpMaskRIF		org.eclipse.imagen.media	unsharpmask		sununsharpmaskrif
 #rendered    org.eclipse.imagen.media.opimage.URLRIF			org.eclipse.imagen.media	url			sunurlrif
-rendered    org.eclipse.imagen.media.opimage.WarpRIF			org.eclipse.imagen.media	warp			sunwarprif
+#rendered    org.eclipse.imagen.media.opimage.WarpRIF			org.eclipse.imagen.media	warp			sunwarprif
 rendered    org.eclipse.imagen.media.opimage.XorConstCRIF		org.eclipse.imagen.media	xorconst		sunxorconstrif
 rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	xor			sunxorrif
 

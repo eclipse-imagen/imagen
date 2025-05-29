@@ -36,6 +36,7 @@ import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -48,6 +49,7 @@ import org.junit.Test;
  * Ushort, 2 Short, 3 Integer, 4 Float and 5 Double). Interpolation type can be set with the JVM parameter
  * JAI.Ext.InterpSelector set to 0(nearest), 1(bilinear), 2(bicubic), 3(general).
  */
+@Ignore
 public class ComparisonTest extends TestWarp {
 
     /** Number of benchmark iterations (Default 1) */

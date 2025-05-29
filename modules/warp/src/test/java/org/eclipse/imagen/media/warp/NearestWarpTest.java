@@ -30,7 +30,6 @@ import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.WarpAffine;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.operator.ConstantDescriptor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -42,7 +41,6 @@ public class NearestWarpTest extends TestWarp {
     /** Static method for preparing the test environment. */
     @BeforeClass
     public static void setup() {
-        JAIExt.initJAIEXT();
         // Definition of the Warp Object
         AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(ANGLE_ROTATION));
         transform.concatenate(AffineTransform.getTranslateInstance(0, -DEFAULT_HEIGHT));

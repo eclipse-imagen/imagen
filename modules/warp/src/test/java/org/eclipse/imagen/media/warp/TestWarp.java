@@ -18,7 +18,9 @@
 package org.eclipse.imagen.media.warp;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -33,9 +35,11 @@ import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.Warp;
@@ -47,6 +51,7 @@ import org.eclipse.imagen.media.stats.Statistics.StatsType;
 import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
+import org.junit.Test;
 
 /**
  * Test class which extends the jt-utilities TestBase class and provide utility methods for testing the various classes.
@@ -354,5 +359,17 @@ public class TestWarp extends TestBase {
         assertEquals(warped.getTileWidth(), scaleRoiImage.getTileWidth());
         assertEquals(512, scaleRoiImage.getTileWidth());
         assertEquals(512, scaleRoiImage.getTileHeight());
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Warp");
+        assertNotNull(descriptor);
+        assertEquals("Warp", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"warp", "interpolation", "backgroundValues", "roi", "nodata"},
+                parameters.getParamNames());
     }
 }

@@ -22,7 +22,6 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.WarpAffine;
-import org.eclipse.imagen.media.JAIExt;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,7 +32,6 @@ public class BilinearWarpTest extends TestWarp {
     /** Static method for preparing the test environment. */
     @BeforeClass
     public static void setup() {
-        JAIExt.initJAIEXT();
         // Definition of the Warp Object
         AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(ANGLE_ROTATION));
         transform.concatenate(AffineTransform.getTranslateInstance(0, -DEFAULT_HEIGHT));
@@ -87,16 +85,6 @@ public class BilinearWarpTest extends TestWarp {
     @Test
     public void testImageNoDataROI() {
         super.testImageNoDataROI(interpType);
-    }
-
-    @Test
-    public void testImageNoDataBorderJAI() {
-        JAIExt.registerJAIDescriptor("Border");
-        try {
-            super.testImage(interpType);
-        } finally {
-            JAIExt.registerJAIEXTDescriptor("Border");
-        }
     }
 
     /** Static method for disposing the test environment. */
