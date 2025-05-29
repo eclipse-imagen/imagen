@@ -17,6 +17,10 @@
 */
 package org.eclipse.imagen.media.bandselect;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.awt.RenderingHints;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
@@ -25,11 +29,12 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.opimage.CopyOpImage;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.operator.ConstantDescriptor;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -52,8 +57,8 @@ public class BandSelectTest extends TestBase {
         RenderedOp oneBand = JAI.create("BandSelect", pb);
 
         // make sure we got the right band
-        Assert.assertEquals(1, oneBand.getSampleModel().getNumBands());
-        Assert.assertEquals(0, oneBand.getData().getSample(0, 0, 0), 1E-11);
+        assertEquals(1, oneBand.getSampleModel().getNumBands());
+        assertEquals(0, oneBand.getData().getSample(0, 0, 0), 1E-11);
     }
 
     @Test
@@ -77,8 +82,8 @@ public class BandSelectTest extends TestBase {
         RenderedOp oneBand = BandSelectDescriptor.create(twoBandsPacked, new int[] {1}, hints);
 
         // make sure we got the right band
-        Assert.assertEquals(1, oneBand.getSampleModel().getNumBands());
-        Assert.assertEquals(0, oneBand.getData().getSample(0, 0, 0), 1E-11);
+        assertEquals(1, oneBand.getSampleModel().getNumBands());
+        assertEquals(0, oneBand.getData().getSample(0, 0, 0), 1E-11);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -115,5 +120,15 @@ public class BandSelectTest extends TestBase {
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {2});
         RenderedOp oneBand = JAI.create("BandSelect", pb);
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandSelect");
+        assertNotNull(descriptor);
+        assertEquals("BandSelect", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"bandIndices"}, parameters.getParamNames());
     }
 }
