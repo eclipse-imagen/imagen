@@ -28,7 +28,6 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.TiledImage;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.utilities.ImageUtilities;
 import org.junit.BeforeClass;
 
@@ -489,6 +488,7 @@ public abstract class TestBase {
 
     @BeforeClass
     public static void setup() {
-        JAIExt.initJAIEXT();
+        // This should not be needed any longer
+        //  JAIExt.initJAIEXT();
     }
 }
