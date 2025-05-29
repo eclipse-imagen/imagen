@@ -23,9 +23,11 @@ import java.awt.image.RenderedImage;
 import org.eclipse.imagen.WarpAffine;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** Test class which extends the TestWarp class and executes all the tests with a general interpolation object. */
+@Ignore
 public class GeneralWarpTest extends TestWarp {
 
     /** Static method for preparing the test environment. */

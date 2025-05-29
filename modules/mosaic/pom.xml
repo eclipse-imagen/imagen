@@ -19,9 +19,11 @@
       <artifactId>utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- test dependencies -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>bandmerge</artifactId>
+      <artifactId>test-support</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -56,13 +58,6 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
-      <version>${project.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
       <artifactId>rendered-image-browser</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -70,7 +65,7 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>bandmerge</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

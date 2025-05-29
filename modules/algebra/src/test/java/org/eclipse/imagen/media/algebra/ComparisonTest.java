@@ -35,7 +35,7 @@ import org.eclipse.imagen.operator.LogDescriptor;
 import org.eclipse.imagen.operator.MultiplyDescriptor;
 import org.eclipse.imagen.operator.NotDescriptor;
 import org.eclipse.imagen.operator.OrDescriptor;
-import org.eclipse.imagen.operator.XorDescriptor;
+// import org.eclipse.imagen.operator.XorDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -335,12 +335,16 @@ public class ComparisonTest extends TestBase {
                         imageCalculated = (PlanarImage) firstOp;
                         break;
                     case XOR:
-                        firstOp = images[0];
-                        for (int j = 1; j < NUM_IMAGES; j++) {
-                            firstOp = XorDescriptor.create(firstOp, images[j], null);
-                        }
-                        imageCalculated = (PlanarImage) firstOp;
-                        break;
+                        // TODO: XorDescriptor moved to legacy, will need to test another way
+                        //                        firstOp = images[0];
+                        //                        for (int j = 1; j < NUM_IMAGES; j++) {
+                        //                            firstOp = XorDescriptor.create(firstOp, images[j], null);
+                        //                        }
+                        //                        imageCalculated = (PlanarImage) firstOp;
+                        //                        break;
+                        throw new UnsupportedOperationException(
+                                "XorDescriptor is not supported in ImageN Core for testing");
+
                     case NOT:
                         imageCalculated = (PlanarImage) NotDescriptor.create(images[0], null);
                         break;

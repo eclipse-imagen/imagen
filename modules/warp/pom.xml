@@ -14,11 +14,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    <!-- TODO - cyclic dependency.  This might not be needed in the main code.-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.eclipse.imagen</groupId>-->
+    <!--      <artifactId>utilities</artifactId>-->
+    <!--      <version>${project.version}</version>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>binarize</artifactId>
@@ -34,11 +35,15 @@
       <artifactId>border</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- todo - warp moved to legacy -> to circular dependency.
+         also for moving test cases to utility-->
+
+    <!-- test dependencies -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>test-support</artifactId>
       <version>${project.version}</version>
-      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -47,11 +52,14 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- 
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>rendered-image-browser</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+ -->
   </dependencies>
 </project>

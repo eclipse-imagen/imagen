@@ -19,12 +19,7 @@
       <artifactId>utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>bandselect</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>translate</artifactId>
@@ -33,15 +28,14 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>test-support</artifactId>
       <version>${project.version}</version>
-      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>bandselect</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

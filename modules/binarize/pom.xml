@@ -17,14 +17,19 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>utilities</artifactId>
       <version>${project.version}</version>
-      <type>test-jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>test-support</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

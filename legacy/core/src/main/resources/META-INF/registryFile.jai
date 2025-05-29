@@ -93,7 +93,9 @@ descriptor	org.eclipse.imagen.operator.TranslateDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
-
+descriptor	org.eclipse.imagen.operator.WarpDescriptor
+descriptor	org.eclipse.imagen.operator.XorConstDescriptor
+descriptor	org.eclipse.imagen.operator.XorDescriptor
 
 
 
@@ -134,6 +136,9 @@ rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.m
 rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.media	subtract		sunsubtractrif
 rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
 rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
+rendered    org.eclipse.imagen.media.opimage.WarpRIF			org.eclipse.imagen.media	warp			sunwarprif
+rendered    org.eclipse.imagen.media.opimage.XorConstCRIF		org.eclipse.imagen.media	xorconst		sunxorconstrif
+rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	xor			sunxorrif
 
 
 
@@ -164,6 +169,8 @@ renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
 renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
 renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
 renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
+renderable	org.eclipse.imagen.media.opimage.XorConstCRIF		xorconst
+renderable	org.eclipse.imagen.media.opimage.XorCRIF		xor
 
 
 #
