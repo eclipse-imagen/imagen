@@ -34,7 +34,8 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
+// TODO: commented out due to cyclic dependency when moving rescale to legacy
+// import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -349,7 +350,8 @@ public class RescaleTest extends TestBase {
 
         // Display Image
         if (INTERACTIVE && TEST_SELECTOR == select.getType()) {
-            RenderedImageBrowser.showChain(rescaled, false, roiUsed);
+            // TODO: commented out due to cyclic dependency when moving rescale to legacy
+            //            RenderedImageBrowser.showChain(rescaled, false, roiUsed);
             try {
                 System.in.read();
             } catch (IOException e) {

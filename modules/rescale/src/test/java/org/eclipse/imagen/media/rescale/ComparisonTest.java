@@ -226,7 +226,9 @@ public class ComparisonTest extends TestBase {
             // creation of the image
             if (OLD_DESCRIPTOR) {
                 JAIExt.registerJAIDescriptor("Rescale");
-                imageRescale = org.eclipse.imagen.operator.RescaleDescriptor.create(image, scales, offsets, null);
+                // TODO: commented out due to jai-rescale moved to legacy
+                //                imageRescale = org.eclipse.imagen.operator.RescaleDescriptor.create(image, scales,
+                // offsets, null);
             } else {
                 imageRescale = RescaleDescriptor.create(image, scales, offsets, roi, range, false, destNoData, null);
             }
