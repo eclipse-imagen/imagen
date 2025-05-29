@@ -17,8 +17,6 @@
 */
 package org.eclipse.imagen.media.orderdither;
 
-import org.eclipse.imagen.media.utilities.PropertyUtil;
-
 /** Internationalization class */
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.orderdither";

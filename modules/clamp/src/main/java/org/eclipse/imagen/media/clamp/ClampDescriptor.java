@@ -37,8 +37,8 @@ public class ClampDescriptor extends OperationDescriptorImpl {
      * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName", "Clampop"},
-        {"LocalName", "Clampop"},
+        {"GlobalName", "Clamp"},
+        {"LocalName", "Clamp"},
         {"Vendor", "org.eclipse.imagen.media"},
         {
             "Description",
@@ -133,7 +133,7 @@ public class ClampDescriptor extends OperationDescriptorImpl {
             RenderedImage sources) {
         // register();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("Clampop", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockJAI pb = new ParameterBlockJAI("Clamp", RenderedRegistryMode.MODE_NAME);
         if (sources == null) throw new IllegalArgumentException("This resource is null");
 
         // Setting of sources
@@ -148,6 +148,6 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         pb.setParameter("high", high);
 
         // Creation of the RenderedOp
-        return JAI.create("Clampop", pb, hints);
+        return JAI.create("Clamp", pb, hints);
     }
 }

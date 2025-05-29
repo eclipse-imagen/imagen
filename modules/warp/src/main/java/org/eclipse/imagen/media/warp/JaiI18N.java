@@ -17,8 +17,6 @@
 */
 package org.eclipse.imagen.media.warp;
 
-import org.eclipse.imagen.media.utilities.PropertyUtil;
-
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.warp";
 

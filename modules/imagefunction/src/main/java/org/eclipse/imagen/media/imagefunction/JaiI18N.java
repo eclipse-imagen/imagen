@@ -17,8 +17,6 @@
 */
 package org.eclipse.imagen.media.imagefunction;
 
-import org.eclipse.imagen.media.utilities.PropertyUtil;
-
 /** Internationalization Class */
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.imagefunction";
