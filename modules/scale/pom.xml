@@ -35,6 +35,22 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
+      <artifactId>nullop</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>binarize</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>border</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
       <artifactId>utilities</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
@@ -49,6 +65,12 @@
       <artifactId>rendered-image-browser</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imageread</artifactId>
+      <scope>test</scope>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

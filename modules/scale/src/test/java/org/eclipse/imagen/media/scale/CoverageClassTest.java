@@ -33,9 +33,9 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.interpolators.InterpolationBicubic;
 import org.eclipse.imagen.media.interpolators.InterpolationBilinear;
 import org.eclipse.imagen.media.interpolators.InterpolationNearest;
+import org.eclipse.imagen.media.nullop.NullDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.translate.TranslateIntOpImage;
-import org.eclipse.imagen.operator.NullDescriptor;
 import org.junit.Test;
 
 /**

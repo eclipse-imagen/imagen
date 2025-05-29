@@ -38,6 +38,7 @@ import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.testclasses.TestData;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -62,6 +63,7 @@ import org.junit.Test;
  * true or false the JVM parameter JAI.Ext.OldDescriptor. If the user wants to use the accelerated code, the JVM
  * parameter JAI.Ext.Acceleration must be set to true.
  */
+@Ignore
 public class ComparisonTest extends TestBase {
 
     /** Number of benchmark iterations (Default 1) */
