@@ -20,11 +20,6 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
       <artifactId>scale</artifactId>
       <version>${project.version}</version>
     </dependency>
