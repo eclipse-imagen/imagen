@@ -17,9 +17,11 @@
 */
 package org.eclipse.imagen.media.orderdither;
 
+import org.eclipse.imagen.media.util.PropertyUtil;
+
 /** Internationalization class */
 class JaiI18N {
-    static String packageName = "org.eclipse.imagen.media.orderdither";
+    static String packageName = "org.eclipse.imagen.media.ordereddither";
 
     public static String getString(String key) {
         return PropertyUtil.getString(packageName, key);
