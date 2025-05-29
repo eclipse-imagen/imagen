@@ -91,7 +91,7 @@ descriptor	org.eclipse.imagen.operator.ConstantDescriptor
 #descriptor	org.eclipse.imagen.operator.CompositeDescriptor
 #descriptor	org.eclipse.imagen.operator.ConjugateDescriptor
 descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
-descriptor	org.eclipse.imagen.operator.CropDescriptor
+#descriptor	org.eclipse.imagen.operator.CropDescriptor
 #descriptor	org.eclipse.imagen.operator.DCTDescriptor
 #descriptor	org.eclipse.imagen.operator.DFTDescriptor
 #descriptor	org.eclipse.imagen.operator.DilateDescriptor
@@ -205,7 +205,7 @@ rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.me
 rendered    org.eclipse.imagen.media.opimage.ConstantCRIF		org.eclipse.imagen.media	constant		sunconstrif1
 #rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
 rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
-rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
+#rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
 #rendered    org.eclipse.imagen.media.opimage.DCTCRIF			org.eclipse.imagen.media	dct			sundctrif
 #rendered    org.eclipse.imagen.media.opimage.DFTCRIF			org.eclipse.imagen.media	dft			sundftrif
 #rendered    org.eclipse.imagen.media.opimage.DilateRIF			org.eclipse.imagen.media	dilate			sundilaterif
@@ -299,7 +299,7 @@ renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
 #renderable	org.eclipse.imagen.media.opimage.CompositeCRIF		composite
 #renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate
 renderable	org.eclipse.imagen.media.opimage.ConstantCRIF		constant
-renderable	org.eclipse.imagen.media.opimage.CropCRIF		crop
+#renderable	org.eclipse.imagen.media.opimage.CropCRIF		crop
 #renderable	org.eclipse.imagen.media.opimage.DCTCRIF		dct
 #renderable	org.eclipse.imagen.media.opimage.DFTCRIF		dft
 renderable	org.eclipse.imagen.media.opimage.DivideCRIF		divide

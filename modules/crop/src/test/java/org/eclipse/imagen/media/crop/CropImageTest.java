@@ -28,8 +28,10 @@ import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.media.range.Range;
@@ -272,5 +274,16 @@ public class CropImageTest extends TestBase {
             }
         }
         return pb;
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Crop");
+        assertNotNull(descriptor);
+        assertEquals("Crop", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"x", "y", "width", "height", "ROI", "NoData", "destNoData"}, parameters.getParamNames());
     }
 }
