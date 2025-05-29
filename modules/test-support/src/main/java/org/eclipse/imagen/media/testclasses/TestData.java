@@ -7,7 +7,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 /**
- * Provides access to {@code test-data} directories associated with JUnit tests. Similar to the Geotools TestData class
+ * Provides access to {@code test-data} directories associated with JUnit tests. Similar to the GeoTools TestData class
  */
 public class TestData {
 

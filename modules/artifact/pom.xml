@@ -20,11 +20,7 @@
       <artifactId>utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>bandcombine</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>binarize</artifactId>
@@ -45,9 +41,8 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>test-support</artifactId>
       <version>${project.version}</version>
-      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -59,7 +54,7 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>bandcombine</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

@@ -29,19 +29,19 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>bandselect</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>binarize</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>rescale</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

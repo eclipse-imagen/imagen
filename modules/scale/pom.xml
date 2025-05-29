@@ -33,6 +33,14 @@
       <artifactId>translate</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>test-support</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>nullop</artifactId>
@@ -48,13 +56,6 @@
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>border</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
-      <version>${project.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>javax.media</groupId>

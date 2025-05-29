@@ -20,7 +20,7 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-legacy-codec-core</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

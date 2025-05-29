@@ -50,7 +50,6 @@ import org.eclipse.imagen.media.stats.Statistics;
 import org.eclipse.imagen.media.stats.Statistics.StatsType;
 import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
 import org.junit.Test;
 
 /**
@@ -163,7 +162,8 @@ public class TestWarp extends TestBase {
         destinationIMG = WarpDescriptor.create(source, warpObj, interp, background, roi, hints);
 
         if (INTERACTIVE && dataType == DataBuffer.TYPE_BYTE && TEST_SELECTOR == testSelect.getType()) {
-            RenderedImageBrowser.showChain(destinationIMG, false, roiUsed);
+            // TODO: removed this due to circular dependencies
+            //            RenderedImageBrowser.showChain(destinationIMG, false, roiUsed);
             try {
                 System.in.read();
             } catch (IOException e) {

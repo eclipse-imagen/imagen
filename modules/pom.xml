@@ -11,14 +11,20 @@
   <name>${project.groupId}:${project.artifactId}</name>
 
   <modules>
+    <!-- library base -->
     <module>core</module>
     <module>builder</module>
     <module>squareroot</module>
     <module>concurrent-tile-cache</module>
     <module>scale</module>
     <module>affine</module>
-    <module>utilities</module>
     <module>warp</module>
+
+    <!-- partial integration -->
+    <module>test-support</module>
+    <module>utilities</module>
+
+    <!-- operators -->
     <module>iterators</module>
     <module>mosaic</module>
     <module>translate</module>
@@ -53,8 +59,10 @@
     <module>shadedrelief</module>
     <module>jiffle</module>
     <module>classbreaks</module>
-    <module>rendered-image-browser</module>
     <module>imageread</module>
+    <module>rendered-image-browser</module>
+
+    <!-- library integration -->
     <module>all</module>
   </modules>
 

@@ -29,11 +29,12 @@
       <artifactId>border</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- test dependencies -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>test-support</artifactId>
       <version>${project.version}</version>
-      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
 

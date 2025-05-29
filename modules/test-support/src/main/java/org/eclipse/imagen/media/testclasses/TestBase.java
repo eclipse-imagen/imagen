@@ -28,7 +28,6 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.TiledImage;
-import org.eclipse.imagen.media.utilities.ImageUtilities;
 import org.junit.BeforeClass;
 
 /**
@@ -188,9 +187,16 @@ public abstract class TestBase {
         return createTestImage(width, height, noDataValue, numBands, validData, sm);
     }
 
+    /** Public implementation at {@code ImageUtilities.isBinary(SampleModel)} */
+    private static boolean isBinary(SampleModel sm) {
+        return sm instanceof MultiPixelPackedSampleModel
+                && ((MultiPixelPackedSampleModel) sm).getPixelBitStride() == 1
+                && sm.getNumBands() == 1;
+    }
+
     public static RenderedImage createTestImage(
             int width, int height, Number noDataValue, int numBands, Number validData, SampleModel sm) {
-        boolean isBinary = ImageUtilities.isBinary(sm);
+        boolean isBinary = isBinary(sm);
 
         // This values could be used for fill all the image
         byte valueB = validData != null ? validData.byteValue() : 64;

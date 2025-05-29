@@ -36,7 +36,6 @@ import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -49,7 +48,6 @@ import org.junit.Test;
  * Ushort, 2 Short, 3 Integer, 4 Float and 5 Double). Interpolation type can be set with the JVM parameter
  * JAI.Ext.InterpSelector set to 0(nearest), 1(bilinear), 2(bicubic), 3(general).
  */
-@Ignore
 public class ComparisonTest extends TestWarp {
 
     /** Number of benchmark iterations (Default 1) */
@@ -93,7 +91,7 @@ public class ComparisonTest extends TestWarp {
 
     @BeforeClass
     public static void initialSetup() {
-        JAIExt.initJAIEXT();
+        // JAIExt.initJAIEXT(); // TODO: Commented out due to startup failure
         // Setting of the image filler parameter to true for a better image creation
         IMAGE_FILLER = true;
         // Images initialization
@@ -273,8 +271,9 @@ public class ComparisonTest extends TestWarp {
             // creation of the image
             if (OLD_DESCRIPTOR) {
                 JAIExt.registerJAIDescriptor("Warp");
-                imageWarp = org.eclipse.imagen.operator.WarpDescriptor.create(
-                        image, warpObj, interpolation, backgroundValues, null);
+                // TODO: Warp moved to legacy, nothing to compare to
+                //                imageWarp = org.eclipse.imagen.operator.WarpDescriptor.create(
+                //                        image, warpObj, interpolation, backgroundValues, null);
             } else {
                 imageWarp = WarpDescriptor.create(image, warpObj, interpolation, backgroundValues, roi, null);
             }

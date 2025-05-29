@@ -379,6 +379,41 @@ public class WarpDescriptor extends OperationDescriptorImpl {
      * @param warp The warp object.
      * @param interpolation The interpolation method. May be <code>null</code>.
      * @param backgroundValues The user-specified background values. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     * @throws IllegalArgumentException if <code>warp</code> is <code>null</code>.
+     */
+    public static RenderedOp create(
+            RenderedImage source0,
+            Warp warp,
+            Interpolation interpolation,
+            double[] backgroundValues,
+            RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Warp", RenderedRegistryMode.MODE_NAME);
+
+        pb.setSource("source0", source0);
+
+        pb.setParameter("warp", warp);
+        pb.setParameter("interpolation", interpolation);
+        pb.setParameter("backgroundValues", backgroundValues);
+
+        return JAI.create("Warp", pb, hints);
+    }
+
+    /**
+     * Warps an image according to a specified Warp object.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param warp The warp object.
+     * @param interpolation The interpolation method. May be <code>null</code>.
+     * @param backgroundValues The user-specified background values. May be <code>null</code>.
      * @param sourceROI ROI object used in calculations. May be <code>null</code>.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
