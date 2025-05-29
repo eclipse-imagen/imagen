@@ -33,6 +33,7 @@ import org.eclipse.imagen.WarpAffine;
 import org.eclipse.imagen.operator.ConstantDescriptor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** Test class which extends the TestWarp class and executes all the tests with the nearest-neighbor interpolation. */
@@ -95,6 +96,7 @@ public class NearestWarpTest extends TestWarp {
 
     /** Test ROI intersection check optimization */
     @Test
+    @Ignore // TODO: ROI needs more operations in core
     public void testROIIntersect() {
         final int width = 48000;
         final int height = 36000;
