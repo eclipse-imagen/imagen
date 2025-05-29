@@ -293,7 +293,7 @@ renderable	org.eclipse.imagen.media.opimage.AndCRIF		and
 # renderable	org.eclipse.imagen.media.opimage.BandCombineCRIF	bandcombine
 # renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
 # renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
-renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
+# renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
 # renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
 #renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 #renderable	org.eclipse.imagen.media.opimage.CompositeCRIF		composite

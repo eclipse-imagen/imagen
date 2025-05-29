@@ -60,7 +60,7 @@ import org.eclipse.imagen.media.jiffle.util.Strings;
  */
 public class FunctionLookup {
 
-    private static final String PROPERTIES_FILE = "META-INF/it/geosolutions/jaiext/jiffle/FunctionLookup.properties";
+    private static final String PROPERTIES_FILE = "META-INF/org/eclipse/imagen/media/jiffle/FunctionLookup.properties";
 
     // lists of function info keyed by function name
     private static final Map<String, List<FunctionInfo>> lookup = new HashMap<>();
