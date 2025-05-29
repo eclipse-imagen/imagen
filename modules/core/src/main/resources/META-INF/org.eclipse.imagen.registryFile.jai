@@ -159,7 +159,7 @@ descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
 #descriptor	org.eclipse.imagen.operator.TIFFDescriptor
-descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
+# descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
 descriptor	org.eclipse.imagen.operator.TranslateDescriptor
 descriptor	org.eclipse.imagen.operator.TransposeDescriptor
 descriptor	org.eclipse.imagen.operator.UnsharpMaskDescriptor
@@ -270,7 +270,7 @@ rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.me
 rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
 #rendered    org.eclipse.imagen.media.opimage.TIFFRIF			org.eclipse.imagen.media	tiff			suntiffrif
-rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
+# rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
 rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
 rendered    org.eclipse.imagen.media.opimage.TransposeCRIF		org.eclipse.imagen.media	transpose		suntransposerif
 rendered    org.eclipse.imagen.media.opimage.UnsharpMaskRIF		org.eclipse.imagen.media	unsharpmask		sununsharpmaskrif
@@ -339,7 +339,7 @@ renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
 renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
-renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
+# renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
 renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
 renderable	org.eclipse.imagen.media.opimage.TransposeCRIF		transpose
 renderable	org.eclipse.imagen.media.opimage.XorConstCRIF		xorconst
