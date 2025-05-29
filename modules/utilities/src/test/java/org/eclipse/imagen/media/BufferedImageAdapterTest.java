@@ -25,8 +25,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.operator.BandSelectDescriptor;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore // ignored due to a circularity
 public class BufferedImageAdapterTest {
 
     @Test

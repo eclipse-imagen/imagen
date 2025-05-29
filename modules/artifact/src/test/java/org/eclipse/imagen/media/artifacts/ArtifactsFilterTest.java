@@ -17,7 +17,9 @@
 */
 package org.eclipse.imagen.media.artifacts;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
@@ -25,8 +27,10 @@ import java.awt.image.RenderedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
@@ -199,5 +203,17 @@ public class ArtifactsFilterTest extends TestBase {
                             + bins[1][255],
                     100 * 100 * 3);
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ArtifactsFilter");
+        assertNotNull(descriptor);
+        assertEquals("ArtifactsFilter", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"roi", "backgroundValues", "threshold", "filterSize", "nodata"},
+                parameters.getParamNames());
     }
 }
