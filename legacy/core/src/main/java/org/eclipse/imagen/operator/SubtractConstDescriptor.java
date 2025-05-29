@@ -17,15 +17,11 @@
 
 package org.eclipse.imagen.operator;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.RenderableOp;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 

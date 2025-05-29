@@ -478,7 +478,7 @@ public class OperationRegistry implements Externalizable {
      *     </ol>
      *     <p>For example, the stream contents for an "addconst" image operation descriptor might look like this :
      *     <pre>
-     *    descriptor  org.eclipse.imagen.operator.AddConstDescriptor
+     *    descriptor  org.eclipse.imagen.media.opimage.AddConstDescriptor
      *
      *    rendered    org.eclipse.imagen.media.opimage.AddConstCRIF   org.eclipse.imagen.media   addconst   sunaddconstrif
      *    rendered    org.eclipse.imagen.media.opimage.AddConstRIF2   org.eclipse.imagen.media   addconst   addconstrif2

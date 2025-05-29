@@ -15,9 +15,9 @@
  *
  */
 
-package org.eclipse.imagen.media.opimage;
+package org.eclipse.imagen.media.convolve;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -25,9 +25,9 @@ import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.util.ImageUtil;
 
-/** @see UnsharpMaskOpImage */
 public class UnsharpMaskRIF implements RenderedImageFactory {
 
     /** Constructor. */
@@ -65,18 +65,14 @@ public class UnsharpMaskRIF implements RenderedImageFactory {
                 && (kJAI.getXOrigin() == 1)
                 && (kJAI.getYOrigin() == 1)
                 && dataTypeOk) {
-            // TODO: Convolve3x3OpImage was moved to legacy
-            //      constructor has changed.  Veryify this is correct.
-            // return new Convolve3x3OpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
-            return null; // TODO: Move UnsharpMaskRIF to convolve
+            // TODO: Constructor has changed.  Verify this is correct.
+            return new Convolve3x3OpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
         } else if (kJAI.isSeparable()) {
-            // return new SeparableConvolveOpImage(source, extender, renderHints, layout, kJAI);
-            return null; // TODO: Move UnsharpMaskRIF to convolve
+            return new SeparableConvolveOpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
         } else {
             // TODO: ConvolveOpImage In jai this was a final class, in the new implementation, this is an abstract class
             // TODO: I moved this to ConvolveGeneralOpImage - not sure if this is correct.
-            // return new ConvolveGeneralOpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
-            return null; // TODO: Move UnsharpMaskRIF to convolve
+            return new ConvolveGeneralOpImage(source, extender, renderHints, layout, kJAI, null, null, 0, false);
         }
     }
 }

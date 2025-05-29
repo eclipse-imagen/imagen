@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -29,17 +29,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.CRIFImpl;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.InterpolationBicubic;
-import org.eclipse.imagen.InterpolationBicubic2;
-import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OpImage;
-import org.eclipse.imagen.PlanarImage;
+import org.eclipse.imagen.*;
 
 /**
  * @since EA4

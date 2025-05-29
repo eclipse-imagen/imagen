@@ -77,13 +77,13 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "AddConstToCollection"},
         {"LocalName", "AddConstToCollection"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AddConstToCollectionDescriptor0")},
+        {"Description", org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor0")},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AddConstToCollectionDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("AddConstToCollectionDescriptor1")}
+        {"Version", org.eclipse.imagen.operator.JaiI18N.getString("DescriptorVersion")},
+        {"arg0Desc", org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor1")}
     };
 
     /** The parameter name list for this operation. */
@@ -111,7 +111,8 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
         Collection col = (Collection) args.getSource(0);
 
         if (col.size() < 1) {
-            msg.append(getName() + " " + JaiI18N.getString("AddConstToCollectionDescriptor2"));
+            msg.append(
+                    getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor2"));
             return false;
         }
 
@@ -119,14 +120,16 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
         while (iter.hasNext()) {
             Object o = iter.next();
             if (!(o instanceof RenderedImage)) {
-                msg.append(getName() + " " + JaiI18N.getString("AddConstToCollectionDescriptor3"));
+                msg.append(getName() + " "
+                        + org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor3"));
                 return false;
             }
         }
 
         int length = ((double[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            msg.append(getName() + " " + JaiI18N.getString("AddConstToCollectionDescriptor4"));
+            msg.append(
+                    getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor4"));
             return false;
         }
 

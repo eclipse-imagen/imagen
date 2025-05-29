@@ -533,8 +533,10 @@ public class ComparisonTest extends TestAffine {
             // creation of the image with the selected interpolator
 
             if (old) {
-                imageAffine = org.eclipse.imagen.operator.AffineDescriptor.create(
-                        image, transform, interp, destinationNoDataArray, hints);
+                // TODO: this was removed because the old AffineDescriptor was moved to legacy
+                //      this should be replaced with something else.
+                //                imageAffine = org.eclipse.imagen.operator.AffineDescriptor.create(
+                //                        image, transform, interp, destinationNoDataArray, hints);
             } else {
                 imageAffine = AffineDescriptor.create(
                         image, transform, interp, destinationNoDataArray, null, false, false, null, hints);

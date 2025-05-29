@@ -38,5 +38,11 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>bandselect</artifactId>
+      <version>0.4-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

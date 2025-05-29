@@ -44,9 +44,9 @@ import org.eclipse.imagen.JAI;
  * <p>All such concrete classes must have a zero-argument constructor so that they may be instantiated during lookup.
  * The <code>updateServer()</code> method of all such registered classes will be called with the default instance of the
  * <code>JAI</code> class. Note that this will take place after the JAI <code>OperationRegistry</code> has been
- * initialized with the default JAI registry file (META-INF/org.eclipse.imagen.registryFile.jai), once all
- * "META-INF/registryFile.jai"s found in the classpath are loaded and the <code>updateRegistry</code> method of each
- * <code>OperationRegistrySpi</code> instance has been executed. There is no guarantee of the order in which the <code>
+ * initialized with the default JAI registry file (META-INF/registryFile.jai), once all "META-INF/registryFile.jai"s
+ * found in the classpath are loaded and the <code>updateRegistry</code> method of each <code>OperationRegistrySpi
+ * </code> instance has been executed. There is no guarantee of the order in which the <code>
  * updateServer()</code> method of each <code>JAIServerConfigurationSpi</code> instance will be invoked.
  *
  * <p>It is possible to provide arguments to a class implementing this interface (or any other Service Provider

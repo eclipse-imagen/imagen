@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
@@ -25,14 +25,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.EnumeratedParameter;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.InterpolationBicubic;
-import org.eclipse.imagen.InterpolationBicubic2;
-import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.InterpolationNearest;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.operator.ShearDescriptor;
 
 /** @see AffineOpimage */

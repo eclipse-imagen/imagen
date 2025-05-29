@@ -37,6 +37,7 @@ import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
+import org.eclipse.imagen.media.border.BorderDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.shadedrelief.ShadedReliefAlgorithm.DataProcessor;
 import org.eclipse.imagen.media.shadedrelief.ShadedReliefAlgorithm.DataProcessorByte;
@@ -47,7 +48,6 @@ import org.eclipse.imagen.media.shadedrelief.ShadedReliefAlgorithm.DataProcessor
 import org.eclipse.imagen.media.shadedrelief.ShadedReliefAlgorithm.ProcessingCase;
 import org.eclipse.imagen.media.shadedrelief.ShadedReliefAlgorithm.ShadedReliefParameters;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.operator.BorderDescriptor;
 
 /** ShadedRelief op Image. */
 class ShadedReliefOpImage extends AreaOpImage {
@@ -175,8 +175,10 @@ class ShadedReliefOpImage extends AreaOpImage {
             il.setTileGridXOffset(source.getTileGridXOffset());
             il.setTileGridYOffset(source.getTileGridYOffset());
 
+            // TODO: changed to use new BorderDescriptor
+            //      #create() method changed - verify correct.
             extendedIMG = BorderDescriptor.create(
-                    source, leftPadding, rightPadding, topPadding, bottomPadding, extender, borderHints);
+                    source, leftPadding, rightPadding, topPadding, bottomPadding, extender, null, 0, borderHints);
             this.destBounds = getBounds();
         } else {
             int x0 = getMinX() + leftPadding;

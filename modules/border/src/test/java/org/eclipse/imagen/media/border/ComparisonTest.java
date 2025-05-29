@@ -219,8 +219,10 @@ public class ComparisonTest extends TestBase {
             // creation of the image
             if (OLD_DESCRIPTOR) {
                 JAIExt.registerJAIDescriptor("Border");
-                imageBorder = org.eclipse.imagen.operator.BorderDescriptor.create(
-                        image, leftPad, rightPad, topPad, bottomPad, extender, null);
+                // TODO: this was removed because BorderDescriptor was moved to legacy.
+                // TODO: replace with somethign else.
+                //                imageBorder = org.eclipse.imagen.operator.BorderDescriptor.create(
+                //                        image, leftPad, rightPad, topPad, bottomPad, extender, null);
             } else {
                 imageBorder = BorderDescriptor.create(
                         image, leftPad, rightPad, topPad, bottomPad, extender, range, destNoData, null);

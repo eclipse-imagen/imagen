@@ -38,7 +38,10 @@ import javax.swing.filechooser.FileFilter;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
+import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
+import org.eclipse.imagen.media.binarize.BinarizeDescriptor;
 import org.eclipse.imagen.media.range.NoDataContainer;
+import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.utilities.ImageLayout2;
 import org.eclipse.imagen.operator.*;
 
@@ -399,7 +402,14 @@ public class ImageViewer extends JPanel {
                     // Don't do that if the image is bigger than a threshold
                     if (image.getWidth() * image.getHeight() < THRESHOLD_2K_X_2K) {
                         // Use an alternative ROI to exclude any NaN.
-                        RenderedImage binarize = BinarizeDescriptor.create(image, Double.NEGATIVE_INFINITY, hints);
+                        // TODO: this was changed because BinarizeDescriptor was moved to legacy.
+                        //      moving this to new BinarizeDescriptor.  Not sure what to use for ROI and Range
+                        // TODO: verify and test
+                        var noDataDouble = RangeFactory.create(
+                                Double.NEGATIVE_INFINITY, true, Double.NEGATIVE_INFINITY, true, false);
+
+                        RenderedImage binarize = BinarizeDescriptor.create(
+                                image, Double.NEGATIVE_INFINITY, new ROI(image), noDataDouble, hints);
                         roi = new ROI(binarize, 1);
                     }
                 }

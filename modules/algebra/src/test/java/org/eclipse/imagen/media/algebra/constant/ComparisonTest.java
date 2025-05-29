@@ -28,10 +28,8 @@ import org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.operator.AddConstDescriptor;
 import org.eclipse.imagen.operator.DivideByConstDescriptor;
 import org.eclipse.imagen.operator.MultiplyConstDescriptor;
-import org.eclipse.imagen.operator.SubtractConstDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -249,10 +247,14 @@ public class ComparisonTest extends TestBase {
 
                 switch (op) {
                     case SUM:
-                        imageCalculated = AddConstDescriptor.create(image, consts, null);
+                        // TODO: AddConstDescriptor moved to legacy
+                        //      replace this with something else
+                        //                        imageCalculated = AddConstDescriptor.create(image, consts, null);
                         break;
                     case SUBTRACT:
-                        imageCalculated = SubtractConstDescriptor.create(image, consts, null);
+                        // TODO: SubtractConstDescriptor moved to legacy
+                        //      replace this with something else
+                        //                        imageCalculated = SubtractConstDescriptor.create(image, consts, null);
                         break;
                     case MULTIPLY:
                         imageCalculated = MultiplyConstDescriptor.create(image, consts, null);

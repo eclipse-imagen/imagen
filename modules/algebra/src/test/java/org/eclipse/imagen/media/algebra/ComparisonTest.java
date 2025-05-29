@@ -28,9 +28,6 @@ import org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.operator.AbsoluteDescriptor;
-import org.eclipse.imagen.operator.AddDescriptor;
-import org.eclipse.imagen.operator.AndDescriptor;
 import org.eclipse.imagen.operator.DivideDescriptor;
 import org.eclipse.imagen.operator.ExpDescriptor;
 import org.eclipse.imagen.operator.InvertDescriptor;
@@ -43,6 +40,10 @@ import org.eclipse.imagen.operator.XorDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+// TODO: commenting out the code that is referencing the old jai op (i.e. AbsoluteDescriptor, etc...)
+// TODO: this should be replaced with something else.
+// TODO: there will be test failures
 
 @Ignore
 public class ComparisonTest extends TestBase {
@@ -287,11 +288,11 @@ public class ComparisonTest extends TestBase {
 
                 switch (op) {
                     case SUM:
-                        firstOp = images[0];
-                        for (int j = 1; j < NUM_IMAGES; j++) {
-                            firstOp = AddDescriptor.create(firstOp, images[j], null);
-                        }
-                        imageCalculated = (PlanarImage) firstOp;
+                        //                        firstOp = images[0];
+                        //                        for (int j = 1; j < NUM_IMAGES; j++) {
+                        //                            firstOp = AddDescriptor.create(firstOp, images[j], null);
+                        //                        }
+                        //                        imageCalculated = (PlanarImage) firstOp;
                         break;
                     case SUBTRACT:
                         firstOp = images[0];
@@ -315,15 +316,16 @@ public class ComparisonTest extends TestBase {
                         imageCalculated = (PlanarImage) firstOp;
                         break;
                     case ABSOLUTE:
-                        imageCalculated = (PlanarImage) AbsoluteDescriptor.create(images[0], null);
-                        ;
+                        //                        imageCalculated = (PlanarImage) AbsoluteDescriptor.create(images[0],
+                        // null);
+                        //                        ;
                         break;
                     case AND:
-                        firstOp = images[0];
-                        for (int j = 1; j < NUM_IMAGES; j++) {
-                            firstOp = AndDescriptor.create(firstOp, images[j], null);
-                        }
-                        imageCalculated = (PlanarImage) firstOp;
+                        //                        firstOp = images[0];
+                        //                        for (int j = 1; j < NUM_IMAGES; j++) {
+                        //                            firstOp = AndDescriptor.create(firstOp, images[j], null);
+                        //                        }
+                        //                        imageCalculated = (PlanarImage) firstOp;
                         break;
                     case OR:
                         firstOp = images[0];

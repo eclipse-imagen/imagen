@@ -17,37 +17,26 @@
 
 package org.eclipse.imagen.operator;
 
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.GeometricOpImage;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.PropertyGenerator;
-import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.ROIShape;
-import org.eclipse.imagen.RenderableOp;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.media.util.PropertyGeneratorImpl;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
-/** This property generator computes the properties for the operation "Rotate" dynamically. */
-class RotatePropertyGenerator extends PropertyGeneratorImpl {
+/** This property generator computes the properties for the operation "Affine" dynamically. */
+class AffinePropertyGenerator extends PropertyGeneratorImpl {
 
     /** Constructor. */
-    public RotatePropertyGenerator() {
+    public AffinePropertyGenerator() {
         super(new String[] {"ROI"}, new Class[] {ROI.class}, new Class[] {RenderedOp.class});
     }
 
     /**
-     * Returns the specified property.
+     * Returns the specified property in the rendered layer.
      *
      * @param name Property name.
      * @param opNode Operation node.
@@ -69,7 +58,7 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
             ROI srcROI = (ROI) property;
 
             // Retrieve the Interpolation object.
-            Interpolation interp = (Interpolation) pb.getObjectParameter(3);
+            Interpolation interp = (Interpolation) pb.getObjectParameter(1);
 
             // Determine the effective source bounds.
             Rectangle srcBounds = null;
@@ -89,26 +78,22 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
                 srcROI = srcROI.intersect(new ROIShape(srcBounds));
             }
 
-            // Retrieve the translation and rotation angle.
-            double xorig = (double) pb.getFloatParameter(0);
-            double yorig = (double) pb.getFloatParameter(1);
-            double angle = (double) pb.getFloatParameter(2);
+            // Retrieve the AffineTransform object.
+            AffineTransform transform = (AffineTransform) pb.getObjectParameter(0);
 
-            // Create an transform representing the rotation.
-            AffineTransform transform = AffineTransform.getRotateInstance(angle, xorig, yorig);
-
-            // Create the rotated/translated ROI.
-            ROI dstROI = srcROI.transform(transform);
+            // Create the transformed ROI.
+            ROI dstROI = srcROI.transform((AffineTransform) transform);
 
             // Retrieve the destination bounds.
             Rectangle dstBounds = op.getBounds();
 
-            // If necessary, clip the rotated ROI to the destination bounds.
+            // If necessary, clip the transformed ROI to the
+            // destination bounds.
             if (!dstBounds.contains(dstROI.getBounds())) {
                 dstROI = dstROI.intersect(new ROIShape(dstBounds));
             }
 
-            // Return the rotated and possibly clipped ROI.
+            // Return the transformed and possibly clipped ROI.
             return dstROI;
         }
 
@@ -117,10 +102,27 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
 }
 
 /**
- * An <code>OperationDescriptor</code> describing the "Rotate" operation.
+ * An <code>OperationDescriptor</code> describing the "Affine" operation.
  *
- * <p>The "Rotate" operation rotates an image about a given point by a given angle, specified in radians. The origin
- * defaults to (0, 0).
+ * <p>The Affine operation performs (possibly filtered) affine mapping on a rendered or renderable source image.
+ *
+ * <p>The relationship between the source and the destination pixels is defined as follows. For each pixel (x, y) of the
+ * destination, the source value at the fractional subpixel position (x', y') is constructed by means of an
+ * Interpolation object and written to the destination.
+ *
+ * <p>The mapping between the destination pixel (x, y) and the source position (x', y') is given by:
+ *
+ * <pre>
+ *    x' = m[0][0] * x + m[0][1] * y + m[0][2]
+ *    y' = m[1][0] * x + m[1][1] * y + m[1][2]
+ * </pre>
+ *
+ * where m is a 3x2 transform matrix that inverts the matrix supplied as the "transform" argument.
+ *
+ * <p>When interpolations which require padding the source such as Bilinear or Bicubic interpolation are specified, the
+ * source needs to be extended such that it has the extra pixels needed to compute all the destination pixels. This
+ * extension is performed via the <code>BorderExtender</code> class. The type of Border Extension can be specified as a
+ * <code>RenderingHint</code> to the <code>JAI.create</code> method.
  *
  * <p>The parameter, "backgroundValues", is defined to fill the background with the user-specified background values.
  * These background values will be translated into background colors by the <code>ColorModel</code> when the image is
@@ -128,6 +130,11 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
  * If the provided array length is smaller than the number of bands, the first element of the provided array is used for
  * all the bands. If the provided values are out of the data range of the destination image, they will be clamped into
  * the proper range.
+ *
+ * <p>If no BorderExtender is specified (is null), the source will not be extended. The transformed image size is still
+ * the same as if the source had been extended. However, since there is insufficient source to compute all the
+ * destination pixels, only that subset of the destination image's pixels which can be computed will be written in the
+ * destination. The rest of the destination will be set to the user-specified background values.
  *
  * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
@@ -142,7 +149,7 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
  * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
- * <p>"Rotate" defines a PropertyGenerator that performs an identical transformation on the "ROI" property of the source
+ * <p>"Affine" defines a PropertyGenerator that performs an identical transformation on the "ROI" property of the source
  * image, which can be retrieved by calling the <code>getProperty</code> method with "ROI" as the property name.
  *
  * <p>
@@ -150,16 +157,15 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
  * <table border=1>
  * <caption>Resource List</caption>
  * <tr><th>Name</th>        <th>Value</th></tr>
- * <tr><td>GlobalName</td>  <td>Rotate</td></tr>
- * <tr><td>LocalName</td>   <td>Rotate</td></tr>
+ * <tr><td>GlobalName</td>  <td>Affine</td></tr>
+ * <tr><td>LocalName</td>   <td>Affine</td></tr>
  * <tr><td>Vendor</td>      <td>org.eclipse.imagen.media</td></tr>
- * <tr><td>Description</td> <td>Rotate an image.</td></tr>
- * <tr><td>DocURL</td>      <td>http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/RotateDescriptor.html</td></tr>
+ * <tr><td>Description</td> <td>Performs interpolated affine transform on
+ *                              an image.</td></tr>
+ * <tr><td>DocURL</td>      <td>http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AffineDescriptor.html</td></tr>
  * <tr><td>Version</td>     <td>1.0</td></tr>
- * <tr><td>arg0Desc</td>    <td>The X origin to rotate about.</td></tr>
- * <tr><td>arg1Desc</td>    <td>The Y origin to rotate about.</td></tr>
- * <tr><td>arg2Desc</td>    <td>The rotation angle in radians.</td></tr>
- * <tr><td>arg3Desc</td>    <td>The interpolation method.</td></tr>
+ * <tr><td>arg0Desc</td>    <td>The affine transform matrix.</td></tr>
+ * <tr><td>arg1Desc</td>    <td>The interpolation method.</td></tr>
  * </table>
  *
  * <p>
@@ -168,67 +174,51 @@ class RotatePropertyGenerator extends PropertyGeneratorImpl {
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>          <th>Class Type</th>
  *                            <th>Default Value</th></tr>
- * <tr><td>xOrigin</td>       <td>java.lang.Float</td>
- *                            <td>0.0F</td>
- * <tr><td>yOrigin</td>       <td>java.lang.Float</td>
- *                            <td>0.0F</td>
- * <tr><td>angle</td>         <td>java.lang.Float</td>
- *                            <td>0.0F</td>
+ * <tr><td>transform</td>     <td>java.awt.geom.AffineTransform</td>
+ *                            <td>identity transform</td>
  * <tr><td>interpolation</td> <td>org.eclipse.imagen.Interpolation</td>
  *                            <td>InterpolationNearest</td>
  * <tr><td>backgroundValues</td> <td>double[]</td>
  *                            <td>{0.0}</td>
  * </table>
  *
- * @see org.eclipse.imagen.Interpolation
+ * @see AffineTransform
+ * @see Interpolation
  * @see org.eclipse.imagen.OperationDescriptor
  */
-public class RotateDescriptor extends OperationDescriptorImpl {
+public class AffineDescriptor extends OperationDescriptorImpl {
 
     /**
-     * The resource strings that provide the general documentation and specify the parameter list for the "Rotate"
-     * operation.
+     * The resource strings that provide the general documentation and specify the parameter list for this operation.
      */
     private static final String[][] resources = {
-        {"GlobalName", "Rotate"},
-        {"LocalName", "Rotate"},
+        {"GlobalName", "Affine"},
+        {"LocalName", "Affine"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("RotateDescriptor0")},
+        {"Description", JaiI18N.getString("AffineDescriptor0")},
         {
             "DocURL",
-            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/RotateDescriptor.html"
+            "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AffineDescriptor.html"
         },
         {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("RotateDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("RotateDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("RotateDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("RotateDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("RotateDescriptor5")}
+        {"arg0Desc", JaiI18N.getString("AffineDescriptor1")},
+        {"arg1Desc", JaiI18N.getString("AffineDescriptor2")},
+        {"arg2Desc", JaiI18N.getString("AffineDescriptor3")},
     };
 
-    /** The parameter names for the "Rotate" operation. */
-    private static final String[] paramNames = {"xOrigin", "yOrigin", "angle", "interpolation", "backgroundValues"};
+    /** The parameter class list for this operation. */
+    private static final Class[] paramClasses = {AffineTransform.class, Interpolation.class, double[].class};
 
-    /** The parameter class types for the "Rotate" operation. */
-    private static final Class[] paramClasses = {
-        java.lang.Float.class,
-        java.lang.Float.class,
-        java.lang.Float.class,
-        org.eclipse.imagen.Interpolation.class,
-        double[].class
-    };
+    /** The parameter name list for this operation. */
+    private static final String[] paramNames = {"transform", "interpolation", "backgroundValues"};
 
-    /** The parameter default values for the "Rotate" operation. */
+    /** The parameter default value list for this operation. */
     private static final Object[] paramDefaults = {
-        new Float(0.0F),
-        new Float(0.0F),
-        new Float(0.0F),
-        Interpolation.getInstance(Interpolation.INTERP_NEAREST),
-        new double[] {0.0}
+        new AffineTransform(), Interpolation.getInstance(Interpolation.INTERP_NEAREST), new double[] {0.0}
     };
 
     /** Constructor. */
-    public RotateDescriptor() {
+    public AffineDescriptor() {
         super(resources, 1, paramClasses, paramNames, paramDefaults);
     }
 
@@ -238,18 +228,40 @@ public class RotateDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Returns an array of <code>PropertyGenerators</code> implementing property inheritance for the "Rotate" operation.
+     * Returns an array of <code>PropertyGenerators</code> implementing property inheritance for the "Affine" operation.
      *
      * @return An array of property generators.
      */
     public PropertyGenerator[] getPropertyGenerators() {
         PropertyGenerator[] pg = new PropertyGenerator[1];
-        pg[0] = new RotatePropertyGenerator();
+        pg[0] = new AffinePropertyGenerator();
         return pg;
     }
 
     /**
-     * Rotates an image.
+     * Validates the input parameters.
+     *
+     * <p>In addition to the standard checks performed by the superclass method, this method checks that "transform" is
+     * invertible.
+     */
+    protected boolean validateParameters(ParameterBlock args, StringBuffer message) {
+        if (!super.validateParameters(args, message)) {
+            return false;
+        }
+
+        AffineTransform transform = (AffineTransform) args.getObjectParameter(0);
+        try {
+            AffineTransform itransform = transform.createInverse();
+        } catch (java.awt.geom.NoninvertibleTransformException e) {
+            message.append(getName() + " " + JaiI18N.getString("AffineDescriptor4"));
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Performs interpolated affine transform on an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
@@ -258,9 +270,7 @@ public class RotateDescriptor extends OperationDescriptorImpl {
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
-     * @param xOrigin The X origin to rotate about. May be <code>null</code>.
-     * @param yOrigin The Y origin to rotate about. May be <code>null</code>.
-     * @param angle The rotation angle in radians. May be <code>null</code>.
+     * @param transform The affine transform matrix. May be <code>null</code>.
      * @param interpolation The interpolation method. May be <code>null</code>.
      * @param backgroundValues The user-specified background values. May be <code>null</code>.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -269,27 +279,23 @@ public class RotateDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0,
-            Float xOrigin,
-            Float yOrigin,
-            Float angle,
+            AffineTransform transform,
             Interpolation interpolation,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Rotate", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockJAI pb = new ParameterBlockJAI("Affine", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        pb.setParameter("xOrigin", xOrigin);
-        pb.setParameter("yOrigin", yOrigin);
-        pb.setParameter("angle", angle);
+        pb.setParameter("transform", transform);
         pb.setParameter("interpolation", interpolation);
         pb.setParameter("backgroundValues", backgroundValues);
 
-        return JAI.create("Rotate", pb, hints);
+        return JAI.create("Affine", pb, hints);
     }
 
     /**
-     * Rotates an image.
+     * Performs interpolated affine transform on an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
@@ -298,9 +304,7 @@ public class RotateDescriptor extends OperationDescriptorImpl {
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
-     * @param xOrigin The X origin to rotate about. May be <code>null</code>.
-     * @param yOrigin The Y origin to rotate about. May be <code>null</code>.
-     * @param angle The rotation angle in radians. May be <code>null</code>.
+     * @param transform The affine transform matrix. May be <code>null</code>.
      * @param interpolation The interpolation method. May be <code>null</code>.
      * @param backgroundValues The user-specified background values. May be <code>null</code>.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -309,22 +313,18 @@ public class RotateDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0,
-            Float xOrigin,
-            Float yOrigin,
-            Float angle,
+            AffineTransform transform,
             Interpolation interpolation,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Rotate", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockJAI pb = new ParameterBlockJAI("Affine", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        pb.setParameter("xOrigin", xOrigin);
-        pb.setParameter("yOrigin", yOrigin);
-        pb.setParameter("angle", angle);
+        pb.setParameter("transform", transform);
         pb.setParameter("interpolation", interpolation);
         pb.setParameter("backgroundValues", backgroundValues);
 
-        return JAI.createRenderable("Rotate", pb, hints);
+        return JAI.createRenderable("Affine", pb, hints);
     }
 }
