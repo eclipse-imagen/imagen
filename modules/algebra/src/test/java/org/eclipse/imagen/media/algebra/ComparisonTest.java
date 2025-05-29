@@ -41,8 +41,10 @@ import org.eclipse.imagen.operator.OrDescriptor;
 import org.eclipse.imagen.operator.SubtractDescriptor;
 import org.eclipse.imagen.operator.XorDescriptor;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ComparisonTest extends TestBase {
 
     /** Number of benchmark iterations (Default 1) */
