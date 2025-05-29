@@ -35,7 +35,6 @@ import org.eclipse.imagen.operator.LogDescriptor;
 import org.eclipse.imagen.operator.MultiplyDescriptor;
 import org.eclipse.imagen.operator.NotDescriptor;
 import org.eclipse.imagen.operator.OrDescriptor;
-import org.eclipse.imagen.operator.SubtractDescriptor;
 import org.eclipse.imagen.operator.XorDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -295,11 +294,12 @@ public class ComparisonTest extends TestBase {
                         //                        imageCalculated = (PlanarImage) firstOp;
                         break;
                     case SUBTRACT:
-                        firstOp = images[0];
-                        for (int j = 1; j < NUM_IMAGES; j++) {
-                            firstOp = SubtractDescriptor.create(firstOp, images[j], null);
-                        }
-                        imageCalculated = (PlanarImage) firstOp;
+                        // TODO: subtract moved to legacy - replace with algebra
+                        //                        firstOp = images[0];
+                        //                        for (int j = 1; j < NUM_IMAGES; j++) {
+                        //                            firstOp = SubtractDescriptor.create(firstOp, images[j], null);
+                        //                        }
+                        //                        imageCalculated = (PlanarImage) firstOp;
                         break;
                     case MULTIPLY:
                         firstOp = images[0];
