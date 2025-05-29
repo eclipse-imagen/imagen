@@ -90,7 +90,8 @@ descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
 descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
 descriptor	org.eclipse.imagen.operator.TranslateDescriptor
-
+descriptor	org.eclipse.imagen.operator.SubtractDescriptor
+descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 
 #
 # tile codec descriptor
@@ -124,6 +125,8 @@ rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.med
 rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
 rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
+rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.media	subtract		sunsubtractrif
+rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
 
 
 #
@@ -148,6 +151,8 @@ renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
+renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
+renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
 
 
 
