@@ -49,7 +49,7 @@ import org.eclipse.imagen.media.utilities.ImageUtilities;
  *
  * <p>The data type <code>byte</code> is treated as unsigned, with maximum value as 255 and minimum value as 0.
  *
- * <p>There is no attempt to rescale binary images to the approapriate gray levels, such as 255 or 0. A lookup should be
+ * <p>There is no attempt to rescale binary images to the appropriate gray levels, such as 255 or 0. A lookup should be
  * performed first if so desired.
  *
  * <p>If No Data are present, they can be handled if the user provides an array of No Data Range objects and a double
