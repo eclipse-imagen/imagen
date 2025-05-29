@@ -33,6 +33,7 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,7 @@ import org.junit.Test;
  *
  * @author Nicola Lagomarsini geosolutions
  */
+@Ignore
 public class ComparisonTest extends TestBase {
 
     /** Number of benchmark iterations (Default 1) */

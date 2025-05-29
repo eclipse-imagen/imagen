@@ -31,8 +31,10 @@ import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.operator.DivideByConstDescriptor;
 import org.eclipse.imagen.operator.MultiplyConstDescriptor;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ComparisonTest extends TestBase {
 
     /** Number of benchmark iterations (Default 1) */

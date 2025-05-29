@@ -17,14 +17,19 @@
 */
 package org.eclipse.imagen.media.algebra;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator;
 import org.eclipse.imagen.media.range.Range;
@@ -1612,5 +1617,15 @@ public class AlgebraTest extends TestBase {
                 }
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "algebric");
+        assertNotNull(descriptor);
+        assertEquals("algebric", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"operation", "roi", "noData", "destinationNoData"}, parameters.getParamNames());
     }
 }

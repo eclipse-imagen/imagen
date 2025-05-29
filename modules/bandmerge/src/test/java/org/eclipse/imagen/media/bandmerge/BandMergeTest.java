@@ -17,6 +17,7 @@
 */
 package org.eclipse.imagen.media.bandmerge;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -34,8 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.iterator.RandomIter;
@@ -844,5 +847,17 @@ public class BandMergeTest extends TestBase {
             // Disposal of the output image
             merged.dispose();
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandMerge");
+        assertNotNull(descriptor);
+        assertEquals("BandMerge", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"noData", "destinationNoData", "transformations", "roi", "setAlpha"},
+                parameters.getParamNames());
     }
 }

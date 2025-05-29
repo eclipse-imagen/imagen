@@ -59,7 +59,7 @@ public class JiffleProperties {
     private static final Properties properties = new Properties();
 
     /** Properties file name. */
-    public static final String PROPERTIES_FILE = "META-INF/it/geosolutions/jaiext/jiffle/Jiffle.properties";
+    public static final String PROPERTIES_FILE = "META-INF/org/eclipse/imagen/media/jiffle/Jiffle.properties";
 
     /** Key: default toot name for a Jiffle instance. */
     public static final String NAME_KEY = "root.name";

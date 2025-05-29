@@ -17,15 +17,19 @@
 */
 package org.eclipse.imagen.media.rlookup;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RectIter;
 import org.eclipse.imagen.iterator.RectIterFactory;
@@ -547,5 +551,15 @@ public class RangeLookupTest extends TestBase {
                 throw new IllegalArgumentException("Unknown image type");
         }
         return val;
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RLookup");
+        assertNotNull(descriptor);
+        assertEquals("RLookup", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"table", "default", "roi"}, parameters.getParamNames());
     }
 }

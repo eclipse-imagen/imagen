@@ -18,9 +18,11 @@
 package org.eclipse.imagen.media.scale;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -37,9 +39,11 @@ import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.media.range.NoDataContainer;
@@ -47,6 +51,7 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
+import org.junit.Test;
 
 /**
  * This test-class is an extension of the TestBase class inside the jt-utilities project. By calling the testGlobal()
@@ -746,5 +751,27 @@ public class TestScale extends TestBase {
         assertEquals(scaled.getTileWidth(), scaleRoiImage.getTileWidth());
         assertEquals(512, scaleRoiImage.getTileWidth());
         assertEquals(512, scaleRoiImage.getTileHeight());
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Scale");
+        assertNotNull(descriptor);
+        assertEquals("Scale", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {
+                    "xScale",
+                    "yScale",
+                    "xTrans",
+                    "yTrans",
+                    "interpolation",
+                    "ROI",
+                    "useRoiAccessor",
+                    "nodata",
+                    "backgroundValues"
+                },
+                parameters.getParamNames());
     }
 }

@@ -32,12 +32,13 @@ import java.util.logging.Logger;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.media.bandmerge.BandMergeDescriptor;
 import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
+import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
+import org.eclipse.imagen.media.scale.ScaleDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.operator.FormatDescriptor;
+import org.eclipse.imagen.media.translate.TranslateDescriptor;
 import org.eclipse.imagen.operator.MosaicType;
-import org.eclipse.imagen.operator.TranslateDescriptor;
 import org.eclipse.imagen.util.ImagingException;
 import org.junit.Test;
 
@@ -1535,8 +1536,7 @@ public class MosaicTest extends TestBase {
                     Number[] alphaChannelData = {30};
                     PlanarImage alphaChannel = (PlanarImage) getSyntheticUniformTypeImage(
                             alphaChannelData, null, dataType, 1, DataDisplacement.DATA_DATA, true, false);
-                    alphaChannel = TranslateDescriptor.create(
-                            alphaChannel, 0F, (float) (alphaChannel.getHeight() / 2), null, hints);
+                    alphaChannel = translateByScale(alphaChannel, 0F, (float) (alphaChannel.getHeight() / 2));
 
                     alphas[k] = alphaChannel;
                 }
@@ -1574,14 +1574,12 @@ public class MosaicTest extends TestBase {
         RenderedImage[] mosaicArray = new RenderedImage[3];
         // Translation of the second image of half of its dimension
         // IMAGE ON THE UPPER RIGHT
-        mosaicArray[1] =
-                TranslateDescriptor.create(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F, null, hints);
+        mosaicArray[1] = translateByScale(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F);
         // The First image is only put in the new layout
         // IMAGE ON THE UPPER LEFT
-        mosaicArray[0] = TranslateDescriptor.create(sourceArray[0], 0F, 0F, null, hints);
+        mosaicArray[0] = translateByScale(sourceArray[0], 0F, 0F);
         // IMAGE ON THE LOWER LEFT
-        mosaicArray[2] =
-                TranslateDescriptor.create(sourceArray[2], 0F, (float) (sourceArray[2].getHeight() / 2), null, hints);
+        mosaicArray[2] = translateByScale(sourceArray[2], 0F, (float) (sourceArray[2].getHeight() / 2));
         // Getting the nodata, rois, alphabands
         PlanarImage[] alphas = testBean.getAlphas();
         ROI[] rois = testBean.getRois();
@@ -1718,11 +1716,10 @@ public class MosaicTest extends TestBase {
         RenderedImage[] mosaicArray = new RenderedImage[2];
         // Translation of the second image of half of its dimension
         // IMAGE ON THE RIGHT
-        mosaicArray[1] =
-                TranslateDescriptor.create(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F, null, hints);
+        mosaicArray[1] = translateByScale(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F);
         // The First image is only put in the new layout
         // IMAGE ON THE LEFT
-        mosaicArray[0] = TranslateDescriptor.create(sourceArray[0], 0F, 0F, null, hints);
+        mosaicArray[0] = translateByScale(sourceArray[0], 0F, 0F);
         // Getting the nodata, rois, alphabands
         PlanarImage[] alphas = testBean.getAlphas();
         ROI[] rois = testBean.getRois();
@@ -1829,11 +1826,10 @@ public class MosaicTest extends TestBase {
         RenderedImage[] mosaicArray = new RenderedImage[2];
         // Translation of the second image of half of its dimension
         // IMAGE ON THE RIGHT
-        mosaicArray[1] =
-                TranslateDescriptor.create(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F, null, hints);
+        mosaicArray[1] = translateByScale(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F);
         // The First image is only put in the new layout
         // IMAGE ON THE LEFT
-        mosaicArray[0] = TranslateDescriptor.create(sourceArray[0], 0F, 0F, null, hints);
+        mosaicArray[0] = translateByScale(sourceArray[0], 0F, 0F);
         // Creates an array for the destination band values
         double[] destinationValues = testBean.getDestinationNoData();
         // Getting the nodata, rois, alphabands
@@ -1898,6 +1894,10 @@ public class MosaicTest extends TestBase {
         return arrayPixel;
     }
 
+    private static RenderedOp translateByScale(RenderedImage source, float xTrans, float yTrans) {
+        return ScaleDescriptor.create(source, 1f, 1f, xTrans, yTrans, null, null, null, null, null, null);
+    }
+
     private Number[][] testExecutionROI(TestBean testBean, int numBands) {
         // Pre-allocated array for saving the pixel values
         Number[][] arrayPixel = new Number[3][3];
@@ -1915,11 +1915,10 @@ public class MosaicTest extends TestBase {
         RenderedImage[] mosaicArray = new RenderedImage[2];
         // Translation of the second image of half of its dimension
         // IMAGE ON THE RIGHT
-        mosaicArray[1] =
-                TranslateDescriptor.create(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F, null, hints);
+        mosaicArray[1] = translateByScale(sourceArray[1], (float) (sourceArray[1].getWidth() / 2), 0F);
         // The First image is only put in the new layout
         // IMAGE ON THE LEFT
-        mosaicArray[0] = TranslateDescriptor.create(sourceArray[0], 0F, 0F, null, hints);
+        mosaicArray[0] = translateByScale(sourceArray[0], 0F, 0F);
         // Getting the nodata, rois, alphabands
         PlanarImage[] alphas = testBean.getAlphas();
         ROI[] rois = testBean.getRois();
@@ -2026,8 +2025,7 @@ public class MosaicTest extends TestBase {
         alphaChannel1 = (PlanarImage) getSyntheticUniformTypeImage(
                 alphaChannelData, null, dataType, 1, DataDisplacement.DATA_DATA, false, false);
 
-        alphaChannel1 =
-                TranslateDescriptor.create(alphaChannel1, (float) (alphaChannel1.getWidth() / 2), 0F, null, hints);
+        alphaChannel1 = translateByScale(alphaChannel1, (float) (alphaChannel1.getWidth() / 2), 0F);
 
         PlanarImage[] alphas = new PlanarImage[] {alphaChannel0, alphaChannel1};
 
@@ -2518,9 +2516,7 @@ public class MosaicTest extends TestBase {
 
         // translate to have some pixels off area, testing proper pixel offset support,
         // making sure we are not going to align with tiles, which are 32x32 by default
-        // TODO: BandMergeDescriptor moved to legacy and using the new one.
-        //      arguments have changed - need to verify these "default" arguments.
-        PlanarImage combined = BandMergeDescriptor.create(null, 0, false, null, base, alphaBase);
+        PlanarImage combined = BandMergeDescriptor.create(null, Double.NaN, false, null, base, alphaBase);
         PlanarImage image = TranslateDescriptor.create(combined, 112f, 0F, null, null);
         PlanarImage alpha = BandSelectDescriptor.create(image, new int[] {3}, null);
 
@@ -2638,5 +2634,18 @@ public class MosaicTest extends TestBase {
         // Before the fix, this call was throwing a NullPointerException.
         final Raster data = mosaic.getTile(0, 0);
         assertNotNull(data);
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Mosaic");
+        assertNotNull(descriptor);
+        assertEquals("Mosaic", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"mosaicType", "sourceAlpha", "sourceROI", "sourceThreshold", "backgroundValues", "nodata"
+                },
+                parameters.getParamNames());
     }
 }

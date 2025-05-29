@@ -20,11 +20,6 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
       <artifactId>scale</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -45,6 +40,12 @@
       <groupId>javax.media</groupId>
       <artifactId>jai_imageio</artifactId>
       <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>nullop</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

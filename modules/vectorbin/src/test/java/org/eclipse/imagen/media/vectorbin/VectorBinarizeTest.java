@@ -17,12 +17,16 @@
 */
 package org.eclipse.imagen.media.vectorbin;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Dimension;
 import java.awt.image.Raster;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.jts.CoordinateSequence2D;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -96,5 +100,17 @@ public class VectorBinarizeTest extends TestBase {
                 }
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "VectorBinarize");
+        assertNotNull(descriptor);
+        assertEquals("VectorBinarize", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"minx", "miny", "width", "height", "geometry", "antiAliasing"},
+                parameters.getParamNames());
     }
 }

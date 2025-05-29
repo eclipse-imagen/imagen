@@ -17,13 +17,18 @@
 */
 package org.eclipse.imagen.media.zonal;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Rectangle;
 import java.awt.image.*;
 import java.util.*;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.media.iterators.RandomIterFactory;
 import org.eclipse.imagen.media.range.Range;
@@ -791,5 +796,31 @@ public class ZonalStatsTest extends TestBase {
                 }
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Zonal");
+        assertNotNull(descriptor);
+        assertEquals("Zonal", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {
+                    "classifier",
+                    "transform",
+                    "roilist",
+                    "noData",
+                    "mask",
+                    "useROIAccessor",
+                    "bands",
+                    "stats",
+                    "minbound",
+                    "maxbound",
+                    "numbin",
+                    "rangeData",
+                    "localStats"
+                },
+                parameters.getParamNames());
     }
 }

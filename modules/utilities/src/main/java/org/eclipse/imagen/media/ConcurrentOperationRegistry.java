@@ -74,7 +74,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
     static final String JAIEXT_PRODUCT = "org.eclipse.imagen.media";
 
     /** String associated to the JAI product */
-    static final String JAI_PRODUCT = "com.sun.media.jai";
+    static final String JAI_PRODUCT = "org.eclipse.imagen.media";
 
     /** String associated to the JAI product when the operation is "Null" */
     static final String JAI_PRODUCT_NULL = "org.eclipse.imagen";

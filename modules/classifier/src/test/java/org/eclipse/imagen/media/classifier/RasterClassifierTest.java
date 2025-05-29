@@ -17,6 +17,7 @@
 */
 package org.eclipse.imagen.media.classifier;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -40,8 +41,10 @@ import java.io.IOException;
 import javax.xml.crypto.dsig.TransformException;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.media.piecewise.TransformationException;
@@ -575,5 +578,15 @@ public class RasterClassifierTest extends TestBase {
         // Create the image
         final BufferedImage image = new BufferedImage(cm, raster, false, null);
         return image;
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RasterClassifier");
+        assertNotNull(descriptor);
+        assertEquals("RasterClassifier", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"Domain1D", "bandIndex", "roi", "nodata"}, parameters.getParamNames());
     }
 }

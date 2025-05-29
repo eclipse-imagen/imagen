@@ -17,17 +17,22 @@
 */
 package org.eclipse.imagen.media.orderdither;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.util.Arrays;
 import org.eclipse.imagen.ColorCube;
+import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.media.iterators.RandomIterFactory;
@@ -329,5 +334,16 @@ public class OrderedDitherTest extends TestBase {
                 }
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "OrderedDither");
+        assertNotNull(descriptor);
+        assertEquals("OrderedDither", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"colorMap", "ditherMask", "roi", "nodata", "destNoData"}, parameters.getParamNames());
     }
 }

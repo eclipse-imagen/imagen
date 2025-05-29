@@ -17,7 +17,7 @@
 */
 package org.eclipse.imagen.media.imagefunction;
 
-import org.eclipse.imagen.media.utilities.PropertyUtil;
+import org.eclipse.imagen.media.util.PropertyUtil;
 
 /** Internationalization Class */
 class JaiI18N {

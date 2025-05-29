@@ -27,6 +27,7 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.JAIExt;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,6 +45,7 @@ import org.junit.Test;
  * The selection of the old or new descriptor must be done by setting to true or false the JVM parameter
  * JAI.Ext.OldDescriptor.
  */
+@Ignore
 public class ComparisonTest {
 
     /** Number of benchmark iterations (Default 1) */

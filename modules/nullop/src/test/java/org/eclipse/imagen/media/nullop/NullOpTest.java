@@ -22,6 +22,9 @@ import static org.junit.Assert.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.junit.BeforeClass;
@@ -137,5 +140,15 @@ public class NullOpTest extends TestBase {
                 assertEquals(value, valueOld, TOLERANCE);
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Null");
+        assertNotNull(descriptor);
+        assertEquals("Null", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(null, parameters.getParamNames());
     }
 }

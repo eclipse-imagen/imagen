@@ -74,6 +74,27 @@
 descriptor	org.eclipse.imagen.operator.PhaseDescriptor
 descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
 descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
+descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
+descriptor	org.eclipse.imagen.operator.ColorQuantizerDescriptor
+descriptor	org.eclipse.imagen.operator.CompositeDescriptor
+descriptor	org.eclipse.imagen.operator.ConjugateDescriptor
+descriptor	org.eclipse.imagen.operator.DCTDescriptor
+descriptor	org.eclipse.imagen.operator.DFTDescriptor
+descriptor	org.eclipse.imagen.operator.DilateDescriptor
+descriptor	org.eclipse.imagen.operator.DivideComplexDescriptor
+descriptor	org.eclipse.imagen.operator.ErodeDescriptor
+descriptor	org.eclipse.imagen.operator.GradientMagnitudeDescriptor
+descriptor	org.eclipse.imagen.operator.IDCTDescriptor
+descriptor	org.eclipse.imagen.operator.IDFTDescriptor
+descriptor	org.eclipse.imagen.operator.IIPDescriptor
+descriptor	org.eclipse.imagen.operator.IIPResolutionDescriptor
+descriptor	org.eclipse.imagen.operator.MatchCDFDescriptor
+descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
+descriptor	org.eclipse.imagen.operator.OverlayDescriptor
+descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
+descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
+descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
+descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
 
 #
 # tile codec descriptor
@@ -91,7 +112,24 @@ descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
 rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
 rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
 rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
-
+rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
+rendered    org.eclipse.imagen.media.opimage.ColorQuantizerRIF		org.eclipse.imagen.media	colorquantizer		suncolorquantizerrif
+rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
+rendered    org.eclipse.imagen.media.opimage.DCTCRIF			org.eclipse.imagen.media	dct			sundctrif
+rendered    org.eclipse.imagen.media.opimage.DFTCRIF			org.eclipse.imagen.media	dft			sundftrif
+rendered    org.eclipse.imagen.media.opimage.DilateRIF			org.eclipse.imagen.media	dilate			sundilaterif
+rendered    org.eclipse.imagen.media.opimage.DivideComplexCRIF		org.eclipse.imagen.media	dividecomplex		sundividecomplexrif
+rendered    org.eclipse.imagen.media.opimage.ErodeRIF			org.eclipse.imagen.media	erode			suneroderif
+rendered    org.eclipse.imagen.media.opimage.GradientRIF		org.eclipse.imagen.media	gradientmagnitude	sungradientrif
+rendered    org.eclipse.imagen.media.opimage.IDCTCRIF			org.eclipse.imagen.media	idct			sunidctrif
+rendered    org.eclipse.imagen.media.opimage.IDFTCRIF			org.eclipse.imagen.media	idft			sunidftrif
+rendered    org.eclipse.imagen.media.opimage.MatchCDFCRIF		org.eclipse.imagen.media	matchcdf		sunmatchcdfrif
+rendered    org.eclipse.imagen.media.opimage.MultiplyComplexCRIF	org.eclipse.imagen.media	multiplycomplex		sunmultiplycomplexrif
+rendered    org.eclipse.imagen.media.opimage.OverlayCRIF		org.eclipse.imagen.media	overlay			sunoverlayrif
+rendered    org.eclipse.imagen.media.opimage.PeriodicShiftCRIF		org.eclipse.imagen.media	periodicshift		sunperiodicshiftrif
+rendered    org.eclipse.imagen.media.opimage.PolarToComplexCRIF	org.eclipse.imagen.media	polartocomplex		sunpolartocomplexrif
+rendered    org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	org.eclipse.imagen.media	subsamplebinarytogray	sunsubsamplebinarytograyrif
+rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.imagen.media	subsampleaverage	sunsubsampleaveragerif
 
 #
 # "renderable" factory objects
@@ -101,7 +139,20 @@ rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.im
 renderable	org.eclipse.imagen.media.opimage.PhaseCRIF		phase
 renderable	org.eclipse.imagen.media.opimage.MagnitudeCRIF		magnitude
 renderable	org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	magnitudesquared
-
+renderable	org.eclipse.imagen.media.opimage.CompositeCRIF		composite
+renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate
+renderable	org.eclipse.imagen.media.opimage.DCTCRIF		dct
+renderable	org.eclipse.imagen.media.opimage.DFTCRIF		dft
+renderable	org.eclipse.imagen.media.opimage.DivideComplexCRIF	dividecomplex
+renderable	org.eclipse.imagen.media.opimage.IDCTCRIF		idct
+renderable	org.eclipse.imagen.media.opimage.IDFTCRIF		idft
+renderable	org.eclipse.imagen.media.opimage.MatchCDFCRIF		matchcdf
+renderable	org.eclipse.imagen.media.opimage.MultiplyComplexCRIF	multiplycomplex
+renderable	org.eclipse.imagen.media.opimage.OverlayCRIF		overlay
+renderable	org.eclipse.imagen.media.opimage.PeriodicShiftCRIF	periodicshift
+renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
+renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsamplebinarytogray
+renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
 
 #
 # "collection" factory objects

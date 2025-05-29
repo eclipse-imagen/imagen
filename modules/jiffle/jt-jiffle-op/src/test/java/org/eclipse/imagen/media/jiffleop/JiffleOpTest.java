@@ -18,10 +18,16 @@
 
 package org.eclipse.imagen.media.jiffleop;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
+import java.util.Arrays;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
@@ -131,5 +137,27 @@ public class JiffleOpTest extends TestBase {
             values[i] = Byte.valueOf((byte) i);
         }
         return ImageUtilities.createImageFromArray(values, width, height);
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Jiffle");
+        assertNotNull(descriptor);
+        assertEquals("Jiffle", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        System.out.println(Arrays.toString(parameters.getParamNames()));
+        assertArrayEquals(
+                new String[] {
+                    "sourceNames",
+                    "destName",
+                    "script",
+                    "destBounds",
+                    "destType",
+                    "srcCoordinateTransforms",
+                    "srcBandTransforms",
+                    "destBands"
+                },
+                parameters.getParamNames());
     }
 }

@@ -31,7 +31,7 @@ public class ClampCRIF extends CRIFImpl {
 
     /** Constructor. */
     public ClampCRIF() {
-        super("clampop");
+        super("Clamp");
     }
 
     /**

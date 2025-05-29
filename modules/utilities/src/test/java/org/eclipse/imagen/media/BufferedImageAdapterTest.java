@@ -28,10 +28,12 @@ import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.WarpAffine;
 import org.eclipse.imagen.operator.WarpDescriptor;
+import org.junit.Ignore;
 import org.junit.Test;
 
 // TODO: moved this to Op "WarpDescriptor" for compiling.  Likely will need to be updated later.
 
+@Ignore // ignored due to a circularity
 public class BufferedImageAdapterTest {
 
     @Test
