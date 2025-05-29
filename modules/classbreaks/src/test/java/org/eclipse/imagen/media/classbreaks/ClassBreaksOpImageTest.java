@@ -39,6 +39,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.utilities.ImageUtilities;
@@ -424,5 +426,29 @@ public class ClassBreaksOpImageTest extends TestBase {
         assertEquals(16, breaks[2].doubleValue(), EPS);
         assertEquals(26, breaks[3].doubleValue(), EPS);
         assertEquals(53, breaks[4].doubleValue(), EPS);
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ClassBreaks");
+        assertNotNull(descriptor);
+        assertEquals("ClassBreaks", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {
+                    "numClasses",
+                    "method",
+                    "extrema",
+                    "roi",
+                    "band",
+                    "xPeriod",
+                    "yPeriod",
+                    "noData",
+                    "histogram",
+                    "histogramBins",
+                    "percentages"
+                },
+                parameters.getParamNames());
     }
 }
