@@ -17,11 +17,16 @@
 */
 package org.eclipse.imagen.media.translate;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.junit.Test;
@@ -133,5 +138,15 @@ public class TranslateTest extends TestBase {
                     + "a layout is present, the translate operation cannot deal with";
             assertEquals(exception, e.getMessage());
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Translate");
+        assertNotNull(descriptor);
+        assertEquals("Translate", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"xTrans", "yTrans", "interpolation"}, parameters.getParamNames());
     }
 }
