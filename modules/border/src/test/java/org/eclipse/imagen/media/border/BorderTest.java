@@ -34,7 +34,8 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
+// TODO: commented out due to cyclic dependency when moving rescale to legacy
+// import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -303,7 +304,8 @@ public class BorderTest extends TestBase {
                 && dataType == DataBuffer.TYPE_BYTE
                 && TEST_SELECTOR == borderType
                 && noDataRangeUsed == RANGE_USED) {
-            RenderedImageBrowser.showChain(borderIMG, false, false);
+            // TODO: commented out due to cyclic dependency when moving rescale to legacy
+            //            RenderedImageBrowser.showChain(borderIMG, false, false);
 
             try {
                 System.in.read();

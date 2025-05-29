@@ -36,11 +36,13 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>rendered-image-browser</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
+
+    <!--TODO: commented out due to cyclic dependency when moving rescale to legacy-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.eclipse.imagen</groupId>-->
+    <!--      <artifactId>rendered-image-browser</artifactId>-->
+    <!--      <version>${project.version}</version>-->
+    <!--      <scope>test</scope>-->
+    <!--    </dependency>-->
   </dependencies>
 </project>

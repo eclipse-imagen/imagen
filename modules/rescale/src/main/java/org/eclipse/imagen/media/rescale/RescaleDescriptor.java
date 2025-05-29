@@ -265,6 +265,33 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
      *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param constants The per-band constants to multiply by. May be <code>null</code>.
+     * @param offsets The per-band offsets to be added. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     */
+    public static RenderedOp create(RenderedImage source0, double[] constants, double[] offsets, RenderingHints hints) {
+        ParameterBlockJAI pb = new ParameterBlockJAI("Rescale", RenderedRegistryMode.MODE_NAME);
+
+        pb.setSource("source0", source0);
+
+        pb.setParameter("constants", constants);
+        pb.setParameter("offsets", offsets);
+
+        return JAI.create("Rescale", pb, hints);
+    }
+
+    /**
+     * Maps the pixels values of an image from one range to another range.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scales The per-band scale factors to multiply by.
      * @param offsets The per-band offsets to be added.
