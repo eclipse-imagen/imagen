@@ -92,6 +92,12 @@ descriptor	org.eclipse.imagen.operator.ScaleDescriptor
 descriptor	org.eclipse.imagen.operator.TranslateDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
+descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
+
+
+
+
+
 
 #
 # tile codec descriptor
@@ -127,6 +133,10 @@ rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.medi
 rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
 rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.media	subtract		sunsubtractrif
 rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
+rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
+
+
+
 
 
 #
@@ -153,7 +163,7 @@ renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
 renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
 renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
-
+renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
 
 
 #
