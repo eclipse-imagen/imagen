@@ -25,8 +25,6 @@ import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.media.convolve.Convolve3x3OpImage;
-import org.eclipse.imagen.media.convolve.ConvolveGeneralOpImage;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /** @see UnsharpMaskOpImage */

@@ -17,17 +17,16 @@
 
 package org.eclipse.imagen.media.convolve;
 
-import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.media.opimage.RIFUtil;
-import org.eclipse.imagen.media.util.ImageUtil;
-
 import java.awt.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
+import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.media.opimage.RIFUtil;
+import org.eclipse.imagen.media.util.ImageUtil;
 
 public class UnsharpMaskRIF implements RenderedImageFactory {
 
