@@ -17,11 +17,16 @@
 */
 package org.eclipse.imagen.media.imagefunction;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.awt.Rectangle;
+import java.awt.*;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.media.iterators.RandomIterFactory;
@@ -248,5 +253,19 @@ public class ImageFunctionTest extends TestBase {
                 result += deltaY;
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ImageFunction");
+        assertNotNull(descriptor);
+        assertEquals("ImageFunction", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {
+                    "function", "width", "height", "xScale", "yScale", "xTrans", "yTrans", "roi", "nodata", "destNoData"
+                },
+                parameters.getParamNames());
     }
 }

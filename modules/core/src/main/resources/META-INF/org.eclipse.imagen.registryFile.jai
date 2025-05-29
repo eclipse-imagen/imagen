@@ -116,7 +116,7 @@ descriptor	org.eclipse.imagen.operator.HistogramDescriptor
 #descriptor	org.eclipse.imagen.operator.IDFTDescriptor
 #descriptor	org.eclipse.imagen.operator.IIPDescriptor
 #descriptor	org.eclipse.imagen.operator.IIPResolutionDescriptor
-descriptor	org.eclipse.imagen.operator.ImageFunctionDescriptor
+#descriptor	org.eclipse.imagen.operator.ImageFunctionDescriptor
 descriptor	org.eclipse.imagen.operator.InvertDescriptor
 #descriptor	org.eclipse.imagen.operator.JPEGDescriptor
 descriptor	org.eclipse.imagen.operator.LogDescriptor
@@ -228,7 +228,7 @@ rendered    org.eclipse.imagen.media.opimage.FilteredSubsampleRIF      org.eclip
 rendered    org.eclipse.imagen.media.opimage.HistogramRIF		org.eclipse.imagen.media	histogram		sunhistogramrif
 #rendered    org.eclipse.imagen.media.opimage.IDCTCRIF			org.eclipse.imagen.media	idct			sunidctrif
 #rendered    org.eclipse.imagen.media.opimage.IDFTCRIF			org.eclipse.imagen.media	idft			sunidftrif
-rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
+#rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
 rendered    org.eclipse.imagen.media.opimage.InvertCRIF		org.eclipse.imagen.media	invert			suninvertrif
 #rendered    org.eclipse.imagen.media.opimage.JPEGRIF		        org.eclipse.imagen.media	jpeg			sunjpegrif
 rendered    org.eclipse.imagen.media.opimage.LogCRIF		        org.eclipse.imagen.media	log			sunlogrif
