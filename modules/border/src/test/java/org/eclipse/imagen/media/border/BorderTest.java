@@ -17,7 +17,9 @@
 */
 package org.eclipse.imagen.media.border;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
@@ -25,6 +27,9 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
@@ -513,5 +518,17 @@ public class BorderTest extends TestBase {
                 borderImg.dispose();
             }
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Border");
+        assertNotNull(descriptor);
+        assertEquals("Border", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"leftPad", "rightPad", "topPad", "bottomPad", "type", "noData", "destNoData"},
+                parameters.getParamNames());
     }
 }

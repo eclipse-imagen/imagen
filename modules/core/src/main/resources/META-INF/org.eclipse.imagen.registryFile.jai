@@ -82,7 +82,7 @@ descriptor	org.eclipse.imagen.operator.AndDescriptor
 # descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
 # descriptor	org.eclipse.imagen.operator.BinarizeDescriptor
 #descriptor	org.eclipse.imagen.operator.BMPDescriptor
-descriptor	org.eclipse.imagen.operator.BorderDescriptor
+# descriptor	org.eclipse.imagen.operator.BorderDescriptor
 descriptor	org.eclipse.imagen.operator.BoxFilterDescriptor
 descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
@@ -196,7 +196,7 @@ rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	
 # rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
 # rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
 #rendered    org.eclipse.imagen.media.opimage.BMPRIF			org.eclipse.imagen.media	bmp			sunbmprif
-rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
+# rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
 rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.media	boxfilter		sunboxfilterrif
 rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
