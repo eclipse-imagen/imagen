@@ -272,7 +272,6 @@ public final class JAI implements AutoCloseable {
      *
      * @see org.eclipse.imagen.OpImage#OpImage
      * @see org.eclipse.imagen.RasterAccessor
-     * @see org.eclipse.imagen.operator.ColorQuantizerDescriptor
      * @since JAI 1.1.2
      */
     public static RenderingHints.Key KEY_REPLACE_INDEX_COLOR_MODEL =

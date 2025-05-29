@@ -17,5 +17,10 @@
       <artifactId>imagen-core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-unsupported-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
