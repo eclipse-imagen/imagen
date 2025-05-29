@@ -266,8 +266,10 @@ public class ComparisonTest extends TestBase {
 
             // creation of the image with the selected interpolator
             if (old) {
-                imageScale = org.eclipse.imagen.operator.ScaleDescriptor.create(
-                        image, scaleX, scaleY, xTrans, yTrans, interp, hints);
+                // TODO: commented out because the old implementation was moved to legacy
+                // TODO: need to do something different here!
+                //                imageScale = org.eclipse.imagen.operator.ScaleDescriptor.create(
+                //                        image, scaleX, scaleY, xTrans, yTrans, interp, hints);
             } else {
                 imageScale = ScaleDescriptor.create(
                         image, scaleX, scaleY, xTrans, yTrans, interp, null, false, null, null, hints);

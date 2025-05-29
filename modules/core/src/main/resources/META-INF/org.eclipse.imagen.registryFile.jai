@@ -68,14 +68,14 @@
 #
 # Image operation descriptors :
 #
-descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
-descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
-descriptor	org.eclipse.imagen.operator.AddConstDescriptor
-descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
-descriptor	org.eclipse.imagen.operator.AddDescriptor
+#descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
+#descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
+#descriptor	org.eclipse.imagen.operator.AddConstDescriptor
+#descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
+#descriptor	org.eclipse.imagen.operator.AddDescriptor
 #descriptor	org.eclipse.imagen.operator.AffineDescriptor
-descriptor	org.eclipse.imagen.operator.AndConstDescriptor
-descriptor	org.eclipse.imagen.operator.AndDescriptor
+#descriptor	org.eclipse.imagen.operator.AndConstDescriptor
+#descriptor	org.eclipse.imagen.operator.AndDescriptor
 #descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
 #descriptor	org.eclipse.imagen.operator.BandCombineDescriptor
 #descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
@@ -151,7 +151,7 @@ descriptor	org.eclipse.imagen.operator.RenderableDescriptor
 #descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 #descriptor	org.eclipse.imagen.operator.RotateDescriptor
 #descriptor	org.eclipse.imagen.operator.ScaleDescriptor
-descriptor	org.eclipse.imagen.operator.ShearDescriptor
+#descriptor	org.eclipse.imagen.operator.ShearDescriptor
 #descriptor	org.eclipse.imagen.operator.StreamDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
@@ -266,7 +266,7 @@ rendered    org.eclipse.imagen.media.opimage.PiecewiseCRIF		org.eclipse.imagen.m
 #rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
 #rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 #rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
-rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
+#rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
 #rendered    org.eclipse.imagen.media.opimage.StreamRIF			org.eclipse.imagen.media	stream			sunstreamrif
 #rendered    org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	org.eclipse.imagen.media	subsamplebinarytogray	sunsubsamplebinarytograyrif
 #rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.imagen.media	subsampleaverage	sunsubsampleaveragerif

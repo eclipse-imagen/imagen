@@ -25,6 +25,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.OpImage;
+import org.eclipse.imagen.media.translate.TranslateIntOpImage;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**

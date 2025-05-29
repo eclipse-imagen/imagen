@@ -43,7 +43,7 @@ import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
-import org.eclipse.imagen.operator.TranslateDescriptor;
+import org.eclipse.imagen.media.translate.TranslateDescriptor;
 import org.junit.Ignore;
 import org.junit.Test;
 

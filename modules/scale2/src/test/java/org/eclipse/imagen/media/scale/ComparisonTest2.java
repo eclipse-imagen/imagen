@@ -263,8 +263,11 @@ public class ComparisonTest2 extends TestScale2 {
 
             // creation of the image with the selected interpolator
             if (old) {
-                imageScale = org.eclipse.imagen.operator.ScaleDescriptor.create(
-                        image, (float) scaleX, (float) scaleY, (float) xTrans, (float) yTrans, interp, hints);
+                // TODO: moved to legacy.
+                // TODO: replace with something else.
+                //                imageScale = org.eclipse.imagen.operator.ScaleDescriptor.create(
+                //                        image, (float) scaleX, (float) scaleY, (float) xTrans, (float) yTrans, interp,
+                // hints);
             } else {
                 imageScale = Scale2Descriptor.create(
                         image, scaleX, scaleY, xTrans, yTrans, interp, null, false, null, null, hints);
