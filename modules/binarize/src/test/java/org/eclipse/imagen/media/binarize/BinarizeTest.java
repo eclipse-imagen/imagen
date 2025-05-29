@@ -17,14 +17,19 @@
 */
 package org.eclipse.imagen.media.binarize;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
@@ -261,5 +266,15 @@ public class BinarizeTest extends TestBase {
 
         // Disposal of the output image
         binarized.dispose();
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Binarize");
+        assertNotNull(descriptor);
+        assertEquals("Binarize", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"threshold", "roi", "nodata"}, parameters.getParamNames());
     }
 }
