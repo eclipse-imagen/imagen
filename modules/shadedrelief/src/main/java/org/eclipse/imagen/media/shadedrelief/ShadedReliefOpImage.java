@@ -174,7 +174,7 @@ class ShadedReliefOpImage extends AreaOpImage {
             }
             il.setTileGridXOffset(source.getTileGridXOffset());
             il.setTileGridYOffset(source.getTileGridYOffset());
-            
+
             extendedIMG = BorderDescriptor.create(
                     source, leftPadding, rightPadding, topPadding, bottomPadding, extender, borderHints);
             this.destBounds = getBounds();
