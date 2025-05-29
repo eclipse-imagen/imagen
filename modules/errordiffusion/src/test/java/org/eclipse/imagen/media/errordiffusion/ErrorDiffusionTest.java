@@ -17,7 +17,9 @@
 */
 package org.eclipse.imagen.media.errordiffusion;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Rectangle;
@@ -37,10 +39,12 @@ import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.media.iterators.RandomIterFactory;
@@ -323,5 +327,16 @@ public class ErrorDiffusionTest extends TestBase {
         File spearfish = TestData.file(this, "test.tif");
         RenderedOp image = JAI.create("ImageRead", spearfish);
         return image;
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ErrorDiffusion");
+        assertNotNull(descriptor);
+        assertEquals("ErrorDiffusion", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"colorMap", "errorKernel", "roi", "nodata", "destNoData"}, parameters.getParamNames());
     }
 }
