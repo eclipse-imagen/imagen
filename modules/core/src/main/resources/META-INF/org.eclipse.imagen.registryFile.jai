@@ -120,7 +120,7 @@ descriptor	org.eclipse.imagen.operator.HistogramDescriptor
 descriptor	org.eclipse.imagen.operator.InvertDescriptor
 #descriptor	org.eclipse.imagen.operator.JPEGDescriptor
 descriptor	org.eclipse.imagen.operator.LogDescriptor
-descriptor	org.eclipse.imagen.operator.LookupDescriptor
+# descriptor	org.eclipse.imagen.operator.LookupDescriptor
 #descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
 #descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
 descriptor	org.eclipse.imagen.operator.MaxDescriptor
@@ -232,7 +232,7 @@ rendered    org.eclipse.imagen.media.opimage.HistogramRIF		org.eclipse.imagen.me
 rendered    org.eclipse.imagen.media.opimage.InvertCRIF		org.eclipse.imagen.media	invert			suninvertrif
 #rendered    org.eclipse.imagen.media.opimage.JPEGRIF		        org.eclipse.imagen.media	jpeg			sunjpegrif
 rendered    org.eclipse.imagen.media.opimage.LogCRIF		        org.eclipse.imagen.media	log			sunlogrif
-rendered    org.eclipse.imagen.media.opimage.LookupCRIF		org.eclipse.imagen.media	lookup			sunlookuprif
+# rendered    org.eclipse.imagen.media.opimage.LookupCRIF		org.eclipse.imagen.media	lookup			sunlookuprif
 #rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
 #rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
 #rendered    org.eclipse.imagen.media.opimage.MatchCDFCRIF		org.eclipse.imagen.media	matchcdf		sunmatchcdfrif
@@ -312,7 +312,7 @@ renderable	org.eclipse.imagen.media.opimage.ExpCRIF		exp
 #renderable	org.eclipse.imagen.media.opimage.IDFTCRIF		idft
 renderable	org.eclipse.imagen.media.opimage.InvertCRIF		invert
 renderable	org.eclipse.imagen.media.opimage.LogCRIF		log
-renderable	org.eclipse.imagen.media.opimage.LookupCRIF		lookup
+# renderable	org.eclipse.imagen.media.opimage.LookupCRIF		lookup
 #renderable	org.eclipse.imagen.media.opimage.MagnitudeCRIF		magnitude
 #renderable	org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	magnitudesquared
 #renderable	org.eclipse.imagen.media.opimage.MatchCDFCRIF		matchcdf

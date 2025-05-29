@@ -24,9 +24,12 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
+import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
@@ -945,5 +948,17 @@ public class LookupTest extends TestBase {
         if (destinationIMG instanceof RenderedOp) {
             ((RenderedOp) destinationIMG).dispose();
         }
+    }
+
+    @Test
+    public void testRegistration() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Lookup");
+        assertNotNull(descriptor);
+        assertEquals("Lookup", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(
+                new String[] {"table", "destinationNoData", "ROI", "NoData", "useRoiAccessor"},
+                parameters.getParamNames());
     }
 }
