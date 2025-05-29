@@ -427,5 +427,4 @@ public class BorderDescriptor extends OperationDescriptorImpl {
 
         return JAI.create("Border", pb, hints);
     }
-
 }
