@@ -135,7 +135,7 @@ descriptor	org.eclipse.imagen.operator.MultiplyConstDescriptor
 #descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyDescriptor
 descriptor	org.eclipse.imagen.operator.NotDescriptor
-descriptor	org.eclipse.imagen.operator.NullDescriptor
+# descriptor	org.eclipse.imagen.operator.NullDescriptor
 descriptor	org.eclipse.imagen.operator.OrConstDescriptor
 descriptor	org.eclipse.imagen.operator.OrDescriptor
 descriptor	org.eclipse.imagen.operator.OrderedDitherDescriptor
@@ -247,7 +247,7 @@ rendered    org.eclipse.imagen.media.opimage.MultiplyCRIF		org.eclipse.imagen.me
 #rendered    org.eclipse.imagen.media.opimage.MultiplyComplexCRIF	org.eclipse.imagen.media	multiplycomplex		sunmultiplycomplexrif
 rendered    org.eclipse.imagen.media.opimage.MultiplyConstCRIF		org.eclipse.imagen.media	multiplyconst		sunmultiplyconstrif
 rendered    org.eclipse.imagen.media.opimage.NotCRIF			org.eclipse.imagen.media	not			sunnotrif
-rendered    org.eclipse.imagen.NullCRIF			   	org.eclipse.imagen		null			sunullrif
+# rendered    org.eclipse.imagen.NullCRIF			   	org.eclipse.imagen		null			sunullrif
 rendered    org.eclipse.imagen.media.opimage.OrConstCRIF		org.eclipse.imagen.media	orconst			sunorconstrif
 rendered    org.eclipse.imagen.media.opimage.OrCRIF			org.eclipse.imagen.media	or			sunorrif
 rendered    org.eclipse.imagen.media.opimage.OrderedDitherRIF		org.eclipse.imagen.media	ordereddither		sunorderedditherrif
@@ -322,7 +322,7 @@ renderable	org.eclipse.imagen.media.opimage.MultiplyCRIF		multiply
 #renderable	org.eclipse.imagen.media.opimage.MultiplyComplexCRIF	multiplycomplex
 renderable	org.eclipse.imagen.media.opimage.MultiplyConstCRIF	multiplyconst
 renderable	org.eclipse.imagen.media.opimage.NotCRIF		not
-renderable	org.eclipse.imagen.NullCRIF			null
+# renderable	org.eclipse.imagen.NullCRIF			null
 renderable	org.eclipse.imagen.media.opimage.OrConstCRIF		orconst
 renderable	org.eclipse.imagen.media.opimage.OrCRIF		or
 #renderable	org.eclipse.imagen.media.opimage.OverlayCRIF		overlay

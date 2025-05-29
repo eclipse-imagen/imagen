@@ -25,6 +25,7 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -35,6 +36,7 @@ import org.junit.Test;
  * must set the JAI.Ext.TestSelector JVM integer parameter to a number between 0 and 5 (where 0 means byte, 1 Ushort, 2
  * Short, 3 Integer, 4 Float and 5 Double).
  */
+@Ignore
 public class ComparisonTest extends TestBase {
 
     /** Number of benchmark iterations (Default 1) */
