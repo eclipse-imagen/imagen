@@ -40,7 +40,6 @@ import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.util.SunTileCache;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,8 +49,6 @@ import org.junit.Test;
  * with ROI and NoData together by setting the JVM JAI.Ext interactive parameter to true, and setting the JVM integer
  * parameter respectively to 0,1 or 2.
  */
-// TODO: Subtract moved to legacy, add subtract to algebra and un-ignore this
-@Ignore
 public class CropImageTest extends TestBase {
     /** No data value used for the tests */
     private static final byte noDataValue = 50;

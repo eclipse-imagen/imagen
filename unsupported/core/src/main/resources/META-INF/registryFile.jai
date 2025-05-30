@@ -90,7 +90,6 @@ descriptor	org.eclipse.imagen.operator.IIPDescriptor
 descriptor	org.eclipse.imagen.operator.IIPResolutionDescriptor
 descriptor	org.eclipse.imagen.operator.MatchCDFDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
-descriptor	org.eclipse.imagen.operator.OverlayDescriptor
 descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
 descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
 descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor

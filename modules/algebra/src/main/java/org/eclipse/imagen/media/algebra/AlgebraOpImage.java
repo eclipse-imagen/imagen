@@ -300,7 +300,12 @@ public class AlgebraOpImage extends PointOpImage {
         caseC = hasNoData && !hasROI;
 
         // Set flag to permit in-place operation.
-        permitInPlaceOperation();
+        if (Operator.XOR != op) {
+            // TODO: The XOR operator is having troubles with the permit in-place
+            //  operation since it uses the first source as destination and computing
+            //  Xor on itself
+            permitInPlaceOperation();
+        }
     }
 
     /**

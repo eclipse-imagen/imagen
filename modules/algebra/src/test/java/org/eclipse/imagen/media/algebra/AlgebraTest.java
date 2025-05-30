@@ -1628,4 +1628,44 @@ public class AlgebraTest extends TestBase {
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
         assertArrayEquals(new String[] {"operation", "roi", "noData", "destinationNoData"}, parameters.getParamNames());
     }
+
+    @Test
+    public void testRegistrationAdd() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "add");
+        assertNotNull(descriptor);
+        assertEquals("add", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"roi", "noData", "destinationNoData"}, parameters.getParamNames());
+    }
+
+    @Test
+    public void testRegistrationAnd() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "and");
+        assertNotNull(descriptor);
+        assertEquals("and", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"roi", "noData", "destinationNoData"}, parameters.getParamNames());
+    }
+
+    @Test
+    public void testRegistrationSubtract() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "subtract");
+        assertNotNull(descriptor);
+        assertEquals("subtract", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"roi", "noData", "destinationNoData"}, parameters.getParamNames());
+    }
+
+    @Test
+    public void testRegistrationXor() {
+        RegistryElementDescriptor descriptor =
+                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "xor");
+        assertNotNull(descriptor);
+        assertEquals("xor", descriptor.getName());
+        ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
+        assertArrayEquals(new String[] {"roi", "noData", "destinationNoData"}, parameters.getParamNames());
+    }
 }

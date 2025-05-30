@@ -40,6 +40,7 @@ import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
 import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
 import org.eclipse.imagen.media.binarize.BinarizeDescriptor;
+import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.range.NoDataContainer;
 import org.eclipse.imagen.media.rescale.RescaleDescriptor;
 import org.eclipse.imagen.media.utilities.ImageLayout2;
