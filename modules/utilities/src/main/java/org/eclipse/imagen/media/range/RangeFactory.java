@@ -35,86 +35,92 @@ public class RangeFactory {
     private RangeFactory() {}
 
     // Byte data
-    public static Range create(byte minValue, boolean minIncluded, byte maxValue, boolean maxIncluded) {
+    public static RangeByte create(byte minValue, boolean minIncluded, byte maxValue, boolean maxIncluded) {
         return new RangeByte(minValue, minIncluded, maxValue, maxIncluded);
     }
 
     // Ushort data
-    public static Range createU(short minValue, boolean minIncluded, short maxValue, boolean maxIncluded) {
+    public static RangeUshort createU(short minValue, boolean minIncluded, short maxValue, boolean maxIncluded) {
         return new RangeUshort(minValue, minIncluded, maxValue, maxIncluded);
     }
 
     // Short data
-    public static Range create(short minValue, boolean minIncluded, short maxValue, boolean maxIncluded) {
+    public static RangeShort create(short minValue, boolean minIncluded, short maxValue, boolean maxIncluded) {
         return new RangeShort(minValue, minIncluded, maxValue, maxIncluded);
     }
 
     // Integer data
-    public static Range create(int minValue, boolean minIncluded, int maxValue, boolean maxIncluded) {
+    public static RangeInt create(int minValue, boolean minIncluded, int maxValue, boolean maxIncluded) {
         return new RangeInt(minValue, minIncluded, maxValue, maxIncluded);
     }
 
     // Float data
-    public static Range create(
+    public static RangeFloat create(
             float minValue, boolean minIncluded, float maxValue, boolean maxIncluded, boolean nanIncluded) {
         return new RangeFloat(minValue, minIncluded, maxValue, maxIncluded, nanIncluded);
     }
 
     // Double data
-    public static Range create(
+    public static RangeDouble create(
             double minValue, boolean minIncluded, double maxValue, boolean maxIncluded, boolean nanIncluded) {
         return new RangeDouble(minValue, minIncluded, maxValue, maxIncluded, nanIncluded);
     }
 
     // Byte data
-    public static Range create(byte minValue, byte maxValue) {
+    public static RangeByte create(byte minValue, byte maxValue) {
         return new RangeByte(minValue, true, maxValue, true);
     }
 
     // Ushort data
-    public static Range createU(short minValue, short maxValue) {
+    public static RangeUshort createU(short minValue, short maxValue) {
         return new RangeUshort(minValue, true, maxValue, true);
     }
 
     // Short data
-    public static Range create(short minValue, short maxValue) {
+    public static RangeShort create(short minValue, short maxValue) {
         return new RangeShort(minValue, true, maxValue, true);
     }
 
     // Integer data
-    public static Range create(int minValue, int maxValue) {
+    public static RangeInt create(int minValue, int maxValue) {
         return new RangeInt(minValue, true, maxValue, true);
     }
 
     // Float data
-    public static Range create(float minValue, float maxValue) {
+    public static RangeFloat create(float minValue, float maxValue) {
         return new RangeFloat(minValue, true, maxValue, true, false);
     }
 
     // Double data
-    public static Range create(double minValue, double maxValue) {
+    public static RangeDouble create(double minValue, double maxValue) {
         return new RangeDouble(minValue, true, maxValue, true, false);
     }
 
     // Float data
-    public static Range create(float minValue, boolean minIncluded, float maxValue, boolean maxIncluded) {
+    public static RangeFloat create(float minValue, boolean minIncluded, float maxValue, boolean maxIncluded) {
         return new RangeFloat(minValue, minIncluded, maxValue, maxIncluded, false);
     }
 
     // Double data
-    public static Range create(double minValue, boolean minIncluded, double maxValue, boolean maxIncluded) {
+    public static RangeDouble create(double minValue, boolean minIncluded, double maxValue, boolean maxIncluded) {
         return new RangeDouble(minValue, minIncluded, maxValue, maxIncluded, false);
     }
 
     // Long data
-    public static Range create(long minValue, boolean minIncluded, long maxValue, boolean maxIncluded) {
+    public static RangeLong create(long minValue, boolean minIncluded, long maxValue, boolean maxIncluded) {
         return new RangeLong(minValue, minIncluded, maxValue, maxIncluded);
     }
 
-    public static Range convertToDoubleRange(Range input) {
+    /**
+     * Convert to RangeDouble casting or creating a copy if needed.
+     *
+     * @param input Range
+     * @return RangeDouble
+     */
+    public static RangeDouble convertToDoubleRange(Range input) {
         // If already double do nothing
         if (input instanceof RangeDouble) {
-            return input;
+            return (RangeDouble) input;
         }
         // Otherwise get minimum and maximum values and convert it
         double min = input.getMin().doubleValue();
@@ -129,10 +135,16 @@ public class RangeFactory {
         return new RangeDouble(min, minIncluded, max, maxIncluded, nanIncluded);
     }
 
-    public static Range convertToFloatRange(Range input) {
+    /**
+     * Convert to RangeFloat casting or creating a copy if needed.
+     *
+     * @param input Range
+     * @return RangeFloat
+     */
+    public static RangeFloat convertToFloatRange(Range input) {
         // If already double do nothing
         if (input instanceof RangeFloat) {
-            return input;
+            return (RangeFloat) input;
         }
         // Otherwise get minimum and maximum values and convert it
         float min = input.getMin().floatValue();
@@ -143,15 +155,34 @@ public class RangeFactory {
 
         boolean nanIncluded = input.isNanIncluded();
 
-        // New Double range
+        // New Float range
         return new RangeFloat(min, minIncluded, max, maxIncluded, nanIncluded);
     }
 
+    /**
+     * Convert to Range of the specified data type, casting or creating a copy if needed.
+     *
+     * @param input Range to convert
+     * @param dataType DataType for conversion
+     * @return Converted Range instance
+     */
+    public static Range convert(Range input, Range.DataType dataType) {
+        return convert(input, dataType.getDataType());
+    }
+
+    /**
+     * Convert to Range of the specified {@link DataBuffer} type. Conversion is done as a cast if possible, otherwise a
+     * new Range is created.
+     *
+     * @param input Range to convert
+     * @param dataType DataBuffer dataType
+     * @return Converted Range instance
+     */
     public static Range convert(Range input, int dataType) {
         if (input == null) {
             return null;
         }
-        // If already double do nothing
+        // If already matches dataType do nothing
         if (input.getDataType().getDataType() == dataType) {
             return input;
         }
@@ -174,10 +205,10 @@ public class RangeFactory {
         }
     }
 
-    public static Range convertToByteRange(Range input) {
-        // If already double do nothing
+    public static RangeByte convertToByteRange(Range input) {
+        // If already byte do nothing
         if (input instanceof RangeByte) {
-            return input;
+            return (RangeByte) input;
         }
         // Otherwise get minimum and maximum values and convert it
         byte min = input.getMin().byteValue();
@@ -186,7 +217,7 @@ public class RangeFactory {
         boolean minIncluded = input.isMinIncluded();
         boolean maxIncluded = input.isMaxIncluded();
 
-        // New Double range
+        // New Byte range
         return new RangeByte(min, minIncluded, max, maxIncluded);
     }
 
