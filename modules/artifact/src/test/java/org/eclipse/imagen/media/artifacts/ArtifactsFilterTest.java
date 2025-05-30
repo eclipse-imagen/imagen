@@ -32,6 +32,7 @@ import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.stats.Statistics;
@@ -39,9 +40,7 @@ import org.eclipse.imagen.media.stats.Statistics.StatsType;
 import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.testclasses.TestData;
-import org.eclipse.imagen.operator.FormatDescriptor;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -70,7 +69,6 @@ public class ArtifactsFilterTest extends TestBase {
     }
 
     @Test
-    @Ignore // TODO: ROI needs and and xor
     public void testValidData() {
         for (int i = 0; i < 6; i++) {
             if (i == 2) {
@@ -82,7 +80,6 @@ public class ArtifactsFilterTest extends TestBase {
     }
 
     @Test
-    @Ignore // TODO: ROI needs and and xor
     public void testNoData() {
         for (int i = 0; i < 6; i++) {
             if (i == 2) {

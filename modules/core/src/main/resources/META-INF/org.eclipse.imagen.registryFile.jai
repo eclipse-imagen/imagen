@@ -139,7 +139,7 @@ descriptor	org.eclipse.imagen.operator.NotDescriptor
 descriptor	org.eclipse.imagen.operator.OrConstDescriptor
 descriptor	org.eclipse.imagen.operator.OrDescriptor
 #descriptor	org.eclipse.imagen.operator.OrderedDitherDescriptor
-#descriptor	org.eclipse.imagen.operator.OverlayDescriptor
+descriptor	org.eclipse.imagen.operator.OverlayDescriptor
 descriptor	org.eclipse.imagen.operator.PatternDescriptor
 #descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
 #descriptor	org.eclipse.imagen.operator.PhaseDescriptor
@@ -158,7 +158,7 @@ descriptor	org.eclipse.imagen.operator.RenderableDescriptor
 #descriptor	org.eclipse.imagen.operator.ShearDescriptor
 #descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 #descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
-descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
+#descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
 #descriptor	org.eclipse.imagen.operator.TIFFDescriptor
 #descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
 #descriptor	org.eclipse.imagen.operator.TranslateDescriptor
@@ -255,7 +255,7 @@ rendered    org.eclipse.imagen.media.opimage.NotCRIF			org.eclipse.imagen.media	
 rendered    org.eclipse.imagen.media.opimage.OrConstCRIF		org.eclipse.imagen.media	orconst			sunorconstrif
 rendered    org.eclipse.imagen.media.opimage.OrCRIF			org.eclipse.imagen.media	or			sunorrif
 #rendered    org.eclipse.imagen.media.opimage.OrderedDitherRIF		org.eclipse.imagen.media	ordereddither		sunorderedditherrif
-#rendered    org.eclipse.imagen.media.opimage.OverlayCRIF		org.eclipse.imagen.media	overlay			sunoverlayrif
+rendered    org.eclipse.imagen.media.opimage.OverlayCRIF		org.eclipse.imagen.media	overlay			sunoverlayrif
 rendered    org.eclipse.imagen.media.opimage.PatternRIF		org.eclipse.imagen.media	pattern			sunpatternrif
 #rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
 #rendered    org.eclipse.imagen.media.opimage.PeriodicShiftCRIF		org.eclipse.imagen.media	periodicshift		sunperiodicshiftrif
@@ -330,7 +330,7 @@ renderable	org.eclipse.imagen.media.opimage.NotCRIF		not
 #renderable	org.eclipse.imagen.NullCRIF			null
 renderable	org.eclipse.imagen.media.opimage.OrConstCRIF		orconst
 renderable	org.eclipse.imagen.media.opimage.OrCRIF		or
-#renderable	org.eclipse.imagen.media.opimage.OverlayCRIF		overlay
+renderable	org.eclipse.imagen.media.opimage.OverlayCRIF		overlay
 #renderable	org.eclipse.imagen.media.opimage.PeriodicShiftCRIF	periodicshift
 #renderable	org.eclipse.imagen.media.opimage.PhaseCRIF		phase
 renderable	org.eclipse.imagen.media.opimage.PiecewiseCRIF		piecewise

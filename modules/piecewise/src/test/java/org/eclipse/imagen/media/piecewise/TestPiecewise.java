@@ -32,6 +32,7 @@ import org.eclipse.imagen.media.algebra.AlgebraDescriptor;
 import org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator;
 import org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor;
 import org.eclipse.imagen.media.bandselect.BandSelectDescriptor;
+import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.stats.Statistics;
@@ -40,7 +41,6 @@ import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.testclasses.TestData;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
-import org.eclipse.imagen.operator.FormatDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
