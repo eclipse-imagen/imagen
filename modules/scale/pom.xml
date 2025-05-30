@@ -30,6 +30,16 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
+      <artifactId>algebra</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>binarize</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
       <artifactId>translate</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -46,11 +56,6 @@
       <artifactId>nullop</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>binarize</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>

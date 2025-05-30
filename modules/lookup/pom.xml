@@ -29,6 +29,16 @@
       <artifactId>border</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>algebra</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>binarize</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- test dependencies -->
     <dependency>
