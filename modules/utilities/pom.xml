@@ -54,7 +54,7 @@
       <scope>test</scope>
     </dependency>
  -->
-    <!-- 
+    <!--
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>binarize</artifactId>

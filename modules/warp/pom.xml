@@ -22,6 +22,11 @@
     <!--    </dependency>-->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
+      <artifactId>algebra</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
       <artifactId>binarize</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -35,14 +40,6 @@
       <artifactId>border</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>algebra</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <!-- todo - warp moved to legacy -> to circular dependency.
-         also for moving test cases to utility-->
 
     <!-- test dependencies -->
     <dependency>
