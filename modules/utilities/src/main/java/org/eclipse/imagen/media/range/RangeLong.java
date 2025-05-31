@@ -93,16 +93,16 @@ public class RangeLong extends Range {
     }
 
     @Override
-    public Number getMax() {
+    public Long getMax() {
         return maxValue;
     }
 
     @Override
-    public Number getMin() {
+    public Long getMin() {
         return minValue;
     }
 
-    public Number getMax(boolean isMaxIncluded) {
+    public Long getMax(boolean isMaxIncluded) {
         long value = maxValue;
         if (isMaxIncluded != isMaxIncluded()) {
             value = (long) ImageUtilities.rool(getDataType().getClassValue(), value, isMaxIncluded ? -1 : +1);
@@ -110,7 +110,7 @@ public class RangeLong extends Range {
         return value;
     }
 
-    public Number getMin(boolean isMinIncluded) {
+    public Long getMin(boolean isMinIncluded) {
         long value = minValue;
         if (isMinIncluded != isMinIncluded()) {
             value = (long) ImageUtilities.rool(getDataType().getClassValue(), value, isMinIncluded ? -1 : +1);
@@ -118,11 +118,11 @@ public class RangeLong extends Range {
         return value;
     }
 
-    public Range union(Range other) {
+    public RangeLong union(Range other) {
         if (this.contains(other)) {
             return this;
         } else if (other.contains(this)) {
-            return other;
+            return (RangeLong) RangeFactory.convert(other, DataType.LONG);
         }
 
         long min2 = other.getMin().longValue();
@@ -151,12 +151,12 @@ public class RangeLong extends Range {
     }
 
     @Override
-    public Range intersection(Range other) {
+    public RangeLong intersection(Range other) {
         if (other.getDataType() == getDataType()) {
             if (other.contains(this)) {
                 return this;
             } else if (this.contains(other)) {
-                return other;
+                return (RangeLong) RangeFactory.convert(other, DataType.LONG);
             }
         }
 

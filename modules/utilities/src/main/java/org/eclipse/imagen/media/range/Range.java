@@ -35,6 +35,7 @@ public abstract class Range {
 
     private static final int PRIME_NUMBER = 37;
 
+    /** Enum representation of {@link DataBuffer} types used. */
     public enum DataType {
         BYTE(Byte.class, DataBuffer.TYPE_BYTE),
         USHORT(Short.class, DataBuffer.TYPE_USHORT),

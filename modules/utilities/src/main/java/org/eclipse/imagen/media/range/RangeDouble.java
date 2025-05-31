@@ -148,16 +148,16 @@ public class RangeDouble extends Range {
     }
 
     @Override
-    public Number getMax() {
+    public Double getMax() {
         return maxValue;
     }
 
     @Override
-    public Number getMin() {
+    public Double getMin() {
         return minValue;
     }
 
-    public Number getMax(boolean isMaxIncluded) {
+    public Double getMax(boolean isMaxIncluded) {
         double value = maxValue;
         if (isMaxIncluded != isMaxIncluded()) {
             value = ImageUtilities.rool(getDataType().getClassValue(), value, isMaxIncluded ? -1 : +1);
@@ -165,7 +165,7 @@ public class RangeDouble extends Range {
         return value;
     }
 
-    public Number getMin(boolean isMinIncluded) {
+    public Double getMin(boolean isMinIncluded) {
         double value = minValue;
         if (isMinIncluded != isMinIncluded()) {
             value = ImageUtilities.rool(getDataType().getClassValue(), value, isMinIncluded ? -1 : +1);
@@ -181,11 +181,11 @@ public class RangeDouble extends Range {
         return isNaN;
     }
 
-    public Range union(Range other) {
+    public RangeDouble union(Range other) {
         if (this.contains(other)) {
-            return this;
+            return (RangeDouble) this;
         } else if (other.contains(this)) {
-            return other;
+            return RangeFactory.convertToDoubleRange(other);
         }
 
         double min2 = other.getMin().doubleValue();
@@ -216,12 +216,12 @@ public class RangeDouble extends Range {
     }
 
     @Override
-    public Range intersection(Range other) {
+    public RangeDouble intersection(Range other) {
         if (other.getDataType() == getDataType()) {
             if (other.contains(this)) {
                 return this;
             } else if (this.contains(other)) {
-                return other;
+                return RangeFactory.convertToDoubleRange(other);
             }
         }
 
