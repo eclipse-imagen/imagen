@@ -19,7 +19,11 @@ package org.eclipse.imagen.media.range;
 
 import org.eclipse.imagen.media.utilities.ImageUtilities;
 
-/** This class is a subclass of the {@link Range} class handling byte data. */
+/**
+ * This class is a subclass of the {@link Range} class handling byte data.
+ *
+ * <p>Byte data is represented as an integer {@code & 0xFF} to avoid unsigned.
+ */
 public class RangeByte extends Range {
 
     public static RangeByte FULL_RANGE = new RangeByte((byte) 0, true, (byte) (255 & 0xFF), true);
@@ -95,12 +99,26 @@ public class RangeByte extends Range {
         return isPoint;
     }
 
+    /**
+     * Range max, represented as Integer {@code & 0xFF} "unsigned" byte.
+     *
+     * To use: {@code byte value = (byte) range.getMax().byteValue();
+     * @return Integer masked to {@code 0xFF}.
+     */
     @Override
-    public Number getMax() {
+    public Integer getMax() {
         return maxValue;
     }
 
-    public Number getMax(boolean isMaxIncluded) {
+    /**
+     * Range max, represented as Integer {@code & 0xFF} "unsigned" byte.
+     *
+     * To use: {@code byte value = (byte) range.getMax().byteValue();
+     *
+     * @param isMaxIncluded boolean indicating if the maximum bound is included
+     * @return Integer masked to {@code 0xFF}.
+     */
+    public Integer getMax(boolean isMaxIncluded) {
         int value = maxValue;
         if (isMaxIncluded != isMaxIncluded()) {
             value = (int) ImageUtilities.rool(getDataType().getClassValue(), value, isMaxIncluded ? -1 : +1);
@@ -108,7 +126,13 @@ public class RangeByte extends Range {
         return value;
     }
 
-    public Number getMin(boolean isMinIncluded) {
+    /**
+     * Range min, represented as Integer {@code & 0xFF} "unsigned" byte.
+     *
+     * To use: {@code byte value = (byte) range.getMin().byteValue();
+     * @return Integer masked to {@code 0xFF}.
+     */
+    public Integer getMin(boolean isMinIncluded) {
         int value = minValue;
         if (isMinIncluded != isMinIncluded()) {
             value = (int) ImageUtilities.rool(getDataType().getClassValue(), value, isMinIncluded ? -1 : +1);
@@ -117,15 +141,15 @@ public class RangeByte extends Range {
     }
 
     @Override
-    public Number getMin() {
+    public Integer getMin() {
         return minValue;
     }
 
-    public Range union(Range other) {
+    public RangeByte union(Range other) {
         if (this.contains(other)) {
-            return this;
+            return (RangeByte) this;
         } else if (other.contains(this)) {
-            return other;
+            return RangeFactory.convertToByteRange(other);
         }
 
         int min2 = other.getMin().intValue();
@@ -154,12 +178,12 @@ public class RangeByte extends Range {
     }
 
     @Override
-    public Range intersection(Range other) {
+    public RangeByte intersection(Range other) {
         if (other.getDataType() == getDataType()) {
             if (other.contains(this)) {
                 return this;
             } else if (this.contains(other)) {
-                return other;
+                return RangeFactory.convertToByteRange(other);
             }
         }
 

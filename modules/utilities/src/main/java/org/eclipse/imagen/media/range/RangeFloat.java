@@ -144,16 +144,16 @@ public class RangeFloat extends Range {
     }
 
     @Override
-    public Number getMax() {
+    public Float getMax() {
         return maxValue;
     }
 
     @Override
-    public Number getMin() {
+    public Float getMin() {
         return minValue;
     }
 
-    public Number getMax(boolean isMaxIncluded) {
+    public Float getMax(boolean isMaxIncluded) {
         float value = maxValue;
         if (isMaxIncluded != isMaxIncluded()) {
             value = (float) ImageUtilities.rool(getDataType().getClassValue(), value, isMaxIncluded ? -1 : +1);
@@ -161,7 +161,7 @@ public class RangeFloat extends Range {
         return value;
     }
 
-    public Number getMin(boolean isMinIncluded) {
+    public Float getMin(boolean isMinIncluded) {
         float value = minValue;
         if (isMinIncluded != isMinIncluded()) {
             value = (float) ImageUtilities.rool(getDataType().getClassValue(), value, isMinIncluded ? -1 : +1);
@@ -177,11 +177,11 @@ public class RangeFloat extends Range {
         return isNaN;
     }
 
-    public Range union(Range other) {
+    public RangeFloat union(Range other) {
         if (this.contains(other)) {
             return this;
         } else if (other.contains(this)) {
-            return other;
+            return RangeFactory.convertToFloatRange(other);
         }
 
         float min2 = other.getMin().floatValue();
@@ -212,12 +212,12 @@ public class RangeFloat extends Range {
     }
 
     @Override
-    public Range intersection(Range other) {
+    public RangeFloat intersection(Range other) {
         if (other.getDataType() == getDataType()) {
             if (other.contains(this)) {
                 return this;
             } else if (this.contains(other)) {
-                return other;
+                return RangeFactory.convertToFloatRange(other);
             }
         }
 

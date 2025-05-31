@@ -17,6 +17,7 @@
 */
 package org.eclipse.imagen.media.range;
 
+import java.awt.image.DataBuffer;
 import org.eclipse.imagen.media.utilities.ImageUtilities;
 
 /** This class is a subclass of the {@link Range} class handling Short data. */
@@ -92,16 +93,16 @@ public class RangeShort extends Range {
     }
 
     @Override
-    public Number getMax() {
+    public Short getMax() {
         return maxValue;
     }
 
     @Override
-    public Number getMin() {
+    public Short getMin() {
         return minValue;
     }
 
-    public Number getMax(boolean isMaxIncluded) {
+    public Short getMax(boolean isMaxIncluded) {
         short value = maxValue;
         if (isMaxIncluded != isMaxIncluded()) {
             value = (short) ImageUtilities.rool(getDataType().getClassValue(), value, isMaxIncluded ? -1 : +1);
@@ -109,7 +110,7 @@ public class RangeShort extends Range {
         return value;
     }
 
-    public Number getMin(boolean isMinIncluded) {
+    public Short getMin(boolean isMinIncluded) {
         short value = minValue;
         if (isMinIncluded != isMinIncluded()) {
             value = (short) ImageUtilities.rool(getDataType().getClassValue(), value, isMinIncluded ? -1 : +1);
@@ -117,11 +118,11 @@ public class RangeShort extends Range {
         return value;
     }
 
-    public Range union(Range other) {
+    public RangeShort union(Range other) {
         if (this.contains(other)) {
             return this;
         } else if (other.contains(this)) {
-            return other;
+            return (RangeShort) RangeFactory.convert(other, DataBuffer.TYPE_SHORT);
         }
 
         short min2 = other.getMin().shortValue();
@@ -150,12 +151,12 @@ public class RangeShort extends Range {
     }
 
     @Override
-    public Range intersection(Range other) {
+    public RangeShort intersection(Range other) {
         if (other.getDataType() == getDataType()) {
             if (other.contains(this)) {
                 return this;
             } else if (this.contains(other)) {
-                return other;
+                return (RangeShort) RangeFactory.convert(other, DataBuffer.TYPE_SHORT);
             }
         }
 
