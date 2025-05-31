@@ -678,15 +678,18 @@ public class RangeTest {
 
     private void checkRangeConversion(Range range, int targetType) {
         Range converted = RangeFactory.convert(range, targetType);
-        assertEquals(converted.getMin().intValue(), 255);
-        assertEquals(converted.getMax().intValue(), 255);
-        assertTrue(converted.isMinIncluded);
-        assertTrue(converted.isMaxIncluded);
-        assertEquals(targetType, converted.getDataType().getDataType());
+        assertEquals(
+                range.getClass().getSimpleName() + " min", converted.getMin().intValue(), 255);
+        assertEquals(
+                range.getClass().getSimpleName() + " max", converted.getMax().intValue(), 255);
+        assertTrue("minIncluded", converted.isMinIncluded);
+        assertTrue("maxIncluded", converted.isMaxIncluded);
+        assertEquals(
+                range.getDataType().name(), targetType, converted.getDataType().getDataType());
         if (range.getDataType().getDataType() == targetType) {
-            assertSame(range, converted);
+            assertSame("cast", range, converted);
         } else {
-            assertNotSame(range, converted);
+            assertNotSame("copy", range, converted);
         }
     }
 
