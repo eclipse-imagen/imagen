@@ -209,9 +209,9 @@ public class ComparisonTest extends TestBase {
 
             // creation of the image
             if (OLD_DESCRIPTOR) {
-                JAIExt.registerJAIDescriptor("ImageFunction");
-                imageCalculated = org.eclipse.imagen.operator.ImageFunctionDescriptor.create(
-                        (ImageFunction) function, width, height, xScale, yScale, xTrans, yTrans, null);
+//                JAIExt.registerJAIDescriptor("ImageFunction");
+//                imageCalculated = org.eclipse.imagen.operator.ImageFunctionDescriptor.create(
+//                        (ImageFunction) function, width, height, xScale, yScale, xTrans, yTrans, null);
             } else {
                 imageCalculated = ImageFunctionDescriptor.create(
                         (ImageFunction) function, width, height, xScale, yScale, xTrans, yTrans, roi, range, 0f, null);
