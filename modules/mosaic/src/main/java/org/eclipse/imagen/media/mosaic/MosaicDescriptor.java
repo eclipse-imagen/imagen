@@ -17,16 +17,10 @@
 */
 package org.eclipse.imagen.media.mosaic;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.media.range.Range;
-import org.eclipse.imagen.operator.MosaicType;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
@@ -87,6 +81,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  */
 public class MosaicDescriptor extends OperationDescriptorImpl {
 
+    public static final MosaicType MOSAIC_TYPE_BLEND = new MosaicType("MOSAIC_TYPE_BLEND", 1);
+
+    /** Destination pixel equals first opaque source pixel. */
+    public static final MosaicType MOSAIC_TYPE_OVERLAY = new MosaicType("MOSAIC_TYPE_OVERLAY", 0);
+
     /** serialVersionUID */
     private static final long serialVersionUID = 2718297230579888333L;
 
@@ -111,7 +110,7 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
 
     /** The parameter class. Used for the constructor. */
     private static final Class[] paramClasses = {
-        org.eclipse.imagen.operator.MosaicType.class,
+        MosaicType.class,
         org.eclipse.imagen.PlanarImage[].class,
         org.eclipse.imagen.ROI[].class,
         double[][].class,
@@ -126,12 +125,7 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
 
     /** The parameter values. Used for the constructor. */
     private static final Object[] paramDefaults = {
-        org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
-        null,
-        null,
-        new double[][] {{1.0}},
-        new double[] {0.0},
-        null
+        MosaicDescriptor.MOSAIC_TYPE_OVERLAY, null, null, new double[][] {{1.0}}, new double[] {0.0}, null
     };
 
     /** Constructor. */

@@ -25,7 +25,6 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.range.Range;
-import org.eclipse.imagen.operator.MosaicType;
 
 /**
  * Simple class that provides the RenderedImage create operation by calling the MosaicOpImage. The input parameters are:
