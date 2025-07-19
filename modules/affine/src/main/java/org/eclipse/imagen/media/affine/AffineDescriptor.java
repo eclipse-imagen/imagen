@@ -351,6 +351,32 @@ public class AffineDescriptor extends OperationDescriptorImpl {
             AffineTransform transform,
             Interpolation interpolation,
             double[] backgroundValues,
+            ROI roi) {
+        return create(source0, transform, interpolation, backgroundValues, roi, false, false, null, null);
+    }
+
+    /**
+     * Performs interpolated affine transform on an image.
+     *
+     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     *
+     * @see JAI
+     * @see ParameterBlockJAI
+     * @see RenderedOp
+     * @param source0 <code>RenderedImage</code> source 0.
+     * @param transform The affine transform matrix. May be <code>null</code>.
+     * @param interpolation The interpolation method. May be <code>null</code>.
+     * @param backgroundValues The user-specified background values. May be <code>null</code>.
+     * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
+     * @return The <code>RenderedOp</code> destination.
+     * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
+     */
+    public static RenderedOp create(
+            RenderedImage source0,
+            AffineTransform transform,
+            Interpolation interpolation,
+            double[] backgroundValues,
             ROI roi,
             boolean useROIAccessor,
             boolean setDestinationNoData,
