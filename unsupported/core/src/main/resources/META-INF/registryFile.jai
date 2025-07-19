@@ -70,7 +70,8 @@
 #
 # Image operation descriptors :
 #
-
+descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
+descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
 descriptor	org.eclipse.imagen.operator.PhaseDescriptor
 descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
 descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
@@ -108,6 +109,7 @@ descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
 #
 # "rendered" factory objects
 #
+rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
 rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
 rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
 rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
