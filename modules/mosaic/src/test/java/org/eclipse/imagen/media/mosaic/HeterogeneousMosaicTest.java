@@ -57,7 +57,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {whiteAbgr, redIndexedTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -77,7 +77,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {whiteBinary, redIndexedTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -97,7 +97,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {redIndexedTranslated, whiteBinary},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -117,7 +117,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {redIndexedTranslated, whiteAbgr},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -139,7 +139,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {redIndexedTranslated, whiteBinary},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -160,7 +160,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {blueRgbTranslated, gray},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -194,7 +194,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {blueIndexedTranslated, gray},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -228,7 +228,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {gray, blueIndexedTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -261,7 +261,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {gray, blueRgbTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -294,7 +294,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {grayAlpha, blueRgbTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 new PlanarImage[] {getAlpha(grayAlpha), getAlpha(blueRgbTranslated)},
                 null,
                 null,
@@ -329,7 +329,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {grayAlpha, blueRgbTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 new PlanarImage[] {getAlpha(grayAlpha), getAlpha(blueRgbTranslated)},
                 null,
                 null,
@@ -362,7 +362,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {redRGB, blueRgbTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 new PlanarImage[] {getAlpha(redRGB), getAlpha(blueRgbTranslated)},
                 null,
                 null,
@@ -401,7 +401,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {whiteTranslated, ushortGray},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -434,7 +434,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {grayTranslated, blue},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -468,7 +468,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {whiteIndexed, blueIndexedTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -497,7 +497,7 @@ public class HeterogeneousMosaicTest {
     public void testGrayFloatDouble() {
         assertFloatDouble((zeroFloatTranslated, oneDouble) -> MosaicDescriptor.create(
                 new RenderedImage[] {zeroFloatTranslated, oneDouble},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -510,7 +510,7 @@ public class HeterogeneousMosaicTest {
     public void testGrayDoubleFloat() {
         assertFloatDouble((zeroFloatTranslated, oneDouble) -> MosaicDescriptor.create(
                 new RenderedImage[] {oneDouble, zeroFloatTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -552,7 +552,7 @@ public class HeterogeneousMosaicTest {
 
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {greenIndexed, blueIndexedTranslated},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -604,7 +604,7 @@ public class HeterogeneousMosaicTest {
         // mosaic them, with palette expansion
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {bi, yellow},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 new ROI[] {new ROI(biROI), null},
                 null,
@@ -658,7 +658,7 @@ public class HeterogeneousMosaicTest {
         Range noDataRed = RangeFactory.create((byte) 1, (byte) 1);
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {splitVertical, splitHorizontal},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -711,7 +711,7 @@ public class HeterogeneousMosaicTest {
         Range noDataBlue = RangeFactory.create((byte) 0, (byte) 0);
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {splitVertical, splitHorizontal},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -763,7 +763,7 @@ public class HeterogeneousMosaicTest {
         Range noData1000 = RangeFactory.create(1000, 1000);
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {im8bit, im16bit},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -807,7 +807,7 @@ public class HeterogeneousMosaicTest {
         Range noData10 = RangeFactory.create((byte) 10, (byte) 10);
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {im8bit, yellow},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,
@@ -851,7 +851,7 @@ public class HeterogeneousMosaicTest {
         Range noData1000 = RangeFactory.create(1000, 1000);
         RenderedOp mosaic = MosaicDescriptor.create(
                 new RenderedImage[] {im16bit, yellow},
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
+                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
                 null,
                 null,
                 null,

@@ -56,8 +56,6 @@ import org.eclipse.imagen.media.mosaic.PixelIterator.PixelIteratorShort;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.operator.MosaicDescriptor;
-import org.eclipse.imagen.operator.MosaicType;
 
 /**
  * This class takes an array of <code>RenderedImage</code> and creates a mosaic of them. If the image pixels are No Data
