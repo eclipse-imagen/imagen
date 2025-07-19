@@ -81,21 +81,24 @@ descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
 descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
 descriptor	org.eclipse.imagen.operator.BinarizeDescriptor
 descriptor	org.eclipse.imagen.operator.BorderDescriptor
-descriptor	org.eclipse.imagen.operator.RotateDescriptor
-descriptor	org.eclipse.imagen.operator.ShearDescriptor
-descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
 descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
 descriptor	org.eclipse.imagen.operator.CropDescriptor
+descriptor	org.eclipse.imagen.operator.DCTDescriptor
+descriptor	org.eclipse.imagen.operator.DFTDescriptor
+descriptor	org.eclipse.imagen.operator.DilateDescriptor
 descriptor	org.eclipse.imagen.operator.ErrorDiffusionDescriptor
 descriptor	org.eclipse.imagen.operator.ImageFunctionDescriptor
 descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
-descriptor	org.eclipse.imagen.operator.TranslateDescriptor
-descriptor	org.eclipse.imagen.operator.SubtractDescriptor
+descriptor	org.eclipse.imagen.operator.ShearDescriptor
+#descriptor	org.eclipse.imagen.operator.StreamDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
+descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
+descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
+descriptor	org.eclipse.imagen.operator.TranslateDescriptor
 descriptor	org.eclipse.imagen.operator.WarpDescriptor
 descriptor	org.eclipse.imagen.operator.XorConstDescriptor
 descriptor	org.eclipse.imagen.operator.XorDescriptor
@@ -116,20 +119,18 @@ descriptor	org.eclipse.imagen.operator.XorDescriptor
 # "rendered" factory objects
 #
 rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.media	absolute		sunabsoluterif
+rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
 rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
 rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
-rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
+
 rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
-rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
 rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
+rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
 rendered    org.eclipse.imagen.media.opimage.BandCombineCRIF		org.eclipse.imagen.media	bandcombine		sunbandcombinerif
 rendered    org.eclipse.imagen.media.opimage.BandMergeCRIF		org.eclipse.imagen.media	bandmerge		sunbandmergerif
 rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
 rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
 rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
-rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
-rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
-rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
@@ -137,14 +138,17 @@ rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media
 rendered    org.eclipse.imagen.media.opimage.ErrorDiffusionRIF		org.eclipse.imagen.media	errordiffusion		sunerrordiffusionrif
 rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
 rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
+rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
-rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
+rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
 rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.media	subtract		sunsubtractrif
+rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
 rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
+rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
 rendered    org.eclipse.imagen.media.opimage.WarpRIF			org.eclipse.imagen.media	warp			sunwarprif
-rendered    org.eclipse.imagen.media.opimage.XorConstCRIF		org.eclipse.imagen.media	xorconst		sunxorconstrif
 rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	xor			sunxorrif
+rendered    org.eclipse.imagen.media.opimage.XorConstCRIF		org.eclipse.imagen.media	xorconst		sunxorconstrif
 
 
 
@@ -154,30 +158,30 @@ rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	
 # "renderable" factory objects
 #
 renderable	org.eclipse.imagen.media.opimage.AbsoluteCRIF		absolute
+renderable	org.eclipse.imagen.media.opimage.AddCRIF		add
 renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
 renderable	org.eclipse.imagen.media.opimage.AddConstCRIF		addconst
-renderable	org.eclipse.imagen.media.opimage.AddCRIF		add
 renderable	org.eclipse.imagen.media.opimage.AffineCRIF		affine
-renderable	org.eclipse.imagen.media.opimage.AndConstCRIF		andconst
 renderable	org.eclipse.imagen.media.opimage.AndCRIF		and
+renderable	org.eclipse.imagen.media.opimage.AndConstCRIF		andconst
 renderable	org.eclipse.imagen.media.opimage.BandCombineCRIF	bandcombine
 renderable	org.eclipse.imagen.media.opimage.BandMergeCRIF         bandmerge
 renderable	org.eclipse.imagen.media.opimage.BandSelectCRIF	bandselect
 renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
-renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
-renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
-renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
 renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 renderable	org.eclipse.imagen.media.opimage.CropCRIF		crop
 renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
+renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
-renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
+renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
+renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
 renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
-renderable	org.eclipse.imagen.media.opimage.XorConstCRIF		xorconst
+renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
 renderable	org.eclipse.imagen.media.opimage.XorCRIF		xor
+renderable	org.eclipse.imagen.media.opimage.XorConstCRIF		xorconst
 
 
 #
