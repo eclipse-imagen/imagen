@@ -62,6 +62,7 @@
     <module>imageread</module>
     <module>rendered-image-browser</module>
     <module>contour</module>
+    <module>vectorize</module>
 
     <!-- library integration -->
     <module>all</module>

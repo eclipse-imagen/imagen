@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen-modules</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>vectorize</artifactId>
+  <packaging>jar</packaging>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Vectorizes the boundaries of regions with uniform value</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.locationtech.jts</groupId>
+      <artifactId>jts-core</artifactId>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>binarize</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>utilities</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</project>
