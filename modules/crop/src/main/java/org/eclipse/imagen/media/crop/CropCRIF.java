@@ -32,11 +32,11 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.media.mosaic.MosaicDescriptor;
 import org.eclipse.imagen.media.mosaic.MosaicOpImage;
 import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
-import org.eclipse.imagen.operator.MosaicDescriptor;
 
 /**
  * The image factory for the Crop operator.
