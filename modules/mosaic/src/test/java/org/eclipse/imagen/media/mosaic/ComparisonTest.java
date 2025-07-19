@@ -29,7 +29,6 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.translate.TranslateDescriptor;
-import org.eclipse.imagen.operator.MosaicType;
 import org.eclipse.imagen.operator.NullDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -153,10 +152,10 @@ public class ComparisonTest extends TestBase {
         String mosaic = "";
 
         if (!blend) {
-            mosaicType = org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY;
+            mosaicType = MosaicDescriptor.MOSAIC_TYPE_OVERLAY;
             mosaic = "Mosaic Type Overlay";
         } else {
-            mosaicType = org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_BLEND;
+            mosaicType = MosaicDescriptor.MOSAIC_TYPE_BLEND;
             mosaic = "Mosaic Type Blend";
         }
 
@@ -178,8 +177,8 @@ public class ComparisonTest extends TestBase {
                 // background values and threshold
                 double[] background = {destinationNoData, destinationNoData};
                 double[][] threshold = {{0}, {0}};
-                imageMosaic = org.eclipse.imagen.operator.MosaicDescriptor.create(
-                        images, mosaicType, null, null, threshold, background, hints);
+                //    imageMosaic = org.eclipse.imagen.operator.MosaicDescriptor.create(
+                //            images, mosaicType, null, null, threshold, background, hints);
             } else {
 
                 double[] destnodata = {destinationNoData, destinationNoData};

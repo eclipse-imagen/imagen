@@ -50,8 +50,6 @@ public class MosaicTestImage extends TestBase {
 
     private static final boolean INTERACTIVE = Boolean.getBoolean("JAI.Ext.Interactive");
 
-    private static final boolean OLD_DESCRIPTOR = Boolean.getBoolean("JAI.Ext.OldDescriptor");
-
     public static RenderedImage getSyntheticByte(byte value) {
         final float width = 256;
         final float height = 256;
@@ -66,19 +64,15 @@ public class MosaicTestImage extends TestBase {
 
     @Test
     public void testOldMosaicOperation() {
-        if (!OLD_DESCRIPTOR) {
-            testSimpleMosaicOperation(OLD_DESCRIPTOR);
-        }
+        testSimpleMosaicOperation();
     }
 
     @Test
     public void testNewMosaicOperation() {
-        if (OLD_DESCRIPTOR) {
-            testSimpleMosaicOperation(!OLD_DESCRIPTOR);
-        }
+        testSimpleMosaicOperation();
     }
 
-    public void testSimpleMosaicOperation(boolean oldDescriptor) {
+    public void testSimpleMosaicOperation() {
         // image creation
         RenderedImage image1 = getSyntheticByte((byte) 99);
         RenderedImage image2 = getSyntheticByte((byte) 50);
@@ -97,27 +91,8 @@ public class MosaicTestImage extends TestBase {
         // array creation
         RenderedImage[] sources = {image4, image3};
         RenderedImage image5;
-        if (!oldDescriptor) {
-
-            image5 = MosaicDescriptor.create(
-                    sources,
-                    org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
-                    null,
-                    null,
-                    null,
-                    background,
-                    null,
-                    hints);
-        } else {
-            image5 = org.eclipse.imagen.operator.MosaicDescriptor.create(
-                    sources,
-                    org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
-                    null,
-                    null,
-                    threshold,
-                    background,
-                    hints);
-        }
+        image5 = MosaicDescriptor.create(
+                sources, MosaicDescriptor.MOSAIC_TYPE_OVERLAY, null, null, null, background, null, hints);
         // Operations for showing the mosaic image
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(image5, false, false);
@@ -175,14 +150,7 @@ public class MosaicTestImage extends TestBase {
         Range[] noData = new Range[] {noDataByte, noDataByte};
 
         RenderedImage mosaic = MosaicDescriptor.create(
-                sources,
-                org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
-                null,
-                null,
-                null,
-                background,
-                noData,
-                null);
+                sources, MosaicDescriptor.MOSAIC_TYPE_OVERLAY, null, null, null, background, noData, null);
         int[] destPixel = new int[3];
 
         // Operations for showing the mosaic image

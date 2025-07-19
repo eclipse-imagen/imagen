@@ -17,8 +17,8 @@
 */
 package org.eclipse.imagen.media.mosaic;
 
-import static org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_BLEND;
-import static org.eclipse.imagen.operator.MosaicDescriptor.MOSAIC_TYPE_OVERLAY;
+import static org.eclipse.imagen.media.mosaic.MosaicDescriptor.MOSAIC_TYPE_BLEND;
+import static org.eclipse.imagen.media.mosaic.MosaicDescriptor.MOSAIC_TYPE_OVERLAY;
 import static org.junit.Assert.*;
 
 import java.awt.*;
@@ -38,7 +38,6 @@ import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.scale.ScaleDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.translate.TranslateDescriptor;
-import org.eclipse.imagen.operator.MosaicType;
 import org.eclipse.imagen.util.ImagingException;
 import org.junit.Test;
 
