@@ -88,6 +88,7 @@ descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
 descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
 descriptor	org.eclipse.imagen.operator.CropDescriptor
+descriptor	org.eclipse.imagen.operator.ErrorDiffusionDescriptor
 descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
 descriptor	org.eclipse.imagen.operator.TranslateDescriptor
@@ -132,6 +133,7 @@ rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.medi
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
 rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
+rendered    org.eclipse.imagen.media.opimage.ErrorDiffusionRIF		org.eclipse.imagen.media	errordiffusion		sunerrordiffusionrif
 rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
 rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
