@@ -17,8 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.Image;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderContext;
@@ -27,11 +26,11 @@ import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Vector;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.remote.JAIRMIDescriptor;
 import org.eclipse.imagen.remote.RemoteImagingException;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 import org.eclipse.imagen.util.ImagingListener;
 
 /** A class that represents and allows access to a <code>RenderableOp</code> on a remote machine. */

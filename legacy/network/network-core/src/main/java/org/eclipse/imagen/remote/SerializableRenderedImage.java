@@ -23,48 +23,18 @@ If the SM can't be serialized perhaps a different SM know to be serializable
 could be created and the data copied.
 */
 
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InterruptedIOException;
-import java.io.NotSerializableException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
+import java.net.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.OperationRegistry;
-import org.eclipse.imagen.ParameterListDescriptor;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RasterAccessor;
-import org.eclipse.imagen.RasterFormatTag;
-import org.eclipse.imagen.RemoteImage;
-import org.eclipse.imagen.TileCache;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.tilecodec.TileCodecDescriptor;
-import org.eclipse.imagen.tilecodec.TileCodecParameterList;
-import org.eclipse.imagen.tilecodec.TileDecoder;
-import org.eclipse.imagen.tilecodec.TileDecoderFactory;
-import org.eclipse.imagen.tilecodec.TileEncoder;
-import org.eclipse.imagen.tilecodec.TileEncoderFactory;
+import org.eclipse.imagen.tilecodec.*;
 import org.eclipse.imagen.util.ImagingException;
 import org.eclipse.imagen.util.ImagingListener;
 

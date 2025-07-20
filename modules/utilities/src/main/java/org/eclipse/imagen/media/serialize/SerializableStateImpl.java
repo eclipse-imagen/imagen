@@ -15,13 +15,10 @@
  *
  */
 
-package org.eclipse.imagen.media.rmi;
+package org.eclipse.imagen.media.serialize;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.io.Serializable;
-import java.lang.reflect.Method;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
  * Framework class for adding <code>Serializer</code>s based on <code>SerializableState</code> implementations which
@@ -72,17 +69,9 @@ public abstract class SerializableStateImpl implements SerializableState {
             if (isInterface && !c.isInstance(o)) {
                 throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl2"));
             } else if (!isInterface) {
-                boolean permitsSubclasses = false;
-                try {
-                    Method m = this.getClass().getMethod("permitsSubclasses", null);
-                    permitsSubclasses = ((Boolean) m.invoke(null, null)).booleanValue();
-                } catch (Exception e) {
-                    throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl5"));
-                }
-
-                if (!permitsSubclasses && !c.equals(o.getClass())) {
+                if (!c.equals(o.getClass())) {
                     throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl3"));
-                } else if (permitsSubclasses && !c.isAssignableFrom(o.getClass())) {
+                } else if (!c.isAssignableFrom(o.getClass())) {
                     throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl4"));
                 }
             }

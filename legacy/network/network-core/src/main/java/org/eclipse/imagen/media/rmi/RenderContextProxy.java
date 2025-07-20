@@ -17,8 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.RenderingHints;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.renderable.RenderContext;
 import java.io.IOException;

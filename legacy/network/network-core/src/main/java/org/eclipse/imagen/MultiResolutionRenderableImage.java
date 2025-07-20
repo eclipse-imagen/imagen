@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -29,8 +29,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Vector;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 
 /** A RenderableImage that produces renderings based on a set of supplied RenderedImages at various resolutions. */
 public class MultiResolutionRenderableImage implements WritablePropertySource, RenderableImage, Serializable {

@@ -15,16 +15,12 @@
  *
  */
 
-package org.eclipse.imagen.media.rmi;
+package org.eclipse.imagen.media.serialize;
 
 import java.awt.RenderingHints;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.remote.RemoteImagingException;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.Serializer;
-import org.eclipse.imagen.remote.SerializerFactory;
 import org.eclipse.imagen.util.ImagingException;
 import org.eclipse.imagen.util.ImagingListener;
 
@@ -53,7 +49,6 @@ public final class SerializerImpl implements Serializer {
         registerSerializers(HashSetState.class);
         registerSerializers(HashtableState.class);
         registerSerializers(RasterState.class);
-        registerSerializers(RenderedImageState.class);
         registerSerializers(RenderContextState.class);
         registerSerializers(RenderingHintsState.class);
         registerSerializers(RenderingKeyState.class);
@@ -62,7 +57,7 @@ public final class SerializerImpl implements Serializer {
         registerSerializers(ShapeState.class);
     }
 
-    private static void registerSerializers(Class ssi) {
+    public static void registerSerializers(Class ssi) {
         if (ssi == null) {
             throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
         }
@@ -78,13 +73,13 @@ public final class SerializerImpl implements Serializer {
             classes = (Class[]) m1.invoke(null, null);
         } catch (java.lang.NoSuchMethodException e) {
             String message = JaiI18N.getString("SerializerImpl1");
-            listener.errorOccurred(message, new RemoteImagingException(message, e), SerializerImpl.class, false);
+            listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.IllegalAccessException e) {
             String message = JaiI18N.getString("SerializerImpl1");
-            listener.errorOccurred(message, new RemoteImagingException(message, e), SerializerImpl.class, false);
+            listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.reflect.InvocationTargetException e) {
             String message = JaiI18N.getString("SerializerImpl1");
-            listener.errorOccurred(message, new RemoteImagingException(message, e), SerializerImpl.class, false);
+            listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         }
 
         boolean supportsSubclasses = false;
@@ -94,13 +89,13 @@ public final class SerializerImpl implements Serializer {
             supportsSubclasses = b.booleanValue();
         } catch (java.lang.NoSuchMethodException e) {
             String message = JaiI18N.getString("SerializerImpl4");
-            listener.errorOccurred(message, new RemoteImagingException(message, e), SerializerImpl.class, false);
+            listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.IllegalAccessException e) {
             String message = JaiI18N.getString("SerializerImpl4");
-            listener.errorOccurred(message, new RemoteImagingException(message, e), SerializerImpl.class, false);
+            listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.reflect.InvocationTargetException e) {
             String message = JaiI18N.getString("SerializerImpl4");
-            listener.errorOccurred(message, new RemoteImagingException(message, e), SerializerImpl.class, false);
+            listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         }
 
         int numClasses = classes.length;
@@ -128,7 +123,7 @@ public final class SerializerImpl implements Serializer {
             ctor = ssi.getConstructor(paramTypes);
         } catch (java.lang.NoSuchMethodException e) {
             String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl2");
-            sendExceptionToListener(message, new RemoteImagingException(message, e));
+            sendExceptionToListener(message, new ImagingException(message, e));
         }
     }
 
@@ -142,13 +137,13 @@ public final class SerializerImpl implements Serializer {
             state = ctor.newInstance(new Object[] {theClass, o, h});
         } catch (InstantiationException e) {
             String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl3");
-            sendExceptionToListener(message, new RemoteImagingException(message, e));
+            sendExceptionToListener(message, new ImagingException(message, e));
         } catch (IllegalAccessException e) {
             String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl3");
-            sendExceptionToListener(message, new RemoteImagingException(message, e));
+            sendExceptionToListener(message, new ImagingException(message, e));
         } catch (java.lang.reflect.InvocationTargetException e) {
             String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl3");
-            sendExceptionToListener(message, new RemoteImagingException(message, e));
+            sendExceptionToListener(message, new ImagingException(message, e));
         }
 
         return (SerializableState) state;

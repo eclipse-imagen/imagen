@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.rmi.Remote;
@@ -26,7 +26,7 @@ import java.util.List;
 import org.eclipse.imagen.NegotiableCapabilitySet;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.remote.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializableState;
 
 /**
  * An interface for server-side imaging. This interface attempts to mimic the RenderedImage interface as much as

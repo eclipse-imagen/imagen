@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -28,23 +28,11 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.Vector;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.NegotiableCapabilitySet;
-import org.eclipse.imagen.OperationNode;
-import org.eclipse.imagen.OperationRegistry;
-import org.eclipse.imagen.PropertyChangeEventJAI;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
-import org.eclipse.imagen.remote.JAIRMIDescriptor;
-import org.eclipse.imagen.remote.PlanarImageServerProxy;
-import org.eclipse.imagen.remote.RemoteCRIF;
-import org.eclipse.imagen.remote.RemoteImagingException;
-import org.eclipse.imagen.remote.RemoteRenderableOp;
-import org.eclipse.imagen.remote.RemoteRenderedImage;
-import org.eclipse.imagen.remote.RemoteRenderedOp;
-import org.eclipse.imagen.remote.SerializableRenderedImage;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
+import org.eclipse.imagen.remote.*;
 import org.eclipse.imagen.tilecodec.TileDecoderFactory;
 import org.eclipse.imagen.util.ImagingListener;
 

@@ -17,8 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderContext;
 import java.io.Serializable;
@@ -29,10 +28,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.PropertySource;
-import org.eclipse.imagen.RenderableOp;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.remote.RemoteImagingException;
 import org.eclipse.imagen.remote.SerializableRenderedImage;

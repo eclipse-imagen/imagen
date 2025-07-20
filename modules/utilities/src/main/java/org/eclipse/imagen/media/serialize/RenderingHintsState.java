@@ -15,7 +15,7 @@
  *
  */
 
-package org.eclipse.imagen.media.rmi;
+package org.eclipse.imagen.media.serialize;
 
 import java.awt.RenderingHints;
 import java.io.IOException;
@@ -32,9 +32,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.remote.RemoteJAI;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
  * This class is a serializable proxy for a RenderingHints object from which the RenderingHints object may be
@@ -58,13 +55,7 @@ public class RenderingHintsState extends SerializableStateImpl {
      * Instances of keys which should not be serialized. Objects which represent such keys should be added to this
      * array. Presumably such objects would be static and final members of one of the classes in the KEY_CLASSES array.
      */
-    private static final Object[] SUPPRESSED_KEYS = {
-        JAI.KEY_OPERATION_REGISTRY,
-        JAI.KEY_TILE_CACHE,
-        RemoteJAI.KEY_RETRY_INTERVAL,
-        RemoteJAI.KEY_NUM_RETRIES,
-        RemoteJAI.KEY_NEGOTIATION_PREFERENCES
-    };
+    private static final Object[] SUPPRESSED_KEYS = {JAI.KEY_OPERATION_REGISTRY, JAI.KEY_TILE_CACHE};
 
     /** A SoftReference to a Vector of keys which are to be suppressed. */
     private static SoftReference suppressedKeyReference = null;

@@ -15,15 +15,13 @@
  *
  */
 
-package org.eclipse.imagen.remote;
+package org.eclipse.imagen.media.serialize;
 
 import java.awt.RenderingHints;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.eclipse.imagen.media.rmi.InterfaceState;
-import org.eclipse.imagen.media.rmi.SerializerImpl;
 
 /**
  * A utility class which provides factory methods for obtaining <code>Serializer</code> instances.

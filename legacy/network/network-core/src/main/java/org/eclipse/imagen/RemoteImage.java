@@ -17,14 +17,9 @@
 
 package org.eclipse.imagen;
 
-import java.awt.Image;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 import java.awt.image.renderable.RenderContext;
 import java.io.Serializable;
 import java.net.InetAddress;

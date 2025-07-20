@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRenderedImage;
 import java.io.IOException;
@@ -26,6 +26,7 @@ import java.io.ObjectOutputStream;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.TiledImage;
+import org.eclipse.imagen.media.serialize.SerializableStateImpl;
 import org.eclipse.imagen.media.tilecodec.TileCodecUtils;
 import org.eclipse.imagen.remote.SerializableRenderedImage;
 import org.eclipse.imagen.tilecodec.TileCodecParameterList;

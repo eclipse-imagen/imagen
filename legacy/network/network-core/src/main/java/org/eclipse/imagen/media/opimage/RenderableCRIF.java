@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.opimage;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
