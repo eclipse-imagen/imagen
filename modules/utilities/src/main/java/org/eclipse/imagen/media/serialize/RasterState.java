@@ -15,7 +15,7 @@
  *
  */
 
-package org.eclipse.imagen.media.rmi;
+package org.eclipse.imagen.media.serialize;
 
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -26,8 +26,6 @@ import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
  * This class is a serializable proxy for a Raster from which the Raster may be reconstituted.

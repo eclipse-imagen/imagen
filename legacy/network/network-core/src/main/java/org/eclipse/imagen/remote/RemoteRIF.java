@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.remote;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.NegotiableCapabilitySet;
 import org.eclipse.imagen.OperationNode;

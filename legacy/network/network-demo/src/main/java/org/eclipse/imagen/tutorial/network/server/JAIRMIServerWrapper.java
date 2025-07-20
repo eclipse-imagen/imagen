@@ -37,8 +37,8 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.rmi.ImageServer;
 import org.eclipse.imagen.media.rmi.JAIRMIImageServer;
 import org.eclipse.imagen.media.rmi.SerializableRenderableImage;
+import org.eclipse.imagen.media.serialize.SerializableState;
 import org.eclipse.imagen.remote.JAIRMIDescriptor;
-import org.eclipse.imagen.remote.SerializableState;
 
 /** GUI that displays the tile that was most recently processed on the server. */
 class TilePanel extends JPanel {

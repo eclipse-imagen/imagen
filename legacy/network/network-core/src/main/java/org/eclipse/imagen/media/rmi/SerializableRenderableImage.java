@@ -23,30 +23,19 @@ See if the SerializableRenderedImage can be sent by requests instead of
 deep copy.
 */
 
-import java.awt.Image;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.RenderableImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InterruptedIOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 import org.eclipse.imagen.OperationRegistry;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.remote.SerializableRenderedImage;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 import org.eclipse.imagen.tilecodec.TileCodecParameterList;
 import org.eclipse.imagen.tilecodec.TileDecoderFactory;
 import org.eclipse.imagen.tilecodec.TileEncoderFactory;

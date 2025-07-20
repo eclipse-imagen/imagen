@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.Serializable;

@@ -17,20 +17,12 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.RenderingHints;
-import java.io.IOException;
-import java.io.NotSerializableException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.awt.*;
+import java.io.*;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.remote.RemoteJAI;
 

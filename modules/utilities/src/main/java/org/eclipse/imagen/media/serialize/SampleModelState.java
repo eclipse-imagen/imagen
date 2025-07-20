@@ -15,7 +15,7 @@
  *
  */
 
-package org.eclipse.imagen.media.rmi;
+package org.eclipse.imagen.media.serialize;
 
 import java.awt.RenderingHints;
 import java.awt.image.BandedSampleModel;

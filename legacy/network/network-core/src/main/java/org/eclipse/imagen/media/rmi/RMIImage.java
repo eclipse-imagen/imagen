@@ -17,11 +17,12 @@
 
 package org.eclipse.imagen.media.rmi;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Vector;
+import org.eclipse.imagen.RemoteImage;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 

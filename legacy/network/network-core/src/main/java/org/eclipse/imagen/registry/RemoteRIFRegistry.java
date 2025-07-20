@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.registry;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationRegistry;

@@ -17,7 +17,7 @@
 
 package org.eclipse.imagen.remote;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -27,15 +27,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.NegotiableCapability;
-import org.eclipse.imagen.NegotiableCapabilitySet;
-import org.eclipse.imagen.OperationRegistry;
-import org.eclipse.imagen.PropertyChangeEventJAI;
-import org.eclipse.imagen.RegistryMode;
-import org.eclipse.imagen.RenderableOp;
-import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.WritablePropertySource;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.registry.RemoteCRIFRegistry;
 import org.eclipse.imagen.util.ImagingException;
 import org.eclipse.imagen.util.ImagingListener;

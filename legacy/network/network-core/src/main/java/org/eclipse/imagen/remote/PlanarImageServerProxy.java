@@ -17,21 +17,13 @@
 
 package org.eclipse.imagen.remote;
 
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
-import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.NegotiableCapability;
-import org.eclipse.imagen.NegotiableCapabilitySet;
-import org.eclipse.imagen.OperationRegistry;
-import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.TileCache;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**

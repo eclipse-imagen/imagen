@@ -17,27 +17,20 @@
 
 package org.eclipse.imagen.remote;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.net.InetAddress;
 import java.net.URL;
 import java.rmi.Naming;
 import java.text.MessageFormat;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Vector;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.NegotiableCapabilitySet;
-import org.eclipse.imagen.OperationDescriptor;
-import org.eclipse.imagen.OperationNode;
-import org.eclipse.imagen.ParameterListDescriptor;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.*;
 import org.eclipse.imagen.media.rmi.ImageServer;
 import org.eclipse.imagen.media.rmi.JAIRMIUtil;
 import org.eclipse.imagen.media.rmi.RMIServerProxy;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.util.CaselessStringKey;
 import org.eclipse.imagen.util.ImagingException;
 import org.eclipse.imagen.util.ImagingListener;

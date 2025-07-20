@@ -15,7 +15,7 @@
  *
  */
 
-package org.eclipse.imagen.media.rmi;
+package org.eclipse.imagen.media.serialize;
 
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -24,8 +24,6 @@ import java.awt.image.renderable.RenderContext;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.eclipse.imagen.remote.SerializableState;
-import org.eclipse.imagen.remote.SerializerFactory;
 
 /**
  * This class is a serializable proxy for a RenderContext from which the RenderContext may be reconstituted.
