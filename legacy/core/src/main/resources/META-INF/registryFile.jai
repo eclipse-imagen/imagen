@@ -85,6 +85,7 @@ descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
 descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
 descriptor	org.eclipse.imagen.operator.CropDescriptor
+descriptor	org.eclipse.imagen.operator.FormatDescriptor
 descriptor	org.eclipse.imagen.operator.DCTDescriptor
 descriptor	org.eclipse.imagen.operator.DFTDescriptor
 descriptor	org.eclipse.imagen.operator.DilateDescriptor

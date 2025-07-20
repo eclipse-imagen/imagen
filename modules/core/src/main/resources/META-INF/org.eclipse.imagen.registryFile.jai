@@ -87,7 +87,6 @@ descriptor	org.eclipse.imagen.operator.ExtremaDescriptor
 #descriptor	org.eclipse.imagen.operator.FileLoadDescriptor
 #descriptor	org.eclipse.imagen.operator.FileStoreDescriptor
 descriptor	org.eclipse.imagen.operator.FilteredSubsampleDescriptor
-#descriptor	org.eclipse.imagen.operator.FormatDescriptor
 #descriptor	org.eclipse.imagen.operator.FPXDescriptor
 #descriptor	org.eclipse.imagen.operator.GIFDescriptor
 #descriptor	org.eclipse.imagen.operator.GradientMagnitudeDescriptor
