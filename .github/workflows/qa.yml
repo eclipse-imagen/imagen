@@ -32,6 +32,10 @@ jobs:
     - name: Build with Maven
       run: |
         mvn -B -fae clean install -Dspotless.action=check -Dpom.fmt.action=verify -Dqa=true -DskipTests=true
+    - name: Check registryFile.jai contents
+      working-directory: bin
+      run: |
+        java RegistryFileCheck.java 
     - name: Remove SNAPSHOT jars from repository
       run: |
         find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}

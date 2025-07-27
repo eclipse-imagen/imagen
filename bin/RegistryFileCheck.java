@@ -30,7 +30,8 @@ public class RegistryFileCheck {
     static Set<String> skip = Set.of(
         "ParameterListDescriptor.java",
         "OperationDescriptor.java",
-        "RegistryElementDescriptor.java"
+        "RegistryElementDescriptor.java",
+        "TileCodecDescriptor.java"
     );
     public static void main(String[] args) throws IOException {
         checkRegistryFile("../modules/core","org.eclipse.imagen.registryFile.jai");
