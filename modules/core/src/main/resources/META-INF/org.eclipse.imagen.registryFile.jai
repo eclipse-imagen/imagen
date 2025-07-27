@@ -80,7 +80,6 @@ descriptor	org.eclipse.imagen.operator.DivideDescriptor
 descriptor	org.eclipse.imagen.operator.DivideByConstDescriptor
 descriptor	org.eclipse.imagen.operator.DivideIntoConstDescriptor
 #descriptor	org.eclipse.imagen.operator.ErodeDescriptor
-#descriptor	org.eclipse.imagen.operator.ErrorDiffusionDescriptor
 #descriptor	org.eclipse.imagen.operator.EncodeDescriptor
 descriptor	org.eclipse.imagen.operator.ExpDescriptor
 descriptor	org.eclipse.imagen.operator.ExtremaDescriptor
@@ -165,7 +164,6 @@ rendered    org.eclipse.imagen.media.opimage.DivideByConstCRIF		org.eclipse.imag
 rendered    org.eclipse.imagen.media.opimage.DivideIntoConstCRIF	org.eclipse.imagen.media	divideintoconst		sundivideintoconstrif
 #rendered    org.eclipse.imagen.media.opimage.EncodeRIF			org.eclipse.imagen.media	encode   		sunencoderif
 #rendered    org.eclipse.imagen.media.opimage.ErodeRIF			org.eclipse.imagen.media	erode			suneroderif
-#rendered    org.eclipse.imagen.media.opimage.ErrorDiffusionRIF		org.eclipse.imagen.media	errordiffusion		sunerrordiffusionrif
 rendered    org.eclipse.imagen.media.opimage.ExpCRIF		        org.eclipse.imagen.media	exp			sunexprif
 rendered    org.eclipse.imagen.media.opimage.ExtremaRIF		org.eclipse.imagen.media	extrema			sunextremarif
 #rendered    org.eclipse.imagen.media.opimage.FileLoadRIF		org.eclipse.imagen.media	fileload		sunfileloadrif
