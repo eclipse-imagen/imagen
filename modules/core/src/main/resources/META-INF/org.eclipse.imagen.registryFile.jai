@@ -156,7 +156,6 @@ rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.me
 rendered    org.eclipse.imagen.media.opimage.ConstantCRIF		org.eclipse.imagen.media	constant		sunconstrif1
 #rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
 #rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
-#rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
 #rendered    org.eclipse.imagen.media.opimage.DCTCRIF			org.eclipse.imagen.media	dct			sundctrif
 #rendered    org.eclipse.imagen.media.opimage.DFTCRIF			org.eclipse.imagen.media	dft			sundftrif
 #rendered    org.eclipse.imagen.media.opimage.DilateRIF			org.eclipse.imagen.media	dilate			sundilaterif
@@ -251,7 +250,6 @@ rendered    org.eclipse.imagen.media.opimage.UnsharpMaskRIF		org.eclipse.imagen.
 #renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate
 #renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 renderable	org.eclipse.imagen.media.opimage.ConstantCRIF		constant
-#renderable	org.eclipse.imagen.media.opimage.CropCRIF		crop
 #renderable	org.eclipse.imagen.media.opimage.DCTCRIF		dct
 #renderable	org.eclipse.imagen.media.opimage.DFTCRIF		dft
 renderable	org.eclipse.imagen.media.opimage.DivideCRIF		divide
