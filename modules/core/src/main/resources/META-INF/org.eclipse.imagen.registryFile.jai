@@ -68,46 +68,24 @@
 #
 # Image operation descriptors :
 #
-#descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
-#descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
-#descriptor	org.eclipse.imagen.operator.AddConstDescriptor
-#descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
-#descriptor	org.eclipse.imagen.operator.AddDescriptor
-#descriptor	org.eclipse.imagen.operator.AffineDescriptor
-#descriptor	org.eclipse.imagen.operator.AndConstDescriptor
-#descriptor	org.eclipse.imagen.operator.AndDescriptor
-#descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
-#descriptor	org.eclipse.imagen.operator.BandCombineDescriptor
-#descriptor	org.eclipse.imagen.operator.BandMergeDescriptor
-#descriptor	org.eclipse.imagen.operator.BandSelectDescriptor
-#descriptor	org.eclipse.imagen.operator.BinarizeDescriptor
-#descriptor	org.eclipse.imagen.operator.BMPDescriptor
-#descriptor	org.eclipse.imagen.operator.BorderDescriptor
+
 descriptor	org.eclipse.imagen.operator.BoxFilterDescriptor
-#descriptor	org.eclipse.imagen.operator.ClampDescriptor
 #descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
 #descriptor	org.eclipse.imagen.operator.ColorQuantizerDescriptor
 descriptor	org.eclipse.imagen.operator.ConstantDescriptor
 #descriptor	org.eclipse.imagen.operator.CompositeDescriptor
 #descriptor	org.eclipse.imagen.operator.ConjugateDescriptor
-#descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
-#descriptor	org.eclipse.imagen.operator.CropDescriptor
-#descriptor	org.eclipse.imagen.operator.DCTDescriptor
-#descriptor	org.eclipse.imagen.operator.DFTDescriptor
-#descriptor	org.eclipse.imagen.operator.DilateDescriptor
 descriptor	org.eclipse.imagen.operator.DivideDescriptor
 #descriptor	org.eclipse.imagen.operator.DivideComplexDescriptor
 descriptor	org.eclipse.imagen.operator.DivideByConstDescriptor
 descriptor	org.eclipse.imagen.operator.DivideIntoConstDescriptor
 #descriptor	org.eclipse.imagen.operator.ErodeDescriptor
-#descriptor	org.eclipse.imagen.operator.ErrorDiffusionDescriptor
 #descriptor	org.eclipse.imagen.operator.EncodeDescriptor
 descriptor	org.eclipse.imagen.operator.ExpDescriptor
 descriptor	org.eclipse.imagen.operator.ExtremaDescriptor
 #descriptor	org.eclipse.imagen.operator.FileLoadDescriptor
 #descriptor	org.eclipse.imagen.operator.FileStoreDescriptor
 descriptor	org.eclipse.imagen.operator.FilteredSubsampleDescriptor
-#descriptor	org.eclipse.imagen.operator.FormatDescriptor
 #descriptor	org.eclipse.imagen.operator.FPXDescriptor
 #descriptor	org.eclipse.imagen.operator.GIFDescriptor
 #descriptor	org.eclipse.imagen.operator.GradientMagnitudeDescriptor
@@ -116,7 +94,6 @@ descriptor	org.eclipse.imagen.operator.HistogramDescriptor
 #descriptor	org.eclipse.imagen.operator.IDFTDescriptor
 #descriptor	org.eclipse.imagen.operator.IIPDescriptor
 #descriptor	org.eclipse.imagen.operator.IIPResolutionDescriptor
-#descriptor	org.eclipse.imagen.operator.ImageFunctionDescriptor
 descriptor	org.eclipse.imagen.operator.InvertDescriptor
 #descriptor	org.eclipse.imagen.operator.JPEGDescriptor
 descriptor	org.eclipse.imagen.operator.LogDescriptor
@@ -141,33 +118,16 @@ descriptor	org.eclipse.imagen.operator.OrDescriptor
 #descriptor	org.eclipse.imagen.operator.OrderedDitherDescriptor
 descriptor	org.eclipse.imagen.operator.OverlayDescriptor
 descriptor	org.eclipse.imagen.operator.PatternDescriptor
-#descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
-#descriptor	org.eclipse.imagen.operator.PhaseDescriptor
 descriptor	org.eclipse.imagen.operator.PiecewiseDescriptor
-#descriptor	org.eclipse.imagen.operator.PNGDescriptor
-#descriptor	org.eclipse.imagen.operator.PNMDescriptor
 #descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
 descriptor	org.eclipse.imagen.operator.RenderableDescriptor
-#descriptor	org.eclipse.imagen.operator.RescaleDescriptor
-#descriptor	org.eclipse.imagen.operator.RotateDescriptor
-#descriptor	org.eclipse.imagen.operator.ScaleDescriptor
-#descriptor	org.eclipse.imagen.operator.ShearDescriptor
-#descriptor	org.eclipse.imagen.operator.StreamDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
-#descriptor	org.eclipse.imagen.operator.ShearDescriptor
 #descriptor	org.eclipse.imagen.operator.SubtractDescriptor
-#descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
-#descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
 #descriptor	org.eclipse.imagen.operator.TIFFDescriptor
-#descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
-#descriptor	org.eclipse.imagen.operator.TranslateDescriptor
 descriptor	org.eclipse.imagen.operator.TransposeDescriptor
 descriptor	org.eclipse.imagen.operator.UnsharpMaskDescriptor
 #descriptor	org.eclipse.imagen.operator.URLDescriptor
-#descriptor	org.eclipse.imagen.operator.WarpDescriptor
-#descriptor	org.eclipse.imagen.operator.XorConstDescriptor
-#descriptor	org.eclipse.imagen.operator.XorDescriptor
 
 #
 # tile codec descriptor
@@ -184,32 +144,16 @@ descriptor	org.eclipse.imagen.operator.UnsharpMaskDescriptor
 #
 # "rendered" factory objects
 #
-#rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.media	absolute		sunabsoluterif
-#rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
-#rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
-#rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
-#rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
-#rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
-#rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
-#rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
-#rendered    org.eclipse.imagen.media.opimage.BandCombineCRIF		org.eclipse.imagen.media	bandcombine		sunbandcombinerif
-#rendered    org.eclipse.imagen.media.opimage.BandMergeCRIF		org.eclipse.imagen.media	bandmerge		sunbandmergerif
-#rendered    org.eclipse.imagen.media.opimage.BandSelectCRIF		org.eclipse.imagen.media	bandselect		sunbandselectrif
-#rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
-#rendered    org.eclipse.imagen.media.opimage.BMPRIF			org.eclipse.imagen.media	bmp			sunbmprif
 #rendered    org.eclipse.imagen.media.opimage.BorderRIF			org.eclipse.imagen.media	border			sunborderrif
 rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.media	boxfilter		sunboxfilterrif
 #rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
-#rendered    org.eclipse.imagen.media.opimage.BinarizeCRIF		org.eclipse.imagen.media	binarize		sunbinarizerif
 rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.media	boxfilter		sunboxfilterrif
-#rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.media	clamp			sunclamprif
 #rendered    org.eclipse.imagen.media.opimage.ColorQuantizerRIF		org.eclipse.imagen.media	colorquantizer		suncolorquantizerrif
 #rendered    org.eclipse.imagen.media.opimage.CompositeCRIF		org.eclipse.imagen.media	composite		suncompositerif
 #rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 rendered    org.eclipse.imagen.media.opimage.ConstantCRIF		org.eclipse.imagen.media	constant		sunconstrif1
 #rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
 #rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
-#rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
 #rendered    org.eclipse.imagen.media.opimage.DCTCRIF			org.eclipse.imagen.media	dct			sundctrif
 #rendered    org.eclipse.imagen.media.opimage.DFTCRIF			org.eclipse.imagen.media	dft			sundftrif
 #rendered    org.eclipse.imagen.media.opimage.DilateRIF			org.eclipse.imagen.media	dilate			sundilaterif
@@ -219,7 +163,6 @@ rendered    org.eclipse.imagen.media.opimage.DivideByConstCRIF		org.eclipse.imag
 rendered    org.eclipse.imagen.media.opimage.DivideIntoConstCRIF	org.eclipse.imagen.media	divideintoconst		sundivideintoconstrif
 #rendered    org.eclipse.imagen.media.opimage.EncodeRIF			org.eclipse.imagen.media	encode   		sunencoderif
 #rendered    org.eclipse.imagen.media.opimage.ErodeRIF			org.eclipse.imagen.media	erode			suneroderif
-#rendered    org.eclipse.imagen.media.opimage.ErrorDiffusionRIF		org.eclipse.imagen.media	errordiffusion		sunerrordiffusionrif
 rendered    org.eclipse.imagen.media.opimage.ExpCRIF		        org.eclipse.imagen.media	exp			sunexprif
 rendered    org.eclipse.imagen.media.opimage.ExtremaRIF		org.eclipse.imagen.media	extrema			sunextremarif
 #rendered    org.eclipse.imagen.media.opimage.FileLoadRIF		org.eclipse.imagen.media	fileload		sunfileloadrif
@@ -232,7 +175,6 @@ rendered    org.eclipse.imagen.media.opimage.FilteredSubsampleRIF      org.eclip
 rendered    org.eclipse.imagen.media.opimage.HistogramRIF		org.eclipse.imagen.media	histogram		sunhistogramrif
 #rendered    org.eclipse.imagen.media.opimage.IDCTCRIF			org.eclipse.imagen.media	idct			sunidctrif
 #rendered    org.eclipse.imagen.media.opimage.IDFTCRIF			org.eclipse.imagen.media	idft			sunidftrif
-#rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
 rendered    org.eclipse.imagen.media.opimage.InvertCRIF		org.eclipse.imagen.media	invert			suninvertrif
 #rendered    org.eclipse.imagen.media.opimage.JPEGRIF		        org.eclipse.imagen.media	jpeg			sunjpegrif
 rendered    org.eclipse.imagen.media.opimage.LogCRIF		        org.eclipse.imagen.media	log			sunlogrif
@@ -304,7 +246,6 @@ rendered    org.eclipse.imagen.media.opimage.UnsharpMaskRIF		org.eclipse.imagen.
 #renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate
 #renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 renderable	org.eclipse.imagen.media.opimage.ConstantCRIF		constant
-#renderable	org.eclipse.imagen.media.opimage.CropCRIF		crop
 #renderable	org.eclipse.imagen.media.opimage.DCTCRIF		dct
 #renderable	org.eclipse.imagen.media.opimage.DFTCRIF		dft
 renderable	org.eclipse.imagen.media.opimage.DivideCRIF		divide
