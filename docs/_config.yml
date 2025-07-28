@@ -16,7 +16,7 @@ aux_links:
     "GitHub":
       - "https://github.com/eclipse-imagen/imagen"
 heading_anchors: false
-footer_content: Copyright (c) 2025, Oracle and Others. All rights reserved. <br/> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+footer_content: Copyright (c) 2025, Oracle, GeoSolutions, and Others. All rights reserved. <br/> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
 
 # site configuration
 

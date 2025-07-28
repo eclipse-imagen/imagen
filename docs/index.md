@@ -21,3 +21,5 @@ Long term continuation of JAI and JAI-Ext:
 
 Visit [Eclipse ImageN](https://projects.eclipse.org/projects/technology.imagen) project
 page for more information.
+
+<img src="assets/img/imagen-logo.svg" alt="ImageN Logo" width="200"/>
