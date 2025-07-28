@@ -25,7 +25,7 @@ The project repository is located on GitHub: [github.com/eclipse/imagen](https:/
 
 We maintain a single branch, tagging each release:
 
-* master - this is where live development happens, we ask that incoming pull requests be made against this branch
+* main - this is where live development happens, we ask that incoming pull requests be made against this branch
 
 Pull Requests
 -------------
