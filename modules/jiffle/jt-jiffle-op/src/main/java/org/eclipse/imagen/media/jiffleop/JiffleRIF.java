@@ -49,9 +49,11 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.media.jiffle.Jiffle;
 import org.eclipse.imagen.media.jiffle.JiffleException;
@@ -60,6 +62,8 @@ import org.eclipse.imagen.media.jiffle.runtime.CoordinateTransform;
 import org.eclipse.imagen.media.jiffle.runtime.JiffleIndirectRuntime;
 import org.eclipse.imagen.media.jiffle.runtime.JiffleRuntime;
 import org.eclipse.imagen.media.jiffleop.JiffleOpImage.ImageSpecification;
+import org.eclipse.imagen.media.range.NoDataContainer;
+import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.utilities.ImageUtilities;
 
 /**
@@ -128,7 +132,24 @@ public class JiffleRIF implements RenderedImageFactory {
             for (Map.Entry<String, ImageSpecification> entry : sourceImages.entrySet()) {
                 String name = entry.getKey();
                 ImageSpecification spec = entry.getValue();
-                runtime.setSourceImage(name, spec.image, spec.coordinateTransform);
+                if (spec.nodata != null) {
+                    RenderedImage image = spec.image;
+                    boolean noDataMatch = false;
+                    Object noDataProperty = image.getProperty(NoDataContainer.GC_NODATA);
+                    if (noDataProperty instanceof NoDataContainer) {
+                        NoDataContainer noData = (NoDataContainer) noDataProperty;
+                        Range range = noData.getAsRange();
+                        noDataMatch = Objects.equals(range, spec.nodata);
+                    }
+                    if (!noDataMatch) {
+                        PlanarImage pi = PlanarImage.wrapRenderedImage(image);
+                        pi.setProperty(NoDataContainer.GC_NODATA, new NoDataContainer(spec.nodata));
+                        image = pi;
+                    }
+                    runtime.setSourceImage(name, image, spec.coordinateTransform);
+                } else {
+                    runtime.setSourceImage(name, spec.image, spec.coordinateTransform);
+                }
                 if (spec.bandTransform != null) {
                     runtime.setSourceImageBandTransform(name, spec.bandTransform);
                 }
@@ -160,6 +181,7 @@ public class JiffleRIF implements RenderedImageFactory {
         CoordinateTransform[] cts =
                 (CoordinateTransform[]) pb.getObjectParameter(JiffleDescriptor.SRC_COORDINATE_TRANSFORM_ARG);
         BandTransform[] bts = (BandTransform[]) pb.getObjectParameter(JiffleDescriptor.SRC_BAND_TRANSFORM_ARG);
+        Range[] nodata = (Range[]) pb.getObjectParameter(JiffleDescriptor.NO_DATA_ARG);
 
         // input-less case (possible, e.g., mandelbrot, surfaces defined by function/algorithm in
         // general)
@@ -171,9 +193,9 @@ public class JiffleRIF implements RenderedImageFactory {
         if (names == null) {
             for (int i = 0; i < sources.size(); i++) {
                 if (i == 0) {
-                    result.put("src", getImageSpecification(sources, cts, bts, i));
+                    result.put("src", getImageSpecification(sources, cts, bts, nodata, i));
                 } else {
-                    result.put("src" + i, getImageSpecification(sources, cts, bts, i));
+                    result.put("src" + i, getImageSpecification(sources, cts, bts, nodata, i));
                 }
             }
         } else {
@@ -186,7 +208,7 @@ public class JiffleRIF implements RenderedImageFactory {
             }
 
             for (int i = 0; i < sources.size(); i++) {
-                result.put(names[i], getImageSpecification(sources, cts, bts, i));
+                result.put(names[i], getImageSpecification(sources, cts, bts, nodata, i));
             }
         }
 
@@ -194,7 +216,7 @@ public class JiffleRIF implements RenderedImageFactory {
     }
 
     private ImageSpecification getImageSpecification(
-            Vector<Object> sources, CoordinateTransform[] cts, BandTransform[] bts, int i) {
+            Vector<Object> sources, CoordinateTransform[] cts, BandTransform[] bts, Range[] nodatas, int i) {
         RenderedImage image = (RenderedImage) sources.get(i);
         CoordinateTransform ct = null;
         if (cts != null) {
@@ -216,8 +238,18 @@ public class JiffleRIF implements RenderedImageFactory {
             }
             bt = bts[i];
         }
+        Range nodata = null;
+        if (nodatas != null) {
+            if (nodatas.length != sources.size()) {
+                throw new IllegalArgumentException(
+                        String.format("Have %d sources, but the nodata argument contains %d entries instead"
+                                + sources.size()
+                                + nodatas.length));
+            }
+            nodata = nodatas[i];
+        }
 
-        return new ImageSpecification(image, ct, bt);
+        return new ImageSpecification(image, ct, bt, nodata);
     }
 
     private ImageLayout buildLayout(Rectangle bounds, Dimension tileSize, int dataType, int numBands) {

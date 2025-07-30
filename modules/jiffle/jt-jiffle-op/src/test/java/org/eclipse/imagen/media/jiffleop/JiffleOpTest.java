@@ -32,6 +32,8 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
 import org.eclipse.imagen.media.jiffle.runtime.BandTransform;
+import org.eclipse.imagen.media.range.Range;
+import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.utilities.ImageUtilities;
 import org.junit.Test;
@@ -112,6 +114,43 @@ public class JiffleOpTest extends TestBase {
         }
     }
 
+    @Test
+    public void testSumNoData() {
+        RenderedImage src1 = buildTestImage(10, 10);
+        RenderedImage src2 = buildTestImage(10, 10);
+        Range nodata = RangeFactory.create((byte) 5, (byte) 5);
+        RenderedOp op = JiffleDescriptor.create(
+                new RenderedImage[] {src1, src2},
+                new String[] {"a", "b"},
+                "res",
+                "res = a + b;",
+                null,
+                DataBuffer.TYPE_DOUBLE,
+                null,
+                null,
+                null,
+                new Range[] {nodata, nodata},
+                null);
+
+        // check same size and expected
+        assertEquals(src1.getMinX(), op.getMinX());
+        assertEquals(src1.getWidth(), op.getWidth());
+        assertEquals(src1.getMinY(), op.getMinY());
+        assertEquals(src1.getHeight(), op.getHeight());
+        assertEquals(DataBuffer.TYPE_DOUBLE, op.getSampleModel().getDataType());
+
+        RandomIter srcIter = RandomIterFactory.create(src1, null);
+        RandomIter opIter = RandomIterFactory.create(op, null);
+        for (int y = src1.getMinY(); y < src1.getMinY() + src1.getHeight(); y++) {
+            for (int x = src1.getMinX(); x < src1.getMinX() + src1.getWidth(); x++) {
+                double value = srcIter.getSampleDouble(x, y, 0);
+                double expected = value == 5 ? Double.NaN : value * 2;
+                double actual = opIter.getSampleDouble(x, y, 0);
+                assertEquals(expected, actual, 0d);
+            }
+        }
+    }
+
     private void assertCopy(RenderedImage src, RenderedOp op, int dataType) {
         // check it's a copy with the expected values
         assertEquals(src.getMinX(), op.getMinX());
@@ -156,7 +195,8 @@ public class JiffleOpTest extends TestBase {
                     "destType",
                     "srcCoordinateTransforms",
                     "srcBandTransforms",
-                    "destBands"
+                    "destBands",
+                    "noData"
                 },
                 parameters.getParamNames());
     }

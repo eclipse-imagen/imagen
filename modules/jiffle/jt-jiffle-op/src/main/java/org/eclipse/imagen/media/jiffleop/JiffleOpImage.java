@@ -57,6 +57,7 @@ import org.eclipse.imagen.media.jiffle.runtime.BandTransform;
 import org.eclipse.imagen.media.jiffle.runtime.CoordinateTransform;
 import org.eclipse.imagen.media.jiffle.runtime.JiffleIndirectRuntime;
 import org.eclipse.imagen.media.range.NoDataContainer;
+import org.eclipse.imagen.media.range.Range;
 
 /**
  * Jiffle operation.
@@ -71,12 +72,22 @@ public class JiffleOpImage extends OpImage {
         RenderedImage image;
         CoordinateTransform coordinateTransform;
         BandTransform bandTransform;
+        Range nodata;
 
         public ImageSpecification(
                 RenderedImage image, CoordinateTransform coordinateTransform, BandTransform bandTransform) {
+            this(image, coordinateTransform, bandTransform, null);
+        }
+
+        public ImageSpecification(
+                RenderedImage image,
+                CoordinateTransform coordinateTransform,
+                BandTransform bandTransform,
+                Range nodata) {
             this.image = image;
             this.coordinateTransform = coordinateTransform;
             this.bandTransform = bandTransform;
+            this.nodata = nodata;
         }
     }
 
