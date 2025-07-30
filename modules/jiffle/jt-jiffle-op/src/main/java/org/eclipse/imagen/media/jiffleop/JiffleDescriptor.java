@@ -51,6 +51,7 @@ import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.jiffle.runtime.BandTransform;
 import org.eclipse.imagen.media.jiffle.runtime.CoordinateTransform;
+import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
@@ -70,6 +71,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
     static final int SRC_COORDINATE_TRANSFORM_ARG = 5;
     static final int SRC_BAND_TRANSFORM_ARG = 6;
     static final int DEST_BANDS_ARG = 7;
+    static final int NO_DATA_ARG = 8;
 
     public static final String SOURCE_NAMES = "sourceNames";
     public static final String DEST_NAME = "destName";
@@ -79,6 +81,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
     public static final String SRC_COORDINATE_TRANSFORMS = "srcCoordinateTransforms";
     public static final String SRC_BAND_TRANSFORMS = "srcBandTransforms";
     public static final String DEST_BANDS = "destBands";
+    public static final String NO_DATA = "noData";
 
     private static final String[] paramNames = {
         SOURCE_NAMES,
@@ -88,7 +91,8 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
         DEST_TYPE,
         SRC_COORDINATE_TRANSFORMS,
         SRC_BAND_TRANSFORMS,
-        DEST_BANDS
+        DEST_BANDS,
+        NO_DATA
     };
 
     private static final Class[] paramClasses = {
@@ -100,10 +104,11 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
         CoordinateTransform[].class,
         BandTransform[].class,
         Integer.class,
+        Range[].class
     };
 
     private static final Object[] paramDefaults = {
-        null, "dest", NO_PARAMETER_DEFAULT, null, DataBuffer.TYPE_DOUBLE, null, null, null
+        null, "dest", NO_PARAMETER_DEFAULT, null, DataBuffer.TYPE_DOUBLE, null, null, null, null
     };
 
     public JiffleDescriptor() {
@@ -134,21 +139,22 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
                                 + "the output data type, as a DataBuffer.TYPE_* constant"
                     },
                     {
-                        "arg6Desc",
+                        "arg5Desc",
                         paramNames[5]
                                 + " (Source coordinate transforms):"
                                 + "the world to image source transforms, if needed"
                     },
                     {
-                        "arg7Desc",
+                        "arg6Desc",
                         paramNames[6] + " (Source band transforms):" + "the script to image band transforms, if needed"
                     },
                     {
-                        "arg5Desc",
+                        "arg7Desc",
                         paramNames[7]
                                 + " (Number of output bands, by default the code will try to determine it from the script itself):"
                                 + "the number of bands in the output image, must be a positive integer"
                     },
+                    {"arg8Desc", paramNames[8] + "  Sources nodata values, if needed "}
                 },
                 new String[] {RenderedRegistryMode.MODE_NAME}, // supported modes
                 1, // number of sources
@@ -192,6 +198,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
             Integer destBands,
             CoordinateTransform[] sourceCoordinateTransforms,
             BandTransform[] sourceBandTransforms,
+            Range[] noData,
             RenderingHints renderingHints) {
         ParameterBlockJAI pb = new ParameterBlockJAI("Jiffle", RenderedRegistryMode.MODE_NAME);
 
@@ -209,6 +216,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
         pb.setParameter(SRC_COORDINATE_TRANSFORMS, sourceCoordinateTransforms);
         pb.setParameter(SRC_BAND_TRANSFORMS, sourceBandTransforms);
         pb.setParameter(DEST_BANDS, destBands);
+        pb.setParameter(NO_DATA, noData);
         // JAI operation performed.
         return JAI.create("Jiffle", pb, renderingHints);
     }
@@ -241,6 +249,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
                 null,
                 sourceCoordinateTransforms,
                 sourceBandTransforms,
+                null,
                 renderingHints);
     }
 }
