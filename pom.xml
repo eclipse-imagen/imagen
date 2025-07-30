@@ -236,6 +236,11 @@
           <artifactId>antlr4-maven-plugin</artifactId>
           <version>4.7.1</version>
         </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.10</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -347,7 +352,29 @@
               </execution>
             </executions>
           </plugin>
-
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>jacoco</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <destFile>${project.build.directory}/jacoco.exec</destFile>
+                  <append>true</append>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>

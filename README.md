@@ -36,10 +36,15 @@ Use maven to build on the command line:
 
 The build uses the `javac` compiler argument `-XDignore.symbol.file` to reference JDK codecs directly. This functionality is only available from the `javac` command line and requires maven (or your IDE) to fork each call to `javac`.
 
-Maven build QA modules:
+Maven build QA modules (both are applied transparently during the normal build, use manually if needed):
 
     mvn sortpom:sort
     mvn spotless:apply
+
+Building with Jacoco aggregate code coverage:
+
+    mvn clean install -Pjacoco
+    <your_browser> modules/all/target/site/jacoco-aggregate/index.html
 
 ## Supported Java Environment
 
