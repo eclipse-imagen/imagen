@@ -236,9 +236,11 @@ public final class ImageReadCRIF extends CRIFImpl {
 
         // Get the reader.
         ImageReader reader = getImageReader(pb);
-
         // Proceed if a compatible reader was found.
         if (reader != null) {
+            // If the reader was not externally provided, it will have to be disposed on close
+            boolean closeReader = !(pb.getObjectParameter(0) instanceof ImageReader);
+
             // Get the remaining parameters required.
             int imageIndex = pb.getIntParameter(1);
             ImageReadParam param = (ImageReadParam) pb.getObjectParameter(7);
@@ -263,7 +265,8 @@ public final class ImageReadCRIF extends CRIFImpl {
                 }
 
                 // Create the rendering.
-                image = new ImageReadOpImage(layout, rh, param, reader, imageIndex, readThumbnails, streamToClose);
+                image = new ImageReadOpImage(
+                        layout, rh, param, reader, imageIndex, readThumbnails, streamToClose, closeReader);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

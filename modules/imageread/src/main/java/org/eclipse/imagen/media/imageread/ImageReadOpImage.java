@@ -51,6 +51,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
 import javax.imageio.ImageReadParam;
@@ -97,6 +98,9 @@ final class ImageReadOpImage extends OpImage {
 
     /** Destination to source Y translation factor. */
     private int transY;
+
+    /** If the reader needs to be closed on dispose, or not */
+    private final boolean closeReader;
 
     /** Derive the image layout based on the user-supplied layout, reading parameters, and image index. */
     private static ImageLayout layoutHelper(ImageLayout il, ImageReadParam param, ImageReader reader, int imageIndex)
@@ -336,63 +340,18 @@ final class ImageReadOpImage extends OpImage {
             ImageReader reader,
             int imageIndex,
             boolean readThumbnails,
-            ImageInputStream streamToClose)
+            ImageInputStream streamToClose,
+            boolean closeReader)
             throws IOException {
         super(null, layoutHelper(layout, param, reader, imageIndex), configuration, false);
+        this.closeReader = closeReader;
 
         // Revise parameter 'param' as needed.
         if (param == null) {
             // Get the ImageReadParam from the ImageReader.
             param = reader.getDefaultReadParam();
-        } else if (param instanceof Cloneable) {
-            this.param = param;
-        } else if (param.getClass().getName().equals("javax.imageio.ImageReadParam")) {
-            // The ImageReadParam passed in is non-null. As the
-            // ImageReadParam class is not Cloneable, if the param
-            // class is simply ImageReadParam, then create a new
-            // ImageReadParam instance and set all its fields
-            // which were set in param. This will eliminate problems
-            // with concurrent modification of param for the cases
-            // in which there is not a special ImageReadparam used.
-
-            // Create a new ImageReadParam instance.
-            ImageReadParam newParam = new ImageReadParam();
-
-            // Set all fields which need to be set.
-
-            // IIOParamController field.
-            if (param.hasController()) {
-                newParam.setController(param.getController());
-            }
-
-            // Destination fields.
-            newParam.setDestination(param.getDestination());
-            if (param.getDestinationType() != null) {
-                // Set the destination type only if non-null as the
-                // setDestinationType() clears the destination field.
-                newParam.setDestinationType(param.getDestinationType());
-            }
-            newParam.setDestinationBands(param.getDestinationBands());
-            newParam.setDestinationOffset(param.getDestinationOffset());
-
-            // Source fields.
-            newParam.setSourceBands(param.getSourceBands());
-            newParam.setSourceRegion(param.getSourceRegion());
-            if (param.getSourceMaxProgressivePass() != Integer.MAX_VALUE) {
-                newParam.setSourceProgressivePasses(
-                        param.getSourceMinProgressivePass(), param.getSourceNumProgressivePasses());
-            }
-            if (param.canSetSourceRenderSize()) {
-                newParam.setSourceRenderSize(param.getSourceRenderSize());
-            }
-            newParam.setSourceSubsampling(
-                    param.getSourceXSubsampling(),
-                    param.getSourceYSubsampling(),
-                    param.getSubsamplingXOffset(),
-                    param.getSubsamplingYOffset());
-
-            // Replace the local variable with the new ImageReadParam.
-            param = newParam;
+        } else {
+            this.param = tryCloneImageReadParam(param);
         }
 
         // Revise parameter 'readThumbnails' as needed.
@@ -540,10 +499,10 @@ final class ImageReadOpImage extends OpImage {
         /* XXX delete
         transform.createTransformedShape(destRect).getBounds();
         */
-
         WritableRaster readerTile = null;
         try {
             synchronized (reader) {
+                final ImageReadParam param = tryCloneImageReadParam(this.param);
                 param.setSourceRegion(srcRect);
                 BufferedImage bi = reader.read(imageIndex, param);
                 WritableRaster ras = bi.getRaster();
@@ -565,6 +524,76 @@ final class ImageReadOpImage extends OpImage {
         }
 
         return tile;
+    }
+
+    /**
+     * Will try to clone the ImageReadParam if it is Cloneable, otherwise it will return the original ImageReadParam.
+     * This is useful to avoid concurrent modification of the ImageReadParam in computeTile() and getProperty() methods.
+     */
+    private ImageReadParam tryCloneImageReadParam(ImageReadParam param) {
+        // this one supports ImageReadParam subclasses that implement a clone method
+        if (param instanceof Cloneable) {
+            try {
+                // cloneable is not visible, but the targets that want (e.g., EnhancedImageReadParam from imageio-ext)
+                // are actually exposing a public clone method
+                Method m = param.getClass().getMethod("clone");
+                return (ImageReadParam) m.invoke(param);
+            } catch (Exception e) {
+                // continue
+            }
+        }
+
+        String className = param.getClass().getName();
+        if (className.equals("javax.imageio.ImageReadParam")) {
+            // The ImageReadParam passed in is non-null. As the
+            // ImageReadParam class is not Cloneable, if the param
+            // class is simply ImageReadParam, then create a new
+            // ImageReadParam instance and set all its fields
+            // which were set in param. This will eliminate problems
+            // with concurrent modification of param for the cases
+            // in which there is not a special ImageReadparam used.
+
+            // Create a new ImageReadParam instance.
+            ImageReadParam newParam = new ImageReadParam();
+
+            // Set all fields which need to be set.
+
+            // IIOParamController field.
+            if (param.hasController()) {
+                newParam.setController(param.getController());
+            }
+
+            // Destination fields.
+            newParam.setDestination(param.getDestination());
+            if (param.getDestinationType() != null) {
+                // Set the destination type only if non-null as the
+                // setDestinationType() clears the destination field.
+                newParam.setDestinationType(param.getDestinationType());
+            }
+            newParam.setDestinationBands(param.getDestinationBands());
+            newParam.setDestinationOffset(param.getDestinationOffset());
+
+            // Source fields.
+            newParam.setSourceBands(param.getSourceBands());
+            newParam.setSourceRegion(param.getSourceRegion());
+            if (param.getSourceMaxProgressivePass() != Integer.MAX_VALUE) {
+                newParam.setSourceProgressivePasses(
+                        param.getSourceMinProgressivePass(), param.getSourceNumProgressivePasses());
+            }
+            if (param.canSetSourceRenderSize()) {
+                newParam.setSourceRenderSize(param.getSourceRenderSize());
+            }
+            newParam.setSourceSubsampling(
+                    param.getSourceXSubsampling(),
+                    param.getSourceYSubsampling(),
+                    param.getSubsamplingXOffset(),
+                    param.getSubsamplingYOffset());
+
+            // Replace the local variable with the new ImageReadParam.
+            param = newParam;
+        }
+
+        return param;
     }
 
     /**
@@ -722,6 +751,9 @@ final class ImageReadOpImage extends OpImage {
             } catch (IOException e) {
                 // Ignore it.
             }
+        }
+        if (closeReader) {
+            reader.dispose();
         }
 
         super.dispose();
