@@ -30,7 +30,6 @@ import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.interpolators.InterpolationBicubic;
 import org.eclipse.imagen.media.interpolators.InterpolationBilinear;
 import org.eclipse.imagen.media.interpolators.InterpolationNearest;
@@ -194,9 +193,6 @@ public class ComparisonTest extends TestAffine {
                 weight[2][i] = 1;
                 weight[3][i] = 1;
             }
-        }
-        if (OLD_DESCRIPTOR) {
-            JAIExt.registerJAIDescriptor("Affine");
         }
     }
 

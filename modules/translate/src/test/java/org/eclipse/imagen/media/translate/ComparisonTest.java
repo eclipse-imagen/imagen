@@ -25,7 +25,6 @@ import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -78,7 +77,7 @@ public class ComparisonTest {
         interpNearOld = new org.eclipse.imagen.InterpolationNearest();
 
         if (OLD_DESCRIPTOR) {
-            JAIExt.registerJAIDescriptor("Translate");
+            // JAIExt.registerJAIDescriptor("Translate");
         }
     }
 
