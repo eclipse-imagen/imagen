@@ -17,19 +17,15 @@
 */
 package org.eclipse.imagen.media;
 
-import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
@@ -37,21 +33,13 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.PropertySource;
 import org.eclipse.imagen.RegistryElementDescriptor;
-import org.eclipse.imagen.media.interpolators.InterpolationBicubic;
-import org.eclipse.imagen.media.interpolators.InterpolationBilinear;
-import org.eclipse.imagen.media.interpolators.InterpolationNearest;
-import org.eclipse.imagen.media.util.PropertyUtil;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
-import org.eclipse.imagen.util.ImagingException;
-import org.eclipse.imagen.util.ImagingListener;
 
 /**
  * A thread safe implementation of OperationRegistry using Java 5 Concurrent {@link ReadWriteLock} Also it is able to
@@ -70,95 +58,17 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
     /** String associated to the vendor key */
     static final String VENDOR_NAME = "Vendor";
 
-    /** String associated to the JAIEXT product */
-    static final String JAIEXT_PRODUCT = "org.eclipse.imagen.media";
-
-    /** String associated to the JAI product */
-    static final String JAI_PRODUCT = "org.eclipse.imagen.media";
-
     /** String associated to the JAI product when the operation is "Null" */
     static final String JAI_PRODUCT_NULL = "org.eclipse.imagen";
 
     /** Logger associated to the class */
     private static final Logger LOGGER = Logger.getLogger(ConcurrentOperationRegistry.class.toString());
 
-    public static OperationRegistry initializeRegistry() {
-        return initializeRegistry(true);
-    }
-
-    public static OperationRegistry initializeRegistry(boolean useJaiExtOps) {
-        try {
-            // URL associated to the default JAI registryfile.jai
-            InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
-
-            if (url == null) {
-                throw new RuntimeException("Could not find the main registry file");
-            }
-            // Creation of a new registry
-            ConcurrentOperationRegistry registry = new ConcurrentOperationRegistry();
-            // Registration of the JAI operations
-            if (url != null) {
-                registry.updateFromStream(url);
-            }
-            // Registration of the operation defined in any registryFile.jai file
-            registry.registerServices(null);
-            // Listing of all the registered operations
-            List<OperationDescriptor> descriptors = registry.getDescriptors(RenderedRegistryMode.MODE_NAME);
-            // Creation of a new OperationCollection object
-            OperationCollection input = new OperationCollection(registry);
-            input.createMapFromDescriptors(descriptors);
-            // Saving of the all initial operations
-            Map<String, OperationItem> map = input.copy().filter(JAI_PRODUCT).map;
-            map.put("Null", input.get("Null"));
-            registry.jaiMap = map;
-
-            // First load all the REGISTRY_FILEs that are found in
-            // the specified class loader.
-            ClassLoader loader = registry.getClass().getClassLoader();
-            Enumeration<URL> en = loader.getResources(USR_REGISTRY_FILE);
-            // Creation of another OperationCollection instance to use for storing all the
-            OperationCollection changed = new OperationCollection(registry);
-            // Loop on all the registryFile.jai files
-            while (en.hasMoreElements()) {
-                URL url1 = en.nextElement();
-                changed.add(RegistryFileParser.parseFile(null, url1));
-            }
-            // Filter only the JAIEXT operations
-            changed = changed.filter(JAIEXT_PRODUCT);
-            // Copy the available JAIEXT operations
-            registry.jaiExtMap = changed.copy().map;
-            // Substitute the JAIEXT operations only if required
-            if (useJaiExtOps) {
-                input.substituteOperations(changed);
-            } else {
-                OperationCollection uniqueOperations = input.getUniqueOperations(changed);
-                input.substituteOperations(uniqueOperations);
-            }
-            // Set the Collection inside the registry file
-            registry.setOperationCollection(input);
-            // Return the registry
-            return registry;
-
-        } catch (IOException ioe) {
-            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
-            String message = "Error occurred while initializing JAI";
-            listener.errorOccurred(message, new ImagingException(message, ioe), OperationRegistry.class, false);
-
-            return null;
-        }
-    }
-
     /** The reader/writer lock for this class. */
     private ReadWriteLock lock;
 
     /** Collection of the registered Operations */
     OperationCollection collection;
-
-    /** Map of the JAI operations */
-    private Map<String, OperationItem> jaiMap;
-
-    /** Map of the JAI-EXT operations */
-    private Map<String, OperationItem> jaiExtMap;
 
     public ConcurrentOperationRegistry() {
         super();
@@ -558,13 +468,6 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
         Lock readLock = lock.readLock();
         try {
             readLock.lock();
-            // For Rendered Mode, a check on the interpolations objects is made
-            // in order to convert each eventual JAI-EXT interpolation class
-            // if the Factory belongs to the JAI API
-            if (modeName.equalsIgnoreCase(RenderedRegistryMode.MODE_NAME)) {
-                checkInterpolation(descriptorName, args);
-            }
-
             return super.invokeFactory(modeName, descriptorName, args);
         } finally {
             readLock.unlock();
@@ -740,89 +643,6 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
     }
 
     /**
-     * Returns a Map containing the {@link OperationItem} objects for each operation. The jai parameter indicates
-     * whether must be returned the map of the jai operations or of the Jai-ext ones.
-     *
-     * @param jai
-     * @return
-     */
-    public Map<String, OperationItem> getOperationMap(boolean jai) {
-        Lock readLock = lock.readLock();
-        try {
-            readLock.lock();
-            if (jai) {
-                return jaiMap;
-            } else {
-                return jaiExtMap;
-            }
-        } finally {
-            readLock.unlock();
-        }
-    }
-
-    /**
-     * This method internally check if the descriptor used is a
-     *
-     * @param descriptorName
-     * @param args
-     */
-    void checkInterpolation(String descriptorName, Object[] args) {
-        // First check if the collection is present and then get the OperationItem associated
-        OperationItem item = null;
-        if (collection != null) {
-            item = collection.get(descriptorName);
-        }
-        // By default we do not change the Interpolation
-        boolean jaiext = true;
-        // If the item is present we check if it belongs to jaiext
-        if (item != null) {
-            jaiext = item.isJAIEXTProduct();
-        } else {
-            // Else we check the Descriptor vendor parameter
-            OperationDescriptor op =
-                    (OperationDescriptor) getDescriptor(RenderedRegistryMode.MODE_NAME, descriptorName);
-            String vendor = op.getResourceBundle(null).getString(VENDOR_NAME);
-            jaiext = vendor.equalsIgnoreCase(JAIEXT_PRODUCT);
-        }
-        // If the operation is not a JAI-EXT one then we start to check if there is any Interpolation
-        // instance
-        if (!jaiext) {
-            // Cycle on the parameterBlock parameters
-            ParameterBlock block = (ParameterBlock) args[0];
-            Vector<Object> params = block.getParameters();
-            int index = 0;
-            for (Object param : params) {
-                if (param instanceof Interpolation) {
-                    Interpolation interp = null;
-                    // If the parameter is an instance of one of the JAI-EXT Interpolation classes
-                    // then it is transformed into the related JAI Interpolation class.
-                    if (param instanceof InterpolationNearest) {
-                        interp = new org.eclipse.imagen.InterpolationNearest();
-                    } else if (param instanceof InterpolationBilinear) {
-                        InterpolationBilinear bil = (InterpolationBilinear) param;
-                        interp = new org.eclipse.imagen.InterpolationBilinear(bil.getSubsampleBitsH());
-                    } else if (param instanceof InterpolationBicubic) {
-                        InterpolationBicubic bic = (InterpolationBicubic) param;
-                        if (bic.isBicubic2()) {
-                            interp = new org.eclipse.imagen.InterpolationBicubic2(bic.getSubsampleBitsH());
-                        } else {
-                            interp = new org.eclipse.imagen.InterpolationBicubic(bic.getSubsampleBitsH());
-                        }
-                    }
-                    if (interp != null) {
-                        block.set(interp, index);
-                        if (LOGGER.isLoggable(Level.FINEST)) {
-                            LOGGER.log(Level.FINEST, "Converted JAI-EXT Interpolation object to JAI one");
-                        }
-                    }
-                    break;
-                }
-                index++;
-            }
-        }
-    }
-
-    /**
      * The {@link OperationItem} class is a wrapper for the {@link OperationDescriptor} class which can store
      * informations about the operations and the associated factory.
      *
@@ -914,15 +734,6 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
 
         public void setMlibPreference(boolean preferred) {
             this.isMediaLibPreferred = preferred;
-        }
-
-        /**
-         * Indicates if the {@link OperationItem} operation is a JAI-EXT one
-         *
-         * @return
-         */
-        public boolean isJAIEXTProduct() {
-            return vendor.equalsIgnoreCase(JAIEXT_PRODUCT);
         }
     }
 
@@ -1064,28 +875,6 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
                 // Insert the new Item inside the map
                 map.put(item.getName(), item);
             }
-        }
-
-        /**
-         * This method returns a new {@link OperationCollection} containing operations which are present in this
-         * collection but aren't available in the external one nor in the operation groups (Such as algebric group for
-         * add, subtract, divide, multiply,...)
-         *
-         * @param external
-         */
-        OperationCollection getUniqueOperations(OperationCollection external) {
-            Map<String, OperationItem> externalMap = external.map;
-            // Iteration on all the new operations and registration of them
-            Collection<OperationItem> externalItems = externalMap.values();
-            OperationCollection uniqueOperations = new OperationCollection(registry);
-            Set<String> groupingNames = JAIExt.NAME_MAPPING.keySet();
-            for (OperationItem item : externalItems) {
-                String name = item.getName();
-                if (!map.containsKey(name) && !groupingNames.contains(name)) {
-                    uniqueOperations.add(item);
-                }
-            }
-            return uniqueOperations;
         }
 
         /**
