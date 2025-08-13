@@ -273,8 +273,16 @@
                 <replacevalue>org.eclipse.imagen.media.range.Range</replacevalue>
             </replacefilter>
             <replacefilter>
-                <replacetoken>org.jaitools.media.jai.contour.ContourDescriptor</replacetoken>
-                <replacevalue>org.eclipse.imagen.media.contour.ContourDescriptor</replacevalue>
+                <replacetoken>org.jaitools.media.jai.kernel.KernelFactory</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.kernel.KernelFactory</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.media.jai.contour</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.contour</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.swing.ImageFrame</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.swing.ImageFrame</replacevalue>
             </replacefilter>
         </replace>
     </target>
