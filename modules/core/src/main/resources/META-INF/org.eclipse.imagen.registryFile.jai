@@ -107,7 +107,6 @@ descriptor	org.eclipse.imagen.operator.MeanDescriptor
 descriptor	org.eclipse.imagen.operator.MedianFilterDescriptor
 descriptor	org.eclipse.imagen.operator.MinDescriptor
 descriptor	org.eclipse.imagen.operator.MinFilterDescriptor
-#descriptor	org.eclipse.imagen.operator.MosaicDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyConstDescriptor
 #descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyDescriptor
@@ -188,7 +187,6 @@ rendered    org.eclipse.imagen.media.opimage.MeanRIF		        org.eclipse.imagen
 rendered    org.eclipse.imagen.media.opimage.MedianFilterRIF		org.eclipse.imagen.media	medianfilter		sunmedianfilterrif
 rendered    org.eclipse.imagen.media.opimage.MinCRIF		        org.eclipse.imagen.media	min			sunminrif
 rendered    org.eclipse.imagen.media.opimage.MinFilterRIF		org.eclipse.imagen.media	minfilter		sunminfilterrif
-#rendered    org.eclipse.imagen.media.opimage.MosaicRIF		org.eclipse.imagen.media	mosaic		sunmosaicrif
 rendered    org.eclipse.imagen.media.opimage.MultiplyCRIF		org.eclipse.imagen.media	multiply		sunmultiplyrif
 #rendered    org.eclipse.imagen.media.opimage.MultiplyComplexCRIF	org.eclipse.imagen.media	multiplycomplex		sunmultiplycomplexrif
 rendered    org.eclipse.imagen.media.opimage.MultiplyConstCRIF		org.eclipse.imagen.media	multiplyconst		sunmultiplyconstrif
