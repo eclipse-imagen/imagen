@@ -22,7 +22,6 @@ import java.awt.image.RenderedImage;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -150,7 +149,7 @@ public class ComparisonTest extends TestBase {
             // creation of the image with the selected descriptor
 
             if (OLD_DESCRIPTOR) {
-                JAIExt.registerJAIDescriptor("Null");
+                // JAIExt.registerJAIDescriptor("Null");
                 // Old descriptor calculations
                 imageNull = org.eclipse.imagen.operator.NullDescriptor.create(testImage, null);
             } else {

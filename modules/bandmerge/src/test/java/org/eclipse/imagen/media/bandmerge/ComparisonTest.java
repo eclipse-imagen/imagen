@@ -25,7 +25,6 @@ import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TiledImage;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -228,7 +227,7 @@ public class ComparisonTest extends TestBase {
             // creation of the image with the selected descriptor
 
             if (OLD_DESCRIPTOR) {
-                JAIExt.registerJAIDescriptor("bandmerge");
+                // JAIExt.registerJAIDescriptor("bandmerge");
                 // Old descriptor calculations
                 imageMerged = JAI.create("bandmerge", pbj, null);
             } else {

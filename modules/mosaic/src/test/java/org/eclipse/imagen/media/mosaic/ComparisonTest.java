@@ -24,7 +24,6 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -112,7 +111,7 @@ public class ComparisonTest extends TestBase {
             rangeND = new Range[] {range, range};
         }
         if (OLD_DESCRIPTOR) {
-            JAIExt.registerJAIDescriptor("Mosaic");
+            // JAIExt.registerJAIDescriptor("Mosaic");
         }
     }
 

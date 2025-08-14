@@ -25,7 +25,6 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -225,7 +224,7 @@ public class ComparisonTest extends TestBase {
 
             // creation of the image
             if (OLD_DESCRIPTOR) {
-                JAIExt.registerJAIDescriptor("Rescale");
+                // JAIExt.registerJAIDescriptor("Rescale");
                 // TODO: commented out due to jai-rescale moved to legacy
                 //                imageRescale = org.eclipse.imagen.operator.RescaleDescriptor.create(image, scales,
                 // offsets, null);

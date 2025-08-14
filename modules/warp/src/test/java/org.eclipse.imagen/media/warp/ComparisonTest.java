@@ -32,7 +32,6 @@ import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.Warp;
 import org.eclipse.imagen.WarpAffine;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.junit.BeforeClass;
@@ -270,7 +269,7 @@ public class ComparisonTest extends TestWarp {
 
             // creation of the image
             if (OLD_DESCRIPTOR) {
-                JAIExt.registerJAIDescriptor("Warp");
+                // JAIExt.registerJAIDescriptor("Warp");
                 // TODO: Warp moved to legacy, nothing to compare to
                 //                imageWarp = org.eclipse.imagen.operator.WarpDescriptor.create(
                 //                        image, warpObj, interpolation, backgroundValues, null);

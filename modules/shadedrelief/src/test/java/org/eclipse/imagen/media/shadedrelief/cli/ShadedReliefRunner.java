@@ -26,7 +26,6 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.shadedrelief.ShadedReliefDescriptor;
@@ -55,7 +54,7 @@ public class ShadedReliefRunner {
 
         RenderingHints hints = null;
 
-        JAIExt.initJAIEXT();
+        // JAIExt.initJAIEXT();
 
         RenderedOp finalImage = ShadedReliefDescriptor.create(
                 bi,

@@ -23,7 +23,6 @@ import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.JAIExt;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -218,7 +217,7 @@ public class ComparisonTest extends TestBase {
 
             // creation of the image
             if (OLD_DESCRIPTOR) {
-                JAIExt.registerJAIDescriptor("Border");
+                // JAIExt.registerJAIDescriptor("Border");
                 // TODO: this was removed because BorderDescriptor was moved to legacy.
                 // TODO: replace with somethign else.
                 //                imageBorder = org.eclipse.imagen.operator.BorderDescriptor.create(
