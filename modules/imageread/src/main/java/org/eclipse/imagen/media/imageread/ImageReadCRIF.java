@@ -102,7 +102,7 @@ public final class ImageReadCRIF extends CRIFImpl {
 
         // If already an ImageInputStream cast and return.
         if (input instanceof ImageInputStream) {
-            stream = (ImageInputStream) input;
+            return (ImageInputStream) input;
         } else {
             // If the input is a String replace it with a RandomAccessFile.
             if (input instanceof String) {

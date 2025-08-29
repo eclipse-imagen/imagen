@@ -17,6 +17,7 @@ import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.io.File;
+import javax.imageio.stream.FileImageInputStream;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
@@ -48,9 +49,20 @@ public class ImageReadTest {
     }
 
     @Test
-    public void testRead() throws Exception {
+    public void testReadURL() throws Exception {
         RenderedOp image = JAI.create(
                 "ImageRead", new File("src/test/resources/sample.tiff").toURI().toURL());
+        checkSampleTiff(image);
+    }
+
+    @Test
+    public void testReadStream() throws Exception {
+        FileImageInputStream fis = new FileImageInputStream(new File("src/test/resources/sample.tiff"));
+        RenderedOp image = JAI.create("ImageRead", fis);
+        checkSampleTiff(image);
+    }
+
+    private static void checkSampleTiff(RenderedOp image) {
         assertNotNull(image);
         try {
             // confirm all basic properties (this already triggers a read)
