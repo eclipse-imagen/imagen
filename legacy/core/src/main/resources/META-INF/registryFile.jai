@@ -91,6 +91,7 @@ descriptor	org.eclipse.imagen.operator.DFTDescriptor
 descriptor	org.eclipse.imagen.operator.DilateDescriptor
 descriptor	org.eclipse.imagen.operator.ErrorDiffusionDescriptor
 descriptor	org.eclipse.imagen.operator.ImageFunctionDescriptor
+descriptor  org.eclipse.imagen.operator.MosaicDescriptor
 descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
 descriptor	org.eclipse.imagen.operator.ShearDescriptor
@@ -138,6 +139,7 @@ rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.med
 rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
 rendered    org.eclipse.imagen.media.opimage.ErrorDiffusionRIF		org.eclipse.imagen.media	errordiffusion		sunerrordiffusionrif
 rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
+rendered    org.eclipse.imagen.media.opimage.MosaicRIF                org.eclipse.imagen.media        mosaic          sunmosaicrif
 rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
 rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
@@ -183,6 +185,7 @@ renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
 renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
 renderable	org.eclipse.imagen.media.opimage.XorCRIF		xor
 renderable	org.eclipse.imagen.media.opimage.XorConstCRIF		xorconst
+renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
 
 
 #

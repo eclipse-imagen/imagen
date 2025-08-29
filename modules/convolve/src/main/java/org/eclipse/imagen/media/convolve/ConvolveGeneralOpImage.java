@@ -1030,7 +1030,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         float dstData[] = dstDataArrays[k];
                         float srcData[] = srcDataArrays[k];
 
-                        float f = 0.5F;
+                        float f = 0F;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         for (int u = 0; u < kh; u++) {
@@ -1069,7 +1069,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         float dstData[] = dstDataArrays[k];
                         float srcData[] = srcDataArrays[k];
 
-                        float f = 0.5F;
+                        float f = 0;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         // ROI check on the other kernel values
@@ -1121,7 +1121,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         float dstData[] = dstDataArrays[k];
                         float srcData[] = srcDataArrays[k];
 
-                        float f = 0.5F;
+                        float f = 0;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         boolean valid = true;
@@ -1173,7 +1173,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         float dstData[] = dstDataArrays[k];
                         float srcData[] = srcDataArrays[k];
 
-                        float f = 0.5F;
+                        float f = 0F;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         // ROI check on the other kernel values
@@ -1266,7 +1266,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         double dstData[] = dstDataArrays[k];
                         double srcData[] = srcDataArrays[k];
 
-                        double f = 0.5D;
+                        double f = 0;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         for (int u = 0; u < kh; u++) {
@@ -1305,7 +1305,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         double dstData[] = dstDataArrays[k];
                         double srcData[] = srcDataArrays[k];
 
-                        double f = 0.5D;
+                        double f = 0;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         // ROI check on the other kernel values
@@ -1357,7 +1357,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         double dstData[] = dstDataArrays[k];
                         double srcData[] = srcDataArrays[k];
 
-                        double f = 0.5D;
+                        double f = 0;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         boolean valid = true;
@@ -1409,7 +1409,7 @@ public class ConvolveGeneralOpImage extends ConvolveOpImage {
                         double dstData[] = dstDataArrays[k];
                         double srcData[] = srcDataArrays[k];
 
-                        double f = 0.5D;
+                        double f = 0;
                         int kernelVerticalOffset = 0;
                         int imageVerticalOffset = srcPixelOffset + srcBandOffsets[k];
                         // ROI check on the other kernel values

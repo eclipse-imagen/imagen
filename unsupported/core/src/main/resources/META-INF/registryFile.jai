@@ -93,7 +93,6 @@ descriptor	org.eclipse.imagen.operator.MatchCDFDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
 descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
 descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
-descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
 descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
 
 #
@@ -130,7 +129,6 @@ rendered    org.eclipse.imagen.media.opimage.OverlayCRIF		org.eclipse.imagen.med
 rendered    org.eclipse.imagen.media.opimage.PeriodicShiftCRIF		org.eclipse.imagen.media	periodicshift		sunperiodicshiftrif
 rendered    org.eclipse.imagen.media.opimage.PolarToComplexCRIF	org.eclipse.imagen.media	polartocomplex		sunpolartocomplexrif
 rendered    org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	org.eclipse.imagen.media	subsamplebinarytogray	sunsubsamplebinarytograyrif
-rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.imagen.media	subsampleaverage	sunsubsampleaveragerif
 
 #
 # "renderable" factory objects
@@ -153,7 +151,6 @@ renderable	org.eclipse.imagen.media.opimage.OverlayCRIF		overlay
 renderable	org.eclipse.imagen.media.opimage.PeriodicShiftCRIF	periodicshift
 renderable	org.eclipse.imagen.media.opimage.PolarToComplexCRIF	polartocomplex
 renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsamplebinarytogray
-renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
 
 #
 # "collection" factory objects

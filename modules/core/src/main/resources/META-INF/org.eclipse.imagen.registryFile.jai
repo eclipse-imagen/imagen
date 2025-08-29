@@ -107,7 +107,6 @@ descriptor	org.eclipse.imagen.operator.MeanDescriptor
 descriptor	org.eclipse.imagen.operator.MedianFilterDescriptor
 descriptor	org.eclipse.imagen.operator.MinDescriptor
 descriptor	org.eclipse.imagen.operator.MinFilterDescriptor
-#descriptor	org.eclipse.imagen.operator.MosaicDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyConstDescriptor
 #descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyDescriptor
@@ -121,7 +120,7 @@ descriptor	org.eclipse.imagen.operator.PatternDescriptor
 descriptor	org.eclipse.imagen.operator.PiecewiseDescriptor
 #descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
 descriptor	org.eclipse.imagen.operator.RenderableDescriptor
-#descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
+descriptor	org.eclipse.imagen.operator.SubsampleAverageDescriptor
 #descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
 #descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 #descriptor	org.eclipse.imagen.operator.TIFFDescriptor
@@ -188,7 +187,6 @@ rendered    org.eclipse.imagen.media.opimage.MeanRIF		        org.eclipse.imagen
 rendered    org.eclipse.imagen.media.opimage.MedianFilterRIF		org.eclipse.imagen.media	medianfilter		sunmedianfilterrif
 rendered    org.eclipse.imagen.media.opimage.MinCRIF		        org.eclipse.imagen.media	min			sunminrif
 rendered    org.eclipse.imagen.media.opimage.MinFilterRIF		org.eclipse.imagen.media	minfilter		sunminfilterrif
-#rendered    org.eclipse.imagen.media.opimage.MosaicRIF		org.eclipse.imagen.media	mosaic		sunmosaicrif
 rendered    org.eclipse.imagen.media.opimage.MultiplyCRIF		org.eclipse.imagen.media	multiply		sunmultiplyrif
 #rendered    org.eclipse.imagen.media.opimage.MultiplyComplexCRIF	org.eclipse.imagen.media	multiplycomplex		sunmultiplycomplexrif
 rendered    org.eclipse.imagen.media.opimage.MultiplyConstCRIF		org.eclipse.imagen.media	multiplyconst		sunmultiplyconstrif
@@ -211,7 +209,7 @@ rendered    org.eclipse.imagen.media.opimage.PiecewiseCRIF		org.eclipse.imagen.m
 #rendered    org.eclipse.imagen.media.opimage.ShearRIF			org.eclipse.imagen.media	shear			sunshearrif
 #rendered    org.eclipse.imagen.media.opimage.StreamRIF			org.eclipse.imagen.media	stream			sunstreamrif
 #rendered    org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	org.eclipse.imagen.media	subsamplebinarytogray	sunsubsamplebinarytograyrif
-#rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.imagen.media	subsampleaverage	sunsubsampleaveragerif
+rendered    org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	org.eclipse.imagen.media	subsampleaverage	sunsubsampleaveragerif
 #rendered    org.eclipse.imagen.media.opimage.SubtractCRIF		org.eclipse.imagen.media	subtract		sunsubtractrif
 #rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imagen.media	subtractconst		sunsubtractconstrif
 #rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
@@ -281,7 +279,7 @@ renderable	org.eclipse.imagen.media.opimage.PiecewiseCRIF		piecewise
 #renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
 #renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 #renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsamplebinarytogray
-#renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
+renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
 #renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
 #renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 #renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
