@@ -157,12 +157,6 @@ public class AlgebraOpImage extends PointOpImage {
 
         int dataType = getSampleModel().getDataType();
 
-        //        for (RenderedImage img : sources) {
-        //            if (img.getSampleModel().getDataType() != srcDataType) {
-        //                throw new IllegalArgumentException("Images must have the same data type");
-        //            }
-        //        }
-
         // DataType check for the operation
         if (!op.isDataTypeSupported(srcDataType)) {
             throw new IllegalArgumentException("This operation does not support DataType: " + srcDataType);
@@ -301,9 +295,6 @@ public class AlgebraOpImage extends PointOpImage {
 
         // Set flag to permit in-place operation.
         if (Operator.XOR != op) {
-            // TODO: The XOR operator is having troubles with the permit in-place
-            //  operation since it uses the first source as destination and computing
-            //  Xor on itself
             permitInPlaceOperation();
         }
     }
@@ -320,15 +311,34 @@ public class AlgebraOpImage extends PointOpImage {
         if (!hasROI || (hasROI && roi.intersects(destRect))) {
             // Retrieve format tags.
             RasterFormatTag[] formatTags = getFormatTags();
-
             RasterAccessor[] rasterArray = new RasterAccessor[numSrc];
-
             for (int i = 0; i < numSrc; i++) {
                 rasterArray[i] = new RasterAccessor(
                         sources[i], destRect, formatTags[i], getSourceImage(i).getColorModel());
             }
-
             RasterAccessor d = new RasterAccessor(dest, destRect, formatTags[numTotalSrc], getColorModel());
+
+            // optimized cases for binary images
+            if (noData == null && !hasROI && d.isBinary()) {
+                if (numSrc == 1 && (op == Operator.NOT || op == Operator.ABSOLUTE)) {
+                    computeRectBinary(rasterArray[0], d);
+                    d.copyBinaryDataToRaster();
+                    return;
+                } else if (numSrc == 2
+                        && (op == Operator.AND
+                                || op == Operator.OR
+                                || op == Operator.XOR
+                                || op == Operator.MIN
+                                || op == Operator.MAX
+                                || op == Operator.SUM
+                                || op == Operator.SUBTRACT
+                                || op == Operator.MULTIPLY
+                                || op == Operator.NOT)) {
+                    computeRectBinary(rasterArray[0], rasterArray[1], d);
+                    d.copyBinaryDataToRaster();
+                    return;
+                }
+            }
 
             switch (d.getDataType()) {
                 case DataBuffer.TYPE_BYTE:
@@ -380,6 +390,59 @@ public class AlgebraOpImage extends PointOpImage {
                 }
             }
             ImageUtil.fillBackground(dest, destRect, destNoData);
+        }
+    }
+
+    private void computeRectBinary(RasterAccessor s1, RasterAccessor s2, RasterAccessor d) {
+        byte[] src1Bits = s1.getBinaryDataArray();
+        byte[] src2Bits = s2.getBinaryDataArray();
+        byte[] dstBits = d.getBinaryDataArray();
+
+        int length = dstBits.length;
+        for (int i = 0; i < length; i++) {
+            switch (op) {
+                case AND:
+                case MIN:
+                case MULTIPLY: // Multiply is equivalent to "And" when 1*1=1 and 1*0=0*0=0.
+                    dstBits[i] = (byte) (src1Bits[i] & src2Bits[i]);
+                    break;
+                case OR:
+                case MAX:
+                case SUM: // "Sum" is equivalent to "Or" when 1+1 is clamped to 1.
+                    dstBits[i] = (byte) (src1Bits[i] | src2Bits[i]);
+                    break;
+                case XOR:
+                    dstBits[i] = (byte) (src1Bits[i] ^ src2Bits[i]);
+                    break;
+                case SUBTRACT:
+                    // "Subtract" is equivalent to the following when -1 is clamped to 0.
+                    dstBits[i] = (byte) (src1Bits[i] & (byte) (~(src2Bits[i])));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected operator when in the binary mode path: " + op);
+            }
+        }
+    }
+
+    private void computeRectBinary(RasterAccessor s1, RasterAccessor d) {
+        byte[] srcBits = s1.getBinaryDataArray();
+        byte[] dstBits = d.getBinaryDataArray();
+
+        // binary is unsigned, so ABSOLUTE is a NOP
+        if (op == Operator.ABSOLUTE) {
+            System.arraycopy(srcBits, 0, dstBits, 0, dstBits.length);
+            return;
+        }
+
+        int length = dstBits.length;
+        for (int i = 0; i < length; i++) {
+            switch (op) {
+                case NOT:
+                    dstBits[i] = (byte) (~(srcBits[i]));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected operator when in the binary mode path: " + op);
+            }
         }
     }
 
