@@ -31,6 +31,11 @@
             <fileset refid="pom.files"/>
         </replaceregexp>
         <replaceregexp byline="false" flags="gs">
+            <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.jiffle\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jt\-jiffle(-[a-z0-9\-]+)?\s*&lt;/artifactId&gt;(?:(?!&lt;/dependency&gt;).)*?&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;jiffle\1&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+        <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;dependency&gt;\s*&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.([a-z0-9\-]+)\s*&lt;/groupId&gt;\s*&lt;artifactId&gt;\s*jt-([a-z0-9\-]+)\s*&lt;/artifactId&gt;\s*&lt;version&gt;\s*\$\{jaiext.version\}\s*&lt;/version&gt;\s*&lt;/dependency&gt;"/>
             <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;\1&lt;/artifactId&gt;&#10;  &lt;version&gt;${imagen.version}&lt;/version&gt;&#10;&lt;/dependency&gt;"/>
             <fileset refid="pom.files"/>
