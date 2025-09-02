@@ -33,13 +33,17 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.PropertySource;
 import org.eclipse.imagen.RegistryElementDescriptor;
+import org.eclipse.imagen.media.util.PropertyUtil;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
+import org.eclipse.imagen.util.ImagingException;
+import org.eclipse.imagen.util.ImagingListener;
 
 /**
  * A thread safe implementation of OperationRegistry using Java 5 Concurrent {@link ReadWriteLock} Also it is able to
@@ -75,6 +79,40 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
 
         // Create a concurrent RW lock.
         lock = new ReentrantReadWriteLock();
+    }
+
+    public static OperationRegistry initializeRegistry() {
+        try {
+            // URL associated to the default JAI registryfile.jai
+            InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
+
+            if (url == null) {
+                throw new RuntimeException("Could not find the main registry file");
+            }
+            // Creation of a new registry
+            ConcurrentOperationRegistry registry = new ConcurrentOperationRegistry();
+            // Registration of the JAI operations
+            if (url != null) {
+                registry.updateFromStream(url);
+            }
+            // Registration of the operation defined in any registryFile.jai file
+            registry.registerServices(null);
+            // Listing of all the registered operations
+            List<OperationDescriptor> descriptors = registry.getDescriptors(RenderedRegistryMode.MODE_NAME);
+            // Creation of a new OperationCollection object
+            OperationCollection input = new OperationCollection(registry);
+            input.createMapFromDescriptors(descriptors);
+
+            // Return the registry
+            return registry;
+
+        } catch (IOException ioe) {
+            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            String message = "Error occurred while initializing JAI";
+            listener.errorOccurred(message, new ImagingException(message, ioe), OperationRegistry.class, false);
+
+            return null;
+        }
     }
 
     public String toString() {
