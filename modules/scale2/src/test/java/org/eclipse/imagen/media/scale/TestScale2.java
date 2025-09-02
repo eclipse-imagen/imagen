@@ -297,10 +297,7 @@ public class TestScale2 extends TestBase {
         RenderedImage destinationIMG = Scale2Descriptor.create(
                 sourceImage, scaleXd, scaleYd, transXd, transYd, interp, roi, useROIAccessor, noDataRange, bkg, hints);
 
-        if (INTERACTIVE
-                && dataType == DataBuffer.TYPE_BYTE
-                && TEST_SELECTOR == testSelect.getType()
-                && INVERSE_SCALE == scaleValue.getType()) {
+        if (INTERACTIVE && dataType == DataBuffer.TYPE_BYTE && INVERSE_SCALE == scaleValue.getType()) {
             RenderedImageBrowser.showChain(destinationIMG, false, roiPresent);
             try {
                 System.in.read();

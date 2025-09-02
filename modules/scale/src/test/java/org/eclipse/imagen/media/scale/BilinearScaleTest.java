@@ -20,7 +20,7 @@ package org.eclipse.imagen.media.scale;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.*;
+import java.awt.RenderingHints;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;

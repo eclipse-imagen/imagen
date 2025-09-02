@@ -49,6 +49,12 @@
       </exclusions>
     </dependency>
 
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>utilities</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!-- (These operators will need to be tested here) -->
     <!--
     <dependency>

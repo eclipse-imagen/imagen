@@ -23,7 +23,6 @@ import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.io.IOException;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
@@ -348,20 +347,7 @@ public class RescaleTest extends TestBase {
         PlanarImage rescaled = RescaleDescriptor.create(
                 source, scales, offsets, roiData, noDataRange, useRoiAccessor, destNoData, null);
 
-        // Display Image
-        if (INTERACTIVE && TEST_SELECTOR == select.getType()) {
-            // TODO: commented out due to cyclic dependency when moving rescale to legacy
-            //            RenderedImageBrowser.showChain(rescaled, false, roiUsed);
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            // Calculation of all the image tiles
-            rescaled.getTiles();
-        }
+        rescaled.getTiles();
 
         // Rescale control on the first band
         int tileMinX = rescaled.getMinTileX();

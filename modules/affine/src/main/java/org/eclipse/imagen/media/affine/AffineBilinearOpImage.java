@@ -440,7 +440,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -455,8 +455,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -586,7 +586,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -601,8 +601,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -850,7 +850,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -865,8 +865,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -1017,7 +1017,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -1032,8 +1032,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -1338,7 +1338,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -1353,8 +1353,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -1485,7 +1485,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -1500,8 +1500,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -1757,7 +1757,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -1772,8 +1772,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -1929,7 +1929,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -1944,8 +1944,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -2258,7 +2258,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -2273,8 +2273,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -2406,7 +2406,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -2421,8 +2421,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -2674,7 +2674,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -2689,8 +2689,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -2843,7 +2843,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -2858,8 +2858,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -3167,7 +3167,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -3182,8 +3182,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -3315,7 +3315,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -3330,8 +3330,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -3583,7 +3583,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -3598,8 +3598,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -3752,7 +3752,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -3767,8 +3767,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -4064,7 +4064,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -4079,8 +4079,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -4200,7 +4200,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -4215,8 +4215,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -4444,7 +4444,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -4459,8 +4459,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -4601,7 +4601,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -4616,8 +4616,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -4901,7 +4901,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -4916,8 +4916,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -5038,7 +5038,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -5053,8 +5053,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -5284,7 +5284,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -5299,8 +5299,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);
@@ -5442,7 +5442,7 @@ public class AffineBilinearOpImage extends AffineOpImage {
                     int ifracy = (int) Math.floor(fracy * GEOM_FRAC_MAX);
 
                     // Compute clipMinX, clipMinY
-                    org.eclipse.imagen.util.Range clipRange = performScanlineClipping(
+                    Range clipRange = performScanlineClipping(
                             src_rect_x1,
                             src_rect_y1,
                             src_rect_x2,
@@ -5457,8 +5457,8 @@ public class AffineBilinearOpImage extends AffineOpImage {
                             1,
                             0,
                             1);
-                    int clipMinX = ((Integer) clipRange.getMinValue()).intValue();
-                    int clipMaxX = ((Integer) clipRange.getMaxValue()).intValue();
+                    int clipMinX = clipRange.getMin().intValue();
+                    int clipMaxX = clipRange.getMax().intValue();
 
                     // Advance s_ix, s_iy, ifracx, ifracy
                     Point[] startPts = advanceToStartOfScanline(dst_min_x, clipMinX, s_ix, s_iy, ifracx, ifracy);

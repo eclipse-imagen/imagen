@@ -25,7 +25,6 @@ import java.awt.image.DataBuffer;
 import java.awt.image.MultiPixelPackedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.io.IOException;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterListDescriptor;
@@ -34,8 +33,6 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
-// TODO: commented out due to cyclic dependency when moving rescale to legacy
-// import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -64,9 +61,6 @@ public class BorderTest extends TestBase {
 
     /** Tolerance value used for double comparison */
     private static final double TOLERANCE = 0.1d;
-
-    /** Boolean indicating if No Data calculation must be showed(useful only if INTERACTIVE value is set to true) */
-    public static boolean RANGE_USED = Boolean.getBoolean("JAI.Ext.RangeUsed");
 
     /** Input test images */
     private static RenderedImage[] sourceIMG;
@@ -299,23 +293,8 @@ public class BorderTest extends TestBase {
         RenderedOp borderIMG = BorderDescriptor.create(
                 source, leftPad, rightPad, topPad, bottomPad, extend, noDataRange, destNoData, null);
 
-        // If the parameters are set, the image is printed to the screen
-        if (INTERACTIVE
-                && dataType == DataBuffer.TYPE_BYTE
-                && TEST_SELECTOR == borderType
-                && noDataRangeUsed == RANGE_USED) {
-            // TODO: commented out due to cyclic dependency when moving rescale to legacy
-            //            RenderedImageBrowser.showChain(borderIMG, false, false);
+        borderIMG.getTiles();
 
-            try {
-                System.in.read();
-            } catch (IOException e) {
-
-            }
-        } else {
-            // Else all the image tiles are calculated
-            borderIMG.getTiles();
-        }
         checkBorderImage(noDataRangeUsed, borderType, borderIMG);
     }
 

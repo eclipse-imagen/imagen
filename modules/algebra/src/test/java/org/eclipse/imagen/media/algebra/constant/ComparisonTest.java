@@ -17,311 +17,104 @@
 */
 package org.eclipse.imagen.media.algebra.constant;
 
-import java.awt.Rectangle;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.AND;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.DIVIDE;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.MULTIPLY;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.OR;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.SUBTRACT;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.SUM;
+import static org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator.XOR;
+
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.ROIShape;
-import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator;
 import org.eclipse.imagen.media.range.Range;
-import org.eclipse.imagen.media.range.RangeFactory;
-import org.eclipse.imagen.media.testclasses.TestBase;
-import org.eclipse.imagen.operator.DivideByConstDescriptor;
-import org.eclipse.imagen.operator.MultiplyConstDescriptor;
+import org.eclipse.imagen.media.testclasses.ComparisonTestBase;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-public class ComparisonTest extends TestBase {
-
-    /** Number of benchmark iterations (Default 1) */
-    private static final Integer BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.BenchmarkCycles", 1);
-
-    /** Number of not benchmark iterations (Default 0) */
-    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.NotBenchmarkCycles", 0);
-
-    /** Boolean indicating if the old descriptor must be used */
-    private static final boolean OLD_DESCRIPTOR = Boolean.getBoolean("JAI.Ext.OldDescriptor");
-
-    /** Boolean indicating if a No Data Range must be used */
-    private static final boolean RANGE_USED = Boolean.getBoolean("JAI.Ext.RangeUsed");
-
-    /** Boolean indicating if a ROI must be used */
-    private static final boolean ROI_USED = Boolean.getBoolean("JAI.Ext.ROIUsed");
-
-    /** Number associated with the type of BorderExtender to use */
-    private static final int OPERATION_TYPE = Integer.getInteger("JAI.Ext.OperationType", 0);
-
-    /** Number associated with the type of BorderExtender to use */
-    private static final int NUM_BANDS = 1;
-
-    /** Image to elaborate */
-    private static RenderedImage image;
-
-    /** No Data Range parameter */
-    private static Range range;
+public class ComparisonTest extends ComparisonTestBase {
 
     /** Output value for No Data */
     private static double destNoData;
 
-    private static ROIShape roi;
+    private static double[] constsD;
+    private static int[] constsI;
 
-    private static Operator op;
-
-    private static double[] consts;
+    private static Operator OPERATIONS[] = {SUM, SUBTRACT, MULTIPLY, DIVIDE, OR, XOR, AND};
 
     @BeforeClass
     public static void initialSetup() {
 
-        // Setting of the image filler parameter to true for a better image creation
-        IMAGE_FILLER = true;
-        // Images initialization
-        byte noDataB = 100;
-        short noDataUS = 100;
-        short noDataS = 100;
-        int noDataI = 100;
-        float noDataF = 100;
-        double noDataD = 100;
-        // Image creation
-        image = null;
-
         // Constants
-        consts = new double[] {5};
+        constsD = new double[] {5};
+        constsI = new int[] {5};
 
-        switch (TEST_SELECTOR) {
-            case DataBuffer.TYPE_BYTE:
-                image = createTestImage(DataBuffer.TYPE_BYTE, DEFAULT_WIDTH, DEFAULT_HEIGHT, noDataB, false, NUM_BANDS);
-                break;
-            case DataBuffer.TYPE_USHORT:
-                image = createTestImage(
-                        DataBuffer.TYPE_USHORT, DEFAULT_WIDTH, DEFAULT_HEIGHT, noDataUS, false, NUM_BANDS);
-                break;
-            case DataBuffer.TYPE_SHORT:
-                image = createTestImage(
-                        DataBuffer.TYPE_SHORT, DEFAULT_WIDTH, DEFAULT_HEIGHT, noDataS, false, NUM_BANDS);
-                break;
-            case DataBuffer.TYPE_INT:
-                image = createTestImage(DataBuffer.TYPE_INT, DEFAULT_WIDTH, DEFAULT_HEIGHT, noDataI, false, NUM_BANDS);
-                break;
-            case DataBuffer.TYPE_FLOAT:
-                image = createTestImage(
-                        DataBuffer.TYPE_FLOAT, DEFAULT_WIDTH, DEFAULT_HEIGHT, noDataF, false, NUM_BANDS);
-                break;
-            case DataBuffer.TYPE_DOUBLE:
-                image = createTestImage(
-                        DataBuffer.TYPE_DOUBLE, DEFAULT_WIDTH, DEFAULT_HEIGHT, noDataD, false, NUM_BANDS);
-                break;
-            default:
-                throw new IllegalArgumentException("Wrong data type");
-        }
-        // Image filler must be reset
-        IMAGE_FILLER = false;
-
-        // Range creation if selected
-        if (RANGE_USED && !OLD_DESCRIPTOR) {
-            switch (TEST_SELECTOR) {
-                case DataBuffer.TYPE_BYTE:
-                    range = RangeFactory.create(noDataB, true, noDataB, true);
-                    break;
-                case DataBuffer.TYPE_USHORT:
-                    range = RangeFactory.createU(noDataUS, true, noDataUS, true);
-                    break;
-                case DataBuffer.TYPE_SHORT:
-                    range = RangeFactory.create(noDataS, true, noDataS, true);
-                    break;
-                case DataBuffer.TYPE_INT:
-                    range = RangeFactory.create(noDataI, true, noDataI, true);
-                    break;
-                case DataBuffer.TYPE_FLOAT:
-                    range = RangeFactory.create(noDataF, true, noDataF, true, true);
-                    break;
-                case DataBuffer.TYPE_DOUBLE:
-                    range = RangeFactory.create(noDataD, true, noDataD, true, true);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Wrong data type");
-            }
-        }
-
-        // ROI creation
-        if (ROI_USED) {
-            Rectangle rect = new Rectangle(0, 0, DEFAULT_WIDTH / 4, DEFAULT_HEIGHT / 4);
-            roi = new ROIShape(rect);
-        } else {
-            roi = null;
-        }
-
-        // Operation used
-        if (OPERATION_TYPE < Operator.values().length) {
-            op = Operator.values()[OPERATION_TYPE];
-        } else {
-            throw new IllegalArgumentException("Operation not defined");
-        }
         // destination No Data
         destNoData = 100d;
     }
 
     @Test
-    public void testOperation() {
+    public void testDataTypesWithRoi() {
+        testAllTypes(TestSelection.ROI_ONLY_DATA);
+    }
 
-        // Image dataType
-        int dataType = TEST_SELECTOR;
+    @Test
+    public void testDataTypesWithNoData() {
+        testAllTypes(TestSelection.NO_ROI_NO_DATA);
+    }
 
-        // Descriptor string definition
-        String description = "";
-        switch (op) {
-            case SUM:
-                description = "Add";
-                break;
-            case SUBTRACT:
-                description = "Subtract";
-                break;
-            case MULTIPLY:
-                description = "Multiply";
-                break;
-            case DIVIDE:
-                description = "Divide";
-                break;
-            case OR:
-                description = "or";
-                break;
-            case XOR:
-                description = "Xor";
-                break;
-            case AND:
-                description = "And";
-                break;
-            default:
-                break;
-        }
+    @Test
+    public void testDataTypesWithBoth() {
+        testAllTypes(TestSelection.ROI_NO_DATA);
+    }
 
-        if (OLD_DESCRIPTOR) {
-            description = "Old " + description;
-        } else {
-            description = "New " + description;
-        }
+    @Override
+    public void testOperation(int dataType, TestSelection testType) {
+        Range range = getTestRange(dataType, testType);
+        ROI roi = getTestRoi(testType);
+        RenderedImage testImage = createDefaultTestImage(dataType, 1, true);
+        Operator op;
+        for (int o = 0; o < OPERATIONS.length; o++) {
+            op = OPERATIONS[o];
 
-        // Data type string
-        String dataTypeString = "";
-
-        switch (dataType) {
-            case DataBuffer.TYPE_BYTE:
-                dataTypeString += "Byte";
-                break;
-            case DataBuffer.TYPE_USHORT:
-                dataTypeString += "UShort";
-                break;
-            case DataBuffer.TYPE_SHORT:
-                dataTypeString += "Short";
-                break;
-            case DataBuffer.TYPE_INT:
-                dataTypeString += "Integer";
-                break;
-            case DataBuffer.TYPE_FLOAT:
-                dataTypeString += "Float";
-                break;
-            case DataBuffer.TYPE_DOUBLE:
-                dataTypeString += "Double";
-                break;
-            default:
-                throw new IllegalArgumentException("Wrong data type");
-        }
-
-        // Total cycles number
-        int totalCycles = BENCHMARK_ITERATION + NOT_BENCHMARK_ITERATION;
-        // Image
-        PlanarImage imageCalculated = null;
-
-        long mean = 0;
-        long max = Long.MIN_VALUE;
-        long min = Long.MAX_VALUE;
-
-        // Cycle for calculating the mean, maximum and minimum calculation time
-        for (int i = 0; i < totalCycles; i++) {
-
-            // creation of the image
-            if (OLD_DESCRIPTOR) {
-
-                switch (op) {
-                    case SUM:
-                        // TODO: AddConstDescriptor moved to legacy
-                        //      replace this with something else
-                        //                        imageCalculated = AddConstDescriptor.create(image, consts, null);
-                        break;
-                    case SUBTRACT:
-                        // TODO: SubtractConstDescriptor moved to legacy
-                        //      replace this with something else
-                        //                        imageCalculated = SubtractConstDescriptor.create(image, consts, null);
-                        break;
-                    case MULTIPLY:
-                        imageCalculated = MultiplyConstDescriptor.create(image, consts, null);
-                        break;
-                    case DIVIDE:
-                        imageCalculated = DivideByConstDescriptor.create(image, consts, null);
-                        break;
-                    case DIVIDE_INTO:
-                        imageCalculated = DivideByConstDescriptor.create(image, consts, null);
-                        break;
-                    case AND:
-                        imageCalculated = DivideByConstDescriptor.create(image, consts, null);
-                        break;
-                    case OR:
-                        imageCalculated = DivideByConstDescriptor.create(image, consts, null);
-                        break;
-                    case XOR:
-                        imageCalculated = DivideByConstDescriptor.create(image, consts, null);
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                imageCalculated = OperationConstDescriptor.create(image, consts, op, roi, range, destNoData, null);
+            // Descriptor string definition
+            String operation = "";
+            switch (op) {
+                case SUM:
+                    operation = "Add";
+                    break;
+                case SUBTRACT:
+                    operation = "Subtract";
+                    break;
+                case MULTIPLY:
+                    operation = "Multiply";
+                    break;
+                case DIVIDE:
+                    operation = "Divide";
+                    break;
+                case OR:
+                    operation = "Or";
+                    break;
+                case XOR:
+                    operation = "Xor";
+                    break;
+                case AND:
+                    operation = "And";
+                    break;
+                default:
+                    break;
             }
-
-            // Total calculation time
-            long start = System.nanoTime();
-            imageCalculated.getTiles();
-            long end = System.nanoTime() - start;
-
-            // If the the first NOT_BENCHMARK_ITERATION cycles has been done, then the mean, maximum and minimum values
-            // are stored
-            if (i > NOT_BENCHMARK_ITERATION - 1) {
-                if (i == NOT_BENCHMARK_ITERATION) {
-                    mean = end;
-                } else {
-                    mean = mean + end;
-                }
-
-                if (end > max) {
-                    max = end;
-                }
-
-                if (end < min) {
-                    min = end;
+            if ("Or".equals(operation) || "Xor".equals(operation) || "And".equals(operation)) {
+                if (dataType == DataBuffer.TYPE_FLOAT || dataType == DataBuffer.TYPE_DOUBLE) {
+                    // logical operations are not supported on float and double
+                    continue;
                 }
             }
-            // For every cycle the cache is flushed such that all the tiles must be recalculates
-            JAI.getDefaultInstance().getTileCache().flush();
-        }
-        // Mean values
-        double meanValue = mean / BENCHMARK_ITERATION * 1E-6;
-
-        // Max and Min values stored as double
-        double maxD = max * 1E-6;
-        double minD = min * 1E-6;
-        System.out.println(dataTypeString);
-        // Comparison between the mean times
-        // Output print of the
-        System.out.println("\nMean value for " + description + "Descriptor : " + meanValue + " msec.");
-        System.out.println("Maximum value for " + description + "Descriptor : " + maxD + " msec.");
-        System.out.println("Minimum value for " + description + "Descriptor : " + minD + " msec.");
-
-        // Final Image disposal
-        if (imageCalculated instanceof RenderedOp) {
-            ((RenderedOp) imageCalculated).dispose();
+            PlanarImage image = OperationConstDescriptor.create(testImage, constsD, op, roi, range, destNoData, null);
+            finalizeTest(getSuffix(testType, operation), dataType, image);
         }
     }
 }

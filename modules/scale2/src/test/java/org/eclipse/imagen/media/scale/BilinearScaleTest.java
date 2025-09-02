@@ -292,8 +292,7 @@ public class BilinearScaleTest extends TestScale2 {
         }
     }
 
-    @Test
-    @Ignore // TODO: fix and re-enable
+    @Ignore
     public void testRecyclingROIWeights() {
         int width = 6;
         int height = 6;
