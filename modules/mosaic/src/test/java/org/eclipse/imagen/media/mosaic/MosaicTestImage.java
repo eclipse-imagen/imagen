@@ -30,12 +30,12 @@ import java.io.IOException;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.nullop.NullDescriptor;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.translate.TranslateDescriptor;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
-import org.eclipse.imagen.operator.NullDescriptor;
 import org.junit.Test;
 
 /**

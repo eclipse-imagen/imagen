@@ -28,8 +28,8 @@ import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.interpolators.InterpolationNearest;
+import org.eclipse.imagen.media.nullop.NullDescriptor;
 import org.eclipse.imagen.media.range.Range;
-import org.eclipse.imagen.operator.NullDescriptor;
 import org.junit.Test;
 
 /**

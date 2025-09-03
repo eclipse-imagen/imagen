@@ -28,9 +28,11 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
-import org.eclipse.imagen.Histogram;
 import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.operator.HistogramDescriptor;
+import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.stats.HistogramMode;
+import org.eclipse.imagen.media.stats.Statistics;
+import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 
 /**
  * This class displays a histogram (instance of Histogram) as a component. Only the first histogram band ins considered
@@ -42,10 +44,9 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
     /** */
     private static final long serialVersionUID = -8640931037312978101L;
     // The histogram and its title.
-    private Histogram histogram;
     private String title;
     // Some data and hints for the histogram plot.
-    private int[] counts;
+    private double[] counts;
     private double maxCount;
     private int indexMultiplier = 1;
     private int skipIndexes = 8;
@@ -64,26 +65,19 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
     /**
      * The constructor for this class, which will set its fields' values and get some information about the histogram.
      *
-     * @param histogram the histogram to be plotted.
      * @param title the title of the plot.
      */
-    public DisplayHistogram(Histogram histogram, String title) {
-        this(title);
-        setHistogram(histogram);
-    }
-
     public DisplayHistogram(String title) {
         this.title = title;
         addMouseMotionListener(this);
     }
 
-    private void setHistogram(Histogram histogram) {
-        this.histogram = histogram;
-        if (histogram != null) {
+    private void setBins(double[] bins) {
+        if (bins != null) {
             // Calculate the components dimensions.
-            width = histogram.getNumBins(0) * binWidth;
+            width = bins.length * binWidth;
             // Get the histogram data.
-            counts = histogram.getBins(0);
+            counts = bins;
             // Get the max and min counts.
             maxCount = Integer.MIN_VALUE;
             for (int c = 0; c < counts.length; c++) {
@@ -96,7 +90,7 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
     /** Override the default bin width (for plotting) */
     public void setBinWidth(int newWidth) {
         binWidth = newWidth;
-        width = histogram.getNumBins(0) * binWidth;
+        width = counts.length * binWidth;
     }
 
     /**
@@ -156,8 +150,8 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
         g2d.drawRect(border.left, border.top, width, height);
         // Draw the histogram bars.
         g2d.setColor(barColor);
-        if (histogram != null) {
-            for (int bin = 0; bin < histogram.getNumBins(0); bin++) {
+        if (counts != null) {
+            for (int bin = 0; bin < counts.length; bin++) {
                 int x = border.left + (bin * binWidth);
                 double barStarts = border.top + (height * (maxCount - counts[bin]) / (1.0 * maxCount));
                 double barEnds = Math.ceil(height * counts[bin] / (1.0 * maxCount));
@@ -169,7 +163,7 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
 
             FontMetrics metrics = g2d.getFontMetrics();
             int halfFontHeight = metrics.getHeight() / 2;
-            for (int bin = 0; bin <= histogram.getNumBins(0); bin++) {
+            for (int bin = 0; bin <= counts.length; bin++) {
                 if ((bin % skipIndexes) == 0) {
                     String label = String.valueOf((indexMultiplier * bin));
                     int textHeight = metrics.stringWidth(label); // remember it will be rotated!
@@ -223,7 +217,7 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
         if ((x > border.left) && (x < (border.left + width)) && (y > border.top) && (y < (border.top + height))) {
             // Convert the X to an index on the histogram.
             x = (x - border.left) / binWidth;
-            y = counts[x];
+            y = (int) counts[x];
             setToolTipText((indexMultiplier * x) + ": " + y);
         } else {
             setToolTipText(null);
@@ -232,19 +226,30 @@ public class DisplayHistogram extends JComponent implements MouseMotionListener 
 
     public void setImage(PlanarImage wrapRenderedImage) {
         try {
-            setHistogram((Histogram) HistogramDescriptor.create(
-                            wrapRenderedImage,
-                            null,
-                            1,
-                            1,
-                            new int[] {65536},
-                            new double[] {0},
-                            new double[] {65535},
-                            null)
-                    .getProperty("histogram"));
+            double[] lowValue = new double[] {0}; // minBounds
+            double[] highValue = new double[] {65535}; // maxBounds
+            int[] bins = new int[] {65536}; // numBins
+            RenderedOp stats = StatisticsDescriptor.create(
+                    wrapRenderedImage, // source
+                    1, // xPeriod
+                    1, // yPeriod
+                    null, // roi
+                    null, // range
+                    false, // useRoiAccessor
+                    new int[] {0}, // bands
+                    new Statistics.StatsType[] {Statistics.StatsType.HISTOGRAM}, // stats
+                    lowValue, // minBounds
+                    highValue, // maxBounds
+                    bins, // numBins
+                    null); // hints
+
+            Statistics[][] resultStats = (Statistics[][]) stats.getProperty(Statistics.STATS_PROPERTY);
+            HistogramMode hm = (HistogramMode) resultStats[0][0];
+            double[] result = (double[]) hm.getResult();
+            setBins(result);
         } catch (Exception e) {
             e.printStackTrace();
-            setHistogram(null);
+            setBins(null);
         }
     }
 } // end class

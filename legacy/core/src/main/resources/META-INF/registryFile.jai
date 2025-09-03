@@ -85,13 +85,32 @@ descriptor	org.eclipse.imagen.operator.ClampDescriptor
 descriptor	org.eclipse.imagen.operator.ColorConvertDescriptor
 descriptor	org.eclipse.imagen.operator.ConvolveDescriptor
 descriptor	org.eclipse.imagen.operator.CropDescriptor
-descriptor	org.eclipse.imagen.operator.FormatDescriptor
+descriptor	org.eclipse.imagen.operator.DivideByConstDescriptor
+descriptor	org.eclipse.imagen.operator.DivideDescriptor
+descriptor	org.eclipse.imagen.operator.DivideIntoConstDescriptor
 descriptor	org.eclipse.imagen.operator.DCTDescriptor
 descriptor	org.eclipse.imagen.operator.DFTDescriptor
 descriptor	org.eclipse.imagen.operator.DilateDescriptor
 descriptor	org.eclipse.imagen.operator.ErrorDiffusionDescriptor
+descriptor	org.eclipse.imagen.operator.ExpDescriptor
+descriptor	org.eclipse.imagen.operator.ExtremaDescriptor
+descriptor	org.eclipse.imagen.operator.FormatDescriptor
+descriptor	org.eclipse.imagen.operator.HistogramDescriptor
 descriptor	org.eclipse.imagen.operator.ImageFunctionDescriptor
+descriptor	org.eclipse.imagen.operator.InvertDescriptor
+descriptor	org.eclipse.imagen.operator.LogDescriptor
+#descriptor	org.eclipse.imagen.operator.LookupDescriptor
+descriptor	org.eclipse.imagen.operator.MaxDescriptor
+descriptor	org.eclipse.imagen.operator.MinDescriptor
+descriptor	org.eclipse.imagen.operator.MeanDescriptor
 descriptor  org.eclipse.imagen.operator.MosaicDescriptor
+descriptor	org.eclipse.imagen.operator.MultiplyDescriptor
+descriptor	org.eclipse.imagen.operator.MultiplyConstDescriptor
+descriptor	org.eclipse.imagen.operator.NullDescriptor
+descriptor	org.eclipse.imagen.operator.NotDescriptor
+descriptor	org.eclipse.imagen.operator.OrDescriptor
+descriptor	org.eclipse.imagen.operator.OrConstDescriptor
+descriptor	org.eclipse.imagen.operator.OrderedDitherDescriptor
 descriptor	org.eclipse.imagen.operator.RescaleDescriptor
 descriptor	org.eclipse.imagen.operator.ScaleDescriptor
 descriptor	org.eclipse.imagen.operator.ShearDescriptor
@@ -124,7 +143,6 @@ rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.me
 rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
 rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
 rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
-
 rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
 rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
 rendered    org.eclipse.imagen.media.opimage.AndConstCRIF		org.eclipse.imagen.media	andconst		sunandconstrif
@@ -137,9 +155,27 @@ rendered    org.eclipse.imagen.media.opimage.ClampCRIF			org.eclipse.imagen.medi
 rendered    org.eclipse.imagen.media.opimage.ColorConvertCRIF		org.eclipse.imagen.media	colorconvert		suncolorconvertrif
 rendered    org.eclipse.imagen.media.opimage.ConvolveRIF		org.eclipse.imagen.media	convolve		sunconvolverif
 rendered    org.eclipse.imagen.media.opimage.CropCRIF			org.eclipse.imagen.media	crop			suncroprif
+rendered    org.eclipse.imagen.media.opimage.DivideCRIF		org.eclipse.imagen.media	divide			sundividerif
+rendered    org.eclipse.imagen.media.opimage.DivideByConstCRIF		org.eclipse.imagen.media	dividebyconst		sundividebyconstrif
+rendered    org.eclipse.imagen.media.opimage.DivideIntoConstCRIF	org.eclipse.imagen.media	divideintoconst		sundivideintoconstrif
 rendered    org.eclipse.imagen.media.opimage.ErrorDiffusionRIF		org.eclipse.imagen.media	errordiffusion		sunerrordiffusionrif
+rendered    org.eclipse.imagen.media.opimage.ExpCRIF		        org.eclipse.imagen.media	exp			sunexprif
+rendered    org.eclipse.imagen.media.opimage.ExtremaRIF		org.eclipse.imagen.media	extrema			sunextremarif
+rendered    org.eclipse.imagen.media.opimage.HistogramRIF		org.eclipse.imagen.media	histogram		sunhistogramrif
 rendered    org.eclipse.imagen.media.opimage.ImageFunctionRIF		org.eclipse.imagen.media	imagefunction		sunimagefunctionrif
+rendered    org.eclipse.imagen.media.opimage.InvertCRIF		org.eclipse.imagen.media	invert			suninvertrif
+rendered    org.eclipse.imagen.media.opimage.LogCRIF		        org.eclipse.imagen.media	log			sunlogrif
+rendered    org.eclipse.imagen.media.opimage.LookupCRIF		org.eclipse.imagen.media	lookup			sunlookuprif
+rendered    org.eclipse.imagen.media.opimage.MaxCRIF		        org.eclipse.imagen.media	max			sunmaxrif
+rendered    org.eclipse.imagen.media.opimage.MeanRIF		        org.eclipse.imagen.media	mean			sunmeanrif
+rendered    org.eclipse.imagen.media.opimage.MinCRIF		        org.eclipse.imagen.media	min			sunminrif
 rendered    org.eclipse.imagen.media.opimage.MosaicRIF                org.eclipse.imagen.media        mosaic          sunmosaicrif
+rendered    org.eclipse.imagen.media.opimage.MultiplyCRIF		org.eclipse.imagen.media	multiply		sunmultiplyrif
+rendered    org.eclipse.imagen.media.opimage.MultiplyConstCRIF		org.eclipse.imagen.media	multiplyconst		sunmultiplyconstrif
+rendered    org.eclipse.imagen.media.opimage.NotCRIF			org.eclipse.imagen.media	not			sunnotrif
+rendered    org.eclipse.imagen.NullCRIF			   	org.eclipse.imagen		null			sunullrif
+rendered    org.eclipse.imagen.media.opimage.OrCRIF			org.eclipse.imagen.media	or			sunorrif
+rendered    org.eclipse.imagen.media.opimage.OrConstCRIF		org.eclipse.imagen.media	orconst			sunorconstrif
 rendered    org.eclipse.imagen.media.opimage.RescaleCRIF		org.eclipse.imagen.media	rescale			sunrescalerif
 rendered    org.eclipse.imagen.media.opimage.RotateCRIF		org.eclipse.imagen.media	rotate			sunrotaterif
 rendered    org.eclipse.imagen.media.opimage.ScaleCRIF			org.eclipse.imagen.media	scale			sunscalerif
@@ -174,9 +210,23 @@ renderable	org.eclipse.imagen.media.opimage.BinarizeCRIF		binarize
 renderable	org.eclipse.imagen.media.opimage.ClampCRIF		clamp
 renderable	org.eclipse.imagen.media.opimage.ColorConvertCRIF	colorconvert
 renderable	org.eclipse.imagen.media.opimage.CropCRIF		crop
+renderable	org.eclipse.imagen.media.opimage.DivideCRIF		divide
+renderable	org.eclipse.imagen.media.opimage.DivideByConstCRIF	dividebyconst
+renderable	org.eclipse.imagen.media.opimage.DivideIntoConstCRIF	divideintoconst
+renderable	org.eclipse.imagen.media.opimage.ExpCRIF		exp
+renderable	org.eclipse.imagen.media.opimage.InvertCRIF		invert
+renderable	org.eclipse.imagen.media.opimage.LogCRIF		log
+renderable	org.eclipse.imagen.media.opimage.LookupCRIF		lookup
+renderable	org.eclipse.imagen.media.opimage.MaxCRIF		max
+renderable	org.eclipse.imagen.media.opimage.MinCRIF		min
+renderable	org.eclipse.imagen.media.opimage.MultiplyCRIF		multiply
+renderable	org.eclipse.imagen.media.opimage.MultiplyConstCRIF	multiplyconst
+renderable	org.eclipse.imagen.media.opimage.NotCRIF		not
+renderable	org.eclipse.imagen.NullCRIF			null
+renderable	org.eclipse.imagen.media.opimage.OrCRIF		or
+renderable	org.eclipse.imagen.media.opimage.OrConstCRIF		orconst
 renderable	org.eclipse.imagen.media.opimage.RescaleCRIF		rescale
 renderable	org.eclipse.imagen.media.opimage.RotateCRIF		rotate
-renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.ScaleCRIF		scale
 renderable	org.eclipse.imagen.media.opimage.SubtractCRIF		subtract
 renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
