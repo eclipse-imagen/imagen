@@ -56,9 +56,10 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
-      <id>repo.locationtech.org</id>
-      <name>RPE Repository - Snapshots</name>
-      <url>https://repo.locationtech.org/content/repositories/snapshots/</url>
+      <uniqueVersion>false</uniqueVersion>
+      <id>nexus</id>
+      <name>OSGeo Snapshot Repository</name>
+      <url>https://repo.osgeo.org/repository/geotools-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
