@@ -17,9 +17,6 @@
 */
 package org.eclipse.imagen.media.scale;
 
-import static org.junit.Assert.*;
-
-import java.awt.*;
 import org.eclipse.imagen.Interpolation;
 import org.junit.Test;
 

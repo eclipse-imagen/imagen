@@ -214,9 +214,7 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"xTrans", "yTrans", "interpolation"};
 
     /** The parameter default value list for this operation. */
-    private static final Object[] paramDefaults = {
-        new Float(0.0F), new Float(0.0F), Interpolation.getInstance(Interpolation.INTERP_NEAREST)
-    };
+    private static final Object[] paramDefaults = {0.0F, 0.0F, Interpolation.getInstance(Interpolation.INTERP_NEAREST)};
 
     public TranslateDescriptor() {
         super(resources, 1, paramClasses, paramNames, paramDefaults);

@@ -28,7 +28,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.TiledImage;
-import org.junit.BeforeClass;
+import org.junit.rules.TestName;
 
 /**
  * This class is an abstract class used for creating test images used by the affine and scale operation test-classes.
@@ -41,6 +41,8 @@ import org.junit.BeforeClass;
  * jt-affine project) because it shows if the image has been correctly rotated.
  */
 public abstract class TestBase {
+
+    public TestName name = new TestName();
 
     /** Default value for image width */
     public static int DEFAULT_WIDTH = 256;
@@ -59,8 +61,6 @@ public abstract class TestBase {
     public static boolean IMAGE_FILLER = Boolean.valueOf(System.getProperty("JAI.Ext.ImageFill", "true"));
 
     public static Integer INVERSE_SCALE = Integer.getInteger("JAI.Ext.InverseScale", 0);
-
-    public static Integer TEST_SELECTOR = Integer.getInteger("JAI.Ext.TestSelector", 0);
 
     protected double destinationNoData;
 
@@ -490,11 +490,5 @@ public abstract class TestBase {
         }
 
         return bi;
-    }
-
-    @BeforeClass
-    public static void setup() {
-        // This should not be needed any longer
-        //  JAIExt.initJAIEXT();
     }
 }

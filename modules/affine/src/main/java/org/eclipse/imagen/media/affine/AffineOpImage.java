@@ -36,6 +36,7 @@ import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.interpolators.InterpolationNearest;
 import org.eclipse.imagen.media.range.Range;
+import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.util.ImagingException;
 import org.eclipse.imagen.util.ImagingListener;
@@ -723,7 +724,7 @@ abstract class AffineOpImage extends GeometricOpImage {
      * <p>The returned Range object will be for the Integer class and will contain extrema equivalent to clipMinX and
      * clipMaxX.
      */
-    protected org.eclipse.imagen.util.Range performScanlineClipping(
+    protected Range performScanlineClipping(
             float src_rect_x1,
             float src_rect_y1,
             float src_rect_x2,
@@ -765,7 +766,7 @@ abstract class AffineOpImage extends GeometricOpImage {
             // xdenom == 0, all points have same x coordinate as the first
             if (s_ix < src_rect_x1 || s_ix >= src_rect_x2) {
                 clipMinX = clipMaxX = dst_min_x;
-                return new org.eclipse.imagen.util.Range(Integer.class, new Integer(clipMinX), new Integer(clipMaxX));
+                return RangeFactory.create(clipMinX, clipMaxX);
             }
         }
 
@@ -799,7 +800,7 @@ abstract class AffineOpImage extends GeometricOpImage {
         if (clipMinX > dst_max_x) clipMinX = dst_max_x;
         if (clipMaxX < dst_min_x) clipMaxX = dst_min_x;
 
-        return new org.eclipse.imagen.util.Range(Integer.class, new Integer(clipMinX), new Integer(clipMaxX));
+        return RangeFactory.create(clipMinX, clipMaxX);
     }
 
     /**

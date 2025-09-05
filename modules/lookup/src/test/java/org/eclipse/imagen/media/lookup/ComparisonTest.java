@@ -19,52 +19,12 @@ package org.eclipse.imagen.media.lookup;
 
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.PlanarImage;
-import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
-import org.eclipse.imagen.media.range.RangeFactory;
-import org.eclipse.imagen.media.testclasses.TestBase;
+import org.eclipse.imagen.media.testclasses.ComparisonTestBase;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
 
-/**
- * This test class is used for compare the timing between the new LookupDescriptor and the its old JAI version. No Roi
- * or No Data range are used. If the user wants to change the number of the benchmark cycles or of the not benchmark
- * cycles, should only pass the new values to the JAI.Ext.BenchmarkCycles or JAI.Ext.NotBenchmarkCycles parameters.If
- * the user want to use the old LookupDescriptor must pass to the JVM the JAI.Ext.OldDescriptor parameter set to true.
- * For selecting a specific data type the user must set the JAI.Ext.TestSelector JVM integer parameter to a number
- * between 0 and 3 (where 0 means byte, 1 Ushort, 2 Short, 3 Integer). Inside this test class the various tests are
- * executed in the same manner:
- *
- * <ul>
- *   <li>Selection of the LookupDescriptor(Old or New)
- *   <li>Selection of the source image(4 different dataType)
- *   <li>statistic calculation (if the cycle belongs to the benchmark cycles)
- * </ul>
- *
- * The selection of the old or new descriptor must be done by setting to true or false the JVM parameter
- * JAI.Ext.OldDescriptor. If the user wants to use the accelerated code, the JVM parameter JAI.Ext.Acceleration must be
- * set to true.
- */
-@Ignore
-public class ComparisonTest extends TestBase {
-    /** Number of benchmark iterations (Default 1) */
-    private static final Integer BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.BenchmarkCycles", 1);
-
-    /** Number of not benchmark iterations (Default 0) */
-    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.NotBenchmarkCycles", 0);
-
-    /** Boolean indicating if the old descriptor must be used */
-    private static final boolean OLD_DESCRIPTOR = Boolean.getBoolean("JAI.Ext.OldDescriptor");
-
-    /** Boolean indicating if the native acceleration must be used */
-    private static final boolean NATIVE_ACCELERATION = Boolean.getBoolean("JAI.Ext.Acceleration");
-
-    /** Boolean indicating if a No Data Range must be used */
-    private static final boolean RANGE_USED = Boolean.getBoolean("JAI.Ext.RangeUsed");
+public class ComparisonTest extends ComparisonTestBase {
 
     /** Destination No Data value */
     private static double destinationNoDataValue;
@@ -92,20 +52,6 @@ public class ComparisonTest extends TestBase {
 
     /** LookupTable from int to byte */
     private static LookupTable intToByteTableNew;
-
-    /** LookupTableJAI from byte to byte */
-    private static LookupTableJAI byteToByteTableOld;
-
-    /** LookupTableJAI from ushort to byte */
-    private static LookupTableJAI ushortToByteTableOld;
-
-    /** LookupTableJAI from short to byte */
-    private static LookupTableJAI shortToByteTableOld;
-
-    /** LookupTableJAI from int to byte */
-    private static LookupTableJAI intToByteTableOld;
-
-    private static Range rangeND;
 
     // Initial static method for preparing all the test data
     @BeforeClass
@@ -167,195 +113,57 @@ public class ComparisonTest extends TestBase {
 
         intToByteTableNew = new LookupTable(dataIntB, intOffset);
 
-        byteToByteTableOld = new LookupTableJAI(dataByteB, byteOffset);
-
-        ushortToByteTableOld = new LookupTableJAI(dataUShortB, ushortOffset);
-
-        shortToByteTableOld = new LookupTableJAI(dataShortB, shortOffset);
-
-        intToByteTableOld = new LookupTableJAI(dataIntB, intOffset);
-
         // Destination No Data
         destinationNoDataValue = 50;
-
-        // Range creation if selected
-        rangeND = null;
-        if (RANGE_USED && !OLD_DESCRIPTOR) {
-            switch (TEST_SELECTOR) {
-                case DataBuffer.TYPE_BYTE:
-                    rangeND = RangeFactory.create((byte) 100, true, (byte) 100, true);
-                    break;
-                case DataBuffer.TYPE_USHORT:
-                    rangeND = RangeFactory.createU((short) 100, true, (short) 100, true);
-                    break;
-                case DataBuffer.TYPE_SHORT:
-                    rangeND = RangeFactory.create((short) 100, true, (short) 100, true);
-                    break;
-                case DataBuffer.TYPE_INT:
-                    rangeND = RangeFactory.create(100, true, 100, true);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Wrong data type");
-            }
-        }
-
-        if (OLD_DESCRIPTOR) {
-            // JAIExt.registerJAIDescriptor("lookup");
-        }
     }
 
-    @Test
-    public void testNewLookupDescriptorByte() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_BYTE && !OLD_DESCRIPTOR) {
-            testLookup(testImageByte, DataBuffer.TYPE_BYTE, byteToByteTableNew, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testOldLookupDescriptorByte() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_BYTE && OLD_DESCRIPTOR) {
-            testLookup(testImageByte, DataBuffer.TYPE_BYTE, byteToByteTableOld, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testNewLookupDescriptorUShort() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_USHORT && !OLD_DESCRIPTOR) {
-            testLookup(testImageUShort, DataBuffer.TYPE_USHORT, ushortToByteTableNew, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testOldLookupDescriptorUShort() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_USHORT && OLD_DESCRIPTOR) {
-            testLookup(testImageUShort, DataBuffer.TYPE_USHORT, ushortToByteTableOld, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testNewLookupDescriptorShort() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_SHORT && !OLD_DESCRIPTOR) {
-            testLookup(testImageShort, DataBuffer.TYPE_SHORT, shortToByteTableNew, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testOldLookupDescriptorShort() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_SHORT && OLD_DESCRIPTOR) {
-            testLookup(testImageShort, DataBuffer.TYPE_SHORT, shortToByteTableOld, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testNewLookupDescriptorInt() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_INT && !OLD_DESCRIPTOR) {
-            testLookup(testImageInt, DataBuffer.TYPE_INT, intToByteTableNew, rangeND, OLD_DESCRIPTOR);
-        }
-    }
-
-    @Test
-    public void testOldLookupDescriptorInt() {
-        if (TEST_SELECTOR == DataBuffer.TYPE_INT && OLD_DESCRIPTOR) {
-            testLookup(testImageInt, DataBuffer.TYPE_INT, intToByteTableOld, rangeND, OLD_DESCRIPTOR);
-        }
+    @Override
+    protected boolean supportDataType(int dataType) {
+        return (dataType != DataBuffer.TYPE_FLOAT && dataType != DataBuffer.TYPE_DOUBLE);
     }
 
     // General method for showing calculation time of the 2 LookupDescriptors
-    public void testLookup(RenderedImage testIMG, int dataType, Object table, Range rangeND, boolean old) {
-        // Descriptor string
-        String description = "\n ";
-
-        if (old) {
-            description = "Old Lookup";
-            if (NATIVE_ACCELERATION) {
-                description += " accelerated ";
-                System.setProperty("com.sun.media.jai.disableMediaLib", "false");
-            } else {
-                System.setProperty("com.sun.media.jai.disableMediaLib", "true");
-            }
-        } else {
-            description = "New Lookup";
-            System.setProperty("com.sun.media.jai.disableMediaLib", "true");
-        }
-        // Data type string
-        String dataTypeString = "";
+    public void testOperation(int dataType, TestSelection testType) {
+        Range rangeND = getTestRange(dataType, testType);
+        LookupTable table;
         switch (dataType) {
             case DataBuffer.TYPE_BYTE:
-                dataTypeString += "Byte";
+                table = byteToByteTableNew;
                 break;
             case DataBuffer.TYPE_USHORT:
-                dataTypeString += "UShort";
+                table = ushortToByteTableNew;
                 break;
             case DataBuffer.TYPE_SHORT:
-                dataTypeString += "Short";
+                table = shortToByteTableNew;
                 break;
             case DataBuffer.TYPE_INT:
-                dataTypeString += "Integer";
+                table = intToByteTableNew;
                 break;
+            default:
+                throw new IllegalArgumentException("DataType not supported");
         }
 
-        // Total cycles number
-        int totalCycles = BENCHMARK_ITERATION + NOT_BENCHMARK_ITERATION;
+        RenderedImage testImage;
+        switch (dataType) {
+            case DataBuffer.TYPE_BYTE:
+                testImage = testImageByte;
+                break;
+            case DataBuffer.TYPE_USHORT:
+                testImage = testImageUShort;
+                break;
+            case DataBuffer.TYPE_SHORT:
+                testImage = testImageShort;
+                break;
+            case DataBuffer.TYPE_INT:
+                testImage = testImageInt;
+                break;
+            default:
+                throw new IllegalArgumentException("DataType not supported");
+        }
+
         // PlanarImage
-        PlanarImage imageLookup = null;
-        // Initialization of the statistics
-        long mean = 0;
-        long max = Long.MIN_VALUE;
-        long min = Long.MAX_VALUE;
-
-        // Cycle for calculating the mean, maximum and minimum calculation time
-        for (int i = 0; i < totalCycles; i++) {
-
-            // creation of the image with the selected descriptor
-
-            if (old) {
-                imageLookup =
-                        org.eclipse.imagen.operator.LookupDescriptor.create(testIMG, (LookupTableJAI) table, null);
-            } else {
-                imageLookup = LookupDescriptor.create(
-                        testIMG, (LookupTable) table, destinationNoDataValue, null, rangeND, false, null);
-            }
-
-            // Total calculation time
-            long start = System.nanoTime();
-            imageLookup.getTiles();
-            long end = System.nanoTime() - start;
-
-            // If the the first NOT_BENCHMARK_ITERATION cycles has been done, then the mean, maximum and minimum values
-            // are stored
-            if (i > NOT_BENCHMARK_ITERATION - 1) {
-                if (i == NOT_BENCHMARK_ITERATION) {
-                    mean = end;
-                } else {
-                    mean = mean + end;
-                }
-
-                if (end > max) {
-                    max = end;
-                }
-
-                if (end < min) {
-                    min = end;
-                }
-            }
-            // For every cycle the cache is flushed such that all the tiles must be recalculates
-            JAI.getDefaultInstance().getTileCache().flush();
-        }
-        // Mean values
-        double meanValue = mean / BENCHMARK_ITERATION * 1E-6;
-
-        // Max and Min values stored as double
-        double maxD = max * 1E-6;
-        double minD = min * 1E-6;
-        // Comparison between the mean times
-        System.out.println(dataTypeString);
-        // Output print
-        System.out.println("\nMean value for " + description + "Descriptor : " + meanValue + " msec.");
-        System.out.println("Maximum value for " + description + "Descriptor : " + maxD + " msec.");
-        System.out.println("Minimum value for " + description + "Descriptor : " + minD + " msec.");
-        // Final Image disposal
-        if (imageLookup instanceof RenderedOp) {
-            ((RenderedOp) imageLookup).dispose();
-        }
+        PlanarImage image =
+                LookupDescriptor.create(testImage, table, destinationNoDataValue, null, rangeND, false, null);
+        finalizeTest(null, dataType, image);
     }
 }

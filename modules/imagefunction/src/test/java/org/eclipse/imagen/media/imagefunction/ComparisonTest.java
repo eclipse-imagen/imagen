@@ -17,59 +17,15 @@
 */
 package org.eclipse.imagen.media.imagefunction;
 
-import java.awt.Rectangle;
-import java.awt.image.DataBuffer;
 import org.eclipse.imagen.ImageFunction;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.ROIShape;
-import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
-import org.eclipse.imagen.media.range.RangeFactory;
-import org.eclipse.imagen.media.testclasses.TestBase;
+import org.eclipse.imagen.media.testclasses.ComparisonTestBase;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-/**
- * Test class used for comparing the JAI ImageFunction operation with the JAI-EXT one. Users may define how many
- * benchmark cycles to do, how many not-benchmark cycles to do and other variables, like ROI/NoData use. The parameters
- * to define (as JVM options -D..)are:
- *
- * <ul>
- *   <li>JAI.Ext.BenchmarkCycles indicating how many benchmark cycles must be executed
- *   <li>JAI.Ext.NotBenchmarkCycles indicating how many cycles must be executed before doing the test
- *   <li>JAI.Ext.OldDescriptor(true/false) indicating if the old JAI operation must be done
- *   <li>JAI.Ext.RangeUsed(true/false) indicating if nodata check must be done (only for jai-ext)
- *   <li>JAI.Ext.ROIUsed(true/false) indicating if roi check must be done (only for jai-ext)
- * </ul>
- *
- * @author Nicola Lagomarsini geosolutions
- */
-@Ignore
-public class ComparisonTest extends TestBase {
-
-    /** Number of benchmark iterations (Default 1) */
-    private static final Integer BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.BenchmarkCycles", 1);
-
-    /** Number of not benchmark iterations (Default 0) */
-    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.NotBenchmarkCycles", 0);
-
-    /** Boolean indicating if the old descriptor must be used */
-    private static final boolean OLD_DESCRIPTOR = Boolean.getBoolean("JAI.Ext.OldDescriptor");
-
-    /** Boolean indicating if a No Data Range must be used */
-    private static final boolean RANGE_USED = Boolean.getBoolean("JAI.Ext.RangeUsed");
-
-    /** Boolean indicating if a ROI must be used */
-    private static final boolean ROI_USED = Boolean.getBoolean("JAI.Ext.ROIUsed");
-
-    /** No Data Range parameter */
-    private static Range range;
-
-    /** ROI Object used for testing */
-    private static ROI roi;
+public class ComparisonTest extends ComparisonTestBase {
 
     /** {@link ImageFunction} used in test */
     private static ImageFunctionJAIEXT function;
@@ -95,52 +51,6 @@ public class ComparisonTest extends TestBase {
     @BeforeClass
     public static void init() {
 
-        // Setting of the image filler parameter to true for a better image creation
-        IMAGE_FILLER = true;
-        // Images initialization
-        byte noDataB = 100;
-        short noDataUS = 100;
-        short noDataS = 100;
-        int noDataI = 100;
-        float noDataF = 100;
-        double noDataD = 100;
-        // Image filler must be reset
-        IMAGE_FILLER = false;
-
-        // Range creation if selected
-        if (RANGE_USED && !OLD_DESCRIPTOR) {
-            switch (TEST_SELECTOR) {
-                case DataBuffer.TYPE_BYTE:
-                    range = RangeFactory.create(noDataB, true, noDataB, true);
-                    break;
-                case DataBuffer.TYPE_USHORT:
-                    range = RangeFactory.createU(noDataUS, true, noDataUS, true);
-                    break;
-                case DataBuffer.TYPE_SHORT:
-                    range = RangeFactory.create(noDataS, true, noDataS, true);
-                    break;
-                case DataBuffer.TYPE_INT:
-                    range = RangeFactory.create(noDataI, true, noDataI, true);
-                    break;
-                case DataBuffer.TYPE_FLOAT:
-                    range = RangeFactory.create(noDataF, true, noDataF, true, true);
-                    break;
-                case DataBuffer.TYPE_DOUBLE:
-                    range = RangeFactory.create(noDataD, true, noDataD, true, true);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Wrong data type");
-            }
-        }
-
-        // ROI creation
-        if (ROI_USED) {
-            Rectangle rect = new Rectangle(0, 0, DEFAULT_WIDTH / 4, DEFAULT_HEIGHT / 4);
-            roi = new ROIShape(rect);
-        } else {
-            roi = null;
-        }
-
         // ImageFunction
         function = new ImageFunctionTest.DummyFunction();
 
@@ -154,110 +64,27 @@ public class ComparisonTest extends TestBase {
     }
 
     @Test
-    public void testOperation() {
+    public void testDataTypesWithRoi() {
+        testAllTypes(TestSelection.ROI_ONLY_DATA);
+    }
 
-        // Image dataType
-        int dataType = TEST_SELECTOR;
+    @Test
+    public void testDataTypesWithNoData() {
+        testAllTypes(TestSelection.NO_ROI_NO_DATA);
+    }
 
-        // Descriptor string definition
-        String description = "ImageFunction";
+    @Test
+    public void testDataTypesWithBoth() {
+        testAllTypes(TestSelection.ROI_NO_DATA);
+    }
 
-        if (OLD_DESCRIPTOR) {
-            description = "Old " + description;
-        } else {
-            description = "New " + description;
-        }
+    @Override
+    public void testOperation(int dataType, TestSelection testType) {
+        Range range = getTestRange(dataType, testType);
+        ROI roi = getTestRoi(testType);
 
-        // Data type string
-        String dataTypeString = "";
-
-        switch (dataType) {
-            case DataBuffer.TYPE_BYTE:
-                dataTypeString += "Byte";
-                break;
-            case DataBuffer.TYPE_USHORT:
-                dataTypeString += "UShort";
-                break;
-            case DataBuffer.TYPE_SHORT:
-                dataTypeString += "Short";
-                break;
-            case DataBuffer.TYPE_INT:
-                dataTypeString += "Integer";
-                break;
-            case DataBuffer.TYPE_FLOAT:
-                dataTypeString += "Float";
-                break;
-            case DataBuffer.TYPE_DOUBLE:
-                dataTypeString += "Double";
-                break;
-            default:
-                throw new IllegalArgumentException("Wrong data type");
-        }
-
-        // Total cycles number
-        int totalCycles = BENCHMARK_ITERATION + NOT_BENCHMARK_ITERATION;
-        // Image
-        PlanarImage imageCalculated = null;
-
-        long mean = 0;
-        long max = Long.MIN_VALUE;
-        long min = Long.MAX_VALUE;
-
-        // Cycle for calculating the mean, maximum and minimum calculation time
-        for (int i = 0; i < totalCycles; i++) {
-
-            // creation of the image
-            if (OLD_DESCRIPTOR) {
-                //                JAIExt.registerJAIDescriptor("ImageFunction");
-                //                imageCalculated = org.eclipse.imagen.operator.ImageFunctionDescriptor.create(
-                //                        (ImageFunction) function, width, height, xScale, yScale, xTrans, yTrans,
-                // null);
-            } else {
-                imageCalculated = ImageFunctionDescriptor.create(
-                        (ImageFunction) function, width, height, xScale, yScale, xTrans, yTrans, roi, range, 0f, null);
-            }
-
-            // Total calculation time
-            long start = System.nanoTime();
-            imageCalculated.getTiles();
-            long end = System.nanoTime() - start;
-
-            // If the the first NOT_BENCHMARK_ITERATION cycles has been done, then the mean, maximum and minimum values
-            // are stored
-            if (i > NOT_BENCHMARK_ITERATION - 1) {
-                if (i == NOT_BENCHMARK_ITERATION) {
-                    mean = end;
-                } else {
-                    mean = mean + end;
-                }
-
-                if (end > max) {
-                    max = end;
-                }
-
-                if (end < min) {
-                    min = end;
-                }
-            }
-            // For every cycle the cache is flushed such that all the tiles must be recalculates
-            JAI.getDefaultInstance().getTileCache().flush();
-        }
-        // Mean values
-        double meanValue = mean / BENCHMARK_ITERATION * 1E-6;
-
-        // Max and Min values stored as double
-        double maxD = max * 1E-6;
-        double minD = min * 1E-6;
-        System.out.println(dataTypeString);
-        // Comparison between the mean times
-        // Output print of the
-        System.out.println("\nMean value for " + description + "Descriptor : " + meanValue + " msec.");
-        System.out.println("Maximum value for " + description + "Descriptor : " + maxD + " msec.");
-        System.out.println("Minimum value for " + description + "Descriptor : " + minD + " msec.");
-
-        // Final Image disposal
-        if (imageCalculated instanceof RenderedOp) {
-            ((RenderedOp) imageCalculated).dispose();
-        }
+        PlanarImage image = ImageFunctionDescriptor.create(
+                function, width, height, xScale, yScale, xTrans, yTrans, roi, range, 0f, null);
+        finalizeTest(getSuffix(testType, null), dataType, image);
     }
 }

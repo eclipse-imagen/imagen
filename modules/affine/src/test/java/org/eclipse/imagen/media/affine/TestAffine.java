@@ -253,7 +253,6 @@ public class TestAffine extends TestBase {
 
         if (INTERACTIVE
                 && dataType == DataBuffer.TYPE_BYTE
-                && TEST_SELECTOR == testSelect.getType()
                 && TRANSFORMATION_SELECTOR == transformType.getValue()
                 && INVERSE_SCALE == scaleValue.getType()) {
             RenderedImageBrowser.showChain(destinationIMG, false, roiPresent);

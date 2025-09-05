@@ -36,6 +36,7 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
+import org.eclipse.imagen.media.testclasses.ImageComparator;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.util.SunTileCache;
 import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
@@ -76,10 +77,10 @@ public class CropImageTest extends TestBase {
         RenderedOp cropped = JAI.create("crop", pb);
         RenderedOp jaiextCropped = JAI.create("Crop", pbNew);
         // Test on the selected image
-        assertImageEquals(cropped, jaiextCropped);
+        ImageComparator.assertEquals(cropped, jaiextCropped);
 
         // Display Image
-        if (INTERACTIVE && TEST_SELECTOR == 0) {
+        if (INTERACTIVE) {
             RenderedImageBrowser.showChain(jaiextCropped, false, false);
             try {
                 System.in.read();
@@ -110,7 +111,7 @@ public class CropImageTest extends TestBase {
 
         assertTrue(contained);
         // Display Image
-        if (INTERACTIVE && TEST_SELECTOR == 1) {
+        if (INTERACTIVE) {
             RenderedImageBrowser.showChain(jaiextCropped, false, true);
             try {
                 System.in.read();
@@ -169,7 +170,7 @@ public class CropImageTest extends TestBase {
             }
         }
         // Display Image
-        if (INTERACTIVE && TEST_SELECTOR == 2) {
+        if (INTERACTIVE) {
             RenderedImageBrowser.showChain(jaiextCropped, false, true);
             try {
                 System.in.read();
@@ -219,26 +220,6 @@ public class CropImageTest extends TestBase {
         cropped.getColorModel();
         // Check if the Tile Cache is not present
         assertNull(cropped.getRenderingHint(JAI.KEY_TILE_CACHE));
-    }
-
-    // Utility method for checking if two images are equals
-    private void assertImageEquals(RenderedOp first, RenderedOp second) {
-        // Calculation of the image difference
-        // TODO: Replace with algebra version (new)
-        //        RenderedOp difference = SubtractDescriptor.create(first, second, null);
-        // Selection of the Statistics
-        //        StatsType[] statsType = new StatsType[] {StatsType.EXTREMA};
-        //        // Calculation of the statistics
-        //        RenderedOp stats =
-        //                StatisticsDescriptor.create(difference, 1, 1, null, null, false, new int[] {0, 1, 2},
-        // statsType, null);
-
-        //        Statistics[][] results = (Statistics[][]) stats.getProperty(Statistics.STATS_PROPERTY);
-        // Check if the Maximum and minimum for each band are equals
-        //        for (int i = 0; i < results.length; i++) {
-        //            double[] data = (double[]) results[i][0].getResult();
-        //            assertEquals(data[0], data[1], 0.0);
-        //        }
     }
 
     // Utility method for creating the image parameter blocks

@@ -161,7 +161,7 @@ public class ImageRGBTest extends TestScale {
         RenderedImage destinationIMG = ScaleDescriptor.create(
                 sourceImage, scaleX, scaleY, transX, transY, interp, roi, useROIAccessor, null, null, hints);
 
-        if (INTERACTIVE && TEST_SELECTOR == interpType.getType() && INVERSE_SCALE == scaleValue.getType()) {
+        if (INTERACTIVE && INVERSE_SCALE == scaleValue.getType()) {
             RenderedImageBrowser.showChain(destinationIMG, false, roiUsed);
             try {
                 System.in.read();

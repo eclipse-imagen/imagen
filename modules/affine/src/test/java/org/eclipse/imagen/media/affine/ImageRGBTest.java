@@ -235,7 +235,7 @@ public class ImageRGBTest extends TestAffine {
         RenderedImage destinationIMG = AffineDescriptor.create(
                 sourceImage, transform, interp, null, (ROI) roi, useROIAccessor, setDestinationNoData, null, hints);
 
-        if (INTERACTIVE && TEST_SELECTOR == interpType.getType() && INVERSE_SCALE == scaleValue.getType()) {
+        if (INTERACTIVE && INVERSE_SCALE == scaleValue.getType()) {
             RenderedImageBrowser.showChain(destinationIMG, false, roiUsed);
             try {
                 System.in.read();
