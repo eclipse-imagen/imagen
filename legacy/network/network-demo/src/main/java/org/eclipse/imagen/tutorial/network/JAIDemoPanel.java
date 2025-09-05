@@ -16,9 +16,9 @@ import org.eclipse.imagen.remote.*;
 
 class AutoThread extends Thread {
 
-    JAIDemoPanel panel;
-    boolean suspended = false;
-    boolean stopped = false;
+    private final JAIDemoPanel panel;
+    private volatile boolean suspended = false;
+    private volatile boolean stopped = false;
 
     public AutoThread(JAIDemoPanel panel) {
         this.panel = panel;
@@ -29,10 +29,11 @@ class AutoThread extends Thread {
             if (!suspended) {
                 panel.animate();
             }
-            yield();
             try {
-                sleep(10);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
             }
         }
     }
