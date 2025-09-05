@@ -28,8 +28,6 @@ import org.eclipse.imagen.ImageLayout;
  * A <code>CRIF</code> supporting the "MatchCDF" operation in the rendered and renderable image layers.
  *
  * @see org.eclipse.imagen.operator.MatchCDFDescriptor
- * @see org.eclipse.imagen.operator.PiecewiseDescriptor
- * @see PiecewiseOpImage
  * @since EA4
  */
 public class MatchCDFCRIF extends CRIFImpl {

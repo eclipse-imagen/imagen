@@ -43,6 +43,10 @@ import org.eclipse.imagen.media.binarize.BinarizeDescriptor;
 import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.range.NoDataContainer;
 import org.eclipse.imagen.media.rescale.RescaleDescriptor;
+import org.eclipse.imagen.media.stats.Extrema;
+import org.eclipse.imagen.media.stats.HistogramMode;
+import org.eclipse.imagen.media.stats.Statistics;
+import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.utilities.ImageLayout2;
 import org.eclipse.imagen.operator.*;
 
@@ -408,17 +412,40 @@ public class ImageViewer extends JPanel {
                 }
 
                 // Compute min and max to identify the histogram's minValue, maxValue
-                RenderedImage extremaImage = ExtremaDescriptor.create(image, roi, 1, 1, false, 1, hints);
-                double[][] extrema = (double[][]) extremaImage.getProperty("Extrema");
-
-                // Compute histogram on previous min/max range
-                RenderedImage histogramImage =
-                        HistogramDescriptor.create(image, roi, 1, 1, new int[] {256}, extrema[0], extrema[1], hints);
-                Histogram hist = (Histogram) histogramImage.getProperty("Histogram");
+                Statistics.StatsType[] statsTypes = {Statistics.StatsType.EXTREMA};
+                RenderedOp extremaOp =
+                        StatisticsDescriptor.create(image, 1, 1, roi, null, false, null, statsTypes, hints);
+                Statistics[][] resultStats = (Statistics[][]) extremaOp.getProperty(Statistics.STATS_PROPERTY);
+                Extrema resultStat = (Extrema) resultStats[0][0];
+                double[] extrema = (double[]) resultStat.getResult();
+                double[] lowValue = new double[] {extrema[0]}; // minBounds
+                double[] highValue = new double[] {extrema[1]}; // maxBounds
+                int[] bins = new int[] {256}; // numBins
+                RenderedOp stats = StatisticsDescriptor.create(
+                        image, // source
+                        1, // xPeriod
+                        1, // yPeriod
+                        null, // roi
+                        null, // range
+                        false, // useRoiAccessor
+                        new int[] {0}, // bands
+                        new Statistics.StatsType[] {Statistics.StatsType.HISTOGRAM}, // stats
+                        lowValue, // minBounds
+                        highValue, // maxBounds
+                        bins, // numBins
+                        null); // hints
+                resultStats = (Statistics[][]) stats.getProperty(Statistics.STATS_PROPERTY);
+                HistogramMode histogramMode = (HistogramMode) resultStats[0][0];
+                double[] result = (double[]) histogramMode.getResult();
+                Histogram histogram = new Histogram(bins, lowValue, highValue);
+                int[][] histBins = histogram.getBins();
+                for (int i = 0; i < bins[0]; i++) {
+                    histBins[0][i] = (int) result[i];
+                }
 
                 // get 5th and 95th ptiles for contrast stretch
-                double[] mins = hist.getPTileThreshold(0.05);
-                double[] maxs = hist.getPTileThreshold(0.95);
+                double[] mins = histogram.getPTileThreshold(0.05);
+                double[] maxs = histogram.getPTileThreshold(0.95);
                 int bands = mins.length;
                 double[] scales = new double[bands];
                 double[] offsets = new double[bands];

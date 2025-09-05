@@ -31,10 +31,6 @@ import java.io.Serializable;
  *
  * <p><>The symmetry can be useful (such as computation speedup). Currently the protected instance variables
  * isHorizonallySymmetric and isVerticallySymmetric are set to false.
- *
- * @see org.eclipse.imagen.operator.ConvolveDescriptor
- * @see org.eclipse.imagen.operator.OrderedDitherDescriptor
- * @see org.eclipse.imagen.operator.ErrorDiffusionDescriptor
  */
 public class KernelJAI extends Object implements Serializable {
 

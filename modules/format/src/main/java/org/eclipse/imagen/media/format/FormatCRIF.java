@@ -26,10 +26,9 @@ import java.util.Map;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.NullOpImage;
-import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.nullop.NullOpImage;
 import org.eclipse.imagen.media.opimage.CopyOpImage;
 import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
@@ -117,7 +116,7 @@ public class FormatCRIF extends CRIFImpl {
                 }
 
                 // Only the ColorModel is changing.
-                return new NullOpImage(src, layout, hints, OpImage.OP_IO_BOUND);
+                return new NullOpImage(src, layout, hints);
             }
         }
 

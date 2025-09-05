@@ -54,9 +54,10 @@ import org.eclipse.imagen.TileScheduler;
 import org.eclipse.imagen.media.algebra.AlgebraDescriptor;
 import org.eclipse.imagen.media.format.FormatDescriptor;
 import org.eclipse.imagen.media.jts.CoordinateSequence2D;
+import org.eclipse.imagen.media.stats.Statistics;
+import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.utilities.shape.LiteShape;
-import org.eclipse.imagen.operator.ExtremaDescriptor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -82,10 +83,6 @@ public class ROIGeometryTest extends TestBase {
     // Set this to true to display test ROIs as images.
     private static final boolean INTERACTIVE = false;
 
-    // Used to avoid problems with Hudson's headless build if INTERACTIVE
-    // is true.
-    private static boolean headless;
-
     // Flag for running on OSX, used to skip some tests
     private static boolean isOSX;
 
@@ -94,8 +91,6 @@ public class ROIGeometryTest extends TestBase {
     @BeforeClass
     public static void beforeClass() {
         GraphicsEnvironment grEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        headless = GraphicsEnvironment.isHeadless();
-
         String osname = System.getProperty("os.name").replaceAll("\\s", "");
         isOSX = "macosx".equalsIgnoreCase(osname);
         JAI.setDefaultTileSize(new Dimension(512, 512));
@@ -944,10 +939,10 @@ public class ROIGeometryTest extends TestBase {
         boolean isOk = true;
         isOk &= (image1.getWidth() == image2.getWidth());
         isOk &= (image1.getHeight() == image2.getHeight());
-        double[][] extrema = computeExtrema(image1, image2);
-        for (int band = 0; band < extrema.length; band++) {
-            isOk &= (Math.abs(0d - extrema[0][band]) < 1e-9);
-            isOk &= (Math.abs(0d - extrema[1][band]) < 1e-9);
+        double[][] extremas = computeExtrema(image1, image2);
+        for (int band = 0; band < extremas.length; band++) {
+            isOk &= (Math.abs(0d - extremas[band][0]) < 1e-9);
+            isOk &= (Math.abs(0d - extremas[band][1]) < 1e-9);
         }
 
         return isOk;
@@ -978,11 +973,10 @@ public class ROIGeometryTest extends TestBase {
 
         RenderedImage diff =
                 AlgebraDescriptor.create(AlgebraDescriptor.Operator.SUBTRACT, null, null, Double.NaN, null, int1, int2);
-        RenderedImage extremaImg = ExtremaDescriptor.create(diff, null, 1, 1, false, Integer.MAX_VALUE, null);
-        double[][] extrema = (double[][]) extremaImg.getProperty("extrema");
-        for (int band = 0; band < extrema.length; band++) {
-            assertEquals("Minimum should be 0", 0d, extrema[0][band], 1e-9);
-            assertEquals("Maximum should be 0", 0d, extrema[1][band], 1e-9);
+        double[][] extremas = getExtrema(diff);
+        for (int band = 0; band < extremas.length; band++) {
+            assertEquals("Minimum should be 0", 0d, extremas[band][0], 1e-9);
+            assertEquals("Maximum should be 0", 0d, extremas[band][1], 1e-9);
         }
     }
 
@@ -992,8 +986,17 @@ public class ROIGeometryTest extends TestBase {
 
         RenderedImage diff =
                 AlgebraDescriptor.create(AlgebraDescriptor.Operator.SUBTRACT, null, null, Double.NaN, null, int1, int2);
-        RenderedImage extremaImg = ExtremaDescriptor.create(diff, null, 1, 1, false, Integer.MAX_VALUE, null);
-        double[][] extrema = (double[][]) extremaImg.getProperty("extrema");
+        return getExtrema(diff);
+    }
+
+    private double[][] getExtrema(RenderedImage image) {
+        Statistics.StatsType[] stats = {Statistics.StatsType.EXTREMA};
+        RenderedOp extremaOp = StatisticsDescriptor.create(image, 1, 1, null, null, false, null, stats, null);
+        Statistics[][] resultStats = (Statistics[][]) extremaOp.getProperty(Statistics.STATS_PROPERTY);
+        double[][] extrema = new double[resultStats[0].length][];
+        for (int i = 0; i < resultStats[0].length; i++) {
+            extrema[i] = (double[]) resultStats[0][i].getResult();
+        }
         return extrema;
     }
 
