@@ -16,7 +16,7 @@ Eclipse ImageN provides:
 
 Long term continuation of JAI and JAI-Ext:
 
-* Migration refactoring planned
+* Migration refactoring
 * Modernize Java API planned
 
 Visit [Eclipse ImageN](https://projects.eclipse.org/projects/technology.imagen) project

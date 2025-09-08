@@ -6,7 +6,7 @@ nav_order: 5
 
 # {{ page.title }}
 
-Eclipse ImageN offers a migration path for developers using the Java Advanced Imaging Framework:
+Eclipse ImageN offers a migration path for developers migrating from the Java Advanced Imaging Framework:
 
 * ``org.eclipse.imagen:imagen-all``: includes the core library, bundled with supported operators for which test cases
   have been provided.
@@ -26,7 +26,7 @@ Eclipse ImageN offers a migration path for developers using the Java Advanced Im
   As an example ``codec`` support which has long been superseded by Java and ImageIO.
 
 * In addition to these combined jars, maven projects wishing greater control can depend on only the functionality used
-  as individual modules.
+  as individual module dependencies.
   
   Unsupported functionality is provided "as is", and requires test case coverage to be fully supported.
 
@@ -178,7 +178,8 @@ The key format missing from Java 8 is TIFF, which is included in `ImageIO` from 
 ```
 
 # Finalize() removed
-Finalizers are deprecated and will soon be removed from Java, as they  are unpredictable, slow, error-prone, and pose security and resource management risks, making them fundamentally unsafe for modern applications. A number of legacy classes have been updated to no longer implement the `finalize` method. In some cases, it has been replaced with a more appropriate cleanup method; in others, a suitable method already existed. The table below summarizes these changes:
+
+Finalizers have been deprecated in Java 18, as they are unpredictable, slow, error-prone, and pose security and resource management risks, making them fundamentally unsafe for modern applications. A number of legacy classes have been updated to no longer implement the `finalize` method. In some cases, it has been replaced with a more appropriate cleanup method; in others, a suitable method already existed. The table below summarizes these changes:
 
 Class                       | Removed Method | Replaced by New Method  | Existing Method
 ----------------------------|----------------|-------------------------|----------------
