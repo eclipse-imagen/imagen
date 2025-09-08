@@ -66,18 +66,25 @@ AWT beginning with the Java Platform 1.2 release.*
 
 The *Java Advanced Imaging (JAI) API* further extends the Java platform
 (including the Java 2D API) by allowing sophisticated, high-performance
-image processing to be incorporated. *JAI was released as Java Extension
-and can also be used as a standalone library.* 
+image processing to be incorporated. *JAI was published by Sun Microsystems
+as Java Extension and standalone Java library.* 
 
-The *Eclipse ImageN* library has adapted the *Java Advanced Imaging (JAI) API* 
-codebase into a standalone open source project. *ImageN is released as an open source
-project for use as a Java library or Java "jigsaw" module.*
+The *JAI-Extension* project offers replacement operator for greater
+performance, and with region of intertests and no-data support.
+The *JAI-Extension* supplies performance tuned components such as a
+concurrent cache implementation, and additional operators including
+an advanced Jiffle raster calculator operator.
+
+The *Eclipse ImageN* library has adapted the *Java Advanced Imaging (JAI) API*
+codebase and *JAI Extension* codebase into a standalone open source project.
+*ImageN is released as an open source project for use as a Java library or Java
+"jigsaw" module.*
 
 * ImageN is a set of classes providing imaging functionality beyond that of Java 2D and
 the Java Foundation classes, while remaining compatible with those APIs.
 
 * ImageN offers a set of core image processing capabilities including
-image tiling, regions of interest, and deferred execution.
+image tiling, regions of interest, no data masking, and deferred execution.
 
 * ImageN provides a set of core image processing operators including many common
 point, area, and frequency-domain operators.
