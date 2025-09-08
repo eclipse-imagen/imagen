@@ -1574,7 +1574,7 @@ public class OperationRegistry implements Externalizable {
         // the specified class loader.
         Enumeration en;
 
-        if (cl == null) en = ClassLoader.getSystemResources(USR_REGISTRY_FILE);
+        if (cl == null) en = getClass().getClassLoader().getResources(USR_REGISTRY_FILE);
         else en = cl.getResources(USR_REGISTRY_FILE);
 
         while (en.hasMoreElements()) {
