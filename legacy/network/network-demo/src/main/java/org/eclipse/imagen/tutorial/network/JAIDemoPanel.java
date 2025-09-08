@@ -29,7 +29,7 @@ class AutoThread extends Thread {
             if (!suspended) {
                 panel.animate();
             }
-            yield();
+            Thread.yield();
             try {
                 sleep(10);
             } catch (InterruptedException e) {
