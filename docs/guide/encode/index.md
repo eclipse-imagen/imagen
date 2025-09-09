@@ -104,7 +104,7 @@ demonstrating the use of both the `Encode` and `FileStore` operations.
 
 ***Listing 13-1*  Writing an OutputStream and a File** <a name="listing-13-1"></a>
 
-``java
+```java
 // Define the source and destination file names.
 String inputFile = /images/FarmHouse.tif
 String outputFile = /images/FarmHouse.bmp
@@ -119,7 +119,7 @@ JAI.create("encode", src, stream, BMP, null);
 
 // Store the image in the BMP format.
 JAI.create("filestore", src, outputFile, BMP, null);
-``
+```
 
 13.4 Writing BMP Image Files
 -------------------------------------------------

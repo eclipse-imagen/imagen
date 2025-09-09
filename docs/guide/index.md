@@ -40,6 +40,8 @@ Contents:
 
 14. [Extending the API](extension)
 
+15. [Jiffle](jiffle)
+
 Appendix:
 
 * [Programming Examples](examples)
