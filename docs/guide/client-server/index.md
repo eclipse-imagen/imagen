@@ -8,13 +8,20 @@ nav_order: 14
 # Client-Server Imaging                                                 
 {:.no_toc}
 
-This chapter describes ImageN\'s client-server imaging system.
+This chapter describes ImageN\'s client-server imaging system
 
 * Contents
 {:toc}
 
-This functionality is deprecated and provided for applications migrating from JAI.
+This functionality is deprecated and provided for applications migrating from JAI,
+and is available using the `imagen-legacy-network-core` dependency:
 
+```xml
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-legacy-network-core</artifactId>
+    </dependency>
+```
 # 12.1 Introduction
 
 Client-server imaging provides the ability to distribute computation
@@ -42,7 +49,6 @@ object and a client-side stub object. The client stub serializes its
 method arguments and transfers them to the server over a socket; the
 server serializes its return values and returns them in the same
 manner.
-
 
 # 12.2 Server Name and Port Number
 
