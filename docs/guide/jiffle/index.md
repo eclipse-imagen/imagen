@@ -196,7 +196,7 @@ In contrast, array variables must be declared before use so that Jiffle can dist
   bar = [1, 2, 42];
 ```
 
-Unlike languages such as Ruby, it is invalid to change the type type of a variable within a script::
+Unlike languages such as Ruby, it is invalid to change the type of a variable within a script::
 
 ```java
   // Create an array variable
@@ -774,7 +774,7 @@ script both simpler and more general.
 When a Jiffle script is executed, any calls to coordinate functions such as *x()* (which returns the X ordinate of the
 current processing position) or *width()* (which returns the width of the processing area) return values in *world
 units*. When reading a value from a source image, or writing a value to a destination image, Jiffle converts the
-position from *world coordinates* to a pixel lcoation using the **CoordinateTransform** associated with the image.
+position from *world coordinates* to a pixel location using the **CoordinateTransform** associated with the image.
 
 Note that CoordinateTransforms are run-time objects. You don't need to worry about the transforms in the script itself.
 Instead, you write the script using whatever coordinate system is most appropriate for the application, then provide the
@@ -790,7 +790,7 @@ scenes.
 To execute a script, the Jiffle runtime system needs to know the bounds of the processing area and the pixel dimensions,
 both of which are expressed in world units. If you don't supply these explicitly, it will create a default processing
 area for you based on the first destination image that was associated with the runtime object or, if there are not
-destination images, the first source image. In this case, processing area is simple the image area, and world units will
+destination images, the first source image. In this case, processing area is simply the image area, and world units will
 be equivalent to pixel coordinates.
 
 You can define your own processing area using one of two methods::
@@ -995,6 +995,6 @@ pixel is processed.
    See also [image scope](#image-scope).
 
 ***runtime object*** <a name="runtime-object"></a>
-:  The executable version of a Jiffle script. This is a [POJO](https://en.wikipedia.org/wiki/Plain_old_Java_object>) that
+:  The executable version of a Jiffle script. This is a [POJO](https://en.wikipedia.org/wiki/Plain_old_Java_object) that
 implements the JiffleRuntime interface.
 
