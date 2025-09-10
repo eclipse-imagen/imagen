@@ -97,8 +97,8 @@ jobs:
           export MAVEN_OPTS="-Xmx512m $TEST_OPTS"
           cd ~
           cd geoserver/src
-          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
           git checkout main
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
           sed -i "s/<mf.version>2.2.0<\/mf.version>/<mf.version>2.3-SNAPSHOT<\/mf.version>/g" pom.xml
           sed -i "s/<gf.version>3.6.0<\/gf.version>/<gf.version>3.6-SNAPSHOT<\/gf.version>/g" pom.xml
           mvn -B -f pom.xml install -nsu -Prelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
