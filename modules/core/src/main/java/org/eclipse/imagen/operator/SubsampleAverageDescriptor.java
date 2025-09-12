@@ -250,9 +250,6 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
  *                            <td>scaleX</td>
  * </table>
  *
- * @see FilteredSubsampleDescriptor
- * @see SubsampleBinaryToGrayDescriptor
- * @see ScaleDescriptor
  * @since JAI 1.1.2
  */
 public class SubsampleAverageDescriptor extends OperationDescriptorImpl {

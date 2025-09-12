@@ -18,12 +18,19 @@
 package org.eclipse.imagen;
 
 import java.awt.RenderingHints;
+import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 
 /**
  * This is a utility class that can be used by <code>OperationNode</code>s to consolidate common functionality. An
@@ -620,99 +627,95 @@ public class OperationNodeSupport implements Serializable {
     // Or does this require a more generic approach using Proxy?
 
     /** Serializes the <code>OperationNodeSupport</code>. */
-    /* TODO check serialization
-        private void writeObject(ObjectOutputStream out) throws IOException {
-            ParameterBlock pbClone = pb;
-            boolean pbCloned = false;
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        ParameterBlock pbClone = pb;
+        boolean pbCloned = false;
 
-            // Wrap RenderedImage sources in RenderedImageStates.
-            for (int index = 0; index < pbClone.getNumSources(); index++) {
-                Object source = pbClone.getSource(index);
-                if (source != null && !(source instanceof Serializable)) {
-                    if (!pbCloned) {
-                        pbClone = (ParameterBlock) pb.clone();
-                        pbCloned = true;
-                    }
-                    if (source instanceof RenderedImage) {
-                        SerializableState serializableImage = SerializerFactory.getState(source, null);
-                        pbClone.setSource(serializableImage, index);
-                    } else {
-                        throw new RuntimeException(
-                                source.getClass().getName() + JaiI18N.getString("OperationNodeSupport0"));
-                    }
+        // Wrap RenderedImage sources in RenderedImageStates.
+        for (int index = 0; index < pbClone.getNumSources(); index++) {
+            Object source = pbClone.getSource(index);
+            if (source != null && !(source instanceof Serializable)) {
+                if (!pbCloned) {
+                    pbClone = (ParameterBlock) pb.clone();
+                    pbCloned = true;
+                }
+                if (source instanceof RenderedImage) {
+                    SerializableState serializableImage = SerializerFactory.getState(source, null);
+                    pbClone.setSource(serializableImage, index);
+                } else {
+                    throw new RuntimeException(
+                            source.getClass().getName() + JaiI18N.getString("OperationNodeSupport0"));
                 }
             }
-
-            // Wrap RenderedImage parameters in RenderedImageState objects;
-            // wrap Raster parameters in RasterState objects;
-            // check other parameters for serializability.
-            for (int index = 0; index < pbClone.getNumParameters(); index++) {
-                Object parameter = pbClone.getObjectParameter(index);
-                if (parameter != null && !(parameter instanceof Serializable)) {
-                    if (!pbCloned) {
-                        pbClone = (ParameterBlock) pb.clone();
-                        pbCloned = true;
-                    }
-                    if (parameter instanceof Raster) {
-                        pbClone.set(SerializerFactory.getState(parameter, null), index);
-                    } else if (parameter instanceof RenderedImage) {
-                        RenderedImage ri = (RenderedImage) parameter;
-                        RenderingHints hints = new RenderingHints(null);
-                        hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
-                        pbClone.set(SerializerFactory.getState(ri, hints), index);
-                    } else {
-                        throw new RuntimeException(
-                                parameter.getClass().getName() + JaiI18N.getString("OperationNodeSupport1"));
-                    }
-                }
-            }
-
-            // Serialize the object.
-            // Write non-static and non-transient fields.
-            out.defaultWriteObject();
-            // Write ParameterBlock.
-            out.writeObject(pbClone);
-            // Write RenderingHints.
-            out.writeObject(SerializerFactory.getState(hints, null));
         }
-    */
+
+        // Wrap RenderedImage parameters in RenderedImageState objects;
+        // wrap Raster parameters in RasterState objects;
+        // check other parameters for serializability.
+        for (int index = 0; index < pbClone.getNumParameters(); index++) {
+            Object parameter = pbClone.getObjectParameter(index);
+            if (parameter != null && !(parameter instanceof Serializable)) {
+                if (!pbCloned) {
+                    pbClone = (ParameterBlock) pb.clone();
+                    pbCloned = true;
+                }
+                if (parameter instanceof Raster) {
+                    pbClone.set(SerializerFactory.getState(parameter, null), index);
+                } else if (parameter instanceof RenderedImage) {
+                    RenderedImage ri = (RenderedImage) parameter;
+                    RenderingHints hints = new RenderingHints(null);
+                    hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, Boolean.TRUE);
+                    pbClone.set(SerializerFactory.getState(ri, hints), index);
+                } else {
+                    throw new RuntimeException(
+                            parameter.getClass().getName() + JaiI18N.getString("OperationNodeSupport1"));
+                }
+            }
+        }
+
+        // Serialize the object.
+        // Write non-static and non-transient fields.
+        out.defaultWriteObject();
+        // Write ParameterBlock.
+        out.writeObject(pbClone);
+        // Write RenderingHints.
+        out.writeObject(SerializerFactory.getState(hints, null));
+    }
 
     /** Deserializes the <code>OperationNodeSupport</code>. */
-    /* TODO check deserialization
-     private synchronized void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    private synchronized void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 
-         // Read non-static and non-transient fields.
-         in.defaultReadObject();
-         // Read ParameterBlock.
-         pb = (ParameterBlock) in.readObject();
-         // Read RenderingHints.
-         SerializableState ss = (SerializableState) in.readObject();
-         hints = (RenderingHints) ss.getObject();
+        // Read non-static and non-transient fields.
+        in.defaultReadObject();
+        // Read ParameterBlock.
+        pb = (ParameterBlock) in.readObject();
+        // Read RenderingHints.
+        SerializableState ss = (SerializableState) in.readObject();
+        hints = (RenderingHints) ss.getObject();
 
-         // Wrap any RenderedImageState sources in PlanarImage objects.
-         for (int index = 0; index < pb.getNumSources(); index++) {
-             Object source = pb.getSource(index);
-             if (source instanceof SerializableState) {
-                 ss = (SerializableState) source;
-                 PlanarImage pi = PlanarImage.wrapRenderedImage((RenderedImage) ss.getObject());
-                 pb.setSource(pi, index);
-             }
-         }
+        // Wrap any RenderedImageState sources in PlanarImage objects.
+        for (int index = 0; index < pb.getNumSources(); index++) {
+            Object source = pb.getSource(index);
+            if (source instanceof SerializableState) {
+                ss = (SerializableState) source;
+                PlanarImage pi = PlanarImage.wrapRenderedImage((RenderedImage) ss.getObject());
+                pb.setSource(pi, index);
+            }
+        }
 
-         // Extract Raster and PlanarImage parameters from RasterState and
-         // RenderedImageState wrappers, respectively.
-         for (int index = 0; index < pb.getNumParameters(); index++) {
-             Object parameter = pb.getObjectParameter(index);
-             if (parameter instanceof SerializableState) {
-                 Object object = ((SerializableState) parameter).getObject();
-                 if (object instanceof Raster) pb.set(object, index);
-                 else if (object instanceof RenderedImage)
-                     pb.set(PlanarImage.wrapRenderedImage((RenderedImage) object), index);
-                 else pb.set(object, index);
-             }
-         }
+        // Extract Raster and PlanarImage parameters from RasterState and
+        // RenderedImageState wrappers, respectively.
+        for (int index = 0; index < pb.getNumParameters(); index++) {
+            Object parameter = pb.getObjectParameter(index);
+            if (parameter instanceof SerializableState) {
+                Object object = ((SerializableState) parameter).getObject();
+                if (object instanceof Raster) pb.set(object, index);
+                else if (object instanceof RenderedImage)
+                    pb.set(PlanarImage.wrapRenderedImage((RenderedImage) object), index);
+                else pb.set(object, index);
+            }
+        }
 
-         registry = JAI.getDefaultInstance().getOperationRegistry();
-     }
-    */
+        registry = JAI.getDefaultInstance().getOperationRegistry();
+    }
 }

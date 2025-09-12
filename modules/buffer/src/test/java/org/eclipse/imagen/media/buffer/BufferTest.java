@@ -75,8 +75,6 @@ public class BufferTest extends TestBase {
 
     private static int bottomPad;
 
-    private static int type;
-
     private static double pixelArea;
 
     private static BorderExtender extender;
@@ -103,9 +101,6 @@ public class BufferTest extends TestBase {
         rightPad = 10;
         topPad = 10;
         bottomPad = 10;
-
-        type = DataBuffer.TYPE_INT;
-
         extender = BufferDescriptor.DEFAULT_EXTENDER;
 
         noDataValue = 0.0d;
@@ -181,7 +176,7 @@ public class BufferTest extends TestBase {
                 noDataRange,
                 noDataValue,
                 null,
-                type,
+                noData ? DataBuffer.TYPE_INT : dataType,
                 pixelArea,
                 null);
 

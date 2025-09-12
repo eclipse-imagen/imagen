@@ -35,6 +35,7 @@ import org.eclipse.imagen.InterpolationBicubic;
 import org.eclipse.imagen.InterpolationBicubic2;
 import org.eclipse.imagen.InterpolationBilinear;
 import org.eclipse.imagen.InterpolationNearest;
+import org.eclipse.imagen.ScaleOpImage;
 import org.eclipse.imagen.TileCache;
 
 /** @see ScaleOpImage */

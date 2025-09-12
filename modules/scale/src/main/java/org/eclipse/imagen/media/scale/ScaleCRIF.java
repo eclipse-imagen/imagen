@@ -34,7 +34,6 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.ScaleOpImage;
 import org.eclipse.imagen.media.interpolators.InterpolationBicubic;
 import org.eclipse.imagen.media.interpolators.InterpolationBilinear;
 import org.eclipse.imagen.media.interpolators.InterpolationNearest;

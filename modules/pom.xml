@@ -14,7 +14,6 @@
     <!-- library base -->
     <module>core</module>
     <module>builder</module>
-    <module>squareroot</module>
     <module>concurrent-tile-cache</module>
     <module>scale</module>
     <module>affine</module>

@@ -35,7 +35,6 @@ import java.io.Serializable;
  * @see Interpolation
  * @see WarpAffine
  * @see WarpGrid
- * @see WarpPerspective
  * @see WarpPolynomial
  * @see WarpQuadratic
  * @see WarpCubic

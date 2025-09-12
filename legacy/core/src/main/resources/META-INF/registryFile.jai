@@ -69,9 +69,7 @@
 # Image operation descriptors :
 #
 descriptor	org.eclipse.imagen.operator.AbsoluteDescriptor
-descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
 descriptor	org.eclipse.imagen.operator.AddConstDescriptor
-descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
 descriptor	org.eclipse.imagen.operator.AddDescriptor
 descriptor	org.eclipse.imagen.operator.AffineDescriptor
 descriptor	org.eclipse.imagen.operator.AndConstDescriptor
@@ -119,6 +117,7 @@ descriptor	org.eclipse.imagen.operator.SubtractConstDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractFromConstDescriptor
 descriptor	org.eclipse.imagen.operator.SubtractDescriptor
 descriptor	org.eclipse.imagen.operator.ThresholdDescriptor
+descriptor	org.eclipse.imagen.operator.TransposeDescriptor
 descriptor	org.eclipse.imagen.operator.TranslateDescriptor
 descriptor	org.eclipse.imagen.operator.WarpDescriptor
 descriptor	org.eclipse.imagen.operator.XorConstDescriptor
@@ -141,7 +140,6 @@ descriptor	org.eclipse.imagen.operator.XorDescriptor
 #
 rendered    org.eclipse.imagen.media.opimage.AbsoluteCRIF		org.eclipse.imagen.media	absolute		sunabsoluterif
 rendered    org.eclipse.imagen.media.opimage.AddCRIF			org.eclipse.imagen.media	add			sunaddrif
-rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
 rendered    org.eclipse.imagen.media.opimage.AddConstCRIF		org.eclipse.imagen.media	addconst		sunaddconstrif
 rendered    org.eclipse.imagen.media.opimage.AffineCRIF		org.eclipse.imagen.media	affine			sunaffinerif
 rendered    org.eclipse.imagen.media.opimage.AndCRIF			org.eclipse.imagen.media	and			sunandrif
@@ -185,6 +183,7 @@ rendered    org.eclipse.imagen.media.opimage.SubtractConstCRIF		org.eclipse.imag
 rendered    org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	org.eclipse.imagen.media	subtractfromconst	sunsubtractfromconstrif
 rendered    org.eclipse.imagen.media.opimage.ThresholdCRIF		org.eclipse.imagen.media	threshold		sunthresholdrif
 rendered    org.eclipse.imagen.media.opimage.TranslateCRIF		org.eclipse.imagen.media	translate		suntransrif
+rendered    org.eclipse.imagen.media.opimage.TransposeCRIF		org.eclipse.imagen.media	transpose		suntransposerif
 rendered    org.eclipse.imagen.media.opimage.WarpRIF			org.eclipse.imagen.media	warp			sunwarprif
 rendered    org.eclipse.imagen.media.opimage.XorCRIF			org.eclipse.imagen.media	xor			sunxorrif
 rendered    org.eclipse.imagen.media.opimage.XorConstCRIF		org.eclipse.imagen.media	xorconst		sunxorconstrif
@@ -198,7 +197,6 @@ rendered    org.eclipse.imagen.media.opimage.XorConstCRIF		org.eclipse.imagen.me
 #
 renderable	org.eclipse.imagen.media.opimage.AbsoluteCRIF		absolute
 renderable	org.eclipse.imagen.media.opimage.AddCRIF		add
-renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
 renderable	org.eclipse.imagen.media.opimage.AddConstCRIF		addconst
 renderable	org.eclipse.imagen.media.opimage.AffineCRIF		affine
 renderable	org.eclipse.imagen.media.opimage.AndCRIF		and
@@ -233,6 +231,7 @@ renderable	org.eclipse.imagen.media.opimage.SubtractConstCRIF	subtractconst
 renderable	org.eclipse.imagen.media.opimage.SubtractFromConstCRIF	subtractfromconst
 renderable	org.eclipse.imagen.media.opimage.ThresholdCRIF		threshold
 renderable	org.eclipse.imagen.media.opimage.TranslateCRIF		translate
+renderable	org.eclipse.imagen.media.opimage.TransposeCRIF		transpose
 renderable	org.eclipse.imagen.media.opimage.XorCRIF		xor
 renderable	org.eclipse.imagen.media.opimage.XorConstCRIF		xorconst
 renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverage
