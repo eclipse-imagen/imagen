@@ -70,6 +70,8 @@
 #
 # Image operation descriptors :
 #
+descriptor	org.eclipse.imagen.operator.AddCollectionDescriptor
+descriptor	org.eclipse.imagen.operator.AddConstToCollectionDescriptor
 descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
 descriptor	org.eclipse.imagen.operator.BoxFilterDescriptor
 descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
@@ -110,6 +112,7 @@ descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
 #
 # "rendered" factory objects
 #
+rendered    org.eclipse.imagen.media.opimage.AddCollectionCRIF		org.eclipse.imagen.media	addcollection		sunaddcollectionrif
 rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
 rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.media	boxfilter		sunboxfilterrif
 rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
@@ -137,8 +140,7 @@ rendered    org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	org.eclip
 #
 # "renderable" factory objects
 #
-
-
+renderable	org.eclipse.imagen.media.opimage.AddCollectionCRIF	addcollection
 renderable	org.eclipse.imagen.media.opimage.CompositeCRIF		composite
 renderable	org.eclipse.imagen.media.opimage.ConjugateCRIF		conjugate
 renderable	org.eclipse.imagen.media.opimage.DCTCRIF		dct

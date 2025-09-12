@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.eclipse.imagen</groupId>
-    <artifactId>imagen-modules</artifactId>
+    <artifactId>imagen-unsupported</artifactId>
     <version>0.9.0-SNAPSHOT</version>
   </parent>
 

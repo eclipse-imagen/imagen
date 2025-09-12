@@ -34,7 +34,6 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
-import org.eclipse.imagen.ScaleOpImage;
 import org.eclipse.imagen.media.interpolators.InterpolationBicubic;
 import org.eclipse.imagen.media.interpolators.InterpolationBilinear;
 import org.eclipse.imagen.media.interpolators.InterpolationNearest;
@@ -44,7 +43,6 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.translate.TranslateIntOpImage;
 
-/** @see ScaleOpImage */
 public class Scale2CRIF extends CRIFImpl {
 
     static final float TOLERANCE = 0.01F;

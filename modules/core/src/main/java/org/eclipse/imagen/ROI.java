@@ -31,6 +31,9 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -38,6 +41,8 @@ import java.util.ListIterator;
 import java.util.Vector;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.iterator.RandomIterFactory;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
@@ -912,7 +917,6 @@ public class ROI implements Serializable {
      *
      * @param out The <code>ObjectOutputStream</code>.
      */
-    /* TODO check serialization
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         if (theImage != null) {
@@ -923,14 +927,13 @@ public class ROI implements Serializable {
         } else {
             out.writeBoolean(false);
         }
-    }*/
+    }
 
     /**
      * Deserialize the <code>ROI</code>.
      *
      * @param in The <code>ObjectInputStream</code>.
      */
-    /* TODO check serialization
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         if ((boolean) in.readBoolean()) {
@@ -941,5 +944,5 @@ public class ROI implements Serializable {
             theImage = null;
         }
         iter = null;
-    }*/
+    }
 }

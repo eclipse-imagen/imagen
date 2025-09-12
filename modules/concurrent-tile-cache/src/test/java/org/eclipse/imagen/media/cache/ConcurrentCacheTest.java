@@ -17,6 +17,14 @@
 */
 package org.eclipse.imagen.media.cache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
@@ -423,4 +431,34 @@ public class ConcurrentCacheTest {
 
     @Test
     public void emptyTest() {}
+
+    public static RenderedImage makeImage(int w, int h, int tileW, int tileH) {
+        return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    }
+
+    @Test
+    public void testTileMethods() {
+        TileCache cache = new ConcurrentTileCache();
+        cache.setMemoryCapacity(1000 * 1000);
+        cache.setMemoryThreshold(0.5f);
+        RenderedImage img = makeImage(64, 64, 16, 16);
+        Point[] pointTiles = new Point[6];
+        Raster[] allTiles = new Raster[6];
+        for (int i = 0; i < 6; i++) {
+            int tileX = (i % 4);
+            int tileY = (i / 4);
+            pointTiles[i] = new Point(tileX, tileY);
+            allTiles[i] = img.getData(new Rectangle(tileX * 16, tileY * 16, 16, 16));
+            cache.add(img, tileX, tileY, allTiles[i]);
+        }
+        Raster[] all = cache.getTiles(img);
+        assertNotNull(all);
+        cache.removeTiles(img);
+        cache.addTiles(img, pointTiles, allTiles, null);
+        Raster[] tiles = cache.getTiles(img, pointTiles);
+        assertEquals(6, tiles.length);
+        cache.flush();
+        all = cache.getTiles(img);
+        assertNull(all);
+    }
 }

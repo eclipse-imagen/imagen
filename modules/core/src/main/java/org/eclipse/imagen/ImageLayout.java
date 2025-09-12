@@ -20,7 +20,12 @@ package org.eclipse.imagen;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import org.eclipse.imagen.media.serialize.SerializableState;
+import org.eclipse.imagen.media.serialize.SerializerFactory;
 
 /**
  * A class describing the desired layout of an <code>OpImage</code>.
@@ -714,7 +719,6 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
         }
     }
 
-    /* TODO check serialization
     private void writeObject(ObjectOutputStream out) throws IOException {
         // Write the non-static and non-transient fields.
         out.defaultWriteObject();
@@ -729,14 +733,12 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
             out.writeObject(SerializerFactory.getState(colorModel, null));
         }
     }
-    */
 
     /**
      * Deserialize the <code>ImageLayout</code>.
      *
      * @throws IOException
      */
-    /* TODO check serialization
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Read the non-static and non-transient fields.
         in.defaultReadObject();
@@ -762,7 +764,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
             if (ColorModel.class.isAssignableFrom(c)) colorModel = (ColorModel) ss.getObject();
             else colorModel = null;
         }
-    }*/
+    }
 
     /**
      * Tests if the specified <code>Object</code> equals this <code>ImageLayout</code>.

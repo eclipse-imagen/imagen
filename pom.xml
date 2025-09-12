@@ -351,16 +351,21 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
+            <configuration>
+              <destFile>${project.build.directory}/jacoco.exec</destFile>
+              <append>true</append>
+              <excludes>
+                <!-- Exclude RenderedImageBrowser code and related classes since it's UI related code -->
+                <exclude>org/eclipse/imagen/media/viewer/**</exclude>
+                <exclude>org/eclipse/imagen/media/contrastenhancement/**</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <execution>
                 <id>prepare-agent</id>
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>
-                <configuration>
-                  <destFile>${project.build.directory}/jacoco.exec</destFile>
-                  <append>true</append>
-                </configuration>
               </execution>
             </executions>
           </plugin>
