@@ -9,3 +9,4 @@ descriptor  org.eclipse.imagen.media.convolve.ConvolveDescriptor
 #
 
 rendered  org.eclipse.imagen.media.convolve.ConvolveRIF org.eclipse.imagen.media  Convolve Convolve
+rendered  org.eclipse.imagen.media.convolve.UnsharpMaskRIF		org.eclipse.imagen.media	unsharpmask		sununsharpmaskrif

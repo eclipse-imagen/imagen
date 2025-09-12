@@ -42,9 +42,11 @@ import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.stats.Extrema;
+import org.eclipse.imagen.media.stats.Statistics;
+import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.testclasses.TestBase;
 import org.eclipse.imagen.media.utilities.ImageUtilities;
-import org.eclipse.imagen.operator.ExtremaDescriptor;
 import org.junit.Test;
 
 public class ClassBreaksOpImageTest extends TestBase {
@@ -392,11 +394,14 @@ public class ClassBreaksOpImageTest extends TestBase {
     }
 
     private Double[][] getExtrema(RenderedImage image) {
-        RenderedOp extremaOp = ExtremaDescriptor.create(image, null, 1, 1, false, 1, null);
-        double[][] extrema = (double[][]) extremaOp.getProperty("extrema");
+        Statistics.StatsType[] stats = {Statistics.StatsType.EXTREMA};
+        RenderedOp extremaOp = StatisticsDescriptor.create(image, 1, 1, null, null, false, null, stats, null);
+        Statistics[][] resultStats = (Statistics[][]) extremaOp.getProperty(Statistics.STATS_PROPERTY);
+        Extrema resultStat = (Extrema) resultStats[0][0];
+        double[] resultValue = (double[]) resultStat.getResult();
         Double[][] result = new Double[2][];
-        result[0] = new Double[] {extrema[0][0]};
-        result[1] = new Double[] {extrema[1][0]};
+        result[0] = new Double[] {resultValue[0]};
+        result[1] = new Double[] {resultValue[1]};
         return result;
     }
 
