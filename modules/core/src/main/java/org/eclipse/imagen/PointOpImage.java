@@ -464,15 +464,13 @@ public abstract class PointOpImage extends OpImage {
             if (isInPlaceEnabled) {
                 try {
                     Method getTileMethod = source0.getClass().getMethod("getTile", new Class[] {int.class, int.class});
-                    Class opImageClass = Class.forName("org.eclipse.imagen.OpImage");
+                    Class opImageClass = OpImage.class;
                     Class declaringClass = getTileMethod.getDeclaringClass();
 
                     // Unset in-place flag if getTile() is overridden.
                     if (!declaringClass.equals(opImageClass)) {
                         isInPlaceEnabled = false;
                     }
-                } catch (ClassNotFoundException e) {
-                    isInPlaceEnabled = false;
                 } catch (NoSuchMethodException e) {
                     isInPlaceEnabled = false;
                 }
