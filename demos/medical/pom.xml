@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.imagen</groupId>
     <artifactId>imagen-demos</artifactId>
-    <version>0.4.0</version>
+    <version>0.9.0-SNAPSHOT</version>
   </parent>
   <artifactId>imagen-demo-medical</artifactId>
   <packaging>jar</packaging>

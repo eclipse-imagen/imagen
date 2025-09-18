@@ -102,9 +102,6 @@ On main:
    ```
    sdk use java 11.0.27-tem
    ```
-   ```
-   mvn clean install
-   ```
 
 2. Update version number in Maven POMs (run the Maven versions plugin at project root):
 
@@ -202,7 +199,7 @@ Update main to the next release version:
 1Update version number in Maven POMs (run the Maven release plugin at project root:
 
    ```
-   mvn versions:set -DnewVersion=0.9.0-SNAPSHOT
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.0-SNAPSHOT
    ```
 
 3. Compile to test, and commit this change.
@@ -210,7 +207,7 @@ Update main to the next release version:
    ```
    mvn clean install
    git add .
-   git commit -m "Version 1.20.0-SNAPSHOT"
+   git commit -m "Version 0.9.0-SNAPSHOT"
    git push
    ```  
 

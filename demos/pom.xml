@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.imagen</groupId>
     <artifactId>imagen</artifactId>
-    <version>0.4.0</version>
+    <version>0.9.0-SNAPSHOT</version>
   </parent>
   <artifactId>imagen-demos</artifactId>
   <packaging>pom</packaging>
