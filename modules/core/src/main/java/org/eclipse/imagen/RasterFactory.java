@@ -24,6 +24,8 @@ import java.awt.image.BandedSampleModel;
 import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
@@ -32,7 +34,6 @@ import java.awt.image.Raster;
 import java.awt.image.RasterFormatException;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
  * A convenience class for the construction of various types of <code>WritableRaster</code> and <code>SampleModel</code>
@@ -145,11 +146,11 @@ public class RasterFactory {
                 break;
 
             case DataBuffer.TYPE_FLOAT:
-                d = DataBufferUtils.createDataBufferFloat(size);
+                d = new DataBufferFloat(size);
                 break;
 
             case DataBuffer.TYPE_DOUBLE:
-                d = DataBufferUtils.createDataBufferDouble(size);
+                d = new java.awt.image.DataBufferDouble(size);
                 break;
 
             default:
@@ -275,11 +276,11 @@ public class RasterFactory {
                 break;
 
             case DataBuffer.TYPE_FLOAT:
-                d = DataBufferUtils.createDataBufferFloat(size, banks);
+                d = new DataBufferFloat(size, banks);
                 break;
 
             case DataBuffer.TYPE_DOUBLE:
-                d = DataBufferUtils.createDataBufferDouble(size, banks);
+                d = new DataBufferDouble(size, banks);
                 break;
 
             default:

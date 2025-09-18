@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
  * This class is a serializable proxy for a DataBuffer from which the DataBuffer may be reconstituted.
@@ -80,10 +79,10 @@ public class DataBufferProxy implements Serializable {
                 dataArray = ((DataBufferInt) dataBuffer).getBankData();
                 break;
             case DataBuffer.TYPE_FLOAT:
-                dataArray = DataBufferUtils.getBankDataFloat(dataBuffer);
+                dataArray = ((DataBufferFloat) dataBuffer).getBankData();
                 break;
             case DataBuffer.TYPE_DOUBLE:
-                dataArray = DataBufferUtils.getBankDataDouble(dataBuffer);
+                dataArray = ((DataBufferDouble) dataBuffer).getBankData();
                 break;
             default:
                 throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
@@ -122,10 +121,10 @@ public class DataBufferProxy implements Serializable {
                 dataBuffer = new DataBufferInt((int[][]) dataArray, size, offsets);
                 break;
             case DataBuffer.TYPE_FLOAT:
-                dataBuffer = DataBufferUtils.createDataBufferFloat((float[][]) dataArray, size, offsets);
+                dataBuffer = new DataBufferFloat((float[][]) dataArray, size, offsets);
                 break;
             case DataBuffer.TYPE_DOUBLE:
-                dataBuffer = DataBufferUtils.createDataBufferDouble((double[][]) dataArray, size, offsets);
+                dataBuffer = new DataBufferDouble((double[][]) dataArray, size, offsets);
                 break;
             default:
                 throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));

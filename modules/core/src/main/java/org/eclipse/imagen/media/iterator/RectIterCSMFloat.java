@@ -18,8 +18,8 @@
 package org.eclipse.imagen.media.iterator;
 
 import java.awt.Rectangle;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /** */
 public class RectIterCSMFloat extends RectIterCSM {
@@ -39,7 +39,7 @@ public class RectIterCSMFloat extends RectIterCSM {
             return;
         }
 
-        float[][] bd = DataBufferUtils.getBankDataFloat(dataBuffer);
+        float[][] bd = ((DataBufferFloat) dataBuffer).getBankData();
         for (int i = 0; i < numBands; i++) {
             bankData[i] = bd[bankIndices[i]];
         }

@@ -21,6 +21,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
@@ -33,7 +35,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import org.eclipse.imagen.media.serialize.SerializableState;
 import org.eclipse.imagen.media.serialize.SerializerFactory;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
  * A lookup table object associated with the "Lookup" operation. The "Lookup" operation is described in <code>
@@ -332,7 +333,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(1, 0);
-        this.data = DataBufferUtils.createDataBufferFloat(data, data.length);
+        this.data = new DataBufferFloat(data, data.length);
     }
 
     /**
@@ -348,7 +349,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(1, offset);
-        this.data = DataBufferUtils.createDataBufferFloat(data, data.length);
+        this.data = new DataBufferFloat(data, data.length);
     }
 
     /**
@@ -363,7 +364,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(data.length, 0);
-        this.data = DataBufferUtils.createDataBufferFloat(data, data[0].length);
+        this.data = new DataBufferFloat(data, data[0].length);
     }
 
     /**
@@ -379,7 +380,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(data.length, offset);
-        this.data = DataBufferUtils.createDataBufferFloat(data, data[0].length);
+        this.data = new DataBufferFloat(data, data[0].length);
     }
 
     /**
@@ -395,7 +396,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(data.length, offsets);
-        this.data = DataBufferUtils.createDataBufferFloat(data, data[0].length);
+        this.data = new DataBufferFloat(data, data[0].length);
     }
 
     /**
@@ -410,7 +411,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(1, 0);
-        this.data = DataBufferUtils.createDataBufferDouble(data, data.length);
+        this.data = new DataBufferDouble(data, data.length);
     }
 
     /**
@@ -426,7 +427,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(1, offset);
-        this.data = DataBufferUtils.createDataBufferDouble(data, data.length);
+        this.data = new DataBufferDouble(data, data.length);
     }
 
     /**
@@ -441,7 +442,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(data.length, 0);
-        this.data = DataBufferUtils.createDataBufferDouble(data, data[0].length);
+        this.data = new DataBufferDouble(data, data[0].length);
     }
 
     /**
@@ -457,7 +458,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(data.length, offset);
-        this.data = DataBufferUtils.createDataBufferDouble(data, data[0].length);
+        this.data = new DataBufferDouble(data, data[0].length);
     }
 
     /**
@@ -473,7 +474,7 @@ public class LookupTableJAI extends Object implements Serializable {
         }
 
         this.initOffsets(data.length, offsets);
-        this.data = DataBufferUtils.createDataBufferDouble(data, data[0].length);
+        this.data = new DataBufferDouble(data, data[0].length);
     }
 
     /** Returns the table data as a DataBuffer. */
@@ -530,22 +531,22 @@ public class LookupTableJAI extends Object implements Serializable {
 
     /** Returns the float table data in array format, or null if the table's data type is not float. */
     public float[][] getFloatData() {
-        return data.getDataType() == DataBuffer.TYPE_FLOAT ? DataBufferUtils.getBankDataFloat(data) : null;
+        return data.getDataType() == DataBuffer.TYPE_FLOAT ? ((DataBufferFloat) data).getBankData() : null;
     }
 
     /** Returns the float table data of a specific band in array format, or null if table's data type is not float. */
     public float[] getFloatData(int band) {
-        return data.getDataType() == DataBuffer.TYPE_FLOAT ? DataBufferUtils.getDataFloat(data, band) : null;
+        return data.getDataType() == DataBuffer.TYPE_FLOAT ? ((DataBufferFloat) data).getData(band) : null;
     }
 
     /** Returns the double table data in array format, or null if the table's data type is not double. */
     public double[][] getDoubleData() {
-        return data.getDataType() == DataBuffer.TYPE_DOUBLE ? DataBufferUtils.getBankDataDouble(data) : null;
+        return data.getDataType() == DataBuffer.TYPE_DOUBLE ? ((DataBufferDouble) data).getBankData() : null;
     }
 
     /** Returns the double table data of a specific band in array format, or null if table's data type is not double. */
     public double[] getDoubleData(int band) {
-        return data.getDataType() == DataBuffer.TYPE_DOUBLE ? DataBufferUtils.getDataDouble(data, band) : null;
+        return data.getDataType() == DataBuffer.TYPE_DOUBLE ? ((DataBufferDouble) data).getData(band) : null;
     }
 
     /** Returns the index offsets of entry 0 for all bands. */

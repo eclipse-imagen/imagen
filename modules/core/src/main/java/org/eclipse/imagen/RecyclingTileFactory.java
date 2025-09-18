@@ -21,6 +21,8 @@ import java.awt.Point;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
@@ -34,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Observable;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
  * A simple implementation of <code>TileFactory</code> wherein the tiles returned from <code>createTile()</code> attempt
@@ -178,10 +179,10 @@ public class RecyclingTileFactory extends Observable implements TileFactory, Til
                 array = ((DataBufferInt) db).getBankData();
                 break;
             case DataBuffer.TYPE_FLOAT:
-                array = DataBufferUtils.getBankDataFloat(db);
+                array = ((DataBufferFloat) db).getBankData();
                 break;
             case DataBuffer.TYPE_DOUBLE:
-                array = DataBufferUtils.getBankDataDouble(db);
+                array = ((DataBufferDouble) db).getBankData();
                 break;
             default:
                 throw new UnsupportedOperationException(JaiI18N.getString("Generic3"));
@@ -317,7 +318,7 @@ public class RecyclingTileFactory extends Observable implements TileFactory, Til
                             for (int i = 0; i < numBanks; i++) {
                                 Arrays.fill(bankData[i], 0.0F);
                             }
-                            db = DataBufferUtils.createDataBufferFloat(bankData, (int) size);
+                            db = new DataBufferFloat(bankData, (int) size);
                         }
                         break;
                     case DataBuffer.TYPE_DOUBLE:
@@ -326,7 +327,7 @@ public class RecyclingTileFactory extends Observable implements TileFactory, Til
                             for (int i = 0; i < numBanks; i++) {
                                 Arrays.fill(bankData[i], 0.0);
                             }
-                            db = DataBufferUtils.createDataBufferDouble(bankData, (int) size);
+                            db = new DataBufferDouble(bankData, (int) size);
                         }
                         break;
                     default:
