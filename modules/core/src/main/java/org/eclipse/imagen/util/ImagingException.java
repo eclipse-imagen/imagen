@@ -19,9 +19,6 @@ package org.eclipse.imagen.util;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.PrivilegedActionException;
 
 /**
  * This class is designed to contain information of the (abnormal) situations that happen in JAI and the operations
@@ -83,22 +80,9 @@ public class ImagingException extends RuntimeException {
         Throwable atop = this;
 
         while (rootCause != atop && rootCause != null) {
-            try {
-                atop = rootCause;
-                Method getCause = rootCause.getClass().getMethod("getCause", null);
-                rootCause = (Throwable) getCause.invoke(rootCause, null);
-            } catch (Exception e) {
-                // do nothing.  This happens (1) getCause method is not defined.
-                // (2) Reflection error.  So rootCause will be the same as
-                // atop. Then stop the loop.
-                if (rootCause instanceof InvocationTargetException)
-                    rootCause = ((InvocationTargetException) rootCause).getTargetException();
-                else if (rootCause instanceof PrivilegedActionException)
-                    rootCause = ((PrivilegedActionException) rootCause).getException();
-                else rootCause = atop;
-            } finally {
-                if (rootCause == null) rootCause = atop;
-            }
+            atop = rootCause;
+            rootCause = rootCause.getCause();
+            if (rootCause == null) rootCause = atop;
         }
 
         return rootCause;
@@ -157,13 +141,4 @@ public class ImagingException extends RuntimeException {
             }
         }
     }
-    /*
-        public static void main(String[] args) {
-    	Exception ce = new ImagingException(new RuntimeException("test"));
-    	Throwable cause = ce.getCause();
-    	System.out.println("Cause: " + cause);
-    	System.out.println("Root cause: " + ((ImagingException)ce).getRootCause());
-    	ce.printStackTrace();
-        }
-    */
 }
