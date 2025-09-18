@@ -20,15 +20,14 @@ package org.eclipse.imagen.media.serialize;
 import java.awt.RenderingHints;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.eclipse.imagen.DataBufferDouble;
-import org.eclipse.imagen.DataBufferFloat;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
  * This class is a serializable proxy for a DataBuffer from which the DataBuffer may be reconstituted.
@@ -37,39 +36,18 @@ import org.eclipse.imagen.media.util.DataBufferUtils;
  */
 public class DataBufferState extends SerializableStateImpl {
 
-    /** DataBufferFloat and DataBufferDouble core classes or null. */
-    private static final Class[] J2DDataBufferClasses = new Class[] {DataBufferFloat.class, DataBufferDouble.class};
-
     /** The DataBuffer. */
     private transient DataBuffer dataBuffer;
 
     public static Class[] getSupportedClasses() {
-        Class[] supportedClasses = null;
-        if (J2DDataBufferClasses != null) {
-            // Java 2 1.4.0 and higher.
-            supportedClasses = new Class[] {
-                DataBufferByte.class,
-                DataBufferShort.class,
-                DataBufferUShort.class,
-                DataBufferInt.class,
-                J2DDataBufferClasses[0],
-                J2DDataBufferClasses[1],
-                org.eclipse.imagen.DataBufferFloat.class,
-                org.eclipse.imagen.DataBufferDouble.class
-            };
-        } else {
-            // Java 2 pre-1.4.0.
-            supportedClasses = new Class[] {
-                DataBufferByte.class,
-                DataBufferShort.class,
-                DataBufferUShort.class,
-                DataBufferInt.class,
-                org.eclipse.imagen.DataBufferFloat.class,
-                org.eclipse.imagen.DataBufferDouble.class
-            };
-        }
-
-        return supportedClasses;
+        return new Class[] {
+            DataBufferByte.class,
+            DataBufferShort.class,
+            DataBufferUShort.class,
+            DataBufferInt.class,
+            DataBufferFloat.class,
+            DataBufferDouble.class
+        };
     }
 
     /**
@@ -114,10 +92,10 @@ public class DataBufferState extends SerializableStateImpl {
                 dataArray = ((DataBufferInt) dataBuffer).getBankData();
                 break;
             case DataBuffer.TYPE_FLOAT:
-                dataArray = DataBufferUtils.getBankDataFloat(dataBuffer);
+                dataArray = ((DataBufferFloat) dataBuffer).getBankData();
                 break;
             case DataBuffer.TYPE_DOUBLE:
-                dataArray = DataBufferUtils.getBankDataDouble(dataBuffer);
+                dataArray = ((java.awt.image.DataBufferDouble) dataBuffer).getBankData();
                 break;
             default:
                 throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
@@ -158,10 +136,10 @@ public class DataBufferState extends SerializableStateImpl {
                 dataBuffer = new DataBufferInt((int[][]) dataArray, size, offsets);
                 break;
             case DataBuffer.TYPE_FLOAT:
-                dataBuffer = DataBufferUtils.createDataBufferFloat((float[][]) dataArray, size, offsets);
+                dataBuffer = new java.awt.image.DataBufferFloat((float[][]) dataArray, size, offsets);
                 break;
             case DataBuffer.TYPE_DOUBLE:
-                dataBuffer = DataBufferUtils.createDataBufferDouble((double[][]) dataArray, size, offsets);
+                dataBuffer = new DataBufferDouble((double[][]) dataArray, size, offsets);
                 break;
             default:
                 throw new RuntimeException(JaiI18N.getString("DataBufferState0"));

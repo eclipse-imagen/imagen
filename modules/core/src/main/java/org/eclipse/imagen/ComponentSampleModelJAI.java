@@ -20,11 +20,12 @@ package org.eclipse.imagen;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
 import java.awt.image.SampleModel;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
  * This class represents image data which is stored such that each sample of a pixel occupies one data element of the
@@ -229,10 +230,10 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
                 dataBuffer = new DataBufferShort(size, numBanks);
                 break;
             case DataBuffer.TYPE_FLOAT:
-                dataBuffer = DataBufferUtils.createDataBufferFloat(size, numBanks);
+                dataBuffer = new DataBufferFloat(size, numBanks);
                 break;
             case DataBuffer.TYPE_DOUBLE:
-                dataBuffer = DataBufferUtils.createDataBufferDouble(size, numBanks);
+                dataBuffer = new DataBufferDouble(size, numBanks);
                 break;
             default:
                 throw new RuntimeException(JaiI18N.getString("RasterFactory3"));
