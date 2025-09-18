@@ -23,6 +23,8 @@ import java.awt.image.ComponentColorModel;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
@@ -31,7 +33,6 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
@@ -466,7 +467,7 @@ public class RasterAccessor {
                     DataBuffer dbf = (DataBuffer) raster.getDataBuffer();
                     floatDataArrays = new float[numBands][];
                     for (int i = 0; i < numBands; i++) {
-                        floatDataArrays[i] = DataBufferUtils.getDataFloat(dbf, bankIndices[i]);
+                        floatDataArrays[i] = ((DataBufferFloat) dbf).getData(bankIndices[i]);
                     }
                     break;
 
@@ -474,7 +475,7 @@ public class RasterAccessor {
                     DataBuffer dbd = (DataBuffer) raster.getDataBuffer();
                     doubleDataArrays = new double[numBands][];
                     for (int i = 0; i < numBands; i++) {
-                        doubleDataArrays[i] = DataBufferUtils.getDataDouble(dbd, bankIndices[i]);
+                        doubleDataArrays[i] = ((DataBufferDouble) dbd).getData(bankIndices[i]);
                     }
                     break;
             }

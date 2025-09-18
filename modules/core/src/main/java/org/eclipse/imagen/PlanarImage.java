@@ -27,6 +27,8 @@ import java.awt.image.ColorModel;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
@@ -48,7 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 import org.eclipse.imagen.media.util.PropertyUtil;
@@ -2739,7 +2740,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         //  Get parameters of destination raster
         //
         DataBuffer dstDB = dstRaster.getDataBuffer();
-        float[] dst = DataBufferUtils.getDataFloat(dstDB);
+        float[] dst = ((DataBufferFloat) dstDB).getData();
         int dstPS = dstSM.getPixelStride();
         int dstSS = dstSM.getScanlineStride();
 
@@ -2794,7 +2795,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
 
                 // Get the actual data array
                 DataBuffer srcDB = tile.getDataBuffer();
-                float[] src = DataBufferUtils.getDataFloat(srcDB);
+                float[] src = ((DataBufferFloat) srcDB).getData();
 
                 int nsamps = srcW * srcPS;
                 boolean useArrayCopy = (nsamps >= MIN_ARRAYCOPY_SIZE);
@@ -2838,7 +2839,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         //  Get parameters of destination raster
         //
         DataBuffer dstDB = dstRaster.getDataBuffer();
-        double[] dst = DataBufferUtils.getDataDouble(dstDB);
+        double[] dst = ((DataBufferDouble) dstDB).getData();
         int dstPS = dstSM.getPixelStride();
         int dstSS = dstSM.getScanlineStride();
 
@@ -2893,7 +2894,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
 
                 // Get the actual data array
                 DataBuffer srcDB = tile.getDataBuffer();
-                double[] src = DataBufferUtils.getDataDouble(srcDB);
+                double[] src = ((DataBufferDouble) srcDB).getData();
 
                 int nsamps = srcW * srcPS;
                 boolean useArrayCopy = (nsamps >= MIN_ARRAYCOPY_SIZE);

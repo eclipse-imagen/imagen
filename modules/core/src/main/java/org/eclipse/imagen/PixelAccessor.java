@@ -23,6 +23,8 @@ import java.awt.image.ComponentColorModel;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferShort;
 import java.awt.image.DataBufferUShort;
@@ -35,7 +37,6 @@ import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Vector;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
@@ -629,7 +630,7 @@ public final class PixelAccessor {
                     break;
 
                 case DataBuffer.TYPE_FLOAT:
-                    float[][] fbd = DataBufferUtils.getBankDataFloat(db);
+                    float[][] fbd = ((DataBufferFloat) db).getBankData();
                     float[][] fd = new float[numBands][];
 
                     for (int b = 0; b < numBands; b++) {
@@ -639,7 +640,7 @@ public final class PixelAccessor {
                     break;
 
                 case DataBuffer.TYPE_DOUBLE:
-                    double[][] dbd = DataBufferUtils.getBankDataDouble(db);
+                    double[][] dbd = ((DataBufferDouble) db).getBankData();
                     double[][] dd = new double[numBands][];
 
                     for (int b = 0; b < numBands; b++) {
