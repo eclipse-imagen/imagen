@@ -63,3 +63,163 @@ If using an unsupported environment:
 COMPILATION ERROR : 
 TIFFImage.java:[59,31] error: package com.sun.image.codec.jpeg does not exist
 ```
+
+## Release
+
+Prep:
+
+1. Locate [Release Milestone](https://github.com/eclipse-imagen/imagen/milestones) for the release
+2. Apply this milestones to Issues and PRs included in the release.
+3. Prepare Release Notes:
+   
+   * Record significant changes
+   * Enter date of release
+
+3. For minor release we are okay to proceed without formal review.
+
+  * Email imagen-dev@eclipse.org that release is stated
+  * Use text from release notes to describe the release
+
+3. For major release start eclipse release process
+   
+   Example [JTS 1.17.0-release-review](https://projects.eclipse.org/projects/locationtech.jts/reviews/1.17.0-release-review) page.
+   
+   * Use text from release notes to describe the release
+   * Email review page to imagen-dev@eclipse.org for aproval
+   * Email review page emo@eclipse.org when ready, to save time link to the imagen-dev email approval thread
+   * EMO opens a [bug ticket like this](https://bugs.eclipse.org/bugs/show_bug.cgi?id=564358) to track progress
+    
+   This takes about 2 weeks, schuedled for 1st and 15th each month.
+
+Update artifacts:
+
+### Update Artifacts
+
+On main:
+
+1. Before you start check that the Maven build executes with no errors using JDK 11:
+
+   ```
+   sdk use java 11.0.27-tem
+   ```
+   ```
+   mvn clean install
+   ```
+
+2. Update version number in Maven POMs (run the Maven versions plugin at project root):
+
+   ```
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.4.0
+   ```
+
+3. Commit this change.
+
+   ```
+   git add .
+   git commit -m "Release version 0.4.0"
+   git push
+   ```
+
+4. Tag this commit, and push the tag to GitHub.
+
+   ```
+   git tag -a 0.4.0 -m "Release version 0.4.0"
+   git push --tags
+   ```
+
+   This is the commit that will form the GitHub release below.
+
+### Create Release Artifacts
+
+1. Before you start double check that you have `gpg` installed and configured, with your public key distributed.
+
+   References: [Working with PGP Signatures](https://central.sonatype.org/pages/working-with-pgp-signatures.html)
+
+2. The `gpg-agent` will remember a passphrase for a short duration.
+
+   To interact with the agent (so it asks you the passphrase):
+
+   ```
+   gpg --use-agent --armor --detach-sign --output - pom.xml
+   ```
+
+   Reference: [Configuring GPG/PGP for Maven Releases to Sonatype on Mac OS X](https://nblair.github.io/2015/10/29/maven-gpg-sonatype/)
+
+2. Execute the final Maven release build which will sign jars:
+
+   ```
+   mvn clean install -Drelease
+   ```
+
+### Deploy the Release
+
+1. Deploy to Maven Central, using credentials in your `~/.m2/settings.xml`:
+
+   ```
+   <server>
+      <id>central</id>
+      <username>generated_user</username>
+      <password>generated_password</password>
+   </server>
+   ```
+
+   Reference: [Publishing By Using the Maven Plugin](https://central.sonatype.org/publish/publish-portal-maven/)
+
+2. Deploy to Maven Central with the release property and profile
+
+   ```
+   mvn deploy -Drelease
+   ```
+   
+   A successful deploy will verify, and then wait for you to publish:
+   
+   ```
+   Deployment 9590fb21-a026-4451-9722-a7216b258f4d has been validated. To finish publishing visit https://central.sonatype.com/publishing/deployments
+   ```
+   
+   Check the artifacts work as expected before manually publishing.
+ 
+4. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases)
+
+  1. Navigate to https://github.com/eclipse-imagen/imagen/releases and use "Draft new Release"
+     based on your tag.
+
+  2. Copy the release notes:
+
+     Example: [0.4.0](tps://github.com/eclipse-imagen/imagen/releases/tag/0.4.0]
+
+  3. Add release artifacts (from the `target` folders):
+
+    * modules/all/target/imagen-all-0.4.0.jar
+    * legacy/all/target/imagen-legacy-all-0.4.0.jar
+
+  4. Tip: Mark as a draft release (until Eclipse review process completes)
+
+### Post release
+
+Update main to the next release version:
+
+1Update version number in Maven POMs (run the Maven release plugin at project root:
+
+   ```
+   mvn versions:set -DnewVersion=0.9.0-SNAPSHOT
+   ```
+
+3. Compile to test, and commit this change.
+
+   ```
+   mvn clean install
+   git add .
+   git commit -m "Version 1.20.0-SNAPSHOT"
+   git push
+   ```  
+
+### Announcing
+
+* Message to [imagen-dev@eclipse.org](https://accounts.eclipse.org/mailing-list/imagen-dev)
+* Comment on [Matrix channel](https://matrix.to/#/#technology.imagen-dev:matrix.eclipse.org)
+* Social media?
+* Others?
+
+   
+  
