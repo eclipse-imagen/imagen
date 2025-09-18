@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.imagen</groupId>
     <artifactId>imagen</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4.0</version>
   </parent>
   <artifactId>imagen-modules</artifactId>
   <packaging>pom</packaging>
@@ -133,6 +133,15 @@
         <version>2.5.3</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.8.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
         </configuration>
       </plugin>
     </plugins>

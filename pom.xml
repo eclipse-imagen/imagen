@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.imagen</groupId>
   <artifactId>imagen</artifactId>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.4.0</version>
   <packaging>pom</packaging>
 
   <name>ImageN</name>

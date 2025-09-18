@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.imagen</groupId>
     <artifactId>imagen-legacy</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4.0</version>
   </parent>
   <artifactId>imagen-legacy-all</artifactId>
   <packaging>jar</packaging>

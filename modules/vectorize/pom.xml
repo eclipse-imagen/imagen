@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.imagen</groupId>
     <artifactId>imagen-modules</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4.0</version>
   </parent>
 
   <artifactId>vectorize</artifactId>
