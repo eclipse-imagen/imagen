@@ -26,6 +26,8 @@ import java.awt.image.DataBufferUShort;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import org.eclipse.imagen.DataBufferDouble;
+import org.eclipse.imagen.DataBufferFloat;
 import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /**
@@ -36,21 +38,10 @@ import org.eclipse.imagen.media.util.DataBufferUtils;
 public class DataBufferState extends SerializableStateImpl {
 
     /** DataBufferFloat and DataBufferDouble core classes or null. */
-    private static Class[] J2DDataBufferClasses = null;
+    private static final Class[] J2DDataBufferClasses = new Class[] {DataBufferFloat.class, DataBufferDouble.class};
 
     /** The DataBuffer. */
     private transient DataBuffer dataBuffer;
-
-    // Initialize J2DDataBufferClasses.
-    static {
-        try {
-            Class dbfClass = Class.forName("java.awt.image.DataBufferFloat");
-            Class dbdClass = Class.forName("java.awt.image.DataBufferDouble");
-            J2DDataBufferClasses = new Class[] {dbfClass, dbdClass};
-        } catch (ClassNotFoundException e) {
-            // Ignore the exception.
-        }
-    }
 
     public static Class[] getSupportedClasses() {
         Class[] supportedClasses = null;
