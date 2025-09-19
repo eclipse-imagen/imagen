@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Vector;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
+import org.eclipse.imagen.media.util.SunTileScheduler;
 
 /**
  * This is the base class for all image operations. It provides a home for information and functionalities common to all
@@ -665,9 +666,7 @@ public abstract class OpImage extends PlanarImage {
 
             try {
                 // Test whether the TileScheduler is the default type.
-                Class sunScheduler = Class.forName("org.eclipse.imagen.media.util.SunTileScheduler");
-
-                isSunTileScheduler = sunScheduler.isInstance(scheduler);
+                isSunTileScheduler = scheduler instanceof SunTileScheduler;
             } catch (Exception e) {
                 // Deliberately ignore any Exceptions.
             }

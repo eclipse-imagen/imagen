@@ -18,8 +18,8 @@
 package org.eclipse.imagen.media.iterator;
 
 import java.awt.Rectangle;
+import java.awt.image.DataBufferFloat;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.media.util.DataBufferUtils;
 
 /** @since EA2 */
 public class RandomIterCSMFloat extends RandomIterCSM {
@@ -31,7 +31,7 @@ public class RandomIterCSMFloat extends RandomIterCSM {
     }
 
     protected final void dataBufferChanged() {
-        this.bankData = DataBufferUtils.getBankDataFloat(dataBuffer);
+        this.bankData = ((DataBufferFloat) dataBuffer).getBankData();
     }
 
     public final int getSample(int x, int y, int b) {
