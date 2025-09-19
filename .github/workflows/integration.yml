@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ 'ubuntu-latest' ]
-        experimental: [ true ]
+        experimental: [ false ]
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     steps:
@@ -28,7 +28,14 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
-      - uses: actions/checkout@v4
+      - name: Checkout imagen (PR) into imagen
+        uses: actions/checkout@v4
+        with:
+          # Ensure we build the *actual PR head* even for forked PRs
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: imagen
+          fetch-depth: 0
       - name: Maven repository caching
         uses: actions/cache@v4
         with:
@@ -42,12 +49,16 @@ jobs:
           sudo ethtool -K eth0 tx off rx off
       - name: Build ImageN
         run: |
+          cd imagen
           mvn -B clean install -T1C -DskipTests
       - name: Checkout GeoTools, GeoWebCache, GeoServer and more
         run: |
           cd ~
           echo "Preparing git ssh checkouts"
           mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          echo "Checkout out ImageIO-Ext"
+          mkdir imageio-ext
+          git clone --quiet --filter=tree:0 https://github.com/geosolutions-it/imageio-ext.git imageio-ext
           echo "Checking out GeoTools"
           mkdir geotools
           git clone --quiet --filter=tree:0 https://github.com/geotools/geotools.git geotools
@@ -60,15 +71,33 @@ jobs:
           echo "Checking out mapfish-print-v2"
           mkdir mapfish-print-v2
           git clone --quiet --filter=tree:0 https://github.com/mapfish/mapfish-print-v2.git mapfish-print-v2
+      - name: Update ImageN depedency versions in downstream projects
+        run: |
+          cd ~
+          export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
+          echo "Detected ImageN version: ${IMAGEN_VERSION}"
+          # ImageIO-Ext
+          echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
+          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" imageio-ext/pom.xml
+          # GeoTools BOM
+          echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
+          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" geotools/platform-dependencies/pom.xml
+      - name: Build ImageIO-Ext with tests
+        continue-on-error: ${{ matrix.experimental }}
+        run: |
+          cd ~
+          cd imageio-ext
+          git checkout master
+          git diff # show the dependency changes
+          mvn -B clean install -T1C -fae -Dall
       - name: Build GeoTools v2 with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
           cd ~
           cd geotools
           git checkout main
-          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
-          mvn -B clean install -T1C -Dall -DskipTests -fae
-          mvn -B test -T1C -Dall
+          git diff # show the dependency changes
+          mvn -B clean install -T1C -Dall -fae -nsu -Dspotless.apply.skip=true
       - name: Build GeoWebCache with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
@@ -77,18 +106,14 @@ jobs:
           cd ~
           cd geowebcache/geowebcache
           git checkout main
-          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
-          mvn -B install -nsu -Dspotless.apply.skip=true -DskipTests -T1C -fae
-          mvn -B test -fae -nsu -T1C -Dspotless.apply.skip=true
+          mvn -B install -nsu -Dspotless.apply.skip=true -T1C -fae
       - name: Build Mapfish-print v2 with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
           cd ~
           cd mapfish-print-v2
           git checkout main
-          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
-          mvn -B install -nsu -DskipTests -T1C -fae
-          mvn -B -f pom.xml test -fae -nsu -T1C
+          mvn -B install -nsu -T1C -fae
       - name: Build GeoServer with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
@@ -98,12 +123,10 @@ jobs:
           cd ~
           cd geoserver/src
           git checkout main
-          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd`
           sed -i "s/<mf.version>2.2.0<\/mf.version>/<mf.version>2.3-SNAPSHOT<\/mf.version>/g" pom.xml
           sed -i "s/<gf.version>3.6.0<\/gf.version>/<gf.version>3.6-SNAPSHOT<\/gf.version>/g" pom.xml
-          mvn -B -f pom.xml install -nsu -Prelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
+          mvn -B -f pom.xml install -nsu -Prelease -Dspotless.apply.skip=true -T1C -fae
           mvn -B -f community/pom.xml install -nsu -DcommunityRelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
-          mvn -B -f src/pom.xml test -fae -T1C -nsu -Dtest.maxHeapSize=512m -Djvm.opts="$TEST_OPTS" -Prelease -Dspotless.apply.skip=true
       - name: Remove integration checkouts
         if: success() || failure()
         run: |
