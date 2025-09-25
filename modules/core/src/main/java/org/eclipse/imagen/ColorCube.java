@@ -105,7 +105,7 @@ public class ColorCube extends LookupTableJAI {
                 colorCube = createColorCubeDouble(offset, dimension);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("ColorCube0"));
+                throw new RuntimeException(ImageNI18N.getString("ColorCube0"));
         }
 
         return colorCube;
@@ -122,7 +122,7 @@ public class ColorCube extends LookupTableJAI {
     public static ColorCube createColorCube(int dataType, int dimension[]) {
 
         if (dimension == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return createColorCube(dataType, 0, dimension);
@@ -236,13 +236,13 @@ public class ColorCube extends LookupTableJAI {
         // Make sure that the dimension array has non-zero length.
         int nbands = dimension.length;
         if (nbands == 0) {
-            throw new RuntimeException(JaiI18N.getString("ColorCube1"));
+            throw new RuntimeException(ImageNI18N.getString("ColorCube1"));
         }
 
         // Ascertain that all dimension are non-zero.
         for (int band = 0; band < nbands; band++) {
             if (dimension[band] == 0) {
-                throw new RuntimeException(JaiI18N.getString("ColorCube2"));
+                throw new RuntimeException(ImageNI18N.getString("ColorCube2"));
             }
         }
 
@@ -261,7 +261,7 @@ public class ColorCube extends LookupTableJAI {
             //
             //  Color cube is too large for 32 bit addressability
             //
-            throw new RuntimeException(JaiI18N.getString("ColorCube3"));
+            throw new RuntimeException(ImageNI18N.getString("ColorCube3"));
         }
         int size = (int) floatSize;
 
@@ -301,12 +301,12 @@ public class ColorCube extends LookupTableJAI {
                 dataArray = (Object) new double[nbands][size];
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("ColorCube7"));
+                throw new RuntimeException(ImageNI18N.getString("ColorCube7"));
         }
 
         // Ensure that the parameters don't go out of range.
         if ((double) (size + offset) > dataMax) {
-            throw new RuntimeException(JaiI18N.getString("ColorCube4"));
+            throw new RuntimeException(ImageNI18N.getString("ColorCube4"));
         }
 
         // Initialize the multipliers
@@ -419,7 +419,7 @@ public class ColorCube extends LookupTableJAI {
                     }
                     break;
                 default:
-                    throw new RuntimeException(JaiI18N.getString("ColorCube5"));
+                    throw new RuntimeException(ImageNI18N.getString("ColorCube5"));
             }
         }
 
@@ -705,7 +705,7 @@ public class ColorCube extends LookupTableJAI {
                 }
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("ColorCube6"));
+                throw new RuntimeException(ImageNI18N.getString("ColorCube6"));
         }
 
         return index;

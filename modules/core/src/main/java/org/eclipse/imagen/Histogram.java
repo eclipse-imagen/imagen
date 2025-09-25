@@ -89,7 +89,7 @@ public class Histogram implements Serializable {
         int[] newArray = null;
 
         if (array == null || array.length == 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (newLength > 0) {
             newArray = new int[newLength];
             int oldLength = array.length;
@@ -113,7 +113,7 @@ public class Histogram implements Serializable {
         double[] newArray = null;
 
         if (array == null || array.length == 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (newLength > 0) {
             newArray = new double[newLength];
             int oldLength = array.length;
@@ -154,26 +154,26 @@ public class Histogram implements Serializable {
     public Histogram(int[] numBins, double[] lowValue, double[] highValue) {
 
         if (numBins == null || lowValue == null || highValue == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         numBands = numBins.length;
 
         if (lowValue.length != numBands || highValue.length != numBands) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram0"));
         }
 
         if (numBands == 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram1"));
         }
 
         for (int i = 0; i < numBands; i++) {
             if (numBins[i] <= 0) {
-                throw new IllegalArgumentException(JaiI18N.getString("Histogram2"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Histogram2"));
             }
 
             if (lowValue[i] >= highValue[i]) {
-                throw new IllegalArgumentException(JaiI18N.getString("Histogram3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Histogram3"));
             }
         }
 
@@ -230,15 +230,15 @@ public class Histogram implements Serializable {
      */
     public Histogram(int numBins, double lowValue, double highValue, int numBands) {
         if (numBands <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram1"));
         }
 
         if (numBins <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram2"));
         }
 
         if (lowValue >= highValue) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram3"));
         }
 
         this.numBands = numBands;
@@ -425,11 +425,11 @@ public class Histogram implements Serializable {
      */
     public int getSubTotal(int band, int minBin, int maxBin) {
         if (minBin < 0 || maxBin >= numBins[band]) {
-            throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("Histogram5"));
+            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("Histogram5"));
         }
 
         if (minBin > maxBin) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram10"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram10"));
         }
 
         int[] b = getBins(band);
@@ -502,13 +502,13 @@ public class Histogram implements Serializable {
     public void countPixels(Raster raster, ROI roi, int xStart, int yStart, int xPeriod, int yPeriod) {
 
         if (raster == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         SampleModel sampleModel = raster.getSampleModel();
 
         if (sampleModel.getNumBands() != numBands) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram4"));
         }
 
         Rectangle bounds = raster.getBounds();
@@ -566,7 +566,7 @@ public class Histogram implements Serializable {
                     countPixelsDouble(accessor, raster, r, xPeriod, yPeriod);
                     break;
                 default:
-                    throw new RuntimeException(JaiI18N.getString("Histogram11"));
+                    throw new RuntimeException(ImageNI18N.getString("Histogram11"));
             }
         }
     }
@@ -826,7 +826,7 @@ public class Histogram implements Serializable {
     public double[] getMoment(int moment, boolean isAbsolute, boolean isCentral) {
         // Check for non-positive moment number.
         if (moment < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram6"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram6"));
         }
 
         // If the mean is required but has not yet been calculated
@@ -979,7 +979,7 @@ public class Histogram implements Serializable {
      */
     public Histogram getSmoothed(boolean isWeighted, int k) {
         if (k < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram7"));
         } else if (k == 0) {
             return this;
         }
@@ -1085,7 +1085,7 @@ public class Histogram implements Serializable {
      */
     public Histogram getGaussianSmoothed(double standardDeviation) {
         if (standardDeviation < 0.0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram8"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram8"));
         } else if (standardDeviation == 0.0) {
             return this;
         }
@@ -1173,7 +1173,7 @@ public class Histogram implements Serializable {
      */
     public double[] getPTileThreshold(double p) {
         if (p <= 0.0 || p >= 1.0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Histogram9"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Histogram9"));
         }
 
         double[] thresholds = new double[numBands];

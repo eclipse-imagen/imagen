@@ -55,7 +55,7 @@ public abstract class UntiledOpImage extends OpImage {
      */
     private static ImageLayout layoutHelper(ImageLayout layout, Vector sources) {
         if (sources.size() < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic5"));
         }
 
         RenderedImage source = (RenderedImage) sources.get(0);
@@ -144,7 +144,7 @@ public abstract class UntiledOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         return getSource(sourceIndex).getBounds();

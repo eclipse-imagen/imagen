@@ -122,7 +122,7 @@ class FactoryCache {
 
         if (arePreferencesSupported) {
 
-            if (productName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            if (productName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
             // Update structures to reflect the addition of
             // this factory instance.
@@ -178,11 +178,11 @@ class FactoryCache {
     void setPreference(String descriptorName, String productName, Object preferredOp, Object otherOp) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
         }
 
         if ((preferredOp == null) || (otherOp == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         checkRegistered(descriptorName, productName, preferredOp);
@@ -222,11 +222,11 @@ class FactoryCache {
     void unsetPreference(String descriptorName, String productName, Object preferredOp, Object otherOp) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
         }
 
         if ((preferredOp == null) || (otherOp == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         checkRegistered(descriptorName, productName, preferredOp);
@@ -262,7 +262,7 @@ class FactoryCache {
         }
 
         if (!found)
-            throw new IllegalArgumentException(JaiI18N.formatMsg("FactoryCache2", new Object[] {
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("FactoryCache2", new Object[] {
                 preferredOp.getClass().getName(), otherOp.getClass().getName(), modeName, descriptorName, productName
             }));
     }
@@ -276,11 +276,11 @@ class FactoryCache {
     Object[][] getPreferences(String descriptorName, String productName) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
         }
 
         if ((descriptorName == null) || (productName == null))
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // Update structures to reflect removal of this pref.
         Hashtable dht = (Hashtable) prefs.get(new CaselessStringKey(descriptorName));
@@ -306,7 +306,7 @@ class FactoryCache {
     void clearPreferences(String descriptorName, String productName) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("FactoryCache1", new Object[] {modeName}));
         }
 
         // Update structures to reflect removal of this pref.
@@ -361,7 +361,7 @@ class FactoryCache {
     private boolean checkInstance(Object factoryInstance) {
 
         if (!factoryClass.isInstance(factoryInstance))
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "FactoryCache0",
                     new Object[] {factoryInstance.getClass().getName(), modeName, factoryClass.getName()}));
 
@@ -377,7 +377,7 @@ class FactoryCache {
         if (arePreferencesSupported) {
 
             if (productName == null)
-                throw new IllegalArgumentException("productName : " + JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException("productName : " + ImageNI18N.getString("Generic0"));
 
             CaselessStringKey fileName = (CaselessStringKey) instancesByName.get(factoryInstance);
 
@@ -396,14 +396,14 @@ class FactoryCache {
                 }
             }
 
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "FactoryCache3", new Object[] {factoryInstance.getClass().getName(), descriptorName, productName}));
         } else {
 
             CaselessStringKey key = new CaselessStringKey(descriptorName);
 
             if (factoryInstance != instances.get(key)) {
-                throw new IllegalArgumentException(JaiI18N.formatMsg(
+                throw new IllegalArgumentException(ImageNI18N.formatMsg(
                         "FactoryCache4",
                         new Object[] {factoryInstance.getClass().getName(), descriptorName}));
             }

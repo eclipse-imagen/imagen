@@ -125,7 +125,7 @@ public class ROIShape extends ROI {
         if (mask == null) {
             mask = new int[clip.height][bitmaskIntWidth];
         } else if (mask.length < clip.height || mask[0].length < bitmaskIntWidth) {
-            throw new RuntimeException(JaiI18N.getString("ROIShape0"));
+            throw new RuntimeException(ImageNI18N.getString("ROIShape0"));
         }
 
         // Iterate over the list of Rectangles.
@@ -165,7 +165,7 @@ public class ROIShape extends ROI {
      */
     public ROIShape(Shape s) {
         if (s == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROIShape2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROIShape2"));
         }
         theShape = s;
     }
@@ -304,7 +304,7 @@ public class ROIShape extends ROI {
                         rectList = scanConcave(rectList);
                         break;
                     default:
-                        throw new RuntimeException(JaiI18N.getString("ROIShape1"));
+                        throw new RuntimeException(ImageNI18N.getString("ROIShape1"));
                 }
             }
 
@@ -755,7 +755,7 @@ public class ROIShape extends ROI {
      */
     public boolean contains(Point p) {
         if (p == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains(p.x, p.y);
@@ -770,7 +770,7 @@ public class ROIShape extends ROI {
      */
     public boolean contains(Point2D p) {
         if (p == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains((int) p.getX(), (int) p.getY());
@@ -807,7 +807,7 @@ public class ROIShape extends ROI {
      */
     public boolean contains(Rectangle rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains(new Rectangle2D.Float((float) rect.x, (float) rect.y, (float) rect.width, (float) rect.height));
@@ -822,7 +822,7 @@ public class ROIShape extends ROI {
      */
     public boolean contains(Rectangle2D rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return theShape.contains(rect);
@@ -863,7 +863,7 @@ public class ROIShape extends ROI {
      */
     public boolean intersects(Rectangle r) {
         if (r == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return intersects(new Rectangle2D.Float((float) r.x, (float) r.y, (float) r.width, (float) r.height));
@@ -878,7 +878,7 @@ public class ROIShape extends ROI {
      */
     public boolean intersects(Rectangle2D r) {
         if (r == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return theShape.intersects(r);
@@ -919,7 +919,7 @@ public class ROIShape extends ROI {
     public ROI add(ROI roi) {
 
         if (roi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROIShape3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROIShape3"));
         }
 
         if (!(roi instanceof ROIShape)) {
@@ -942,7 +942,7 @@ public class ROIShape extends ROI {
     public ROI subtract(ROI roi) {
 
         if (roi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROIShape3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROIShape3"));
         }
 
         if (!(roi instanceof ROIShape)) {
@@ -965,7 +965,7 @@ public class ROIShape extends ROI {
     public ROI intersect(ROI roi) {
 
         if (roi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROIShape3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROIShape3"));
         }
 
         if (!(roi instanceof ROIShape)) {
@@ -988,7 +988,7 @@ public class ROIShape extends ROI {
     public ROI exclusiveOr(ROI roi) {
 
         if (roi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROIShape3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROIShape3"));
         }
 
         if (!(roi instanceof ROIShape)) {
@@ -1060,7 +1060,7 @@ public class ROIShape extends ROI {
      */
     public ROI transform(AffineTransform at) {
         if (at == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return new ROIShape(at.createTransformedShape(theShape));

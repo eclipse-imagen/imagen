@@ -371,13 +371,13 @@ public class RasterAccessor {
     public RasterAccessor(Raster raster, Rectangle rect, RasterFormatTag rft, ColorModel theColorModel) {
 
         if (raster == null || rect == null || rft == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // If requesting a region that lies outside the bounds,
         // throw an exception.
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterAccessor2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterAccessor2"));
         }
 
         this.raster = raster;
@@ -427,7 +427,7 @@ public class RasterAccessor {
                     bandDataOffsets[i] = bandOffsets[i] + dataBufferOffsets[i] + subRasterOffset;
                 }
             } else {
-                throw new RuntimeException(JaiI18N.getString("RasterAccessor0"));
+                throw new RuntimeException(ImageNI18N.getString("RasterAccessor0"));
             }
 
             switch (formatTagID & DATATYPE_MASK) {
@@ -1090,7 +1090,7 @@ public class RasterAccessor {
                         // error within this accessor since the only case
                         // wherein byte data should be COPIED is when the
                         // data set is binary.
-                        throw new RuntimeException(JaiI18N.getString("RasterAccessor1"));
+                        throw new RuntimeException(ImageNI18N.getString("RasterAccessor1"));
                     }
 
                     // This case only occurs for binary src and dst.

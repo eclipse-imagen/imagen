@@ -94,7 +94,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
         this();
 
         if (collection == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         imageCollection = collection;
@@ -168,7 +168,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      */
     public synchronized boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -186,7 +186,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      */
     public synchronized boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {

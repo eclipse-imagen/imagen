@@ -147,7 +147,7 @@ class PropertyEnvironment implements PropertySource {
      */
     public Class getPropertyClass(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return null;
     }
@@ -160,7 +160,7 @@ class PropertyEnvironment implements PropertySource {
      */
     public Object getProperty(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         mapDefaults();

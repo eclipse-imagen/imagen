@@ -114,7 +114,7 @@ public class RenderedImageAdapter extends PlanarImage {
      */
     public RenderedImageAdapter(RenderedImage im) {
         super(im != null ? new ImageLayout(im) : null, null, null);
-        if (im == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (im == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         theImage = im;
 

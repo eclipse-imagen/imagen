@@ -63,7 +63,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      */
     public final void addTileObserver(TileObserver tileObserver) {
         if (tileObserver == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WritableRenderedImageAdapter0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WritableRenderedImageAdapter0"));
         }
         theWritableImage.addTileObserver(tileObserver);
     }
@@ -77,7 +77,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      */
     public final void removeTileObserver(TileObserver tileObserver) {
         if (tileObserver == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WritableRenderedImageAdapter0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WritableRenderedImageAdapter0"));
         }
         theWritableImage.removeTileObserver(tileObserver);
     }
@@ -148,7 +148,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      */
     public final void setData(Raster raster) {
         if (raster == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WritableRenderedImageAdapter1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WritableRenderedImageAdapter1"));
         }
         theWritableImage.setData(raster);
     }

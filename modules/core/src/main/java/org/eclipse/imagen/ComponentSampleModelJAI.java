@@ -236,7 +236,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
                 dataBuffer = new DataBufferDouble(size, numBanks);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("RasterFactory3"));
+                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
         }
 
         return dataBuffer;
@@ -360,7 +360,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
                 break;
 
             default:
-                throw new RuntimeException(JaiI18N.getString("RasterFactory3"));
+                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
         }
 
         return obj;
@@ -538,7 +538,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
             }
 
             default:
-                throw new RuntimeException(JaiI18N.getString("RasterFactory3"));
+                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
         }
 
         return obj;
@@ -631,7 +631,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
                 break;
 
             default:
-                throw new RuntimeException(JaiI18N.getString("RasterFactory3"));
+                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
         }
     }
 
@@ -775,7 +775,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
             }
 
             default:
-                throw new RuntimeException(JaiI18N.getString("RasterFactory3"));
+                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
         }
     }
 

@@ -71,7 +71,7 @@ public class DataBufferFloat extends DataBuffer {
      */
     public DataBufferFloat(float dataArray[], int size) {
         super(TYPE_FLOAT, size);
-        if (dataArray.length < size) throw new RuntimeException(JaiI18N.getString("DataBuffer0"));
+        if (dataArray.length < size) throw new RuntimeException(ImageNLegacy18N.getString("DataBuffer0"));
         data = dataArray;
         bankdata = new float[1][];
         bankdata[0] = data;
@@ -89,7 +89,7 @@ public class DataBufferFloat extends DataBuffer {
      */
     public DataBufferFloat(float dataArray[], int size, int offset) {
         super(TYPE_FLOAT, size, 1, offset);
-        if (dataArray.length < size) throw new RuntimeException(JaiI18N.getString("DataBuffer1"));
+        if (dataArray.length < size) throw new RuntimeException(ImageNLegacy18N.getString("DataBuffer1"));
         data = dataArray;
         bankdata = new float[1][];
         bankdata[0] = data;

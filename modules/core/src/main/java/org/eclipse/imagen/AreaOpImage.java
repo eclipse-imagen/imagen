@@ -98,7 +98,7 @@ public abstract class AreaOpImage extends OpImage {
 
             // Check for empty intersection.
             if (dstRect.intersection(sourceRect).isEmpty()) {
-                throw new IllegalArgumentException(JaiI18N.getString("AreaOpImage0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("AreaOpImage0"));
             }
         }
 
@@ -265,11 +265,11 @@ public abstract class AreaOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         int lpad = getLeftPadding();
@@ -298,11 +298,11 @@ public abstract class AreaOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         int lpad = getLeftPadding();

@@ -124,7 +124,7 @@ public abstract class SourcelessOpImage extends OpImage {
      * @throws IllegalArgumentException since the image has no sources.
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
-        throw new IllegalArgumentException(JaiI18N.getString("SourcelessOpImage0"));
+        throw new IllegalArgumentException(ImageNI18N.getString("SourcelessOpImage0"));
     }
 
     /**
@@ -135,6 +135,6 @@ public abstract class SourcelessOpImage extends OpImage {
      * @throws IllegalArgumentException since the image has no sources.
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
-        throw new IllegalArgumentException(JaiI18N.getString("SourcelessOpImage0"));
+        throw new IllegalArgumentException(ImageNI18N.getString("SourcelessOpImage0"));
     }
 }

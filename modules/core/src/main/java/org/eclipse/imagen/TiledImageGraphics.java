@@ -159,7 +159,7 @@ class TiledImageGraphics extends Graphics2D {
                 && dataType != DataBuffer.TYPE_SHORT
                 && dataType != DataBuffer.TYPE_USHORT
                 && dataType != DataBuffer.TYPE_INT) {
-            throw new UnsupportedOperationException(JaiI18N.getString("TiledImageGraphics0"));
+            throw new UnsupportedOperationException(ImageNI18N.getString("TiledImageGraphics0"));
         }
 
         // Cache the TiledImage.
@@ -281,7 +281,7 @@ class TiledImageGraphics extends Graphics2D {
 
                 // ColorModel is still null: throw an exception.
                 if (colorModel == null) {
-                    throw new UnsupportedOperationException(JaiI18N.getString("TiledImageGraphics1"));
+                    throw new UnsupportedOperationException(ImageNI18N.getString("TiledImageGraphics1"));
                 }
             }
         }
@@ -311,7 +311,7 @@ class TiledImageGraphics extends Graphics2D {
         try {
             method = GRAPHICS2D_CLASS.getMethod(name, argTypes);
         } catch (Exception e) {
-            String message = JaiI18N.getString("TiledImageGraphics2") + name;
+            String message = ImageNI18N.getString("TiledImageGraphics2") + name;
             sendExceptionToListener(message, new ImagingException(e));
             //            throw new RuntimeException(e.getMessage());
         }
@@ -357,7 +357,7 @@ class TiledImageGraphics extends Graphics2D {
                     Point2D pt2D = g2d.getTransform().inverseTransform(pt, null);
                     g2d.translate(pt2D.getX(), pt2D.getY());
                 } catch (Exception e) {
-                    String message = JaiI18N.getString("TiledImageGraphics3");
+                    String message = ImageNI18N.getString("TiledImageGraphics3");
                     sendExceptionToListener(message, new ImagingException(e));
                     //                    throw new RuntimeException(e.getMessage());
                 }
@@ -369,7 +369,7 @@ class TiledImageGraphics extends Graphics2D {
                         returnValue = ((Boolean) retVal).booleanValue();
                     }
                 } catch (Exception e) {
-                    String message = JaiI18N.getString("TiledImageGraphics3") + " " + name;
+                    String message = ImageNI18N.getString("TiledImageGraphics3") + " " + name;
                     sendExceptionToListener(message, new ImagingException(e));
                     //                    throw new RuntimeException(e.getMessage());
                 }

@@ -307,7 +307,7 @@ public class KernelJAI extends Object implements Serializable {
     public KernelJAI(int width, int height, int xOrigin, int yOrigin, float[] data) {
 
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.width = width;
@@ -316,13 +316,13 @@ public class KernelJAI extends Object implements Serializable {
         this.yOrigin = yOrigin;
         this.data = (float[]) data.clone();
         if (width <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI0"));
         }
         if (height <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI1"));
         }
         if (width * height != data.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI2"));
         }
         classifyKernel();
     }
@@ -350,23 +350,23 @@ public class KernelJAI extends Object implements Serializable {
     public KernelJAI(int width, int height, int xOrigin, int yOrigin, float[] dataH, float[] dataV) {
 
         if (dataH == null || dataV == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (width <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI0"));
         }
 
         if (height <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI1"));
         }
 
         if (width != dataH.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI3"));
         }
 
         if (height != dataV.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("KernelJAI4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI4"));
         }
 
         this.width = width;

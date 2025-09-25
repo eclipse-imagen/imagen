@@ -130,7 +130,7 @@ class DescriptorCache {
     boolean addDescriptor(RegistryElementDescriptor rdesc) {
 
         if (rdesc == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         String descriptorName = rdesc.getName();
@@ -141,7 +141,7 @@ class DescriptorCache {
         // If the key has already been added bail out ...
         if (descriptorNames.containsKey(key) == true) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache0", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache0", new Object[] {descriptorName, modeName}));
         }
 
         // Store the RegistryElementDescriptor hashed by its global name
@@ -203,7 +203,7 @@ class DescriptorCache {
         // If it is not present in the cache already, then return false.
         if (descriptorNames.containsKey(key) == false) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
         }
 
         RegistryElementDescriptor rdesc = (RegistryElementDescriptor) descriptorNames.get(key);
@@ -218,7 +218,7 @@ class DescriptorCache {
             for (int i = 0; i < props.length; i++) {
 
                 if (props[i] == null) {
-                    throw new IllegalArgumentException(JaiI18N.formatMsg(
+                    throw new IllegalArgumentException(ImageNI18N.formatMsg(
                             "DescriptorCache2", new Object[] {new Integer(i), descriptorName, modeName}));
                 }
 
@@ -249,7 +249,7 @@ class DescriptorCache {
      */
     boolean removeDescriptor(RegistryElementDescriptor rdesc) {
         if (rdesc == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return removeDescriptor(rdesc.getName());
     }
@@ -318,7 +318,7 @@ class DescriptorCache {
         // Use a caseless version of the key.
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        if (productName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (productName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ProductOperationGraph pog = (ProductOperationGraph) products.get(key);
 
@@ -348,7 +348,7 @@ class DescriptorCache {
         // Use a caseless version of the key.
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        if (productName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (productName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ProductOperationGraph pog = (ProductOperationGraph) products.get(key);
 
@@ -376,7 +376,7 @@ class DescriptorCache {
         // Use a caseless version of the key.
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        if (productName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (productName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ProductOperationGraph pog = (ProductOperationGraph) products.get(key);
 
@@ -406,11 +406,11 @@ class DescriptorCache {
     boolean setProductPreference(String descriptorName, String preferredProductName, String otherProductName) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
         }
 
         if ((descriptorName == null) || (preferredProductName == null) || (otherProductName == null))
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // Attempt to set preference of a product with itself, do nothing.
         if (preferredProductName.equalsIgnoreCase(otherProductName)) {
@@ -422,24 +422,24 @@ class DescriptorCache {
 
         if (descriptorNames.containsKey(key) == false) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
         }
 
         ProductOperationGraph og = (ProductOperationGraph) products.get(key);
 
         if (og == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache3", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache3", new Object[] {descriptorName, modeName}));
         }
 
         if (og.lookupOp(preferredProductName) == null) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "DescriptorCache4", new Object[] {descriptorName, modeName, preferredProductName}));
         }
 
         if (og.lookupOp(otherProductName) == null) {
-            throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache4", new Object[] {descriptorName, modeName, otherProductName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
+                    "DescriptorCache4", new Object[] {descriptorName, modeName, otherProductName}));
         }
 
         og.setPreference(preferredProductName, otherProductName);
@@ -477,11 +477,11 @@ class DescriptorCache {
     boolean unsetProductPreference(String descriptorName, String preferredProductName, String otherProductName) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
         }
 
         if ((descriptorName == null) || (preferredProductName == null) || (otherProductName == null))
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // Attempt to unset preference of a product with itself, do nothing.
         if (preferredProductName.equalsIgnoreCase(otherProductName)) {
@@ -493,24 +493,24 @@ class DescriptorCache {
 
         if (descriptorNames.containsKey(key) == false) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
         }
 
         ProductOperationGraph og = (ProductOperationGraph) products.get(key);
 
         if (og == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache3", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache3", new Object[] {descriptorName, modeName}));
         }
 
         if (og.lookupOp(preferredProductName) == null) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "DescriptorCache4", new Object[] {descriptorName, modeName, preferredProductName}));
         }
 
         if (og.lookupOp(otherProductName) == null) {
-            throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache4", new Object[] {descriptorName, modeName, otherProductName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
+                    "DescriptorCache4", new Object[] {descriptorName, modeName, otherProductName}));
         }
 
         og.unsetPreference(preferredProductName, otherProductName);
@@ -518,7 +518,7 @@ class DescriptorCache {
         // Update structures to reflect removal of this product preference.
         if (productPrefs.containsKey(key) == false) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache5", new Object[] {descriptorName, modeName}));
         }
 
         Vector v = (Vector) productPrefs.get(key);
@@ -546,7 +546,7 @@ class DescriptorCache {
     boolean clearProductPreferences(String descriptorName) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
         }
 
         // Use a caseless version of the key.
@@ -554,14 +554,14 @@ class DescriptorCache {
 
         if (descriptorNames.containsKey(key) == false) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
         }
 
         ProductOperationGraph og = (ProductOperationGraph) products.get(key);
 
         if (og == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache3", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache3", new Object[] {descriptorName, modeName}));
         }
 
         // if there are no preferences to clear..
@@ -578,12 +578,12 @@ class DescriptorCache {
 
             if (og.lookupOp(pref) == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("DescriptorCache4", new Object[] {descriptorName, modeName, pref}));
+                        ImageNI18N.formatMsg("DescriptorCache4", new Object[] {descriptorName, modeName, pref}));
             }
 
             if (og.lookupOp(other) == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("DescriptorCache4", new Object[] {descriptorName, modeName, other}));
+                        ImageNI18N.formatMsg("DescriptorCache4", new Object[] {descriptorName, modeName, other}));
             }
 
             og.unsetPreference(pref, other);
@@ -604,7 +604,7 @@ class DescriptorCache {
     String[][] getProductPreferences(String descriptorName) {
 
         if (!arePreferencesSupported) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache6", new Object[] {modeName}));
         }
 
         // Use a caseless version of the key.
@@ -692,7 +692,7 @@ class DescriptorCache {
 
         if (rdesc == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("DescriptorCache1", new Object[] {descriptorName, modeName}));
         }
 
         return arePropertiesSupported;
@@ -702,7 +702,7 @@ class DescriptorCache {
     void clearPropertyState() {
 
         if (arePropertiesSupported == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         properties = new Hashtable();
@@ -718,10 +718,10 @@ class DescriptorCache {
     void addPropertyGenerator(String descriptorName, PropertyGenerator generator) {
 
         if ((descriptorName == null) || (generator == null))
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
@@ -803,11 +803,11 @@ class DescriptorCache {
     void removePropertyGenerator(String descriptorName, PropertyGenerator generator) {
 
         if ((descriptorName == null) || (generator == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
@@ -831,11 +831,11 @@ class DescriptorCache {
     void suppressProperty(String descriptorName, String propertyName) {
 
         if ((descriptorName == null) || (propertyName == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
@@ -868,7 +868,7 @@ class DescriptorCache {
     void suppressAllProperties(String descriptorName) {
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         // In this method synchronized takes care of the fact that all the
@@ -908,11 +908,11 @@ class DescriptorCache {
     void copyPropertyFromSource(String descriptorName, String propertyName, int sourceIndex) {
 
         if ((descriptorName == null) || (propertyName == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
@@ -945,7 +945,7 @@ class DescriptorCache {
     String[] getGeneratedPropertyNames(String descriptorName) {
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
@@ -988,11 +988,11 @@ class DescriptorCache {
     PropertySource getPropertySource(String descriptorName, Object op, Vector sources) {
 
         if ((descriptorName == null) || (op == null) || (sources == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (arePropertiesSupported(descriptorName) == false) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
+            throw new IllegalArgumentException(ImageNI18N.formatMsg("DescriptorCache7", new Object[] {modeName}));
         }
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);

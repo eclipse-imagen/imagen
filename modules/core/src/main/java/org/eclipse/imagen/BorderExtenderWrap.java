@@ -75,7 +75,7 @@ public class BorderExtenderWrap extends BorderExtender {
     public final void extend(WritableRaster raster, PlanarImage im) {
 
         if (raster == null || im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int width = raster.getWidth();

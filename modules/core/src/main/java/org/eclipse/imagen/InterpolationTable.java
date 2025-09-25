@@ -117,7 +117,7 @@ public class InterpolationTable extends Interpolation {
         this.numSubsamplesH = (1 << subsampleBitsH);
         int entriesH = width * numSubsamplesH;
         if (dataH.length != entriesH) {
-            throw new IllegalArgumentException(JaiI18N.getString("InterpolationTable0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("InterpolationTable0"));
         }
 
         double prec = (double) (1 << precisionBits);
@@ -139,7 +139,7 @@ public class InterpolationTable extends Interpolation {
             this.numSubsamplesV = (1 << subsampleBitsV);
             int entriesV = height * numSubsamplesV;
             if (dataV.length != entriesV) {
-                throw new IllegalArgumentException(JaiI18N.getString("InterpolationTable1"));
+                throw new IllegalArgumentException(ImageNI18N.getString("InterpolationTable1"));
             }
 
             this.dataVi = (int[]) dataV.clone();
@@ -232,7 +232,7 @@ public class InterpolationTable extends Interpolation {
         this.numSubsamplesH = (1 << subsampleBitsH);
         int entriesH = width * numSubsamplesH;
         if (dataH.length != entriesH) {
-            throw new IllegalArgumentException(JaiI18N.getString("InterpolationTable0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("InterpolationTable0"));
         }
 
         float prec = (float) (1 << precisionBits);
@@ -254,7 +254,7 @@ public class InterpolationTable extends Interpolation {
             this.numSubsamplesV = (1 << subsampleBitsV);
             int entriesV = height * numSubsamplesV;
             if (dataV.length != entriesV) {
-                throw new IllegalArgumentException(JaiI18N.getString("InterpolationTable1"));
+                throw new IllegalArgumentException(ImageNI18N.getString("InterpolationTable1"));
             }
 
             this.dataVf = (float[]) dataV.clone();
@@ -346,7 +346,7 @@ public class InterpolationTable extends Interpolation {
         this.numSubsamplesH = (1 << subsampleBitsH);
         int entriesH = width * numSubsamplesH;
         if (dataH.length != entriesH) {
-            throw new IllegalArgumentException(JaiI18N.getString("InterpolationTable0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("InterpolationTable0"));
         }
 
         double prec = (double) (1 << precisionBits);
@@ -367,7 +367,7 @@ public class InterpolationTable extends Interpolation {
             this.numSubsamplesV = (1 << subsampleBitsV);
             int entriesV = height * numSubsamplesV;
             if (dataV.length != entriesV) {
-                throw new IllegalArgumentException(JaiI18N.getString("InterpolationTable1"));
+                throw new IllegalArgumentException(ImageNI18N.getString("InterpolationTable1"));
             }
 
             this.dataVd = (double[]) dataV.clone();

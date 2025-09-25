@@ -241,14 +241,14 @@ public abstract class ColorSpaceJAI extends ColorSpace {
     protected static void checkParameters(
             Raster src, int[] srcComponentSize, WritableRaster dest, int[] destComponentSize) {
 
-        if (src == null) throw new IllegalArgumentException(JaiI18N.getString("ColorSpaceJAI0"));
-        if (src.getNumBands() != 3) throw new IllegalArgumentException(JaiI18N.getString("ColorSpaceJAI1"));
+        if (src == null) throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI0"));
+        if (src.getNumBands() != 3) throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI1"));
         if (dest != null && dest.getNumBands() != 3)
-            throw new IllegalArgumentException(JaiI18N.getString("ColorSpaceJAI2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI2"));
         if (srcComponentSize != null && srcComponentSize.length != 3)
-            throw new IllegalArgumentException(JaiI18N.getString("ColorSpaceJAI3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI3"));
         if (destComponentSize != null && destComponentSize.length != 3)
-            throw new IllegalArgumentException(JaiI18N.getString("ColorSpaceJAI4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI4"));
     }
 
     /**

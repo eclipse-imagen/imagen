@@ -162,7 +162,7 @@ public final class WarpGrid extends Warp {
      */
     public WarpGrid(int xStart, int xStep, int xNumCells, int yStart, int yStep, int yNumCells, float[] warpPositions) {
         if (warpPositions.length != 2 * (xNumCells + 1) * (yNumCells + 1)) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpGrid0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpGrid0"));
         }
 
         initialize(xStart, xStep, xNumCells, yStart, yStep, yNumCells, warpPositions);
@@ -259,7 +259,7 @@ public final class WarpGrid extends Warp {
             int x1, int x2, int y1, int y2, int periodX, int periodY, int offset, int stride, float[] destRect) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         for (int j = y1; j <= y2; j += periodY) {
@@ -455,7 +455,7 @@ public final class WarpGrid extends Warp {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         float[] sxy = warpSparseRect((int) destPt.getX(), (int) destPt.getY(), 2, 2, 1, 1, null);

@@ -89,7 +89,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
 
         // Check the height
         if (height <= 0.0F) {
-            throw new IllegalArgumentException(JaiI18N.getString("MultiResolutionRenderableImage0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("MultiResolutionRenderableImage0"));
         }
 
         numSources = renderedSources.size();
@@ -140,7 +140,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      */
     public String[] getPropertyNames(String prefix) {
         if (prefix == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
         return properties.getPropertyNames(prefix);
     }
@@ -285,7 +285,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      */
     public RenderedImage createScaledRendering(int width, int height, RenderingHints hints) {
         if (width <= 0 && height <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("MultiResolutionRenderableImage1"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("MultiResolutionRenderableImage1"));
         }
 
         int res = numSources - 1;
@@ -355,7 +355,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      */
     public RenderedImage createRendering(RenderContext renderContext) {
         if (renderContext == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         // Get a clone of the context's transform

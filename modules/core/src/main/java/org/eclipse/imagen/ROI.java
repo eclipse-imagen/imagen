@@ -80,7 +80,7 @@ public class ROI implements Serializable {
     protected static LinkedList mergeRunLengthList(LinkedList rectList) {
 
         if (rectList == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Merge the run length rectangles if more than one was detected.
@@ -153,13 +153,13 @@ public class ROI implements Serializable {
     public ROI(RenderedImage im, int threshold) {
 
         if (im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         SampleModel sm = im.getSampleModel();
 
         if (sm.getNumBands() != 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROI0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROI0"));
         }
 
         this.threshold = threshold;
@@ -223,7 +223,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Point p) {
         if (p == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains(p.x, p.y);
@@ -238,7 +238,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Point2D p) {
         if (p == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains((int) p.getX(), (int) p.getY());
@@ -280,7 +280,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Rectangle rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!rect.equals(rect.intersection(getBounds()))) {
@@ -325,7 +325,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Rectangle2D rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         Rectangle r =
                 new Rectangle((int) rect.getX(), (int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
@@ -371,7 +371,7 @@ public class ROI implements Serializable {
      */
     public boolean intersects(Rectangle rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         Rectangle r = rect.intersection(getBounds());
@@ -416,7 +416,7 @@ public class ROI implements Serializable {
      */
     public boolean intersects(Rectangle2D r) {
         if (r == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         Rectangle rect = new Rectangle((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
@@ -482,7 +482,7 @@ public class ROI implements Serializable {
     private ROI createOpROI(ROI roi, String op) {
 
         if (roi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         PlanarImage imThis = this.getAsImage();
@@ -593,11 +593,11 @@ public class ROI implements Serializable {
     public ROI transform(AffineTransform at, Interpolation interp) {
 
         if (at == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROI5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROI5"));
         }
 
         if (interp == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROI6"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROI6"));
         }
 
         ParameterBlock paramBlock = new ParameterBlock();
@@ -616,7 +616,7 @@ public class ROI implements Serializable {
      */
     public ROI transform(AffineTransform at) {
         if (at == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return transform(at, Interpolation.getInstance(Interpolation.INTERP_NEAREST));
@@ -640,7 +640,7 @@ public class ROI implements Serializable {
             RenderedImageFactory RIF, ParameterBlock paramBlock, int sourceIndex, RenderingHints renderHints) {
 
         if (RIF == null || paramBlock == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Clone the ParameterBlock and insert a source
@@ -671,7 +671,7 @@ public class ROI implements Serializable {
     public ROI performImageOp(String name, ParameterBlock paramBlock, int sourceIndex, RenderingHints renderHints) {
 
         if (name == null || paramBlock == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Clone the ParameterBlock and insert a source
@@ -744,7 +744,7 @@ public class ROI implements Serializable {
         if (mask == null) {
             mask = new int[height][bitmaskIntWidth];
         } else if (mask.length < height || mask[0].length < bitmaskIntWidth) {
-            throw new RuntimeException(JaiI18N.getString("ROI3"));
+            throw new RuntimeException(ImageNI18N.getString("ROI3"));
         }
 
         byte[] data = ImageUtil.getPackedBinaryData(theImage.getData(), rect);

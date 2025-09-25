@@ -41,7 +41,7 @@ public final class WarpPerspective extends Warp {
      */
     public WarpPerspective(PerspectiveTransform transform) {
         if (transform == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpPerspective0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpPerspective0"));
         }
 
         this.transform = transform;
@@ -158,7 +158,7 @@ public final class WarpPerspective extends Warp {
      */
     public Rectangle mapDestRect(Rectangle destRect) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int x0 = destRect.x;
@@ -204,7 +204,7 @@ public final class WarpPerspective extends Warp {
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
         if (srcRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Return null if no forward mapping could be derived
@@ -255,7 +255,7 @@ public final class WarpPerspective extends Warp {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return transform.transform(destPt, null);
@@ -282,7 +282,7 @@ public final class WarpPerspective extends Warp {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return invTransform != null ? invTransform.transform(sourcePt, null) : null;
