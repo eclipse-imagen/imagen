@@ -10,5 +10,5 @@ import org.eclipse.imagen.ImageN;
  */
 @Deprecated
 public class JAI extends ImageN {
-    public static RenderingHints.Key KEY_IMAGE_LAYOUT = ImageN.KEY_IMAGE_LAYOUT;
+    // public static RenderingHints.Key KEY_IMAGE_LAYOUT = ImageN.KEY_IMAGE_LAYOUT;
 }
