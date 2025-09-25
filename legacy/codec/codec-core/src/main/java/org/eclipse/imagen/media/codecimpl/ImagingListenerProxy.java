@@ -28,7 +28,7 @@ public class ImagingListenerProxy {
         Object listener = null;
 
         try {
-            Class jaiClass = Class.forName("org.eclipse.imagen.JAI");
+            Class jaiClass = Class.forName("org.eclipse.imagen.ImageN");
             if (jaiClass == null) return defaultImpl(message, thrown, where, isRetryable);
 
             Method jaiInstance = jaiClass.getMethod("getDefaultInstance", null);

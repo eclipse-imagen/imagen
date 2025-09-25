@@ -44,8 +44,8 @@ import java.text.AttributedCharacterIterator;
 import java.util.Map;
 
 /**
- * A JAI wrapper for a Graphics2D object derived from a Component. When drawing JAI images to a Component such as a
- * Canvas, a new GraphicsJAI may be constructed to wrap the Graphics2D object provided by that Component. This
+ * A ImageN wrapper for a Graphics2D object derived from a Component. When drawing ImageN images to a Component such as
+ * a Canvas, a new GraphicsJAI may be constructed to wrap the Graphics2D object provided by that Component. This
  * GraphicsJAI object may provide acceleration for calls to drawRenderedImage(), drawRenderableImage(), and possibly
  * other methods.
  *

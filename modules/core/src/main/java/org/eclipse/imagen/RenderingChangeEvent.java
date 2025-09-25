@@ -22,7 +22,7 @@ import java.awt.Shape;
 /**
  * Class representing the event that occurs when a <code>RenderedOp</code> node is re-rendered.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class RenderingChangeEvent extends PropertyChangeEventJAI {
     private Shape invalidRegion;

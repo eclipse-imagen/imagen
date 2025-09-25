@@ -79,7 +79,7 @@ public interface TileScheduler extends AutoCloseable {
      *     <code>null</code>.
      * @return The <code>TileRequest</code> for this set of tiles.
      * @throws IllegalArgumentException if <code>target</code> or <code>tileIndices</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     TileRequest scheduleTiles(PlanarImage target, Point[] tileIndices, TileComputationListener[] tileListeners);
 
@@ -100,7 +100,7 @@ public interface TileScheduler extends AutoCloseable {
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException if <code>request</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void cancelTiles(TileRequest request, Point[] tileIndices);
 
@@ -125,33 +125,33 @@ public interface TileScheduler extends AutoCloseable {
      * available on the system. It is the responsibility of the application to set this value as the number of
      * processors is not available via the virtual machine. A parallelism value of zero indicates that all tile
      * computation will be effected in the primary thread. A parallelism value of <i>N</i> indicates that there will be
-     * <i>N</i> worker threads in addition to the primary scheduler thread. In JAI the parallelism defaults to a value
-     * of 2 unless explicity set by the application.
+     * <i>N</i> worker threads in addition to the primary scheduler thread. In ImageN the parallelism defaults to a
+     * value of 2 unless explicity set by the application.
      *
      * @param parallelism The suggested degree of parallelism.
      * @throws IllegalArgumentException if <code>parallelism</code> is negative.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void setParallelism(int parallelism);
 
     /**
      * Returns the degree of parallelism of the scheduler.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     int getParallelism();
 
     /**
      * Identical to <code>setParallelism()</code> but applies only to <code>prefetchTiles()</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void setPrefetchParallelism(int parallelism);
 
     /**
      * Identical to <code>getParallelism()</code> but applies only to <code>prefetchTiles()</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     int getPrefetchParallelism();
 
@@ -165,14 +165,14 @@ public interface TileScheduler extends AutoCloseable {
      * threads used for tile computation. Its initial value is <code>Thread.NORM_PRIORITY</code>.
      *
      * @param priority The suggested priority.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void setPriority(int priority);
 
     /**
      * Returns the priority of <code>scheduleTiles()</code> processing.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     int getPriority();
 
@@ -182,14 +182,14 @@ public interface TileScheduler extends AutoCloseable {
      * <p>In the Sun Microsystems reference implementation of <code>TileScheduler</code>, this method sets the priority
      * of any threads spawned to prefetch tiles. Its initial value is <code>Thread.MIN_PRIORITY</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void setPrefetchPriority(int priority);
 
     /**
      * Identical to <code>getPriority()</code> but applies only to <code>prefetchTiles()</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     int getPrefetchPriority();
 }

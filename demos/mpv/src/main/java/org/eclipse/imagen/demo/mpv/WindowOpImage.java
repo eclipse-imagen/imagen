@@ -78,14 +78,14 @@ public class WindowOpImage extends PointOpImage {
      * of this op in the chain acting as a tile reservoir (or cache). The display update heuristic goes like this:
      *
      * <p>1) If the combined area (number of pixels) of the previous display position and the new display position
-     * contains less than TILE_THRESH tiles, then let JAI pull tiles all the way through the op chain to display the
+     * contains less than TILE_THRESH tiles, then let ImageN pull tiles all the way through the op chain to display the
      * image. TILE_THRESH is a tunable parameter.
      *
      * <p>2) If the overlap area between the previous and current display windows is a small fraction (AREA_THRESH) of
      * the combined previous and new display areas, then add tiles to this nodes reservoir to cover the display plus a
      * WINDOW_CORONA (also tunable) around the edges.
      *
-     * <p>If <code>setWindow</code> were to simply do nothing and return, then the JAI pull mechanism would handle
+     * <p>If <code>setWindow</code> were to simply do nothing and return, then the ImageN pull mechanism would handle
      * updates but it wouldn't add the corona tiles around the display and it would add useless overhead.
      *
      * @param window the current display location within the image
@@ -106,7 +106,7 @@ public class WindowOpImage extends PointOpImage {
 
         double tileSize = ((double) getTileWidth()) * getTileHeight();
 
-        // If the number of tiles is small, let the JAI pull mechanism handle
+        // If the number of tiles is small, let the ImageN pull mechanism handle
         // fetching tiles.  TILE_THRESH is a tunable parameter.
         if (totalArea < TILE_THRESH * tileSize) return;
 

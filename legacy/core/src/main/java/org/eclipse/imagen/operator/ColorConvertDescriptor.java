@@ -121,9 +121,9 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
      * Convert the color space of an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -140,16 +140,16 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("colorModel", colorModel);
 
-        return JAI.create("ColorConvert", pb, hints);
+        return ImageN.create("ColorConvert", pb, hints);
     }
 
     /**
      * Convert the color space of an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -166,6 +166,6 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("colorModel", colorModel);
 
-        return JAI.createRenderable("ColorConvert", pb, hints);
+        return ImageN.createRenderable("ColorConvert", pb, hints);
     }
 }

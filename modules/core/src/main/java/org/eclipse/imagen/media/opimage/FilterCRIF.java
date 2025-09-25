@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Arrays;
 import org.eclipse.imagen.CRIFImpl;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 
 /**
@@ -100,6 +100,6 @@ final class FilterCRIF extends CRIFImpl {
 
         return kernel == null
                 ? paramBlock.getRenderedSource(0)
-                : JAI.create("convolve", paramBlock.getRenderedSource(0), kernel);
+                : ImageN.create("convolve", paramBlock.getRenderedSource(0), kernel);
     }
 }

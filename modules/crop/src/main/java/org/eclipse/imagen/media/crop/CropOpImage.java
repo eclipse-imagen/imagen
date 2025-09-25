@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,8 +26,8 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PointOpImage;
 
 /**
- * An alternative implementation of JAI Crop that respects the tile cache and tile scheduler specified in the rendering
- * hints.
+ * An alternative implementation of ImageN Crop that respects the tile cache and tile scheduler specified in the
+ * rendering hints.
  *
  * <p>This is a clean room implementation (there are no others ways in which a Crop can be implemented, so it looks a
  * lot like the original one)

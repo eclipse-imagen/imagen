@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,8 +26,8 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
 /**
- * Slight modified version of JAI {@link RandomIterFallbackNoCacheNoArray} that uses int vectors to handle indexes. It
- * is useful when we have so many tiles that we cannot actually use byte indexes.
+ * Slight modified version of ImageN {@link RandomIterFallbackNoCacheNoArray} that uses int vectors to handle indexes.
+ * It is useful when we have so many tiles that we cannot actually use byte indexes.
  *
  * @author Simone Giannecchini, GeoSolutions SAS
  */

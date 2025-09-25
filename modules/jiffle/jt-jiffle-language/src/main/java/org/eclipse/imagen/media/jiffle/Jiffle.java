@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -106,7 +106,7 @@ import org.eclipse.imagen.media.jiffle.runtime.JiffleRuntime;
  * </code></pre>
  *
  * For further examples of how to create and run Jiffle scripts see the {@code org.eclipse.imagen.media.demo.jiffle}
- * package in the JAI-tools demo module.
+ * package in the ImageN-tools demo module.
  *
  * <h4>Implementation note</h4>
  *
@@ -468,9 +468,9 @@ public class Jiffle {
      * Gets the runtime object for this script.
      *
      * <p>The runtime object is an instance of {@link JiffleRuntime}. By default it extends an abstract base class
-     * supplied JAI-tools: {@link org.eclipse.imagen.media.jiffle.runtime.AbstractDirectRuntime} when using the direct
-     * runtiem model or {@link org.eclipse.imagen.media.jiffle.runtime.AbstractIndirectRuntime} when using the indirect
-     * model. This method allows you to specify a custom base class. The custom class must implement either
+     * supplied ImageN-tools: {@link org.eclipse.imagen.media.jiffle.runtime.AbstractDirectRuntime} when using the
+     * direct runtiem model or {@link org.eclipse.imagen.media.jiffle.runtime.AbstractIndirectRuntime} when using the
+     * indirect model. This method allows you to specify a custom base class. The custom class must implement either
      * {@link JiffleDirectRuntime} or {@link JiffleIndirectRuntime}.
      *
      * @param <T> the runtime base class type

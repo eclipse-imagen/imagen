@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
@@ -449,7 +449,7 @@ public class RangeLookupTest extends TestBase {
         pb.setParameter("table", table);
         pb.setParameter("roi", roi);
         pb.setParameter("default", defaultValue);
-        return JAI.create("RLookup", pb);
+        return ImageN.create("RLookup", pb);
     }
 
     /**
@@ -556,7 +556,7 @@ public class RangeLookupTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RLookup");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RLookup");
         assertNotNull(descriptor);
         assertEquals("RLookup", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

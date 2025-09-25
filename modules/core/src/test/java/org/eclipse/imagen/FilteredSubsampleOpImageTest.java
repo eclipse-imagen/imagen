@@ -52,9 +52,9 @@ public class FilteredSubsampleOpImageTest {
         pb.add(sy);
         pb.add(filter);
         pb.add(Interpolation.getInstance(Interpolation.INTERP_NEAREST));
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
-        RenderedOp op = JAI.create("FilteredSubsample", pb, hints);
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
+        RenderedOp op = ImageN.create("FilteredSubsample", pb, hints);
         assertNotNull(op);
         return op.getData();
     }

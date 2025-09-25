@@ -43,7 +43,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
 import org.eclipse.imagen.DeferredData;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
@@ -1244,13 +1244,13 @@ public final class ImageUtil {
     public static ColorModel getCompatibleColorModel(SampleModel sm, Map config) {
         ColorModel cm = null;
 
-        if (config == null || !Boolean.FALSE.equals(config.get(JAI.KEY_DEFAULT_COLOR_MODEL_ENABLED))) {
+        if (config == null || !Boolean.FALSE.equals(config.get(ImageN.KEY_DEFAULT_COLOR_MODEL_ENABLED))) {
 
             // Set the default ColorModel
 
-            if (config != null && config.containsKey(JAI.KEY_DEFAULT_COLOR_MODEL_METHOD)) {
+            if (config != null && config.containsKey(ImageN.KEY_DEFAULT_COLOR_MODEL_METHOD)) {
                 // Attempt to retrieve the default CM Method.
-                Method cmMethod = (Method) config.get(JAI.KEY_DEFAULT_COLOR_MODEL_METHOD);
+                Method cmMethod = (Method) config.get(ImageN.KEY_DEFAULT_COLOR_MODEL_METHOD);
 
                 // Check method compatibility.
                 Class[] paramTypes = cmMethod.getParameterTypes();
@@ -1301,9 +1301,9 @@ public final class ImageUtil {
 
     public static ImagingListener getImagingListener(RenderingHints hints) {
         ImagingListener listener = null;
-        if (hints != null) listener = (ImagingListener) hints.get(JAI.KEY_IMAGING_LISTENER);
+        if (hints != null) listener = (ImagingListener) hints.get(ImageN.KEY_IMAGING_LISTENER);
 
-        if (listener == null) listener = JAI.getDefaultInstance().getImagingListener();
+        if (listener == null) listener = ImageN.getDefaultInstance().getImagingListener();
         return listener;
     }
 

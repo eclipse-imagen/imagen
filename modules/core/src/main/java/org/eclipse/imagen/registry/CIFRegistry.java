@@ -24,7 +24,7 @@ import java.util.List;
 import org.eclipse.imagen.CollectionImage;
 import org.eclipse.imagen.CollectionImageFactory;
 import org.eclipse.imagen.CollectionOp;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PropertySource;
@@ -34,20 +34,20 @@ import org.eclipse.imagen.PropertySource;
  * CollectionImageFactory</code> objects.
  *
  * <p>If the <code>OperationRegistry</code> is <code>null</code>, then <code>
- * JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+ * ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class CIFRegistry {
 
     private static final String MODE_NAME = CollectionRegistryMode.MODE_NAME;
 
     /**
-     * Register a CIF with a particular product and operation against a specified mode. This is JAI 1.0.x equivalent of
-     * <code>registry.registerCIF(...)</code>
+     * Register a CIF with a particular product and operation against a specified mode. This is ImageN 1.0.x equivalent
+     * of <code>registry.registerCIF(...)</code>
      *
      * @param registry the <code>OperationRegistry</code> to register with. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param cif the <code>CollectionImageFactory</code> to be registered
@@ -58,7 +58,7 @@ public final class CIFRegistry {
     public static void register(
             OperationRegistry registry, String operationName, String productName, CollectionImageFactory cif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.registerFactory(MODE_NAME, operationName, productName, cif);
     }
@@ -67,7 +67,7 @@ public final class CIFRegistry {
      * Unregister a CIF previously registered with a product and operation against the specified mode.
      *
      * @param registry the <code>OperationRegistry</code> to unregister from. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param cif the <code>CollectionImageFactory</code> to be unregistered
@@ -79,7 +79,7 @@ public final class CIFRegistry {
     public static void unregister(
             OperationRegistry registry, String operationName, String productName, CollectionImageFactory cif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unregisterFactory(MODE_NAME, operationName, productName, cif);
     }
@@ -88,7 +88,7 @@ public final class CIFRegistry {
      * Sets a preference between two cifs for a given operation under a specified product.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param preferredCIF the preferred cif
@@ -106,7 +106,7 @@ public final class CIFRegistry {
             CollectionImageFactory preferredCIF,
             CollectionImageFactory otherCIF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.setFactoryPreference(MODE_NAME, operationName, productName, preferredCIF, otherCIF);
     }
@@ -115,7 +115,7 @@ public final class CIFRegistry {
      * Unsets a preference between two cifs for a given operation under a specified product.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param preferredCIF the factory object formerly preferred
@@ -133,7 +133,7 @@ public final class CIFRegistry {
             CollectionImageFactory preferredCIF,
             CollectionImageFactory otherCIF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unsetFactoryPreference(MODE_NAME, operationName, productName, preferredCIF, otherCIF);
     }
@@ -143,7 +143,7 @@ public final class CIFRegistry {
      * </code>.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @throws IllegalArgumentException if operationName or productName is <code>null</code>
@@ -152,7 +152,7 @@ public final class CIFRegistry {
      */
     public static void clearPreferences(OperationRegistry registry, String operationName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.clearFactoryPreferences(MODE_NAME, operationName, productName);
     }
@@ -163,7 +163,7 @@ public final class CIFRegistry {
      * exist. Returns <code>null</code>, if the product does not exist under this operationName.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @return an ordered <code>List</code> of CIFs
@@ -173,7 +173,7 @@ public final class CIFRegistry {
      */
     public static List getOrderedList(OperationRegistry registry, String operationName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getOrderedFactoryList(MODE_NAME, operationName, productName);
     }
@@ -185,17 +185,17 @@ public final class CIFRegistry {
      * product. The <code>remove()</code> method of the <code>Iterator</code> may not be implemented.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @return an <code>Iterator</code> over <code>CollectionImageFactory</code> objects
      * @throws IllegalArgumentException if operationName is <code>null</code>
      * @throws IllegalArgumentException if there is no <code>
      *             OperationDescriptor</code> registered against the <code>operationName</code>
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static Iterator getIterator(OperationRegistry registry, String operationName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getFactoryIterator(MODE_NAME, operationName);
     }
@@ -206,7 +206,7 @@ public final class CIFRegistry {
      * <code>getIterator()</code> method.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @return a registered <code>CollectionImageFactory</code> object
      * @throws IllegalArgumentException if operationName is <code>null</code>
@@ -215,7 +215,7 @@ public final class CIFRegistry {
      */
     public static CollectionImageFactory get(OperationRegistry registry, String operationName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return (CollectionImageFactory) registry.getFactory(MODE_NAME, operationName);
     }
@@ -229,7 +229,7 @@ public final class CIFRegistry {
      * returned. Exceptions thrown by the CIFs will be caught by this method and will not be propagated.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param paramBlock the operation's ParameterBlock.
      * @param renderHints a <code>RenderingHints</code> object containing rendering hints.
@@ -240,7 +240,7 @@ public final class CIFRegistry {
     public static CollectionImage create(
             OperationRegistry registry, String operationName, ParameterBlock paramBlock, RenderingHints renderHints) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         Object args[] = {paramBlock, renderHints};
 

@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
  * Multi-Panel Viewer (MPV) demonstration class.
@@ -146,7 +146,7 @@ public class MPVDemo extends JFrame implements ActionListener {
         // Ensure that if the user does a window kill, everything is handled
         addWindowListener(new WindowHandler());
 
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, getDefaultLayout());
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, getDefaultLayout());
 
         // Build a single popup listener for all the panels
         MouseListener popupListener = new PopupListener();
@@ -200,7 +200,7 @@ public class MPVDemo extends JFrame implements ActionListener {
         //
         // The fileload operator is the first node in the primary image op chain.
         //
-        RenderedImage primaryImg = JAI.create("fileload", imagePath);
+        RenderedImage primaryImg = ImageN.create("fileload", imagePath);
         if ((primaryImg.getTileWidth() != DEFAULT_TILE_SIZE) || (primaryImg.getTileHeight() != DEFAULT_TILE_SIZE)) {
 
             // The format operator will locally convert the image as needed to a
@@ -212,7 +212,7 @@ public class MPVDemo extends JFrame implements ActionListener {
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(primaryImg);
             pb.add(primaryImg.getSampleModel().getDataType());
-            primaryImg = JAI.create("format", pb, hints);
+            primaryImg = ImageN.create("format", pb, hints);
         }
 
         // If this is the first time for setting an image, construct a new
@@ -224,7 +224,7 @@ public class MPVDemo extends JFrame implements ActionListener {
         }
 
         if (ovwPath != null) {
-            RenderedImage overviewImg = JAI.create("fileload", ovwPath);
+            RenderedImage overviewImg = ImageN.create("fileload", ovwPath);
 
             SimpleOverviewImageDisplayPane overviewImgDisplay =
                     new SimpleOverviewImageDisplayPane(overviewImg, ovwPath, new SimpleOverviewROI());

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PropertyGenerator;
@@ -263,9 +263,9 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
      * Maps the pixels values of an image from one range to another range.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -283,14 +283,14 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("constants", constants);
         pb.setParameter("offsets", offsets);
 
-        return JAI.create("Rescale", pb, hints);
+        return ImageN.create("Rescale", pb, hints);
     }
 
     /**
      * Maps the pixels values of an image from one range to another range.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scales The per-band scale factors to multiply by.
@@ -324,14 +324,14 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("useRoiAccessor", useRoiAccessor);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.create("Rescale", pb, hints);
+        return ImageN.create("Rescale", pb, hints);
     }
 
     /**
      * Maps the pixels values of an image from one range to another range.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String, ParameterBlock, RenderingHints)}.
+     * {@link ImageN#createRenderable(String, ParameterBlock, RenderingHints)}.
      *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scales The per-band scale factors to multiply by.
@@ -365,6 +365,6 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("useRoiAccessor", useRoiAccessor);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.createRenderable("Rescale", pb, hints);
+        return ImageN.createRenderable("Rescale", pb, hints);
     }
 }

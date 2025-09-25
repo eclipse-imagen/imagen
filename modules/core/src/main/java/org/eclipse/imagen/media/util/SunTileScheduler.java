@@ -1250,8 +1250,8 @@ public final class SunTileScheduler implements TileScheduler {
      * available on the system. It is the responsibility of the application to set this value as the number of
      * processors is not available via the virtual machine. A parallelism value of zero indicates that all tile
      * computation will be effected in the primary thread. A parallelism value of <i>N</i> indicates that there will be
-     * <i>N</i> worker threads in addition to the primary scheduler thread. In JAI the parallelism defaults to a value
-     * of 2 unless explicity set by the application.
+     * <i>N</i> worker threads in addition to the primary scheduler thread. In ImageN the parallelism defaults to a
+     * value of 2 unless explicity set by the application.
      *
      * @param parallelism The suggested degree of parallelism.
      * @throws IllegalArgumentException if <code>parallelism</code> is negative.
@@ -1318,7 +1318,7 @@ public final class SunTileScheduler implements TileScheduler {
 
     /**
      * Recreate the <code>ThreadGroup</code>is and <code>WorkThread</code>s. This happens in the case of applet: the
-     * java plugin will exist after the termination of the applet so that JAI and SunTileScheduler will also exist.
+     * java plugin will exist after the termination of the applet so that ImageN and SunTileScheduler will also exist.
      * However, the <code>ThreadGroup</code>s are destroyed. Thus, the old workers should be terminated and new i <code>
      * ThreadGroup</code> and workers should be created.
      */

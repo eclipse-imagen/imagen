@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.RenderedImageAdapter;
@@ -121,7 +121,7 @@ public class FileLoadRIF implements RenderedImageFactory {
             newArgs.add(src);
             newArgs.add(param);
 
-            RenderingHints.Key key = JAI.KEY_OPERATION_BOUND;
+            RenderingHints.Key key = ImageN.KEY_OPERATION_BOUND;
             int bound = OpImage.OP_IO_BOUND;
             if (hints == null) {
                 hints = new RenderingHints(key, new Integer(bound));
@@ -132,7 +132,7 @@ public class FileLoadRIF implements RenderedImageFactory {
 
             // Get the registry from the hints, if any.
             // Don't check for null hints as it cannot be null here.
-            OperationRegistry registry = (OperationRegistry) hints.get(JAI.KEY_OPERATION_REGISTRY);
+            OperationRegistry registry = (OperationRegistry) hints.get(ImageN.KEY_OPERATION_REGISTRY);
 
             // Create the image using the most preferred RIF for "stream".
             RenderedImage image = RIFRegistry.create(registry, "stream", newArgs, hints);

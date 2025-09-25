@@ -342,7 +342,7 @@ public class JAIRMICRIF implements RemoteCRIF {
     /** Returns the set of capabilities supported by the client object. */
     public NegotiableCapabilitySet getClientCapabilities() {
 
-        OperationRegistry registry = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
         String modeName = "tileDecoder";
         String[] descriptorNames = registry.getDescriptorNames(modeName);
         TileDecoderFactory tdf = null;

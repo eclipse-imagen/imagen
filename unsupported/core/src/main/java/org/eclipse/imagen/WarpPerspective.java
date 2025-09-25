@@ -200,7 +200,7 @@ public final class WarpPerspective extends Warp {
      * @throws IllegalArgumentException is srcRect is null.
      * @return A <code>Rectangle</code> in the destination coordinate system that is guaranteed to contain all pixels
      *     within the forward mapping of the source rectangle.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
         if (srcRect == null) {
@@ -251,7 +251,7 @@ public final class WarpPerspective extends Warp {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -278,7 +278,7 @@ public final class WarpPerspective extends Warp {
      * @throws IllegalArgumentException if <code>sourcePt</code> is
      * <code>null</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

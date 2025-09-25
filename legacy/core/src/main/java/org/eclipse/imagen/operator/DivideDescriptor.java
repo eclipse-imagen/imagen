@@ -20,7 +20,7 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -107,9 +107,9 @@ public class DivideDescriptor extends OperationDescriptorImpl {
      * Divides one image by another image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -125,16 +125,16 @@ public class DivideDescriptor extends OperationDescriptorImpl {
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.create("Divide", pb, hints);
+        return ImageN.create("Divide", pb, hints);
     }
 
     /**
      * Divides one image by another image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -151,6 +151,6 @@ public class DivideDescriptor extends OperationDescriptorImpl {
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.createRenderable("Divide", pb, hints);
+        return ImageN.createRenderable("Divide", pb, hints);
     }
 }

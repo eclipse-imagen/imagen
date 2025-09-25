@@ -24,7 +24,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * values for the "destAlpha" parameter are defined in the <code>CompositeDescriptor</code> by the constants <code>
  * NO_DESTINATION_ALPHA</code>, <code>DESTINATION_ALPHA_FIRST</code>, and <code>DESTINATION_ALPHA_LAST</code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class CompositeDestAlpha extends EnumeratedParameter {
     CompositeDestAlpha(String name, int value) {

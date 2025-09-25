@@ -18,7 +18,7 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.io.File;
 import javax.imageio.stream.FileImageInputStream;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -29,7 +29,7 @@ public class ImageReadTest {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ImageRead");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ImageRead");
         assertNotNull(descriptor);
         assertEquals("ImageRead", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
@@ -50,7 +50,7 @@ public class ImageReadTest {
 
     @Test
     public void testReadURL() throws Exception {
-        RenderedOp image = JAI.create(
+        RenderedOp image = ImageN.create(
                 "ImageRead", new File("src/test/resources/sample.tiff").toURI().toURL());
         checkSampleTiff(image);
     }
@@ -58,7 +58,7 @@ public class ImageReadTest {
     @Test
     public void testReadStream() throws Exception {
         FileImageInputStream fis = new FileImageInputStream(new File("src/test/resources/sample.tiff"));
-        RenderedOp image = JAI.create("ImageRead", fis);
+        RenderedOp image = ImageN.create("ImageRead", fis);
         checkSampleTiff(image);
     }
 

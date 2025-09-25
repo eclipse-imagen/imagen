@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
  * A <code>ContextualRenderedImageFactory</code> representing an operation which performs no processing of its image
@@ -75,7 +75,7 @@ public class NullCRIF extends CRIFImpl {
         // Selection of the first source
         RenderedImage source = pb.getRenderedSource(0);
         // Selection of the optional layout object
-        ImageLayout layout = (ImageLayout) renderHints.get(JAI.KEY_IMAGE_LAYOUT);
+        ImageLayout layout = (ImageLayout) renderHints.get(ImageN.KEY_IMAGE_LAYOUT);
         // If no source is defined, then the "sourceless" image is taken, if present
         if (source == null) {
             return getSourcelessImage();

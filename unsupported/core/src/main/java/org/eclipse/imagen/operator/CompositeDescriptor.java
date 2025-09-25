@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -274,9 +274,9 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
      * Composites two images based on an alpha mask.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -311,16 +311,16 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("alphaPremultiplied", alphaPremultiplied);
         pb.setParameter("destAlpha", destAlpha);
 
-        return JAI.create("Composite", pb, hints);
+        return ImageN.create("Composite", pb, hints);
     }
 
     /**
      * Composites two images based on an alpha mask.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -355,6 +355,6 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("alphaPremultiplied", alphaPremultiplied);
         pb.setParameter("destAlpha", destAlpha);
 
-        return JAI.createRenderable("Composite", pb, hints);
+        return ImageN.createRenderable("Composite", pb, hints);
     }
 }

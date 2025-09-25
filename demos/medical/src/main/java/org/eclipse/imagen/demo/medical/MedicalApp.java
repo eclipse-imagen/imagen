@@ -27,10 +27,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
- * The main entrance of the Medical Image Application for JAI 1.1.
+ * The main entrance of the Medical Image Application for ImageN 1.1.
  *
  * <p>Before load any data set, this class displays a medical image slice with the title for this demo in a single view
  * image display panel.
@@ -108,7 +108,7 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
 
         // create an image view pane containing only one image.
         multipleImagePane = new MultipleImagePane(
-                layout, new RenderedImage[] {JAI.create("fileload", JaiI18N.getString("TitleImage"))});
+                layout, new RenderedImage[] {ImageN.create("fileload", JaiI18N.getString("TitleImage"))});
 
         this.getContentPane().add(multipleImagePane, BorderLayout.CENTER);
 

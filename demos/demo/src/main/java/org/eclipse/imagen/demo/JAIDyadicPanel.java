@@ -8,11 +8,9 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.SampleModel;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public abstract class JAIDyadicPanel extends JAIDemoPanel {
@@ -32,7 +30,7 @@ public abstract class JAIDyadicPanel extends JAIDemoPanel {
 
         ImageLayout il = new ImageLayout();
         il.setSampleModel(sm);
-        return new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        return new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
     }
 
     public void reset() {

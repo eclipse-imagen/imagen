@@ -26,7 +26,8 @@ package org.eclipse.imagen.media.codec;
  * <p>This class makes very simple assumptions about the image colorspaces. Images with a single band are assumed to be
  * grayscale. Images with three bands are assumed to be RGB and are encoded to YCbCr.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class JPEGEncodeParam implements ImageEncodeParam {
 
@@ -44,7 +45,7 @@ public class JPEGEncodeParam implements ImageEncodeParam {
     private boolean qualitySet;
     private boolean[] qTabSet;
 
-    /** Constructs a JAI JPEGEncodeParam object with default settings. */
+    /** Constructs a ImageN JPEGEncodeParam object with default settings. */
     public JPEGEncodeParam() {
         //
         // Set all the defaults

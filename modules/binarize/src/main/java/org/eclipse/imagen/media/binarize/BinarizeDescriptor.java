@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -140,9 +140,9 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
      * Binarize an image from a threshold value.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -156,16 +156,16 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         ParameterBlockJAI pb = new ParameterBlockJAI("Binarize", RenderedRegistryMode.MODE_NAME);
         pb.setSource("source0", source0);
         pb.setParameter("threshold", threshold);
-        return JAI.create("Binarize", pb, hints);
+        return ImageN.create("Binarize", pb, hints);
     }
 
     /**
      * Binarize an image from a threshold value, taking into account the presence of ROI and NoData
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -187,16 +187,16 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("roi", roi);
         pb.setParameter("nodata", nodata);
         // Creating the RenderedOp
-        return JAI.create("Binarize", pb, hints);
+        return ImageN.create("Binarize", pb, hints);
     }
 
     /**
      * Binarize an image from a threshold value, taking into account the presence of ROI and NoData
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -218,6 +218,6 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("roi", roi);
         pb.setParameter("nodata", nodata);
         // Creating the Renderable parameter
-        return JAI.createRenderable("Binarize", pb, hints);
+        return ImageN.createRenderable("Binarize", pb, hints);
     }
 }

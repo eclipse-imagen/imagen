@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -23,7 +23,7 @@ import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -45,7 +45,8 @@ import org.junit.Test;
  * associated destination pixel. If the pixel is outside the ROI or it is a NoData, then it is skipped. These tests are
  * done with and without No Data, with and without ROI, and, if ROI is present, with and without ROI RasterAccessor. If
  * the user wants to see the result of the operation in a particular condition must set to true the JVM parameter
- * JAI.Ext.Interactive and associate to the JVM parameter JAI.Ext.TestSelector an integer associated with the operation:
+ * ImageN.Ext.Interactive and associate to the JVM parameter ImageN.Ext.TestSelector an integer associated with the
+ * operation:
  *
  * <ul>
  *   <li>0 without ROI and NoData
@@ -502,7 +503,7 @@ public class RescaleTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Rescale");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Rescale");
         assertNotNull(descriptor);
         assertEquals("Rescale", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

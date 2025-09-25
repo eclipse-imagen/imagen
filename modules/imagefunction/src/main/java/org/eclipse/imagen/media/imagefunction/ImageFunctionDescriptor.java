@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -20,7 +20,7 @@ package org.eclipse.imagen.media.imagefunction;
 import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageFunction;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PropertyGenerator;
@@ -301,9 +301,9 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
      * Generates an image from a functional description.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param function The functional description.
@@ -348,6 +348,6 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
         pb.setParameter("nodata", nodata);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.create("ImageFunction", pb, hints);
+        return ImageN.create("ImageFunction", pb, hints);
     }
 }

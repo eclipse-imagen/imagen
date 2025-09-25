@@ -249,7 +249,7 @@ public final class JDKWorkarounds {
     }
 
     // Workarounds for WritableRaster.setRect bug (4250270) in JDK 1.2.
-    // Also filed as bug 4250273 against JAI.
+    // Also filed as bug 4250273 against ImageN.
 
     public static void setRect(WritableRaster dstRaster, Raster srcRaster) {
         setRect(dstRaster, srcRaster, 0, 0);

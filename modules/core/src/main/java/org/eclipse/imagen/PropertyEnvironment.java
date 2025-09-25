@@ -29,9 +29,9 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * A class that implements the <code>PropertySource</code> interface. Property names are treated in a case-insensitive
  * manner.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
-// In JAI 1.0.2 this class was namex org.eclipse.imagen.PropertySourceImpl
+// In ImageN 1.0.2 this class was namex org.eclipse.imagen.PropertySourceImpl
 // and was package scope (as it is now).
 class PropertyEnvironment implements PropertySource {
 

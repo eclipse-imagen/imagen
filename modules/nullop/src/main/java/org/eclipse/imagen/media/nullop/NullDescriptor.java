@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -23,7 +23,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.util.Vector;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.ParameterBlockJAI;
@@ -179,9 +179,9 @@ public class NullDescriptor extends OperationDescriptorImpl {
      * An operation which does no processing.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -195,16 +195,16 @@ public class NullDescriptor extends OperationDescriptorImpl {
         // Setting of the source
         pb.setSource("source0", source0);
         // Creation of the RenderedOp associated with the Null operation
-        return JAI.create("Null", pb, hints);
+        return ImageN.create("Null", pb, hints);
     }
 
     /**
      * An operation which does no processing.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -218,6 +218,6 @@ public class NullDescriptor extends OperationDescriptorImpl {
         // Setting of the source
         pb.setSource("source0", source0);
         // Creation of the RenderabledOp associated with the Null operation
-        return JAI.createRenderable("Null", pb, hints);
+        return ImageN.createRenderable("Null", pb, hints);
     }
 }

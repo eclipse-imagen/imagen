@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -28,8 +28,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationRegistry;
@@ -116,7 +116,7 @@ class WarpPropertyGenerator extends PropertyGeneratorImpl {
             layout.setTileWidth(src.getTileWidth());
             layout.setTileHeight(src.getTileHeight());
             RenderingHints hints = op.getRenderingHints();
-            hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
+            hints.add(new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout));
 
             final PlanarImage constantImage =
                     ConstantDescriptor.create(new Float(w), new Float(h), new Byte[] {(byte) 255}, hints);
@@ -130,8 +130,8 @@ class WarpPropertyGenerator extends PropertyGeneratorImpl {
             ImageLayout2 targetLayout = new ImageLayout2(op);
             targetLayout.setColorModel(srcROI.getAsImage().getColorModel());
             targetLayout.setSampleModel(srcROI.getAsImage().getSampleModel());
-            warpingHints.put(JAI.KEY_IMAGE_LAYOUT, targetLayout);
-            warpingHints.put(JAI.KEY_BORDER_EXTENDER, extender);
+            warpingHints.put(ImageN.KEY_IMAGE_LAYOUT, targetLayout);
+            warpingHints.put(ImageN.KEY_BORDER_EXTENDER, extender);
 
             // Creating warped roi by the same way (Warp, Interpolation, source ROI) we warped the
             // input image.
@@ -142,7 +142,7 @@ class WarpPropertyGenerator extends PropertyGeneratorImpl {
             paramBlock.add(interp);
             paramBlock.add(null);
             paramBlock.add(srcROI);
-            PlanarImage roiImage = JAI.create("Warp", paramBlock, warpingHints);
+            PlanarImage roiImage = ImageN.create("Warp", paramBlock, warpingHints);
 
             ROI dstROI = new ROI(roiImage, 1);
 
@@ -183,12 +183,14 @@ class WarpPropertyGenerator extends PropertyGeneratorImpl {
  * interpolation object.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>An optional ROI object can be passed to the descriptor. Also NoData can be defined with a Range object; NoData
@@ -294,7 +296,7 @@ public class WarpDescriptor extends OperationDescriptorImpl {
      * @return <code>true</code> in case the operation succeds, <code>false</code> otherwise.
      */
     public static final boolean register() {
-        OperationRegistry registry = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
         try {
             final OperationDescriptor op = new WarpDescriptor();
             final String descName = op.getName();
@@ -370,9 +372,9 @@ public class WarpDescriptor extends OperationDescriptorImpl {
      * Warps an image according to a specified Warp object.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -398,16 +400,16 @@ public class WarpDescriptor extends OperationDescriptorImpl {
         pb.setParameter("interpolation", interpolation);
         pb.setParameter("backgroundValues", backgroundValues);
 
-        return JAI.create("Warp", pb, hints);
+        return ImageN.create("Warp", pb, hints);
     }
 
     /**
      * Warps an image according to a specified Warp object.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -435,9 +437,9 @@ public class WarpDescriptor extends OperationDescriptorImpl {
      * Warps an image according to a specified Warp object. NoData Range can be added
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -475,6 +477,6 @@ public class WarpDescriptor extends OperationDescriptorImpl {
             pb.setParameter("nodata", noData);
         }
 
-        return JAI.create("Warp", pb, hints);
+        return ImageN.create("Warp", pb, hints);
     }
 }

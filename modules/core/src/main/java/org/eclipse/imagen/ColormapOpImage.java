@@ -35,9 +35,9 @@ import java.util.Map;
  * <p>The default behavior for a <code>ColormapOpImage</code> is to do the transform only on the color map in order to
  * accelerate processing when the source and destination images are all color-indexed. However, in some situations it
  * may be desirable to transform the pixel (index) data directly instead of transforming the colormap. To suppress the
- * acceleration, a mapping of the key <code>JAI.KEY_TRANSFORM_ON_COLORMAP</code> with value <code>Boolean.FALSE</code>
- * should be added to the configuration map (or the <code>RenderingHints</code> provided to the <code>create</code>
- * methods in the class <code>JAI</code>) supplied to the corresponding operation when it is created.
+ * acceleration, a mapping of the key <code>ImageN.KEY_TRANSFORM_ON_COLORMAP</code> with value <code>Boolean.FALSE
+ * </code> should be added to the configuration map (or the <code>RenderingHints</code> provided to the <code>create
+ * </code> methods in the class <code>ImageN</code>) supplied to the corresponding operation when it is created.
  *
  * <p>Transforming on the pixel (index) data is only meaningful when the transform maps all the possible index values of
  * the source image into the index value set of the destination image. Otherwise, it may generate pixel (index) values
@@ -46,7 +46,7 @@ import java.util.Map;
  *
  * @see java.awt.image.IndexColorModel
  * @see PointOpImage
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public abstract class ColormapOpImage extends PointOpImage {
 
@@ -92,7 +92,7 @@ public abstract class ColormapOpImage extends PointOpImage {
         */
         isColormapAccelerated = true;
         Boolean value =
-                configuration == null ? Boolean.TRUE : (Boolean) configuration.get(JAI.KEY_TRANSFORM_ON_COLORMAP);
+                configuration == null ? Boolean.TRUE : (Boolean) configuration.get(ImageN.KEY_TRANSFORM_ON_COLORMAP);
         if (value != null) isColormapAccelerated = value.booleanValue();
     }
 

@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PlanarImage;
@@ -21,7 +21,7 @@ import org.eclipse.imagen.registry.RIFRegistry;
 import org.eclipse.imagen.widget.ImageCanvas;
 
 /**
- * JAIExampleApp is a simple program that demonstrates how to incorporate an extension imaging operation into JAI and
+ * JAIExampleApp is a simple program that demonstrates how to incorporate an extension imaging operation into ImageN and
  * use it to produce visible results. An imaging operation is composed of an OperationDescriptor, a RenderedImageFactory
  * and an OpImage.
  *
@@ -34,8 +34,8 @@ import org.eclipse.imagen.widget.ImageCanvas;
  * responsible actually computes pixel values.
  *
  * <p>In order to be used, an OperationDescriptor must be registered by name with the OperationRegistry that is returned
- * by JAI.getDefaultInstance.getOperationRegistry(). The RIF must also be registered with that name. The OpImages that a
- * given RIF produces are "hardcoded" to that particular RIF, so the OpImages do not need to be registered.
+ * by ImageN.getDefaultInstance.getOperationRegistry(). The RIF must also be registered with that name. The OpImages
+ * that a given RIF produces are "hardcoded" to that particular RIF, so the OpImages do not need to be registered.
  */
 public class JAIExampleApp extends WindowAdapter {
 
@@ -62,7 +62,7 @@ public class JAIExampleApp extends WindowAdapter {
 
         String operationName = "sample";
         String productName = "com.mycompany";
-        OperationRegistry or = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry or = ImageN.getDefaultInstance().getOperationRegistry();
         or.registerDescriptor(odesc);
         RIFRegistry.register(or, operationName, productName, rif);
 
@@ -71,7 +71,7 @@ public class JAIExampleApp extends WindowAdapter {
         PlanarImage im0 = JAIImageReader.readImage(imageName);
 
         // We add the source image that was created above into a
-        // ParameterBlock object and call JAI.create() with
+        // ParameterBlock object and call ImageN.create() with
         // the "sample" operation name.
 
         ParameterBlock pb = new ParameterBlock();
@@ -83,7 +83,7 @@ public class JAIExampleApp extends WindowAdapter {
 
         pb.add(150);
         pb.add(200);
-        RenderedImage im1 = JAI.create("sample", pb);
+        RenderedImage im1 = ImageN.create("sample", pb);
 
         // Now that we have created an imaging chain, we hook it
         // up to an ImageCanvas and add it to the frame.  The ImageCanvas

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import java.awt.Rectangle;
 import java.awt.image.*;
 import java.util.*;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -67,7 +67,7 @@ import org.locationtech.jts.io.WKTReader;
  * An additional Classifier image can be used for dividing the statistics between the classes defined by it. The
  * ZonalStatsOpImage is tested on 6 different images each one with a different data type (except Long data type). The
  * operation is tested with and without the presence of NoData, with and without the presence of ROI. The classifier can
- * be used by setting to true the JVM parameter JAI.Ext.Classifier. All the results are compared with the previously
+ * be used by setting to true the JVM parameter ImageN.Ext.Classifier. All the results are compared with the previously
  * calculated statistics for checking the correctness of the calculations.
  */
 public class ZonalStatsTest extends TestBase {
@@ -76,7 +76,7 @@ public class ZonalStatsTest extends TestBase {
     private static final double TOLERANCE = 0.1d;
 
     /** Boolean indicating if a classifier image must be used */
-    private static final boolean CLASSIFIER = Boolean.getBoolean("JAI.Ext.Classifier");
+    private static final boolean CLASSIFIER = Boolean.getBoolean("ImageN.Ext.Classifier");
 
     private static final int TINY_IMAGE_SAMPLE_VALUE = 10;
 
@@ -801,7 +801,7 @@ public class ZonalStatsTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Zonal");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Zonal");
         assertNotNull(descriptor);
         assertEquals("Zonal", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

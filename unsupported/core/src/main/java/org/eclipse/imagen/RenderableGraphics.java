@@ -182,7 +182,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
         RenderingHints hintsObserved = null;
         if (hints != null) {
             // Get the ImageLayout.
-            ImageLayout layout = (ImageLayout) hints.get(JAI.KEY_IMAGE_LAYOUT);
+            ImageLayout layout = (ImageLayout) hints.get(ImageN.KEY_IMAGE_LAYOUT);
 
             if (layout != null) {
                 // Initialize the observed hint variables.
@@ -227,7 +227,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
                 }
 
                 // Set the observed hints layout.
-                hintsObserved.put(JAI.KEY_IMAGE_LAYOUT, layoutObserved);
+                hintsObserved.put(ImageN.KEY_IMAGE_LAYOUT, layoutObserved);
             } // layout != null
         } // hints != null
 
@@ -1051,9 +1051,9 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
 
     void sendExceptionToListener(String message, Exception e) {
         ImagingListener listener = null;
-        if (renderingHints != null) listener = (ImagingListener) renderingHints.get(JAI.KEY_IMAGING_LISTENER);
+        if (renderingHints != null) listener = (ImagingListener) renderingHints.get(ImageN.KEY_IMAGING_LISTENER);
 
-        if (listener == null) listener = JAI.getDefaultInstance().getImagingListener();
+        if (listener == null) listener = ImageN.getDefaultInstance().getImagingListener();
         listener.errorOccurred(message, e, this, false);
     }
 }

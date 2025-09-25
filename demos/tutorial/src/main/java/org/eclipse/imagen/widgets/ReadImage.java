@@ -8,7 +8,7 @@
 package org.eclipse.imagen.widgets;
 
 import java.io.*;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 
 public class ReadImage {
@@ -20,7 +20,7 @@ public class ReadImage {
             File f = new File(filename);
 
             if (f.exists() && f.canRead()) {
-                src = JAI.create("fileload", filename);
+                src = ImageN.create("fileload", filename);
             } else {
                 // custom file reader
             }

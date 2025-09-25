@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -20,7 +20,7 @@ package org.eclipse.imagen.media.translate;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.media.testclasses.ComparisonTestBase;
 import org.junit.Test;
@@ -55,6 +55,6 @@ public class ComparisonTest extends ComparisonTestBase {
         pb.add(height);
         pb.add(array);
         // Create the constant operation.
-        return JAI.create("constant", pb);
+        return ImageN.create("constant", pb);
     }
 }

@@ -28,7 +28,7 @@ import org.eclipse.imagen.operator.MosaicType;
 /**
  * A <code>RIF</code> supporting the "Mosaic" operation in the rendered image layer.
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  * @see org.eclipse.imagen.operator.MosaicDescriptor
  */
 public class MosaicRIF implements RenderedImageFactory {

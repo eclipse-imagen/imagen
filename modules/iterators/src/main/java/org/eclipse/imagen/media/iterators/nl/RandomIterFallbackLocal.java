@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -25,7 +25,7 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
 /**
- * Modified version of JAI {@link RandomIterFallbackNoCacheNoArray} that uses a ThreadLocal object for storing the
+ * Modified version of ImageN {@link RandomIterFallbackNoCacheNoArray} that uses a ThreadLocal object for storing the
  * current tile used in iterations.
  */
 public class RandomIterFallbackLocal implements RandomIter {

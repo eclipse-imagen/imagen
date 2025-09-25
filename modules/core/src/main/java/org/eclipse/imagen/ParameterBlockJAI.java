@@ -65,7 +65,7 @@ import org.eclipse.imagen.media.util.CaselessStringArrayTable;
  *
  * <p><strong>Warning:</strong> Serialized objects of this class will not be compatible with future releases. The
  * current serialization support is appropriate for short term storage or RMI between applications running the same
- * version of JAI. A future release of JAI will provide support for long term persistence.
+ * version of ImageN. A future release of ImageN will provide support for long term persistence.
  */
 public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
 
@@ -124,7 +124,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
 
     /**
      * Constructs a <code>ParameterBlockJAI</code> for a particular operation by name. The <code>OperationRegistry
-     * </code> associated with the default instance of the <code>JAI</code> class is used to locate the <code>
+     * </code> associated with the default instance of the <code>ImageN</code> class is used to locate the <code>
      * OperationDescriptor</code> associated with the operation name.
      *
      * <p>It uses the first mode in the array of <code>String</code>s returned by <code>
@@ -135,7 +135,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if operationName is null.
      */
     public ParameterBlockJAI(String operationName) {
-        this((OperationDescriptor) JAI.getDefaultInstance()
+        this((OperationDescriptor) ImageN.getDefaultInstance()
                 .getOperationRegistry()
                 .getDescriptor(OperationDescriptor.class, operationName));
     }
@@ -147,7 +147,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param odesc the OperationDescriptor describing the parameters to be managed.
      * @param modeName the operation mode whose paramters are to be managed.
      * @throws IllegalArgumentException if modeName is null or odesc is null
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterBlockJAI(OperationDescriptor odesc, String modeName) {
 
@@ -178,19 +178,19 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
 
     /**
      * Constructs a <code>ParameterBlockJAI</code> for a particular operation by name and a registry mode. The <code>
-     * OperationRegistry</code> associated with the default instance of the <code>JAI</code> class is used to locate the
-     * <code>OperationDescriptor</code> associated with the operation name. The default values of the parameters are
+     * OperationRegistry</code> associated with the default instance of the <code>ImageN</code> class is used to locate
+     * the <code>OperationDescriptor</code> associated with the operation name. The default values of the parameters are
      * filled in.
      *
      * @param operationName a <code>String</code> giving the name of the operation.
      * @param modeName the operation mode whose paramters are to be managed.
      * @throws IllegalArgumentException if operationName or modeName is null
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterBlockJAI(String operationName, String modeName) {
         this(
                 (OperationDescriptor)
-                        JAI.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName),
+                        ImageN.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName),
                 modeName);
     }
 
@@ -199,7 +199,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      *
      * @param sourceName a <code>String</code> containing the parameter name.
      * @throws IllegalArgumentException if source is null or if there is no source with the specified name.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public int indexOfSource(String sourceName) {
         return sourceIndices.indexOf(sourceName);
@@ -210,7 +210,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      *
      * @param paramName a <code>String</code> containing the parameter name.
      * @throws IllegalArgumentException if paramName is null or if there is no parameter with the specified name.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public int indexOfParam(String paramName) {
         return paramIndices.indexOf(paramName);
@@ -225,7 +225,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * Returns the <code>ParameterListDescriptor</code> that provides descriptions of the parameters associated with the
      * operator and mode.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterListDescriptor getParameterListDescriptor() {
         return pld;
@@ -234,7 +234,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     /**
      * Get the operation mode used to determine parameter names, classes and default values.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public String getMode() {
         return modeName;
@@ -249,7 +249,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if <code>sourceName</code> is null.
      * @throws IllegalArgumentException if <code>source</code> is not an instance of (any of) the expected class(es).
      * @throws IllegalArgumentException if the associated operation has no source with the supplied name.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterBlockJAI setSource(String sourceName, Object source) {
         if ((source == null) || (sourceName == null)) {
@@ -275,7 +275,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * Returns an array of <code>Class</code> objects describing the types of the parameters. This is a more efficient
      * implementation than that of the superclass as the parameter classes are known a priori.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Class[] getParamClasses() {
         // Just return the Class array obtained from the OD's PLD.
@@ -330,7 +330,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws ClassCastException if the parameter is of a different type.
      * @throws IllegalStateException if the parameter value is still ParameterListDescriptor.NO_PARAMETER_DEFAULT
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public boolean getBooleanParameter(String paramName) {
         return ((Boolean) getObjectParameter0(paramName)).booleanValue();
@@ -357,7 +357,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws ClassCastException if the parameter is of a different type.
      * @throws IllegalStateException if the parameter value is still ParameterListDescriptor.NO_PARAMETER_DEFAULT
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public short getShortParameter(String paramName) {
         return ((Short) getObjectParameter0(paramName)).shortValue();
@@ -428,7 +428,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Byte
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, byte b) {
         return setParameter0(paramName, new Byte(b));
@@ -445,7 +445,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>
      *     Boolean</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, boolean b) {
         return setParameter0(paramName, new Boolean(b));
@@ -462,7 +462,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>
      *     Character</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, char c) {
         return setParameter0(paramName, new Character(c));
@@ -479,7 +479,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Short
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, short s) {
         return setParameter0(paramName, new Short(s));
@@ -496,7 +496,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>
      *     Integer</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, int i) {
         return setParameter0(paramName, new Integer(i));
@@ -513,7 +513,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Long
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, long l) {
         return setParameter0(paramName, new Long(l));
@@ -530,7 +530,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Float
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, float f) {
         return setParameter0(paramName, new Float(f));
@@ -547,7 +547,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Double
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, double d) {
         return setParameter0(paramName, new Double(d));
@@ -565,7 +565,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterList setParameter(String paramName, Object obj) {
         return setParameter0(paramName, obj);
@@ -645,7 +645,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * constructor initializes all parameters with their default values.
      *
      * @throws IllegalStateException if parameters are added to an already initialized ParameterBlockJAI
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterBlock add(Object obj) {
         throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
@@ -660,7 +660,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      *     parameters expected for the associated operation.
      * @throws IllegalArgumentException if <code>obj</code> is non-<code>null</code> and not an instance of the class
      *     expected for the indicated parameter or if <code>obj</code> is an invalid value for the indicated parameter.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public ParameterBlock set(Object obj, int index) {
         if (index < 0 || index >= pld.getNumParameters()) {
@@ -685,7 +685,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if a non-<code>null</code>, <code>DeferredData</code> value does not wrap an
      *     instance of the class expected for the indicated parameter or if it is valid but its wrapped value is invalid
      *     for the indicated parameter.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void setParameters(Vector parameters) {
         if (parameters == null || parameters.size() != numParameters) {
@@ -706,7 +706,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      *
      * @param paramName a <code>String</code> containing the parameter name.
      * @throws IllegalArgumentException if paramName is null or if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use "indexOfParam" instead.
+     * @deprecated as of ImageN 1.1 - use "indexOfParam" instead.
      * @see #indexOfParam
      */
     public int indexOf(String paramName) {
@@ -720,7 +720,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param b a <code>byte</code> value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, byte)
      */
     public ParameterBlock set(byte b, String paramName) {
@@ -734,7 +734,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param c a <code>char</code> value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, char)
      */
     public ParameterBlock set(char c, String paramName) {
@@ -748,7 +748,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param s a short value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, short)
      */
     public ParameterBlock set(short s, String paramName) {
@@ -762,7 +762,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param i an <code>int</code> value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, int)
      */
     public ParameterBlock set(int i, String paramName) {
@@ -776,7 +776,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param l a <code>long</code> value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, long)
      */
     public ParameterBlock set(long l, String paramName) {
@@ -790,7 +790,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param f a <code>float</code> value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, float)
      */
     public ParameterBlock set(float f, String paramName) {
@@ -804,7 +804,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param d a <code>double</code> value for the parameter.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, double)
      */
     public ParameterBlock set(double d, String paramName) {
@@ -820,7 +820,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      *     parameter pointed to by the paramName.
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
-     * @deprecated as of JAI 1.1 - use <code>setParameter</code> instead.
+     * @deprecated as of ImageN 1.1 - use <code>setParameter</code> instead.
      * @see #setParameter(String, Object)
      */
     public ParameterBlock set(Object obj, String paramName) {
@@ -860,7 +860,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
 
         // Try to get the OperationDescriptor registered under this name
         odesc = (OperationDescriptor)
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName);
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName);
 
         if (odesc == null) {
             throw new NotSerializableException(operationName + " " + ImageNI18N.getString("ParameterBlockJAI1"));
@@ -874,7 +874,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * sources or parameters themselves will still be visible.
      *
      * @return an Object clone of the <code>ParameterBlockJAI</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Object clone() {
         ParameterBlockJAI theClone = (ParameterBlockJAI) shallowClone();

@@ -30,7 +30,7 @@ public class Threshold extends JPanel implements ChangeListener {
 
         add(new JLabel("CT Scan"), BorderLayout.NORTH);
 
-        source = JAI.create("fileload", filename);
+        source = ImageN.create("fileload", filename);
 
         display = new ImageDisplay(source);
         add(display, BorderLayout.CENTER);
@@ -69,7 +69,7 @@ public class Threshold extends JPanel implements ChangeListener {
         pb.add(low);
         pb.add(high);
         pb.add(map);
-        target = JAI.create("threshold", pb, null);
+        target = ImageN.create("threshold", pb, null);
         display.set(target);
     }
 }

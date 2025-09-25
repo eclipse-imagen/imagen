@@ -99,7 +99,7 @@ import org.eclipse.imagen.util.ImagingListener;
  *
  * @see RenderedOp
  * @see RemoteRenderedImage
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class RemoteRenderedOp extends RenderedOp implements RemoteRenderedImage {
 
@@ -1079,7 +1079,7 @@ public class RemoteRenderedOp extends RenderedOp implements RemoteRenderedImage 
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener = (ImagingListener) getRenderingHints().get(JAI.KEY_IMAGING_LISTENER);
+        ImagingListener listener = (ImagingListener) getRenderingHints().get(ImageN.KEY_IMAGING_LISTENER);
 
         listener.errorOccurred(message, e, this, false);
     }

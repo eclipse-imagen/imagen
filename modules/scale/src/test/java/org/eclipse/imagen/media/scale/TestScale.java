@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -37,8 +37,8 @@ import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -59,9 +59,9 @@ import org.junit.Test;
  * with the preferred interpolation type. Inside the testGlobal() method are tested images with all the possible data
  * type by calling the testImage() method. This method is used for creating an image with the user-defined
  * parameters(data type, ROI, No Data Range) and then scaling it with the supplied interpolation type. If the user wants
- * to see a scaled image with the selected type of test, must set JAI.Ext.Interactive parameter to true,
- * JAI.Ext.TestSelector from 0 to 5 and JAI.Ext.InverseScale to 0 or 1 (Magnification/reduction) to the Console. The
- * methods testImageAffine() testGlobalAffine() are not supported, they are defined in the jt-affine project.
+ * to see a scaled image with the selected type of test, must set ImageN.Ext.Interactive parameter to true,
+ * ImageN.Ext.TestSelector from 0 to 5 and ImageN.Ext.InverseScale to 0 or 1 (Magnification/reduction) to the Console.
+ * The methods testImageAffine() testGlobalAffine() are not supported, they are defined in the jt-affine project.
  */
 public class TestScale extends TestBase {
 
@@ -325,7 +325,7 @@ public class TestScale extends TestBase {
 
         if (useROIAccessor) {
             hints = new RenderingHints(
-                    JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
+                    ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
         }
 
         // Interpolator initialization
@@ -343,10 +343,10 @@ public class TestScale extends TestBase {
 
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 break;
@@ -356,10 +356,10 @@ public class TestScale extends TestBase {
 
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 break;
@@ -546,8 +546,8 @@ public class TestScale extends TestBase {
     }
 
     private void assertNoDataBleed(Interpolation interpolation, RenderedImage source, int expectedValue) {
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
         RenderedImage scaled = ScaleDescriptor.create(
                 source, 2f, 2f, 0f, 0f, interpolation, null, null, RangeFactory.create(0, 0), null, hints);
         // make sure all pixels are solid like the input ones
@@ -565,7 +565,7 @@ public class TestScale extends TestBase {
         pb.add(width);
         pb.add(height);
         pb.add(values);
-        return JAI.create("constant", pb);
+        return ImageN.create("constant", pb);
     }
 
     protected void assertInterpolateInHole(Interpolation interpolation) {
@@ -588,8 +588,8 @@ public class TestScale extends TestBase {
                 }
             }
         }
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
         RenderedImage scaled = ScaleDescriptor.create(
                 source, 2f, 2f, 0f, 0f, interpolation, null, null, RangeFactory.create(0, 0), null, hints);
         // make sure none of the pixels became 0
@@ -624,10 +624,10 @@ public class TestScale extends TestBase {
 
         // build a ROI covering the center of the image and associate
         ROI roi = new ROIShape(new Rectangle(1, 1, 2, 2));
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
         hints.put(
-                JAI.KEY_IMAGE_LAYOUT,
+                ImageN.KEY_IMAGE_LAYOUT,
                 new ImageLayout(0, 0, width * 2, height * 2, 0, 0, width * 2, height * 2, null, null));
         return ScaleDescriptor.create(
                 source, 2f, 2f, 0f, 0f, interpolation, roi, useROIAccessor, noData, new double[] {0}, hints);
@@ -726,7 +726,7 @@ public class TestScale extends TestBase {
         ImageLayout targetLayout = new ImageLayout();
         targetLayout.setTileWidth(512);
         targetLayout.setTileHeight(512);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, targetLayout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, targetLayout);
         RenderedOp scaled = ScaleDescriptor.create(
                 testIMG,
                 1000f,
@@ -753,7 +753,7 @@ public class TestScale extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Scale");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Scale");
         assertNotNull(descriptor);
         assertEquals("Scale", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

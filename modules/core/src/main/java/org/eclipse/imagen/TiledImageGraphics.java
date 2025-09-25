@@ -1075,9 +1075,9 @@ class TiledImageGraphics extends Graphics2D {
 
     void sendExceptionToListener(String message, Exception e) {
         ImagingListener listener = null;
-        if (renderingHints != null) listener = (ImagingListener) renderingHints.get(JAI.KEY_IMAGING_LISTENER);
+        if (renderingHints != null) listener = (ImagingListener) renderingHints.get(ImageN.KEY_IMAGING_LISTENER);
 
-        if (listener == null) listener = JAI.getDefaultInstance().getImagingListener();
+        if (listener == null) listener = ImageN.getDefaultInstance().getImagingListener();
         listener.errorOccurred(message, e, this, false);
     }
 }

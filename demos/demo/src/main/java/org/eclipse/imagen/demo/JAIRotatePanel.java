@@ -91,7 +91,7 @@ public class JAIRotatePanel extends JAIDemoPanel implements ChangeListener, Item
             interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         }
         pb.add(interp);
-        return JAI.create("Rotate", pb, renderHints);
+        return ImageN.create("Rotate", pb, renderHints);
     }
 
     public void startAnimation() {}

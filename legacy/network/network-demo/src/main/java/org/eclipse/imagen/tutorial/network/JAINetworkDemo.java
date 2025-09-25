@@ -292,7 +292,7 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
         JLabel capacityLabel = new JLabel("Tile Cache Capacity", SwingConstants.CENTER);
         add(capacityLabel);
 
-        long cacheCapacity = JAI.getDefaultInstance().getTileCache().getMemoryCapacity();
+        long cacheCapacity = ImageN.getDefaultInstance().getTileCache().getMemoryCapacity();
         int capacity = (int) (cacheCapacity / TILE_CACHE_BYTES_PER_TICK);
         JSlider capacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 16, capacity);
         Hashtable labels = new Hashtable();
@@ -311,7 +311,7 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        JAI.getDefaultInstance().getTileCache().flush();
+        ImageN.getDefaultInstance().getTileCache().flush();
     }
 
     public void stateChanged(ChangeEvent e) {
@@ -321,7 +321,7 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
         }
 
         long capacity = source.getValue() * TILE_CACHE_BYTES_PER_TICK;
-        JAI.getDefaultInstance().getTileCache().setMemoryCapacity(capacity);
+        ImageN.getDefaultInstance().getTileCache().setMemoryCapacity(capacity);
     }
 }
 
@@ -343,7 +343,7 @@ class HintPanel extends JPanel implements ItemListener {
         BorderExtender.createInstance(BorderExtender.BORDER_WRAP)
     };
 
-    static final RenderingHints.Key extenderKey = JAI.KEY_BORDER_EXTENDER;
+    static final RenderingHints.Key extenderKey = ImageN.KEY_BORDER_EXTENDER;
 
     JAINetworkDemo demo;
     RenderingHints renderHints = null;
@@ -403,7 +403,7 @@ public class JAINetworkDemo extends WindowAdapter implements ChangeListener {
 
     public JAINetworkDemo(String[] args) {
         // Create a top-level frame to hold the demo
-        frame = new JFrame("JAI Network Imaging Demo");
+        frame = new JFrame("ImageN Network Imaging Demo");
 
         for (int i = 0; i < args.length; i++) {
 

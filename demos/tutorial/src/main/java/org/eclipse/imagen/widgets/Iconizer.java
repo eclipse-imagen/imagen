@@ -8,7 +8,6 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import javax.swing.*;
@@ -76,12 +75,12 @@ public class Iconizer implements Icon {
 
         InterpolationBilinear interp = new InterpolationBilinear();
 
-        PlanarImage temp = JAI.create("scale", image, scale, scale, 0.0F, 0.0F, interp);
+        PlanarImage temp = ImageN.create("scale", image, scale, scale, 0.0F, 0.0F, interp);
 
         return temp.getAsBufferedImage();
     }
 
     public void save(String filename, String format) {
-        JAI.create("filestore", icon, filename, format, null);
+        ImageN.create("filestore", icon, filename, format, null);
     }
 }

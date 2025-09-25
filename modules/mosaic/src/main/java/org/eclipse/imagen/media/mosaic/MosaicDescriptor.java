@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -69,7 +69,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *   <li>The destination no data value used if all the pixel source in the same location are no data.
  * </ul>
  *
- * <p>The no data support is provided using the <code>Range</code> class in the JAI-EXT package.
+ * <p>The no data support is provided using the <code>Range</code> class in the ImageN-EXT package.
  *
  * <p>In this Mosaic implementation the no data support has been added for geospatial images mosaic elaborations. In
  * that images the there could be different type of nodata and a simple thresholding operation couldn't be enough for
@@ -147,7 +147,7 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
 
     /**
      * RenderedOp creation method that takes all the parameters, passes them to the ParameterBlockJAI and then call the
-     * JAI create method for the mosaic operation with no data support.
+     * ImageN create method for the mosaic operation with no data support.
      *
      * @param sources The RenderdImage source array used for the operation.
      * @param mosaicType This field sets which type of mosaic operation must be executed.
@@ -182,7 +182,7 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
         pb.setParameter("sourceThreshold", sourceThreshold);
         pb.setParameter("backgroundValues", backgroundValues);
         pb.setParameter("nodata", nodata);
-        // JAI operation performed.
-        return JAI.create("Mosaic", pb, renderingHints);
+        // ImageN operation performed.
+        return ImageN.create("Mosaic", pb, renderingHints);
     }
 }

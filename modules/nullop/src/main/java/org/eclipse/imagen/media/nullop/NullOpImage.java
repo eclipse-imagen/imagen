@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -32,7 +32,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
 /**
  * An<code>OpImage</code> subclass that simply transmits its source unchanged. This may be useful when an interface
  * requires an <code>OpImage</code> but another sort of <code>RenderedImage</code> (such as a <code>BufferedImage</code>
- * or <code>TiledImage</code>) is available. Additionally, <code>NullOpImage</code> is able to make use of JAI's tile
+ * or <code>TiledImage</code>) is available. Additionally, <code>NullOpImage</code> is able to make use of ImageN's tile
  * caching mechanisms.
  *
  * <p>Methods that get or set properties are implemented to forward the requests to the source image; no independent

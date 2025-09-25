@@ -18,12 +18,12 @@
 package org.eclipse.imagen;
 
 /**
- * An interface for all JAI descriptors that register themselves with the <code>OperationRegistry</code>. Examples
+ * An interface for all ImageN descriptors that register themselves with the <code>OperationRegistry</code>. Examples
  * include <code>OperationDescriptor</code>, <code>TileCodecDescriptor</code>, <code>RemoteDescriptor</code> etc.
  *
  * @see OperationRegistry
  * @see RegistryMode
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface RegistryElementDescriptor {
 
@@ -55,10 +55,10 @@ public interface RegistryElementDescriptor {
     boolean isModeSupported(String modeName);
 
     /**
-     * Whether this descriptor supports JAI properties.
+     * Whether this descriptor supports ImageN properties.
      *
-     * @return <code>true</code>, if the implementation of this descriptor supports JAI properties. <code>false</code>
-     *     otherwise.
+     * @return <code>true</code>, if the implementation of this descriptor supports ImageN properties. <code>false
+     *     </code> otherwise.
      * @see PropertyGenerator
      */
     boolean arePropertiesSupported();

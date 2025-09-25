@@ -18,7 +18,7 @@
 package org.eclipse.imagen.operator;
 
 import java.awt.RenderingHints;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
@@ -34,8 +34,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>Version 4 of the BMP format allows for the specification of alpha values, gamma values and CIE colorspaces. These
  * are not currently handled, but the relevant properties are emitted, if they are available from the BMP image file.
  *
- * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the JAI
- * API. Future releases of JAI will make use of new classes in their place. This class will change accordingly.</b>
+ * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the ImageN
+ * API. Future releases of ImageN will make use of new classes in their place. This class will change accordingly.</b>
  *
  * <p>
  *
@@ -101,9 +101,9 @@ public class BMPDescriptor extends OperationDescriptorImpl {
      * Reads an image from a BMP stream.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param stream The SeekableStream to read from.
@@ -116,6 +116,6 @@ public class BMPDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("stream", stream);
 
-        return JAI.create("BMP", pb, hints);
+        return ImageN.create("BMP", pb, hints);
     }
 }

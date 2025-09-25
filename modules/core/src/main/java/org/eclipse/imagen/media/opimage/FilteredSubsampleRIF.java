@@ -25,12 +25,12 @@ import java.awt.image.renderable.RenderedImageFactory;
 import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.InterpolationBicubic;
 import org.eclipse.imagen.InterpolationBicubic2;
 import org.eclipse.imagen.InterpolationBilinear;
 import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.JAI;
 
 /**
  * Class implementing the RIF interface for the FilteredSubsample operator. An instance of this class should be
@@ -52,8 +52,8 @@ public class FilteredSubsampleRIF implements RenderedImageFactory {
         RenderedImage source = paramBlock.getRenderedSource(0);
 
         BorderExtender extender =
-                renderHints == null ? null : (BorderExtender) renderHints.get(JAI.KEY_BORDER_EXTENDER);
-        ImageLayout layout = renderHints == null ? null : (ImageLayout) renderHints.get(JAI.KEY_IMAGE_LAYOUT);
+                renderHints == null ? null : (BorderExtender) renderHints.get(ImageN.KEY_BORDER_EXTENDER);
+        ImageLayout layout = renderHints == null ? null : (ImageLayout) renderHints.get(ImageN.KEY_IMAGE_LAYOUT);
 
         int scaleX = paramBlock.getIntParameter(0);
         int scaleY = paramBlock.getIntParameter(1);

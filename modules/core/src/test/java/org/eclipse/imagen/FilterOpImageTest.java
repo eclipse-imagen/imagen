@@ -54,7 +54,7 @@ public class FilterOpImageTest {
         pb.addSource(testImage);
         pb.add(shape);
         pb.add(maskSize);
-        RenderedOp op = JAI.create(opName, pb);
+        RenderedOp op = ImageN.create(opName, pb);
         assertNotNull("RenderedOp should not be null", op);
         return op.getData();
     }

@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import org.eclipse.imagen.Histogram;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
@@ -44,7 +44,7 @@ public class HistogramDemo extends JPanel implements ActionListener {
         File f = new File(filename);
 
         if (f.exists() && f.canRead()) {
-            source = JAI.create("fileload", filename);
+            source = ImageN.create("fileload", filename);
         } else {
             return;
         }
@@ -128,7 +128,7 @@ public class HistogramDemo extends JPanel implements ActionListener {
         pb.add(low);
         pb.add(high);
 
-        RenderedOp op = JAI.create("histogram", pb, null);
+        RenderedOp op = ImageN.create("histogram", pb, null);
         Histogram histogram = (Histogram) op.getProperty("histogram");
 
         // get histogram contents
@@ -160,7 +160,7 @@ public class HistogramDemo extends JPanel implements ActionListener {
         pb.addSource(source);
         pb.add(lookup);
 
-        return JAI.create("lookup", pb, null);
+        return ImageN.create("lookup", pb, null);
     }
 
     // for a single band
@@ -196,9 +196,9 @@ public class HistogramDemo extends JPanel implements ActionListener {
         pb.add(low);
         pb.add(high);
 
-        RenderedOp fmt = JAI.create("histogram", pb, null);
+        RenderedOp fmt = ImageN.create("histogram", pb, null);
 
-        return JAI.create("matchcdf", fmt, CDFnorm);
+        return ImageN.create("matchcdf", fmt, CDFnorm);
     }
 
     public PlanarImage piecewise() {
@@ -206,7 +206,7 @@ public class HistogramDemo extends JPanel implements ActionListener {
         bp[0][0] = new float[] {0.0F, 32.0F, 64.0F, 255.0F};
         bp[0][1] = new float[] {0.0F, 128.0F, 112.0F, 255.0F};
 
-        return JAI.create("piecewise", source, bp);
+        return ImageN.create("piecewise", source, bp);
     }
 
     public void actionPerformed(ActionEvent e) {

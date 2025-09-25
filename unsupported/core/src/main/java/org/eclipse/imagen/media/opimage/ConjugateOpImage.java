@@ -34,7 +34,7 @@ import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /// Testing
-/// import org.eclipse.imagen.JAI;
+/// import org.eclipse.imagen.ImageN;
 /// import org.eclipse.imagen.TiledImage;
 
 /**
@@ -371,7 +371,7 @@ final class ConjugateOpImage extends PointOpImage {
     //                                                       2, 2, 4, null, null);
     //             TiledImage ti = new TiledImage(0, 0, 5, 5, 0, 0, sm, null);
     //             ti.setData(wr);
-    //             RenderedImage ri = JAI.create("conjugate", ti);
+    //             RenderedImage ri = ImageN.create("conjugate", ti);
     //             Raster r = ri.getData();
     //             for(int y = 0; y < 5; y++) {
     //                 for(int x = 0; x < 5; x++) {

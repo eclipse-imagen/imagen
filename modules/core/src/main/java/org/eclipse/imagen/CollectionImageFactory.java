@@ -22,8 +22,8 @@ import java.awt.image.renderable.ParameterBlock;
 
 /**
  * The <code>CollectionImageFactory</code> (CIF) interface is intended to be implemented by classes that wish to act as
- * factories to produce different collection image operators. In JAI, the <code>create()</code> method will be invoked
- * in a chain of <code>CollectionOp</code>s when the operation is being executed in rendered mode.
+ * factories to produce different collection image operators. In ImageN, the <code>create()</code> method will be
+ * invoked in a chain of <code>CollectionOp</code>s when the operation is being executed in rendered mode.
  */
 public interface CollectionImageFactory {
 
@@ -51,7 +51,7 @@ public interface CollectionImageFactory {
      *     not match that expected by this <code>CollectionImageFactory</code>.
      * @return A <code>CollectionImage</code> modified according to the new values of the <code>ParameterBlock</code>
      *     and <code>RenderingHints</code> or <code>null</code> if it is impracticable to perform the update.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     CollectionImage update(
             ParameterBlock oldParamBlock,

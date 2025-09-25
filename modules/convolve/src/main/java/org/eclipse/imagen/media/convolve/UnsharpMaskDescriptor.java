@@ -19,7 +19,7 @@ package org.eclipse.imagen.media.convolve;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
@@ -90,8 +90,13 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * @see org.eclipse.imagen.OperationDescriptor
  * @see org.eclipse.imagen.KernelJAI
+<<<<<<< HEAD:modules/convolve/src/main/java/org/eclipse/imagen/media/convolve/UnsharpMaskDescriptor.java
  * @see org.eclipse.imagen.media.convolve.ConvolveDescriptor
  * @since JAI 1.1
+=======
+ * @see org.eclipse.imagen.operator.ConvolveDescriptor
+ * @since ImageN 1.1
+>>>>>>> 28ea3901 (Refactor JAI class to ImageN):modules/core/src/main/java/org/eclipse/imagen/operator/UnsharpMaskDescriptor.java
  */
 public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
 
@@ -146,9 +151,9 @@ public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
      * Performs UnsharpMask operation on the image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -166,6 +171,6 @@ public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
         pb.setParameter("kernel", kernel);
         pb.setParameter("gain", gain);
 
-        return JAI.create("UnsharpMask", pb, hints);
+        return ImageN.create("UnsharpMask", pb, hints);
     }
 }

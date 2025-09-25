@@ -25,7 +25,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * IDFTDescriptor</code> by the constants <code>REAL_TO_COMPLEX</code>, <code>COMPLEX_TO_COMPLEX</code>, and <code>
  * COMPLEX_TO_REAL</code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class DFTDataNature extends EnumeratedParameter {
     DFTDataNature(String name, int value) {

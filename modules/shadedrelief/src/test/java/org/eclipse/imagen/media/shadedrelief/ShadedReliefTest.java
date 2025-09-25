@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2018 GeoSolutions
 
@@ -34,7 +34,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -405,7 +405,7 @@ public class ShadedReliefTest extends TestBase {
         if (roi != null) pb.add(roi); // The region of the image to scan
 
         // Perform the extrema operation on the source image
-        RenderedOp op = JAI.create("extrema", pb);
+        RenderedOp op = ImageN.create("extrema", pb);
 
         // Retrieve both the maximum and minimum pixel value
         double[][] extrema = (double[][]) op.getProperty("extrema");
@@ -418,12 +418,12 @@ public class ShadedReliefTest extends TestBase {
         pbRescale.add(scale);
         pbRescale.add(offset);
         pbRescale.addSource(image);
-        RenderedOp rescaledImage = JAI.create("Rescale", pbRescale);
+        RenderedOp rescaledImage = ImageN.create("Rescale", pbRescale);
 
         ParameterBlock pbConvert = new ParameterBlock();
         pbConvert.addSource(rescaledImage);
         pbConvert.add(DataBuffer.TYPE_BYTE);
-        RenderedOp destImage = JAI.create("format", pbConvert);
+        RenderedOp destImage = ImageN.create("format", pbConvert);
 
         return destImage;
     }
@@ -443,7 +443,7 @@ public class ShadedReliefTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ShadedRelief");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ShadedRelief");
         assertNotNull(descriptor);
         assertEquals("ShadedRelief", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

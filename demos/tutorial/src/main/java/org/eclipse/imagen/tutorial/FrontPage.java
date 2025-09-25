@@ -40,7 +40,7 @@ public class FrontPage extends JPanel implements ActionListener {
         label = new JLabel(new ImageIcon(button_icon));
         flasher = new String(flash_icon);
 
-        src_color = JAI.create("fileload", file);
+        src_color = ImageN.create("fileload", file);
         src_gray = TutorUtils.convertColorToGray(src_color, 40);
         canvas = new ImageDisplay(src_gray);
         canvas.setBackground(Color.yellow);
@@ -53,7 +53,7 @@ public class FrontPage extends JPanel implements ActionListener {
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(src_color);
         pb.add(constants);
-        src_color = JAI.create("addconst", pb, null);
+        src_color = ImageN.create("addconst", pb, null);
 
         button.addActionListener(this);
         panel.add(button);

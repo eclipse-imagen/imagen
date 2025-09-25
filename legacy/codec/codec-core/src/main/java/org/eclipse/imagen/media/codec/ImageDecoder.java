@@ -24,8 +24,8 @@ import java.io.IOException;
 /**
  * An interface describing objects that transform an InputStream into a BufferedImage or Raster.
  *
- * <p><b> This interface is not a committed part of the JAI API. It may be removed or changed in future releases of
- * JAI.</b>
+ * <p><b> This interface is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public interface ImageDecoder {
 

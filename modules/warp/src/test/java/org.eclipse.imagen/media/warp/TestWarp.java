@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -33,8 +33,8 @@ import java.awt.image.RenderedImage;
 import java.io.IOException;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -125,8 +125,8 @@ public class TestWarp extends TestBase {
         }
 
         // Hints used for image expansion
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
 
         RenderedOp destinationIMG = null;
 
@@ -342,7 +342,7 @@ public class TestWarp extends TestBase {
         ImageLayout targetLayout = new ImageLayout();
         targetLayout.setTileWidth(512);
         targetLayout.setTileHeight(512);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, targetLayout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, targetLayout);
         RenderedOp warped = WarpDescriptor.create(
                 testIMG,
                 new WarpAffine(new AffineTransform(1, -1, 1, 1, 0, 0)),
@@ -364,7 +364,7 @@ public class TestWarp extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Warp");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Warp");
         assertNotNull(descriptor);
         assertEquals("Warp", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

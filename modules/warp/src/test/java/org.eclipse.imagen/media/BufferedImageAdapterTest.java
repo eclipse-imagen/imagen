@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2016 GeoSolutions
 
@@ -48,7 +48,7 @@ public class BufferedImageAdapterTest {
         assertEquals(0, adapter.getTileGridYOffset());
         RenderedOp op = WarpDescriptor.create(
                 adapter, new WarpAffine(new AffineTransform()), new InterpolationNearest(), null, null);
-        // JAI did not need to wrap it
+        // ImageN did not need to wrap it
         assertSame(adapter, op.getSourceObject(0));
         // no NPE (we do not expect one here actually)
         assertNotNull(op.getTile(op.getMinTileX(), op.getMinTileY()));
@@ -69,7 +69,7 @@ public class BufferedImageAdapterTest {
         assertEquals(0, adapter.getTileGridYOffset());
         RenderedOp op = WarpDescriptor.create(
                 adapter, new WarpAffine(new AffineTransform()), new InterpolationNearest(), null, null);
-        // JAI did not need to wrap it
+        // ImageN did not need to wrap it
         assertSame(adapter, op.getSourceObject(0));
         // no NPE (RenderedImageAdapter would blow up here)
         assertNotNull(op.getTile(op.getMinTileX(), op.getMinTileY()));

@@ -7,12 +7,10 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.*;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
@@ -106,7 +104,7 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
         paramBlock.addSource(im);
         paramBlock.add(kern_h);
         paramBlock.add(kern_v);
-        return JAI.create("gradientmagnitude", paramBlock, renderHints);
+        return ImageN.create("gradientmagnitude", paramBlock, renderHints);
     }
 
     public void startAnimation() {}

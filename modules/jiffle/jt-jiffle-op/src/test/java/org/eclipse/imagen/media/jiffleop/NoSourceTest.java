@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -47,7 +47,7 @@ import static org.junit.Assert.*;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RectIter;
@@ -73,13 +73,13 @@ public class NoSourceTest {
 
     @Before
     public void init() {
-        savedTileSize = JAI.getDefaultTileSize();
-        JAI.setDefaultTileSize(new Dimension(WIDTH / 2, WIDTH / 2));
+        savedTileSize = ImageN.getDefaultTileSize();
+        ImageN.setDefaultTileSize(new Dimension(WIDTH / 2, WIDTH / 2));
     }
 
     @After
     public void reset() {
-        JAI.setDefaultTileSize(savedTileSize);
+        ImageN.setDefaultTileSize(savedTileSize);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class NoSourceTest {
         Rectangle bounds = new Rectangle(0, 0, WIDTH, WIDTH);
         pb.setParameter("destBounds", bounds);
 
-        RenderedOp op = JAI.create("Jiffle", pb);
+        RenderedOp op = ImageN.create("Jiffle", pb);
         RenderedImage result = op.getRendering();
 
         assertResult(result, script);

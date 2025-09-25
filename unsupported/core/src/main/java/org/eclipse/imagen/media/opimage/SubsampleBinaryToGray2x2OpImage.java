@@ -138,7 +138,7 @@ class SubsampleBinaryToGray2x2OpImage extends GeometricOpImage {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -158,7 +158,7 @@ class SubsampleBinaryToGray2x2OpImage extends GeometricOpImage {
      * @param sourcePt the position in source image coordinates to map to destination image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

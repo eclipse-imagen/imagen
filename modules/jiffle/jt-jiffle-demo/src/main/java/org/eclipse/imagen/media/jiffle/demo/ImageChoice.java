@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -43,7 +43,7 @@
 package org.eclipse.imagen.media.jiffle.demo;
 
 /**
- * Constants to identify Jiffle scripts used to create example images for JAI-tools demo applications.
+ * Constants to identify Jiffle scripts used to create example images for ImageN-tools demo applications.
  *
  * @author Michael Bedward
  * @since 1.1

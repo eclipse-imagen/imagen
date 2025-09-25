@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2018 GeoSolutions
 
@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.logging.Logger;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
@@ -131,7 +131,7 @@ class Scale2PropertyGenerator extends PropertyGeneratorImpl {
                 layout.setHeight(h);
                 RenderingHints hints = new RenderingHints(Collections.emptyMap());
                 hints.putAll(op.getRenderingHints());
-                hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
+                hints.add(new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout));
 
                 final PlanarImage constantImage =
                         ConstantDescriptor.create(new Float(w), new Float(h), new Byte[] {(byte) 255}, hints);
@@ -141,8 +141,8 @@ class Scale2PropertyGenerator extends PropertyGeneratorImpl {
                 // Make sure to specify tileCache, tileScheduler, tileRecyclier, by cloning hints.
                 RenderingHints scalingHints = new RenderingHints(Collections.emptyMap());
                 scalingHints.putAll(op.getRenderingHints());
-                scalingHints.put(JAI.KEY_IMAGE_LAYOUT, targetLayout);
-                scalingHints.put(JAI.KEY_BORDER_EXTENDER, extender);
+                scalingHints.put(ImageN.KEY_IMAGE_LAYOUT, targetLayout);
+                scalingHints.put(ImageN.KEY_BORDER_EXTENDER, extender);
 
                 boolean isBilinear = (interp instanceof InterpolationBilinear
                         || interp instanceof org.eclipse.imagen.InterpolationBilinear);
@@ -178,11 +178,11 @@ class Scale2PropertyGenerator extends PropertyGeneratorImpl {
                 } else {
                     paramBlock.add(srcROI);
                 }
-                roiImage = JAI.create("Scale2", paramBlock, scalingHints);
+                roiImage = ImageN.create("Scale2", paramBlock, scalingHints);
             } else {
                 RenderingHints scalingHints = new RenderingHints(Collections.emptyMap());
                 scalingHints.putAll(op.getRenderingHints());
-                scalingHints.put(JAI.KEY_IMAGE_LAYOUT, targetLayout);
+                scalingHints.put(ImageN.KEY_IMAGE_LAYOUT, targetLayout);
 
                 PlanarImage roiMod = srcROI.getAsImage();
                 ParameterBlock paramBlock = new ParameterBlock();
@@ -206,7 +206,7 @@ class Scale2PropertyGenerator extends PropertyGeneratorImpl {
                         paramBlock.add(interp);
                     }
                 }
-                roiImage = JAI.create("Scale2", paramBlock, scalingHints);
+                roiImage = ImageN.create("Scale2", paramBlock, scalingHints);
             }
             ROI dstROI = new ROI(roiImage, 1);
 
@@ -260,7 +260,7 @@ class Scale2PropertyGenerator extends PropertyGeneratorImpl {
  * <p>When interpolations which require padding the source such as Bilinear or Bicubic interpolation are specified, the
  * source needs to be extended such that it has the extra pixels needed to compute all the destination pixels. This
  * extension is performed via the <code>BorderExtender</code> class. The type of Border Extension can be specified as a
- * <code>RenderingHint</code> to the <code>JAI.create</code> method.
+ * <code>RenderingHint</code> to the <code>ImageN.create</code> method.
  *
  * <p>If no Border Extension is specified, the source will not be extended. The scaled image size is still calculated
  * according to the formula specified above. However since there isn't enough source to compute all the destination
@@ -271,17 +271,19 @@ class Scale2PropertyGenerator extends PropertyGeneratorImpl {
  * and 1 (non-inclusive) decreases the size of an image. An IllegalArgumentException will be thrown if the specified
  * scale factors are negative or equal to zero.
  *
- * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
+ * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>ImageN.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
  * image bounds itself. The other <code>ImageLayout</code> hints, like tileWidth and tileHeight, however are honored.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>"Scale" defines a PropertyGenerator that performs an identical transformation on the "ROI" property of the source
@@ -464,9 +466,9 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
      * Resizes an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -510,16 +512,16 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
         }
         pb.setParameter("useRoiAccessor", useRoiAccessor);
 
-        return JAI.create("Scale2", pb, hints);
+        return ImageN.create("Scale2", pb, hints);
     }
 
     /**
      * Resizes an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -561,6 +563,6 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
         if (backgroundValues != null) {
             pb.setParameter("backgroundValues", backgroundValues);
         }
-        return JAI.createRenderable("Scale2", pb, hints);
+        return ImageN.createRenderable("Scale2", pb, hints);
     }
 }

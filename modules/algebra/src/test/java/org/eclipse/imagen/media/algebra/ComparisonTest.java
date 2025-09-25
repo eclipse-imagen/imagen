@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -31,7 +31,7 @@ import org.junit.Test;
 public class ComparisonTest extends ComparisonTestBase {
 
     /** Number associated with the type of BorderExtender to use */
-    private static final int NUM_IMAGES = Integer.getInteger("JAI.Ext.NumImages", 2);
+    private static final int NUM_IMAGES = Integer.getInteger("ImageN.Ext.NumImages", 2);
 
     /** Number associated with the type of BorderExtender to use */
     private static final int NUM_BANDS = 1;
