@@ -29,7 +29,7 @@ import org.eclipse.imagen.PropertyGenerator;
  * for subclassing.
  *
  * @see RemoteDescriptor
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public abstract class RemoteDescriptorImpl implements RemoteDescriptor {
 

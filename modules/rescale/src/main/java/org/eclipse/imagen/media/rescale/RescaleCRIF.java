@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -28,9 +28,9 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.range.RangeFactory;
 
 /**
- * This RenderedImageFactory class is called by the JAI.create("Rescaling") method for returning a new instance of the
- * RescaleOpImage class. The function of this class is to unpack the input parameterBlock, take every parameter and then
- * pass them to a new RescaleOpImage instance.
+ * This RenderedImageFactory class is called by the ImageN.create("Rescaling") method for returning a new instance of
+ * the RescaleOpImage class. The function of this class is to unpack the input parameterBlock, take every parameter and
+ * then pass them to a new RescaleOpImage instance.
  */
 public class RescaleCRIF extends CRIFImpl {
 

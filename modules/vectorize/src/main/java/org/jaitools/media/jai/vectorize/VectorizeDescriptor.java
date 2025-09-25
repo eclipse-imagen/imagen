@@ -48,15 +48,15 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
  * Traces the boundaries of regions with uniform data and returns them as vector polygons. The source image passes
- * through to thedestination unchanged, similar to a JAI statistics operator, while the vectors are returned as an image
- * property.
+ * through to thedestination unchanged, similar to a ImageN statistics operator, while the vectors are returned as an
+ * image property.
  *
  * <pre>{@code
  * // Vectorize regions using default parameter settings
  * RenderedImage image = ...
  * ParameterBlockJAI pb = new ParameterBlockJAI("Vectorize");
  * pb.setSource("source0", image);
- * RenderedOp dest = JAI.create("Vectorize", pb);
+ * RenderedOp dest = ImageN.create("Vectorize", pb);
  *
  * // retrieve the vectors
  * Collection&lt;Polygon&gt; polys = (Collection&lt;Polygon&gt;) dest.getProperty(

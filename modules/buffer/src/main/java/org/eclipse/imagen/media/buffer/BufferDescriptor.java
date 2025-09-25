@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.List;
 import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -102,9 +102,9 @@ public class BufferDescriptor extends OperationDescriptorImpl {
      * Calculates the buffer on an Image
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -162,6 +162,6 @@ public class BufferDescriptor extends OperationDescriptorImpl {
             pb.setParameter("type", type);
         }
 
-        return JAI.create("Buffer", pb, hints);
+        return ImageN.create("Buffer", pb, hints);
     }
 }

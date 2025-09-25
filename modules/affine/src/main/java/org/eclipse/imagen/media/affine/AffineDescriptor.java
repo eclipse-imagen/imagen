@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,8 +26,8 @@ import java.awt.image.renderable.RenderableImage;
 import java.util.Collections;
 import java.util.logging.Logger;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PropertyGenerator;
@@ -100,7 +100,7 @@ class AffinePropertyGenerator extends PropertyGeneratorImpl {
                 paramBlock.add(interp);
                 RenderingHints localHints = new RenderingHints(Collections.emptyMap());
                 localHints.putAll(op.getRenderingHints());
-                localHints.remove(JAI.KEY_IMAGE_LAYOUT);
+                localHints.remove(ImageN.KEY_IMAGE_LAYOUT);
                 ImageLayout il = new ImageLayout();
                 Rectangle dstBounds = op.getBounds();
                 il.setMinX(dstBounds.x);
@@ -109,7 +109,7 @@ class AffinePropertyGenerator extends PropertyGeneratorImpl {
                 il.setHeight(dstBounds.height);
                 il.setTileWidth(op.getTileWidth());
                 il.setTileHeight(op.getTileHeight());
-                localHints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il));
+                localHints.add(new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il));
 
                 dstROI = srcROI.performImageOp("Affine", paramBlock, 0, localHints);
             } else {
@@ -155,7 +155,7 @@ class AffinePropertyGenerator extends PropertyGeneratorImpl {
  * <p>When interpolations which require padding the source such as Bilinear or Bicubic interpolation are specified, the
  * source needs to be extended such that it has the extra pixels needed to compute all the destination pixels. This
  * extension is performed via the <code>BorderExtender</code> class. The type of Border Extension can be specified as a
- * <code>RenderingHint</code> to the <code>JAI.create</code> method.
+ * <code>RenderingHint</code> to the <code>ImageN.create</code> method.
  *
  * <p>The parameter, "backgroundValues", is defined to fill the background with the user-specified background values.
  * These background values will be translated into background colors by the <code>ColorModel</code> when the image is
@@ -169,17 +169,19 @@ class AffinePropertyGenerator extends PropertyGeneratorImpl {
  * destination pixels, only that subset of the destination image's pixels which can be computed will be written in the
  * destination. The rest of the destination will be set to the user-specified background values.
  *
- * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
+ * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>ImageN.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
  * image bounds itself. The other <code>ImageLayout</code> hints, like tileWidth and tileHeight, however are honored.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>"Affine" defines a PropertyGenerator that performs an identical transformation on the "ROI" property of the source
@@ -333,9 +335,9 @@ public class AffineDescriptor extends OperationDescriptorImpl {
      * Performs interpolated affine transform on an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -359,9 +361,9 @@ public class AffineDescriptor extends OperationDescriptorImpl {
      * Performs interpolated affine transform on an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -397,16 +399,16 @@ public class AffineDescriptor extends OperationDescriptorImpl {
             pb.setParameter("useROIAccessor", useROIAccessor);
         }
         // Creation of the transformated image
-        return JAI.create("Affine", pb, hints);
+        return ImageN.create("Affine", pb, hints);
     }
 
     /**
      * Performs interpolated affine transform on an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -442,6 +444,6 @@ public class AffineDescriptor extends OperationDescriptorImpl {
             pb.setParameter("useROIAccessor", useROIAccessor);
         }
         // Creation of the transformated image
-        return JAI.createRenderable("Affine", pb, hints);
+        return ImageN.createRenderable("Affine", pb, hints);
     }
 }

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -38,8 +38,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.media.scale.ScaleDescriptor;
 import org.eclipse.imagen.media.util.SunTileCache;
@@ -136,7 +136,7 @@ public class ConcurrentCacheTest {
                 if (diagnostics) {
                     sunCache.enableDiagnostics();
                 }
-                JAI.getDefaultInstance().setTileCache(sunCache);
+                ImageN.getDefaultInstance().setTileCache(sunCache);
                 break;
             case CONCURRENT_TILE_CACHE:
                 ConcurrentTileCache cTileCache = new ConcurrentTileCache();
@@ -144,7 +144,7 @@ public class ConcurrentCacheTest {
                 if (diagnostics) {
                     cTileCache.enableDiagnostics();
                 }
-                JAI.getDefaultInstance().setTileCache(cTileCache);
+                ImageN.getDefaultInstance().setTileCache(cTileCache);
                 break;
             case CONCURRENT_MULTIMAP_TILE_CACHE:
                 ConcurrentTileCacheMultiMap cmTileCache = new ConcurrentTileCacheMultiMap();
@@ -152,11 +152,11 @@ public class ConcurrentCacheTest {
                 if (diagnostics) {
                     cmTileCache.enableDiagnostics();
                 }
-                JAI.getDefaultInstance().setTileCache(cmTileCache);
+                ImageN.getDefaultInstance().setTileCache(cmTileCache);
                 break;
         }
-        JAI.getDefaultInstance().getTileCache().setMemoryCapacity(memoryCacheCapacity);
-        JAI.getDefaultInstance().getTileScheduler().setParallelism(10);
+        ImageN.getDefaultInstance().getTileCache().setMemoryCapacity(memoryCacheCapacity);
+        ImageN.getDefaultInstance().getTileScheduler().setParallelism(10);
 
         int threadMaxNumber = (int) Math.pow(2, EXPONENT);
         // throughput array for storing data
@@ -369,13 +369,13 @@ public class ConcurrentCacheTest {
                     image_.getTile(tilex, tiley);
                     i++;
                 }
-                JAI.getDefaultInstance().getTileCache().removeTiles(image_);
+                ImageN.getDefaultInstance().getTileCache().removeTiles(image_);
 
                 latch.countDown();
 
             } else {
-                JAI.getDefaultInstance().getTileCache().getTiles(image_);
-                JAI.getDefaultInstance().getTileCache().removeTiles(image_);
+                ImageN.getDefaultInstance().getTileCache().getTiles(image_);
+                ImageN.getDefaultInstance().getTileCache().removeTiles(image_);
                 latch.countDown();
             }
         }
@@ -395,7 +395,7 @@ public class ConcurrentCacheTest {
             int i = 0;
             while (i < 10) {
                 // get the current cache
-                TileCache cache = JAI.getDefaultInstance().getTileCache();
+                TileCache cache = ImageN.getDefaultInstance().getTileCache();
                 long memory = 0;
                 switch (typeCache) {
                         // select the tile cache type, for the last two types no memory usage is
@@ -426,7 +426,7 @@ public class ConcurrentCacheTest {
         pb.add(height);
         pb.add(new Integer[] {1});
         // Create the constant operation.
-        return JAI.create("constant", pb);
+        return ImageN.create("constant", pb);
     }
 
     @Test

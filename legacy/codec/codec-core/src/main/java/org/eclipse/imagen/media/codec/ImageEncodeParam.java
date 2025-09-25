@@ -22,7 +22,7 @@ import java.io.Serializable;
 /**
  * An empty (marker) interface to be implemented by all image encoder parameter classes.
  *
- * <p><b> This interface is not a committed part of the JAI API. It may be removed or changed in future releases of
- * JAI.</b>
+ * <p><b> This interface is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public interface ImageEncodeParam extends ImageDecodeParam, Cloneable, Serializable {}

@@ -391,7 +391,7 @@ public class RMIImageImpl implements RMIImage {
      * <p>The usage of this class is
      *
      * <pre>
-     * java -Djava.rmi.server.codebase=file:$JAI/lib/jai.jar \
+     * java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \
      * -Djava.rmi.server.useCodebaseOnly=false \
      * -Djava.security.policy=\
      * file:`pwd`/policy org.eclipse.imagen.media.rmi.RMIImageImpl \

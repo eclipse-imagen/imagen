@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -20,7 +20,7 @@ package org.eclipse.imagen.media.piecewise;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -92,7 +92,7 @@ public class GenericPiecewiseDescriptor extends OperationDescriptorImpl {
         pb.setParameter("roi", roi);
         pb.setParameter("nodata", nodata);
 
-        return JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pb, hints);
+        return ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pb, hints);
     }
 
     /**

@@ -153,7 +153,7 @@ public class JAIScalePanel extends JAIDemoPanel implements ChangeListener, ItemL
             interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         }
         pb.add(interp);
-        return JAI.create("scale", pb, renderHints);
+        return ImageN.create("scale", pb, renderHints);
     }
 
     int xySliderDelta = 1;

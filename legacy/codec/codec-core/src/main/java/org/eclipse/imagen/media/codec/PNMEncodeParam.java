@@ -23,7 +23,8 @@ package org.eclipse.imagen.media.codec;
  * <p>This class allows for the specification of whether to encode in the ASCII or raw variants of the PBM, PGM, and PPM
  * formats. By default, raw encoding is used.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class PNMEncodeParam implements ImageEncodeParam {
 

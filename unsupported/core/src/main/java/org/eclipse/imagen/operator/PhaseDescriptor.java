@@ -127,9 +127,9 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
      * Computes the phase angle of each pixel of an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -142,16 +142,16 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
 
         pb.setSource("source0", source0);
 
-        return JAI.create("Phase", pb, hints);
+        return ImageN.create("Phase", pb, hints);
     }
 
     /**
      * Computes the phase angle of each pixel of an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -164,6 +164,6 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
 
         pb.setSource("source0", source0);
 
-        return JAI.createRenderable("Phase", pb, hints);
+        return ImageN.createRenderable("Phase", pb, hints);
     }
 }

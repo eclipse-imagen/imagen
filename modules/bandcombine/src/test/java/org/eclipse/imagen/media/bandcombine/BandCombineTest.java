@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -25,7 +25,7 @@ import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -333,7 +333,7 @@ public class BandCombineTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandCombine");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandCombine");
         assertNotNull(descriptor);
         assertEquals("BandCombine", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

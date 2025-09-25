@@ -31,7 +31,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 
 /**
@@ -66,15 +66,15 @@ final class TransposeBinaryOpImage extends TransposeOpImage {
         Map config;
 
         if (configuration == null) {
-            config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+            config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
         } else {
 
             config = configuration;
 
-            if (!(config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL))) {
+            if (!(config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL))) {
                 RenderingHints hints = (RenderingHints) configuration;
                 config = (RenderingHints) hints.clone();
-                config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+                config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
             }
         }
 

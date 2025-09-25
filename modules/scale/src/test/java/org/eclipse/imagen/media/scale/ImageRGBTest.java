@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -31,8 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
@@ -42,11 +42,11 @@ import org.junit.Test;
 
 /**
  * This class extends the TestScale class and tests the Scale operation on a RGB image. If the user want to see the
- * result, must set the JAI.Ext.Interactive parameter to true, JAI.Ext.TestSelector from 0 to 2 (the 3 interpolation
- * types) and JAI.Ext.InverseScale to 0 or 1 (Magnification/reduction) to the Console. The ROI is created by the
- * roiCreation() method and its height and width are half of the RGB image height and width. The 3 tests with the
- * different interpolation types are executed by calling 3 times the testImage() method and changing each time the
- * selected interpolation.
+ * result, must set the ImageN.Ext.Interactive parameter to true, ImageN.Ext.TestSelector from 0 to 2 (the 3
+ * interpolation types) and ImageN.Ext.InverseScale to 0 or 1 (Magnification/reduction) to the Console. The ROI is
+ * created by the roiCreation() method and its height and width are half of the RGB image height and width. The 3 tests
+ * with the different interpolation types are executed by calling 3 times the testImage() method and changing each time
+ * the selected interpolation.
  */
 public class ImageRGBTest extends TestScale {
     /** RGB image width */
@@ -114,7 +114,7 @@ public class ImageRGBTest extends TestScale {
         if (roiUsed) {
             if (useROIAccessor) {
                 hints = new RenderingHints(
-                        JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
+                        ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
             }
             roi = roiCreation();
         } else {
@@ -135,10 +135,10 @@ public class ImageRGBTest extends TestScale {
                 interp = new org.eclipse.imagen.InterpolationBilinear(DEFAULT_SUBSAMPLE_BITS);
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 break;
@@ -147,10 +147,10 @@ public class ImageRGBTest extends TestScale {
                 interp = new org.eclipse.imagen.InterpolationBicubic(DEFAULT_SUBSAMPLE_BITS);
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
                 break;
             default:

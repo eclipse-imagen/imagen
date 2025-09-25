@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -42,7 +42,7 @@
 
 /**
  * Jiffle is a scripting language for creating and analysing raster images. The main intention of Jiffle is to free you
- * from having to write lots of Java and JAI boiler-plate code.
+ * from having to write lots of Java and ImageN boiler-plate code.
  *
  * <p>Jiffle scripts are compiled to bytecode. The compiler first translates the script into Java source which is then
  * passed to an embedded Janino compiler to produce executable bytecode in memory. The resulting run-time object can

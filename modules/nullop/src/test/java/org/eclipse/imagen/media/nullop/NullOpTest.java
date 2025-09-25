@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -33,7 +33,7 @@ import org.junit.Test;
 /**
  * This test class is used for evaluating the functionalities of the NullOpImage class. This purpose is achieved by
  * creating an image and checking if the source and destination pixels in the same location are equals. The operation is
- * performed on all the JAI possible data types. No ROI, nor No Data are present.
+ * performed on all the ImageN possible data types. No ROI, nor No Data are present.
  *
  * @author geosolutions
  */
@@ -145,7 +145,7 @@ public class NullOpTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Null");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Null");
         assertNotNull(descriptor);
         assertEquals("Null", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

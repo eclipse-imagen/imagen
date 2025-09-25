@@ -8,14 +8,11 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.color.*;
 import java.awt.event.*;
-import java.awt.geom.*;
 import java.awt.image.*;
 import java.awt.image.renderable.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 /**
@@ -378,7 +375,7 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
             pb.add(null);
             pb.add(1);
             pb.add(1);
-            dst = JAI.create("extrema", pb, null);
+            dst = ImageN.create("extrema", pb, null);
             double[][] extrema = (double[][]) dst.getProperty("extrema");
             int numBands = dst.getSampleModel().getNumBands();
 
@@ -401,13 +398,13 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
             pb.addSource(dst);
             pb.add(slope);
             pb.add(y_int);
-            dst = JAI.create("rescale", pb, null);
+            dst = ImageN.create("rescale", pb, null);
 
             // produce a byte image
             pb = new ParameterBlock();
             pb.addSource(dst);
             pb.add(DataBuffer.TYPE_BYTE);
-            dst = JAI.create("format", pb, null);
+            dst = ImageN.create("format", pb, null);
         } else if (dtype == DataBuffer.TYPE_SHORT) {
         } else if (dtype == DataBuffer.TYPE_USHORT) {
         } else if (dtype == DataBuffer.TYPE_INT) {
@@ -467,7 +464,7 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
             pb = new ParameterBlock();
             pb.addSource(image);
             pb.add(lookup);
-            dst = JAI.create("lookup", pb, null);
+            dst = ImageN.create("lookup", pb, null);
         } else if (dtype == DataBuffer.TYPE_SHORT || dtype == DataBuffer.TYPE_USHORT) {
             // use a lookup table for rescaling
             if (high != low) {
@@ -505,7 +502,7 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
             pb = new ParameterBlock();
             pb.addSource(image);
             pb.add(lookup);
-            dst = JAI.create("lookup", pb, null);
+            dst = ImageN.create("lookup", pb, null);
         } else if (dtype == DataBuffer.TYPE_INT || dtype == DataBuffer.TYPE_FLOAT || dtype == DataBuffer.TYPE_DOUBLE) {
 
             // use the rescale and format ops
@@ -521,13 +518,13 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
             pb.addSource(image);
             pb.add(slope);
             pb.add(y_int);
-            dst = JAI.create("rescale", pb, null);
+            dst = ImageN.create("rescale", pb, null);
 
             // produce a byte image
             pb = new ParameterBlock();
             pb.addSource(dst);
             pb.add(DataBuffer.TYPE_BYTE);
-            dst = JAI.create("format", pb, null);
+            dst = ImageN.create("format", pb, null);
         }
 
         return dst;

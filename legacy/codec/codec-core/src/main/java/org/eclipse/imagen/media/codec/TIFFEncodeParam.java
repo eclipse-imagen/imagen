@@ -30,7 +30,8 @@ import java.util.zip.Deflater;
  * used with Bilevel images. Writing of tiled TIFF images can be enabled by calling the <code>setWriteTiled()</code>
  * method.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class TIFFEncodeParam implements ImageEncodeParam {
 

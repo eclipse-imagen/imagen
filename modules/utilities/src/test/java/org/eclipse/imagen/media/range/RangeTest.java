@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -31,15 +31,15 @@ import org.junit.Test;
 public class RangeTest {
 
     /** Number of benchmark iterations (Default 1) */
-    private static final int BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.BenchmarkCycles", 1);
+    private static final int BENCHMARK_ITERATION = Integer.getInteger("ImageN.Ext.BenchmarkCycles", 1);
 
     /** Number of not benchmark iterations (Default 0) */
-    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.NotBenchmarkCycles", 0);
+    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("ImageN.Ext.NotBenchmarkCycles", 0);
 
     /** Number of not benchmark iterations (Default 0) */
-    private static final boolean SINGLE_POINT = Boolean.getBoolean("JAI.Ext.SinglePoint");
+    private static final boolean SINGLE_POINT = Boolean.getBoolean("ImageN.Ext.SinglePoint");
 
-    private static final Integer TEST_SELECTOR = Integer.getInteger("JAI.Ext.TestSelector", 0);
+    private static final Integer TEST_SELECTOR = Integer.getInteger("ImageN.Ext.TestSelector", 0);
 
     /** test values byte */
     private static byte[] arrayB;

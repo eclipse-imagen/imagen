@@ -44,34 +44,35 @@ import org.eclipse.imagen.util.ImagingListener;
  * <p>This class allows programmers to use the syntax:
  *
  * <pre>
- * import org.eclipse.imagen.JAI;
- * RenderedOp im = JAI.create("convolve", paramBlock, renderHints);
+ * import org.eclipse.imagen.ImageN;
+ * RenderedOp im = ImageN.create("convolve", paramBlock, renderHints);
  * </pre>
  *
  * to create new images or collections by applying operators. The <code>create()</code> method returns a <code>
  * RenderedOp</code> encapsulating the operation name, parameter block, and rendering hints. Additionally, it performs
  * validity checking on the operation parameters. Programmers may also refer to <code>
- * JAI.createCollection("opname", paramBlock, renderHints)</code>, <code>
- * JAI.createRenderable("opname", paramBlock, renderHints)</code>, and <code>
- * JAI.createRenderableCollection("opname", paramBlock,
+ * ImageN.createCollection("opname", paramBlock, renderHints)</code>, <code>
+ * ImageN.createRenderable("opname", paramBlock, renderHints)</code>, and <code>
+ * ImageN.createRenderableCollection("opname", paramBlock,
  * renderHints)</code>.
  *
  * <p>If the <code>OperationDescriptor</code> associated with the named operation returns <code>true</code> from its
- * <code>isImmediate()</code> method, the <code>JAI.createNS()</code> method will ask the <code>RenderedOp</code> it
+ * <code>isImmediate()</code> method, the <code>ImageN.createNS()</code> method will ask the <code>RenderedOp</code> it
  * constructs to render itself immediately. If this rendering is <code>null</code>, <code>createNS()</code> will itself
  * return <code>null</code> rather than returning an instance of <code>RenderedOp</code> as it normally does.
  *
- * <p>It is possible to create new instances of the<code>JAI</code>class in order to control each instance's registry,
- * tile cache, and tile scheduler individually. Most users will want to use only the static methods of this class, which
- * perform all operations on a default instance, which in turn makes use of a default registry. To create a new image or
- * collection on a non-default <code>JAI</code> instance, the <code>createNS()</code> and <code>createCollectionNS
+ * <p>It is possible to create new instances of the<code>ImageN</code>class in order to control each instance's
+ * registry, tile cache, and tile scheduler individually. Most users will want to use only the static methods of this
+ * class, which perform all operations on a default instance, which in turn makes use of a default registry. To create a
+ * new image or collection on a non-default <code>ImageN</code> instance, the <code>createNS()</code> and <code>
+ * createCollectionNS
  * </code> (NS being short for "non-static") methods are used.
  *
- * <p>The <code>JAI</code> class contains convenience methods for a number of common argument list formats. These
+ * <p>The <code>ImageN</code> class contains convenience methods for a number of common argument list formats. These
  * methods perform the work of constructing a <code>ParameterBlock</code> automatically. The convenience methods are
  * available only in <code>static</code> form and make use of the default instance. When operating with a specific
  * instance, the general, non-static functions <code>createNS()</code> and <code>createCollectionNS()</code> should be
- * used. All of the convenience methods operate by calling <code>createNS()</code> on the default <code>JAI</code>
+ * used. All of the convenience methods operate by calling <code>createNS()</code> on the default <code>ImageN</code>
  * instance, and thus inherit the semantics of that method with regard to immediate rendering.
  *
  * <p>The registry being used by a particular instance may be retrieved or set using the <code>getOperationRegistry()
@@ -80,27 +81,29 @@ import org.eclipse.imagen.util.ImagingListener;
  * using the methods <code>setTileCache()</code>, <code>setTileScheduler()</code>, <code>getTileCache()</code>, or
  * <code>getTileScheduler()</code>.
  *
- * <p>Each instance of <code>JAI</code> contains a set of rendering hints which will be used for all image or collection
- * creations. These hints are merged with any hints supplied to the <code>create</code> method; directly supplied hints
- * take precedence over the common hints. When a new <code>JAI</code> instance is constructed, its hints are initialized
- * to a copy of the hints associated with the default instance. When the default instance is constructed, hints for the
- * default registry, tile cache, and tile scheduler are added to the set of common rendering hints. Similarly, invoking
- * <code>setOperationRegistry()</code>, <code>setTileCache()</code>, or <code>setTileScheduler()</code> on a <code>JAI
+ * <p>Each instance of <code>ImageN</code> contains a set of rendering hints which will be used for all image or
+ * collection creations. These hints are merged with any hints supplied to the <code>create</code> method; directly
+ * supplied hints take precedence over the common hints. When a new <code>ImageN</code> instance is constructed, its
+ * hints are initialized to a copy of the hints associated with the default instance. When the default instance is
+ * constructed, hints for the default registry, tile cache, and tile scheduler are added to the set of common rendering
+ * hints. Similarly, invoking <code>setOperationRegistry()</code>, <code>setTileCache()</code>, or <code>
+ * setTileScheduler()</code> on a <code>ImageN
  * </code> instance will cause the respective entity to be added to the common rendering hints. The hints associated
  * with any instance, including the default instance, may be manipulated using the <code>getRenderingHints()</code>,
  * <code>setRenderingHints()</code>, and <code>clearRenderingHints()</code> methods.
  *
- * <p>An <code>ImagingListener</code> will reside in each instance of <code>JAI</code>. It can be used to listen to (and
- * process) the exceptional situations that occur in the operations and JAI. A default <code>ImagingListener</code> is
- * initially registered which re-throws <code>RuntimeException</code>s and prints the error message and the stack trace
- * of other types to <code>System.err</code>. To override this default behavior an instance of an alternate <code>
- * ImagingListener</code> implementation should be registered using {@link JAI#setImagingListener}.
+ * <p>An <code>ImagingListener</code> will reside in each instance of <code>ImageN</code>. It can be used to listen to
+ * (and process) the exceptional situations that occur in the operations and ImageN. A default <code>ImagingListener
+ * </code> is initially registered which re-throws <code>RuntimeException</code>s and prints the error message and the
+ * stack trace of other types to <code>System.err</code>. To override this default behavior an instance of an alternate
+ * <code>
+ * ImagingListener</code> implementation should be registered using {@link ImageN#setImagingListener}.
  *
  * <p>An <code>ImagingListener</code> also can be attached to a node as a rendering hint, which maps the key <code>
  * KEY_IMAGING_LISTENER</code>. The <code>Throwable</code>s which arise in the creation and the rendering of this node
  * will be sent to this <code>ImagingListener</code> (note that those thrown at the top levels such as node creation
- * failure will be handled by the listener registered to the <code>JAI</code> instead.) The default value for this hint
- * will be the one registered to the instance of <code>JAI</code>.
+ * failure will be handled by the listener registered to the <code>ImageN</code> instead.) The default value for this
+ * hint will be the one registered to the instance of <code>ImageN</code>.
  *
  * @see OperationRegistry
  * @see RenderingHints
@@ -108,13 +111,13 @@ import org.eclipse.imagen.util.ImagingListener;
  * @see TileCache
  * @see ImagingListener
  */
-public final class JAI implements AutoCloseable {
+public class ImageN implements AutoCloseable {
 
     //
     // Private hint keys. Each of these keys must be assigned a unique value.
     //
 
-    // JAI Core
+    // ImageN Core
     private static final int HINT_IMAGE_LAYOUT = 101;
     private static final int HINT_INTERPOLATION = 102;
     private static final int HINT_OPERATION_REGISTRY = 103;
@@ -190,7 +193,7 @@ public final class JAI implements AutoCloseable {
      *
      * @see OpImage#OpImage
      * @see TileCache
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_TILE_CACHE_METRIC = new RenderingKey(HINT_TILE_CACHE_METRIC, Object.class);
 
@@ -200,7 +203,7 @@ public final class JAI implements AutoCloseable {
      * The hint is automatically set by <code>setTileScheduler()</code>.
      *
      * @see OpImage#OpImage
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_TILE_SCHEDULER = new RenderingKey(HINT_TILE_SCHEDULER, TileScheduler.class);
 
@@ -211,7 +214,7 @@ public final class JAI implements AutoCloseable {
      * TRUE</code>.
      *
      * @see OpImage#OpImage
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_DEFAULT_COLOR_MODEL_ENABLED =
             new RenderingKey(HINT_DEFAULT_COLOR_MODEL_ENABLED, Boolean.class);
@@ -224,7 +227,7 @@ public final class JAI implements AutoCloseable {
      * <code>Method</code> corresponding to {@link PlanarImage#createColorModel(SampleModel)}.
      *
      * @see OpImage#OpImage
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_DEFAULT_COLOR_MODEL_METHOD =
             new RenderingKey(HINT_DEFAULT_COLOR_MODEL_METHOD, Method.class);
@@ -235,7 +238,7 @@ public final class JAI implements AutoCloseable {
      * <code>java.awt.Dimension</code>.
      *
      * @see RenderableOp#createDefaultRendering()
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final RenderingHints.Key KEY_DEFAULT_RENDERING_SIZE =
             new RenderingKey(HINT_DEFAULT_RENDERING_SIZE, Dimension.class);
@@ -245,7 +248,7 @@ public final class JAI implements AutoCloseable {
      * hint corresponding to this key.
      *
      * @see OpImage#OpImage
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_COLOR_MODEL_FACTORY =
             new RenderingKey(HINT_COLOR_MODEL_FACTORY, ColorModelFactory.class);
@@ -262,7 +265,7 @@ public final class JAI implements AutoCloseable {
      * destination pair, the source <code>IndexColorModel</code> will be automatically expanded, allowing operations
      * that depend on the pixel value (as opposed to the index into the <code>ColorModel</code>) to function correctly.
      *
-     * <p>Note that the JAI provided dithering operations (<code>errordiffusion</code>, <code>ordereddither</code>)
+     * <p>Note that the ImageN provided dithering operations (<code>errordiffusion</code>, <code>ordereddither</code>)
      * along with the color quantization operator, <code>colorquantizer</code> can be used for the inverse operation,
      * i.e. converting from an RGB image to an indexed image.
      *
@@ -272,7 +275,7 @@ public final class JAI implements AutoCloseable {
      *
      * @see org.eclipse.imagen.OpImage#OpImage
      * @see org.eclipse.imagen.RasterAccessor
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_REPLACE_INDEX_COLOR_MODEL =
             new RenderingKey(HINT_REPLACE_INDEX_COLOR_MODEL, Boolean.class);
@@ -284,7 +287,7 @@ public final class JAI implements AutoCloseable {
      *
      * @see PlanarImage#PlanarImage(ImageLayout,Vector,Map)
      * @see OpImage#OpImage(Vector,ImageLayout,Map,boolean)
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_TILE_FACTORY = new RenderingKey(HINT_TILE_FACTORY, TileFactory.class);
 
@@ -294,7 +297,7 @@ public final class JAI implements AutoCloseable {
      * {@link #KEY_TILE_FACTORY} is initially mapped.
      *
      * @see OpImage#OpImage(Vector,ImageLayout,Map,boolean)
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_TILE_RECYCLER = new RenderingKey(HINT_TILE_RECYCLER, TileRecycler.class);
 
@@ -304,7 +307,7 @@ public final class JAI implements AutoCloseable {
      * this key.
      *
      * @see OpImage#OpImage(Vector,ImageLayout,Map,boolean)
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_CACHED_TILE_RECYCLING_ENABLED =
             new RenderingKey(HINT_CACHED_TILE_RECYCLING_ENABLED, Boolean.class);
@@ -314,7 +317,7 @@ public final class JAI implements AutoCloseable {
      * corresponding object must be a <code>Boolean</code>. The common <code>RenderingHints</code> do not contain a
      * default hint corresponding to this key.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_SERIALIZE_DEEP_COPY =
             new RenderingKey(HINT_SERIALIZE_DEEP_COPY, Boolean.class);
@@ -325,17 +328,17 @@ public final class JAI implements AutoCloseable {
      * </code>. The common <code>RenderingHints</code> do not contain a default hint corresponding to this key. The
      * default behavior is equivalent to setting a hint with a value of <code>Boolean.TRUE</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_TRANSFORM_ON_COLORMAP =
             new RenderingKey(HINT_TRANSFORM_ON_COLORMAP, Boolean.class);
 
     /**
-     * Key for the {@link ImagingListener} registered to a rendering node. The default mapping of this key in each JAI
-     * instance rethrows <code>RuntimeException</code>s and prints the error message and stack trace of other exceptions
-     * to <code>System.err</code>.
+     * Key for the {@link ImagingListener} registered to a rendering node. The default mapping of this key in each
+     * ImageN instance rethrows <code>RuntimeException</code>s and prints the error message and stack trace of other
+     * exceptions to <code>System.err</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public static RenderingHints.Key KEY_IMAGING_LISTENER =
             new RenderingKey(HINT_IMAGING_LISTENER, ImagingListener.class);
@@ -356,20 +359,20 @@ public final class JAI implements AutoCloseable {
 
     /**
      * A <code>ImagingListener</code> to listen and/or process the special situations in the operations registered in
-     * this <code>JAI</code>.
+     * this <code>ImageN</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     private ImagingListener imagingListener = ImagingListenerImpl.getInstance();
 
-    private static JAI defaultInstance = new JAI(
+    private static ImageN defaultInstance = new ImageN(
             OperationRegistry.initializeRegistry(),
             new SunTileScheduler(),
             new SunTileCache(),
             new RenderingHints(null));
 
-    /** Returns a new instance of the JAI class. */
-    private JAI(
+    /** Returns a new instance of the ImageN class. */
+    private ImageN(
             OperationRegistry operationRegistry,
             TileScheduler tileScheduler,
             TileCache tileCache,
@@ -391,13 +394,13 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Returns JAI version information as a <code>String</code>
+     * Returns ImageN version information as a <code>String</code>
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final String getBuildVersion() {
         try {
-            InputStream is = JAI.class.getResourceAsStream("buildVersion");
+            InputStream is = ImageN.class.getResourceAsStream("buildVersion");
             if (is == null) is = PropertyUtil.getFileFromClasspath("org/eclipse/imagen/buildVersion");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -419,14 +422,14 @@ public final class JAI implements AutoCloseable {
             return sw.getBuffer().toString();
 
         } catch (Exception e) {
-            return ImageNI18N.getString("JAI13");
+            return ImageNI18N.getString("ImageN13");
         }
     }
 
     /**
      * Disable use of default tile cache. Tiles are not stored.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final void disableDefaultTileCache() {
         TileCache tmp = defaultInstance.getTileCache();
@@ -439,7 +442,7 @@ public final class JAI implements AutoCloseable {
     /**
      * Enable use of default tile cache. Tiles are stored.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final void enableDefaultTileCache() {
         defaultInstance.renderingHints.put(KEY_TILE_CACHE, defaultInstance.getTileCache());
@@ -452,7 +455,7 @@ public final class JAI implements AutoCloseable {
      * @param tileDimensions The default tile dimensions or <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if <code>tileDimensions</code> is non-<code>null</code> and has
      *     non-positive width or height.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final void setDefaultTileSize(Dimension tileDimensions) {
         if (tileDimensions != null && (tileDimensions.width <= 0 || tileDimensions.height <= 0)) {
@@ -466,7 +469,7 @@ public final class JAI implements AutoCloseable {
      * Retrieves the clone of the default tile dimensions. If <code>null</code> there are no default dimensions set.
      *
      * @return The default tile dimensions or <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final Dimension getDefaultTileSize() {
         return defaultTileSize != null ? (Dimension) defaultTileSize.clone() : null;
@@ -488,11 +491,11 @@ public final class JAI implements AutoCloseable {
      * @param defaultSize The default rendering size or <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if <code>defaultSize</code> is non-<code>null</code> and both the
      *     width and height are non-positive.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final void setDefaultRenderingSize(Dimension defaultSize) {
         if (defaultSize != null && defaultSize.width <= 0 && defaultSize.height <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI8"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN8"));
         }
 
         defaultRenderingSize = defaultSize == null ? null : new Dimension(defaultSize);
@@ -502,22 +505,22 @@ public final class JAI implements AutoCloseable {
      * Retrieves a copy of the default rendering size. If <code>null</code> there is no default size set.
      *
      * @return The default rendering size or <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static final Dimension getDefaultRenderingSize() {
         return defaultRenderingSize == null ? null : new Dimension(defaultRenderingSize);
     }
 
     /**
-     * Returns the default<code>JAI</code>instance. This instance is used by all of the static methods of this class. It
-     * uses the default <code>OperationRegistry</code> and, in the Sun Microsystems, Inc. implementation, the Sun
+     * Returns the default<code>ImageN</code>instance. This instance is used by all of the static methods of this class.
+     * It uses the default <code>OperationRegistry</code> and, in the Sun Microsystems, Inc. implementation, the Sun
      * implementations of <code>TileCache</code> and <code>TileScheduler</code>. The <code>RenderingHints</code> will
      * contain hints only for these three entities.
      *
      * <p>Unless otherwise changed through a <code>setOperationRegistry
      * </code> the <code>OperationRegistry</code> used by the default instance is thread-safe.
      */
-    public static JAI getDefaultInstance() {
+    public static ImageN getDefaultInstance() {
         return defaultInstance;
     }
 
@@ -543,11 +546,11 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Returns a new instance of the<code>JAI</code>class. The <code>OperationRegistry</code>, <code>TileScheduler
+     * Returns a new instance of the<code>ImageN</code>class. The <code>OperationRegistry</code>, <code>TileScheduler
      * </code>, and <code>TileCache</code> will initially be references to those of the default instance. The rendering
      * hints will be set to a clone of those of the default instance.
      */
-    public JAI() {
+    public ImageN() {
         this.operationRegistry = defaultInstance.operationRegistry;
         this.tileScheduler = defaultInstance.tileScheduler;
         this.tileCache = defaultInstance.tileCache;
@@ -555,7 +558,7 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Returns the<code>OperationRegistry</code> being used by this<code>JAI</code>instance.
+     * Returns the<code>OperationRegistry</code> being used by this<code>ImageN</code>instance.
      *
      * <p>Unless otherwise changed through a <code>setOperationRegistry
      * </code> the <code>OperationRegistry</code> returned by <code>
@@ -566,7 +569,7 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Sets the<code>OperationRegistry</code> to be used by this<code>JAI</code>instance.
+     * Sets the<code>OperationRegistry</code> to be used by this<code>ImageN</code>instance.
      *
      * @throws IllegalArgumentException if <code>operationRegistry</code> is <code>null</code>.
      */
@@ -578,14 +581,14 @@ public final class JAI implements AutoCloseable {
         this.renderingHints.put(KEY_OPERATION_REGISTRY, operationRegistry);
     }
 
-    /** Returns the <code>TileScheduler</code> being used by this<code>JAI</code>instance. */
+    /** Returns the <code>TileScheduler</code> being used by this<code>ImageN</code>instance. */
     public TileScheduler getTileScheduler() {
         return tileScheduler;
     }
 
     /**
-     * Sets the <code>TileScheduler</code> to be used by this<code>JAI</code> instance. The <code>tileScheduler</code>
-     * parameter will be added to the <code>RenderingHints</code> of this <code>JAI</code> instance.
+     * Sets the <code>TileScheduler</code> to be used by this<code>ImageN</code> instance. The <code>tileScheduler
+     * </code> parameter will be added to the <code>RenderingHints</code> of this <code>ImageN</code> instance.
      *
      * @throws IllegalArgumentException if <code>tileScheduler</code> is <code>null</code>.
      */
@@ -597,14 +600,14 @@ public final class JAI implements AutoCloseable {
         renderingHints.put(KEY_TILE_SCHEDULER, tileScheduler);
     }
 
-    /** Returns the <code>TileCache</code> being used by this<code>JAI</code>instance. */
+    /** Returns the <code>TileCache</code> being used by this<code>ImageN</code>instance. */
     public TileCache getTileCache() {
         return tileCache;
     }
 
     /**
-     * Sets the <code>TileCache</code> to be used by this<code>JAI</code> instance. The <code>tileCache</code> parameter
-     * will be added to the <code>RenderingHints</code> of this <code>JAI</code> instance.
+     * Sets the <code>TileCache</code> to be used by this<code>ImageN</code> instance. The <code>tileCache</code>
+     * parameter will be added to the <code>RenderingHints</code> of this <code>ImageN</code> instance.
      *
      * @throws IllegalArgumentException if <code>tileCache</code> is <code>null</code>.
      */
@@ -619,44 +622,44 @@ public final class JAI implements AutoCloseable {
     /**
      * The default implementation constructs a <code>TileCache</code> with the given memory capacity in bytes. Users may
      * supply an instance of <code>TileCache</code> to an operation by supplying a <code>RenderingHint</code> with a
-     * JAI.KEY_TILE_CACHE key and the desired <code>TileCache</code> instance as its value. Note that the absence of a
-     * tile cache hint will result in the use of the <code>TileCache</code> belonging to the default<code>JAI</code>
-     * instance. To force an operation not to perform caching, a <code>TileCache</code> instance with a tile capacity of
-     * 0 may be used. An exception will be thrown if memCapacity is negative. Attempting to set either value larger than
-     * the JVM size may result in an OutOfMemory exception.
+     * ImageN.KEY_TILE_CACHE key and the desired <code>TileCache</code> instance as its value. Note that the absence of
+     * a tile cache hint will result in the use of the <code>TileCache</code> belonging to the default<code>ImageN
+     * </code> instance. To force an operation not to perform caching, a <code>TileCache</code> instance with a tile
+     * capacity of 0 may be used. An exception will be thrown if memCapacity is negative. Attempting to set either value
+     * larger than the JVM size may result in an OutOfMemory exception.
      *
-     * @deprecated as of JAI 1.1 Refer to createTileCache(long memCapacity).
+     * @deprecated as of ImageN 1.1 Refer to createTileCache(long memCapacity).
      */
     public static TileCache createTileCache(int tileCapacity, long memCapacity) {
         if (memCapacity < 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI10"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN10"));
         }
         return new SunTileCache(memCapacity);
     }
 
     /**
      * Constructs a <code>TileCache</code> with the given memory capacity in bytes. Users may supply an instance of
-     * <code>TileCache</code> to an operation by supplying a <code>RenderingHint</code> with a JAI.KEY_TILE_CACHE key
+     * <code>TileCache</code> to an operation by supplying a <code>RenderingHint</code> with a ImageN.KEY_TILE_CACHE key
      * and the desired <code>TileCache</code> instance as its value. Note that the absence of a tile cache hint will
-     * result in the use of the <code>TileCache</code> belonging to the default<code>JAI</code>instance. To force an
+     * result in the use of the <code>TileCache</code> belonging to the default<code>ImageN</code>instance. To force an
      * operation not to perform caching, a <code>TileCache</code> instance with a tile capacity of 0 may be used. An
      * exception will be thrown if memCapacity is negative. Attempting to set either value larger than the JVM size may
      * result in an OutOfMemory exception.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static TileCache createTileCache(long memCapacity) {
         if (memCapacity < 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI10"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN10"));
         }
         return new SunTileCache(memCapacity);
     }
 
     /**
      * Constructs a <code>TileCache</code> with the default memory capacity in bytes. Users may supply an instance of
-     * <code>TileCache</code> to an operation by supplying a <code>RenderingHint</code> with a JAI.KEY_TILE_CACHE key
+     * <code>TileCache</code> to an operation by supplying a <code>RenderingHint</code> with a ImageN.KEY_TILE_CACHE key
      * and the desired <code>TileCache</code> instance as its value. Note that the absence of a tile cache hint will
-     * result in the use of the <code>TileCache</code> belonging to the default<code>JAI</code>instance. To force an
+     * result in the use of the <code>TileCache</code> belonging to the default<code>ImageN</code>instance. To force an
      * operation not to perform caching, a <code>TileCache</code> instance with a tile capacity of 0 may be used.
      */
     public static TileCache createTileCache() {
@@ -670,7 +673,7 @@ public final class JAI implements AutoCloseable {
      * priority is <code>THREAD.NORM_PRIORITY</code>, default prefetch parallelism is 1, and default prefetch priority
      * is <code>THREAD.MIN_PRIORITY</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static TileScheduler createTileScheduler() {
         return new SunTileScheduler();
@@ -683,7 +686,7 @@ public final class JAI implements AutoCloseable {
      * specified in the <code>ParameterBlock</code>, and applying the specified hints to the destination. This method
      * should only be used when the final result returned is a single <code>RenderedImage</code>.
      *
-     * <p>The default<code>JAI</code>instance is used as the source of the registry and tile scheduler; that is, this
+     * <p>The default<code>ImageN</code>instance is used as the source of the registry and tile scheduler; that is, this
      * method is equivalent to <code>getDefaultInstance().createNS(opName, args, hints)</code>. The functionality of
      * this method is the same as its corresponding non-static method <code>createNS()</code>.
      *
@@ -719,20 +722,21 @@ public final class JAI implements AutoCloseable {
      * types. Additional restrictions placed on the sources and parameters by an individual operation are also validated
      * by calling its <code>OperationDescriptor.validateArguments()</code> method.
      *
-     * <p><code>JAI</code>allows a parameter to have a <code>null</code> input value, if that particular parameter has a
-     * default value specified in its operation's descriptor. In this case, the default value will replace the <code>
+     * <p><code>ImageN</code>allows a parameter to have a <code>null</code> input value, if that particular parameter
+     * has a default value specified in its operation's descriptor. In this case, the default value will replace the
+     * <code>
      * null</code> input.
      *
-     * <p><code>JAI</code>also allows unspecified tailing parameters, if these parameters have default values specified
-     * in the operation's descriptor. However, if a parameter, which has a default value, is followed by one or more
-     * parameters that have no default values, this parameter must be specified in the <code>ParameterBlock</code>, even
-     * if it only has a value of code>null</code>.
+     * <p><code>ImageN</code>also allows unspecified tailing parameters, if these parameters have default values
+     * specified in the operation's descriptor. However, if a parameter, which has a default value, is followed by one
+     * or more parameters that have no default values, this parameter must be specified in the <code>ParameterBlock
+     * </code>, even if it only has a value of code>null</code>.
      *
-     * <p>The rendering hints associated with this instance of <code>JAI</code> are overlaid with the hints passed to
+     * <p>The rendering hints associated with this instance of <code>ImageN</code> are overlaid with the hints passed to
      * this method. That is, the set of keys will be the union of the keys from the instance's hints and the hints
      * parameter. If the same key exists in both places, the value from the hints parameter will be used.
      *
-     * <p>This version of <code>create</code> is non-static; it may be used with a specific instance of the<code>JAI
+     * <p>This version of <code>create</code> is non-static; it may be used with a specific instance of the<code>ImageN
      * </code>class. All of the static <code>create()</code> methods ultimately call this method, thus inheriting this
      * method's error handling.
      *
@@ -760,9 +764,9 @@ public final class JAI implements AutoCloseable {
     public RenderedOp createNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
         }
 
         String modeName = "rendered";
@@ -771,11 +775,11 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
         }
 
         if (!RenderedImage.class.isAssignableFrom(odesc.getDestClass(modeName))) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI2"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN2"));
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -815,7 +819,7 @@ public final class JAI implements AutoCloseable {
      * should only be used when the final result returned is a <code>Collection</code>. (This includes <code>
      * org.eclipse.imagen.CollectionOp</code>s.)
      *
-     * <p>The default<code>JAI</code>instance is used as the source of the registry and tile scheduler; that is, this
+     * <p>The default<code>ImageN</code>instance is used as the source of the registry and tile scheduler; that is, this
      * method is equivalent to <code>getDefaultInstance().createCollectionNS(opName, args,
      * hints)</code>. The functionality of this method is the same as its corresponding non-static method <code>
      * createCollectionNS()</code>.
@@ -855,21 +859,22 @@ public final class JAI implements AutoCloseable {
      * and types. Additional restrictions placed on the sources and parameters by an individual operation are also
      * validated by calling its <code>OperationDescriptor.validateArguments()</code> method.
      *
-     * <p><code>JAI</code>allows a parameter to have a <code>null</code> input value, if that particular parameter has a
-     * default value specified in its operation's descriptor. In this case, the default value will replace the <code>
+     * <p><code>ImageN</code>allows a parameter to have a <code>null</code> input value, if that particular parameter
+     * has a default value specified in its operation's descriptor. In this case, the default value will replace the
+     * <code>
      * null</code> input.
      *
-     * <p><code>JAI</code>also allows unspecified tailing parameters, if these parameters have default values specified
-     * in the operation's descriptor. However, if a parameter, which has a default value, is followed by one or more
-     * parameters that have no default values, this parameter must be specified in the <code>ParameterBlock</code>, even
-     * if it only has a value of code>null</code>.
+     * <p><code>ImageN</code>also allows unspecified tailing parameters, if these parameters have default values
+     * specified in the operation's descriptor. However, if a parameter, which has a default value, is followed by one
+     * or more parameters that have no default values, this parameter must be specified in the <code>ParameterBlock
+     * </code>, even if it only has a value of code>null</code>.
      *
-     * <p>The rendering hints associated with this instance of <code>JAI</code> are overlaid with the hints passed to
+     * <p>The rendering hints associated with this instance of <code>ImageN</code> are overlaid with the hints passed to
      * this method. That is, the set of keys will be the union of the keys from the instance's hints and the hints
      * parameter. If the same key exists in both places, the value from the hints parameter will be used.
      *
      * <p>This version of <code>createCollection</code> is non-static; it may be used with a specific instance of the
-     * JAI class.
+     * ImageN class.
      *
      * @param opName The name of the operation.
      * @param args The source(s) and/or parameter(s) for the operation.
@@ -890,9 +895,9 @@ public final class JAI implements AutoCloseable {
     public Collection createCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
         }
 
         String modeName = "collection";
@@ -901,13 +906,13 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
         }
 
         Class destClass = odesc.getDestClass(modeName);
 
         if (!RenderedImage.class.isAssignableFrom(destClass) && !CollectionImage.class.isAssignableFrom(destClass)) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI5"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN5"));
         }
 
         // Merge rendering hints.  Hints passed in take precedence.
@@ -983,7 +988,7 @@ public final class JAI implements AutoCloseable {
                     } catch (Exception e) {
                         // Unable to create this collection type, try next.
                         sendExceptionToListener(
-                                ImageNI18N.getString("JAI16") + s.getClass().getName(), e);
+                                ImageNI18N.getString("ImageN16") + s.getClass().getName(), e);
                     }
                 }
             }
@@ -1074,7 +1079,7 @@ public final class JAI implements AutoCloseable {
      * @param opName The name of the operation.
      * @param param1 The <code>Object</code> parameter.
      * @param param2 The <code>int</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, int param2) {
         ParameterBlock args = new ParameterBlock();
@@ -1090,7 +1095,7 @@ public final class JAI implements AutoCloseable {
      * @param param1 The first <code>Object</code> parameter.
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, Object param2, Object param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1107,7 +1112,7 @@ public final class JAI implements AutoCloseable {
      * @param param1 The first <code>int</code> parameter.
      * @param param2 The second <code>int</code> parameter.
      * @param param3 The <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, int param1, int param2, Object param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1125,7 +1130,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, Object param2, Object param3, Object param4) {
         ParameterBlock args = new ParameterBlock();
@@ -1144,7 +1149,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The first <code>int</code> parameter.
      * @param param3 The second <code>Object</code> parameter.
      * @param param4 The second <code>int</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, int param2, Object param3, int param4) {
         ParameterBlock args = new ParameterBlock();
@@ -1172,7 +1177,7 @@ public final class JAI implements AutoCloseable {
      *
      * @param opName The name of the operation.
      * @param srcCol The Collection src parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Collection srcCol) {
         ParameterBlock args = new ParameterBlock();
@@ -1202,7 +1207,7 @@ public final class JAI implements AutoCloseable {
      * @param opName The name of the operation.
      * @param src The <code>RenderedImage</code> src parameter.
      * @param param The <code>int</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, int param) {
         ParameterBlock args = new ParameterBlock();
@@ -1236,7 +1241,7 @@ public final class JAI implements AutoCloseable {
      * @param src The <code>RenderedImage</code> src parameter.
      * @param param1 The <code>Object</code> parameter.
      * @param param2 The <code>float</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, Object param1, float param2) {
         ParameterBlock args = new ParameterBlock();
@@ -1274,7 +1279,7 @@ public final class JAI implements AutoCloseable {
      * @param param1 The <code>Object</code> parameter.
      * @param param2 The first <code>int</code> parameter.
      * @param param3 The second <code>int</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, Object param1, int param2, int param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1294,7 +1299,7 @@ public final class JAI implements AutoCloseable {
      * @param param1 The first <code>float</code> parameter.
      * @param param2 The second <code>float</code> parameter.
      * @param param3 The <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, float param1, float param2, Object param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1315,7 +1320,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, Object param1, Object param2, Object param3, Object param4) {
@@ -1338,7 +1343,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The first <code>int</code> parameter.
      * @param param4 The second <code>int</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, Object param1, Object param2, int param3, int param4) {
@@ -1361,7 +1366,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The second <code>int</code> parameter.
      * @param param3 The third <code>int</code> parameter.
      * @param param4 The fourth <code>int</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, int param1, int param2, int param3, int param4) {
         ParameterBlock args = new ParameterBlock();
@@ -1383,7 +1388,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The second <code>float</code> parameter.
      * @param param3 The third <code>float</code> parameter.
      * @param param4 The <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, float param1, float param2, float param3, Object param4) {
@@ -1407,7 +1412,7 @@ public final class JAI implements AutoCloseable {
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
      * @param param5 The fifth <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1438,7 +1443,7 @@ public final class JAI implements AutoCloseable {
      * @param param3 The third <code>float</code> parameter.
      * @param param4 The fourth <code>float</code> parameter.
      * @param param5 The <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, float param1, float param2, float param3, float param4, Object param5) {
@@ -1463,7 +1468,7 @@ public final class JAI implements AutoCloseable {
      * @param param3 The second <code>float</code> parameter.
      * @param param4 The third <code>float</code> parameter.
      * @param param5 The <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, float param1, int param2, float param3, float param4, Object param5) {
@@ -1489,7 +1494,7 @@ public final class JAI implements AutoCloseable {
      * @param param4 The fourth <code>Object</code> parameter.
      * @param param5 The fifth <code>Object</code> parameter.
      * @param param6 The sixth <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1523,7 +1528,7 @@ public final class JAI implements AutoCloseable {
      * @param param4 The fourth <code>int</code> parameter.
      * @param param5 The fifth <code>int</code> parameter.
      * @param param6 The <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1570,7 +1575,7 @@ public final class JAI implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
-     * @deprecated as of JAI 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1607,7 +1612,7 @@ public final class JAI implements AutoCloseable {
      * specified in the <code>ParameterBlock</code>. This method should only be used when the final result returned is a
      * single <code>RenderdableImage</code>.
      *
-     * <p>The default<code>JAI</code>instance is used as the source of the registry and tile scheduler; that is, this
+     * <p>The default<code>ImageN</code>instance is used as the source of the registry and tile scheduler; that is, this
      * method is equivalent to <code>getDefaultInstance().createRenderableNS(opName, args, hints)</code>. The
      * functionality of this method is the same as its corresponding non-static method <code>createRenderableNS()</code>
      * .
@@ -1626,7 +1631,7 @@ public final class JAI implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>RenderableOp</code> that represents the named operation.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderableOp createRenderable(String opName, ParameterBlock args, RenderingHints hints) {
         return defaultInstance.createRenderableNS(opName, args, hints);
@@ -1637,7 +1642,7 @@ public final class JAI implements AutoCloseable {
      * specified in the <code>ParameterBlock</code>. This method should only be used when the final result returned is a
      * single <code>RenderdableImage</code>.
      *
-     * <p>The default<code>JAI</code>instance is used as the source of the registry and tile scheduler; that is, this
+     * <p>The default<code>ImageN</code>instance is used as the source of the registry and tile scheduler; that is, this
      * method is equivalent to <code>getDefaultInstance().createRenderableNS(opName, args, null)</code>. The
      * functionality of this method is the same as its corresponding non-static method <code>createRenderableNS()</code>
      * .
@@ -1671,20 +1676,22 @@ public final class JAI implements AutoCloseable {
      * types. Additional restrictions placed on the sources and parameters by an individual operation are also validated
      * by calling its <code>OperationDescriptor.validateRenderableArguments()</code> method.
      *
-     * <p><code>JAI</code>allows a parameter to have a <code>null</code> input value, if that particular parameter has a
-     * default value specified in its operation's descriptor. In this case, the default value will replace the <code>
+     * <p><code>ImageN</code>allows a parameter to have a <code>null</code> input value, if that particular parameter
+     * has a default value specified in its operation's descriptor. In this case, the default value will replace the
+     * <code>
      * null</code> input.
      *
-     * <p><code>JAI</code>also allows unspecified tailing parameters, if these parameters have default values specified
-     * in the operation's descriptor. However, if a parameter, which has a default value, is followed by one or more
-     * parameters that have no default values, this parameter must be specified in the <code>ParameterBlock</code>, even
-     * if it only has a value of code>null</code>.
+     * <p><code>ImageN</code>also allows unspecified tailing parameters, if these parameters have default values
+     * specified in the operation's descriptor. However, if a parameter, which has a default value, is followed by one
+     * or more parameters that have no default values, this parameter must be specified in the <code>ParameterBlock
+     * </code>, even if it only has a value of code>null</code>.
      *
-     * <p>The rendering hints associated with this instance of <code>JAI</code> are overlaid with the hints passed to
+     * <p>The rendering hints associated with this instance of <code>ImageN</code> are overlaid with the hints passed to
      * this method. That is, the set of keys will be the union of the keys from the instance's hints and the hints
      * parameter. If the same key exists in both places, the value from the hints parameter will be used.
      *
-     * <p>This version of the "createRenderable" is non-static; it may be used with a specific instance of the<code>JAI
+     * <p>This version of the "createRenderable" is non-static; it may be used with a specific instance of the<code>
+     * ImageN
      * </code>class.
      *
      * @param opName The name of the operation.
@@ -1701,14 +1708,14 @@ public final class JAI implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>RenderableOp</code> that represents the named operation.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public RenderableOp createRenderableNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
         }
 
         String modeName = "renderable";
@@ -1717,11 +1724,11 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
         }
 
         if (!RenderableImage.class.isAssignableFrom(odesc.getDestClass(modeName))) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI4"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN4"));
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -1752,20 +1759,22 @@ public final class JAI implements AutoCloseable {
      * types. Additional restrictions placed on the sources and parameters by an individual operation are also validated
      * by calling its <code>OperationDescriptor.validateRenderableArguments()</code> method.
      *
-     * <p><code>JAI</code>allows a parameter to have a <code>null</code> input value, if that particular parameter has a
-     * default value specified in its operation's descriptor. In this case, the default value will replace the <code>
+     * <p><code>ImageN</code>allows a parameter to have a <code>null</code> input value, if that particular parameter
+     * has a default value specified in its operation's descriptor. In this case, the default value will replace the
+     * <code>
      * null</code> input.
      *
-     * <p><code>JAI</code>also allows unspecified tailing parameters, if these parameters have default values specified
-     * in the operation's descriptor. However, if a parameter, which has a default value, is followed by one or more
-     * parameters that have no default values, this parameter must be specified in the <code>ParameterBlock</code>, even
-     * if it only has a value of code>null</code>.
+     * <p><code>ImageN</code>also allows unspecified tailing parameters, if these parameters have default values
+     * specified in the operation's descriptor. However, if a parameter, which has a default value, is followed by one
+     * or more parameters that have no default values, this parameter must be specified in the <code>ParameterBlock
+     * </code>, even if it only has a value of code>null</code>.
      *
-     * <p>The rendering hints associated with this instance of <code>JAI</code> are overlaid with the hints passed to
+     * <p>The rendering hints associated with this instance of <code>ImageN</code> are overlaid with the hints passed to
      * this method. That is, the set of keys will be the union of the keys from the instance's hints and the hints
      * parameter. If the same key exists in both places, the value from the hints parameter will be used.
      *
-     * <p>This version of the "createRenderable" is non-static; it may be used with a specific instance of the<code>JAI
+     * <p>This version of the "createRenderable" is non-static; it may be used with a specific instance of the<code>
+     * ImageN
      * </code>class.
      *
      * @param opName The name of the operation.
@@ -1781,8 +1790,8 @@ public final class JAI implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>RenderableOp</code> that represents the named operation.
-     * @deprecated as of JAI 1.1 in favor of <code>createRenderableNS(String,ParameterBlock,RenderingHints)</code>.
-     * @see JAI#createRenderableNS(String,ParameterBlock,RenderingHints)
+     * @deprecated as of ImageN 1.1 in favor of <code>createRenderableNS(String,ParameterBlock,RenderingHints)</code>.
+     * @see ImageN#createRenderableNS(String,ParameterBlock,RenderingHints)
      */
     public RenderableOp createRenderableNS(String opName, ParameterBlock args) {
         return createRenderableNS(opName, args, null);
@@ -1793,7 +1802,7 @@ public final class JAI implements AutoCloseable {
      * specified in the <code>ParameterBlock</code>. This method should only be used when the final result returned is a
      * <code>Collection</code>. (This includes <code>org.eclipse.imagen.CollectionOp</code>s.)
      *
-     * <p>The default<code>JAI</code>instance is used as the source of the registry and tile scheduler; that is, this
+     * <p>The default<code>ImageN</code>instance is used as the source of the registry and tile scheduler; that is, this
      * method is equivalent to <code>getDefaultInstance().createRenderableCollectionNS(opName,
      * args,hints)</code>. The functionality of this method is the same as its corresponding non-static method <code>
      * createRenderableCollectionNS()</code>.
@@ -1812,7 +1821,7 @@ public final class JAI implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>Collection</code> that represents the named operation.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static Collection createRenderableCollection(String opName, ParameterBlock args, RenderingHints hints) {
         return defaultInstance.createRenderableCollectionNS(opName, args, hints);
@@ -1823,7 +1832,7 @@ public final class JAI implements AutoCloseable {
      * specified in the <code>ParameterBlock</code>. This method should only be used when the final result returned is a
      * <code>Collection</code>. (This includes <code>org.eclipse.imagen.CollectionOp</code>s.)
      *
-     * <p>The default<code>JAI</code>instance is used as the source of the registry and tile scheduler; that is, this
+     * <p>The default<code>ImageN</code>instance is used as the source of the registry and tile scheduler; that is, this
      * method is equivalent to <code>getDefaultInstance().createRenderableCollectionNS(opName,
      * args,null)</code>. The functionality of this method is the same as its corresponding non-static method <code>
      * createRenderableCollectionNS()</code>.
@@ -1863,17 +1872,18 @@ public final class JAI implements AutoCloseable {
      * types. Additional restrictions placed on the sources and parameters by an individual operation are also validated
      * by calling its <code>OperationDescriptor.validateRenderableArguments()</code> method.
      *
-     * <p><code>JAI</code>allows a parameter to have a <code>null</code> input value, if that particular parameter has a
-     * default value specified in its operation's descriptor. In this case, the default value will replace the <code>
+     * <p><code>ImageN</code>allows a parameter to have a <code>null</code> input value, if that particular parameter
+     * has a default value specified in its operation's descriptor. In this case, the default value will replace the
+     * <code>
      * null</code> input.
      *
-     * <p><code>JAI</code>also allows unspecified tailing parameters, if these parameters have default values specified
-     * in the operation's descriptor. However, if a parameter, which has a default value, is followed by one or more
-     * parameters that have no default values, this parameter must be specified in the <code>ParameterBlock</code>, even
-     * if it only has a value of code>null</code>.
+     * <p><code>ImageN</code>also allows unspecified tailing parameters, if these parameters have default values
+     * specified in the operation's descriptor. However, if a parameter, which has a default value, is followed by one
+     * or more parameters that have no default values, this parameter must be specified in the <code>ParameterBlock
+     * </code>, even if it only has a value of code>null</code>.
      *
      * <p>This version of <code>createRenderableCollection</code> is non-static; it may be used with a specific instance
-     * of the JAI class.
+     * of the ImageN class.
      *
      * @param opName The name of the operation.
      * @param args The source(s) and/or parameter(s) for the operation.
@@ -1888,9 +1898,9 @@ public final class JAI implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>Collection</code> that represents the named operation.
-     * @deprecated as of JAI 1.1 in favor of <code>createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
+     * @deprecated as of ImageN 1.1 in favor of <code>createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
      *     </code>.
-     * @see JAI#createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
+     * @see ImageN#createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
      */
     public Collection createRenderableCollectionNS(String opName, ParameterBlock args) {
         return createRenderableCollectionNS(opName, args, null);
@@ -1913,21 +1923,22 @@ public final class JAI implements AutoCloseable {
      * types. Additional restrictions placed on the sources and parameters by an individual operation are also validated
      * by calling its <code>OperationDescriptor.validateRenderableArguments()</code> method.
      *
-     * <p><code>JAI</code>allows a parameter to have a <code>null</code> input value, if that particular parameter has a
-     * default value specified in its operation's descriptor. In this case, the default value will replace the <code>
+     * <p><code>ImageN</code>allows a parameter to have a <code>null</code> input value, if that particular parameter
+     * has a default value specified in its operation's descriptor. In this case, the default value will replace the
+     * <code>
      * null</code> input.
      *
-     * <p><code>JAI</code>also allows unspecified tailing parameters, if these parameters have default values specified
-     * in the operation's descriptor. However, if a parameter, which has a default value, is followed by one or more
-     * parameters that have no default values, this parameter must be specified in the <code>ParameterBlock</code>, even
-     * if it only has a value of code>null</code>.
+     * <p><code>ImageN</code>also allows unspecified tailing parameters, if these parameters have default values
+     * specified in the operation's descriptor. However, if a parameter, which has a default value, is followed by one
+     * or more parameters that have no default values, this parameter must be specified in the <code>ParameterBlock
+     * </code>, even if it only has a value of code>null</code>.
      *
-     * <p>The rendering hints associated with this instance of <code>JAI</code> are overlaid with the hints passed to
+     * <p>The rendering hints associated with this instance of <code>ImageN</code> are overlaid with the hints passed to
      * this method. That is, the set of keys will be the union of the keys from the instance's hints and the hints
      * parameter. If the same key exists in both places, the value from the hints parameter will be used.
      *
      * <p>This version of <code>createRenderableCollection</code> is non-static; it may be used with a specific instance
-     * of the JAI class.
+     * of the ImageN class.
      *
      * @param opName The name of the operation.
      * @param args The source(s) and/or parameter(s) for the operation.
@@ -1943,13 +1954,13 @@ public final class JAI implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>Collection</code> that represents the named operation.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Collection createRenderableCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
         }
 
         String modeName = "renderableCollection";
@@ -1958,13 +1969,13 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
         }
 
         Class destClass = odesc.getDestClass(modeName);
 
         if (!RenderableImage.class.isAssignableFrom(destClass) && !CollectionImage.class.isAssignableFrom(destClass)) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI6"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN6"));
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -2035,7 +2046,7 @@ public final class JAI implements AutoCloseable {
                     } catch (Exception e) {
                         // Unable to create this collection type, try next.
                         sendExceptionToListener(
-                                ImageNI18N.getString("JAI16") + s.getClass().getName(), e);
+                                ImageNI18N.getString("ImageN16") + s.getClass().getName(), e);
                     }
                 }
             }
@@ -2086,13 +2097,13 @@ public final class JAI implements AutoCloseable {
 
     /** An inner class defining rendering hint keys. */
     static class RenderingKey extends RenderingHints.Key {
-        // cache the class of JAI to keep JAI.class in memory unless
+        // cache the class of ImageN to keep ImageN.class in memory unless
         // the class RenderingKey is GC'ed.  In this case, the
         // WeakReferences in the map of RenderingHints.Key will release
-        // the instances of RenderingKey.  So when JAI is loaded next
+        // the instances of RenderingKey.  So when ImageN is loaded next
         // time, the keys can be recreated without any exception.
         // Fix bug: 4754807
-        private static Class JAIclass = JAI.class;
+        private static Class ImageNclass = ImageN.class;
 
         private Class objectClass;
 
@@ -2107,7 +2118,7 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Returns the <code>RenderingHints</code> associated with this <code>JAI</code> instance. These rendering hints
+     * Returns the <code>RenderingHints</code> associated with this <code>ImageN</code> instance. These rendering hints
      * will be merged with any hints supplied as an argument to the <code>createNS()</code>, <code>createRenderableNS()
      * </code>, or <code>createCollectionNS()</code> methods.
      */
@@ -2116,8 +2127,8 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Sets the <code>RenderingHints</code> associated with this <code>JAI</code> instance. These rendering hints will
-     * be merged with any hints supplied as an argument to the <code>createNS()</code>, <code>createRenderableNS()
+     * Sets the <code>RenderingHints</code> associated with this <code>ImageN</code> instance. These rendering hints
+     * will be merged with any hints supplied as an argument to the <code>createNS()</code>, <code>createRenderableNS()
      * </code>, or <code>createCollectionNS()</code> methods.
      *
      * <p>The <code>hints</code> argument must be non-null, otherwise a <code>IllegalArgumentException</code> will be
@@ -2130,26 +2141,26 @@ public final class JAI implements AutoCloseable {
         this.renderingHints = hints;
     }
 
-    /** Clears the <code>RenderingHints</code> associated with this <code>JAI</code> instance. */
+    /** Clears the <code>RenderingHints</code> associated with this <code>ImageN</code> instance. */
     public void clearRenderingHints() {
         this.renderingHints = new RenderingHints(null);
     }
 
     /**
-     * Returns the hint value associated with a given key in this <code>JAI</code> instance, or <code>null</code> if no
-     * value is associated with the given key.
+     * Returns the hint value associated with a given key in this <code>ImageN</code> instance, or <code>null</code> if
+     * no value is associated with the given key.
      *
      * @throws IllegalArgumentException if <code>key</code> is <code>null</code>.
      */
     public Object getRenderingHint(RenderingHints.Key key) {
         if (key == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN7"));
         }
         return renderingHints.get(key);
     }
 
     /**
-     * Sets the hint value associated with a given key in this <code>JAI</code> instance.
+     * Sets the hint value associated with a given key in this <code>ImageN</code> instance.
      *
      * @throws IllegalArgumentException if <code>key</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>value</code> is <code>null</code>.
@@ -2157,10 +2168,10 @@ public final class JAI implements AutoCloseable {
      */
     public void setRenderingHint(RenderingHints.Key key, Object value) {
         if (key == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN7"));
         }
         if (value == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("JAI9"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageN9"));
         }
         try {
             renderingHints.put(key, value);
@@ -2169,13 +2180,13 @@ public final class JAI implements AutoCloseable {
         }
     }
 
-    /** Removes the hint value associated with a given key in this <code>JAI</code> instance. */
+    /** Removes the hint value associated with a given key in this <code>ImageN</code> instance. */
     public void removeRenderingHint(RenderingHints.Key key) {
         renderingHints.remove(key);
     }
 
     /**
-     * Sets an <code>ImagingListener</code> object on this <code>JAI</code>.
+     * Sets an <code>ImagingListener</code> object on this <code>ImageN</code>.
      *
      * @param imagingListener The <code>ImagingListener</code> to be used. If the provided <code>ImagingListener</code>
      *     is <code>null</code>, the default <code>ImagingListener</code>, which rethrows the <code>RuntimeException
@@ -2188,9 +2199,9 @@ public final class JAI implements AutoCloseable {
     }
 
     /**
-     * Gets the <code>ImagingListener</code> object from this <code>JAI</code>.
+     * Gets the <code>ImagingListener</code> object from this <code>ImageN</code>.
      *
-     * @return The <code>ImagingListener</code> object that currently resides in this <code>JAI</code>.
+     * @return The <code>ImagingListener</code> object that currently resides in this <code>ImageN</code>.
      */
     public ImagingListener getImagingListener() {
         return imagingListener;

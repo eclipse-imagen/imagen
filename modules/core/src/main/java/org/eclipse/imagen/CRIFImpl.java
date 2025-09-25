@@ -37,14 +37,14 @@ import org.eclipse.imagen.util.ImagingListener;
  *
  * @see java.awt.image.renderable.ContextualRenderedImageFactory
  * @see java.awt.image.renderable.RenderedImageFactory
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
-// This class was actually added in JAI EA2 but was then in
-// org.eclipse.imagen.media.opimage. It was moved to the public API in JAI 1.1.
+// This class was actually added in ImageN EA2 but was then in
+// org.eclipse.imagen.media.opimage. It was moved to the public API in ImageN 1.1.
 public abstract class CRIFImpl implements ContextualRenderedImageFactory {
 
     /**
-     * If non-<code>null</code>, this name will be used as a parameter to <code>JAI.create()</code> in <code>
+     * If non-<code>null</code>, this name will be used as a parameter to <code>ImageN.create()</code> in <code>
      * create(RenderContext,ParameterBlock)</code>; otherwise the RIF <code>create(ParameterBlock,RenderingHints)</code>
      * method implemented in the extending class will be invoked.
      */
@@ -69,9 +69,9 @@ public abstract class CRIFImpl implements ContextualRenderedImageFactory {
     /**
      * Creates a <code>RenderedImage</code> from the renderable layer.
      *
-     * <p>If <code>operationName</code> is non-<code>null</code>, <code>JAI.create()</code> will be invoked using the
+     * <p>If <code>operationName</code> is non-<code>null</code>, <code>ImageN.create()</code> will be invoked using the
      * supplied <code>ParameterBlock</code> and the <code>RenderingHints</code> contained in the <code>RenderContext
-     * </code>. If <code>operationName</code> is <code>null</code>, or <code>JAI.create()</code> returns <code>null
+     * </code>. If <code>operationName</code> is <code>null</code>, or <code>ImageN.create()</code> returns <code>null
      * </code>, the <code>create(ParameterBlock,RenderingHints)</code> method defined in the extending class will be
      * invoked.
      *
@@ -83,16 +83,16 @@ public abstract class CRIFImpl implements ContextualRenderedImageFactory {
         RenderingHints renderHints = renderContext.getRenderingHints();
         if (operationName != null) {
             OperationRegistry registry =
-                    renderHints == null ? null : (OperationRegistry) renderHints.get(JAI.KEY_OPERATION_REGISTRY);
+                    renderHints == null ? null : (OperationRegistry) renderHints.get(ImageN.KEY_OPERATION_REGISTRY);
 
             RenderedImage rendering;
 
             if (registry == null) {
-                // Call the JAI.create method to get the best implementation
-                rendering = JAI.create(operationName, paramBlock, renderHints);
+                // Call the ImageN.create method to get the best implementation
+                rendering = ImageN.create(operationName, paramBlock, renderHints);
             } else { // registry != null
                 // NB: This section is lifted pretty much verbatim from
-                // JAI.createNS().
+                // ImageN.createNS().
 
                 // Get the OperationDescriptor registered under the
                 // specified name.

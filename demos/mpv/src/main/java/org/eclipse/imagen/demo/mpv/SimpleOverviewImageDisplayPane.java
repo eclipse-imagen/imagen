@@ -24,7 +24,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 
 /**
@@ -190,7 +190,7 @@ public class SimpleOverviewImageDisplayPane extends ImageDisplayPane
         il.setTileHeight(TILE_SIZE);
         il.setTileGridXOffset(0);
         il.setTileGridYOffset(0);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
 
         if (datatype >= DataBuffer.TYPE_BYTE && datatype < DataBuffer.TYPE_INT) {
             int[] map = computeByteMap(scaledBotX, scaledTopX, ySide, tableLength);
@@ -211,7 +211,7 @@ public class SimpleOverviewImageDisplayPane extends ImageDisplayPane
             pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(lookup);
-            dst = JAI.create("lookup", pb, hints);
+            dst = ImageN.create("lookup", pb, hints);
         } else if (datatype == DataBuffer.TYPE_INT
                 || datatype == DataBuffer.TYPE_FLOAT
                 || datatype == DataBuffer.TYPE_DOUBLE) {
@@ -221,13 +221,13 @@ public class SimpleOverviewImageDisplayPane extends ImageDisplayPane
             double yInt = (xTop != xBot) ? (256D - slope * xTop) : 0D;
             pb.add(slope);
             pb.add(yInt);
-            dst = JAI.create("rescale", pb, null);
+            dst = ImageN.create("rescale", pb, null);
 
             // produce a byte image
             pb = new ParameterBlock();
             pb.addSource(dst);
             pb.add(DataBuffer.TYPE_BYTE);
-            dst = JAI.create("format", pb, null);
+            dst = ImageN.create("format", pb, null);
         }
         return dst;
     } // grayscaleMapOperator

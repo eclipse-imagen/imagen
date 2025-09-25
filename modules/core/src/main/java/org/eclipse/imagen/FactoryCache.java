@@ -31,7 +31,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * A class to manage the various instances of a descriptor factory. This also manages preferences between factory
  * instances for a specified descriptor/product.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 class FactoryCache {
 

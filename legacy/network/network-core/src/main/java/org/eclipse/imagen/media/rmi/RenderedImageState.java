@@ -23,7 +23,7 @@ import java.awt.image.WritableRenderedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.media.serialize.SerializableStateImpl;
@@ -56,14 +56,14 @@ public final class RenderedImageState extends SerializableStateImpl {
         isWritable = o instanceof WritableRenderedImage;
 
         if (h != null) {
-            Object value = h.get(JAI.KEY_SERIALIZE_DEEP_COPY);
+            Object value = h.get(ImageN.KEY_SERIALIZE_DEEP_COPY);
             if (value != null) {
                 useDeepCopy = ((Boolean) value).booleanValue();
             } else {
                 useDeepCopy = false;
             }
 
-            value = h.get(JAI.KEY_OPERATION_REGISTRY);
+            value = h.get(ImageN.KEY_OPERATION_REGISTRY);
             if (value != null) {
                 registry = (OperationRegistry) value;
             }

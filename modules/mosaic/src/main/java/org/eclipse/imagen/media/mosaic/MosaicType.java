@@ -24,7 +24,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * values for the "maskShape" parameter are defined in the {@link MosaicDescriptor} by the constants
  * {@link MosaicDescriptor#MOSAIC_TYPE_BLEND} and {@link MosaicDescriptor#MOSAIC_TYPE_OVERLAY}.
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public final class MosaicType extends EnumeratedParameter {
     MosaicType(String name, int value) {

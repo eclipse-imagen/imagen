@@ -25,11 +25,11 @@ import java.util.Vector;
 
 /**
  * Interface defining a callback which may be used to create a <code>ColorModel</code> for the rendering of a node in an
- * operation chain. The value corresponding to the key {@link JAI#KEY_COLOR_MODEL_FACTORY} in a configuration mapping
+ * operation chain. The value corresponding to the key {@link ImageN#KEY_COLOR_MODEL_FACTORY} in a configuration mapping
  * must be of type <code>ColorModelFactory</code>. This configuration variable is recognized by the constructor
  * {@link OpImage#OpImage(Vector,ImageLayout,Map,boolean)}.
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public interface ColorModelFactory {
     /**

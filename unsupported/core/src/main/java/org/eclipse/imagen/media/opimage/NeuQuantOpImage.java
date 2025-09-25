@@ -224,7 +224,7 @@ public class NeuQuantOpImage extends ColorQuantizerOpImage {
         inxbuild();
         createLUT();
         setProperty("LUT", colorMap);
-        setProperty("JAI.LookupTable", colorMap);
+        setProperty("ImageN.LookupTable", colorMap);
     }
 
     private void createLUT() {

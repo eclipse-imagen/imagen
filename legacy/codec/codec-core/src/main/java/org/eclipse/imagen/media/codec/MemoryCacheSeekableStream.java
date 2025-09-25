@@ -28,7 +28,8 @@ import java.util.Vector;
  *
  * <p>The <code>mark()</code> and <code>reset()</code> methods are supported.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public final class MemoryCacheSeekableStream extends SeekableStream {
 

@@ -25,7 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Hashtable;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
  * Class enabling serialization of an object which implements multiple interfacs supported by SerializerFactory.
@@ -88,7 +88,7 @@ public class InterfaceState implements SerializableState {
 
         InvocationHandler handler = new InterfaceHandler(interfaces, implementations);
 
-        theObject = Proxy.newProxyInstance(JAI.class.getClassLoader(), interfaces, handler);
+        theObject = Proxy.newProxyInstance(ImageN.class.getClassLoader(), interfaces, handler);
     }
 
     static class InterfaceHandler implements InvocationHandler {

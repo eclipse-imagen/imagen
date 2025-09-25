@@ -36,15 +36,16 @@ import org.eclipse.imagen.media.util.ImageUtil;
  * comments for <code>OpImage</code> provide more information about how to override <code>computeRect</code>.
  *
  * <p>It should be noted that the superclass <code>GeometricOpImage</code> automatically adds a value of <code>
- * Boolean.TRUE</code> for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code>
+ * Boolean.TRUE</code> for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code>
  * and passes it up to its superclass constructor so that geometric operations are performed on the pixel values instead
  * of being performed on the indices into the color map for those operations whose source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. Regarding the value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>
+ * new hint is added to it. Regarding the value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>
  * RenderingHints</code>, the operator itself can be smart based on the parameters, i.e. while the default value for the
- * <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class, in
- * some cases the operator could set the default.
+ * <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class,
+ * in some cases the operator could set the default.
  *
  * @see GeometricOpImage
  * @see OpImage
@@ -199,7 +200,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if combining the source bounds with the layout parameter results in negative
      *     output width or height.
      * @throws IllegalArgumentException If <code>warp</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public WarpOpImage(
             RenderedImage source,
@@ -237,7 +238,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if combining the source bounds with the layout parameter results in negative
      *     output width or height.
      * @throws IllegalArgumentException If <code>warp</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public WarpOpImage(
             RenderedImage source,
@@ -287,7 +288,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required to the left of the center.
      *
      * @return The left padding factor.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public int getLeftPadding() {
         return interp == null ? 0 : interp.getLeftPadding();
@@ -297,7 +298,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required to the right of the center.
      *
      * @return The right padding factor.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public int getRightPadding() {
         return interp == null ? 0 : interp.getRightPadding();
@@ -307,7 +308,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required above the center.
      *
      * @return The top padding factor.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public int getTopPadding() {
         return interp == null ? 0 : interp.getTopPadding();
@@ -317,7 +318,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required below the center.
      *
      * @return The bottom padding factor.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public int getBottomPadding() {
         return interp == null ? 0 : interp.getBottomPadding();
@@ -334,7 +335,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>destPt</code> or <code>null</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -357,7 +358,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code> or <code>null</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -380,7 +381,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>sourceRect</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
@@ -406,7 +407,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>destRect</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {

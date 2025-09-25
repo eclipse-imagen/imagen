@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -19,7 +19,7 @@ package org.eclipse.imagen.media.shadedrelief;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PropertyGenerator;
@@ -157,6 +157,6 @@ public class ShadedReliefDescriptor extends OperationDescriptorImpl {
         pb.setParameter("azimuth", azimuth);
         pb.setParameter("algorithm", algorithm);
 
-        return JAI.create("ShadedRelief", pb, hints);
+        return ImageN.create("ShadedRelief", pb, hints);
     }
 }

@@ -64,7 +64,7 @@ import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PropertySource;
 import org.eclipse.imagen.WritablePropertySource;
 
@@ -247,8 +247,8 @@ public final class ImageReadCRIF extends CRIFImpl {
             boolean readThumbnails = ((Boolean) pb.getObjectParameter(3)).booleanValue();
 
             // Initialize the layout.
-            ImageLayout layout = (rh != null && rh.containsKey(JAI.KEY_IMAGE_LAYOUT))
-                    ? (ImageLayout) rh.get(JAI.KEY_IMAGE_LAYOUT)
+            ImageLayout layout = (rh != null && rh.containsKey(ImageN.KEY_IMAGE_LAYOUT))
+                    ? (ImageLayout) rh.get(ImageN.KEY_IMAGE_LAYOUT)
                     : new ImageLayout();
 
             try {

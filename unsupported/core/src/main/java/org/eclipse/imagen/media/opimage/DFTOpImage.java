@@ -172,7 +172,7 @@ public class DFTOpImage extends UntiledOpImage {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return <code>null</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -187,7 +187,7 @@ public class DFTOpImage extends UntiledOpImage {
      *
      * @return <code>null</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

@@ -34,7 +34,7 @@ import org.eclipse.imagen.RasterFactory;
  * A simple class implemented the <code>RenderedImage</code> interface. Only the <code>getTile()</code> method needs to
  * be implemented by subclasses. The instance variables must also be filled in properly.
  *
- * <p>Normally in JAI <code>PlanarImage</code> is used for this purpose, but in the interest of making <code>
+ * <p>Normally in ImageN <code>PlanarImage</code> is used for this purpose, but in the interest of making <code>
  * org.eclipse.imagen.media.codec</code> and <code>org.eclipse.imagen.media.codecimpl</code> be as modular as possible
  * the use of <code>PlanarImage</code> has been avoided.
  */

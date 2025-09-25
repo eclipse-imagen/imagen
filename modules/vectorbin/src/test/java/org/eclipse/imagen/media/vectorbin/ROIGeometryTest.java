@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2016 GeoSolutions
 
@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
@@ -93,7 +93,7 @@ public class ROIGeometryTest extends TestBase {
         GraphicsEnvironment grEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String osname = System.getProperty("os.name").replaceAll("\\s", "");
         isOSX = "macosx".equalsIgnoreCase(osname);
-        JAI.setDefaultTileSize(new Dimension(512, 512));
+        ImageN.setDefaultTileSize(new Dimension(512, 512));
     }
 
     @Test
@@ -270,12 +270,12 @@ public class ROIGeometryTest extends TestBase {
         MultiPolygon poly = (MultiPolygon) new WKTReader().read(wkt);
 
         ImageLayout layout = new ImageLayout(0, 0, 800, 800, 0, 0, 10, 10, null, null);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
         ROIGeometry g = new ROIGeometry(poly, hints);
         RenderedOp image = (RenderedOp) g.getAsImage();
 
         // start parallel prefetching
-        TileScheduler ts = (TileScheduler) image.getRenderingHint(JAI.KEY_TILE_SCHEDULER);
+        TileScheduler ts = (TileScheduler) image.getRenderingHint(ImageN.KEY_TILE_SCHEDULER);
         ts.setParallelism(32);
         ts.setPrefetchParallelism(32);
         List<java.awt.Point> tiles = new ArrayList<java.awt.Point>();

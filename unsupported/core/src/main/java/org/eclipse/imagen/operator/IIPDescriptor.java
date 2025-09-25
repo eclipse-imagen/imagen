@@ -23,7 +23,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.renderable.ParameterBlock;
 import java.net.URL;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -469,9 +469,9 @@ public class IIPDescriptor extends OperationDescriptorImpl {
      * Provides client support of the Internet Imaging Protocol in the rendered and renderable mode.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param URL The URL of the IIP image.
@@ -528,16 +528,16 @@ public class IIPDescriptor extends OperationDescriptorImpl {
         pb.setParameter("JPEGQuality", JPEGQuality);
         pb.setParameter("JPEGTable", JPEGTable);
 
-        return JAI.create("IIP", pb, hints);
+        return ImageN.create("IIP", pb, hints);
     }
 
     /**
      * Provides client support of the Internet Imaging Protocol in the rendered and renderable mode.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param URL The URL of the IIP image.
@@ -594,6 +594,6 @@ public class IIPDescriptor extends OperationDescriptorImpl {
         pb.setParameter("JPEGQuality", JPEGQuality);
         pb.setParameter("JPEGTable", JPEGTable);
 
-        return JAI.createRenderable("IIP", pb, hints);
+        return ImageN.createRenderable("IIP", pb, hints);
     }
 }

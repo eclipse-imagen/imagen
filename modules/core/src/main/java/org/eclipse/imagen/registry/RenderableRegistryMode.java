@@ -19,14 +19,14 @@ package org.eclipse.imagen.registry;
 
 import java.awt.image.renderable.RenderableImage;
 import java.lang.reflect.Method;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.RegistryMode;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**
  * A class that provides information about the "renderable" registry (operation) mode.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class RenderableRegistryMode extends RegistryMode {
 
@@ -50,7 +50,7 @@ public class RenderableRegistryMode extends RegistryMode {
             factoryMethod = factoryClass.getMethod("create", paramTypes);
 
         } catch (NoSuchMethodException e) {
-            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
             String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
             listener.errorOccurred(message, e, RenderableRegistryMode.class, false);
             //	    e.printStackTrace();

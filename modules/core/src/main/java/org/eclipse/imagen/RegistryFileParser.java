@@ -35,9 +35,9 @@ import java.util.Vector;
 import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
- * A class to parse the JAI registry file.
+ * A class to parse the ImageN registry file.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 class RegistryFileParser {
 
@@ -77,17 +77,17 @@ class RegistryFileParser {
     // on a per mode basis.
     private Hashtable localNamesTable;
 
-    /** Create a JAI registry file parser from an <code>URL</code> */
+    /** Create a ImageN registry file parser from an <code>URL</code> */
     private RegistryFileParser(OperationRegistry or, ClassLoader cl, URL url) throws IOException {
 
         this(or, cl, url.openStream());
         this.url = url;
     }
 
-    /** Create a JAI registry file parser from the <code>InputStream</code> */
+    /** Create a ImageN registry file parser from the <code>InputStream</code> */
     private RegistryFileParser(OperationRegistry or, ClassLoader cl, InputStream is) throws IOException {
 
-        if (or == null) or = JAI.getDefaultInstance().getOperationRegistry();
+        if (or == null) or = ImageN.getDefaultInstance().getOperationRegistry();
 
         this.is = is;
         this.url = null;

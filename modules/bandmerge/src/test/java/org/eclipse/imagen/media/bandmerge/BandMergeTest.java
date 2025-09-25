@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -34,7 +34,7 @@ import java.awt.image.RenderedImage;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -56,7 +56,7 @@ import org.junit.Test;
 
 /**
  * This test class checks if the BandMergeOpImage is able to merge various multibanded images into a single multibanded
- * image. The test is made by taking 4 images for each JAI allowed data type, and then passing them to the BandMerge
+ * image. The test is made by taking 4 images for each ImageN allowed data type, and then passing them to the BandMerge
  * operator. The test ensures that the final image band number is equal to the total sources band number and each sample
  * value is equal to that of the related source image band. If No Data are present, then the test check if the every No
  * Data value is set to the "destination No Data value".
@@ -214,7 +214,7 @@ public class BandMergeTest extends TestBase {
         ImageLayout layout = new ImageLayout(images[0][0]);
         layout.setTileHeight(32);
         layout.setTileWidth(32);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
         RenderedOp merged = BandMergeDescriptor.create(null, destNoData, false, hints, null, roi, images[0]);
 
         // Raster object
@@ -554,7 +554,7 @@ public class BandMergeTest extends TestBase {
         layout.setWidth(sources[0].getWidth());
         layout.setHeight(sources[0].getHeight());
 
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // BandMerge operation
         RenderedOp merged = BandMergeDescriptor.create(noData, destNoData, false, hints, transform, roi, translated);
@@ -852,7 +852,7 @@ public class BandMergeTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandMerge");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandMerge");
         assertNotNull(descriptor);
         assertEquals("BandMerge", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

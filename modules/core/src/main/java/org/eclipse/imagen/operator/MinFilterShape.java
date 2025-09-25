@@ -25,7 +25,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * MIN_MASK_SQUARE</code>, <code>MIN_MASK_PLUS</code>, <code>MIN_MASK_X</code>, and <code>MIN_MASK_SQUARE_SEPARABLE
  * </code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class MinFilterShape extends EnumeratedParameter {
     MinFilterShape(String name, int value) {

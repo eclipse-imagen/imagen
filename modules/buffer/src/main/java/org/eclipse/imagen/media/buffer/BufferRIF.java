@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.media.opimage.RIFUtil;
@@ -92,23 +92,23 @@ public class BufferRIF implements RenderedImageFactory {
 
                 if (layout.getColorModel(src) != src.getColorModel()) {
                     // Remove TileCache hint from RenderingHints if present.
-                    if (renderHints != null && renderHints.containsKey(JAI.KEY_TILE_CACHE)) {
+                    if (renderHints != null && renderHints.containsKey(ImageN.KEY_TILE_CACHE)) {
                         renderHints = new RenderingHints((Map) renderHints);
-                        renderHints.remove(JAI.KEY_TILE_CACHE);
+                        renderHints.remove(ImageN.KEY_TILE_CACHE);
                     }
                 }
             }
 
             if (isDataTypeChange == true) {
 
-                // Add JAI.KEY_REPLACE_INDEX_COLOR_MODEL hint to renderHints
+                // Add ImageN.KEY_REPLACE_INDEX_COLOR_MODEL hint to renderHints
                 if (renderHints == null) {
-                    renderHints = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                    renderHints = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
 
-                } else if (!renderHints.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)) {
+                } else if (!renderHints.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)) {
                     // If the user specified a value for this hint, we don't
                     // want to change that
-                    renderHints.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                    renderHints.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
                 }
             }
         }

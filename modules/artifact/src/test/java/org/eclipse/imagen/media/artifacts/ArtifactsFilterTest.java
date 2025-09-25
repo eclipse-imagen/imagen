@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,7 +26,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -56,7 +56,7 @@ public class ArtifactsFilterTest extends TestBase {
 
     @BeforeClass
     public static void setupData() throws FileNotFoundException, IOException {
-        image = JAI.create("ImageRead", TestData.file(ArtifactsFilterTest.class, "filter.tif"));
+        image = ImageN.create("ImageRead", TestData.file(ArtifactsFilterTest.class, "filter.tif"));
 
         // Creation of a NoData Array
         nodata = new Range[6];
@@ -208,7 +208,7 @@ public class ArtifactsFilterTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ArtifactsFilter");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ArtifactsFilter");
         assertNotNull(descriptor);
         assertEquals("ArtifactsFilter", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

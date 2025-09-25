@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,7 +26,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.util.Arrays;
 import org.eclipse.imagen.ColorCube;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
@@ -339,7 +339,7 @@ public class OrderedDitherTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "OrderedDither");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "OrderedDither");
         assertNotNull(descriptor);
         assertEquals("OrderedDither", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

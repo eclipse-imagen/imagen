@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -35,7 +35,7 @@ import org.eclipse.imagen.media.ConcurrentOperationRegistry.OperationItem;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
- * A class to parse the JAI registry file.
+ * A class to parse the ImageN registry file.
  *
  * @author Nicola Lagomarsini - GeoSolutions
  */
@@ -219,7 +219,7 @@ class RegistryFileParser {
         if (!headerLinePrinted) {
 
             if (url != null) {
-                errorMsg("Error while parsing JAI registry file " + url.getPath(), null);
+                errorMsg("Error while parsing ImageN registry file " + url.getPath(), null);
             }
 
             headerLinePrinted = true;

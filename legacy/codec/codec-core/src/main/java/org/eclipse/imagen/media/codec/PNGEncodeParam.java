@@ -30,7 +30,8 @@ import java.util.Vector;
 /**
  * An instance of <code>ImageEncodeParam</code> for encoding images in the PNG format.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public abstract class PNGEncodeParam implements ImageEncodeParam {
 
@@ -519,7 +520,7 @@ public abstract class PNGEncodeParam implements ImageEncodeParam {
 
     // bKGD chunk - delegate to subclasses
 
-    // In JAI 1.0, 'backgroundSet' was private.  The JDK 1.2 compiler
+    // In ImageN 1.0, 'backgroundSet' was private.  The JDK 1.2 compiler
     // was lenient and incorrectly allowed this variable to be
     // accessed from the subclasses.  The JDK 1.3 compiler correctly
     // flags this as a use of a non-static variable in a static
@@ -531,7 +532,7 @@ public abstract class PNGEncodeParam implements ImageEncodeParam {
     // 'isBackgroundSet' in each concrete subclass.
 
     /**
-     * Suppresses the 'bKGD' chunk from being output. For API compatibility with JAI 1.0, the superclass defines this
+     * Suppresses the 'bKGD' chunk from being output. For API compatibility with ImageN 1.0, the superclass defines this
      * method to throw a <code>RuntimeException</code>; accordingly, subclasses must provide their own implementations.
      */
     public void unsetBackground() {
@@ -539,7 +540,7 @@ public abstract class PNGEncodeParam implements ImageEncodeParam {
     }
 
     /**
-     * Returns true if a 'bKGD' chunk will be output. For API compatibility with JAI 1.0, the superclass defines this
+     * Returns true if a 'bKGD' chunk will be output. For API compatibility with ImageN 1.0, the superclass defines this
      * method to throw a <code>RuntimeException</code>; accordingly, subclasses must provide their own implementations.
      */
     public boolean isBackgroundSet() {

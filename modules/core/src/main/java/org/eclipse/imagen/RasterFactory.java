@@ -609,7 +609,7 @@ public class RasterFactory {
         // Simply forward the call to the equivalent WritableRaster method.
         // The WritableRaster bug referred to in the javadoc was 4212434
         // and was fixed in Java SE 1.3, which is the minimum version
-        // required for JAI.
+        // required for ImageN.
         return raster.createWritableChild(parentX, parentY, width, height, childMinX, childMinY, bandList);
     }
 

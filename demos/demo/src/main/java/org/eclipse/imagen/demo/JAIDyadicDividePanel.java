@@ -8,12 +8,10 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIDyadicDividePanel extends JAIDyadicPanel {
@@ -43,7 +41,7 @@ public class JAIDyadicDividePanel extends JAIDyadicPanel {
         pb = new ParameterBlock();
         pb.addSource(im0);
         pb.addSource(im1);
-        PlanarImage im = JAI.create("divide", pb, getRenderingHints(DataBuffer.TYPE_FLOAT, rect, nBands));
+        PlanarImage im = ImageN.create("divide", pb, getRenderingHints(DataBuffer.TYPE_FLOAT, rect, nBands));
 
         // Constants
         double[] constants = new double[3];
@@ -55,7 +53,7 @@ public class JAIDyadicDividePanel extends JAIDyadicPanel {
         pb.addSource(im);
         pb.add(constants);
         PlanarImage dst1 =
-                (PlanarImage) JAI.create("multiplyconst", pb, getRenderingHints(DataBuffer.TYPE_BYTE, rect, nBands));
+                (PlanarImage) ImageN.create("multiplyconst", pb, getRenderingHints(DataBuffer.TYPE_BYTE, rect, nBands));
         return dst1;
     }
 }

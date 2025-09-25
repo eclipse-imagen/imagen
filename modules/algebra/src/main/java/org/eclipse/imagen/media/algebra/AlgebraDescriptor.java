@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -1433,9 +1433,9 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
      * Executes the selected operation on an image array.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String, ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String, ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param op operation to execute
@@ -1475,16 +1475,16 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
         pb.setParameter("noData", noData);
         pb.setParameter("destinationNoData", destinationNoData);
 
-        return JAI.create("algebric", pb, hints);
+        return ImageN.create("algebric", pb, hints);
     }
 
     /**
      * Executes the selected operation on an image array.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param op operation to execute
@@ -1524,6 +1524,6 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
         pb.setParameter("noData", noData);
         pb.setParameter("destinationNoData", destinationNoData);
 
-        return JAI.createRenderable("algebric", pb, hints);
+        return ImageN.createRenderable("algebric", pb, hints);
     }
 }

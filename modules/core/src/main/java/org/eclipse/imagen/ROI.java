@@ -177,7 +177,7 @@ public class ROI implements Serializable {
             pbj.setSource("source0", im);
             pbj.setParameter("threshold", (double) threshold);
 
-            theImage = JAI.create("binarize", pbj, null);
+            theImage = ImageN.create("binarize", pbj, null);
         }
     }
 
@@ -476,7 +476,7 @@ public class ROI implements Serializable {
      * specified ROI.
      *
      * @param ROI the ROI to merge with <code>this</code>
-     * @param op the JAI operator to use for merge.
+     * @param op the ImageN operator to use for merge.
      * @return the merged ROI
      */
     private ROI createOpROI(ROI roi, String op) {
@@ -494,24 +494,24 @@ public class ROI implements Serializable {
 
         // If the bounds of the two images do not match, then
         // expand as necessary to the union of the two bounds
-        // using the "overlay" operator and then perform the JAI
+        // using the "overlay" operator and then perform the ImageN
         // operation.
         if (op.equals("and") || boundsThis.equals(boundsROI)) {
-            imDest = JAI.create(op, imThis, imROI);
+            imDest = ImageN.create(op, imThis, imROI);
 
         } else if (op.equals("subtract") || boundsThis.contains(boundsROI)) {
 
             PlanarImage imBounds = createBinaryImage(boundsThis);
 
-            imBounds = JAI.create("overlay", imBounds, imROI);
-            imDest = JAI.create(op, imThis, imBounds);
+            imBounds = ImageN.create("overlay", imBounds, imROI);
+            imDest = ImageN.create(op, imThis, imBounds);
 
         } else if (boundsROI.contains(boundsThis)) {
 
             PlanarImage imBounds = createBinaryImage(boundsROI);
 
-            imBounds = JAI.create("overlay", imBounds, imThis);
-            imDest = JAI.create(op, imBounds, imROI);
+            imBounds = ImageN.create("overlay", imBounds, imThis);
+            imDest = ImageN.create(op, imBounds, imROI);
 
         } else {
 
@@ -520,9 +520,9 @@ public class ROI implements Serializable {
             PlanarImage imBoundsThis = createBinaryImage(merged);
             PlanarImage imBoundsROI = createBinaryImage(merged);
 
-            imBoundsThis = JAI.create("overlay", imBoundsThis, imThis);
-            imBoundsROI = JAI.create("overlay", imBoundsROI, imROI);
-            imDest = JAI.create(op, imBoundsThis, imBoundsROI);
+            imBoundsThis = ImageN.create("overlay", imBoundsThis, imThis);
+            imBoundsROI = ImageN.create("overlay", imBoundsROI, imROI);
+            imDest = ImageN.create(op, imBoundsThis, imBoundsROI);
         }
 
         return new ROI(imDest, threshold);
@@ -655,7 +655,7 @@ public class ROI implements Serializable {
     }
 
     /**
-     * Transforms an ROI using an imaging operation. The operation is specified by name; the default JAI registry is
+     * Transforms an ROI using an imaging operation. The operation is specified by name; the default ImageN registry is
      * used to resolve this into a RIF. The operation's <code>ParameterBlock</code>, minus the image source itself is
      * supplied, along with an index indicating where to insert the ROI image. The <code>renderHints</code> argument
      * allows rendering hints to be passed in.
@@ -681,7 +681,7 @@ public class ROI implements Serializable {
 
         // Create a new RenderedImage based on the operation name
         // and ParameterBlock using the default registry.
-        RenderedImage im = JAI.create(name, pb, renderHints);
+        RenderedImage im = ImageN.create(name, pb, renderHints);
         return new ROI(im, threshold);
     }
 
@@ -922,7 +922,7 @@ public class ROI implements Serializable {
         if (theImage != null) {
             out.writeBoolean(true);
             RenderingHints hints = new RenderingHints(null);
-            hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
+            hints.put(ImageN.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
             out.writeObject(SerializerFactory.getState(theImage, hints));
         } else {
             out.writeBoolean(false);

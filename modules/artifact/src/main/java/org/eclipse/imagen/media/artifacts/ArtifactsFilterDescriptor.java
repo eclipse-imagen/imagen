@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -21,7 +21,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -151,8 +151,8 @@ public class ArtifactsFilterDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Convenience method which constructs a {@link ParameterBlockJAI} and invokes {@code JAI.create("ArtifactsFilter",
-     * params) }
+     * Convenience method which constructs a {@link ParameterBlockJAI} and invokes
+     * {@code ImageN.create("ArtifactsFilter", params) }
      *
      * @param sourceImage the image to be restored
      * @param sourceRoi a {@link ROI} defining the working area
@@ -181,7 +181,7 @@ public class ArtifactsFilterDescriptor extends OperationDescriptorImpl {
         pb.setParameter(paramNames[FILTERSIZE_ARG], filterSize);
         pb.setParameter(paramNames[NODATA_ARG], nodata);
 
-        return JAI.create("ArtifactsFilter", pb, hints);
+        return ImageN.create("ArtifactsFilter", pb, hints);
     }
 
     /** Returns true to indicate that properties are supported */

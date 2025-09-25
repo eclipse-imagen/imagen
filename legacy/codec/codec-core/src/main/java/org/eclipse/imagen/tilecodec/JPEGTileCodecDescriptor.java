@@ -99,7 +99,7 @@ import org.eclipse.imagen.util.Range;
  * 			are inserted periodically into the image data
  * 			to delineate image segments known as restart
  * 		        intervals. To limit the effect of bitstream
- * 			errors to a single restart interval, JAI
+ * 			errors to a single restart interval, ImageN
  * 			provides methods to set the restart interval
  * 			in JPEG Minimum Coded Units (MCUs).
  * 			The default is zero (no restart interval
@@ -159,7 +159,7 @@ import org.eclipse.imagen.util.Range;
  * @see com.sun.image.codec.jpeg.JPEGQTable
  * @see com.sun.image.codec.jpeg.JPEGDecodeParam
  * @see com.sun.image.codec.jpeg.JPEGEncodeParam
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
 

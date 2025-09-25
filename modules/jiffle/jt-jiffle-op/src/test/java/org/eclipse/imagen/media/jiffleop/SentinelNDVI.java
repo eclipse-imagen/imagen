@@ -1,6 +1,5 @@
 package org.eclipse.imagen.media.jiffleop;
 
-import java.awt.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -9,7 +8,7 @@ import java.text.NumberFormat;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.imageread.ImageReadDescriptor;
@@ -21,7 +20,7 @@ public class SentinelNDVI {
         String basePath =
                 "/opt/gisData/evo-odas/coverave-view-hetero/multires-s2/S2A_MSIL1C_20170410T103021_N0204_R108_T32UNU_20170410T103020.SAFE/20170410T103021026Z_fullres_CC2.4251_T32UNU_";
 
-        JAI jai = JAI.getDefaultInstance();
+        ImageN jai = ImageN.getDefaultInstance();
         jai.getTileCache().setMemoryCapacity(1024l * 1024 * 1024);
 
         // prepare inputs and outputs
@@ -37,7 +36,7 @@ public class SentinelNDVI {
         pb.setParameter("destType", DataBuffer.TYPE_FLOAT);
         pb.addSource(red);
         pb.addSource(nir);
-        RenderedOp op = JAI.create("Jiffle", pb);
+        RenderedOp op = ImageN.create("Jiffle", pb);
 
         // actually running the calculation
         final double pixels = (double) red.getWidth() * (double) red.getHeight();

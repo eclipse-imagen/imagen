@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -191,7 +191,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
         }
 
         if (this.extender != null) {
-            // use parameter block to allow mixing JAI and JAI-EXT
+            // use parameter block to allow mixing ImageN and ImageN-EXT
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(leftPadding);
@@ -201,7 +201,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
             pb.add(extender);
             pb.add(noData);
             pb.add(destinationNoData);
-            extendedIMG = JAI.create("Border", pb, hints);
+            extendedIMG = ImageN.create("Border", pb, hints);
             this.destBounds = getBounds();
         } else {
             int x0 = getMinX() + leftPadding;

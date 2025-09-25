@@ -63,7 +63,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * that of dealing with Network errors as mentioned above.
  *
  * @see RemoteImagingException
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public abstract class PlanarImageServerProxy extends PlanarImage implements RemoteRenderedImage {
 
@@ -176,8 +176,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
 
         if (hints == null) {
             // If there are no hints specified, use default values
-            registry = JAI.getDefaultInstance().getOperationRegistry();
-            cache = JAI.getDefaultInstance().getTileCache();
+            registry = ImageN.getDefaultInstance().getOperationRegistry();
+            cache = ImageN.getDefaultInstance().getTileCache();
             retryInterval = RemoteJAI.DEFAULT_RETRY_INTERVAL;
             numRetries = RemoteJAI.DEFAULT_NUM_RETRIES;
 
@@ -186,14 +186,14 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
             setNegotiationPreferences(null);
         } else {
 
-            registry = (OperationRegistry) hints.get(JAI.KEY_OPERATION_REGISTRY);
+            registry = (OperationRegistry) hints.get(ImageN.KEY_OPERATION_REGISTRY);
             if (registry == null) {
-                registry = JAI.getDefaultInstance().getOperationRegistry();
+                registry = ImageN.getDefaultInstance().getOperationRegistry();
             }
 
-            cache = (TileCache) hints.get(JAI.KEY_TILE_CACHE);
+            cache = (TileCache) hints.get(ImageN.KEY_TILE_CACHE);
             if (cache == null) {
-                cache = JAI.getDefaultInstance().getTileCache();
+                cache = ImageN.getDefaultInstance().getTileCache();
             }
 
             Integer integer = (Integer) hints.get(RemoteJAI.KEY_RETRY_INTERVAL);
@@ -210,7 +210,7 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
                 numRetries = integer.intValue();
             }
 
-            tileCacheMetric = (Object) hints.get(JAI.KEY_TILE_CACHE_METRIC);
+            tileCacheMetric = (Object) hints.get(ImageN.KEY_TILE_CACHE_METRIC);
 
             // Cause negotiation to take place.
             setNegotiationPreferences((NegotiableCapabilitySet) hints.get(RemoteJAI.KEY_NEGOTIATION_PREFERENCES));
@@ -820,8 +820,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
 
     void sendExceptionToListener(Exception e) {
         ImagingListener listener = null;
-        if (hints != null) listener = (ImagingListener) hints.get(JAI.KEY_IMAGING_LISTENER);
-        else listener = JAI.getDefaultInstance().getImagingListener();
+        if (hints != null) listener = (ImagingListener) hints.get(ImageN.KEY_IMAGING_LISTENER);
+        else listener = ImageN.getDefaultInstance().getImagingListener();
         String message = JaiI18N.getString("PlanarImageServerProxy2");
         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
     }

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
@@ -38,16 +38,16 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /**
  * The LookupOpImage class performs the lookup operation on an image with integral data type. This operation consist of
- * passing the input pixels through a lookupTable(an array) of all the JAI data types. The output pixels are calculated
- * from the table values by simply taking the array value associated to the selected index indicated by the input pixel.
- * The table and source data type can be different, and the destination image will have the table data type. Even the
- * band number can be different, in this case the destination image number will depend from the source and table band
- * numbers. If the destination sample model is not the same as that of the table, another one is created from the table.
- * A ROI object passed to the constructor is taken into account by passing to the table the informations extracted from
- * it; an eventual No Data Range is passed to table if present. If No Data or ROI are used, then the destination No Data
- * value is passed to the table. The image calculation is performed by calling the computeRect() method that selects an
- * image tile, a raster containing Roi data if Roi RasterAccessor is used, and then these parameters are passed to the
- * table that executes the lookup operation.
+ * passing the input pixels through a lookupTable(an array) of all the ImageN data types. The output pixels are
+ * calculated from the table values by simply taking the array value associated to the selected index indicated by the
+ * input pixel. The table and source data type can be different, and the destination image will have the table data
+ * type. Even the band number can be different, in this case the destination image number will depend from the source
+ * and table band numbers. If the destination sample model is not the same as that of the table, another one is created
+ * from the table. A ROI object passed to the constructor is taken into account by passing to the table the informations
+ * extracted from it; an eventual No Data Range is passed to table if present. If No Data or ROI are used, then the
+ * destination No Data value is passed to the table. The image calculation is performed by calling the computeRect()
+ * method that selects an image tile, a raster containing Roi data if Roi RasterAccessor is used, and then these
+ * parameters are passed to the table that executes the lookup operation.
  */
 public class LookupOpImage extends ColormapOpImage {
 
@@ -131,7 +131,7 @@ public class LookupOpImage extends ColormapOpImage {
             pb.set(topP, 2);
             pb.set(bottomP, 3);
             pb.set(roiExtender, 4);
-            srcROIImgExt = JAI.create("border", pb);
+            srcROIImgExt = ImageN.create("border", pb);
             // Boolean indicating if roi is present
             hasROI = true;
 

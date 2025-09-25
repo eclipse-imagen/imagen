@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import java.io.IOException;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.TileCache;
@@ -65,25 +65,25 @@ public class StreamRIF implements RenderedImageFactory {
 
         String[] names = ImageCodec.getDecoderNames(src);
 
-        OperationRegistry registry = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
         int bound = OpImage.OP_IO_BOUND;
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
 
         if (renderHints != null) {
             RenderingHints.Key key;
 
-            key = JAI.KEY_OPERATION_REGISTRY;
+            key = ImageN.KEY_OPERATION_REGISTRY;
             if (renderHints.containsKey(key)) {
                 registry = (OperationRegistry) renderHints.get(key);
             }
 
-            key = JAI.KEY_OPERATION_BOUND;
+            key = ImageN.KEY_OPERATION_BOUND;
             if (renderHints.containsKey(key)) {
                 bound = ((Integer) renderHints.get(key)).intValue();
             }
         }
 
-        // Try to create a JAI operation with the given name
+        // Try to create a ImageN operation with the given name
         for (int i = 0; i < names.length; i++) {
             RenderedImageFactory rif = null;
             try {

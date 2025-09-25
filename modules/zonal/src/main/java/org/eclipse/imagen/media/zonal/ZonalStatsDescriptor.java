@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.List;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -55,7 +55,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </ul>
  *
  * <p>It is important to remember that if the Median, Mode or Histogram operations must be executed, even their Bounds
- * and Bin numbers must be defined. The source can have all the possible JAI accepted data types. The statistical
+ * and Bin numbers must be defined. The source can have all the possible ImageN accepted data types. The statistical
  * calculations are performed on every tile with an adequate synchronization and stored inside an instance of the
  * {@link ZoneGeometry} class. For avoiding concurrency issues, the statistic calculation is done in a synchronized
  * block. The statistical results are returned by calling the getProperty() method. The calculation happens only the
@@ -220,7 +220,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 public class ZonalStatsDescriptor extends OperationDescriptorImpl {
 
     /** Zonal Statistics property name */
-    public static final String ZS_PROPERTY = "JAI-EXT.zonalstats";
+    public static final String ZS_PROPERTY = "ImageN-EXT.zonalstats";
 
     /**
      * The resource strings that provide the general documentation and specify the parameter list for this operation.
@@ -294,9 +294,9 @@ public class ZonalStatsDescriptor extends OperationDescriptorImpl {
      * Performs statistical operations on different image zones defined by the input geometry list.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source <code>RenderedImage</code> source image.
@@ -354,16 +354,16 @@ public class ZonalStatsDescriptor extends OperationDescriptorImpl {
         pb.setParameter("localStats", localStats);
 
         // RenderedImage creation
-        return JAI.create("Zonal", pb, hints);
+        return ImageN.create("Zonal", pb, hints);
     }
 
     /**
      * Performs statistical operations on different image zones defined by the input geometry list.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source <code>RenderedImage</code> source image.

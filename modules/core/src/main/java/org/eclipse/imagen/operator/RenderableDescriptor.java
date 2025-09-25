@@ -21,8 +21,8 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
@@ -176,11 +176,11 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
                     DEFAULT_KERNEL_1D);
             pb.add(kernel);
             BorderExtender extender = BorderExtender.createInstance(BorderExtender.BORDER_COPY);
-            RenderingHints hints = JAI.getDefaultInstance().getRenderingHints();
+            RenderingHints hints = ImageN.getDefaultInstance().getRenderingHints();
             if (hints == null) {
-                hints = new RenderingHints(JAI.KEY_BORDER_EXTENDER, extender);
+                hints = new RenderingHints(ImageN.KEY_BORDER_EXTENDER, extender);
             } else {
-                hints.put(JAI.KEY_BORDER_EXTENDER, extender);
+                hints.put(ImageN.KEY_BORDER_EXTENDER, extender);
             }
 
             RenderedOp filter = new RenderedOp("convolve", pb, hints);
@@ -216,9 +216,9 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
      * Produces a RenderableImage from a RenderedImage.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -249,6 +249,6 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
         pb.setParameter("minY", minY);
         pb.setParameter("height", height);
 
-        return JAI.createRenderable("Renderable", pb, hints);
+        return ImageN.createRenderable("Renderable", pb, hints);
     }
 }

@@ -22,7 +22,7 @@ import java.awt.Transparency;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
@@ -224,7 +224,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                               <td>double[] {0.0}</td>
  * </table>
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public class MosaicDescriptor extends OperationDescriptorImpl {
 
@@ -289,9 +289,9 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
      * Creates a mosaic of two or more rendered images.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param sources <code>RenderedImage</code> sources.
@@ -326,6 +326,6 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
         pb.setParameter("sourceThreshold", sourceThreshold);
         pb.setParameter("backgroundValues", backgroundValues);
 
-        return JAI.create("Mosaic", pb, hints);
+        return ImageN.create("Mosaic", pb, hints);
     }
 }

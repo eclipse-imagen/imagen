@@ -19,7 +19,7 @@ package org.eclipse.imagen.operator;
 
 import java.awt.Image;
 import java.awt.RenderingHints;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
@@ -96,9 +96,9 @@ public class AWTImageDescriptor extends OperationDescriptorImpl {
      * Converts a java.awt.Image into a rendered image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param awtImage The AWT image to be converted.
@@ -111,6 +111,6 @@ public class AWTImageDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("awtImage", awtImage);
 
-        return JAI.create("AWTImage", pb, hints);
+        return ImageN.create("AWTImage", pb, hints);
     }
 }

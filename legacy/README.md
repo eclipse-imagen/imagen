@@ -1,0 +1,1 @@
+These "legacy" are from the original Java Advanced Imaging project, and are provided as-is for compatibility with existing applications.

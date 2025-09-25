@@ -7,12 +7,10 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.operator.TransposeDescriptor;
 
@@ -75,7 +73,7 @@ public class JAITransposePanel extends JAIDemoPanel implements ItemListener {
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(im);
             pb.add(type);
-            return JAI.create("transpose", pb, renderHints);
+            return ImageN.create("transpose", pb, renderHints);
         }
     }
 

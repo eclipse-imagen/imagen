@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -24,7 +24,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import junit.framework.TestCase;
 import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RasterAccessor;
@@ -38,7 +38,7 @@ import org.eclipse.imagen.media.util.Rational;
 import org.junit.Test;
 
 /**
- * This class extends the TestCase class and is used for testing the 3 interpolation types used in various JAI-EXT
+ * This class extends the TestCase class and is used for testing the 3 interpolation types used in various ImageN-EXT
  * modules: Nearest-Neighbor, Bilinear, Bicubic. The 9 tests are divided in 3 groups, one for every interpolation type.
  * Inside every method all the data types are tested. Inside every group there are 3 kind of tests:
  *
@@ -1945,7 +1945,7 @@ public class InterpTest extends TestCase {
         }
 
         // Create the constant operation.
-        RenderedImage constant = JAI.create("constant", pb);
+        RenderedImage constant = ImageN.create("constant", pb);
         // From the old constant image another tiled image is created for writing on its pixels
         writeImage = new TiledImage(constant, (int) (DEFAULT_WIDTH / 16), (int) (DEFAULT_HEIGHT / 16));
         // index for iterating on the image pixel.

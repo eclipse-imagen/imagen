@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedImageAdapter;
@@ -130,7 +130,7 @@ public class FileStoreRIF implements RenderedImageFactory {
 
         // Get the default registry.
         OperationRegistry registry =
-                (renderHints == null) ? null : (OperationRegistry) renderHints.get(JAI.KEY_OPERATION_REGISTRY);
+                (renderHints == null) ? null : (OperationRegistry) renderHints.get(ImageN.KEY_OPERATION_REGISTRY);
 
         PlanarImage im = new FileStoreImage(RIFRegistry.create(registry, "encode", pb, renderHints), stream);
 

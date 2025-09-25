@@ -58,14 +58,14 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * A helper object to manage firing events.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected PropertyChangeSupportJAI eventManager = null;
 
     /**
      * A helper object to manage the image properties.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected WritablePropertySourceImpl properties = null;
 
@@ -123,7 +123,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * will be returned. The default implementation returns <code>null</code>, i.e., no property names are recognized.
      *
      * @return an array of Strings representing valid property names.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public String[] getPropertyNames() {
         return properties.getPropertyNames();
@@ -152,7 +152,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Class getPropertyClass(String name) {
         return properties.getPropertyClass(name);
@@ -177,7 +177,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
      * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void setProperty(String name, Object value) {
         properties.setProperty(name, value);
@@ -189,7 +189,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * @return The value of the property removed or <code>java.awt.Image.UndefinedProperty</code> if it was not present
      *     in the property set.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
@@ -198,7 +198,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
@@ -208,7 +208,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
@@ -218,7 +218,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
@@ -227,7 +227,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
@@ -274,9 +274,9 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * Returns a rendering with a given width, height, and rendering hints.
      *
-     * <p>If a JAI rendering hint named <code>JAI.KEY_INTERPOLATION</code> is provided, its corresponding <code>
-     * Interpolation</code> object is used as an argument to the JAI operator used to scale the image. If no such hint
-     * is present, an instance of <code>InterpolationNearest</code> is used.
+     * <p>If a ImageN rendering hint named <code>ImageN.KEY_INTERPOLATION</code> is provided, its corresponding <code>
+     * Interpolation</code> object is used as an argument to the ImageN operator used to scale the image. If no such
+     * hint is present, an instance of <code>InterpolationNearest</code> is used.
      *
      * @param width the width of the rendering in pixels.
      * @param height the height of the rendering in pixels.
@@ -317,7 +317,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
 
         Interpolation interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         if (hints != null) {
-            Object obj = hints.get(JAI.KEY_INTERPOLATION);
+            Object obj = hints.get(ImageN.KEY_INTERPOLATION);
             if (obj != null) {
                 interp = (Interpolation) obj;
             }
@@ -331,7 +331,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
         pb.add((float) ty);
         pb.add(interp);
 
-        return JAI.create("scale", pb, null);
+        return ImageN.create("scale", pb, null);
     }
 
     /** Returns the full resolution source RenderedImage with no rendering hints. */
@@ -342,8 +342,8 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * Returns a rendering based on a RenderContext.
      *
-     * <p>If a JAI rendering hint named <code>JAI.KEY_INTERPOLATION</code> is provided, its corresponding <code>
-     * Interpolation</code> object is used as an argument to the JAI operator used to transform the image. If no such
+     * <p>If a ImageN rendering hint named <code>ImageN.KEY_INTERPOLATION</code> is provided, its corresponding <code>
+     * Interpolation</code> object is used as an argument to the ImageN operator used to transform the image. If no such
      * hint is present, an instance of <code>InterpolationNearest</code> is used.
      *
      * <p>The <code>RenderContext</code> may contain a <code>Shape</code> that represents the area-of-interest (aoi). If
@@ -394,7 +394,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
 
         Interpolation interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         if (hints != null) {
-            Object obj = hints.get(JAI.KEY_INTERPOLATION);
+            Object obj = hints.get(ImageN.KEY_INTERPOLATION);
             if (obj != null) {
                 interp = (Interpolation) obj;
             }
@@ -405,7 +405,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
         pb.add(transform);
         pb.add(interp);
 
-        return JAI.create("affine", pb, null);
+        return ImageN.create("affine", pb, null);
     }
 
     /**

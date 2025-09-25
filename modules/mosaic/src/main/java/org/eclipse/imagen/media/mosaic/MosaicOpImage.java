@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 - 2015 GeoSolutions
 
@@ -38,7 +38,7 @@ import java.util.Vector;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.BorderExtenderConstant;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
@@ -668,15 +668,15 @@ public class MosaicOpImage extends OpImage {
                                 DataBuffer.TYPE_BYTE, image.getWidth(), image.getHeight(), 1);
                         il.setColorModel(binaryCm);
                         il.setSampleModel(binarySm);
-                        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
-                        hints.put(JAI.KEY_TRANSFORM_ON_COLORMAP, false);
+                        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
+                        hints.put(ImageN.KEY_TRANSFORM_ON_COLORMAP, false);
 
                         LookupTableJAI lt = buildNoDataLookupTable(dataType, noDataRange);
 
                         ParameterBlock pb = new ParameterBlock();
                         pb.setSource(image, 0);
                         pb.set(lt, 0);
-                        RenderedOp noDataMask = JAI.create("lookup", pb, hints);
+                        RenderedOp noDataMask = ImageN.create("lookup", pb, hints);
                         noDataMask.getTile(0, 0);
 
                         ROI noDataRoi = new ROI(noDataMask);

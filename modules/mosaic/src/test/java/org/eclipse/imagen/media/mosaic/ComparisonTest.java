@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.media.nullop.NullDescriptor;
 import org.eclipse.imagen.media.range.Range;
@@ -53,7 +53,7 @@ public class ComparisonTest extends ComparisonTestBase {
         int width = image1.getWidth();
         // layout creation (same height of the source images, doubled width)
         ImageLayout layout = new ImageLayout(0, 0, image1.getWidth() + image2.getWidth(), image1.getHeight());
-        hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // translation of the first image
         RenderedImage image3 = TranslateDescriptor.create(image1, (float) ((int) (width * 0.1F)), 0F, null, null);
@@ -95,6 +95,6 @@ public class ComparisonTest extends ComparisonTestBase {
         pb.add(height);
         pb.add(array);
         // Create the constant operation.
-        return JAI.create("constant", pb);
+        return ImageN.create("constant", pb);
     }
 }

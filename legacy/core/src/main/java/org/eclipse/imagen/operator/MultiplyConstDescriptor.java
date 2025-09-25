@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -136,9 +136,9 @@ public class MultiplyConstDescriptor extends OperationDescriptorImpl {
      * Multiplies an image by constants.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -154,16 +154,16 @@ public class MultiplyConstDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("constants", constants);
 
-        return JAI.create("MultiplyConst", pb, hints);
+        return ImageN.create("MultiplyConst", pb, hints);
     }
 
     /**
      * Multiplies an image by constants.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -179,6 +179,6 @@ public class MultiplyConstDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("constants", constants);
 
-        return JAI.createRenderable("MultiplyConst", pb, hints);
+        return ImageN.createRenderable("MultiplyConst", pb, hints);
     }
 }

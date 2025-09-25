@@ -59,10 +59,10 @@ import org.eclipse.imagen.media.util.PropertyUtil;
  * origin is the top-left corner of the square (0, 0), and its energy center is located at the center of the square
  * (0.5, 0.5).
  *
- * <p>This is the fundamental base class of Java Advanced Imaging (JAI) that represents a two-dimensional <code>
+ * <p>This is the fundamental base class of Java Advanced Imaging (ImageN) that represents a two-dimensional <code>
  * RenderedImage</code>.
  *
- * <p>This class provides a home for the information and functionalities common to all the JAI classes that implement
+ * <p>This class provides a home for the information and functionalities common to all the ImageN classes that implement
  * the <code>RenderedImage</code> interface, such as the image's layout, sources, properties, etc. The image layout,
  * sources, and properties may be set either at construction or subsequently using one of the mutator methods supplied
  * for the respective attribute. In general this class does not perform sanity checking on the state of its variables so
@@ -80,14 +80,15 @@ import org.eclipse.imagen.media.util.PropertyUtil;
  *
  * <p>A <code>PlanarImage</code> may have any number of <code>RenderedImage</code> sources or no source at all.
  *
- * <p>All non-JAI <code>RenderedImage</code> instances must be converted into <code>PlanarImage</code>s by means of the
- * <code>RenderedImageAdapter</code> and <code>WritableRenderedImageAdapter</code> classes. The <code>wrapRenderedImage
+ * <p>All non-ImageN <code>RenderedImage</code> instances must be converted into <code>PlanarImage</code>s by means of
+ * the <code>RenderedImageAdapter</code> and <code>WritableRenderedImageAdapter</code> classes. The <code>
+ * wrapRenderedImage
  * </code> method provides a convenient interface to both add a wrapper and take a snapshot if the image is writable.
  * All of the <code>PlanarImage</code> constructors perform this wrapping automatically. Images that already extend
  * <code>PlanarImage</code> will be returned unchanged by <code>wrapRenderedImage</code>; that is, it is idempotent.
  *
  * <p>Going in the other direction, existing code that makes use of the <code>RenderedImage</code> interface will be
- * able to use <code>PlanarImage</code>s directly, without any changes or recompilation. Therefore, within JAI,
+ * able to use <code>PlanarImage</code>s directly, without any changes or recompilation. Therefore, within ImageN,
  * two-dimensional images are returned from methods as <code>PlanarImage</code>s, even though incoming <code>
  * RenderedImages</code> are accepted as arguments directly.
  *
@@ -189,7 +190,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * null</code> unless initialized via the configuration properties passed to
      * {@link #PlanarImage(ImageLayout,Vector,Map)}.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     protected TileFactory tileFactory = null;
 
@@ -202,14 +203,14 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * A helper object to manage firing events.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected PropertyChangeSupportJAI eventManager = null;
 
     /**
      * A helper object to manage the image properties.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected WritablePropertySourceImpl properties = null;
 
@@ -283,7 +284,8 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * which is either a <code>String</code> or a <code>CaselessStringKey</code> are interpreted as image properties and
      * will be copied to the property database of this image. This parameter may be <code>null</code>.
      *
-     * <p>If a {@link TileFactory}-valued mapping of the key {@link JAI#KEY_TILE_FACTORY} is present in <code>properties
+     * <p>If a {@link TileFactory}-valued mapping of the key {@link ImageN#KEY_TILE_FACTORY} is present in <code>
+     * properties
      * </code>, then set the instance variable <code>tileFactory</code> to the specified <code>TileFactory</code>. This
      * <code>TileFactory</code> will be used by {@link #createWritableRaster(SampleModel,Point)} to create <code>Raster
      * </code>s, notably in {@link #getData(Rectangle)}, {@link #copyData(WritableRaster)}, and
@@ -298,7 +300,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *     with the <code>SampleModel</code>
      * @throws IllegalArgumentException If <code>sources</code> is non-<code>null</code> and any object in <code>sources
      *     </code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public PlanarImage(ImageLayout layout, Vector sources, Map properties) {
         this();
@@ -320,8 +322,8 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
             this.properties.addProperties(properties);
 
             // Set tileFactory if key present.
-            if (properties.containsKey(JAI.KEY_TILE_FACTORY)) {
-                Object factoryValue = properties.get(JAI.KEY_TILE_FACTORY);
+            if (properties.containsKey(ImageN.KEY_TILE_FACTORY)) {
+                Object factoryValue = properties.get(ImageN.KEY_TILE_FACTORY);
 
                 // Check the class type in case 'properties' is not
                 // an instance of RenderingHints.
@@ -371,7 +373,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @throws <code>IllegalArgumentException</code> if <code>layout</code> is <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if a <code>ColorModel</code> is specified in the layout and it is
      *     incompatible with the <code>SampleModel</code>
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected void setImageLayout(ImageLayout layout) {
         if (layout == null) {
@@ -449,7 +451,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * Wraps an arbitrary <code>RenderedImage</code> to produce a <code>PlanarImage</code>. <code>PlanarImage</code>
      * adds various properties to an image, such as source and sink vectors and the ability to produce snapshots, that
-     * are necessary for JAI.
+     * are necessary for ImageN.
      *
      * <p>If the image is already a <code>PlanarImage</code>, it is simply returned unchanged. Otherwise, the image is
      * wrapped in a <code>RenderedImageAdapter</code> or <code>WritableRenderedImageAdapter</code> as appropriate.
@@ -549,7 +551,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * Retrieve the number of image bands. Note that this will not equal the number of color components if the image has
      * an <code>IndexColorModel</code>. This is equivalent to calling <code>getSampleModel().getNumBands()</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public int getNumBands() {
         return getSampleModel().getNumBands();
@@ -843,7 +845,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @param dataType The data type of the <code>ColorModel</code>.
      * @param numBands The number of bands of the pixels the created <code>ColorModel</code> is going to work with.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static ColorModel getDefaultColorModel(int dataType, int numBands) {
         if (dataType < DataBuffer.TYPE_BYTE
@@ -947,7 +949,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * Returns the value of the instance variable <code>tileFactory</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public TileFactory getTileFactory() {
         return tileFactory;
@@ -983,7 +985,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @return A <code>PlanarImage</code> source.
      * @throws ArrayIndexOutOfBoundsException If this image has no immediate source, or if the index is negative or
      *     greater than the maximum source index.
-     * @deprecated as of JAI 1.1. Use <code>getSourceImage()</code>.
+     * @deprecated as of ImageN 1.1. Use <code>getSourceImage()</code>.
      * @see PlanarImage#getSourceImage(int)
      */
     public PlanarImage getSource(int index) {
@@ -1078,7 +1080,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @return A <code>PlanarImage</code> source.
      * @throws ArrayIndexOutOfBoundsException If this image has no immediate source, or if the index is negative or
      *     greater than the maximum source index.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public PlanarImage getSourceImage(int index) {
         if (sources == null) {
@@ -1098,7 +1100,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @return An <code>Object</code> source.
      * @throws ArrayIndexOutOfBoundsException If this image has no immediate source, or if the index is negative or
      *     greater than the maximum source index.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Object getSourceObject(int index) {
         if (sources == null) {
@@ -1117,7 +1119,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @param source An <code>Object</code> to be added as an immediate source of this image.
      * @throws IllegalArgumentException If <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected void addSource(Object source) {
         if (source == null) {
@@ -1152,7 +1154,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @throws ArrayIndexOutOfBoundsException If this image has no immediate source, or if there is no source
      *     corresponding to the index value.
      * @throws IllegalArgumentException If <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected void setSource(Object source, int index) {
         if (source == null) {
@@ -1181,7 +1183,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @param source The <code>Object</code> source to be removed.
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
      * @throws IllegalArgumentException If <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected boolean removeSource(Object source) {
         if (source == null) {
@@ -1241,7 +1243,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @return <code>true</code> if the element was added, <code>false</code> otherwise.
      * @throws IllegalArgumentException if <code>sink</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public synchronized boolean addSink(Object sink) {
         if (sink == null) {
@@ -1267,7 +1269,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
      * @throws IllegalArgumentException if <code>sink</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public synchronized boolean removeSink(Object sink) {
         if (sink == null) {
@@ -1305,7 +1307,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @param sink A <code>PlanarImage</code> to be added as a sink.
      * @throws IllegalArgumentException If <code>sink</code> is <code>null</code>.
-     * @deprecated as of JAI 1.1. Use <code>addSink(Object)</code> instead.
+     * @deprecated as of ImageN 1.1. Use <code>addSink(Object)</code> instead.
      */
     protected void addSink(PlanarImage sink) {
         if (sink == null) {
@@ -1330,7 +1332,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
      * @throws IllegalArgumentException If <code>sink</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException If <code>sink</code> is not in the sink list.
-     * @deprecated as of JAI 1.1. Use <code>removeSink(Object)</code> instead.
+     * @deprecated as of ImageN 1.1. Use <code>removeSink(Object)</code> instead.
      */
     protected boolean removeSink(PlanarImage sink) {
         if (sink == null) {
@@ -1389,7 +1391,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Class getPropertyClass(String name) {
         return properties.getPropertyClass(name);
@@ -1412,7 +1414,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * attempts to remove properties.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
@@ -1444,7 +1446,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
@@ -1454,7 +1456,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName.toLowerCase(), listener);
@@ -1464,7 +1466,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
@@ -1473,7 +1475,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName.toLowerCase(), listener);
@@ -1492,7 +1494,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @param listener The <code>TileComputationListener</code> to register.
      * @throws IllegalArgumentException if <code>listener</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public synchronized void addTileComputationListener(TileComputationListener listener) {
         if (listener == null) {
@@ -1509,7 +1511,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      *
      * @param listener The <code>TileComputationListener</code> to unregister.
      * @throws IllegalArgumentException if <code>listener</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public synchronized void removeTileComputationListener(TileComputationListener listener) {
         if (listener == null) {
@@ -1528,7 +1530,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * method is invoked.
      *
      * @return All <code>TileComputationListener</code>s or <code>null</code> if there are none.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TileComputationListener[] getTileComputationListeners() {
 
@@ -1582,7 +1584,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @param region The <code>Rectangle</code> of interest.
      * @return An array of the indices of overlapping tiles or <code>null</code> if <code>region</code> does not
      *     intersect the image bounds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Point[] getTileIndices(Rectangle region) {
         if (region == null) {
@@ -1653,7 +1655,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * @param location The origin of the <code>WritableRaster</code>; if <code>null</code>, <code>(0,&nbsp;0)</code>
      *     will be used.
      * @throws IllegalArgumentException if <code>sampleModel</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     protected final WritableRaster createWritableRaster(SampleModel sampleModel, Point location) {
 
@@ -2178,14 +2180,14 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * Queues a list of tiles for computation. Registered listeners will be notified after each tile has been computed.
      *
-     * <p>The <code>TileScheduler</code> of the default instance of the <code>JAI</code> class is used to process the
+     * <p>The <code>TileScheduler</code> of the default instance of the <code>ImageN</code> class is used to process the
      * tiles. If this <code>TileScheduler</code> has a positive parallelism this method will be non-blocking. The event
      * source parameter passed to such listeners will be the <code>TileScheduler</code> and the image parameter will be
      * this image.
      *
      * @param tileIndices A list of tile indices indicating which tiles to schedule for computation.
      * @throws IllegalArgumentException If <code>tileIndices</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         if (tileIndices == null) {
@@ -2193,7 +2195,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         }
 
         TileComputationListener[] listeners = getTileComputationListeners();
-        return JAI.getDefaultInstance().getTileScheduler().scheduleTiles(this, tileIndices, listeners);
+        return ImageN.getDefaultInstance().getTileScheduler().scheduleTiles(this, tileIndices, listeners);
     }
 
     /**
@@ -2201,28 +2203,29 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * this method as a no-op.
      *
      * <p>The cancellation request is forwarded to the <code>TileScheduler</code> of the default instance of the <code>
-     * JAI</code> class.
+     * ImageN</code> class.
      *
      * @param request The request for which tiles are to be cancelled.
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException If <code>request</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic4"));
         }
 
-        JAI.getDefaultInstance().getTileScheduler().cancelTiles(request, tileIndices);
+        ImageN.getDefaultInstance().getTileScheduler().cancelTiles(request, tileIndices);
     }
 
     /**
      * Hints that the given tiles might be needed in the near future. Some implementations may spawn a thread or threads
      * to compute the tiles while others may ignore the hint.
      *
-     * <p>The <code>TileScheduler</code> of the default instance of the <code>JAI</code> class is used to prefetch the
-     * tiles. If this <code>TileScheduler</code> has a positive prefetch parallelism this method will be non-blocking.
+     * <p>The <code>TileScheduler</code> of the default instance of the <code>ImageN</code> class is used to prefetch
+     * the tiles. If this <code>TileScheduler</code> has a positive prefetch parallelism this method will be
+     * non-blocking.
      *
      * @param tileIndices A list of tile indices indicating which tiles to prefetch.
      * @throws IllegalArgumentException If <code>tileIndices</code> is <code>null</code>.
@@ -2232,7 +2235,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
-        JAI.getDefaultInstance().getTileScheduler().prefetchTiles(this, tileIndices);
+        ImageN.getDefaultInstance().getTileScheduler().prefetchTiles(this, tileIndices);
     }
 
     /**
@@ -2316,7 +2319,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     /**
      * Returns a <code>String</code> which includes the basic information of this image.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public String toString() {
         return "PlanarImage[" + "minX="

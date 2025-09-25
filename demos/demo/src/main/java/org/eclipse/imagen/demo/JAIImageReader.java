@@ -9,7 +9,7 @@ package org.eclipse.imagen.demo;
 
 import java.awt.image.IndexColorModel;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.media.codec.FileSeekableStream;
@@ -22,9 +22,9 @@ public class JAIImageReader {
     public static PlanarImage readImage(String filename) {
         PlanarImage image = null;
 
-        // Use the JAI API unless JAI_IMAGE_READER_USE_CODECS is set
+        // Use the ImageN API unless JAI_IMAGE_READER_USE_CODECS is set
         if (System.getProperty("JAI_IMAGE_READER_USE_CODECS") == null) {
-            image = JAI.create("fileload", filename);
+            image = ImageN.create("fileload", filename);
         } else {
             try {
                 // Use the ImageCodec APIs
@@ -59,7 +59,7 @@ public class JAIImageReader {
             LookupTableJAI lut = new LookupTableJAI(lutData);
 
             // Replace the original image with the 3-band RGB image.
-            image = JAI.create("lookup", image, lut);
+            image = ImageN.create("lookup", image, lut);
         }
 
         return image;

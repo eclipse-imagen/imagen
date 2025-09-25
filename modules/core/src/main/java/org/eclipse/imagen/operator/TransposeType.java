@@ -25,7 +25,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * </code>, <code>FLIP_HORIZONTAL</code>, <code>FLIP_DIAGONAL</code>, <code>FLIP_ANTIDIAGONAL</code>, <code>ROTATE_90
  * </code>, <code>ROTATE_180</code>, and <code>ROTATE_270</code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class TransposeType extends EnumeratedParameter {
     TransposeType(String name, int value) {

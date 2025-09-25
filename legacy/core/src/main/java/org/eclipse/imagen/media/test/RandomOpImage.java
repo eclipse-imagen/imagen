@@ -118,7 +118,7 @@ final class RandomOpImage extends SourcelessOpImage {
 
         ScrollingImagePanel panel = new ScrollingImagePanel(image, 120, 120);
 
-        Frame window = new Frame("JAI RandomOpImage Test");
+        Frame window = new Frame("ImageN RandomOpImage Test");
         window.add(panel);
         window.pack();
         window.show();

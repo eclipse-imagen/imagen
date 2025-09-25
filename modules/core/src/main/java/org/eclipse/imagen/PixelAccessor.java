@@ -83,7 +83,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * <p>In addition, several static methods are included in this class for the convenience of <code>OpImage</code>
  * developers, who may use them to help determine the appropriate destination <code>SampleModel</code> type.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class PixelAccessor {
 

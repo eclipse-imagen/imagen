@@ -24,7 +24,8 @@ package org.eclipse.imagen.media.codec;
  * SampleModel</code> which is a <code>ComponentSampleModel</code> or a subclass thereof. By default data are decoded
  * into an image having a <code>ComponentSampleModel</code>.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class JPEGDecodeParam implements ImageDecodeParam {
 

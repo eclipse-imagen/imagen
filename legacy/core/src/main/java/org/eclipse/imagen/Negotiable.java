@@ -26,7 +26,7 @@ import java.io.Serializable;
  * order to retrieve a single negotiated value out of the <code>Negotiable</code>, the <code>getNegotiatedValue()</code>
  * method can be used at any point during this series of negotiations.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface Negotiable extends Serializable {
 

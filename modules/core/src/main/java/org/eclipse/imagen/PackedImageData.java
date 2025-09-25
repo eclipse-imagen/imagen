@@ -26,7 +26,7 @@ import java.awt.image.Raster;
  * pixels packed into one <code>byte</code>. To insure that each scanline has an integral number of bytes the last byte
  * may be padded with zeros.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class PackedImageData {
 

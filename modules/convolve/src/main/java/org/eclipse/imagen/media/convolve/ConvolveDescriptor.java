@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -20,7 +20,7 @@ package org.eclipse.imagen.media.convolve;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
@@ -67,12 +67,14 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>The kernel may not be bigger in any dimension than the image data.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>
@@ -222,9 +224,9 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
      * Performs kernel-based convolution on an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -257,6 +259,6 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
         pb.setParameter("destNoData", destNoData);
         pb.setParameter("skipNoData", skipNoData);
 
-        return JAI.create("Convolve", pb, hints);
+        return ImageN.create("Convolve", pb, hints);
     }
 }

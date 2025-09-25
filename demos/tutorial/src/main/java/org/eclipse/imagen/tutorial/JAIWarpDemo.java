@@ -241,7 +241,7 @@ class WarpPanel extends JPanel implements MouseListener, MouseMotionListener {
             pb.addSource(srcImage);
             pb.add(warp);
             pb.add(new InterpolationNearest());
-            dstImage = JAI.create("warp", pb);
+            dstImage = ImageN.create("warp", pb);
         } else {
             coeffs = new float[2 * pointsNeeded];
             coeffs[1] = 1.0F;
@@ -422,7 +422,7 @@ public class JAIWarpDemo extends JPanel implements ActionListener, DemoListener 
 
     public JAIWarpDemo(String arg) {
         ParameterBlock pb = new ParameterBlock().add(arg);
-        RenderedImage im = JAI.create("fileload", pb, null);
+        RenderedImage im = ImageN.create("fileload", pb, null);
 
         warpPanel = new WarpPanel(im);
         warpPanel.addDemoListener(this);

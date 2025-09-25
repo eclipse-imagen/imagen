@@ -30,9 +30,9 @@ import java.util.Comparator;
  * </code> for each <code>OpImage</code>.
  *
  * <p>The <code>TileCache</code> used for a particular <code>OpImage</code> is derived from the <code>RenderingHints
- * </code> assigned to the associated imaging chain node. If the node is constructed using <code>JAI.create()</code> and
- * no <code>TileCache</code> is specified in the <code>RenderingHints</code> parameter, then one is derived from the
- * <code>RenderingHints</code> associated with the instance of the <code>JAI</code> class being used.
+ * </code> assigned to the associated imaging chain node. If the node is constructed using <code>ImageN.create()</code>
+ * and no <code>TileCache</code> is specified in the <code>RenderingHints</code> parameter, then one is derived from the
+ * <code>RenderingHints</code> associated with the instance of the <code>ImageN</code> class being used.
  *
  * <p>In the Sun reference implementation, the cache size is limited by the memory capacity, which is set to a default
  * value at construction or subsequently using the <code>setMemoryCapacity()</code> method. The initial value may be
@@ -40,7 +40,7 @@ import java.util.Comparator;
  * different tile sizes so that this metric is not a particularly meaningful control of memory resource consumption in
  * general.
  *
- * @see JAI
+ * @see ImageN
  * @see RenderedOp
  * @see java.awt.RenderingHints
  */
@@ -64,7 +64,7 @@ public interface TileCache {
      * @param tileY The Y index of the tile in the owner's tile grid.
      * @param data A <code>Raster</code> containing the tile data.
      * @param tileCacheMetric An <code>Object</code> as a tile metric.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void add(RenderedImage owner, int tileX, int tileY, Raster data, Object tileCacheMetric);
 
@@ -92,7 +92,7 @@ public interface TileCache {
      * @param owner The <code>RenderedImage</code> to which the tiles belong.
      * @return An array of all tiles owned by the specified image or <code>null</code> if there are none currently in
      *     the cache.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     Raster[] getTiles(RenderedImage owner);
 
@@ -113,7 +113,7 @@ public interface TileCache {
      * @param tiles The array of tile <code>Raster</code>s containing tile data.
      * @param tileCacheMetric Object which provides an ordering metric associated with the <code>RenderedImage</code>
      *     owner.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void addTiles(RenderedImage owner, Point[] tileIndices, Raster[] tiles, Object tileCacheMetric);
 
@@ -126,7 +126,7 @@ public interface TileCache {
      * @param owner The <code>RenderedImage</code> that the tile belongs to.
      * @param tileIndices An array of <code>Point</code>s containing the <code>tileX</code> and <code>tileY</code>
      *     indices for each tile.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     Raster[] getTiles(RenderedImage owner, Point[] tileIndices);
 
@@ -136,7 +136,7 @@ public interface TileCache {
     /**
      * Advises the cache that some of its tiles may be discarded. It is legal to implement this method as a no-op.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void memoryControl();
 
@@ -145,7 +145,7 @@ public interface TileCache {
      * are flushed from the cache. It is legal to implement this method as a no-op.
      *
      * @param tileCapacity The new capacity, in tiles.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     void setTileCapacity(int tileCapacity);
 
@@ -153,7 +153,7 @@ public interface TileCache {
      * Returns the tile capacity in tiles. It is legal to implement this method as a no-op which should be signaled by
      * returning zero.
      *
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     int getTileCapacity();
 
@@ -176,14 +176,14 @@ public interface TileCache {
      *
      * @param memoryThreshold. Retained fraction of memory
      * @throws IllegalArgumentException if the memoryThreshold is less than 0.0 or greater than 1.0
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void setMemoryThreshold(float memoryThreshold);
 
     /**
      * Returns the memory threshold, which is the fractional amount of cache memory to retain during tile removal.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     float getMemoryThreshold();
 
@@ -200,7 +200,7 @@ public interface TileCache {
      *
      * @param comparator A <code>Comparator</code> which orders the <code>CachedTile</code>s stored by the <code>
      *     TileCache</code>; if <code>null</code> an implementation-dependent algorithm will be used.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     void setTileComparator(Comparator comparator);
 
@@ -210,7 +210,7 @@ public interface TileCache {
      *
      * @return The tile <code>Comparator</code> or <code>null</code> if the implementation-dependent ordering algorithm
      *     is being used.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     Comparator getTileComparator();
 }

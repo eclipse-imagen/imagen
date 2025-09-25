@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -24,7 +24,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -50,8 +50,9 @@ import org.junit.Test;
  * </ul>
  *
  * All the tests are performed on all the image data types. If the source and destination images are byte images, then
- * they can be printed to the screen by setting the JVM parameter JAI.Ext.Interactive to true, and selecting one of the
- * 5 test-groups with the JVM integer parameter JAI.Ext.TestSelector. The user can choose between the following values:
+ * they can be printed to the screen by setting the JVM parameter ImageN.Ext.Interactive to true, and selecting one of
+ * the 5 test-groups with the JVM integer parameter ImageN.Ext.TestSelector. The user can choose between the following
+ * values:
  *
  * <ul>
  *   <li>0 No ROI only valid data
@@ -950,7 +951,7 @@ public class LookupTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Lookup");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Lookup");
         assertNotNull(descriptor);
         assertEquals("Lookup", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

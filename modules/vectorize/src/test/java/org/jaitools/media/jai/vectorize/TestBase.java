@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -70,7 +70,7 @@ public abstract class TestBase {
 
     @BeforeClass
     public static void quiet() {
-        JAI jai = JAI.getDefaultInstance();
+        ImageN jai = ImageN.getDefaultInstance();
         final ImagingListener imagingListener = jai.getImagingListener();
         if (imagingListener == null || imagingListener.getClass().getName().contains("ImagingListenerImpl")) {
             jai.setImagingListener(new ImagingListener() {
@@ -107,7 +107,7 @@ public abstract class TestBase {
             }
         }
 
-        return JAI.create("Vectorize", pb);
+        return ImageN.create("Vectorize", pb);
     }
 
     /**

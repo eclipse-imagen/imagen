@@ -45,7 +45,7 @@ import org.eclipse.imagen.UnpackedImageData;
  * on the lookup table generated from this <code>OpImage</code>.
  *
  * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.LookupTableJAI @JAI 1.1.2
+ * @see org.eclipse.imagen.LookupTableJAI @ImageN 1.1.2
  */
 abstract class ColorQuantizerOpImage extends PointOpImage {
     /**
@@ -195,7 +195,7 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     public Object getProperty(String name) {
         int numBands = sampleModel.getNumBands();
 
-        if (name.equals("JAI.LookupTable") || name.equals("LUT")) {
+        if (name.equals("ImageN.LookupTable") || name.equals("LUT")) {
             if (colorMap == null) train();
             return colorMap;
         }

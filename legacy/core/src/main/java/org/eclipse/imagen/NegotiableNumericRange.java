@@ -26,7 +26,7 @@ import org.eclipse.imagen.util.Range;
  * interface. <code>NegotiableNumericRange</code> is a convenience class to specify a <code>Negotiable</code> parameter
  * whose valid numeric values are specified by a <code>Range</code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class NegotiableNumericRange implements Negotiable {
 

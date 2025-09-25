@@ -20,7 +20,7 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -32,11 +32,11 @@ import org.eclipse.imagen.util.Range;
  * This <code>OperationDescriptor</code> defines the "ColorQuantizer" operation.
  *
  * <p>This operation generates an optimal lookup table (LUT) based on the provided 3-band RGB source image by executing
- * a color quantization algorithm. This LUT is stored in the property "JAI.LookupTable" that has a type of <code>
+ * a color quantization algorithm. This LUT is stored in the property "ImageN.LookupTable" that has a type of <code>
  * LookupTableJAI</code>. Thus, it can be retrieved by means of <code>getProperty</code>. This LUT can be further
  * utilized in other operations such as "errordiffusion" to convert the 3-band RGB image into a high-quality
  * color-indexed image. The computation of the LUT can be deferred by defining a <code>DeferredProperty</code> from the
- * property "JAI.LookupTable" and providing that as the parameter value for "errordiffusion". This operation also
+ * property "ImageN.LookupTable" and providing that as the parameter value for "errordiffusion". This operation also
  * creates a color-indexed destination image based on the nearest distance classification (without dithering). However,
  * the quality of this classification result may not be as good as the result of "errordiffusion".
  *
@@ -153,7 +153,7 @@ import org.eclipse.imagen.util.Range;
  *
  * @see org.eclipse.imagen.ROI
  * @see org.eclipse.imagen.OperationDescriptor
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
     /** The predefined color quantization algorithms. */
@@ -265,9 +265,9 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
      * Color quantization on the provided image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -301,6 +301,6 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
         pb.setParameter("xPeriod", xPeriod);
         pb.setParameter("yPeriod", yPeriod);
 
-        return JAI.create("ColorQuantizer", pb, hints);
+        return ImageN.create("ColorQuantizer", pb, hints);
     }
 }

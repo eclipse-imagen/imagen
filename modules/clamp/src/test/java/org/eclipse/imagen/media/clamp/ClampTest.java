@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2016 GeoSolutions
 
@@ -27,7 +27,7 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -334,7 +334,7 @@ public class ClampTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Clamp");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Clamp");
         assertNotNull(descriptor);
         assertEquals("Clamp", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

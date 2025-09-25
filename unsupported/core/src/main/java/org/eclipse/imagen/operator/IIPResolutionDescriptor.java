@@ -20,7 +20,7 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
 import java.net.URL;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
@@ -217,9 +217,9 @@ public class IIPResolutionDescriptor extends OperationDescriptorImpl {
      * Provides client support of the Internet Imaging Protocol in the rendered mode.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param URL The URL of the IIP image.
@@ -236,6 +236,6 @@ public class IIPResolutionDescriptor extends OperationDescriptorImpl {
         pb.setParameter("resolution", resolution);
         pb.setParameter("subImage", subImage);
 
-        return JAI.create("IIPResolution", pb, hints);
+        return ImageN.create("IIPResolution", pb, hints);
     }
 }

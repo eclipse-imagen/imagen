@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.media.codec.ImageCodec;
@@ -60,7 +60,7 @@ public class CodecRIFUtil {
             if (renderHints != null) {
                 RenderingHints.Key key;
 
-                key = JAI.KEY_OPERATION_BOUND;
+                key = ImageN.KEY_OPERATION_BOUND;
                 if (renderHints.containsKey(key)) {
                     bound = ((Integer) renderHints.get(key)).intValue();
                 }

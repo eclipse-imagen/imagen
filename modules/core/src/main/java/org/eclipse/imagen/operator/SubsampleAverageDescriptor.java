@@ -24,8 +24,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.GeometricOpImage;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
@@ -41,7 +41,7 @@ import org.eclipse.imagen.util.Range;
 /**
  * This property generator computes the properties for the operation "SubsampleAverage" dynamically.
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 class SubsampleAveragePropertyGenerator implements PropertyGenerator {
 
@@ -250,7 +250,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
  *                            <td>scaleX</td>
  * </table>
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
 
@@ -338,9 +338,9 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
      * Subsamples an image by averaging over a moving window.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -358,16 +358,16 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
         pb.setParameter("scaleX", scaleX);
         pb.setParameter("scaleY", scaleY);
 
-        return JAI.create("SubsampleAverage", pb, hints);
+        return ImageN.create("SubsampleAverage", pb, hints);
     }
 
     /**
      * Subsamples an image by averaging over a moving window.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -386,6 +386,6 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
         pb.setParameter("scaleX", scaleX);
         pb.setParameter("scaleY", scaleY);
 
-        return JAI.createRenderable("SubsampleAverage", pb, hints);
+        return ImageN.createRenderable("SubsampleAverage", pb, hints);
     }
 }

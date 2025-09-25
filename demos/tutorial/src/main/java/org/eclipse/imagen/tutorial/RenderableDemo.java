@@ -26,7 +26,7 @@ public class RenderableDemo extends JPanel implements ActionListener {
         File f = new File(filename);
 
         if (f.exists() && f.canRead()) {
-            source = JAI.create("fileload", filename);
+            source = ImageN.create("fileload", filename);
         } else {
             return;
         }
@@ -43,12 +43,12 @@ public class RenderableDemo extends JPanel implements ActionListener {
         pb.addSource(source);
         pb.add(null).add(null).add(null).add(null).add(null);
 
-        RenderableImage ren = JAI.createRenderable("renderable", pb);
+        RenderableImage ren = ImageN.createRenderable("renderable", pb);
 
         pb = new ParameterBlock();
         pb.addSource(ren);
 
-        RenderableImage inv = JAI.createRenderable("invert", pb);
+        RenderableImage inv = ImageN.createRenderable("invert", pb);
 
         int w = source.getWidth() / 4;
         int h = source.getHeight() / 4;
@@ -100,7 +100,7 @@ public class RenderableDemo extends JPanel implements ActionListener {
         pb.addSource(source);
         pb.add(null).add(null).add(null).add(null).add(null);
 
-        RenderableImage ren = JAI.createRenderable("renderable", pb);
+        RenderableImage ren = ImageN.createRenderable("renderable", pb);
 
         pb = new ParameterBlock();
         pb.addSource(ren);
@@ -109,7 +109,7 @@ public class RenderableDemo extends JPanel implements ActionListener {
             inv = ren;
             state = true;
         } else {
-            inv = JAI.createRenderable("invert", pb);
+            inv = ImageN.createRenderable("invert", pb);
             state = false;
         }
 

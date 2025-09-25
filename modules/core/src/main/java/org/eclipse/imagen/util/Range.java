@@ -40,7 +40,7 @@ import java.io.Serializable;
  * ends are included, or as a <code>Range</code> whose minimum value is greater than or equal to it's maximum value, if
  * the minimum or the maximum value is excluded.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class Range implements Serializable {
 
