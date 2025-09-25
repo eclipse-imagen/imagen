@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /** @see RandomOpImage */
 public class RandomRIF implements RenderedImageFactory {
@@ -35,7 +35,7 @@ public class RandomRIF implements RenderedImageFactory {
      */
     public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         // Get ImageLayout from renderHints if any.
-        ImageLayout layout = (renderHints == null) ? null : (ImageLayout) renderHints.get(JAI.KEY_IMAGE_LAYOUT);
+        ImageLayout layout = (renderHints == null) ? null : (ImageLayout) renderHints.get(ImageN.KEY_IMAGE_LAYOUT);
 
         return OpImageTester.createRandomOpImage(renderHints, layout);
     }

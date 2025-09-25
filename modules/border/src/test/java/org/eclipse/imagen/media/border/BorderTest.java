@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,7 +26,7 @@ import java.awt.image.MultiPixelPackedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.BorderExtender;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -37,8 +37,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * This test is used for checking if the Border operation is performed correctly. The tests are executed for all the JAI
- * allowed data types, with and withou No Data and with one of these BorderExtender objects:
+ * This test is used for checking if the Border operation is performed correctly. The tests are executed for all the
+ * ImageN allowed data types, with and withou No Data and with one of these BorderExtender objects:
  *
  * <ul>
  *   <li>BorderExtenderZero
@@ -50,9 +50,9 @@ import org.junit.Test;
  * If the user wants to see the result of the Border operation must set the following JVM parameters:
  *
  * <ul>
- *   <li>JAI.Ext.Interactive=true
- *   <li>JAI.Ext.RangeUsed=true(for showing the calculation with NoData, false otherwise)
- *   <li>JAI.Ext.TestSelector=0/1/2/3(Each value is associated with one of the 4 possible BorderExtender types)
+ *   <li>ImageN.Ext.Interactive=true
+ *   <li>ImageN.Ext.RangeUsed=true(for showing the calculation with NoData, false otherwise)
+ *   <li>ImageN.Ext.TestSelector=0/1/2/3(Each value is associated with one of the 4 possible BorderExtender types)
  * </ul>
  *
  * @author geosolutions
@@ -504,7 +504,7 @@ public class BorderTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Border");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Border");
         assertNotNull(descriptor);
         assertEquals("Border", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -27,8 +27,8 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.media.range.Range;
@@ -208,8 +208,8 @@ public class BilinearScaleTest extends TestScale {
         source.setSample(0, 1, 0, 64);
         source.setSample(1, 0, 0, 32);
         source.setSample(1, 1, 0, noDataValue);
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
         RenderedImage scaled = ScaleDescriptor.create(
                 source,
                 32f,

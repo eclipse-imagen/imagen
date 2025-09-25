@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.media.jiffle.Jiffle;
@@ -165,7 +165,7 @@ public class JiffleRIF implements RenderedImageFactory {
 
     private Dimension getPreferredTileSize(ParameterBlock pb) {
         if (pb.getSources() == null || pb.getSources().size() == 0) {
-            return JAI.getDefaultTileSize();
+            return ImageN.getDefaultTileSize();
         } else {
             // align to the first input, should reduce the computation cost as the source
             // tiles are pulled only once

@@ -21,7 +21,7 @@ package org.eclipse.imagen;
  * A class representing an image that is associated with a coordinate. This class is used with <code>ImageStack</code>.
  *
  * @see ImageStack
- * @deprecated as of JAI 1.1. Use <code>AttributedImage</code> instead.
+ * @deprecated as of ImageN 1.1. Use <code>AttributedImage</code> instead.
  */
 public class CoordinateImage {
 

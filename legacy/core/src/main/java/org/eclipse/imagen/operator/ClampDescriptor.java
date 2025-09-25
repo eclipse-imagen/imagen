@@ -156,9 +156,9 @@ public class ClampDescriptor extends OperationDescriptorImpl {
      * Clamps the pixel values of an image to a specified range.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -176,16 +176,16 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         pb.setParameter("low", low);
         pb.setParameter("high", high);
 
-        return JAI.create("Clamp", pb, hints);
+        return ImageN.create("Clamp", pb, hints);
     }
 
     /**
      * Clamps the pixel values of an image to a specified range.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -204,6 +204,6 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         pb.setParameter("low", low);
         pb.setParameter("high", high);
 
-        return JAI.createRenderable("Clamp", pb, hints);
+        return ImageN.createRenderable("Clamp", pb, hints);
     }
 }

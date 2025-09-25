@@ -145,7 +145,7 @@ public class Convolution extends JPanel implements ActionListener {
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(source);
         pb.add(kernel);
-        target = JAI.create("convolve", pb, null);
+        target = ImageN.create("convolve", pb, null);
 
         // emboss (special case)
         if (k == 8) {
@@ -158,7 +158,7 @@ public class Convolution extends JPanel implements ActionListener {
             pb = new ParameterBlock();
             pb.addSource(target);
             pb.add(constants);
-            target = JAI.create("addconst", pb, null);
+            target = ImageN.create("addconst", pb, null);
         }
 
         dstDisplay.set(target);

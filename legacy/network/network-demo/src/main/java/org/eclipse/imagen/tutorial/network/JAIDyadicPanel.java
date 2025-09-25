@@ -32,7 +32,7 @@ public abstract class JAIDyadicPanel extends JAIDemoPanel {
 
         ImageLayout il = new ImageLayout();
         il.setSampleModel(sm);
-        return new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        return new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
     }
 
     public void reset() {

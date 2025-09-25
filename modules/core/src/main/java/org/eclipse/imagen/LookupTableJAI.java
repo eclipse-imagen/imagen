@@ -40,9 +40,9 @@ import org.eclipse.imagen.media.serialize.SerializerFactory;
  * A lookup table object associated with the "Lookup" operation. The "Lookup" operation is described in <code>
  * org.eclipse.imagen.operator.LookupDescriptor</code>.
  *
- * <p>This object represents a single- or multi-banded table of any JAI supported data type. A single- or multi-banded
- * source image of integral data types is passed through the table and transformed into a single- or multi-banded
- * destination image of either integral and floating point data types.
+ * <p>This object represents a single- or multi-banded table of any ImageN supported data type. A single- or
+ * multi-banded source image of integral data types is passed through the table and transformed into a single- or
+ * multi-banded destination image of either integral and floating point data types.
  *
  * <p>The table data may cover only a subrange of the legal range of the input data type. The subrange is selected by
  * means of an offset parameter which is to be subtracted from the input value before indexing into the table array.

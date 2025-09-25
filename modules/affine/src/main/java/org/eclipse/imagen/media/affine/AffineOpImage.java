@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -29,8 +29,8 @@ import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
@@ -428,7 +428,7 @@ abstract class AffineOpImage extends GeometricOpImage {
             pb.set(bpad, 3);
             pb.set(extender, 4);
             // Call of the Border operation
-            extendedIMG = JAI.create("border", pb);
+            extendedIMG = ImageN.create("border", pb);
         }
 
         // Store the inverse and forward transforms.
@@ -495,7 +495,7 @@ abstract class AffineOpImage extends GeometricOpImage {
             pb.set(topP, 2);
             pb.set(bottomP, 3);
             pb.set(roiExtender, 4);
-            srcROIImgExt = JAI.create("border", pb);
+            srcROIImgExt = ImageN.create("border", pb);
             hasROI = true;
         } else {
             srcROI = null;
@@ -511,7 +511,7 @@ abstract class AffineOpImage extends GeometricOpImage {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -533,7 +533,7 @@ abstract class AffineOpImage extends GeometricOpImage {
      * @param sourcePt the position in source image coordinates to map to destination image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

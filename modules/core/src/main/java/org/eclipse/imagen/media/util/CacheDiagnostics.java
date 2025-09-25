@@ -19,7 +19,7 @@
  * Diagnostics Interface for SunTileCache. These routines apply to the tile cache, not the cached tile. All methods are
  * implicitly public.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 package org.eclipse.imagen.media.util;
 

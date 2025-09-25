@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -69,7 +69,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class BinarizeDescriptor extends OperationDescriptorImpl {
 
@@ -132,9 +132,9 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
      * Binarize an image from a threshold value.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -151,16 +151,16 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("threshold", threshold);
 
-        return JAI.create("Binarize", pb, hints);
+        return ImageN.create("Binarize", pb, hints);
     }
 
     /**
      * Binarize an image from a threshold value.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -177,6 +177,6 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("threshold", threshold);
 
-        return JAI.createRenderable("Binarize", pb, hints);
+        return ImageN.createRenderable("Binarize", pb, hints);
     }
 }

@@ -34,7 +34,7 @@ import java.awt.RenderingHints;
  *
  * @see SerializableState
  * @see java.io.Serializable
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface Serializer {
 

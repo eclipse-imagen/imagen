@@ -20,7 +20,7 @@ package org.eclipse.imagen.registry;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CollectionImage;
 import org.eclipse.imagen.CollectionOp;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PropertySource;
@@ -31,10 +31,10 @@ import org.eclipse.imagen.RenderableCollectionImageFactory;
  * RenderableCollectionImageFactory</code> objects.
  *
  * <p>If the <code>OperationRegistry</code> is <code>null</code>, then <code>
- * JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+ * ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
  *
  * @see CollectionImage
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class RCIFRegistry {
 
@@ -44,7 +44,7 @@ public final class RCIFRegistry {
      * Register a RCIF with a particular operation against a specified mode.
      *
      * @param registry the <code>OperationRegistry</code> to register with. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param rcif the <code>RenderableCollectionImageFactory</code> to be registered
      * @throws IllegalArgumentException if operationName or rcif is <code>null</code>
@@ -54,7 +54,7 @@ public final class RCIFRegistry {
     public static void register(
             OperationRegistry registry, String operationName, RenderableCollectionImageFactory rcif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.registerFactory(MODE_NAME, operationName, null, rcif);
     }
@@ -63,7 +63,7 @@ public final class RCIFRegistry {
      * Unregister a RCIF previously registered with a operation against the specified mode.
      *
      * @param registry the <code>OperationRegistry</code> to unregister from. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param rcif the <code>RenderableCollectionImageFactory</code> to be unregistered
      * @throws IllegalArgumentException if operationName or rcif is <code>null</code>
@@ -74,7 +74,7 @@ public final class RCIFRegistry {
     public static void unregister(
             OperationRegistry registry, String operationName, RenderableCollectionImageFactory rcif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unregisterFactory(MODE_NAME, operationName, null, rcif);
     }
@@ -83,7 +83,7 @@ public final class RCIFRegistry {
      * Returns the <code>RenderableCollectionImageFactory</code> object registered against the operation name.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @return a registered <code>RenderableCollectionImageFactory</code> object
      * @throws IllegalArgumentException if operationName is <code>null</code>
@@ -92,7 +92,7 @@ public final class RCIFRegistry {
      */
     public static RenderableCollectionImageFactory get(OperationRegistry registry, String operationName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return (RenderableCollectionImageFactory) registry.getFactory(MODE_NAME, operationName);
     }
@@ -102,7 +102,7 @@ public final class RCIFRegistry {
      * parameters. The registry is used to determine the RCIF to be used to instantiate the operation.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param paramBlock the operation's ParameterBlock.
      * @throws IllegalArgumentException if operationName is <code>null</code>
@@ -111,7 +111,7 @@ public final class RCIFRegistry {
      */
     public static CollectionImage create(OperationRegistry registry, String operationName, ParameterBlock paramBlock) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         Object args[] = {paramBlock};
 

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -30,9 +30,9 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.stats.Statistics.StatsType;
 
 /**
- * This class is a RenderedImageFactory called by the JAI.create() method when the "Zonal" operation is requested. When
- * called, the create() method takes the parameterBlock passed in input, unpacks it and then returns a new instance of
- * the {@link ZonalStatsOpImage}.
+ * This class is a RenderedImageFactory called by the ImageN.create() method when the "Zonal" operation is requested.
+ * When called, the create() method takes the parameterBlock passed in input, unpacks it and then returns a new instance
+ * of the {@link ZonalStatsOpImage}.
  */
 public class ZonalStatsRIF implements RenderedImageFactory {
 

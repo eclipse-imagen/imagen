@@ -30,8 +30,8 @@ import java.awt.image.renderable.ParameterBlock;
  * contributing to the property environment of a given operation when it is returned by the <code>
  * getPropertyGenerators()</code> method of the <code>OperationDescriptor</code> corresponding to the operation.
  *
- * <p>The procedure to be followed to register an operation which generates only non-image data as JAI image properties
- * is as follows:
+ * <p>The procedure to be followed to register an operation which generates only non-image data as ImageN image
+ * properties is as follows:
  *
  * <ul>
  *   <li>Create a <code>PropertyGenerator</code> which calculates the non-image data given the operation node;
@@ -43,11 +43,11 @@ import java.awt.image.renderable.ParameterBlock;
  * </ul>
  *
  * The properties emitted by the associated <code>PropertyGenerator</code>(s) will then be available by invoking <code>
- * getProperty()</code> on the node returned by <code>JAI.create()</code> using the registered operation name.
+ * getProperty()</code> on the node returned by <code>ImageN.create()</code> using the registered operation name.
  *
  * @see CRIFImpl
  * @see java.awt.image.renderable.ContextualRenderedImageFactory
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class NullCRIF extends CRIFImpl {
 

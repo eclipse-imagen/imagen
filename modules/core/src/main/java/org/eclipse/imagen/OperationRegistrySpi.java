@@ -23,7 +23,7 @@ package org.eclipse.imagen;
 // META-INF/services/org.eclipse.imagen.OperationRegistrySpi file.
 
 /**
- * An interface definition to aid in the automatic loading of user-defined JAI operations.
+ * An interface definition to aid in the automatic loading of user-defined ImageN operations.
  *
  * <p>All concrete classes that implement this interface can register by listing themselves in the "<code>
  * META-INF/services/org.eclipse.imagen.OperationRegistrySpi</code>" file that can be found in the classpath (this file
@@ -40,18 +40,18 @@ package org.eclipse.imagen;
  *
  * <p>All such concrete classes must have a zero-argument constructor so that they may be instantiated during lookup.
  * The <code>updateRegistry()</code> method of all such registered classes will be called with the default instance of
- * the JAI <code>OperationRegistry</code> after it has been initialized with the default JAI registry file
+ * the ImageN <code>OperationRegistry</code> after it has been initialized with the default ImageN registry file
  * (META-INF/org.eclipse.imagen.registryFile.jai) and once all "META-INF/registryFile.jai"s found in the classpath are
  * loaded. There is no guarantee of the order in which the <code>updateRegistry()</code> method of each <code>
  * OperationRegistrySpi</code> instance will be invoked.
  *
- * <p>The <code>OperationRegistrySpi</code> could also be used to for the registration of other JAI related objects done
- * through static methods such as the <code>Serializer</code> objects and image codecs.
+ * <p>The <code>OperationRegistrySpi</code> could also be used to for the registration of other ImageN related objects
+ * done through static methods such as the <code>Serializer</code> objects and image codecs.
  *
  * @see org.eclipse.imagen.remote.Serializer
  * @see org.eclipse.imagen.OperationRegistry
  * @see org.eclipse.imagen.OperationRegistry#writeExternal
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface OperationRegistrySpi {
 

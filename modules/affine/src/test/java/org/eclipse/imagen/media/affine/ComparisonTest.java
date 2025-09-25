@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -23,8 +23,8 @@ import java.awt.image.RenderedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.range.Range;
@@ -32,7 +32,7 @@ import org.eclipse.imagen.media.testclasses.ComparisonTestBase;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/** Test class used for comparing the ImageN operation with the previous JAI-EXT one */
+/** Test class used for comparing the ImageN operation with the previous ImageN-EXT one */
 public class ComparisonTest extends ComparisonTestBase {
 
     /** Value indicating No Data for the destination image */
@@ -56,7 +56,8 @@ public class ComparisonTest extends ComparisonTestBase {
     public static void initialSetup() throws FileNotFoundException, IOException {
         // Selection of the RGB image
 
-        hints = new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
 
         // 45� degrees rotation
         double theta = Math.PI / 4;

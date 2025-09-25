@@ -40,8 +40,8 @@ package org.eclipse.imagen.media.codec;
  * result in a read past the end of the first segment. The read will stop after the first 40 bytes and an addition read
  * or reads will be required to obtain the data contained in the second segment.
  *
- * <p><b> This interface is not a committed part of the JAI API. It may be removed or changed in future releases of
- * JAI.</b>
+ * <p><b> This interface is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public interface StreamSegmentMapper {
 

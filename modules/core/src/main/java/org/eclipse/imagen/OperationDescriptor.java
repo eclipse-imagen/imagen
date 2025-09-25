@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  * conditions should be implemented. A set of <code>PropertyGenerator</code>s may be specified to be used as a basis for
  * the operation's property management.
  *
- * <p>Each image operation in JAI must have a descriptor that implements this interface. The following basic resource
+ * <p>Each image operation in ImageN must have a descriptor that implements this interface. The following basic resource
  * data must be provided:
  *
  * <ul>
@@ -45,7 +45,7 @@ import java.util.ResourceBundle;
  * OperationRegistry</code>. Furthermore, it is recommended that a detailed description of the operation's functionality
  * be included in the class comments.
  *
- * <p>JAI currently knows about the following operation modes : "rendered", "renderable", "collection" and
+ * <p>ImageN currently knows about the following operation modes : "rendered", "renderable", "collection" and
  * "renderableCollection" (these form a subset of the known registry modes returned by <code>RegistryMode.getModes()
  * </code>). All mode names are dealt with in a case insensitive (but retentive) manner. All modes have to accept the
  * same number of source images and the same number of parameters. All the source names and parameter names are also the
@@ -56,7 +56,7 @@ import java.util.ResourceBundle;
  * renderable mode takes <code>RenderableImage</code>s as its sources, can only be used in a renderable operation chain,
  * and produces a <code>RenderableImage</code>.
  *
- * @see JAI
+ * @see ImageN
  * @see OperationDescriptorImpl
  */
 public interface OperationDescriptor extends RegistryElementDescriptor {
@@ -116,7 +116,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     Class[] getSourceClasses(String modeName);
 
@@ -124,7 +124,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>String</code>s that are the names of the sources of this operation. If this operation
      * has no sources, this method returns <code>null</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     String[] getSourceNames();
 
@@ -134,7 +134,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     Class getDestClass(String modeName);
 
@@ -144,9 +144,9 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * message may be appended to the <code>StringBuffer</code>.
      *
      * <p>This method is the standard place where input arguments are validated against this operation's specification
-     * for the specified mode. It is called by <code>JAI.create()</code> as a part of its validation process. Thus it is
-     * strongly recommended that the application programs use the <code>JAI.create()</code> methods to instantiate all
-     * the rendered operations.
+     * for the specified mode. It is called by <code>ImageN.create()</code> as a part of its validation process. Thus it
+     * is strongly recommended that the application programs use the <code>ImageN.create()</code> methods to instantiate
+     * all the rendered operations.
      *
      * <p>This method sets all the undefined parameters in the <code>ParameterBlock</code> to their default values, if
      * the default values are specified.
@@ -158,16 +158,16 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
      * @throws IllegalArgumentException if modeName is <code>null</code>
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     boolean validateArguments(String modeName, ParameterBlock args, StringBuffer msg);
 
     /**
      * Returns <code>true</code> if the operation should be computed immediately for all supported modes of this
-     * operation during the call to <code>JAI.create()</code>; that is, the operation is placed in immediate mode. If
-     * <code>true</code>, and the computation fails, <code>null</code> will be returned from <code>JAI.create()</code>.
-     * If <code>false</code>, <code>JAI.create()</code> will return an instance of the appropriate destination class
-     * that may be asked to compute itself at a later time; this computation may fail at that time.
+     * operation during the call to <code>ImageN.create()</code>; that is, the operation is placed in immediate mode. If
+     * <code>true</code>, and the computation fails, <code>null</code> will be returned from <code>ImageN.create()
+     * </code>. If <code>false</code>, <code>ImageN.create()</code> will return an instance of the appropriate
+     * destination class that may be asked to compute itself at a later time; this computation may fail at that time.
      *
      * <p>Operations that rely on an external resource, such as a source file, or that produce externally-visible side
      * effects, such as writing to an output file, should return <code>true</code> from this method. Operations that
@@ -199,7 +199,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *     <code>null</code>.
      * @throws IllegalArgumentException if <code>oldParamBlock</code> or <code>newParamBlock</code> do not contain
      *     sufficient sources or parameters for the operation in question.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     Object getInvalidRegion(
             String registryModeName,
@@ -211,7 +211,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
 
     /** ******************** DEPRECATED METHODS ************************ */
 
-    // All mode specific methods are deprecated since JAI 1.1
+    // All mode specific methods are deprecated since ImageN 1.1
     // in favor of the equivalent methods which accept a modeName
     // as a parameter.
 
@@ -221,7 +221,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @return An array of <code>PropertyGenerator</code>s, or <code>null</code> if this operation does not have any of
      *     its own <code>PropertyGenerator</code>s.
-     * @deprecated as of JAI 1.1 in favor of the equivalent method that specifies the mode name.
+     * @deprecated as of ImageN 1.1 in favor of the equivalent method that specifies the mode name.
      */
     PropertyGenerator[] getPropertyGenerators();
 
@@ -230,13 +230,13 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
     /**
      * Returns <code>true</code> if this operation supports the rendered image mode. That is, it may be performed on
      * <code>RenderedImage</code> sources in a rendered operation chain, and produces a rendered result. The <code>
-     * JAI.create()</code> and the <code>JAI.createCollection()</code> methods should be used to instantiate the
+     * ImageN.create()</code> and the <code>ImageN.createCollection()</code> methods should be used to instantiate the
      * operation.
      *
      * <p>If this method returns <code>true</code>, all the additional methods that supply the rendered mode information
      * must be implemented.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>isModeSupported("rendered")</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>isModeSupported("rendered")</code>
      */
     boolean isRenderedSupported();
 
@@ -244,16 +244,16 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>Class</code>es that describe the types of sources required by this operation in the
      * rendered image mode. If this operation has no source, this method returns <code>null</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>getSourceClasses("rendered")</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>getSourceClasses("rendered")</code>
      */
     Class[] getSourceClasses();
 
     /**
      * Returns a <code>Class</code> that describes the type of destination this operation produces in the rendered image
-     * mode. Currently JAI supports two destination class types: <code>java.awt.image.RenderedImage.class</code> and
+     * mode. Currently ImageN supports two destination class types: <code>java.awt.image.RenderedImage.class</code> and
      * <code>java.util.Collection.class</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>getDestClass("rendered")</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>getDestClass("rendered")</code>
      */
     Class getDestClass();
 
@@ -263,9 +263,9 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * explanatory message may be appended to the <code>StringBuffer</code>.
      *
      * <p>This method is the standard place where input arguments are validated against this operation's specification
-     * for the rendered mode. It is called by <code>JAI.create()</code> as a part of its validation process. Thus it is
-     * strongly recommended that the application programs use the <code>JAI.create()</code> methods to instantiate all
-     * the rendered operations.
+     * for the rendered mode. It is called by <code>ImageN.create()</code> as a part of its validation process. Thus it
+     * is strongly recommended that the application programs use the <code>ImageN.create()</code> methods to instantiate
+     * all the rendered operations.
      *
      * <p>This method sets all the undefined parameters in the <code>ParameterBlock</code> to their default values, if
      * the default values are specified.
@@ -275,7 +275,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
-     * @deprecated as of JAI 1.1 in favor of <code>validateArguments("rendered", ...)</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>validateArguments("rendered", ...)</code>
      */
     boolean validateArguments(ParameterBlock args, StringBuffer msg);
 
@@ -284,13 +284,13 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
     /**
      * Returns <code>true</code> if this operation supports the renderable image mode. That is, it may be performed on
      * <code>RenderableImage</code> sources in a renderable operation chain, and produces a renderable result. The
-     * <code>JAI.createRenderable()</code> and the <code>JAI.createCollection()</code> methods should be used to
+     * <code>ImageN.createRenderable()</code> and the <code>ImageN.createCollection()</code> methods should be used to
      * instantiate the operation.
      *
      * <p>If this method returns <code>true</code>, all the additional methods that supply the renderable mode
      * information must be implemented.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>isModeSupported("renderable")</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>isModeSupported("renderable")</code>
      */
     boolean isRenderableSupported();
 
@@ -299,16 +299,16 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * renderable image mode. If this operation does not support the renderable mode, or if it has no source, this
      * method returns <code>null</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>getSourceClasses("renderable")</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>getSourceClasses("renderable")</code>
      */
     Class[] getRenderableSourceClasses();
 
     /**
      * Returns a <code>Class</code> that describes the type of destination this operation produces in the renderable
-     * image mode. Currently JAI supports two destination class types: <code>
+     * image mode. Currently ImageN supports two destination class types: <code>
      * java.awt.image.renderable.RenderableImage.class</code> and <code>java.util.Collection.class</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>getDestClass("renderable")</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>getDestClass("renderable")</code>
      */
     Class getRenderableDestClass();
 
@@ -318,9 +318,9 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * explanatory message may be appended to the <code>StringBuffer</code>.
      *
      * <p>This method is the standard place where input arguments are validated against this operation's specification
-     * for the renderable mode. It is called by <code>JAI.createRenderable()</code> as a part of its validation process.
-     * Thus it is strongly recommended that the application programs use the <code>JAI.createRenderable()</code> method
-     * to instantiate all the renderable operations.
+     * for the renderable mode. It is called by <code>ImageN.createRenderable()</code> as a part of its validation
+     * process. Thus it is strongly recommended that the application programs use the <code>ImageN.createRenderable()
+     * </code> method to instantiate all the renderable operations.
      *
      * <p>This method sets all the undefined parameters in the <code>ParameterBlock</code> to their default values, if
      * the default values are specified.
@@ -333,7 +333,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
-     * @deprecated as of JAI 1.1 in favor of <code>validateArguments("renderable", ...)</code>
+     * @deprecated as of ImageN 1.1 in favor of <code>validateArguments("renderable", ...)</code>
      */
     boolean validateRenderableArguments(ParameterBlock args, StringBuffer msg);
 
@@ -342,7 +342,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
     /**
      * Returns the number of parameters (not including the sources) required by this operation.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getNumParameters()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -352,7 +352,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>Class</code>es that describe the types of parameters required by this operation. If
      * this operation has no parameter, this method returns <code>null</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamClasses()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -362,7 +362,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>String</code>s that are the localized parameter names of this operation. If this
      * operation has no parameter, this method returns <code>null</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamNames()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -375,7 +375,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * indicates that a parameter has no default value. If this operation has no parameter, this method returns <code>
      * null</code>.
      *
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamDefaults()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -389,7 +389,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @throws NullPointerException if this operation has no parameter.
      * @throws ArrayIndexOutOfBoundsException if there is no parameter corresponding to the specified <code>index</code>
      *     .
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamDefaultValue()</code> This will for the time being return the
      *     above value for modeName = getSupportedModes()[0]
      */
@@ -408,7 +408,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @throws NullPointerException if this operation has no parameter.
      * @throws ArrayIndexOutOfBoundsException if there is no parameter corresponding to the specified <code>index</code>
      *     .
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamValueRange()</code> This will for the time being return
      *     "getMinValue" of the above return value for modeName = getSupportedModes()[0]
      */
@@ -427,7 +427,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @throws NullPointerException if this operation has no parameter.
      * @throws ArrayIndexOutOfBoundsException if there is no parameter corresponding to the specified <code>index</code>
      *     .
-     * @deprecated as of JAI 1.1 in favor of <code>
+     * @deprecated as of ImageN 1.1 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamValueRange()</code> This will for the time being return
      *     "getMaxValue" of the above return value for modeName = getSupportedModes()[0]
      */

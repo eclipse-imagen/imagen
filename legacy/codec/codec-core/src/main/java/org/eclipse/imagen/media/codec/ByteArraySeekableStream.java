@@ -23,7 +23,8 @@ import java.io.IOException;
  * A subclass of <code>SeekableStream</code> that takes input from an array of bytes. Seeking backwards is supported.
  * The <code>mark()</code> and <code>resest()</code> methods are supported.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class ByteArraySeekableStream extends SeekableStream {
 

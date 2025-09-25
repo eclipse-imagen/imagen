@@ -103,10 +103,10 @@ import org.eclipse.imagen.util.ImagingListener;
  * @see java.awt.image.WritableRenderedImage
  * @see org.eclipse.imagen.PlanarImage
  * @see org.eclipse.imagen.RenderedOp
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 // NB: This class was added in EA3 to org.eclipse.imagen.media.rmi and made
-// public only in JAI 1.1.
+// public only in ImageN 1.1.
 public final class SerializableRenderedImage implements RenderedImage, Serializable {
     /** Value to indicate the server socket timeout period (milliseconds). */
     private static final int SERVER_TIMEOUT = 60000; // XXX 1 minute?
@@ -324,7 +324,7 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
         this.formatName = formatName;
 
         // When the provided registry is null, use the default one
-        if (registry == null) registry = JAI.getDefaultInstance().getOperationRegistry();
+        if (registry == null) registry = ImageN.getDefaultInstance().getOperationRegistry();
         this.registry = registry;
 
         // Fix 4640094: When the provided encodingParam is null, use the default one
@@ -842,7 +842,7 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             return source.getTile(tileX, tileY);
         }
 
-        TileCache cache = JAI.getDefaultInstance().getTileCache();
+        TileCache cache = ImageN.getDefaultInstance().getTileCache();
         if (cache != null) {
             Raster tile = cache.getTile(this, tileX, tileY);
             if (tile != null) return tile;
@@ -1060,7 +1060,7 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
         if (tileDecoderFactory == null) {
             // Use the default operation registry as described in the spec
             // of the constructor.
-            if (registry == null) registry = JAI.getDefaultInstance().getOperationRegistry();
+            if (registry == null) registry = ImageN.getDefaultInstance().getOperationRegistry();
             tileDecoderFactory = (TileDecoderFactory) registry.getFactory("tileDecoder", formatName);
 
             TileCodecParameterList temp = decodingParam;
@@ -1248,12 +1248,12 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
     private TileCodecDescriptor getTileCodecDescriptor(String registryMode, String formatName) {
         if (registry == null)
             return (TileCodecDescriptor)
-                    JAI.getDefaultInstance().getOperationRegistry().getDescriptor(registryMode, formatName);
+                    ImageN.getDefaultInstance().getOperationRegistry().getDescriptor(registryMode, formatName);
         return (TileCodecDescriptor) registry.getDescriptor(registryMode, formatName);
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+        ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
         listener.errorOccurred(message, e, this, false);
     }
 }

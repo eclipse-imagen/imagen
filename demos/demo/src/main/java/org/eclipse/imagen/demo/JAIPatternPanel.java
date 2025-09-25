@@ -8,8 +8,6 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
 import javax.swing.*;
@@ -82,7 +80,7 @@ public class JAIPatternPanel extends JAIDemoPanel implements ChangeListener {
         pb.addSource(source);
         pb.add(width);
         pb.add(height);
-        return JAI.create("pattern", pb, renderHints);
+        return ImageN.create("pattern", pb, renderHints);
     }
 
     public void startAnimation() {}

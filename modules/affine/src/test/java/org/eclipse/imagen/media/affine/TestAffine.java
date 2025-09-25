@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -28,8 +28,8 @@ import java.awt.image.RenderedImage;
 import java.io.IOException;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -55,11 +55,11 @@ import org.eclipse.imagen.media.viewer.RenderedImageBrowser;
  * </ul>
  *
  * The affine transformation is performed with the selected interpolation type. If the user wants to see the result
- * image with the selected kind of test, must set JAI.Ext.Interactive parameter to true, JAI.Ext.TestSelector from 0 to
- * 5, JAI.Ext.TransformationSelector from 0 to 3 (one of the above described transformations)and JAI.Ext.InverseScale to
- * 0 or 1 (Magnification/reduction) to the Console. The testAllOperation() method is used for grouping all the tests on
- * the same image with 4 different transformations in only one test-method. The methods testImage() and testGlobal() are
- * not supported, they are defined in the jt-scale project.
+ * image with the selected kind of test, must set ImageN.Ext.Interactive parameter to true, ImageN.Ext.TestSelector from
+ * 0 to 5, ImageN.Ext.TransformationSelector from 0 to 3 (one of the above described transformations)and
+ * ImageN.Ext.InverseScale to 0 or 1 (Magnification/reduction) to the Console. The testAllOperation() method is used for
+ * grouping all the tests on the same image with 4 different transformations in only one test-method. The methods
+ * testImage() and testGlobal() are not supported, they are defined in the jt-scale project.
  */
 public class TestAffine extends TestBase {
 
@@ -73,7 +73,7 @@ public class TestAffine extends TestBase {
     protected double anchorY = DEFAULT_HEIGHT - 1;
 
     /** Integer indicating which operation should be visualized */
-    public static Integer TRANSFORMATION_SELECTOR = Integer.getInteger("JAI.Ext.TransformationSelector");
+    public static Integer TRANSFORMATION_SELECTOR = Integer.getInteger("ImageN.Ext.TransformationSelector");
 
     protected float transY = -DEFAULT_HEIGHT;
 
@@ -142,7 +142,7 @@ public class TestAffine extends TestBase {
 
         if (useROIAccessor) {
             hints = new RenderingHints(
-                    JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
+                    ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
         }
 
         // Affine Transform selection
@@ -203,10 +203,10 @@ public class TestAffine extends TestBase {
 
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 // Affine operation
@@ -228,10 +228,10 @@ public class TestAffine extends TestBase {
 
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 // Affine operation
@@ -720,7 +720,7 @@ public class TestAffine extends TestBase {
         ImageLayout targetLayout = new ImageLayout();
         targetLayout.setTileWidth(512);
         targetLayout.setTileHeight(512);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, targetLayout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, targetLayout);
         RenderedOp rotated = AffineDescriptor.create(
                 testIMG,
                 new AffineTransform(1, -1, 1, 1, 0, 0),

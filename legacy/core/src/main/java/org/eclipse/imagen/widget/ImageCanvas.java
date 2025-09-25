@@ -23,8 +23,8 @@ import java.awt.image.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.HashSet;
 import java.util.Iterator;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 
 /**
@@ -32,7 +32,7 @@ import org.eclipse.imagen.PlanarImage;
  * that calls for a Canvas. It monitors resize and update events and automatically requests tiles from its source on
  * demand. Any displayed area outside the image is displayed in grey.
  *
- * <p>There is currently no policy regarding what sorts of widgets, if any, will be part of JAI.
+ * <p>There is currently no policy regarding what sorts of widgets, if any, will be part of ImageN.
  *
  * <p>Due to the limitations of BufferedImage, only TYPE_BYTE of band 1, 2, 3, 4, and TYPE_USHORT of band 1, 2, 3 images
  * can be displayed using this widget.
@@ -40,7 +40,7 @@ import org.eclipse.imagen.PlanarImage;
  * <p>This class has been deprecated. The source code has been moved to the samples/widget directory. These widgets are
  * no longer supported.
  *
- * @deprecated as of JAI 1.1
+ * @deprecated as of ImageN 1.1
  */
 public class ImageCanvas extends Canvas {
 
@@ -101,7 +101,7 @@ public class ImageCanvas extends Canvas {
             pb.add((float) Math.max(-mx, 0));
             pb.add((float) Math.max(-my, 0));
             pb.add(new InterpolationNearest());
-            im = JAI.create("translate", pb, null);
+            im = ImageN.create("translate", pb, null);
         }
 
         this.sampleModel = im.getSampleModel();
@@ -374,7 +374,7 @@ public class ImageCanvas extends Canvas {
      * An interface used to notify listeners during a <code>paint</code> just after the image has been painted on the
      * image canvas. This allows registered listeners to draw additional graphics on top of the image.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public interface PaintListener {
 
@@ -387,7 +387,7 @@ public class ImageCanvas extends Canvas {
     /**
      * Adds the specified <code>PaintListener</code> to the canvas.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void addPaintListener(PaintListener pl) {
         paintListeners.add(pl);
@@ -396,7 +396,7 @@ public class ImageCanvas extends Canvas {
     /**
      * Removes the specified <code>PaintListener</code> from the canvas.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void removePaintListener(PaintListener pl) {
         paintListeners.remove(pl);

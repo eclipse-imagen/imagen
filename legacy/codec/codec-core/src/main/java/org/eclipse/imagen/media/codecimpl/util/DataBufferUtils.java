@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 
 /**
  * Utility class to enable compatibility with Java 2 1.4 real-valued DataBuffer classes. Factory methods and data array
- * accessors are defined to use reflection. The core Java classes are given precedence over their JAI equivalents.
+ * accessors are defined to use reflection. The core Java classes are given precedence over their ImageN equivalents.
  */
 public final class DataBufferUtils {
 

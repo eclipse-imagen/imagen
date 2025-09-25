@@ -26,7 +26,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Vector;
 import javax.swing.JSplitPane;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.ROIShape;
@@ -145,7 +145,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
         } else { // If it's not a byte image, get a dynamic range estimate
 
             // Compute extrema for the current image being displayed
-            RenderedOp extrema = JAI.create(
+            RenderedOp extrema = ImageN.create(
                     "extrema",
                     new ParameterBlock()
                             .addSource(baseWindow)
@@ -370,7 +370,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
         il.setTileHeight(TILE_SIZE);
         il.setTileGridXOffset(0);
         il.setTileGridYOffset(0);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
 
         // Scale the sharpIndex into a meaningful range
         float mVal = SHARP_A0 + SHARP_A1 * sharpIndex;
@@ -388,7 +388,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
         pb.addSource(source);
         pb.add(kernel);
 
-        return JAI.create("convolve", pb, hints);
+        return ImageN.create("convolve", pb, hints);
     } // sharpOperator
 
     /**
@@ -421,7 +421,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
         il.setTileHeight(TILE_SIZE);
         il.setTileGridXOffset(0);
         il.setTileGridYOffset(0);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
 
         if (datatype >= DataBuffer.TYPE_BYTE && datatype < DataBuffer.TYPE_INT) {
             int[] map = computeByteMap(scaledBotX, scaledTopX, ySide, tableLength);
@@ -442,7 +442,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
             pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(lookup);
-            dst = JAI.create("lookup", pb, hints);
+            dst = ImageN.create("lookup", pb, hints);
         } else if (datatype == DataBuffer.TYPE_INT
                 || datatype == DataBuffer.TYPE_FLOAT
                 || datatype == DataBuffer.TYPE_DOUBLE) {
@@ -452,13 +452,13 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
             double yInt = (xTop != xBot) ? (256D - slope * xTop) : 0D;
             pb.add(slope);
             pb.add(yInt);
-            dst = JAI.create("rescale", pb, null);
+            dst = ImageN.create("rescale", pb, null);
 
             // produce a byte image
             pb = new ParameterBlock();
             pb.addSource(dst);
             pb.add(DataBuffer.TYPE_BYTE);
-            dst = JAI.create("format", pb, null);
+            dst = ImageN.create("format", pb, null);
         }
         return dst;
     } // grayscaleMapOperator

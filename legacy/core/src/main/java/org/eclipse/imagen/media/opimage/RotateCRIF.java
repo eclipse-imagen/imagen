@@ -161,7 +161,7 @@ public class RotateCRIF extends CRIFImpl {
                     pbScale.add(rotMinY - imMinY);
                     pbScale.add(interp);
                     PlanarImage intermediateImage =
-                            JAI.create("scale", pbScale, renderHints).getRendering();
+                            ImageN.create("scale", pbScale, renderHints).getRendering();
                     try {
                         return new PointMapperOpImage(intermediateImage, renderHints, transform);
                     } catch (NoninvertibleTransformException nite) {

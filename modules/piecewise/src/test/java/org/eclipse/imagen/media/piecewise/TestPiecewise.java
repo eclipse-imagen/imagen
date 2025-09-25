@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -23,7 +23,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import junit.framework.Assert;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -476,7 +476,7 @@ public class TestPiecewise extends TestBase {
         //
         //
         // /////////////////////////////////////////////////////////////////////
-        RenderedImage image = JAI.create("ImageRead", TestData.file(this, "test.tif"));
+        RenderedImage image = ImageN.create("ImageRead", TestData.file(this, "test.tif"));
         image = BandSelectDescriptor.create(image, new int[] {0}, null);
         image = FormatDescriptor.create(image, DataBuffer.TYPE_DOUBLE, null);
 
@@ -496,7 +496,7 @@ public class TestPiecewise extends TestBase {
         ParameterBlockJAI pbj = new ParameterBlockJAI(GenericPiecewiseOpImage.OPERATION_NAME);
         pbj.addSource(image);
         pbj.setParameter("Domain1D", list);
-        RenderedOp finalImage = JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
+        RenderedOp finalImage = ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(finalImage, false, false, null);
         } else {
@@ -517,7 +517,7 @@ public class TestPiecewise extends TestBase {
         pbj.addSource(image);
         pbj.setParameter("Domain1D", list);
         pbj.setParameter("roi", roi);
-        finalImage = JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
+        finalImage = ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(finalImage, false, false, null);
         } else {
@@ -530,7 +530,7 @@ public class TestPiecewise extends TestBase {
         pbj.addSource(image);
         pbj.setParameter("Domain1D", list);
         pbj.setParameter("nodata", nodataRange);
-        finalImage = JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
+        finalImage = ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(finalImage, false, false, null);
         } else {
@@ -544,7 +544,7 @@ public class TestPiecewise extends TestBase {
         pbj.setParameter("Domain1D", list);
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodataRange);
-        finalImage = JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
+        finalImage = ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj);
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(finalImage, false, false, null);
         } else {
@@ -560,12 +560,12 @@ public class TestPiecewise extends TestBase {
      */
     @Test
     public void logarithmicTransform() throws IOException {
-        JAI.getDefaultInstance().getTileScheduler().setParallelism(1);
+        ImageN.getDefaultInstance().getTileScheduler().setParallelism(1);
         // /////////////////////////////////////////////////////////////////////
         //
         //
         // /////////////////////////////////////////////////////////////////////
-        RenderedOp image = JAI.create("ImageRead", TestData.file(this, "test.tif"));
+        RenderedOp image = ImageN.create("ImageRead", TestData.file(this, "test.tif"));
         image = BandSelectDescriptor.create(image, new int[] {0}, null);
         image = FormatDescriptor.create(image, DataBuffer.TYPE_DOUBLE, null);
         image = AlgebraDescriptor.create(Operator.ABSOLUTE, null, null, 0, null, image);
@@ -623,7 +623,7 @@ public class TestPiecewise extends TestBase {
         pbj.addSource(image);
         pbj.setParameter("Domain1D", transform);
         pbj.setParameter("bandIndex", new Integer(0));
-        finalImage = JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj, null);
+        finalImage = ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj, null);
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(finalImage, false, false, null);
         } else {
@@ -641,7 +641,7 @@ public class TestPiecewise extends TestBase {
         pbj.setParameter("Domain1D", transform);
         pbj.setParameter("bandIndex", new Integer(0));
         pbj.setParameter("roi", roi);
-        finalImage = JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj, null);
+        finalImage = ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pbj, null);
         if (INTERACTIVE) {
             RenderedImageBrowser.showChain(finalImage, false, false, null);
         } else {

@@ -45,7 +45,7 @@ import org.eclipse.imagen.remote.SerializableRenderedImage;
  *
  * <p>Image layout attributes, once requested, are cached locally for speed.
  *
- * @deprecated as of JAI 1.1 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
+ * @deprecated as of ImageN 1.1 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
  */
 public class RemoteImage extends PlanarImage {
 
@@ -120,7 +120,7 @@ public class RemoteImage extends PlanarImage {
      * of the image data via transmission over a network link.
      *
      * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
-     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     * of ImageN, RMI is used to implement remote imaging so that the server name must be supplied in the format
      *
      * <pre>
      * host:port
@@ -189,7 +189,7 @@ public class RemoteImage extends PlanarImage {
      * using the server's local <code>OperationRegistry</code> and available <code>RenderedImageFactory</code> objects.
      *
      * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
-     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     * of ImageN, RMI is used to implement remote imaging so that the server name must be supplied in the format
      *
      * <pre>
      * host:port
@@ -236,7 +236,7 @@ public class RemoteImage extends PlanarImage {
      * <code>RenderableOp</code> DAG will be copied over to the server.
      *
      * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
-     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     * of ImageN, RMI is used to implement remote imaging so that the server name must be supplied in the format
      *
      * <pre>
      * host:port

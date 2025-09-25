@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.tilecodec.TileCodecParameterList;
 import org.eclipse.imagen.tilecodec.TileDecoder;
@@ -34,9 +34,9 @@ import org.eclipse.imagen.tilecodec.TileDecoderFactory;
  * </code> objects.
  *
  * <p>If the <code>OperationRegistry</code> specified as an argument to the methods in this class is null, then <code>
- * JAI.getOperationRegistry()</code> will be used.
+ * ImageN.getOperationRegistry()</code> will be used.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class TileDecoderRegistry {
 
@@ -48,7 +48,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to register the <code>TileDecoderFactory</code> with. If this
      *     is <code>null</code>, then <code>
-     *                    JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                    ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The formatName to register the <code>TileDecoderFactory</code> under.
      * @param productName The productName to register the <code>TileDecoderFactory</code> under.
      * @param tdf The <code>TileDecoderFactory</code> to register.
@@ -61,7 +61,7 @@ public final class TileDecoderRegistry {
     public static void register(
             OperationRegistry registry, String formatName, String productName, TileDecoderFactory tdf) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.registerFactory(MODE_NAME, formatName, productName, tdf);
     }
@@ -72,7 +72,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to unregister the <code>TileDecoderFactory</code> from. If
      *     this is <code>null</code>, then <code>
-     *                    JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                    ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The formatName to unregister the <code>TileDecoderFactory</code> from.
      * @param productName The productName to unregister the <code>TileDecoderFactory</code> from.
      * @param tdf The <code>TileDecoderFactory</code> to unregister.
@@ -87,7 +87,7 @@ public final class TileDecoderRegistry {
     public static void unregister(
             OperationRegistry registry, String formatName, String productName, TileDecoderFactory tdf) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unregisterFactory(MODE_NAME, formatName, productName, tdf);
     }
@@ -98,7 +98,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to set preferences on. If this is <code>null</code>, then
      *     <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The formatName of the two <code>TileDecoderFactory</code>s.
      * @param productName The productName of the two <code>TileDecoderFactory</code>s.
      * @param preferredTDF The preferred <code>TileDecoderFactory</code>.
@@ -119,7 +119,7 @@ public final class TileDecoderRegistry {
             TileDecoderFactory preferredTDF,
             TileDecoderFactory otherTDF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.setFactoryPreference(MODE_NAME, formatName, productName, preferredTDF, otherTDF);
     }
@@ -130,7 +130,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to unset preferences on. If this is <code>null</code>, then
      *     <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The formatName of the two <code>TileDecoderFactory</code>s.
      * @param productName The productName of the two <code>TileDecoderFactory</code>s.
      * @param preferredTDF The preferred <code>TileDecoderFactory</code>.
@@ -151,7 +151,7 @@ public final class TileDecoderRegistry {
             TileDecoderFactory preferredTDF,
             TileDecoderFactory otherTDF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unsetFactoryPreference(MODE_NAME, formatName, productName, preferredTDF, otherTDF);
     }
@@ -162,7 +162,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to clear preferences from. If this is <code>null</code>, then
      *     <code>
-     *                    JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                    ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name to clear preferences under.
      * @param productName The productName to clear preferences under.
      * @throws IllegalArgumentException if formatName is null.
@@ -172,7 +172,7 @@ public final class TileDecoderRegistry {
      */
     public static void clearPreferences(OperationRegistry registry, String formatName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.clearFactoryPreferences(MODE_NAME, formatName, productName);
     }
@@ -184,7 +184,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to clear preferences from. If this is <code>null</code>, then
      *     <code>
-     *                    JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                    ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name to clear preferences under.
      * @param productName The productName to clear preferences under.
      * @throws IllegalArgumentException if formatName is null.
@@ -194,7 +194,7 @@ public final class TileDecoderRegistry {
      */
     public static List getOrderedList(OperationRegistry registry, String formatName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getOrderedFactoryList(MODE_NAME, formatName, productName);
     }
@@ -206,7 +206,7 @@ public final class TileDecoderRegistry {
      * product. The <code>remove()</code> method of the <code>Iterator</code> may not be implemented.
      *
      * @param registry The <code>OperationRegistry</code> to use. If this is <code>null</code>, then <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name.
      * @return an <code>Iterator</code> over <code>TileDecoderFactory</code> objects.
      * @throws IllegalArgumentException if formatName is <code>null</code>
@@ -215,7 +215,7 @@ public final class TileDecoderRegistry {
      */
     public static Iterator getIterator(OperationRegistry registry, String formatName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getFactoryIterator(MODE_NAME, formatName);
     }
@@ -226,7 +226,7 @@ public final class TileDecoderRegistry {
      * </code> returned by the <code>getIterator()</code> method.
      *
      * @param registry The <code>OperationRegistry</code> to use. If this is <code>null</code>, then <code>
-     *                 JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                 ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name as a <code>String</code>
      * @return a registered <code>TileDecoderFactory</code> object
      * @throws IllegalArgumentException if formatName is <code>null</code>.
@@ -235,7 +235,7 @@ public final class TileDecoderRegistry {
      */
     public static TileDecoderFactory get(OperationRegistry registry, String formatName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return (TileDecoderFactory) registry.getFactory(MODE_NAME, formatName);
     }
@@ -261,7 +261,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to use to create the <code>TileDecoder</code>. If this is
      *     <code>null</code>, then <code>
-     *                   JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                   ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format for which the <code>TileDecoder</code> is to be created.
      * @param input The <code>InputStream</code> to read encoded data from.
      * @param paramList The object containing the tile decoding parameters.
@@ -272,7 +272,7 @@ public final class TileDecoderRegistry {
     public static TileDecoder create(
             OperationRegistry registry, String formatName, InputStream input, TileCodecParameterList paramList) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         Object args[] = {input, paramList};
 
@@ -317,7 +317,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to use to create the <code>TileDecoder</code>. If this is
      *     <code>null</code>, then <code>
-     *                   JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                   ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name associated with the decoder.
      * @param input The <code>InputStream</code> containing the data to be decoded.
      * @param param The <code>TileCodecParameterList</code> to be used.
@@ -372,7 +372,7 @@ public final class TileDecoderRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to use to create the <code>TileDecoder</code>. If this is
      *     <code>null</code>, then <code>
-     *                   JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                   ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name associated with the decoder.
      * @param input The <code>InputStream</code> containing the data to be decoded.
      * @param param The <code>TileCodecParameterList</code> to be used.

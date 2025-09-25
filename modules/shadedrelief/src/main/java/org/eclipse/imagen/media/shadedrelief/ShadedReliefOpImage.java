@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -28,8 +28,8 @@ import java.util.Arrays;
 import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.IntegerSequence;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -160,7 +160,7 @@ class ShadedReliefOpImage extends AreaOpImage {
 
         if (this.extender != null) {
             RenderingHints borderHints = (RenderingHints) hints.clone();
-            Object layout = borderHints.get(JAI.KEY_IMAGE_LAYOUT);
+            Object layout = borderHints.get(ImageN.KEY_IMAGE_LAYOUT);
             ImageLayout il = null;
             if (layout != null && layout instanceof ImageLayout) {
                 il = (ImageLayout) layout;
@@ -170,7 +170,7 @@ class ShadedReliefOpImage extends AreaOpImage {
                         source.getMinY() - topPadding,
                         source.getWidth() + leftPadding + rightPadding,
                         source.getHeight() + topPadding + bottomPadding);
-                borderHints.put(JAI.KEY_IMAGE_LAYOUT, il);
+                borderHints.put(ImageN.KEY_IMAGE_LAYOUT, il);
             }
             il.setTileGridXOffset(source.getTileGridXOffset());
             il.setTileGridYOffset(source.getTileGridYOffset());

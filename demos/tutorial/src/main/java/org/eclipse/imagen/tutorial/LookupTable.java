@@ -87,7 +87,7 @@ public class LookupTable extends JPanel implements ActionListener {
         pb.addSource(image);
         pb.add(lookup);
 
-        PlanarImage dst = JAI.create("lookup", pb, null);
+        PlanarImage dst = ImageN.create("lookup", pb, null);
         display.set(dst);
     }
 

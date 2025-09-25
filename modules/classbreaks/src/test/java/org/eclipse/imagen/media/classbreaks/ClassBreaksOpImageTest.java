@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2018 GeoSolutions
 *
@@ -37,7 +37,7 @@ import static org.junit.Assert.*;
 import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
@@ -66,7 +66,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 5);
-        // raw creation like in CoverageClassStats, otherwise the issue gets masked by JAI wrappers
+        // raw creation like in CoverageClassStats, otherwise the issue gets masked by ImageN wrappers
         RenderedImage op = new ClassBreaksRIF().create(pb, null);
 
         // used to NPE here
@@ -82,7 +82,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.EQUAL_INTERVAL);
         pb.setParameter("numClasses", 4);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         Number[] breaks = classification.getBreaks()[0];
@@ -103,7 +103,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 4);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         Number[] breaks = classification.getBreaks()[0];
@@ -132,7 +132,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("extrema", getExtrema(image));
         pb.setParameter("histogram", true);
         pb.setParameter("histogramBins", 100);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         Number[] breaks = classification.getBreaks()[0];
@@ -159,7 +159,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 4);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         Number[] breaks = classification.getBreaks()[0];
@@ -184,7 +184,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("extrema", getExtrema(image));
         pb.setParameter("histogram", true);
         pb.setParameter("histogramBins", 100);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         Number[] breaks = classification.getBreaks()[0];
@@ -207,7 +207,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 4);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -230,7 +230,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("histogram", true);
         pb.setParameter("histogramBins", 4);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -252,7 +252,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("histogram", true);
         pb.setParameter("histogramBins", 100);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -277,7 +277,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("histogram", true);
         pb.setParameter("histogramBins", 100);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -299,7 +299,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 4);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -319,7 +319,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 5);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -339,7 +339,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("histogram", true);
         pb.setParameter("histogramBins", 100);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -362,7 +362,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb2.setParameter("histogram", true);
         pb2.setParameter("histogramBins", 100);
         pb2.setParameter("percentages", true);
-        RenderedImage op2 = JAI.create("ClassBreaks", pb2, null);
+        RenderedImage op2 = ImageN.create("ClassBreaks", pb2, null);
         Classification classification2 =
                 (Classification) op2.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification2);
@@ -382,7 +382,7 @@ public class ClassBreaksOpImageTest extends TestBase {
         pb.setParameter("method", ClassificationMethod.EQUAL_INTERVAL);
         pb.setParameter("numClasses", 4);
         pb.setParameter("percentages", true);
-        RenderedImage op = JAI.create("ClassBreaks", pb, null);
+        RenderedImage op = ImageN.create("ClassBreaks", pb, null);
         Classification classification = (Classification) op.getProperty(ClassBreaksDescriptor.CLASSIFICATION_PROPERTY);
         assertNotNull(classification);
         double[] percentages = classification.getPercentages();
@@ -436,7 +436,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ClassBreaks");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ClassBreaks");
         assertNotNull(descriptor);
         assertEquals("ClassBreaks", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

@@ -208,7 +208,7 @@ public class Histogram implements Serializable {
      * @throws IllegalArgumentException If the low-value of any band is greater than or equal to its corresponding
      *     high-value.
      * @throws IllegalArgumentException If <code>numBands</code> is less than or equal to 0.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Histogram(int[] numBins, double[] lowValue, double[] highValue, int numBands) {
         this(fill(numBins, numBands), fill(lowValue, numBands), fill(highValue, numBands));
@@ -226,7 +226,7 @@ public class Histogram implements Serializable {
      * @param numBands The number of bands of the image.
      * @throws IllegalArgumentException If <code>numBins</code> or <code>numBands</code> is less than or equal to 0.
      * @throws IllegalArgumentException If <code>lowValue</code> is less than or equal to <code>highValue</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Histogram(int numBins, double lowValue, double highValue, int numBands) {
         if (numBands <= 0) {
@@ -386,7 +386,7 @@ public class Histogram implements Serializable {
      * this method for performance reasons. The elements of the returned array should not be modified or undefined
      * errors may occur. The array format is <code>int[numBands]</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public int[] getTotals() {
         if (totals == null) {
@@ -421,7 +421,7 @@ public class Histogram implements Serializable {
      * @param maxBin The maximum bin index to be counted.
      * @throws ArrayIndexOutOfBoundsException If an invalid band index is specified.
      * @throws IllegalArgumentException If <code>minBin</code> is greater than <code>maxBin</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public int getSubTotal(int band, int minBin, int maxBin) {
         if (minBin < 0 || maxBin >= numBins[band]) {
@@ -445,7 +445,7 @@ public class Histogram implements Serializable {
     /**
      * Returns the mean values for all bands of the histogram.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getMean() {
         if (mean == null) {
@@ -821,7 +821,7 @@ public class Histogram implements Serializable {
      * @param isAbsolute Whether to calculate the absolute moment.
      * @param isCentral Whether to calculate the central moment.
      * @return The requested (absolute) (central) moment of the histogram.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getMoment(int moment, boolean isAbsolute, boolean isCentral) {
         // Check for non-positive moment number.
@@ -907,7 +907,7 @@ public class Histogram implements Serializable {
      * function.
      *
      * @return The standard deviation values for all bands.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getStandardDeviation() {
         getMean();
@@ -930,7 +930,7 @@ public class Histogram implements Serializable {
      * with each bin with the base-2 log of the probability.
      *
      * @return The entropy of the histogram.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getEntropy() {
         // Get the total counts for all bands.
@@ -975,7 +975,7 @@ public class Histogram implements Serializable {
      * @param k The smoothing parameter which must be non-negative or an <code>IllegalArgumentException</code> will be
      *     thrown. If zero, the histogram object will be returned with no smoothing applied.
      * @return A smoothed version of the histogram.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Histogram getSmoothed(boolean isWeighted, int k) {
         if (k < 0) {
@@ -1081,7 +1081,7 @@ public class Histogram implements Serializable {
      *     <code>IllegalArgumentException</code> will be thrown. If zero, the histogram object will be returned with no
      *     smoothing applied.
      * @return A Gaussian smoothed version of the histogram.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Histogram getGaussianSmoothed(double standardDeviation) {
         if (standardDeviation < 0.0) {
@@ -1169,7 +1169,7 @@ public class Histogram implements Serializable {
      * @param p The proportion of samples in each band which should be below the threshold in the band. If <code>p
      *     </code> is not in the range (0.0,&nbsp;1.0) an <code>IllegalArgumentException</code> will be thrown.
      * @return The requested <i>p-tile</i> thresholds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getPTileThreshold(double p) {
         if (p <= 0.0 || p >= 1.0) {
@@ -1213,7 +1213,7 @@ public class Histogram implements Serializable {
      *
      * @param power The exponent of the distance weighting from the first peak.
      * @return The requested thresholds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getModeThreshold(double power) {
         double[] thresholds = new double[numBands];
@@ -1269,7 +1269,7 @@ public class Histogram implements Serializable {
      * mean of the two sub-histogram means. This process is repeated until the threshold value no longer changes.
      *
      * @return The requested thresholds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getIterativeThreshold() {
         double[] thresholds = new double[numBands];
@@ -1351,7 +1351,7 @@ public class Histogram implements Serializable {
      * each band.
      *
      * @return The requested thresholds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getMaxVarianceThreshold() {
         double[] thresholds = new double[numBands];
@@ -1444,7 +1444,7 @@ public class Histogram implements Serializable {
      * threshold, respectively. This computation is effected for each band.
      *
      * @return The requested thresholds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getMaxEntropyThreshold() {
         double[] thresholds = new double[numBands];
@@ -1529,7 +1529,7 @@ public class Histogram implements Serializable {
      * band will be returned as the threshold. The bimodality of the histogram for that band will be identically zero.
      *
      * @return The requested thresholds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getMinErrorThreshold() {
         double[] thresholds = new double[numBands];
@@ -1635,7 +1635,7 @@ public class Histogram implements Serializable {
     /**
      * Calculates the threshold which minimizes the <i>fuzziness</i>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public double[] getMinFuzzinessThreshold() {
         double[] thresholds = new double[numBands];

@@ -32,7 +32,7 @@ import org.eclipse.imagen.PropertyChangeEventJAI;
  *
  * <p>Classes that implement this interface must provide a constructor with no arguments.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface RemoteRIF {
 

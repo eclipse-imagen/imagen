@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -48,7 +48,6 @@ import org.eclipse.imagen.media.stats.HistogramMode;
 import org.eclipse.imagen.media.stats.Statistics;
 import org.eclipse.imagen.media.stats.StatisticsDescriptor;
 import org.eclipse.imagen.media.utilities.ImageLayout2;
-import org.eclipse.imagen.operator.*;
 
 /**
  * Simple rendered image browser, allows to zoom in, out, display tile grid and view pixel values on mouse over
@@ -388,7 +387,7 @@ public class ImageViewer extends JPanel {
                 layout.setTileHeight(image.getTileHeight());
                 layout.setTileGridYOffset(image.getTileGridYOffset());
                 layout.setTileGridXOffset(image.getTileGridXOffset());
-                RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+                RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
                 // look for nodata if any, to setup a ROI for better statistical computations
                 Object noData = image.getProperty("GC_NODATA");
@@ -403,7 +402,7 @@ public class ImageViewer extends JPanel {
                     // Create a ROI Image with the threshold value right above the noData value.
                     roi = new ROI(roiSourceImage, (int) (nd + 1));
                 } else {
-                    // Note that the JAI's ROI does a getData internally, which loads the whole databuffer in memory
+                    // Note that the ImageN's ROI does a getData internally, which loads the whole databuffer in memory
                     // Don't do that if the image is bigger than a threshold
                     if (image.getWidth() * image.getHeight() < THRESHOLD_2K_X_2K) {
                         RenderedImage binarize = BinarizeDescriptor.create(image, Double.NEGATIVE_INFINITY, hints);

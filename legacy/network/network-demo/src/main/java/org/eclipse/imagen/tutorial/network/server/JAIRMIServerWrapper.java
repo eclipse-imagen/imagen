@@ -118,7 +118,7 @@ class TextPanel extends JPanel {
 }
 
 /**
- * A class that wraps the JAIRMIImageServer image server supplied with JAI such that it intercepts all calls to
+ * A class that wraps the JAIRMIImageServer image server supplied with ImageN such that it intercepts all calls to
  * JAIRMIImageServer in order to display the results of these operations in a server side GUI, before forwarding the
  * call to the image server for image processing.
  */
@@ -675,7 +675,7 @@ public class JAIRMIServerWrapper extends UnicastRemoteObject implements ImageSer
      * <p>The usage of this class is
      *
      * <pre>
-     * java -Djava.rmi.server.codebase=file:$JAI/lib/jai.jar \
+     * java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \
      * -Djava.rmi.server.useCodebaseOnly=false \
      * -Djava.security.policy=\
      * file:`pwd`/policy com.sun.media.jai.rmi.JAIRMIImageServer \
@@ -695,7 +695,7 @@ public class JAIRMIServerWrapper extends UnicastRemoteObject implements ImageSer
             System.setSecurityManager(new RMISecurityManager());
         }
 
-        frame = new JFrame("JAI Network Imaging Server");
+        frame = new JFrame("ImageN Network Imaging Server");
 
         // Set the host name and port number.
         String host = null;

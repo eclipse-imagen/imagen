@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -23,7 +23,7 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OpImage;
 
 /** An OpImage to translate an image by in integral number of pixels. */
@@ -55,23 +55,23 @@ public final class TranslateIntOpImage extends OpImage {
         Map config;
         if (configuration == null) {
 
-            config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+            config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
         } else {
 
             config = configuration;
 
-            if (!(config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL))) {
+            if (!(config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL))) {
 
                 RenderingHints hints = (RenderingHints) configuration;
                 config = (RenderingHints) hints.clone();
-                config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
-                config.remove(JAI.KEY_TILE_CACHE);
+                config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+                config.remove(ImageN.KEY_TILE_CACHE);
 
-            } else if (config.containsKey(JAI.KEY_TILE_CACHE)) {
+            } else if (config.containsKey(ImageN.KEY_TILE_CACHE)) {
 
                 RenderingHints hints = (RenderingHints) configuration;
                 config = (RenderingHints) hints.clone();
-                config.remove(JAI.KEY_TILE_CACHE);
+                config.remove(ImageN.KEY_TILE_CACHE);
             }
         }
 

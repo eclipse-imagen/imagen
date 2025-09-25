@@ -37,7 +37,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * @see WritablePropertySource
  * @see PropertyChangeEmitter
  * @see PropertyChangeSupportJAI
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class WritablePropertySourceImpl extends PropertySourceImpl implements WritablePropertySource {
 

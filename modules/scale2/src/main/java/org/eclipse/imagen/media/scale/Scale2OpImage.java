@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2018 GeoSolutions
 
@@ -29,9 +29,9 @@ import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.IntegerSequence;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -79,27 +79,28 @@ import org.huldra.math.BigInt;
  * <p>When interpolations which require padding the source such as Bilinear or Bicubic interpolation are specified, the
  * source needs to be extended such that it has the extra pixels needed to compute all the destination pixels. This
  * extension is performed via the <code>BorderExtender</code> class. The type of border extension can be specified as a
- * <code>RenderingHint</code> to the <code>JAI.create</code> method.
+ * <code>RenderingHint</code> to the <code>ImageN.create</code> method.
  *
  * <p>If no <code>BorderExtender</code> is specified, the source will not be extended. The scaled image size is still
  * calculated according to the formula specified above. However since there is not enough source to compute all the
  * destination pixels, only that subset of the destination image's pixels which can be computed, will be written in the
  * destination. The rest of the destination will be set to zeros.
  *
- * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
+ * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>ImageN.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
  * image bounds itself. The other <code>ImageLayout</code> hints, like tileWidth and tileHeight, however are honored.
  *
  * <p>It should be noted that the superclass <code>GeometricOpImage</code> automatically adds a value of <code>
- * Boolean.TRUE</code> for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code>
+ * Boolean.TRUE</code> for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code>
  * and passes it up to its superclass constructor so that geometric operations are performed on the pixel values instead
  * of being performed on the indices into the color map for those operations whose source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. Regarding the value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>
+ * new hint is added to it. Regarding the value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>
  * RenderingHints</code>, the operator itself can be smart based on the parameters, i.e. while the default value for the
- * <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class, in
- * some cases the operator could set the default.
+ * <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class,
+ * in some cases the operator could set the default.
  *
  * @see WarpOpImage
  * @see OpImage
@@ -815,17 +816,17 @@ public abstract class Scale2OpImage extends GeometricOpImage {
 
             // Set to false
             if (configuration == null) {
-                config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+                config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
             } else {
 
                 // If the user specified a value for this hint, we don't
                 // want to change that
-                if (!config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)) {
+                if (!config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)) {
                     RenderingHints hints = new RenderingHints(null);
                     // This is effectively a clone of configuration
                     hints.putAll(configuration);
                     config = hints;
-                    config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                    config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
                 }
             }
         }
@@ -862,7 +863,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws IllegalArgumentException if combining the source bounds with the layout parameter results in negative
      *     output width or height.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Scale2OpImage(
             RenderedImage source,
@@ -1087,7 +1088,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
             pb.set(topPadding, 2);
             pb.set(bpad, 3);
             pb.set(extender, 4);
-            extendedIMG = JAI.create("border", pb);
+            extendedIMG = ImageN.create("border", pb);
         }
 
         // SG Retrieve the rendered source image and its ROI.
@@ -1127,7 +1128,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
             pb.set(topP, 2);
             pb.set(bottomP, 3);
             pb.set(ROI_EXTENDER, 4);
-            srcROIImgExt = JAI.create("border", pb);
+            srcROIImgExt = ImageN.create("border", pb);
             hasROI = true;
             this.useRoiAccessor = useRoiAccessor;
         } else {
@@ -1156,7 +1157,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -1190,7 +1191,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -1218,7 +1219,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>sourceRect</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
@@ -1371,7 +1372,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>destRect</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
 

@@ -87,7 +87,7 @@ public class Composite extends JPanel implements ChangeListener {
         pb.add((float) src1.getWidth());
         pb.add((float) src1.getHeight());
         pb.add(bandValues);
-        PlanarImage afa1 = JAI.create("constant", pb, null);
+        PlanarImage afa1 = ImageN.create("constant", pb, null);
 
         bandValues = new Byte[3];
         alpha1 = new Byte((byte) 255);
@@ -101,7 +101,7 @@ public class Composite extends JPanel implements ChangeListener {
         pb.add((float) src2.getWidth());
         pb.add((float) src2.getHeight());
         pb.add(bandValues);
-        PlanarImage afa2 = JAI.create("constant", pb, null);
+        PlanarImage afa2 = ImageN.create("constant", pb, null);
 
         ic1 = new ImageDisplay(afa1);
         ic2 = new ImageDisplay(afa2);
@@ -129,7 +129,7 @@ public class Composite extends JPanel implements ChangeListener {
         pb.add(new Boolean(false));
         pb.add(CompositeDescriptor.NO_DESTINATION_ALPHA);
 
-        RenderedOp tmp = JAI.create("composite", pb, null);
+        RenderedOp tmp = ImageN.create("composite", pb, null);
 
         /* if DESTINATION_ALPHA_LAST, convert to 3 band */
         /*
@@ -141,7 +141,7 @@ public class Composite extends JPanel implements ChangeListener {
                 pb.addSource(tmp);
                 pb.add(bandIndices);
 
-                RenderedOp dst = JAI.create("bandselect", pb, null);
+                RenderedOp dst = ImageN.create("bandselect", pb, null);
 
                 ic5 = new ImageDisplay(dst);
         */
@@ -173,7 +173,7 @@ public class Composite extends JPanel implements ChangeListener {
         pb.add((float) src1.getWidth());
         pb.add((float) src1.getHeight());
         pb.add(bandValues);
-        PlanarImage afa1 = (PlanarImage) JAI.create("constant", pb, null);
+        PlanarImage afa1 = (PlanarImage) ImageN.create("constant", pb, null);
         ic1.set(afa1);
 
         // second alpha channel
@@ -189,7 +189,7 @@ public class Composite extends JPanel implements ChangeListener {
         pb.add((float) src2.getWidth());
         pb.add((float) src2.getHeight());
         pb.add(bandValues);
-        PlanarImage afa2 = (PlanarImage) JAI.create("constant", pb, null);
+        PlanarImage afa2 = (PlanarImage) ImageN.create("constant", pb, null);
         ic2.set(afa2);
 
         pb = new ParameterBlock();
@@ -200,7 +200,7 @@ public class Composite extends JPanel implements ChangeListener {
         pb.add(new Boolean(false));
         pb.add(CompositeDescriptor.NO_DESTINATION_ALPHA);
 
-        RenderedOp tmp = JAI.create("composite", pb, null);
+        RenderedOp tmp = ImageN.create("composite", pb, null);
 
         /* if DESTINATION_ALPHA_LAST, convert to 3band */
         /*
@@ -212,7 +212,7 @@ public class Composite extends JPanel implements ChangeListener {
                 pb.addSource(tmp);
                 pb.add(bandIndices);
 
-                RenderedOp op  = JAI.create("bandselect", pb, null);
+                RenderedOp op  = ImageN.create("bandselect", pb, null);
 
                 ic5.set(op);
         */

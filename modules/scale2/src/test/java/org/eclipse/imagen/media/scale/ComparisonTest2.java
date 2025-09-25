@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -20,8 +20,8 @@ package org.eclipse.imagen.media.scale;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.testclasses.ComparisonTestBase;
@@ -48,7 +48,8 @@ public class ComparisonTest2 extends ComparisonTestBase {
 
     @BeforeClass
     public static void initialSetup() {
-        hints = new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
     }
 
     @Override

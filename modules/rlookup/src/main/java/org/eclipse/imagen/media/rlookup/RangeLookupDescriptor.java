@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -19,7 +19,7 @@ package org.eclipse.imagen.media.rlookup;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -29,7 +29,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 /**
  * Describes the "RangeLookup" operation.
  *
- * <p>This is a variation on the JAI Lookup operation. It works with a {@linkplain RangeLookupTable} object in which
+ * <p>This is a variation on the ImageN Lookup operation. It works with a {@linkplain RangeLookupTable} object in which
  * each entry maps a source image value range to a destination image value.
  *
  * <p>Users may also define a {@link ROI} object to use for masking image areas.
@@ -62,13 +62,13 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * r = Range.create(2.0, true, Double.POSITIVE_INFINITY, false);
  * builder.add(r, 3);
  *
- * // Create the lookup table and the JAI operation
+ * // Create the lookup table and the ImageN operation
  * RangeLookupTable&lt;Double, Integer&gt; table = builder.build();
  *
  * ParameterBlockJAI pb = new ParameterBlockJAI("rangelookup");
  * pb.setSource("source0", srcImage);
  * pb.setParameter("table", table);
- * RenderedImage destImage = JAI.create("rangelookup", pb);
+ * RenderedImage destImage = ImageN.create("rangelookup", pb);
  * </code>
  * </pre>
  *
@@ -188,6 +188,6 @@ public class RangeLookupDescriptor extends OperationDescriptorImpl {
         pb.setParameter("default", defaultValue);
         pb.setParameter("roi", roi);
         // Calling the operation
-        return JAI.create("RLookup", pb, hints);
+        return ImageN.create("RLookup", pb, hints);
     }
 }

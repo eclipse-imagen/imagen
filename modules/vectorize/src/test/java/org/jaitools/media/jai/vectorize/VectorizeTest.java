@@ -457,9 +457,9 @@ public class VectorizeTest extends TestBase {
         return src;
     }
 
-    /** Register the operator with JAI if it is not already registered */
+    /** Register the operator with ImageN if it is not already registered */
     private static void ensureRegistered() {
-        OperationRegistry reg = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry reg = ImageN.getDefaultInstance().getOperationRegistry();
         String[] names = reg.getDescriptorNames(RenderedRegistryMode.MODE_NAME);
         VectorizeDescriptor desc = new VectorizeDescriptor();
         String descName = desc.getName();

@@ -167,8 +167,8 @@ import org.eclipse.imagen.media.util.ImageUtil;
  *
  * <p>If Bilinear or Bicubic interpolation is specified, the source needs to be extended such that it has the extra
  * pixels needed to compute all the destination pixels. This extension is performed via the <code>BorderExtender</code>
- * class. The type of border extension can be specified as a <code>RenderingHint</code> to the <code>JAI.create</code>
- * method.
+ * class. The type of border extension can be specified as a <code>RenderingHint</code> to the <code>ImageN.create
+ * </code> method.
  *
  * <p>If no <code>BorderExtender</code> is specified, the source will not be extended. The scaled image size is still
  * calculated according to the formula specified above. However since there is not enough source to compute all the
@@ -458,7 +458,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -478,7 +478,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
      * @param sourcePt the position in source image coordinates to map to destination image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

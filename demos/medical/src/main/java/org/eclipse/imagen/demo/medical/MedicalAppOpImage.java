@@ -29,8 +29,8 @@ import javax.swing.JFrame;
 import javax.swing.event.SwingPropertyChangeSupport;
 import org.eclipse.imagen.Histogram;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROIShape;
@@ -236,7 +236,7 @@ public class MedicalAppOpImage extends Observable
 
     /** Display the statistics or histogram. */
     public void displayStatistics(Shape shape, boolean b) {
-        PlanarImage img = JAI.create("extrema", source, null);
+        PlanarImage img = ImageN.create("extrema", source, null);
         double[] maximum = (double[]) img.getProperty("maximum");
         double maxValue = ((int) (maximum[0] + 255) / 256) * 256.0;
 
@@ -245,7 +245,7 @@ public class MedicalAppOpImage extends Observable
         pb.add(new ROIShape(roi)).add(1).add(1).add(new int[] {256});
         pb.add(new double[] {0.0}).add(new double[] {maxValue});
 
-        PlanarImage dst = JAI.create("histogram", pb);
+        PlanarImage dst = ImageN.create("histogram", pb);
         Histogram h = (Histogram) dst.getProperty("hiStOgRam");
         JFrame frame = new HistogramFrame(h, b, lut, physicalROI(shape));
         Dimension size = frame.getSize();
@@ -417,7 +417,7 @@ public class MedicalAppOpImage extends Observable
                 il.setTileGridXOffset(0);
                 il.setTileGridYOffset(0);
                 RenderingHints hints =
-                        new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+                        new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
         */
 
         if (datatype >= DataBuffer.TYPE_BYTE && datatype < DataBuffer.TYPE_INT) {
@@ -450,7 +450,7 @@ public class MedicalAppOpImage extends Observable
             pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(lookup);
-            dst = JAI.create("lookup", pb, null); // hints);
+            dst = ImageN.create("lookup", pb, null); // hints);
         } else if (datatype == DataBuffer.TYPE_INT
                 || datatype == DataBuffer.TYPE_FLOAT
                 || datatype == DataBuffer.TYPE_DOUBLE) {
@@ -458,13 +458,13 @@ public class MedicalAppOpImage extends Observable
             pb.addSource(source);
             pb.add(slope);
             pb.add(y_int);
-            dst = JAI.create("rescale", pb, null);
+            dst = ImageN.create("rescale", pb, null);
 
             // produce a byte image
             pb = new ParameterBlock();
             pb.addSource(dst);
             pb.add(DataBuffer.TYPE_BYTE);
-            dst = JAI.create("format", pb, null);
+            dst = ImageN.create("format", pb, null);
         }
         return dst;
     }
@@ -478,7 +478,7 @@ public class MedicalAppOpImage extends Observable
         pb.add((float) (angle * Math.PI / 180.0));
         pb.add(new InterpolationBilinear());
 
-        RenderedImage img = JAI.create("rotate", pb);
+        RenderedImage img = ImageN.create("rotate", pb);
 
         // Untile this rotate node so that when compute the next node,
         // no extra memory and time are used in PlanarImage.getExtendedData().
@@ -487,9 +487,9 @@ public class MedicalAppOpImage extends Observable
         il.setTileHeight(img.getHeight());
         il.setTileGridXOffset(img.getMinX());
         il.setTileGridYOffset(img.getMinY());
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
 
-        img = JAI.create("rotate", pb, hints);
+        img = ImageN.create("rotate", pb, hints);
         return img;
     }
 
@@ -509,9 +509,9 @@ public class MedicalAppOpImage extends Observable
         ImageLayout il = new ImageLayout();
         il.setTileWidth(tileSize);
         il.setTileHeight(tileSize);
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
 
-        RenderedImage img = JAI.create("scale", pb, hints);
+        RenderedImage img = ImageN.create("scale", pb, hints);
 
         return img;
     }

@@ -43,15 +43,16 @@ import java.util.Map;
  * being computed and written starting at (minX + leftPadding, minY + topPadding) and having width Math.max(w -
  * leftPadding - rightPadding, 0) and height Math.max(h - topPadding - bottomPadding, 0).
  *
- * <p>A <code>RenderingHints</code> for <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>
+ * <p>A <code>RenderingHints</code> for <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>
  * Boolean.TRUE</code> will automatically be added to the given <code>configuration</code> and passed up to the
  * superclass constructor so that area operations are performed on the pixel values instead of being performed on the
  * indices into the color map for those operations whose source(s) have an <code>IndexColorModel</code>. This addition
- * will only take place if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already been provided
- * by the user. Note that the <code>configuration</code> Map is cloned before the new hint is added to it. Regarding the
- * value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>RenderingHints</code>, the operator itself can be
- * smart based on the parameters, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> is
- * <code>Boolean.TRUE</code> for operations that extend this class, in some cases the operator could set the default.
+ * will only take place if a value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already been
+ * provided by the user. Note that the <code>configuration</code> Map is cloned before the new hint is added to it.
+ * Regarding the value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>RenderingHints</code>, the
+ * operator itself can be smart based on the parameters, i.e. while the default value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class, in
+ * some cases the operator could set the default.
  *
  * @see BorderExtender
  */
@@ -110,19 +111,19 @@ public abstract class AreaOpImage extends OpImage {
         Map config;
 
         if (configuration == null) {
-            config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+            config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
         } else {
 
             config = configuration;
 
             // If the user specified a value for this hint, we don't
             // want to change that
-            if (!config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)) {
+            if (!config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)) {
                 RenderingHints hints = new RenderingHints(null);
                 // This is effectively a clone of configuration
                 hints.putAll(configuration);
                 config = hints;
-                config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
             }
         }
 
@@ -138,13 +139,13 @@ public abstract class AreaOpImage extends OpImage {
      * but do not overlap the source bounds then an <code>IllegalArgumentException</code> will be thrown. This parameter
      * will be passed to the superclass constructor unchanged.
      *
-     * <p>A <code>RenderingHints</code> for <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>
+     * <p>A <code>RenderingHints</code> for <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>
      * Boolean.TRUE</code> will automatically be added to the given <code>configuration</code> and passed up to the
      * superclass constructor so that area operations are performed on the pixel values instead of being performed on
      * the indices into the color map for those operations whose source(s) have an <code>IndexColorModel</code>. This
-     * addition will only take place if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already
-     * been provided by the user. Note that the <code>configuration</code> Map is cloned before the new hint is added to
-     * it.
+     * addition will only take place if a value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not
+     * already been provided by the user. Note that the <code>configuration</code> Map is cloned before the new hint is
+     * added to it.
      *
      * @param source A <code>RenderedImage</code>.
      * @param layout An <code>ImageLayout</code> containing the source dimensions before padding, and optionally
@@ -161,7 +162,7 @@ public abstract class AreaOpImage extends OpImage {
      * @param bottomPadding The desired bottom padding.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws IllegalArgumentException if the user-specified bounds do intersect the source bounds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public AreaOpImage(
             RenderedImage source,
@@ -243,7 +244,7 @@ public abstract class AreaOpImage extends OpImage {
      * reference.
      *
      * @return The associated <code>BorderExtender</code> object or <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public BorderExtender getBorderExtender() {
         return extender;

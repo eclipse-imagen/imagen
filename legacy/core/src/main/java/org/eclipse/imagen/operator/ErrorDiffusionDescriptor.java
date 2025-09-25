@@ -20,7 +20,7 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
@@ -112,9 +112,9 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
      * Performs error diffusion color quantization using a specified color map and error filter.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -134,6 +134,6 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
         pb.setParameter("colorMap", colorMap);
         pb.setParameter("errorKernel", errorKernel);
 
-        return JAI.create("ErrorDiffusion", pb, hints);
+        return ImageN.create("ErrorDiffusion", pb, hints);
     }
 }

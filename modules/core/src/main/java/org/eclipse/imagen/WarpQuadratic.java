@@ -179,7 +179,7 @@ public final class WarpQuadratic extends WarpPolynomial {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {

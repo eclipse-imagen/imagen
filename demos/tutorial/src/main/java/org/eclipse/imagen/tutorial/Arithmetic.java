@@ -45,13 +45,13 @@ public class Arithmetic extends JPanel implements ActionListener {
         pb.add((float) src2.getWidth());
         pb.add((float) src2.getHeight());
         pb.add(bandValues);
-        PlanarImage temp = JAI.create("constant", pb, null);
+        PlanarImage temp = ImageN.create("constant", pb, null);
 
         pb = new ParameterBlock();
         pb.addSource(src2);
         pb.addSource(temp);
 
-        src2 = JAI.create("add", pb, null);
+        src2 = ImageN.create("add", pb, null);
 
         ic1 = new ImageDisplay(src1);
         ic2 = new ImageDisplay(src2);
@@ -98,13 +98,13 @@ public class Arithmetic extends JPanel implements ActionListener {
         pb.addSource(src2);
 
         if (b == b1) {
-            target = JAI.create("add", pb, null);
+            target = ImageN.create("add", pb, null);
         } else if (b == b2) {
-            target = JAI.create("subtract", pb, null);
+            target = ImageN.create("subtract", pb, null);
         } else if (b == b3) {
-            target = JAI.create("multiply", pb, null);
+            target = ImageN.create("multiply", pb, null);
         } else if (b == b4) {
-            target = JAI.create("divide", pb, null);
+            target = ImageN.create("divide", pb, null);
         }
 
         ic3.set(target);

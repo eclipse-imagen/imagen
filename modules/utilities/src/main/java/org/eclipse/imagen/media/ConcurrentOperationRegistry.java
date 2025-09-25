@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 - 2015 GeoSolutions
 
@@ -33,7 +33,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.OperationRegistry;
@@ -47,13 +47,13 @@ import org.eclipse.imagen.util.ImagingListener;
 
 /**
  * A thread safe implementation of OperationRegistry using Java 5 Concurrent {@link ReadWriteLock} Also it is able to
- * substitute JAI operations with JAI-EXT ones and vice versa.
+ * substitute ImageN operations with ImageN-EXT ones and vice versa.
  *
  * @author Andrea Aime - GeoSolutions
  * @author Nicola Lagomarsini - GeoSolutions
  */
 public final class ConcurrentOperationRegistry extends OperationRegistry {
-    /** Path to the JAI default registryfile.jai */
+    /** Path to the ImageN default registryfile.jai */
     static String JAI_REGISTRY_FILE = "META-INF/org.eclipse.imagen.registryFile.jai";
 
     /** Name of the other registryfile.jai */
@@ -62,7 +62,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
     /** String associated to the vendor key */
     static final String VENDOR_NAME = "Vendor";
 
-    /** String associated to the JAI product when the operation is "Null" */
+    /** String associated to the ImageN product when the operation is "Null" */
     static final String JAI_PRODUCT_NULL = "org.eclipse.imagen";
 
     /** Logger associated to the class */
@@ -83,7 +83,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
 
     public static OperationRegistry initializeRegistry() {
         try {
-            // URL associated to the default JAI registryfile.jai
+            // URL associated to the default ImageN registryfile.jai
             InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
 
             if (url == null) {
@@ -91,7 +91,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
             }
             // Creation of a new registry
             ConcurrentOperationRegistry registry = new ConcurrentOperationRegistry();
-            // Registration of the JAI operations
+            // Registration of the ImageN operations
             if (url != null) {
                 registry.updateFromStream(url);
             }
@@ -107,8 +107,8 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
             return registry;
 
         } catch (IOException ioe) {
-            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
-            String message = "Error occurred while initializing JAI";
+            ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
+            String message = "Error occurred while initializing ImageN";
             listener.errorOccurred(message, new ImagingException(message, ioe), OperationRegistry.class, false);
 
             return null;
@@ -699,7 +699,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
         /** Factory object (May be null) */
         private Object factory;
 
-        /** MediaLib Factory object, used by JAI. (May be null) */
+        /** MediaLib Factory object, used by ImageN. (May be null) */
         private Object mlibFactory;
 
         /** Boolean indicating if the MediaLib acceleration must be used. By default is set to false */
@@ -735,7 +735,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
 
         /**
          * * Returns the factory defined by the user. If medialib is preferred, then the MediaLib factory is returned,
-         * otherwise the JAI default factory is returned.
+         * otherwise the ImageN default factory is returned.
          *
          * @return
          */

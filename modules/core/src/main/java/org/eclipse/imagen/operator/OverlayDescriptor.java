@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -124,9 +124,9 @@ public class OverlayDescriptor extends OperationDescriptorImpl {
      * Overlays one image on top of another.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -142,16 +142,16 @@ public class OverlayDescriptor extends OperationDescriptorImpl {
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.create("Overlay", pb, hints);
+        return ImageN.create("Overlay", pb, hints);
     }
 
     /**
      * Overlays one image on top of another.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -168,6 +168,6 @@ public class OverlayDescriptor extends OperationDescriptorImpl {
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.createRenderable("Overlay", pb, hints);
+        return ImageN.createRenderable("Overlay", pb, hints);
     }
 }

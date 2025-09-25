@@ -27,7 +27,7 @@ import java.awt.image.WritableRenderedImage;
  * A <code>PlanarImage</code> wrapper for a <code>WritableRenderedImage</code>. The tile layout, sample model, and so
  * forth are preserved. Calls to <code>getTile()</code> and so forth are forwarded.
  *
- * <p>From JAI's point of view, this image is a <code>PlanarImage</code> of unknown type, with no sources, and
+ * <p>From ImageN's point of view, this image is a <code>PlanarImage</code> of unknown type, with no sources, and
  * additionally an implementer of the <code>WritableRenderedImage</code> interface. The image's pixel data appear to be
  * variable.
  *

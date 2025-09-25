@@ -71,32 +71,40 @@ jobs:
           echo "Checking out mapfish-print-v2"
           mkdir mapfish-print-v2
           git clone --quiet --filter=tree:0 https://github.com/mapfish/mapfish-print-v2.git mapfish-print-v2
-      - name: Update ImageN depedency versions in downstream projects
+      - name: Update ImageN dependency versions in downstream projects
         run: |
           cd ~
           export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
           echo "Detected ImageN version: ${IMAGEN_VERSION}"
-          # ImageIO-Ext
-          echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
-          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" imageio-ext/pom.xml
-          # GeoTools BOM
-          echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
-          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" geotools/platform-dependencies/pom.xml
+          # echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
+          # sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" imageio-ext/pom.xml
+          # echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
+          # sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" geotools/platform-dependencies/pom.xml
       - name: Build ImageIO-Ext with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
           cd ~
+          export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
           cd imageio-ext
-          git checkout master
+          git checkout jai-rename
+          echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
+          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" imageio-ext/pom.xml
+          ant -f ${{ github.workspace }}/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           git diff # show the dependency changes
           mvn -B clean install -T1C -fae -Dall
       - name: Build GeoTools v2 with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
           cd ~
+          export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
           cd geotools
-          git checkout main
+          git checkout jai-rename
+          echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
+          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" geotools/platform-dependencies/pom.xml
           git diff # show the dependency changes
+          ant -f ${{ github.workspace }}/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B clean install -T1C -Dall -fae -nsu -Dspotless.apply.skip=true
       - name: Build GeoWebCache with tests
         continue-on-error: ${{ matrix.experimental }}
@@ -105,14 +113,18 @@ jobs:
           export MAVEN_OPTS="-Xmx1024m $TEST_OPTS"
           cd ~
           cd geowebcache/geowebcache
-          git checkout main
+          git checkout jai-rename
+          ant -f ${{ github.workspace }}/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B install -nsu -Dspotless.apply.skip=true -T1C -fae
       - name: Build Mapfish-print v2 with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
           cd ~
           cd mapfish-print-v2
-          git checkout main
+          git checkout jai-rename
+          ant -f ${{ github.workspace }}/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B install -nsu -T1C -fae
       - name: Build GeoServer with tests
         continue-on-error: ${{ matrix.experimental }}
@@ -122,18 +134,20 @@ jobs:
           export MAVEN_OPTS="-Xmx512m $TEST_OPTS"
           cd ~
           cd geoserver/src
-          git checkout main
+          git checkout jai-rename
           sed -i "s/<mf.version>2.2.0<\/mf.version>/<mf.version>2.3-SNAPSHOT<\/mf.version>/g" pom.xml
           sed -i "s/<gf.version>3.6.0<\/gf.version>/<gf.version>3.6-SNAPSHOT<\/gf.version>/g" pom.xml
           mvn -B -f pom.xml install -nsu -Prelease -Dspotless.apply.skip=true -T1C -fae
           mvn -B -f community/pom.xml install -nsu -DcommunityRelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
+          ant -f ${{ github.workspace }}/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          ant -f ${{ github.workspace }}/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
       - name: Remove integration checkouts
-        if: success() || failure()
+        if: always()
         run: |
           cd ~
           echo "Removing clone geotools, geoserver, mapfish-print-v2, geowebcache"
-          rm -rf geotools geoserver mapfish-print-v2 geowebcache
+          rm -rf imageio-ext geotools geoserver mapfish-print-v2 geowebcache
       - name: Remove SNAPSHOT jars from repository
-        if: success() || failure()
+        if: always()
         run: |
           find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -48,8 +48,8 @@ import org.junit.Test;
  *   <li>Calculation with ROI, using a RasterAccessor, and No Data.
  * </ul>
  *
- * All of these cases are tested on all the JAI data types (Byte,Short, Unsigned Short, Integer, Float, Double), and on
- * both 1 and 2 bands. The correct statistics are calculated before the test executions, and then are compared inside
+ * All of these cases are tested on all the ImageN data types (Byte,Short, Unsigned Short, Integer, Float, Double), and
+ * on both 1 and 2 bands. The correct statistics are calculated before the test executions, and then are compared inside
  * all the tests. Every single test call the testStatistics() method which calls the SimpleStatsDescriptor.create()
  * method for returning a new instance of the SimpleStatsOpImage, then calculates the statistics and finally compares
  * them with the initial precalculated values.

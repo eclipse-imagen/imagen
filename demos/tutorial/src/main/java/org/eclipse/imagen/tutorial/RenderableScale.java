@@ -29,7 +29,7 @@ public class RenderableScale extends JPanel implements ChangeListener {
         for (int i = 3; i >= 0; i--) {
             int ext = i + 1;
             String file = base + ext + ".jpg";
-            RenderedImage im = JAI.create("fileload", file);
+            RenderedImage im = ImageN.create("fileload", file);
             sources.addElement(im);
         }
 

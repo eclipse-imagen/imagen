@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -23,7 +23,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.util.List;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -184,9 +184,9 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
      * Merge (possibly multi-banded)images into a multibanded image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
@@ -211,9 +211,9 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
      * Merge (possibly multi-banded)images into a multibanded image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
@@ -241,9 +241,9 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
      * Merge (possibly multi-banded)images into a multibanded image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
@@ -297,16 +297,16 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("setAlpha", setAlpha);
 
         // Creation of the RenderedOp
-        return JAI.create("BandMerge", pb, hints);
+        return ImageN.create("BandMerge", pb, hints);
     }
 
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
@@ -326,9 +326,9 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
      * Merge (possibly multi-banded)images into a multibanded image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
@@ -354,9 +354,9 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
      * Merge (possibly multi-banded)images into a multibanded image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
@@ -407,6 +407,6 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("roi", roi);
 
         // Creation of the RenderedOp
-        return JAI.createRenderable("BandMerge", pb, hints);
+        return ImageN.createRenderable("BandMerge", pb, hints);
     }
 }

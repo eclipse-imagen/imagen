@@ -30,12 +30,12 @@ import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
  * A class which provides information about a registry mode. The static methods of the class act to maintain a global
- * list of known modes. All <code>RegistryMode</code>s known to JAI are added to this list when this class is loaded.
- * The <code>RegistryMode</code>s installed by JAI cannot be replaced or removed.
+ * list of known modes. All <code>RegistryMode</code>s known to ImageN are added to this list when this class is loaded.
+ * The <code>RegistryMode</code>s installed by ImageN cannot be replaced or removed.
  *
  * <p>The <code>String</code>s used to represent the registry modes are all used in a case-insensitive manner.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class RegistryMode {
 
@@ -56,7 +56,7 @@ public class RegistryMode {
     private boolean arePreferencesSupported;
     private boolean arePropertiesSupported;
 
-    // Load all JAI-defined registryModes.
+    // Load all ImageN-defined registryModes.
     static {
         registryModes = new Hashtable(4);
         immutableNames = new HashSet();
@@ -92,7 +92,7 @@ public class RegistryMode {
     /**
      * Adds a new <code>RegistryMode</code> to the existing list. This succeeds only if the mode is <u>not</u> already
      * present in the list. New <code>RegistryMode</code> names can not clash (in a case insensitive manner) with the
-     * ones installed by JAI (done statically when this class is loaded)
+     * ones installed by ImageN (done statically when this class is loaded)
      *
      * @param mode the new RegistryMode to be added to list
      * @return false if the mode was already in the list. true otherwise
@@ -102,12 +102,12 @@ public class RegistryMode {
     }
 
     /**
-     * Removes a mode from the existing list of known registryModes. If the mode is one of the JAI-installed ones, it
+     * Removes a mode from the existing list of known registryModes. If the mode is one of the ImageN-installed ones, it
      * can not be removed.
      *
      * @param name the RegistryMode to be removed from the list
-     * @return false if the mode can not be removed because it was added by JAI or because the mode was not previously
-     *     add. returns true otherwise.
+     * @return false if the mode can not be removed because it was added by ImageN or because the mode was not
+     *     previously add. returns true otherwise.
      */
     public static synchronized boolean removeMode(String name) {
 

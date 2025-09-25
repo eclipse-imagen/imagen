@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -40,7 +40,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import org.eclipse.imagen.ColorSpaceJAI;
 import org.eclipse.imagen.FloatDoubleColorModel;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.NotAColorSpace;
 import org.eclipse.imagen.ParameterBlockJAI;
@@ -452,7 +452,7 @@ public class ImageUtilities {
      * @return a new TiledImage object
      */
     public static TiledImage createConstantImage(int minx, int miny, int width, int height, Number[] values) {
-        Dimension tileSize = JAI.getDefaultTileSize();
+        Dimension tileSize = ImageN.getDefaultTileSize();
         return createConstantImage(minx, miny, width, height, tileSize.width, tileSize.height, values);
     }
     /**
@@ -760,7 +760,7 @@ public class ImageUtilities {
         pb = new ParameterBlockJAI("Lookup");
         pb.setSource("source0", lookupImg);
         pb.setParameter("table", new LookupTableJAI(lookup, offset));
-        RenderedOp displayImg = JAI.create("Lookup", pb);
+        RenderedOp displayImg = ImageN.create("Lookup", pb);
 
         return displayImg;
     }
@@ -781,7 +781,7 @@ public class ImageUtilities {
                 ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
                 pb.setSource("source0", img);
                 pb.setParameter("bandindices", new int[] {band});
-                RenderedImage bandImg = JAI.create("BandSelect", pb);
+                RenderedImage bandImg = ImageN.create("BandSelect", pb);
                 images.add(bandImg);
             }
         }
@@ -813,7 +813,7 @@ public class ImageUtilities {
                 ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
                 pb.setSource("source0", img);
                 pb.setParameter("bandindices", new int[] {band});
-                RenderedImage bandImg = JAI.create("BandSelect", pb);
+                RenderedImage bandImg = ImageN.create("BandSelect", pb);
                 images.add(bandImg);
             }
         }

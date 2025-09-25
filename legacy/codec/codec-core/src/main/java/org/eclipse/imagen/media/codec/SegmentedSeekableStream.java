@@ -141,7 +141,8 @@ class SectorStreamSegmentMapper implements StreamSegmentMapper {
  * source. If the source stream supports backwards seeking, there are no restrictions on the <code>StreamSegmentMapper
  * </code> and backwards seeking may always be enabled for the <code>SegmentedSeekableStream</code>.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class SegmentedSeekableStream extends SeekableStream {
 

@@ -37,7 +37,7 @@ import org.eclipse.imagen.media.serialize.SerializerFactory;
  * instance of this class may be used as a member field of the <code>OperationNode</code> and some of the <code>
  * OperationNode</code>'s work delegated to it.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class OperationNodeSupport implements Serializable {
 
@@ -125,7 +125,7 @@ public class OperationNodeSupport implements Serializable {
      * @param registryModeName The name of the registry mode concerned.
      * @param opName The operation name to set.
      * @param registry The <code>OperationRegistry</code> to set; it may be <code>null</code> in which case the registry
-     *     will be set to the default JAI registry.
+     *     will be set to the default ImageN registry.
      * @param pb The <code>ParameterBlock</code> to set; it may be <code>null</code>.
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      * @param eventManager The event helper object. The property change event source of this object should be the <code>
@@ -147,7 +147,7 @@ public class OperationNodeSupport implements Serializable {
         // Set instance variables.
         this.registryModeName = registryModeName;
         this.opName = opName;
-        if (registry == null) this.registry = JAI.getDefaultInstance().getOperationRegistry();
+        if (registry == null) this.registry = ImageN.getDefaultInstance().getOperationRegistry();
         else this.registry = registry;
         this.pb = pb;
         this.hints = hints;
@@ -323,7 +323,7 @@ public class OperationNodeSupport implements Serializable {
     /**
      * Sets the <code>OperationRegistry</code> that is used by the associated
      * node.  If the specified registry is <code>null</code>, the
-     * registry will be set to the default JAI registry.  The value is
+     * registry will be set to the default ImageN registry.  The value is
      * set by reference.
      *
      * <p> If the registry changes according to a direct comparison
@@ -337,7 +337,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void setRegistry(OperationRegistry registry) {
         if (registry == null) {
-            registry = JAI.getDefaultInstance().getOperationRegistry();
+            registry = ImageN.getDefaultInstance().getOperationRegistry();
         }
         if (registry != this.registry) {
             OperationRegistry oldRegistry = this.registry;
@@ -664,7 +664,7 @@ public class OperationNodeSupport implements Serializable {
                 } else if (parameter instanceof RenderedImage) {
                     RenderedImage ri = (RenderedImage) parameter;
                     RenderingHints hints = new RenderingHints(null);
-                    hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, Boolean.TRUE);
+                    hints.put(ImageN.KEY_SERIALIZE_DEEP_COPY, Boolean.TRUE);
                     pbClone.set(SerializerFactory.getState(ri, hints), index);
                 } else {
                     throw new RuntimeException(
@@ -716,6 +716,6 @@ public class OperationNodeSupport implements Serializable {
             }
         }
 
-        registry = JAI.getDefaultInstance().getOperationRegistry();
+        registry = ImageN.getDefaultInstance().getOperationRegistry();
     }
 }

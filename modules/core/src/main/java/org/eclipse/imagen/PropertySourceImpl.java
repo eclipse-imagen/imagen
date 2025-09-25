@@ -41,9 +41,9 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * @see PropertySource
  * @see WritablePropertySource
  * @see WritablePropertySourceImpl
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
-// NB A class of this name existed in JAI 1.0.2 but that class was renamed
+// NB A class of this name existed in ImageN 1.0.2 but that class was renamed
 // to what is now PropertyEnvironment.
 public class PropertySourceImpl implements PropertySource, Serializable {
     /**

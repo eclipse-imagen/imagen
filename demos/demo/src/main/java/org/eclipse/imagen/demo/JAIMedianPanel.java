@@ -7,12 +7,10 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.operator.*;
 
@@ -84,7 +82,7 @@ public class JAIMedianPanel extends JAIDemoPanel implements ItemListener {
             pb.addSource(im);
             pb.add(shape);
             pb.add(size);
-            return JAI.create("medianfilter", pb, renderHints);
+            return ImageN.create("medianfilter", pb, renderHints);
         }
     }
 

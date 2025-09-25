@@ -22,7 +22,7 @@ package org.eclipse.imagen;
  * Negotiable</code> interface. <code>NegotiableNumeric</code> is a convenience class to specify a <code>Negotiable
  * </code> value for a parameter which has a single valid numeric value.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class NegotiableNumeric implements Negotiable {
 

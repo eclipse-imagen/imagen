@@ -52,11 +52,11 @@ import org.eclipse.imagen.media.util.SunTileScheduler;
  * while the <code>ColorModel</code> translates the pixel data into color/alpha components in the specific <code>
  * ColorSpace</code> that is associated with the <code>ColorModel</code>.
  *
- * <p>By default, the operators provided by Java Advanced Imaging (JAI) operate on the image's pixel data only. That is,
- * the computations are performed on the data described by the image's <code>SampleModel</code>. No color translation is
- * performed prior to the actual computation by the operator, regardless of the type of the <code>ColorModel</code> an
- * image has. If a user intends to have an operation performed on the color data, he must perform the color translation
- * explicitly prior to invoking the operation.
+ * <p>By default, the operators provided by Java Advanced Imaging (ImageN) operate on the image's pixel data only. That
+ * is, the computations are performed on the data described by the image's <code>SampleModel</code>. No color
+ * translation is performed prior to the actual computation by the operator, regardless of the type of the <code>
+ * ColorModel</code> an image has. If a user intends to have an operation performed on the color data, he must perform
+ * the color translation explicitly prior to invoking the operation.
  *
  * <p>There are those operators that specifically deal with the color/alpha data of an image. Such an operator must
  * state its behavior in its <code>OperationDescriptor</code> explicitly and explain its intended usage of the image's
@@ -65,12 +65,13 @@ import org.eclipse.imagen.media.util.SunTileScheduler;
  *
  * <p>However there are certain operations, the results of which are incorrect when the source has colormapped imagery,
  * i.e. the source has an <code>IndexColorModel</code>, and the computations are performed on the image's non color
- * transformed pixel data. In JAI, such operations are those that are implemented as subclasses of {@link AreaOpImage},
- * {@link GeometricOpImage}, and the "format" operation. These operations set the
- * {@link JAI#KEY_REPLACE_INDEX_COLOR_MODEL} <code>RenderingHint</code> to true, thus ensuring that the operations are
- * performed correctly on the colormapped imagery, not treating the indices into the color map as pixel data.
+ * transformed pixel data. In ImageN, such operations are those that are implemented as subclasses of
+ * {@link AreaOpImage}, {@link GeometricOpImage}, and the "format" operation. These operations set the
+ * {@link ImageN#KEY_REPLACE_INDEX_COLOR_MODEL} <code>RenderingHint</code> to true, thus ensuring that the operations
+ * are performed correctly on the colormapped imagery, not treating the indices into the color map as pixel data.
  *
- * <p>The tile cache and scheduler are handled by this class. JAI provides a default implementation for <code>TileCache
+ * <p>The tile cache and scheduler are handled by this class. ImageN provides a default implementation for <code>
+ * TileCache
  * </code> and <code>TileScheduler</code>. However, they may be overriden by each application. An <code>OpImage</code>
  * may share a common cache with other <code>OpImage</code>s, or it may have a private cache of its own. To override an
  * existing cache, use the <code>setTileCache</code> method; an input argument of <code>null</code> indicates that this
@@ -81,7 +82,7 @@ import org.eclipse.imagen.media.util.SunTileScheduler;
  * <code>TileScheduler</code> to schedule the tile for computation. Once the tile has been computed, it is added to the
  * cache and returned as a <code>Raster</code>.
  *
- * <p>The JAI tile scheduler assumes that when a request is made to schedule a tile for computation via the <code>
+ * <p>The ImageN tile scheduler assumes that when a request is made to schedule a tile for computation via the <code>
  * scheduleTile</code> method, that tile is not currently in the cache. To avoid a cycle, it calls <code>
  * OpImage.computeTile</code> for the actual tile computation.
  *
@@ -112,7 +113,7 @@ import org.eclipse.imagen.media.util.SunTileScheduler;
  * the <code>computeRect</code> method variants, and specify which one is to be called via the <code>cobbleSources
  * </code> argument of the constructor, or an exception will be thrown at run time.
  *
- * <p>If a subclass overrides <code>getTile</code> not to call <code>computeTile</code>, does not use the JAI
+ * <p>If a subclass overrides <code>getTile</code> not to call <code>computeTile</code>, does not use the ImageN
  * implementation of <code>TileScheduler</code>, overrides <code>computeTile</code> not to call <code>computeRect</code>
  * , or does not follow the above default implementation in any way, then it may need to handle issues such as tile
  * caching, multi-threading, and etc. by itself and may not need to override some of the methods described above. In
@@ -165,12 +166,12 @@ public abstract class OpImage extends PlanarImage {
      * Metric used to produce an ordered list of tiles. This determines which tiles are removed from the cache first if
      * a memory control operation is required.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected Object tileCacheMetric;
 
     /** The scheduler to be used to schedule tile computation. */
-    private transient TileScheduler scheduler = JAI.getDefaultInstance().getTileScheduler();
+    private transient TileScheduler scheduler = ImageN.getDefaultInstance().getTileScheduler();
 
     /** Variable indicating whether the TileScheduler is the Sun implementation. */
     private boolean isSunTileScheduler = false;
@@ -191,7 +192,7 @@ public abstract class OpImage extends PlanarImage {
      * A <code>TileRecycler</code> for use in <code>createTile()</code>. May be <code>null</code>. This field is set by
      * the configuration map passed to {@link #OpImage(Vector,ImageLayout,Map,boolean}.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     protected TileRecycler tileRecycler;
 
@@ -219,7 +220,7 @@ public abstract class OpImage extends PlanarImage {
      *   <li>Tile dimension set in the <code>ImageLayout</code> (either by the user or the operator itself);
      *   <li>Tile dimension of source, if source is non-<code>null</code>. The tile dimension will be clamped to the
      *       minimum of that of the source tile dimension and the image's corresponding dimension;
-     *   <li>Non-<code>null</code> default tile size returned by <code>JAI.getDefaultTileSize()</code>, if the
+     *   <li>Non-<code>null</code> default tile size returned by <code>ImageN.getDefaultTileSize()</code>, if the
      *       corresponding image dimension is at least double the default tile size;
      *   <li>The dimensions of the image itself;
      * </ol>
@@ -322,8 +323,8 @@ public abstract class OpImage extends PlanarImage {
                         if (cmSource != null
                                 && cmSource instanceof IndexColorModel
                                 && config != null
-                                && config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)
-                                && ((Boolean) config.get(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)).booleanValue()) {
+                                && config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)
+                                && ((Boolean) config.get(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)).booleanValue()) {
 
                             ColorModel newCM =
                                     PlanarImage.getDefaultColorModel(sm.getDataType(), cmSource.getNumComponents());
@@ -401,8 +402,8 @@ public abstract class OpImage extends PlanarImage {
                     && im.getColorModel() != null
                     && im.getColorModel() instanceof IndexColorModel
                     && config != null
-                    && config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)
-                    && ((Boolean) config.get(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)).booleanValue()) {
+                    && config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)
+                    && ((Boolean) config.get(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)).booleanValue()) {
 
                 IndexColorModel icm = (IndexColorModel) im.getColorModel();
 
@@ -438,7 +439,7 @@ public abstract class OpImage extends PlanarImage {
         if (layout != null
                 && il != null
                 && !layout.isValid(ImageLayout.TILE_WIDTH_MASK | ImageLayout.TILE_HEIGHT_MASK)) {
-            Dimension defaultTileSize = JAI.getDefaultTileSize();
+            Dimension defaultTileSize = ImageN.getDefaultTileSize();
             if (defaultTileSize != null) {
                 if (!layout.isValid(ImageLayout.TILE_WIDTH_MASK)) {
                     if (il.getTileWidth(null) <= 0) {
@@ -504,9 +505,9 @@ public abstract class OpImage extends PlanarImage {
 
     /**
      * Set the <code>ColorModel</code> in <code>layout</code> if <code>config</code> is non-<code>null</code> and
-     * contains a mapping for <code>JAI.KEY_COLOR_MODEL_FACTORY</code>. If the <code>ColorModelFactory</code> returns a
-     * non-<code>null</code> <code>ColorModel</code> which is compatible with <code>sampleModel</code> it is used to set
-     * the <code>ColorModel</code> in <code>layout</code>.
+     * contains a mapping for <code>ImageN.KEY_COLOR_MODEL_FACTORY</code>. If the <code>ColorModelFactory</code> returns
+     * a non-<code>null</code> <code>ColorModel</code> which is compatible with <code>sampleModel</code> it is used to
+     * set the <code>ColorModel</code> in <code>layout</code>.
      *
      * @param sampleModel The <code>SampleModel</code> to which the <code>ColorModel</code> to be created must
      *     correspond; may <b>not</b> be <code>null</code>.
@@ -521,8 +522,8 @@ public abstract class OpImage extends PlanarImage {
             SampleModel sampleModel, Vector sources, Map config, ImageLayout layout) {
         boolean isColorModelSet = false;
 
-        if (config != null && config.containsKey(JAI.KEY_COLOR_MODEL_FACTORY)) {
-            ColorModelFactory cmf = (ColorModelFactory) config.get(JAI.KEY_COLOR_MODEL_FACTORY);
+        if (config != null && config.containsKey(ImageN.KEY_COLOR_MODEL_FACTORY)) {
+            ColorModelFactory cmf = (ColorModelFactory) config.get(ImageN.KEY_COLOR_MODEL_FACTORY);
             ColorModel cm = cmf.createColorModel(sampleModel, sources, config);
             if (cm != null && JDKWorkarounds.areCompatibleDataModels(sampleModel, cm)) {
                 layout.setColorModel(cm);
@@ -535,7 +536,7 @@ public abstract class OpImage extends PlanarImage {
 
     // XXX Note: ColorModel.isCompatibleRaster() is mentioned below but it
     // should be ColorModel.isCompatibleSampleModel(). This has a bug
-    // however (4326636) which is worked around within JAI. The other method
+    // however (4326636) which is worked around within ImageN. The other method
     // is mentioned as it does NOT have a bug.
     /**
      * Constructor.
@@ -554,14 +555,14 @@ public abstract class OpImage extends PlanarImage {
      *   <li>Non-<code>null</code> <code>ColorModel</code> from <code>ImageLayout</code> if compatible with <code>
      *       SampleModel</code> in <code>ImageLayout</code> or if <code>SampleModel</code> in <code>ImageLayout</code>
      *       is <code>null</code>;
-     *   <li>Value returned by <code>ColorModelFactory</code> set via the <code>JAI.KEY_COLOR_MODEL_FACTORY</code>
+     *   <li>Value returned by <code>ColorModelFactory</code> set via the <code>ImageN.KEY_COLOR_MODEL_FACTORY</code>
      *       configuration variable if compatible with <code>SampleModel</code>;
      *   <li>An instance of a non-<code>IndexColorModel</code> (or <code>null</code> if no compatible non-<code>
      *       IndexColorModel</code> could be generated), if the source has an <code>IndexColorModel</code> and <code>
-     *       JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code>;
+     *       ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code>;
      *   <li><code>ColorModel</code> of first source if compatible with <code>SampleModel</code>;
-     *   <li>Value returned by default method specified by the <code>JAI.KEY_DEFAULT_COLOR_MODEL_METHOD</code>
-     *       configuration variable if <code>JAI.KEY_DEFAULT_COLOR_MODEL_ENABLED</code> is <code>Boolean.TRUE</code>.
+     *   <li>Value returned by default method specified by the <code>ImageN.KEY_DEFAULT_COLOR_MODEL_METHOD</code>
+     *       configuration variable if <code>ImageN.KEY_DEFAULT_COLOR_MODEL_ENABLED</code> is <code>Boolean.TRUE</code>.
      * </ol>
      *
      * If it is not possible to set the <code>ColorModel</code> by any of these means it will remain <code>null</code>.
@@ -573,7 +574,7 @@ public abstract class OpImage extends PlanarImage {
      *   <li>Tile dimension set in the <code>ImageLayout</code> (either by the user or the operator itself);
      *   <li>Tile dimension of source, if source is non-<code>null</code>. The tile dimension will be clamped to the
      *       minimum of that of the source tile dimension and the image's corresponding dimension;
-     *   <li>Non-<code>null</code> default tile size returned by <code>JAI.getDefaultTileSize()</code>, if the
+     *   <li>Non-<code>null</code> default tile size returned by <code>ImageN.getDefaultTileSize()</code>, if the
      *       corresponding image dimension is at least double the default tile size;
      *   <li>The dimensions of the image itself;
      * </ol>
@@ -590,39 +591,41 @@ public abstract class OpImage extends PlanarImage {
      * <p>This image class recognizes the configuration variables referenced by the following keys:
      *
      * <ul>
-     *   <li><code>JAI.KEY_TILE_CACHE</code>: specifies the <code>TileCache</code> in which to store the image tiles; if
-     *       this key is not supplied no tile caching will be performed.
-     *   <li><code>JAI.KEY_TILE_CACHE_METRIC</code>: establishes an ordering of tiles stored in the tile cache. This
+     *   <li><code>ImageN.KEY_TILE_CACHE</code>: specifies the <code>TileCache</code> in which to store the image tiles;
+     *       if this key is not supplied no tile caching will be performed.
+     *   <li><code>ImageN.KEY_TILE_CACHE_METRIC</code>: establishes an ordering of tiles stored in the tile cache. This
      *       ordering is used to determine which tiles will be removed first, if a condition causes tiles to be removed
      *       from the cache.
-     *   <li><code>JAI.KEY_TILE_SCHEDULER</code>: specifies the <code>TileScheduler</code> to use to schedule tile
+     *   <li><code>ImageN.KEY_TILE_SCHEDULER</code>: specifies the <code>TileScheduler</code> to use to schedule tile
      *       computation; if this key is not supplied the default scheduler will be used.
-     *   <li><code>JAI.KEY_COLOR_MODEL_FACTORY</code>: specifies a <code>ColorModelFactory</code> to be used to generate
-     *       the <code>ColorModel</code> of the image. If such a callback is provided it will be invoked if and only if
-     *       either no <code>ImageLayout</code> hint is given, or an <code>ImageLayout</code> hint is given but contains
-     *       a non-<code>null</code> <code>ColorModel</code> which is incompatible with the image <code>SampleModel
+     *   <li><code>ImageN.KEY_COLOR_MODEL_FACTORY</code>: specifies a <code>ColorModelFactory</code> to be used to
+     *       generate the <code>ColorModel</code> of the image. If such a callback is provided it will be invoked if and
+     *       only if either no <code>ImageLayout</code> hint is given, or an <code>ImageLayout</code> hint is given but
+     *       contains a non-<code>null</code> <code>ColorModel</code> which is incompatible with the image <code>
+     *       SampleModel
      *       </code>. In other words, such a callback provides the second priority mechanism for setting the <code>
      *       ColorModel</code> of the image.
-     *   <li><code>JAI.KEY_DEFAULT_COLOR_MODEL_ENABLED</code>: specifies whether a default <code>ColorModel</code> will
-     *       be derived if none is specified and one cannot be inherited from the first source; if this key is not
+     *   <li><code>ImageN.KEY_DEFAULT_COLOR_MODEL_ENABLED</code>: specifies whether a default <code>ColorModel</code>
+     *       will be derived if none is specified and one cannot be inherited from the first source; if this key is not
      *       supplied a default <code>ColorModel</code> will be computed if necessary.
-     *   <li><code>JAI.KEY_DEFAULT_COLOR_MODEL_METHOD</code>: specifies the method to be used to compute the default
+     *   <li><code>ImageN.KEY_DEFAULT_COLOR_MODEL_METHOD</code>: specifies the method to be used to compute the default
      *       <code>ColorModel</code>; if this key is not supplied and a default <code>ColorModel</code> is required,
      *       <code>PlanarImage.createColorModel()</code> will be used to compute it.
-     *   <li><code>JAI.KEY_TILE_FACTORY</code>: specifies a {@link TileFactory} to be used to generate the tiles of the
-     *       image via {@link TileFactory#createTile(SampleModel,Point)}. If no such configuration variable is given, a
-     *       new <code>Raster</code> will be created for each image tile. This behavior may be overridden by subclasses
-     *       which have alternate means of saving memory, for example as in the case of point operations which may
-     *       overwrite a source image not referenced by user code. Note that the corresponding instance variable is
-     *       actually set by the superclass constructor.
-     *   <li><code>JAI.KEY_TILE_RECYCLER</code>: specifies a {@link TileRecycler} to be used to recycle the tiles of the
-     *       image when the <code>dispose()</code> method is invoked. If such a configuration variable is set, the image
-     *       has a non-<code>null</code> <code>TileCache</code>, and tile recycling is enabled, then invoking <code>
+     *   <li><code>ImageN.KEY_TILE_FACTORY</code>: specifies a {@link TileFactory} to be used to generate the tiles of
+     *       the image via {@link TileFactory#createTile(SampleModel,Point)}. If no such configuration variable is
+     *       given, a new <code>Raster</code> will be created for each image tile. This behavior may be overridden by
+     *       subclasses which have alternate means of saving memory, for example as in the case of point operations
+     *       which may overwrite a source image not referenced by user code. Note that the corresponding instance
+     *       variable is actually set by the superclass constructor.
+     *   <li><code>ImageN.KEY_TILE_RECYCLER</code>: specifies a {@link TileRecycler} to be used to recycle the tiles of
+     *       the image when the <code>dispose()</code> method is invoked. If such a configuration variable is set, the
+     *       image has a non-<code>null</code> <code>TileCache</code>, and tile recycling is enabled, then invoking
+     *       <code>
      *       dispose()</code> will cause each of the tiles of this image currently in the cache to be passed to the
      *       configured <code>TileRecycler</code> via {@link TileRecycler#recycleTile(Raster)}.
-     *   <li><code>JAI.KEY_CACHED_TILE_RECYCLING_ENABLED</code>: specifies a <code>Boolean</code> value which indicates
-     *       whether {#dispose()} should pass to <code>tileRecycler.recycleTile()</code> any image tiles remaining in
-     *       the cache.
+     *   <li><code>ImageN.KEY_CACHED_TILE_RECYCLING_ENABLED</code>: specifies a <code>Boolean</code> value which
+     *       indicates whether {#dispose()} should pass to <code>tileRecycler.recycleTile()</code> any image tiles
+     *       remaining in the cache.
      * </ul>
      *
      * <p>The <code>cobbleSources</code> indicates which one of the two variants of the <code>computeRect</code> method
@@ -639,15 +642,15 @@ public abstract class OpImage extends PlanarImage {
      *     </code> is <code>null</code>.
      * @throws RuntimeException If default <code>ColorModel</code> setting is enabled via a hint in the configuration
      *     <code>Map</code> and the supplied <code>Method</code> does not conform to the requirements stated in the
-     *     <code>JAI</code> class for the hint key <code>KEY_DEFAULT_COLOR_MODEL_METHOD</code>.
-     * @since JAI 1.1
+     *     <code>ImageN</code> class for the hint key <code>KEY_DEFAULT_COLOR_MODEL_METHOD</code>.
+     * @since ImageN 1.1
      */
     public OpImage(Vector sources, ImageLayout layout, Map configuration, boolean cobbleSources) {
         super(layoutHelper(layout, sources, configuration), sources, configuration);
 
         if (configuration != null) {
             // Get the cache from the configuration map.
-            Object cacheConfig = configuration.get(JAI.KEY_TILE_CACHE);
+            Object cacheConfig = configuration.get(ImageN.KEY_TILE_CACHE);
 
             // Ensure that it is a TileCache instance with positive capacity.
             if (cacheConfig != null
@@ -657,7 +660,7 @@ public abstract class OpImage extends PlanarImage {
             }
 
             // Get the scheduler from the configuration map.
-            Object schedulerConfig = configuration.get(JAI.KEY_TILE_SCHEDULER);
+            Object schedulerConfig = configuration.get(ImageN.KEY_TILE_SCHEDULER);
 
             // Ensure that it is a TileScheduler instance.
             if (schedulerConfig != null && schedulerConfig instanceof TileScheduler) {
@@ -672,16 +675,16 @@ public abstract class OpImage extends PlanarImage {
             }
 
             // Get the tile metric (cost or priority, for example)
-            tileCacheMetric = configuration.get(JAI.KEY_TILE_CACHE_METRIC);
+            tileCacheMetric = configuration.get(ImageN.KEY_TILE_CACHE_METRIC);
 
             // Set up cached tile recycling flag.
-            Object recyclingEnabledValue = configuration.get(JAI.KEY_CACHED_TILE_RECYCLING_ENABLED);
+            Object recyclingEnabledValue = configuration.get(ImageN.KEY_CACHED_TILE_RECYCLING_ENABLED);
             if (recyclingEnabledValue instanceof Boolean) {
                 isCachedTileRecyclingEnabled = ((Boolean) recyclingEnabledValue).booleanValue();
             }
 
             // Set up the TileRecycler.
-            Object recyclerValue = configuration.get(JAI.KEY_TILE_RECYCLER);
+            Object recyclerValue = configuration.get(ImageN.KEY_TILE_RECYCLER);
             if (recyclerValue instanceof TileRecycler) {
                 tileRecycler = (TileRecycler) recyclerValue;
             }
@@ -730,7 +733,7 @@ public abstract class OpImage extends PlanarImage {
      * @param image The image to be stored in the <code>Vector</code>.
      * @return A <code>Vector</code> containing the image.
      * @throws IllegalArgumentException if <code>image</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected static Vector vectorize(RenderedImage image) {
         if (image == null) {
@@ -748,7 +751,7 @@ public abstract class OpImage extends PlanarImage {
      * @param image2 The second image to be stored in the <code>Vector</code>.
      * @return A <code>Vector</code> containing the images.
      * @throws IllegalArgumentException if <code>image1</code> or <code>image2</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected static Vector vectorize(RenderedImage image1, RenderedImage image2) {
         if (image1 == null || image2 == null) {
@@ -769,7 +772,7 @@ public abstract class OpImage extends PlanarImage {
      * @return A <code>Vector</code> containing the images.
      * @throws IllegalArgumentException if <code>image1</code> or <code>image2</code> or <code>image3</code> is <code>
      *     null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected static Vector vectorize(RenderedImage image1, RenderedImage image2, RenderedImage image3) {
         if (image1 == null || image2 == null || image3 == null) {
@@ -819,7 +822,7 @@ public abstract class OpImage extends PlanarImage {
      * Returns the tile cache object of this image by reference. If this image does not have a tile cache, this method
      * returns <code>null</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TileCache getTileCache() {
         return cache;
@@ -869,7 +872,7 @@ public abstract class OpImage extends PlanarImage {
     /**
      * Returns the <code>tileCacheMetric</code> instance variable by reference.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Object getTileCacheMetric() {
         return tileCacheMetric;
@@ -1038,7 +1041,7 @@ public abstract class OpImage extends PlanarImage {
      *
      * <p>If no dependencies exist, this method returns <code>null</code>.
      *
-     * <p>This method may be used by optimized implementations of JAI in order to predict future work and create an
+     * <p>This method may be used by optimized implementations of ImageN in order to predict future work and create an
      * optimized schedule for performing it.
      *
      * <p>A given <code>OpImage</code> may mix calls to <code>getTile()</code> with calls to other methods such as
@@ -1238,7 +1241,7 @@ public abstract class OpImage extends PlanarImage {
      *
      * @param tileIndices A list of tile indices indicating which tiles to schedule for computation.
      * @throws IllegalArgumentException If <code>tileIndices</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         if (tileIndices == null) {
@@ -1281,7 +1284,7 @@ public abstract class OpImage extends PlanarImage {
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException If <code>request</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
@@ -1345,7 +1348,7 @@ public abstract class OpImage extends PlanarImage {
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -1391,7 +1394,7 @@ public abstract class OpImage extends PlanarImage {
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -1481,14 +1484,14 @@ public abstract class OpImage extends PlanarImage {
 
     /**
      * Uncaches all tiles and calls <code>super.dispose()</code>. If a <code>TileRecycler</code> was defined via the
-     * configuration variable <code>JAI.KEY_TILE_RECYCLER</code> when this image was constructed and tile recycling was
-     * enabled via the configuration variable <code>JAI.KEY_CACHED_TILE_RECYCLING_ENABLED</code>, then each of this
-     * image's tiles which is currently in the cache will be recycled. This method may be invoked more than once
+     * configuration variable <code>ImageN.KEY_TILE_RECYCLER</code> when this image was constructed and tile recycling
+     * was enabled via the configuration variable <code>ImageN.KEY_CACHED_TILE_RECYCLING_ENABLED</code>, then each of
+     * this image's tiles which is currently in the cache will be recycled. This method may be invoked more than once
      * although invocations after the first one may do nothing.
      *
      * <p>The results of referencing an image after a call to <code>dispose()</code> are undefined.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public synchronized void dispose() {
         if (isDisposed) {
@@ -1519,7 +1522,7 @@ public abstract class OpImage extends PlanarImage {
      *
      * @param sourceIndex The index of the source in question.
      * @return <code>true</code> if the indicated source has an extender.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public boolean hasExtender(int sourceIndex) {
         if (sourceIndex != 0) {
@@ -1538,7 +1541,7 @@ public abstract class OpImage extends PlanarImage {
      * IndexColorModel</code> the effective number of bands is given by <code>colorModel.getNumComponents()</code>,
      * since a single physical sample represents multiple color components.
      *
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public static int getExpandedNumBands(SampleModel sampleModel, ColorModel colorModel) {
         if (colorModel instanceof IndexColorModel) {
@@ -1574,7 +1577,7 @@ public abstract class OpImage extends PlanarImage {
     /**
      * Returns the value of the instance variable <code>tileRecycler</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public TileRecycler getTileRecycler() {
         return tileRecycler;
@@ -1588,7 +1591,7 @@ public abstract class OpImage extends PlanarImage {
      * <p>Subclasses should ideally use this method to create destination tiles as this method will take advantage of
      * any <code>TileFactory</code> specified to the <code>OpImage</code> at construction.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     protected final WritableRaster createTile(int tileX, int tileY) {
         return createWritableRaster(sampleModel, new Point(tileXToX(tileX), tileYToY(tileY)));
@@ -1607,7 +1610,7 @@ public abstract class OpImage extends PlanarImage {
      * exited.
      *
      * @throws IllegalArgumentException if <code>tile</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     protected void recycleTile(Raster tile) {
         if (tile == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));

@@ -18,7 +18,7 @@
 package org.eclipse.imagen.registry;
 
 import java.lang.reflect.Method;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.RegistryMode;
 import org.eclipse.imagen.tilecodec.TileCodecDescriptor;
 import org.eclipse.imagen.tilecodec.TileCodecParameterList;
@@ -28,7 +28,7 @@ import org.eclipse.imagen.util.ImagingListener;
 /**
  * A class which provides information about the "tileEncoder" registry mode.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class TileEncoderRegistryMode extends RegistryMode {
 
@@ -53,7 +53,7 @@ public class TileEncoderRegistryMode extends RegistryMode {
             factoryMethod = factoryClass.getMethod("createEncoder", paramTypes);
 
         } catch (NoSuchMethodException e) {
-            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
             String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
             listener.errorOccurred(message, e, TileEncoderRegistryMode.class, false);
             //	    e.printStackTrace();

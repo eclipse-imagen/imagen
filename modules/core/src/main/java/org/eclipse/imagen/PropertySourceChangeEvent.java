@@ -18,14 +18,14 @@
 package org.eclipse.imagen;
 
 /**
- * A class instances of which represent JAI properties as emitted for example by a <code>PropertySource</code> but in
+ * A class instances of which represent ImageN properties as emitted for example by a <code>PropertySource</code> but in
  * the guise of an event as defined for Java Beans. This class definition adds no functionality to that provided by the
  * superclass per se. The significance of the derivation is that instances of this event by definition refer to
- * properties in the JAI sense of the term. Otherwise put, this class provides an extra level of indirection.
+ * properties in the ImageN sense of the term. Otherwise put, this class provides an extra level of indirection.
  *
  * @see PropertyChangeEventJAI
  * @see PropertySource
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class PropertySourceChangeEvent extends PropertyChangeEventJAI {
     /**

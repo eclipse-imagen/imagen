@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,7 +26,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygonal;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
@@ -70,14 +70,14 @@ public class VectorBinarizeRIF implements RenderedImageFactory {
 
         // get the tile size from the image layout
         Dimension tileSize = null;
-        if (renderHints != null && renderHints.containsKey(JAI.KEY_IMAGE_LAYOUT)) {
-            ImageLayout il = (ImageLayout) renderHints.get(JAI.KEY_IMAGE_LAYOUT);
+        if (renderHints != null && renderHints.containsKey(ImageN.KEY_IMAGE_LAYOUT)) {
+            ImageLayout il = (ImageLayout) renderHints.get(ImageN.KEY_IMAGE_LAYOUT);
             if (il != null) {
                 tileSize = new Dimension(il.getTileWidth(null), il.getTileHeight(null));
             }
         }
         if (tileSize == null) {
-            tileSize = JAI.getDefaultTileSize();
+            tileSize = ImageN.getDefaultTileSize();
         }
         // sample model wise we only build bw images
         SampleModel sm = new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE, tileSize.width, tileSize.height, 1);

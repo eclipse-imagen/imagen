@@ -23,7 +23,7 @@ package org.eclipse.imagen;
  * <p>All comparisons using <code>String</code>s are done in a case insensitive (but retentive) manner.
  *
  * @see ParameterListDescriptor
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface ParameterList {
 

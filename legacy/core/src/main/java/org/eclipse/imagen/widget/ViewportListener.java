@@ -24,7 +24,7 @@ package org.eclipse.imagen.widget;
  * @see ScrollingImagePanel
  *     <p>This class has been deprecated. The source code has been moved to the samples/widget directory. These widgets
  *     are no longer supported.
- * @deprecated as of JAI 1.1
+ * @deprecated as of ImageN 1.1
  */
 public interface ViewportListener {
 

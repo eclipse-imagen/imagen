@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -35,7 +35,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.eclipse.imagen.ColorCube;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.ParameterBlockJAI;
@@ -89,7 +89,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
-        RenderedOp finalimage = JAI.create("ErrorDiffusion", pbj);
+        RenderedOp finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -109,7 +109,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
         pbj.setParameter("roi", roi);
-        finalimage = JAI.create("ErrorDiffusion", pbj);
+        finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -123,7 +123,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ErrorDiffusion", pbj);
+        finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -138,7 +138,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.setParameter("colorMap", lt);
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ErrorDiffusion", pbj);
+        finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -258,7 +258,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
-        RenderedOp finalimage = JAI.create("ErrorDiffusion", pbj);
+        RenderedOp finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -278,7 +278,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
         pbj.setParameter("roi", roi);
-        finalimage = JAI.create("ErrorDiffusion", pbj);
+        finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -292,7 +292,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ErrorDiffusion", pbj);
+        finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -307,7 +307,7 @@ public class ErrorDiffusionTest extends TestBase {
         pbj.setParameter("colorMap", lt);
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ErrorDiffusion", pbj);
+        finalimage = ImageN.create("ErrorDiffusion", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -325,14 +325,14 @@ public class ErrorDiffusionTest extends TestBase {
      */
     private RenderedImage getTestTiff() throws IOException, FileNotFoundException {
         File spearfish = TestData.file(this, "test.tif");
-        RenderedOp image = JAI.create("ImageRead", spearfish);
+        RenderedOp image = ImageN.create("ImageRead", spearfish);
         return image;
     }
 
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ErrorDiffusion");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ErrorDiffusion");
         assertNotNull(descriptor);
         assertEquals("ErrorDiffusion", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

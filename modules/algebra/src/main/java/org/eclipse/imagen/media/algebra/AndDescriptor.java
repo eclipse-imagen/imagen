@@ -10,7 +10,7 @@ package org.eclipse.imagen.media.algebra;
 import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -71,7 +71,7 @@ public class AndDescriptor extends OperationDescriptorImpl {
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.create("and", pb, hints);
+        return ImageN.create("and", pb, hints);
     }
 
     /**
@@ -90,6 +90,6 @@ public class AndDescriptor extends OperationDescriptorImpl {
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.createRenderable("and", pb, hints);
+        return ImageN.createRenderable("and", pb, hints);
     }
 }

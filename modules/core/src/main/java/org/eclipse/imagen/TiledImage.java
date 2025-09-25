@@ -43,7 +43,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
 /**
  * A concrete implementation of <code>WritableRenderedImage</code>.
  *
- * <p><code>TiledImage</code> is the main class for writable images in JAI. <code>TiledImage</code> provides a
+ * <p><code>TiledImage</code> is the main class for writable images in ImageN. <code>TiledImage</code> provides a
  * straightforward implementation of the <code>WritableRenderedImage</code> interface, taking advantage of that
  * interface's ability to describe images with multiple tiles. The tiles of a <code>WritableRenderedImage</code> must
  * share a <code>SampleModel</code>, which determines their width, height, and pixel format. The tiles form a regular
@@ -57,10 +57,10 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  *
  * <p><code>TiledImage</code> also supports direct manipulation of pixels by means of the <code>getWritableTile()</code>
  * method. This method returns a <code>WritableRaster</code> that can be modified directly. Such changes become visible
- * to readers according to the regular thread synchronization rules of the Java virtual machine; JAI makes no additional
- * guarantees. When a writer is finished modifying a tile, it should call <code>releaseWritableTile()</code>. A shortcut
- * is to call <code>setData()</code>, which copies a rectangular region or an area specified by a <code>ROI</code> from
- * a supplied <code>Raster</code> directly into the <code>TiledImage</code>.
+ * to readers according to the regular thread synchronization rules of the Java virtual machine; ImageN makes no
+ * additional guarantees. When a writer is finished modifying a tile, it should call <code>releaseWritableTile()</code>.
+ * A shortcut is to call <code>setData()</code>, which copies a rectangular region or an area specified by a <code>ROI
+ * </code> from a supplied <code>Raster</code> directly into the <code>TiledImage</code>.
  *
  * <p>A final way to modify the contents of a <code>TiledImage</code> is through calls to the object returned by <code>
  * createGraphics()</code>. This returns a <code>Graphics2D</code> object that can be used to draw line art, text, and
@@ -166,7 +166,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * Constructs a <code>TiledImage</code> with a given layout, <code>SampleModel</code>, and <code>ColorModel</code>.
      * The width and height of the image tiles will be respectively equal to the width and height of the <code>
      * SampleModel</code>. The <code>tileFactory</code> instance variable will be set to the value of the <code>
-     * JAI.KEY_TILE_FACTORY</code> hint set on the default instance of <code>JAI</code>.
+     * ImageN.KEY_TILE_FACTORY</code> hint set on the default instance of <code>ImageN</code>.
      *
      * @param minX The X coordinate of the upper-left pixel
      * @param minY The Y coordinate of the upper-left pixel.
@@ -235,7 +235,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
             ancestorSampleModel = parent.ancestorSampleModel;
         }
 
-        tileFactory = (TileFactory) JAI.getDefaultInstance().getRenderingHint(JAI.KEY_TILE_FACTORY);
+        tileFactory = (TileFactory) ImageN.getDefaultInstance().getRenderingHint(ImageN.KEY_TILE_FACTORY);
     }
 
     /**
@@ -249,7 +249,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param sampleModel A <code>SampleModel</code> with which to be compatible.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public TiledImage(Point origin, SampleModel sampleModel, int tileWidth, int tileHeight) {
         this(
@@ -271,7 +271,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param sampleModel A <code>SampleModel</code> with which to be compatible.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public TiledImage(SampleModel sampleModel, int tileWidth, int tileHeight) {
         this(
@@ -293,7 +293,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param source The source <code>RenderedImage</code>.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TiledImage(RenderedImage source, int tileWidth, int tileHeight) {
         this(
@@ -319,7 +319,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param source The source <code>RenderedImage</code>.
      * @param areBuffersShared Whether the tile <code>DataBuffer</code>s of the source are re-used in the tiles of this
      *     image. If <code>false</code> new <code>WritableRaster</code>s will be created.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TiledImage(RenderedImage source, boolean areBuffersShared) {
         this(source, source.getTileWidth(), source.getTileHeight());
@@ -348,7 +348,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param tileHeight The tile height.
      * @param bandOffsets An array of non-duplicated integers between 0 and <code>numBands - 1</code> of length <code>
      *     numBands</code> indicating the relative offset of each band.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public static TiledImage createInterleaved(
             int minX,
@@ -382,7 +382,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      *     indices may be duplicated.
      * @param bandOffsets An array of integers indicating the starting offset of each band within its bank. Bands stored
      *     in the same bank must have sufficiently different offsets so as not to overlap.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public static TiledImage createBanded(
             int minX,
@@ -652,7 +652,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * </code>. The <code>TiledImage</code> must be of integral data type or an <code>UnsupportedOperationException
      * </code> will be thrown.
      *
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public Graphics getGraphics() {
         return createGraphics();
@@ -694,7 +694,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param cm the <code>ColorModel</code> of the sub-image.
      * @return The requested sub-image or <code>null</code> if either the specified rectangular area or its intersection
      *     with the current image is empty.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TiledImage getSubImage(int x, int y, int w, int h, int[] bandSelect, ColorModel cm) {
         // Check for empty overlap.
@@ -772,7 +772,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param bandSelect an array of band indices; if null, all bands are selected.
      * @return The requested sub-image or <code>null</code> if either the specified rectangular area or its intersection
      *     with the current image is empty.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public TiledImage getSubImage(int x, int y, int w, int h, int[] bandSelect) {
         SampleModel sm = bandSelect != null ? getSampleModel().createSubsetSampleModel(bandSelect) : getSampleModel();
@@ -804,7 +804,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param bandSelect an array of band indices.
      * @param cm the <code>ColorModel</code> of the sub-image.
      * @throws <code>IllegalArgumentException</code> is <code>bandSelect</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public TiledImage getSubImage(int[] bandSelect, ColorModel cm) {
         if (bandSelect == null) {
@@ -821,7 +821,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * </code> could be <code>null</code>.
      *
      * @param bandSelect an array of band indices.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 1.1.
      */
     public TiledImage getSubImage(int[] bandSelect) {
         if (bandSelect == null) {
@@ -1021,7 +1021,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
 
     /**
      * Forces a tile to be computed, and its contents stored indefinitely. A tile may not be locked if it is currently
-     * writable. This method should only be used within JAI, in order to optimize memory allocation.
+     * writable. This method should only be used within ImageN, in order to optimize memory allocation.
      *
      * @param tileX the X index of the tile.
      * @param tileY the Y index of the tile.
@@ -1236,7 +1236,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * Sets the <code>tiles</code> array to <code>null</code> so that the image may be used again.
      *
      * @throws IllegalStateException if <code>hasTileWriters()</code> returns <code>true</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public void clearTiles() {
         if (hasTileWriters()) {
@@ -1375,7 +1375,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * new values will contain the previous and current invalid regions. This may be used to determine which tiles must
      * be re-requested. The <code>TiledImage</code> itself will not re-request the data.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         PlanarImage src = getNumSources() > 0 ? getSourceImage(0) : null;

@@ -89,7 +89,7 @@ public final class BorderExtenderConstant extends BorderExtender {
     /**
      * Returns a clone of the <code>constants</code> array originally supplied to the constructor.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public final double[] getConstants() {
         return (double[]) constants;

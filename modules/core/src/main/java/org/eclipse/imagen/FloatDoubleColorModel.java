@@ -64,21 +64,21 @@ public class FloatDoubleColorModel extends ComponentColorModel {
     /**
      * The associated <code>ColorSpace</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected ColorSpace colorSpace;
 
     /**
      * The type or family of the associated <code>ColorSpace</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected int colorSpaceType;
 
     /**
      * The number of components of the associated <code>ColorSpace</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected int numColorComponents;
 
@@ -86,28 +86,28 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * The number of components represented by this <code>ColorModel</code>. This will differ from the number of
      * components of the associated <code>ColorSpace</code> if there is an alpha channel.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected int numComponents;
 
     /**
      * Specifies what alpha values can be represented by this <code>ColorModel</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected int transparency;
 
     /**
      * Whether this <code>ColorModel</code> supports alpha.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected boolean hasAlpha;
 
     /**
      * Whether alpha is premultiplied.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected boolean isAlphaPremultiplied;
 

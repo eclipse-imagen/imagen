@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -140,7 +140,7 @@ public class ScaleCRIF extends CRIFImpl {
                 || interp instanceof org.eclipse.imagen.InterpolationBicubic
                 || interp instanceof org.eclipse.imagen.InterpolationBicubic2;
 
-        // Transformation of the interpolators JAI-->JAI-EXT
+        // Transformation of the interpolators ImageN-->ImageN-EXT
         int dataType = source.getSampleModel().getDataType();
         double destinationNoData = (backgroundValues != null && backgroundValues.length > 0)
                 ? backgroundValues[0]

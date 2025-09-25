@@ -24,7 +24,7 @@ import java.awt.image.renderable.RenderedImageFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
@@ -59,7 +59,7 @@ public class URLRIF implements RenderedImageFactory {
             newParamBlock.add(src);
             newParamBlock.add(param);
 
-            RenderingHints.Key key = JAI.KEY_OPERATION_BOUND;
+            RenderingHints.Key key = ImageN.KEY_OPERATION_BOUND;
             int bound = OpImage.OP_NETWORK_BOUND;
             if (renderHints == null) {
                 renderHints = new RenderingHints(key, new Integer(bound));
@@ -69,7 +69,7 @@ public class URLRIF implements RenderedImageFactory {
 
             // Get the registry from the hints, if any.
             // Don't check for null hints as it cannot be null here.
-            OperationRegistry registry = (OperationRegistry) renderHints.get(JAI.KEY_OPERATION_REGISTRY);
+            OperationRegistry registry = (OperationRegistry) renderHints.get(ImageN.KEY_OPERATION_REGISTRY);
 
             // Create the image using the most preferred RIF for "stream".
             RenderedImage image = RIFRegistry.create(registry, "stream", newParamBlock, renderHints);

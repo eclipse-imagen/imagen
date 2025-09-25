@@ -30,7 +30,7 @@ import org.eclipse.imagen.NegotiableCapabilitySet;
  * the remote location aspect of the image.
  *
  * @see RenderedImage
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface RemoteRenderedImage extends RenderedImage {
 

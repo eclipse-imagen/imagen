@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -45,7 +45,7 @@ package org.eclipse.imagen.media.jiffleop;
 import java.awt.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
@@ -172,7 +172,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
 
     /**
      * RenderedOp creation method that takes all the parameters, passes them to the ParameterBlockJAI and then call the
-     * JAI create method for the mosaic operation with no data support.
+     * ImageN create method for the mosaic operation with no data support.
      *
      * @param sources The RenderdImage source array used for the operation.
      * @param sourceImageNames The array of source image names, that will be referred from the script. Can be null, in
@@ -217,8 +217,8 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
         pb.setParameter(SRC_BAND_TRANSFORMS, sourceBandTransforms);
         pb.setParameter(DEST_BANDS, destBands);
         pb.setParameter(NO_DATA, noData);
-        // JAI operation performed.
-        return JAI.create("Jiffle", pb, renderingHints);
+        // ImageN operation performed.
+        return ImageN.create("Jiffle", pb, renderingHints);
     }
 
     /**

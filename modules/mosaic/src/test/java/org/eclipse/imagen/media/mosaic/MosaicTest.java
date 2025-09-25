@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 - 2015 GeoSolutions
 
@@ -885,7 +885,7 @@ public class MosaicTest extends TestBase {
         double[] destinationValues = {testBean.getDestinationNoData()[0]};
 
         // Setting of the new RenderingHints
-        RenderingHints renderingHints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints renderingHints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // Getting the rois, alphabands
         PlanarImage[] alphas = testBean.getAlphas();
@@ -920,8 +920,8 @@ public class MosaicTest extends TestBase {
         // Creates an array for the destination band values
         double[] destinationValues = {testBean.getDestinationNoData()[0]};
 
-        ImageLayout layout = (ImageLayout) hints.get(JAI.KEY_IMAGE_LAYOUT);
-        RenderingHints renderingHints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        ImageLayout layout = (ImageLayout) hints.get(ImageN.KEY_IMAGE_LAYOUT);
+        RenderingHints renderingHints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         Number[] exampleData = {15, 15};
         mosaicArray[0] = getSyntheticUniformTypeImage(
@@ -960,8 +960,8 @@ public class MosaicTest extends TestBase {
         // Creates an array for the destination band values
         double[] destinationValues = {testBean.getDestinationNoData()[0]};
 
-        ImageLayout layout = (ImageLayout) hints.get(JAI.KEY_IMAGE_LAYOUT);
-        RenderingHints renderingHints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        ImageLayout layout = (ImageLayout) hints.get(ImageN.KEY_IMAGE_LAYOUT);
+        RenderingHints renderingHints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // Updates the innerBean
         PlanarImage[] alphas = new PlanarImage[3];
@@ -1044,8 +1044,8 @@ public class MosaicTest extends TestBase {
         // Creates an array for the destination band values
         double[] destinationValues = {testBean.getDestinationNoData()[0]};
 
-        ImageLayout layout = (ImageLayout) hints.get(JAI.KEY_IMAGE_LAYOUT);
-        RenderingHints renderingHints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        ImageLayout layout = (ImageLayout) hints.get(ImageN.KEY_IMAGE_LAYOUT);
+        RenderingHints renderingHints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // Getting the rois, alphabands
         PlanarImage[] alphas = testBean.getAlphas();
@@ -1462,7 +1462,7 @@ public class MosaicTest extends TestBase {
         layout.setTileHeight(array1Band[0].getHeight() / 16);
         layout.setTileWidth(array1Band[0].getWidth() / 16);
         // create the rendering hints
-        hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // All the data are saved in a mosaic bean
         tempMosaicBean.setDestinationNoData(destinationNoDataValue);
@@ -2092,7 +2092,7 @@ public class MosaicTest extends TestBase {
         layout.setTileHeight(array1Band[0].getHeight() / 16);
         layout.setTileWidth(array1Band[0].getWidth() / 16);
         // create the rendering hints
-        hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
         // All the data are saved in a mosaic bean
         tempMosaicBean.setDestinationNoData(destinationNoDataValue);
         tempMosaicBean.setImage(array1Band);
@@ -2320,7 +2320,7 @@ public class MosaicTest extends TestBase {
         }
 
         // Create the constant operation.
-        return JAI.create("constant", pb);
+        return ImageN.create("constant", pb);
     }
 
     // Help-class for storing all the various data in a single container
@@ -2528,7 +2528,7 @@ public class MosaicTest extends TestBase {
         layout.setWidth(base.getWidth());
         layout.setHeight(base.getHeight());
 
-        RenderingHints localHints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints localHints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         final RenderedOp mosaic = MosaicDescriptor.create(
                 new PlanarImage[] {image}, mosaicType, new PlanarImage[] {alpha}, null, null, null, null, localHints);
@@ -2555,7 +2555,7 @@ public class MosaicTest extends TestBase {
         pb.add(height);
         pb.add(values);
         // Create the constant operation.
-        final RenderedOp image = JAI.create("constant", pb);
+        final RenderedOp image = ImageN.create("constant", pb);
 
         // constant image can play tricks on the data type chosen (short vs ushort), force it
         // if necessary
@@ -2615,7 +2615,7 @@ public class MosaicTest extends TestBase {
         layout.setColorModel(cm);
         layout.setSampleModel(sm);
 
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // The third image has no nodata defined.
         final RenderedOp mosaic = MosaicDescriptor.create(
@@ -2638,7 +2638,7 @@ public class MosaicTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Mosaic");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Mosaic");
         assertNotNull(descriptor);
         assertEquals("Mosaic", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

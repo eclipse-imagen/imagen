@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
@@ -367,7 +367,7 @@ public class ColorIndexerTest extends TestBase {
         lut = new LookupTableJAI(data);
         // Layout creation
         final ImageLayout layout = new ImageLayout(image);
-        final RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        final RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         int[] bits = new int[numDestinationBands];
         // bits per component
@@ -467,7 +467,7 @@ public class ColorIndexerTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ColorIndexer");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ColorIndexer");
         assertNotNull(descriptor);
         assertEquals("ColorIndexer", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

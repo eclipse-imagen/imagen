@@ -33,7 +33,7 @@ import java.awt.image.WritableRaster;
  *
  * <p>This class is particularly applicable for use with color spaces which are mathematically defined and for which no
  * I.C.C. profile is readily available. (Note however that color conversions specified by a simple matrix transformation
- * might best be effected using the "BandCombine" operation.) The JAI "ColorConvert" operation recognizes when an
+ * might best be effected using the "BandCombine" operation.) The ImageN "ColorConvert" operation recognizes when an
  * instance of <code>ColorSpaceJAI</code> is present and uses the <code>Raster</code>-based conversion methods to
  * improve performance. This is possible because without the <code>ColorSpaceJAI</code> definition, a <code>ColorSpace
  * </code> which was not an {@link ICC_ColorSpace} would permit color conversion only by means of pixel-by-pixel
@@ -44,7 +44,7 @@ import java.awt.image.WritableRaster;
  * @see java.awt.color.ICC_ColorSpace
  * @see org.eclipse.imagen.operator.ColorConvertDescriptor
  * @see org.eclipse.imagen.operator.BandCombineDescriptor
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public abstract class ColorSpaceJAI extends ColorSpace {
     /** Cache the maximum value for XYZ color space. */

@@ -8,13 +8,11 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.color.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 /**
@@ -122,7 +120,7 @@ public final class Panner extends JComponent implements MouseListener, MouseMoti
             // called on every repaint.
             if (enableScale == true) {
                 InterpolationBilinear interp = new InterpolationBilinear();
-                temp = JAI.create("scale", image, scale_x, scale_y, 0.0F, 0.0F, interp);
+                temp = ImageN.create("scale", image, scale_x, scale_y, 0.0F, 0.0F, interp);
             } else {
                 temp = thumb;
             }

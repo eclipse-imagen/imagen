@@ -25,7 +25,7 @@ import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.operator.CompositeDescriptor;
 
 /**
@@ -101,7 +101,7 @@ public class CompositeCRIF extends CRIFImpl {
         newPB.set(rAlphaImage1, 0);
         newPB.set(rAlphaImage2, 1);
 
-        // Return JAI.create("composite")
-        return JAI.create("composite", newPB, renderContext.getRenderingHints());
+        // Return ImageN.create("composite")
+        return ImageN.create("composite", newPB, renderContext.getRenderingHints());
     }
 }

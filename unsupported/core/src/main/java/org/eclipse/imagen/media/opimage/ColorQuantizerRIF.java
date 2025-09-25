@@ -25,7 +25,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.operator.ColorQuantizerDescriptor;
 import org.eclipse.imagen.operator.ColorQuantizerType;
@@ -51,7 +51,7 @@ public class ColorQuantizerRIF implements RenderedImageFactory {
     public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
         RenderedImage source = paramBlock.getRenderedSource(0);
 
-        ImageLayout layout = renderHints == null ? null : (ImageLayout) renderHints.get(JAI.KEY_IMAGE_LAYOUT);
+        ImageLayout layout = renderHints == null ? null : (ImageLayout) renderHints.get(ImageN.KEY_IMAGE_LAYOUT);
 
         ColorQuantizerType algorithm = (ColorQuantizerType) paramBlock.getObjectParameter(0);
         int maxColorNum = paramBlock.getIntParameter(1);

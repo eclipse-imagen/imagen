@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -37,8 +37,8 @@ import java.util.Arrays;
 import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
@@ -143,13 +143,13 @@ public class AffineGeneralOpImage extends AffineOpImage {
             Map config;
 
             if (configuration == null) {
-                config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+                config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
             } else {
                 config = configuration;
-                if (!(config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL))) {
+                if (!(config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL))) {
                     RenderingHints hints = (RenderingHints) configuration;
                     config = (RenderingHints) hints.clone();
-                    config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+                    config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
                 }
             }
 

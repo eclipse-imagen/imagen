@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -483,7 +483,7 @@ public abstract class WarpOpImage extends org.eclipse.imagen.WarpOpImage {
             final PlanarImage src, int leftPad, int rightPad, int topPad, int bottomPad, BorderExtender extender) {
         RandomIter iterSource;
         if (extended) {
-            // use parameter block to allow mixing JAI and JAI-EXT
+            // use parameter block to allow mixing ImageN and ImageN-EXT
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(src);
             pb.add(leftPad);
@@ -493,7 +493,7 @@ public abstract class WarpOpImage extends org.eclipse.imagen.WarpOpImage {
             pb.add(extender);
             pb.add(noDataRange);
             pb.add(backgroundValues != null ? backgroundValues[0] : 0d);
-            RenderedOp op = JAI.create("Border", pb, hints);
+            RenderedOp op = ImageN.create("Border", pb, hints);
             iterSource = RandomIterFactory.create(op, op.getBounds(), TILE_CACHED, ARRAY_CALC);
         } else {
             iterSource = RandomIterFactory.create(src, src.getBounds(), TILE_CACHED, ARRAY_CALC);
