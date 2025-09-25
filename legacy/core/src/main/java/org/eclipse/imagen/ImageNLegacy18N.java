@@ -19,7 +19,7 @@ package org.eclipse.imagen;
 
 import org.eclipse.imagen.media.util.PropertyUtil;
 
-class JaiI18N {
+class ImageNLegacy18N {
     static String packageName = "org.eclipse.imagen";
 
     public static String getString(String key) {

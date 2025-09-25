@@ -387,7 +387,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      */
     public ImageLayout setWidth(int width) {
         if (width <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageLayout0"));
         }
         this.width = width;
         setValid(WIDTH_MASK);
@@ -422,7 +422,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      */
     public ImageLayout setHeight(int height) {
         if (height <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageLayout0"));
         }
         this.height = height;
         setValid(HEIGHT_MASK);
@@ -521,7 +521,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      */
     public ImageLayout setTileWidth(int tileWidth) {
         if (tileWidth <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageLayout0"));
         }
         this.tileWidth = tileWidth;
         setValid(TILE_WIDTH_MASK);
@@ -556,7 +556,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      */
     public ImageLayout setTileHeight(int tileHeight) {
         if (tileHeight <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageLayout0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ImageLayout0"));
         }
         this.tileHeight = tileHeight;
         setValid(TILE_HEIGHT_MASK);

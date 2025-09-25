@@ -141,7 +141,7 @@ public class OperationNodeSupport implements Serializable {
             RenderingHints hints,
             PropertyChangeSupportJAI eventManager) {
         if (registryModeName == null || opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Set instance variables.
@@ -175,7 +175,7 @@ public class OperationNodeSupport implements Serializable {
          */
         CopyDirective(String name, int index) {
             if (name == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
             }
             this.name = name;
             this.index = index;
@@ -206,7 +206,7 @@ public class OperationNodeSupport implements Serializable {
          */
         ParamObserver(int paramIndex, DeferredData dd) {
             if (dd == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
             } else if (paramIndex < 0 || (pb != null && (paramIndex >= ((ParameterBlock) pb).getNumParameters()))) {
                 throw new ArrayIndexOutOfBoundsException();
             }
@@ -304,7 +304,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void setOperationName(String opName) {
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (opName.equalsIgnoreCase(this.opName)) return;
@@ -471,7 +471,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void addPropertyGenerator(PropertyGenerator pg) {
         if (pg == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         localPropEnv.add(pg);
         if (propertySource != null) {
@@ -489,7 +489,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void copyPropertyFromSource(String propertyName, int sourceIndex) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         localPropEnv.add(new CopyDirective(propertyName, sourceIndex));
         if (propertySource != null) {
@@ -508,7 +508,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void suppressProperty(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         localPropEnv.add(name);
         if (propertySource != null) {
@@ -542,7 +542,7 @@ public class OperationNodeSupport implements Serializable {
     public PropertySource getPropertySource(OperationNode opNode, PropertySource defaultPS) {
 
         if (opNode == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (propertySource == null) {
@@ -644,7 +644,7 @@ public class OperationNodeSupport implements Serializable {
                     pbClone.setSource(serializableImage, index);
                 } else {
                     throw new RuntimeException(
-                            source.getClass().getName() + JaiI18N.getString("OperationNodeSupport0"));
+                            source.getClass().getName() + ImageNI18N.getString("OperationNodeSupport0"));
                 }
             }
         }
@@ -668,7 +668,7 @@ public class OperationNodeSupport implements Serializable {
                     pbClone.set(SerializerFactory.getState(ri, hints), index);
                 } else {
                     throw new RuntimeException(
-                            parameter.getClass().getName() + JaiI18N.getString("OperationNodeSupport1"));
+                            parameter.getClass().getName() + ImageNI18N.getString("OperationNodeSupport1"));
                 }
             }
         }

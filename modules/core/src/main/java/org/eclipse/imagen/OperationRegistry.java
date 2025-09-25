@@ -222,7 +222,7 @@ public class OperationRegistry implements Externalizable {
                 factories.put(key, fc = new FactoryCache(modeName));
 
             } else {
-                throw new IllegalArgumentException(JaiI18N.formatMsg("OperationRegistry0", new Object[] {modeName}));
+                throw new IllegalArgumentException(ImageNI18N.formatMsg("OperationRegistry0", new Object[] {modeName}));
             }
         }
 
@@ -245,7 +245,7 @@ public class OperationRegistry implements Externalizable {
                 descriptors.put(key, dc = new DescriptorCache(modeName));
 
             } else {
-                throw new IllegalArgumentException(JaiI18N.formatMsg("OperationRegistry0", new Object[] {modeName}));
+                throw new IllegalArgumentException(ImageNI18N.formatMsg("OperationRegistry0", new Object[] {modeName}));
             }
         }
 
@@ -303,7 +303,7 @@ public class OperationRegistry implements Externalizable {
             InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
 
             if (url == null) {
-                throw new RuntimeException(JaiI18N.getString("OperationRegistry1"));
+                throw new RuntimeException(ImageNI18N.getString("OperationRegistry1"));
             }
 
             OperationRegistry registry = new ThreadSafeOperationRegistry();
@@ -315,13 +315,13 @@ public class OperationRegistry implements Externalizable {
 
         } catch (IOException ioe) {
             ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
-            String message = JaiI18N.getString("OperationRegistry2");
+            String message = ImageNI18N.getString("OperationRegistry2");
             listener.errorOccurred(message, new ImagingException(message, ioe), OperationRegistry.class, false);
             return null;
 
             //	    ioe.printStackTrace();
             //	    throw new RuntimeException(
-            //			JaiI18N.getString("OperationRegistry2"));
+            //			ImageNI18N.getString("OperationRegistry2"));
         }
     }
 
@@ -353,7 +353,7 @@ public class OperationRegistry implements Externalizable {
      * @see #writeExternal
      */
     public void writeToStream(OutputStream out) throws IOException {
-        if (out == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (out == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         RegistryFileParser.writeOperationRegistry(this, out);
     }
@@ -376,7 +376,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void initializeFromStream(InputStream in) throws IOException {
 
-        if (in == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (in == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         initialize();
         updateFromStream(in);
@@ -402,7 +402,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void updateFromStream(InputStream in) throws IOException {
 
-        if (in == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (in == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         RegistryFileParser.loadOperationRegistry(this, null, in);
     }
@@ -424,7 +424,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
-        if (in == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (in == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         byte barray[] = (byte[]) in.readObject();
         InputStream s = new ByteArrayInputStream(barray);
@@ -498,7 +498,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void writeExternal(ObjectOutput out) throws IOException {
 
-        if (out == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (out == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ByteArrayOutputStream bstream = new ByteArrayOutputStream();
         writeToStream(bstream);
@@ -565,7 +565,7 @@ public class OperationRegistry implements Externalizable {
      * @since JAI 1.1
      */
     public void registerDescriptor(RegistryElementDescriptor descriptor) {
-        if (descriptor == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         String[] supportedModes = descriptor.getSupportedModes();
 
@@ -576,7 +576,7 @@ public class OperationRegistry implements Externalizable {
         for (int i = 0; i < supportedModes.length; i++) {
             if (RegistryMode.getMode(supportedModes[i]) == null)
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry3", new Object[] {descriptorName, supportedModes[i]}));
+                        ImageNI18N.formatMsg("OperationRegistry3", new Object[] {descriptorName, supportedModes[i]}));
         }
 
         // Now register the descriptor against each supported mode.
@@ -602,7 +602,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void unregisterDescriptor(RegistryElementDescriptor descriptor) {
 
-        if (descriptor == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         String descriptorName = descriptor.getName();
 
@@ -613,7 +613,7 @@ public class OperationRegistry implements Externalizable {
         for (int i = 0; i < supportedModes.length; i++) {
             if (RegistryMode.getMode(supportedModes[i]) == null)
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry3", new Object[] {descriptorName, supportedModes[i]}));
+                        ImageNI18N.formatMsg("OperationRegistry3", new Object[] {descriptorName, supportedModes[i]}));
         }
 
         // Now unregister the descriptor against each supported mode.
@@ -642,13 +642,13 @@ public class OperationRegistry implements Externalizable {
     public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
 
         if ((descriptorClass == null) || (descriptorName == null))
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         String supportedModes[] = RegistryMode.getModeNames(descriptorClass);
 
         if (supportedModes == null)
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry4", new Object[] {descriptorClass.getName()}));
+                    ImageNI18N.formatMsg("OperationRegistry4", new Object[] {descriptorClass.getName()}));
 
         RegistryElementDescriptor red;
 
@@ -675,13 +675,13 @@ public class OperationRegistry implements Externalizable {
      */
     public List getDescriptors(Class descriptorClass) {
 
-        if (descriptorClass == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (descriptorClass == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         String supportedModes[] = RegistryMode.getModeNames(descriptorClass);
 
         if (supportedModes == null)
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry4", new Object[] {descriptorClass.getName()}));
+                    ImageNI18N.formatMsg("OperationRegistry4", new Object[] {descriptorClass.getName()}));
 
         List list;
         HashSet set = new HashSet();
@@ -942,11 +942,11 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         if (factory == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (dc.arePreferencesSupported) {
@@ -955,7 +955,7 @@ public class OperationRegistry implements Externalizable {
 
             if (og == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
             }
 
             og.addOp(new PartialOrderNode(factory, factory.getClass().getName()));
@@ -988,11 +988,11 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         if (factory == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         fc.removeFactory(descriptorName, productName, factory);
@@ -1003,7 +1003,7 @@ public class OperationRegistry implements Externalizable {
 
             if (og == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
             }
 
             og.removeOp(factory);
@@ -1035,7 +1035,7 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         // This should throw an exception if preferences are not
@@ -1048,7 +1048,7 @@ public class OperationRegistry implements Externalizable {
 
             if (og == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
             }
 
             og.setPreference(preferredOp, otherOp);
@@ -1080,7 +1080,7 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         // This should throw an exception if preferences are not
@@ -1093,7 +1093,7 @@ public class OperationRegistry implements Externalizable {
 
             if (og == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
             }
 
             og.unsetPreference(preferredOp, otherOp);
@@ -1120,7 +1120,7 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         Object prefs[][] = fc.getPreferences(descriptorName, productName);
@@ -1131,7 +1131,7 @@ public class OperationRegistry implements Externalizable {
 
             if (og == null) {
                 throw new IllegalArgumentException(
-                        JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
             }
 
             for (int i = 0; i < prefs.length; i++) {
@@ -1162,7 +1162,7 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         return fc.getPreferences(descriptorName, productName);
@@ -1194,7 +1194,7 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         if (dc.arePreferencesSupported) {
@@ -1243,7 +1243,7 @@ public class OperationRegistry implements Externalizable {
 
         if (dc.getDescriptor(descriptorName) == null) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
         }
 
         if (dc.arePreferencesSupported) {
@@ -1327,7 +1327,7 @@ public class OperationRegistry implements Externalizable {
                 savedOne = null;
             } catch (Exception e) {
                 listener.errorOccurred(
-                        JaiI18N.getString("OperationRegistry6") + " \"" + descriptorName + "\"", e, this, false);
+                        ImageNI18N.getString("OperationRegistry6") + " \"" + descriptorName + "\"", e, this, false);
                 savedOne = e;
                 //		e.printStackTrace();
             }
@@ -1335,7 +1335,7 @@ public class OperationRegistry implements Externalizable {
 
         if (savedOne != null)
             throw new ImagingException(
-                    JaiI18N.getString("OperationRegistry7") + " \"" + descriptorName + "\"", savedOne);
+                    ImageNI18N.getString("OperationRegistry7") + " \"" + descriptorName + "\"", savedOne);
 
         return null;
     }
@@ -1535,7 +1535,7 @@ public class OperationRegistry implements Externalizable {
      */
     public PropertySource getPropertySource(OperationNode op) {
 
-        if (op == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (op == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // Get the source Vector from the ParameterBlock.
         ParameterBlock pb = op.getParameterBlock();

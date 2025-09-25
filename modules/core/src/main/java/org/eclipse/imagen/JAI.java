@@ -419,7 +419,7 @@ public final class JAI implements AutoCloseable {
             return sw.getBuffer().toString();
 
         } catch (Exception e) {
-            return JaiI18N.getString("JAI13");
+            return ImageNI18N.getString("JAI13");
         }
     }
 
@@ -492,7 +492,7 @@ public final class JAI implements AutoCloseable {
      */
     public static final void setDefaultRenderingSize(Dimension defaultSize) {
         if (defaultSize != null && defaultSize.width <= 0 && defaultSize.height <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI8"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI8"));
         }
 
         defaultRenderingSize = defaultSize == null ? null : new Dimension(defaultSize);
@@ -572,7 +572,7 @@ public final class JAI implements AutoCloseable {
      */
     public void setOperationRegistry(OperationRegistry operationRegistry) {
         if (operationRegistry == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         this.operationRegistry = operationRegistry;
         this.renderingHints.put(KEY_OPERATION_REGISTRY, operationRegistry);
@@ -591,7 +591,7 @@ public final class JAI implements AutoCloseable {
      */
     public void setTileScheduler(TileScheduler tileScheduler) {
         if (tileScheduler == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         this.tileScheduler = tileScheduler;
         renderingHints.put(KEY_TILE_SCHEDULER, tileScheduler);
@@ -610,7 +610,7 @@ public final class JAI implements AutoCloseable {
      */
     public void setTileCache(TileCache tileCache) {
         if (tileCache == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         this.tileCache = tileCache;
         renderingHints.put(KEY_TILE_CACHE, tileCache);
@@ -629,7 +629,7 @@ public final class JAI implements AutoCloseable {
      */
     public static TileCache createTileCache(int tileCapacity, long memCapacity) {
         if (memCapacity < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI10"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI10"));
         }
         return new SunTileCache(memCapacity);
     }
@@ -647,7 +647,7 @@ public final class JAI implements AutoCloseable {
      */
     public static TileCache createTileCache(long memCapacity) {
         if (memCapacity < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI10"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI10"));
         }
         return new SunTileCache(memCapacity);
     }
@@ -760,9 +760,9 @@ public final class JAI implements AutoCloseable {
     public RenderedOp createNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
         }
 
         String modeName = "rendered";
@@ -771,11 +771,11 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
         }
 
         if (!RenderedImage.class.isAssignableFrom(odesc.getDestClass(modeName))) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI2"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI2"));
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -890,9 +890,9 @@ public final class JAI implements AutoCloseable {
     public Collection createCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
         }
 
         String modeName = "collection";
@@ -901,13 +901,13 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
         }
 
         Class destClass = odesc.getDestClass(modeName);
 
         if (!RenderedImage.class.isAssignableFrom(destClass) && !CollectionImage.class.isAssignableFrom(destClass)) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI5"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI5"));
         }
 
         // Merge rendering hints.  Hints passed in take precedence.
@@ -983,7 +983,7 @@ public final class JAI implements AutoCloseable {
                     } catch (Exception e) {
                         // Unable to create this collection type, try next.
                         sendExceptionToListener(
-                                JaiI18N.getString("JAI16") + s.getClass().getName(), e);
+                                ImageNI18N.getString("JAI16") + s.getClass().getName(), e);
                     }
                 }
             }
@@ -1706,9 +1706,9 @@ public final class JAI implements AutoCloseable {
     public RenderableOp createRenderableNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
         }
 
         String modeName = "renderable";
@@ -1717,11 +1717,11 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
         }
 
         if (!RenderableImage.class.isAssignableFrom(odesc.getDestClass(modeName))) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI4"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI4"));
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -1947,9 +1947,9 @@ public final class JAI implements AutoCloseable {
      */
     public Collection createRenderableCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI14"));
         } else if (args == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI15"));
         }
 
         String modeName = "renderableCollection";
@@ -1958,13 +1958,13 @@ public final class JAI implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI0"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI0"));
         }
 
         Class destClass = odesc.getDestClass(modeName);
 
         if (!RenderableImage.class.isAssignableFrom(destClass) && !CollectionImage.class.isAssignableFrom(destClass)) {
-            throw new IllegalArgumentException(opName + ": " + JaiI18N.getString("JAI6"));
+            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("JAI6"));
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -2035,7 +2035,7 @@ public final class JAI implements AutoCloseable {
                     } catch (Exception e) {
                         // Unable to create this collection type, try next.
                         sendExceptionToListener(
-                                JaiI18N.getString("JAI16") + s.getClass().getName(), e);
+                                ImageNI18N.getString("JAI16") + s.getClass().getName(), e);
                     }
                 }
             }
@@ -2125,7 +2125,7 @@ public final class JAI implements AutoCloseable {
      */
     public void setRenderingHints(RenderingHints hints) {
         if (hints == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         this.renderingHints = hints;
     }
@@ -2143,7 +2143,7 @@ public final class JAI implements AutoCloseable {
      */
     public Object getRenderingHint(RenderingHints.Key key) {
         if (key == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI7"));
         }
         return renderingHints.get(key);
     }
@@ -2157,10 +2157,10 @@ public final class JAI implements AutoCloseable {
      */
     public void setRenderingHint(RenderingHints.Key key, Object value) {
         if (key == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI7"));
         }
         if (value == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAI9"));
+            throw new IllegalArgumentException(ImageNI18N.getString("JAI9"));
         }
         try {
             renderingHints.put(key, value);

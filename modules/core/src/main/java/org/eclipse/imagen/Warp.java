@@ -90,7 +90,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public int[] warpRect(int x, int y, int width, int height, int subsampleBitsH, int subsampleBitsV, int[] destRect) {
         if (destRect != null && destRect.length < (width * height * 2)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Warp0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Warp0"));
         }
         return warpSparseRect(x, y, width, height, 1, 1, subsampleBitsH, subsampleBitsV, destRect);
     }
@@ -115,7 +115,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public float[] warpRect(int x, int y, int width, int height, float[] destRect) {
         if (destRect != null && destRect.length < (width * height * 2)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Warp0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Warp0"));
         }
         return warpSparseRect(x, y, width, height, 1, 1, destRect);
     }
@@ -140,7 +140,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public int[] warpPoint(int x, int y, int subsampleBitsH, int subsampleBitsV, int[] destRect) {
         if (destRect != null && destRect.length < 2) {
-            throw new IllegalArgumentException(JaiI18N.getString("Warp0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Warp0"));
         }
         return warpSparseRect(x, y, 1, 1, 1, 1, subsampleBitsH, subsampleBitsV, destRect);
     }
@@ -163,7 +163,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public float[] warpPoint(int x, int y, float[] destRect) {
         if (destRect != null && destRect.length < 2) {
-            throw new IllegalArgumentException(JaiI18N.getString("Warp0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Warp0"));
         }
         return warpSparseRect(x, y, 1, 1, 1, 1, destRect);
     }
@@ -204,7 +204,7 @@ public abstract class Warp extends Object implements Serializable {
             int[] destRect) {
         int nVals = 2 * ((width + periodX - 1) / periodX) * ((height + periodY - 1) / periodY);
         if (destRect != null && destRect.length < nVals) {
-            throw new IllegalArgumentException(JaiI18N.getString("Warp0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Warp0"));
         }
         float[] fdestRect = warpSparseRect(x, y, width, height, periodX, periodY, (float[]) null);
         int size = fdestRect.length;
@@ -268,7 +268,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public Rectangle mapDestRect(Rectangle destRect) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int x = destRect.x;
@@ -403,7 +403,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         float[] sourceXY = warpSparseRect((int) destPt.getX(), (int) destPt.getY(), 1, 1, 1, 1, null);
@@ -425,7 +425,7 @@ public abstract class Warp extends Object implements Serializable {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return null;

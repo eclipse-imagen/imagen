@@ -245,7 +245,7 @@ class RegistryFileParser {
 
                 if (mode != null) {
                     if (RegistryMode.addMode(mode) == false)
-                        registryFileError(JaiI18N.getString("RegistryFileParser10"));
+                        registryFileError(ImageNI18N.getString("RegistryFileParser10"));
                 }
 
                 // Old format operation-descriptor line OR
@@ -279,7 +279,7 @@ class RegistryFileParser {
                     setFactoryPreference(mode, keys);
 
                 } else {
-                    registryFileError(JaiI18N.getString("RegistryFileParser4"));
+                    registryFileError(ImageNI18N.getString("RegistryFileParser4"));
                 }
 
                 // For setting product preferences
@@ -294,10 +294,10 @@ class RegistryFileParser {
                     setProductPreference(mode, keys);
 
                 } else {
-                    registryFileError(JaiI18N.getString("RegistryFileParser5"));
+                    registryFileError(ImageNI18N.getString("RegistryFileParser5"));
                 }
             } else {
-                registryFileError(JaiI18N.getString("RegistryFileParser6"));
+                registryFileError(ImageNI18N.getString("RegistryFileParser6"));
             }
         }
 
@@ -324,7 +324,7 @@ class RegistryFileParser {
             }
 
         } else {
-            registryFileError(JaiI18N.getString("RegistryFileParser1"));
+            registryFileError(ImageNI18N.getString("RegistryFileParser1"));
         }
     }
 
@@ -349,7 +349,7 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(JaiI18N.getString("RegistryFileParser2"));
+                registryFileError(ImageNI18N.getString("RegistryFileParser2"));
             }
 
         } else {
@@ -365,7 +365,7 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(JaiI18N.getString("RegistryFileParser3"));
+                registryFileError(ImageNI18N.getString("RegistryFileParser3"));
             }
         }
     }
@@ -387,11 +387,11 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(JaiI18N.getString("RegistryFileParser5"));
+                registryFileError(ImageNI18N.getString("RegistryFileParser5"));
             }
 
         } else {
-            registryFileError(JaiI18N.getString("RegistryFileParser9"));
+            registryFileError(ImageNI18N.getString("RegistryFileParser9"));
         }
     }
 
@@ -419,11 +419,11 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(JaiI18N.getString("RegistryFileParser4"));
+                registryFileError(ImageNI18N.getString("RegistryFileParser4"));
             }
 
         } else {
-            registryFileError(JaiI18N.getString("RegistryFileParser7"));
+            registryFileError(ImageNI18N.getString("RegistryFileParser7"));
         }
     }
 
@@ -442,7 +442,7 @@ class RegistryFileParser {
 
         Object obj = modeTable.get(new CaselessStringKey(localName));
 
-        if (obj == null) registryFileError(localName + ": " + JaiI18N.getString("RegistryFileParser8"));
+        if (obj == null) registryFileError(localName + ": " + ImageNI18N.getString("RegistryFileParser8"));
 
         return obj;
     }
@@ -455,13 +455,13 @@ class RegistryFileParser {
         if (!headerLinePrinted) {
 
             if (url != null) {
-                errorMsg(JaiI18N.getString("RegistryFileParser11"), new Object[] {url.getPath()});
+                errorMsg(ImageNI18N.getString("RegistryFileParser11"), new Object[] {url.getPath()});
             }
 
             headerLinePrinted = true;
         }
 
-        errorMsg(JaiI18N.getString("RegistryFileParser0"), new Object[] {new Integer(lineno)});
+        errorMsg(ImageNI18N.getString("RegistryFileParser0"), new Object[] {new Integer(lineno)});
 
         if (msg != null) errorMsg(msg, null);
     }

@@ -80,12 +80,12 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
     public static Set getEnumeratedValues(Object descriptor, Class paramClass) {
 
         if ((descriptor == null) || (paramClass == null))
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // If not an enumerated parameter, return null
         if (!EnumeratedParameter.class.isAssignableFrom(paramClass))
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("ParameterListDescriptorImpl10", new Object[] {paramClass.getName()}));
+                    ImageNI18N.formatMsg("ParameterListDescriptorImpl10", new Object[] {paramClass.getName()}));
 
         Field[] fields = descriptor.getClass().getDeclaredFields();
 
@@ -117,7 +117,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // which should be caught by the
                         // developer the first time the
                         // bogus descriptor is loaded.
-                        throw new UnsupportedOperationException(JaiI18N.getString("ParameterListDescriptorImpl0"));
+                        throw new UnsupportedOperationException(ImageNI18N.getString("ParameterListDescriptorImpl0"));
                     }
                     // Save parameter value in Set.
                     valueSet.add(fieldValue);
@@ -202,17 +202,19 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         int numParams = (paramNames == null) ? 0 : paramNames.length;
 
         if ((paramDefaults != null) && (paramDefaults.length != numParams))
-            throw new IllegalArgumentException("paramDefaults" + JaiI18N.getString("ParameterListDescriptorImpl1"));
+            throw new IllegalArgumentException("paramDefaults" + ImageNI18N.getString("ParameterListDescriptorImpl1"));
 
         if ((validParamValues != null) && (validParamValues.length != numParams))
-            throw new IllegalArgumentException("validParamValues" + JaiI18N.getString("ParameterListDescriptorImpl2"));
+            throw new IllegalArgumentException(
+                    "validParamValues" + ImageNI18N.getString("ParameterListDescriptorImpl2"));
 
         this.descriptor = descriptor;
 
         if (numParams == 0) {
 
             if ((paramClasses != null) && (paramClasses.length != 0))
-                throw new IllegalArgumentException("paramClasses" + JaiI18N.getString("ParameterListDescriptorImpl3"));
+                throw new IllegalArgumentException(
+                        "paramClasses" + ImageNI18N.getString("ParameterListDescriptorImpl3"));
 
             this.numParams = 0;
             this.paramNames = null;
@@ -224,7 +226,8 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         } else {
 
             if ((paramClasses == null) || (paramClasses.length != numParams))
-                throw new IllegalArgumentException("paramClasses" + JaiI18N.getString("ParameterListDescriptorImpl3"));
+                throw new IllegalArgumentException(
+                        "paramClasses" + ImageNI18N.getString("ParameterListDescriptorImpl3"));
 
             this.numParams = numParams;
             this.paramNames = paramNames;
@@ -250,7 +253,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
                     if (!paramClasses[i].isInstance(paramDefaults[i])) {
                         throw new IllegalArgumentException(
-                                JaiI18N.formatMsg("ParameterListDescriptorImpl4", new Object[] {
+                                ImageNI18N.formatMsg("ParameterListDescriptorImpl4", new Object[] {
                                     paramDefaults[i].getClass().getName(), paramClasses[i].getName(), paramNames[i]
                                 }));
                     }
@@ -274,7 +277,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // the validParamValues[i] has to be a Set
                         if (!(validParamValues[i] instanceof Set))
                             throw new IllegalArgumentException(
-                                    JaiI18N.formatMsg("ParameterListDescriptorImpl5", new Object[] {paramNames[i]}));
+                                    ImageNI18N.formatMsg("ParameterListDescriptorImpl5", new Object[] {paramNames[i]}));
 
                     } else if (validParamValues[i] instanceof Range) {
 
@@ -284,7 +287,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // the Range's class must match with paramClass[i]
                         if (!paramClasses[i].isAssignableFrom(range.getElementClass()))
                             throw new IllegalArgumentException(
-                                    JaiI18N.formatMsg("ParameterListDescriptorImpl6", new Object[] {
+                                    ImageNI18N.formatMsg("ParameterListDescriptorImpl6", new Object[] {
                                         range.getElementClass().getName(), paramClasses[i].getName(), paramNames[i]
                                     }));
 
@@ -294,7 +297,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // an instance of the paramClasses[i]
                         if (!paramClasses[i].isInstance(validParamValues[i]))
                             throw new IllegalArgumentException(
-                                    JaiI18N.formatMsg("ParameterListDescriptorImpl7", new Object[] {
+                                    ImageNI18N.formatMsg("ParameterListDescriptorImpl7", new Object[] {
                                         validParamValues[i].getClass().getName(),
                                         paramClasses[i].getName(),
                                         paramNames[i]
@@ -401,7 +404,8 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         int i = paramIndices.indexOf(parameterName);
 
         if (!EnumeratedParameter.class.isAssignableFrom(paramClasses[i]))
-            throw new IllegalArgumentException(parameterName + ":" + JaiI18N.getString("ParameterListDescriptorImpl8"));
+            throw new IllegalArgumentException(
+                    parameterName + ":" + ImageNI18N.getString("ParameterListDescriptorImpl8"));
 
         Set enumSet = (Set) getValidParamValue(i);
 
@@ -428,7 +432,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
         // Make sure the object belongs to the right class
         if ((value != null) && !paramClasses[index].isInstance(value)) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "ParameterListDescriptorImpl9",
                     new Object[] {value.getClass().getName(), paramClasses[index].getName(), parameterName}));
         }

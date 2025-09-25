@@ -99,17 +99,17 @@ public abstract class CRIFImpl implements ContextualRenderedImageFactory {
                 OperationDescriptor odesc =
                         (OperationDescriptor) registry.getDescriptor(OperationDescriptor.class, operationName);
                 if (odesc == null) {
-                    throw new IllegalArgumentException(operationName + ": " + JaiI18N.getString("JAI0"));
+                    throw new IllegalArgumentException(operationName + ": " + ImageNI18N.getString("JAI0"));
                 }
 
                 // Does this operation support rendered mode?
                 if (!odesc.isModeSupported(RenderedRegistryMode.MODE_NAME)) {
-                    throw new IllegalArgumentException(operationName + ": " + JaiI18N.getString("JAI1"));
+                    throw new IllegalArgumentException(operationName + ": " + ImageNI18N.getString("JAI1"));
                 }
 
                 // Check the destination image type.
                 if (!RenderedImage.class.isAssignableFrom(odesc.getDestClass(RenderedRegistryMode.MODE_NAME))) {
-                    throw new IllegalArgumentException(operationName + ": " + JaiI18N.getString("JAI2"));
+                    throw new IllegalArgumentException(operationName + ": " + ImageNI18N.getString("JAI2"));
                 }
 
                 // Validate input arguments. The ParameterBlock is cloned here
@@ -136,7 +136,7 @@ public abstract class CRIFImpl implements ContextualRenderedImageFactory {
                         rendering = ((RenderedOp) rendering).getRendering();
                     } catch (Exception e) {
                         ImagingListener listener = ImageUtil.getImagingListener(renderHints);
-                        String message = JaiI18N.getString("CRIFImpl0") + operationName;
+                        String message = ImageNI18N.getString("CRIFImpl0") + operationName;
                         listener.errorOccurred(message, e, this, false);
                         //                        e.printStackTrace();
                     }

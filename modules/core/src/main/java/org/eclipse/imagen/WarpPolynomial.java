@@ -107,7 +107,7 @@ public abstract class WarpPolynomial extends Warp {
                 || xCoeffs.length < 1
                 || yCoeffs.length < 1
                 || xCoeffs.length != yCoeffs.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpPolynomial0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpPolynomial0"));
         }
 
         int numCoeffs = xCoeffs.length;
@@ -117,7 +117,7 @@ public abstract class WarpPolynomial extends Warp {
             numCoeffs -= degree + 1;
         }
         if (numCoeffs != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpPolynomial0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpPolynomial0"));
         }
 
         this.xCoeffs = (float[]) (xCoeffs.clone());
@@ -243,7 +243,7 @@ public abstract class WarpPolynomial extends Warp {
         int minNumPoints = (degree + 1) * (degree + 2);
         if ((sourceOffset + minNumPoints) > sourceCoords.length || (destOffset + minNumPoints) > destCoords.length) {
 
-            throw new IllegalArgumentException(JaiI18N.getString("WarpPolynomial1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpPolynomial1"));
         }
         float[] coeffs = PolyWarpSolver.getCoeffs(
                 sourceCoords,
@@ -322,7 +322,7 @@ public abstract class WarpPolynomial extends Warp {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         double dx = (destPt.getX() + 0.5) * preScaleX;

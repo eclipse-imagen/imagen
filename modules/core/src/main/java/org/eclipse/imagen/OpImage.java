@@ -734,7 +734,7 @@ public abstract class OpImage extends PlanarImage {
      */
     protected static Vector vectorize(RenderedImage image) {
         if (image == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("OpImage3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("OpImage3"));
         }
         Vector v = new Vector(1);
         v.addElement(image);
@@ -752,7 +752,7 @@ public abstract class OpImage extends PlanarImage {
      */
     protected static Vector vectorize(RenderedImage image1, RenderedImage image2) {
         if (image1 == null || image2 == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("OpImage3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("OpImage3"));
         }
         Vector v = new Vector(2);
         v.addElement(image1);
@@ -773,7 +773,7 @@ public abstract class OpImage extends PlanarImage {
      */
     protected static Vector vectorize(RenderedImage image1, RenderedImage image2, RenderedImage image3) {
         if (image1 == null || image2 == null || image3 == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("OpImage3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("OpImage3"));
         }
         Vector v = new Vector(3);
         v.addElement(image1);
@@ -798,7 +798,7 @@ public abstract class OpImage extends PlanarImage {
     static Vector checkSourceVector(Vector sources, boolean checkElements) {
         // Check for null source Vector.
         if (sources == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("OpImage2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("OpImage2"));
         }
 
         if (checkElements) {
@@ -807,7 +807,7 @@ public abstract class OpImage extends PlanarImage {
             for (int i = 0; i < numSources; i++) {
                 // Check for null element.
                 if (sources.get(i) == null) {
-                    throw new IllegalArgumentException(JaiI18N.getString("OpImage3"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("OpImage3"));
                 }
             }
         }
@@ -1007,7 +1007,7 @@ public abstract class OpImage extends PlanarImage {
      */
     protected void computeRect(Raster[] sources, WritableRaster dest, Rectangle destRect) {
         String className = this.getClass().getName();
-        throw new RuntimeException(className + " " + JaiI18N.getString("OpImage0"));
+        throw new RuntimeException(className + " " + ImageNI18N.getString("OpImage0"));
     }
 
     /**
@@ -1028,7 +1028,7 @@ public abstract class OpImage extends PlanarImage {
      */
     protected void computeRect(PlanarImage[] sources, WritableRaster dest, Rectangle destRect) {
         String className = this.getClass().getName();
-        throw new RuntimeException(className + " " + JaiI18N.getString("OpImage1"));
+        throw new RuntimeException(className + " " + ImageNI18N.getString("OpImage1"));
     }
 
     /**
@@ -1056,7 +1056,7 @@ public abstract class OpImage extends PlanarImage {
     public Point[] getTileDependencies(int tileX, int tileY, int sourceIndex) {
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
             // Specified source does not exist for this image.
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle rect = getTileRect(tileX, tileY);
@@ -1123,7 +1123,7 @@ public abstract class OpImage extends PlanarImage {
      */
     public Raster[] getTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int numTiles = tileIndices.length; // number of tiles requested
@@ -1242,7 +1242,7 @@ public abstract class OpImage extends PlanarImage {
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         /* XXX bad idea probably
@@ -1285,7 +1285,7 @@ public abstract class OpImage extends PlanarImage {
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic4"));
         }
         scheduler.cancelTiles(request, tileIndices);
     }
@@ -1299,7 +1299,7 @@ public abstract class OpImage extends PlanarImage {
      */
     public void prefetchTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         /* XXX bad idea probably
@@ -1349,9 +1349,9 @@ public abstract class OpImage extends PlanarImage {
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle destRect = new Rectangle((int) destPt.getX(), (int) destPt.getY(), 1, 1);
@@ -1395,9 +1395,9 @@ public abstract class OpImage extends PlanarImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle sourceRect = new Rectangle((int) sourcePt.getX(), (int) sourcePt.getY(), 1, 1);
@@ -1610,7 +1610,7 @@ public abstract class OpImage extends PlanarImage {
      * @since JAI 1.1.2
      */
     protected void recycleTile(Raster tile) {
-        if (tile == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (tile == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         if (tileRecycler != null) {
             tileRecycler.recycleTile(tile);

@@ -71,7 +71,7 @@ public class DataBufferDouble extends DataBuffer {
      */
     public DataBufferDouble(double dataArray[], int size) {
         super(TYPE_DOUBLE, size);
-        if (dataArray.length < size) throw new RuntimeException(JaiI18N.getString("DataBuffer0"));
+        if (dataArray.length < size) throw new RuntimeException(ImageNLegacy18N.getString("DataBuffer0"));
         data = dataArray;
         bankdata = new double[1][];
         bankdata[0] = data;
@@ -89,7 +89,7 @@ public class DataBufferDouble extends DataBuffer {
      */
     public DataBufferDouble(double dataArray[], int size, int offset) {
         super(TYPE_DOUBLE, size, 1, offset);
-        if (dataArray.length < size) throw new RuntimeException(JaiI18N.getString("DataBuffer1"));
+        if (dataArray.length < size) throw new RuntimeException(ImageNLegacy18N.getString("DataBuffer1"));
         data = dataArray;
         bankdata = new double[1][];
         bankdata[0] = data;

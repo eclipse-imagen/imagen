@@ -63,7 +63,7 @@ public class IntegerSequence extends Object {
      * @throws IllegalArgumentException if min > max.
      */
     public IntegerSequence(int min, int max) {
-        if (min > max) throw new IllegalArgumentException(JaiI18N.getString("IntegerSequence1"));
+        if (min > max) throw new IllegalArgumentException(ImageNI18N.getString("IntegerSequence1"));
         this.min = min;
         this.max = max;
 
@@ -149,7 +149,7 @@ public class IntegerSequence extends Object {
         if (currentIndex < numElts) {
             return iArray[currentIndex++];
         } else {
-            throw new NoSuchElementException(JaiI18N.getString("IntegerSequence0"));
+            throw new NoSuchElementException(ImageNI18N.getString("IntegerSequence0"));
         }
     }
 

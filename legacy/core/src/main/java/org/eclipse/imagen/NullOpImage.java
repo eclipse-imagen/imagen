@@ -87,7 +87,7 @@ public class NullOpImage extends PointOpImage {
                 false);
 
         if (computeType != OP_COMPUTE_BOUND && computeType != OP_IO_BOUND && computeType != OP_NETWORK_BOUND) {
-            throw new IllegalArgumentException(JaiI18N.getString("NullOpImage0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("NullOpImage0"));
         }
 
         this.computeType = computeType;

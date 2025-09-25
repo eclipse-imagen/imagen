@@ -91,7 +91,7 @@ public final class WarpAffine extends WarpPolynomial {
         super(xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
 
         if (xCoeffs.length != 3 || yCoeffs.length != 3) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpAffine0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpAffine0"));
         }
 
         c1 = xCoeffs[0];
@@ -250,7 +250,7 @@ public final class WarpAffine extends WarpPolynomial {
      */
     public Rectangle mapDestRect(Rectangle destRect) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int dx0 = destRect.x;
@@ -305,7 +305,7 @@ public final class WarpAffine extends WarpPolynomial {
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
         if (srcRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         //
@@ -416,7 +416,7 @@ public final class WarpAffine extends WarpPolynomial {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         double dx = (destPt.getX() + 0.5) * preScaleX;
@@ -460,7 +460,7 @@ public final class WarpAffine extends WarpPolynomial {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (invTransform == null) {

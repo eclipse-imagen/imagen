@@ -42,7 +42,7 @@ public class NegotiableCollection implements Negotiable {
     public NegotiableCollection(Collection collection) {
 
         if (collection == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("NegotiableCollection0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCollection0"));
         }
 
         elements = new Vector();
@@ -62,7 +62,7 @@ public class NegotiableCollection implements Negotiable {
         for (; i.hasNext(); ) {
             obj = i.next();
             if (obj.getClass() != elementClass) {
-                throw new IllegalArgumentException(JaiI18N.getString("NegotiableCollection1"));
+                throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCollection1"));
             }
             elements.add(obj);
         }
@@ -78,7 +78,7 @@ public class NegotiableCollection implements Negotiable {
     public NegotiableCollection(Object objects[]) {
 
         if (objects == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("NegotiableCollection0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCollection0"));
         }
 
         int length = objects.length;
@@ -93,7 +93,7 @@ public class NegotiableCollection implements Negotiable {
         elements = new Vector(length);
         for (int i = 0; i < length; i++) {
             if (objects[i].getClass() != elementClass) {
-                throw new IllegalArgumentException(JaiI18N.getString("NegotiableCollection1"));
+                throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCollection1"));
             }
             elements.add(objects[i]);
         }
