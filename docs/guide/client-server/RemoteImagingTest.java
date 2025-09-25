@@ -99,7 +99,7 @@ SampleModel sampleModel2 =
 ImageLayout layout = new ImageLayout();
 layout.setTileWidth(TILE_WIDTH).setTileHeight(TILE_HEIGHT);
      RenderingHints rh = new
-         RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+         RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
 // Rescale the images to the range [0, 127].
 ParameterBlock pb = (new ParameterBlock());
