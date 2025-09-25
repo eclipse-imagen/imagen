@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Script to migrate java files to use imagen instead of jai and jai-ext -->
-<project name="imagen-pom-update" default="update">
+<project name="imagen-code-update" default="update">
     <!-- Use this property to run script on your project location -->
     <property name="project.dir" location="."/>
 
-    <target name="imports" description="Update common import patterns from jai and jai-ext to imagen">
+    <target name="update1" description="Update common import patterns from jai and jai-ext to imagen 0.4.0">
         <echo level="info"/>
-        <echo level="info" message="Update jai/jai-ext to imagen in java files"/>
+        <echo level="info" message="Update jai/jai-ext imports and classes to imagen 0.4.0 in java files"/>
         <replace dir="${project.dir}" includes="**/*.java" summary="yes">
             <replacefilter>
                 <replacetoken>com.sun.media.imageioimpl.common.BogusColorSpace</replacetoken>
@@ -287,8 +287,77 @@
         </replace>
     </target>
 
-    <target name="update" depends="imports" description="Update project in current directory from jai to imagen">
-        <echo level="warning">UPDATE COMPLETED: ${project.dir}</echo>
-        <echo level="info">The update is partial, you might have to fix version numbers and the like</echo>
+    <target name="update2" description="Update classes and constants from jai and jai-ext to imagen 0.9.0">
+        <echo level="info"/>
+        <echo level="info" message="Update jai/jai-ext classes and constants to imagen 0.9.0 in java files"/>
+        <replace dir="${user.dir}" includes="**/*.java" summary="yes">
+            <!-- Refactor JAI import and full class references -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.JAI</replacetoken>
+                <replacevalue>org.eclipse.imagen.ImageN</replacevalue>
+            </replacefilter>
+            
+            <!-- Refactor JAI class use, using a bunch of special cases to avoid a slow regex -->
+            <replacefilter>
+                <replacetoken> JAI.class</replacetoken>
+                <replacevalue> ImageN.class </replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> JAI.</replacetoken>
+                <replacevalue> ImageN.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(JAI.</replacetoken>
+                <replacevalue>(ImageN.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> JAI </replacetoken>
+                <replacevalue> ImageN </replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- parameter -->
+                <replacetoken>(JAI </replacetoken>
+                <replacevalue>(ImageN </replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- occurs at the end of a line so we are stuck with it -->
+                <replacetoken>= JAI</replacetoken>
+                <replacevalue>= ImageN</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- revert false positives from above over eagar replacefilter -->
+                <replacetoken>= ImageNInfo.</replacetoken>
+                <replacevalue>= JAIInfo.</replacevalue>
+            </replacefilter>
+
+            
+            <!-- Refactor ImageReadDescriptor Constants -->
+            <replacefilter>
+                <replacetoken>"JAI.ImageReadParam"</replacetoken>
+                <replacevalue>"ImageN.ImageReadParam"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.ImageReader"</replacetoken>
+                <replacevalue>"ImageN.ImageReader"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.ImageMetadata"</replacetoken>
+                <replacevalue>"ImageN.ImageMetadata"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.StreamMetadata"</replacetoken>
+                <replacevalue>"ImageN.StreamMetadata"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.Thumbnails"</replacetoken>
+                <replacevalue>"ImageN.Thumbnails"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.RenderableInput"</replacetoken>
+                <replacevalue>"ImageN.RenderableInput"</replacevalue>
+            </replacefilter>
+        </replace>
+    </target>
+
+    <target name="update" depends="update1,update2" description="Update project in current directory from jai to imagen">
+        <echo level="warning">UPDATE COMPLETED: ${user.dir}</echo>
+        <echo level="info">The update is partial, you might have to fix version numbers and the like.</echo>
     </target>
 </project>

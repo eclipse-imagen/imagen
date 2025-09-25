@@ -415,7 +415,7 @@ computation. In various implementations, tile computation may make use
 of multithreading and multiple simultaneous network connections for
 improved performance.
 
-**API:** `org.eclipse.imagen.JAI`
+**API:** `org.eclipse.imagen.ImageN`
 
 * `static TileCache createTileCache(int tileCapacity, long  memCapacity)`
 * `static TileCache createTileCache()`

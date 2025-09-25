@@ -123,7 +123,7 @@ PlanarImage src = loadImage(inFile);
 ImageLayout layout = new ImageLayout();
 layout.setTileWidth(57);
 layout.setTileHeight(57);
-RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT,
+RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT,
                                                   layout);
 PlanarImage src1 = JAI.create("addconst", pb, hints);
 

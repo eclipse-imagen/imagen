@@ -1181,14 +1181,14 @@ following methods:
 
 There are two static methods for creating operations in the Renderable mode.
 
-**API:** `org.eclipse.imagen.JAI`
+**API:** `org.eclipse.imagen.ImageN`
 
 * `JAI.createRenderable( opName, parameterBlock)`
 * `JAI.createRenderableCollection( opName, parameterBlock)`
 
 These call the non static:
 
-**API:** `org.eclipse.imagen.JAI`
+**API:** `org.eclipse.imagen.ImageN`
 
 * `createRenderableNS( opName, parameterBlock)`
 * `createRenderableCollectionNS( opName, parameterBlock)`
@@ -1216,7 +1216,7 @@ operations in the Rendered mode, as listed in below.
 
 The first static methods take sources and parameters specified in a `ParameterBlock`. 
 
-**API:** `org.eclipse.imagen.JAI`
+**API:** `org.eclipse.imagen.ImageN`
 
 * `JAI.create( opName, parameterBlock)`
 * `JAI.create( opName, parameterBlock, hints)`
@@ -1226,7 +1226,7 @@ The first static methods take sources and parameters specified in a `ParameterBl
 The remaining static methods are convenience methods that take various
 numbers of sources and parameters directly.
 
-**API:** `org.eclipse.imagen.JAI`
+**API:** `org.eclipse.imagen.ImageN`
 
 * `JAI.create( opName, param)`
 * `JAI.create( opName, param1, param2)`
@@ -1251,7 +1251,7 @@ may be a collection of images or a collection of collections.
 
 These call the non-static methods:
 
-**API:** `org.eclipse.imagen.JAI`
+**API:** `org.eclipse.imagen.ImageN`
 
 * `createNS( opName, parameterBlock, hints)`
 * `createCollectionNS( opName, parameterBlock, hints)`
@@ -1483,7 +1483,7 @@ There are two separate classes for specifying rendering hints:
     used by the `Graphics2D` class, and classes that implement
     `BufferedImageOp` and `Raster`.
 
--   `org.eclipse.imagen.JAI` - provides methods to define the
+-   `org.eclipse.imagen.ImageN` - provides methods to define the
     RenderingHints keys specific to JAI.
 
 #### 3.7.3.1 Java AWT Rendering Hints

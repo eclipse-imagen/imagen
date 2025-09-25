@@ -5,11 +5,11 @@
     <!-- Use this property to run script on your project location -->
     <property name="project.dir" location="."/>
 
-    <target name="pom_jai" description="Update pom.xml to migrate jai to imagen">
+    <target name="pom1" description="Update pom.xml to migrate jai to imagen">
         <echo level="info"/>
-        <echo level="info" message="Update jai to imagen in pom.xml files"/>
+        <echo level="info" message="Update jai to imagen 0.4.0 in pom.xml files"/>
         <!-- Replace jai_core dependency with imagen-core -->
-        <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
+        <fileset id="pom.files" dir="${user.dir}" includes="**/pom.xml"/>
         <replaceregexp byline="false" flags="s">
             <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*javax\.media\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jai_codec\s*&lt;/artifactId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;/dependency&gt;\s*"/>
             <substitution expression=""/>
@@ -53,7 +53,19 @@
         </replaceregexp>
     </target>
 
-    <target name="update" depends="pom_jai" description="Update project in current directory from jai to imagen">
+    <target name="pom2" description="Update pom.xml to upgrade imagen from 0.4.0 to 0.9">
+        <echo level="info"/>
+        <echo level="info" message="Update imagen 0.9.0 in pom.xml files"/>
+        <fileset id="pom.files" dir="${user.dir}" includes="**/pom.xml"/>
+        <replaceregexp byline="false" flags="gs">
+            <regexp pattern="&lt;imagen\.version&gt;.*&lt;/imagen\.version&gt;"/>
+            <substitution
+                    expression="&lt;imagen\.version&gt;0.9.0-SNAPSHOT&lt;/imagen\.version&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+    </target>
+
+    <target name="update" depends="pom1,pom2" description="Update project in current directory from jai to imagen">
         <echo level="warning">UPDATE COMPLETED: ${project.dir}</echo>
         <echo level="info">The update is partial, you might have to fix version numbers and the like</echo>
     </target>
