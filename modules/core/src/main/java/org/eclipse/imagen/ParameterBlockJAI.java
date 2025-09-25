@@ -104,7 +104,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
 
     private static String getDefaultMode(OperationDescriptor odesc) {
 
-        if (odesc == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (odesc == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         return odesc.getSupportedModes()[0];
     }
@@ -151,7 +151,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      */
     public ParameterBlockJAI(OperationDescriptor odesc, String modeName) {
 
-        if ((odesc == null) || (modeName == null)) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if ((odesc == null) || (modeName == null)) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         this.odesc = odesc;
         this.modeName = modeName;
@@ -253,13 +253,13 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      */
     public ParameterBlockJAI setSource(String sourceName, Object source) {
         if ((source == null) || (sourceName == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int index = indexOfSource(sourceName);
 
         if (!sourceClasses[index].isInstance(source)) {
-            throw new IllegalArgumentException(JaiI18N.getString("ParameterBlockJAI4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ParameterBlockJAI4"));
         }
 
         if (index >= odesc.getNumSources()) {
@@ -292,7 +292,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
         Object obj = getObjectParameter(indexOfParam(paramName));
 
         if (obj == ParameterListDescriptor.NO_PARAMETER_DEFAULT)
-            throw new IllegalStateException(paramName + ":" + JaiI18N.getString("ParameterBlockJAI6"));
+            throw new IllegalStateException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI6"));
 
         return obj;
     }
@@ -588,26 +588,26 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
         if (obj != null) {
 
             if (obj == ParameterListDescriptor.NO_PARAMETER_DEFAULT) {
-                throw new IllegalArgumentException(paramName + ":" + JaiI18N.getString("ParameterBlockJAI8"));
+                throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI8"));
             }
 
             if (obj instanceof DeferredData) {
                 DeferredData dd = (DeferredData) obj;
                 if (!paramClasses[index].isAssignableFrom(dd.getDataClass())) {
-                    throw new IllegalArgumentException(paramName + ":" + JaiI18N.getString("ParameterBlockJAI0"));
+                    throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI0"));
                 }
 
                 if (dd.isValid() && !pld.isParameterValueValid(paramName, dd.getData())) {
-                    throw new IllegalArgumentException(paramName + ":" + JaiI18N.getString("ParameterBlockJAI2"));
+                    throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI2"));
                 }
             } else if (!paramClasses[index].isInstance(obj)) {
-                throw new IllegalArgumentException(paramName + ":" + JaiI18N.getString("ParameterBlockJAI0"));
+                throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI0"));
             }
         }
 
         if (obj == null || !(obj instanceof DeferredData)) {
             if (!pld.isParameterValueValid(paramName, obj)) {
-                throw new IllegalArgumentException(paramName + ":" + JaiI18N.getString("ParameterBlockJAI2"));
+                throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI2"));
             }
         }
 
@@ -648,7 +648,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @since JAI 1.1
      */
     public ParameterBlock add(Object obj) {
-        throw new IllegalStateException(JaiI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
     }
 
     /**
@@ -689,7 +689,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      */
     public void setParameters(Vector parameters) {
         if (parameters == null || parameters.size() != numParameters) {
-            throw new IllegalArgumentException(JaiI18N.getString("ParameterBlockJAI7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ParameterBlockJAI7"));
         }
 
         for (int i = 0; i < numParameters; i++) {
@@ -863,7 +863,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
                 JAI.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName);
 
         if (odesc == null) {
-            throw new NotSerializableException(operationName + " " + JaiI18N.getString("ParameterBlockJAI1"));
+            throw new NotSerializableException(operationName + " " + ImageNI18N.getString("ParameterBlockJAI1"));
         }
     }
 

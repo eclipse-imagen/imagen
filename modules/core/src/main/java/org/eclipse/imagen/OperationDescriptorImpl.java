@@ -97,10 +97,10 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
             String[][] resources, String[] supportedModes, String[] sourceNames, Class[][] sourceClasses) {
 
         if ((resources == null) || (resources.length == 0))
-            throw new IllegalArgumentException("resources: " + JaiI18N.getString("Generic2"));
+            throw new IllegalArgumentException("resources: " + ImageNI18N.getString("Generic2"));
 
         if ((supportedModes == null) || (supportedModes.length == 0))
-            throw new IllegalArgumentException("supportedModes: " + JaiI18N.getString("Generic2"));
+            throw new IllegalArgumentException("supportedModes: " + ImageNI18N.getString("Generic2"));
 
         // Validate source related arguments.
 
@@ -109,7 +109,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
         if (sourceClasses != null) {
 
             if (sourceClasses.length != numModes)
-                throw new IllegalArgumentException(JaiI18N.formatMsg(
+                throw new IllegalArgumentException(ImageNI18N.formatMsg(
                         "OperationDescriptorImpl0", new Object[] {"sourceClasses", new Integer(numModes)}));
 
             int numSources = (sourceClasses[0] == null) ? 0 : sourceClasses[0].length;
@@ -119,7 +119,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
             } else if (sourceNames.length != numSources) {
 
-                throw new IllegalArgumentException(JaiI18N.formatMsg(
+                throw new IllegalArgumentException(ImageNI18N.formatMsg(
                         "OperationDescriptorImpl1",
                         new Object[] {new Integer(sourceNames.length), new Integer(numSources)}));
             }
@@ -128,14 +128,14 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
                 int ns = (sourceClasses[i] == null) ? 0 : sourceClasses[i].length;
 
                 if (numSources != ns) {
-                    throw new IllegalArgumentException(JaiI18N.formatMsg(
+                    throw new IllegalArgumentException(ImageNI18N.formatMsg(
                             "OperationDescriptorImpl2",
                             new Object[] {new Integer(ns), new Integer(numSources), supportedModes[i]}));
                 }
             }
 
         } else if ((sourceNames != null) && (sourceNames.length != 0)) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "OperationDescriptorImpl1", new Object[] {new Integer(sourceNames.length), new Integer(0)}));
         }
 
@@ -207,22 +207,22 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
         if (numParams == 0) {
             if ((paramClasses != null) && (paramClasses.length != numModes))
-                throw new IllegalArgumentException(JaiI18N.formatMsg(
+                throw new IllegalArgumentException(ImageNI18N.formatMsg(
                         "OperationDescriptorImpl0", new Object[] {"paramClasses", new Integer(numModes)}));
 
         } else {
 
             if ((paramClasses == null) || (paramClasses.length != numModes))
-                throw new IllegalArgumentException(JaiI18N.formatMsg(
+                throw new IllegalArgumentException(ImageNI18N.formatMsg(
                         "OperationDescriptorImpl0", new Object[] {"paramClasses", new Integer(numModes)}));
         }
 
         if ((paramDefaults != null) && (paramDefaults.length != numModes))
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "OperationDescriptorImpl0", new Object[] {"paramDefaults", new Integer(numModes)}));
 
         if ((validParamValues != null) && (validParamValues.length != numModes))
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "OperationDescriptorImpl0", new Object[] {"validParamValues", new Integer(numModes)}));
 
         // Create the ParameterListDescriptor-s for each mode.
@@ -407,7 +407,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
         this.sourceIndices = new CaselessStringArrayTable(sourceNames);
 
         if ((pld != null) && (pld.length != supportedModes.length)) {
-            throw new IllegalArgumentException(JaiI18N.formatMsg(
+            throw new IllegalArgumentException(ImageNI18N.formatMsg(
                     "OperationDescriptorImpl0",
                     new Object[] {"ParameterListDescriptor's", new Integer(supportedModes.length)}));
         }
@@ -528,7 +528,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      */
     public boolean isModeSupported(String modeName) {
 
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (modeName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         return modeIndices.contains(modeName);
     }
@@ -566,7 +566,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      */
     public PropertyGenerator[] getPropertyGenerators(String modeName) {
 
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (modeName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         if (deprecated) {
             if (modeName.equalsIgnoreCase("rendered") || modeName.equalsIgnoreCase("renderable"))
@@ -575,7 +575,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
         if (!arePropertiesSupported()) {
             throw new UnsupportedOperationException(
-                    JaiI18N.formatMsg("OperationDescriptorImpl3", new Object[] {modeName}));
+                    ImageNI18N.formatMsg("OperationDescriptorImpl3", new Object[] {modeName}));
         }
 
         return null;
@@ -718,7 +718,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @see #validateArguments
      */
     protected boolean validateSources(String modeName, ParameterBlock args, StringBuffer msg) {
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (modeName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         if (deprecated) {
 
@@ -758,7 +758,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @see ParameterListDescriptorImpl#isParameterValueValid
      */
     protected boolean validateParameters(String modeName, ParameterBlock args, StringBuffer msg) {
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (modeName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         if (deprecated) {
             if (modeName.equalsIgnoreCase("rendered") || modeName.equalsIgnoreCase("renderable"))
@@ -848,7 +848,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
             ParameterBlock newParamBlock,
             RenderingHints newHints,
             OperationNode node) {
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (modeName == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         return null;
     }
@@ -1531,15 +1531,15 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
     private boolean validateSources(Class[] sources, ParameterBlock args, StringBuffer msg) {
 
-        if ((args == null) || (msg == null)) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if ((args == null) || (msg == null)) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // The number of sources this operation requires.
         int numSources = getNumSources();
 
         // Check for the correct number of sources.
         if (args.getNumSources() < numSources) {
-            msg.append(
-                    JaiI18N.formatMsg("OperationDescriptorImpl6", new Object[] {getName(), new Integer(numSources)}));
+            msg.append(ImageNI18N.formatMsg(
+                    "OperationDescriptorImpl6", new Object[] {getName(), new Integer(numSources)}));
             return false;
         }
 
@@ -1548,14 +1548,14 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
             // Check for null source.
             if (s == null) {
-                msg.append(JaiI18N.formatMsg("OperationDescriptorImpl7", new Object[] {getName()}));
+                msg.append(ImageNI18N.formatMsg("OperationDescriptorImpl7", new Object[] {getName()}));
                 return false;
             }
 
             // Check for the correct class of each supplied source.
             Class c = sources[i];
             if (!c.isInstance(s)) {
-                msg.append(JaiI18N.formatMsg("OperationDescriptorImpl8", new Object[] {
+                msg.append(ImageNI18N.formatMsg("OperationDescriptorImpl8", new Object[] {
                     getName(),
                     new Integer(i),
                     new String(c.toString()),
@@ -1570,7 +1570,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
     private boolean validateParameters(ParameterListDescriptor pld, ParameterBlock args, StringBuffer msg) {
 
-        if ((args == null) || (msg == null)) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if ((args == null) || (msg == null)) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // The number of parameters this operation should have.
         int numParams = pld.getNumParameters();
@@ -1584,7 +1584,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
         if (argNumParams < numParams) {
             // The minimum number of parameters this operation must have.
             if (argNumParams < getMinNumParameters(pld)) {
-                msg.append(JaiI18N.formatMsg(
+                msg.append(ImageNI18N.formatMsg(
                         "OperationDescriptorImpl9", new Object[] {getName(), new Integer(numParams)}));
 
                 return false;
@@ -1604,8 +1604,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
                 p = paramDefaults[i]; // get the default parameter value
 
                 if (p == OperationDescriptor.NO_PARAMETER_DEFAULT) {
-                    msg.append(
-                            JaiI18N.formatMsg("OperationDescriptorImpl11", new Object[] {getName(), new Integer(i)}));
+                    msg.append(ImageNI18N.formatMsg(
+                            "OperationDescriptorImpl11", new Object[] {getName(), new Integer(i)}));
                     return false;
 
                 } else {
@@ -1616,7 +1616,7 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
             // Now check if the parameter value is valid
             try {
                 if (!pld.isParameterValueValid(paramNames[i], p)) {
-                    msg.append(JaiI18N.formatMsg(
+                    msg.append(ImageNI18N.formatMsg(
                             "OperationDescriptorImpl10", new Object[] {getName(), pld.getParamNames()[i]}));
                     return false;
                 }
@@ -1632,11 +1632,11 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
     /** Make sure that <code>modeName</code> is not <code>null</code> and is one of the supported modes. */
     private void checkModeName(String modeName) {
 
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("OperationDescriptorImpl12"));
+        if (modeName == null) throw new IllegalArgumentException(ImageNI18N.getString("OperationDescriptorImpl12"));
 
         if (modeIndices.contains(modeName) == false) {
             throw new IllegalArgumentException(
-                    JaiI18N.formatMsg("OperationDescriptorImpl13", new Object[] {getName(), modeName}));
+                    ImageNI18N.formatMsg("OperationDescriptorImpl13", new Object[] {getName(), modeName}));
         }
     }
 }

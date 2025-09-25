@@ -278,9 +278,9 @@ public abstract class GeometricOpImage extends OpImage {
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle destRect = new Rectangle((int) destPt.getX(), (int) destPt.getY(), 1, 1);
@@ -325,9 +325,9 @@ public abstract class GeometricOpImage extends OpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle sourceRect = new Rectangle((int) sourcePt.getX(), (int) sourcePt.getY(), 1, 1);
@@ -415,11 +415,11 @@ public abstract class GeometricOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         // Cache left and top padding.
@@ -458,11 +458,11 @@ public abstract class GeometricOpImage extends OpImage {
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         // Map the destination Rectangle into the appropriate source space.

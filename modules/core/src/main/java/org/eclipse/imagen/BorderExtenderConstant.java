@@ -80,7 +80,7 @@ public final class BorderExtenderConstant extends BorderExtender {
         } else if (band < length) {
             c = constants[band];
         } else {
-            throw new UnsupportedOperationException(JaiI18N.getString("BorderExtenderConstant0"));
+            throw new UnsupportedOperationException(ImageNI18N.getString("BorderExtenderConstant0"));
         }
 
         return (c > min) ? ((c > max) ? max : (int) c) : min;
@@ -111,7 +111,7 @@ public final class BorderExtenderConstant extends BorderExtender {
     public final void extend(WritableRaster raster, PlanarImage im) {
 
         if (raster == null || im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int width = raster.getWidth();
@@ -223,7 +223,7 @@ public final class BorderExtenderConstant extends BorderExtender {
                     }
                     break;
                 default:
-                    throw new IllegalArgumentException(JaiI18N.getString("Generic3"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("Generic3"));
             }
 
             int[] iData = new int[width * numBands];

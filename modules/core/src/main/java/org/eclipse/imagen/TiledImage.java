@@ -502,7 +502,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
     public void set(RenderedImage im) {
 
         if (im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Same source: do nothing.
@@ -573,7 +573,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
     public void set(RenderedImage im, ROI roi) {
 
         if (im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Same source: do nothing.
@@ -669,7 +669,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
                 && dataType != DataBuffer.TYPE_SHORT
                 && dataType != DataBuffer.TYPE_USHORT
                 && dataType != DataBuffer.TYPE_INT) {
-            throw new UnsupportedOperationException(JaiI18N.getString("TiledImage0"));
+            throw new UnsupportedOperationException(ImageNI18N.getString("TiledImage0"));
         }
         return new TiledImageGraphics(this);
     }
@@ -808,7 +808,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      */
     public TiledImage getSubImage(int[] bandSelect, ColorModel cm) {
         if (bandSelect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return getSubImage(getMinX(), getMinY(), getWidth(), getHeight(), bandSelect, cm);
     }
@@ -825,7 +825,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      */
     public TiledImage getSubImage(int[] bandSelect) {
         if (bandSelect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return getSubImage(
                 getMinX(), getMinY(), getWidth(), getHeight(), bandSelect); // Deliberately using 5-param version.
@@ -1005,7 +1005,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
         --writers[tileX - minTileX][tileY - minTileY];
 
         if (writers[tileX - minTileX][tileY - minTileY] < 0) {
-            throw new RuntimeException(JaiI18N.getString("TiledImage1"));
+            throw new RuntimeException(ImageNI18N.getString("TiledImage1"));
         }
 
         if (writers[tileX - minTileX][tileY - minTileY] == 0) {
@@ -1240,7 +1240,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      */
     public void clearTiles() {
         if (hasTileWriters()) {
-            throw new IllegalStateException(JaiI18N.getString("TiledImage2"));
+            throw new IllegalStateException(ImageNI18N.getString("TiledImage2"));
         }
         tiles = null;
     }

@@ -45,9 +45,9 @@ public class PropertyChangeEventJAI extends PropertyChangeEvent {
         super(source, propertyName.toLowerCase(), oldValue, newValue);
 
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyChangeEventJAI0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PropertyChangeEventJAI0"));
         } else if (oldValue == null && newValue == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyChangeEventJAI1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PropertyChangeEventJAI1"));
         }
 
         originalPropertyName = propertyName.equals(getPropertyName()) ? getPropertyName() : propertyName;

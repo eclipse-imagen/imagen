@@ -102,7 +102,7 @@ public class PropertySourceImpl implements PropertySource, Serializable {
                 // Ignore it.
             }
             if (throwException) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
             }
         }
 
@@ -187,7 +187,7 @@ public class PropertySourceImpl implements PropertySource, Serializable {
      */
     public Class getPropertyClass(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         synchronized (properties) {
             Class propertyClass = null;
@@ -215,7 +215,7 @@ public class PropertySourceImpl implements PropertySource, Serializable {
      */
     public Object getProperty(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         synchronized (properties) {

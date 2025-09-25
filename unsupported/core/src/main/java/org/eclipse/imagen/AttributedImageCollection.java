@@ -51,7 +51,7 @@ public class AttributedImageCollection extends CollectionImage {
         super();
 
         if (images == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("AttributedImageCollection0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("AttributedImageCollection0"));
         }
 
         try {
@@ -202,7 +202,7 @@ public class AttributedImageCollection extends CollectionImage {
     public boolean add(Object o) {
 
         if (o == null || !(o instanceof AttributedImage)) {
-            throw new IllegalArgumentException(JaiI18N.getString("AttributedImageCollection1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("AttributedImageCollection1"));
         }
 
         // don't add an object that's there already

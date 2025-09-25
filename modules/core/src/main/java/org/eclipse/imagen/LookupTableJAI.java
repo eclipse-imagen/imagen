@@ -69,7 +69,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(byte[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.data = new DataBufferByte(data, data.length);
@@ -85,7 +85,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(byte[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, offset);
@@ -100,7 +100,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(byte[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, 0);
@@ -116,7 +116,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(byte[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offset);
@@ -132,7 +132,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(byte[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offsets);
@@ -148,7 +148,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(short[] data, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, 0);
@@ -169,7 +169,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(short[] data, int offset, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, offset);
@@ -189,7 +189,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(short[][] data, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, 0);
@@ -210,7 +210,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(short[][] data, int offset, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offset);
@@ -231,7 +231,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(short[][] data, int[] offsets, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offsets);
@@ -251,7 +251,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(int[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, 0);
@@ -267,7 +267,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(int[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, offset);
@@ -282,7 +282,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(int[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, 0);
@@ -298,7 +298,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(int[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offset);
@@ -314,7 +314,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(int[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offsets);
@@ -329,7 +329,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(float[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, 0);
@@ -345,7 +345,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(float[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, offset);
@@ -360,7 +360,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(float[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, 0);
@@ -376,7 +376,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(float[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offset);
@@ -392,7 +392,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(float[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offsets);
@@ -407,7 +407,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(double[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, 0);
@@ -423,7 +423,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(double[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(1, offset);
@@ -438,7 +438,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(double[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, 0);
@@ -454,7 +454,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(double[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offset);
@@ -470,7 +470,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public LookupTableJAI(double[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.initOffsets(data.length, offsets);
@@ -602,7 +602,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public SampleModel getDestSampleModel(SampleModel srcSampleModel) {
         if (srcSampleModel == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return getDestSampleModel(srcSampleModel, srcSampleModel.getWidth(), srcSampleModel.getHeight());
@@ -621,7 +621,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public SampleModel getDestSampleModel(SampleModel srcSampleModel, int width, int height) {
         if (srcSampleModel == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!isIntegralDataType(srcSampleModel)) {
@@ -639,7 +639,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public boolean isIntegralDataType(SampleModel sampleModel) {
         if (sampleModel == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return isIntegralDataType(sampleModel.getTransferType());
@@ -701,7 +701,7 @@ public class LookupTableJAI extends Object implements Serializable {
      */
     public WritableRaster lookup(WritableRaster src) {
         if (src == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return lookup(src, src, src.getBounds());
@@ -733,12 +733,12 @@ public class LookupTableJAI extends Object implements Serializable {
     public WritableRaster lookup(Raster src, WritableRaster dst, Rectangle rect) {
         // Validate source.
         if (src == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("LookupTableJAI1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("LookupTableJAI1"));
         }
 
         SampleModel srcSampleModel = src.getSampleModel();
         if (!isIntegralDataType(srcSampleModel)) {
-            throw new IllegalArgumentException(JaiI18N.getString("LookupTableJAI2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("LookupTableJAI2"));
         }
 
         // Validate rectangle.
@@ -762,7 +762,7 @@ public class LookupTableJAI extends Object implements Serializable {
 
             if (dstSampleModel.getTransferType() != getDataType()
                     || dstSampleModel.getNumBands() != getDestNumBands(srcSampleModel.getNumBands())) {
-                throw new IllegalArgumentException(JaiI18N.getString("LookupTableJAI3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("LookupTableJAI3"));
             }
         }
 
@@ -2198,7 +2198,7 @@ public class LookupTableJAI extends Object implements Serializable {
     public int findNearestEntry(float[] pixel) {
 
         if (pixel == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int dataType = data.getDataType();
@@ -2358,7 +2358,7 @@ public class LookupTableJAI extends Object implements Serializable {
             }
         } else {
             // This can't happen since we control the type of data
-            throw new RuntimeException(JaiI18N.getString("LookupTableJAI0"));
+            throw new RuntimeException(ImageNI18N.getString("LookupTableJAI0"));
         }
 
         // Return the index of the closest color plus the offset of the

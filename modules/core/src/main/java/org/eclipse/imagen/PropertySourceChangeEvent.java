@@ -44,9 +44,9 @@ public class PropertySourceChangeEvent extends PropertyChangeEventJAI {
         // Note: source and propertyName are checked for null in superclass.
 
         if (oldValue == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertySourceChangeEvent0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PropertySourceChangeEvent0"));
         } else if (newValue == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertySourceChangeEvent1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PropertySourceChangeEvent1"));
         }
     }
 }

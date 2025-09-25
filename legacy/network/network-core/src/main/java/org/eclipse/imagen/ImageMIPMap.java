@@ -90,7 +90,7 @@ public class ImageMIPMap implements ImageJAI {
         this();
 
         if (image == null || transform == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         ParameterBlock pb = new ParameterBlock();
@@ -119,7 +119,7 @@ public class ImageMIPMap implements ImageJAI {
     public ImageMIPMap(RenderedImage image, RenderedOp downSampler) {
         this();
         if (image == null || downSampler == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         highestImage = image;
@@ -148,11 +148,11 @@ public class ImageMIPMap implements ImageJAI {
         this();
 
         if (downSampler == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         if (downSampler.getNumSources() == 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageMIPMap0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("ImageMIPMap0"));
         }
 
         // Find the highest resolution image from the chain.
@@ -175,7 +175,7 @@ public class ImageMIPMap implements ImageJAI {
                 op.removeSources();
                 break;
             } else {
-                throw new IllegalArgumentException(JaiI18N.getString("ImageMIPMap1"));
+                throw new IllegalArgumentException(ImageNLegacy18N.getString("ImageMIPMap1"));
             }
         }
 
@@ -351,7 +351,7 @@ public class ImageMIPMap implements ImageJAI {
      */
     protected RenderedOp duplicate(RenderedOp op, Vector images) {
         if (images == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         //

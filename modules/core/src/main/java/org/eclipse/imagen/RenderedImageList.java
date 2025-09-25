@@ -81,11 +81,11 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
 
         // separate throws, for better error reporting
         if (renderedImageList == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList0"));
         }
 
         if (renderedImageList.isEmpty()) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList1"));
         }
 
         Iterator iter = renderedImageList.iterator();
@@ -97,7 +97,7 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
             if (item instanceof RenderedImage) {
                 imageCollection.add(item);
             } else {
-                throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList2"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList2"));
             }
         }
     }
@@ -233,7 +233,7 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
      */
     public Object getProperty(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList0"));
         }
 
         return ((RenderedImage) getList().get(0)).getProperty(name);
@@ -319,10 +319,10 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
             if (index >= 0 && index <= imageCollection.size()) {
                 ((List) imageCollection).add(index, element);
             } else {
-                throw new IndexOutOfBoundsException(JaiI18N.getString("RenderedImageList3"));
+                throw new IndexOutOfBoundsException(ImageNI18N.getString("RenderedImageList3"));
             }
         } else {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList2"));
         }
     }
 
@@ -336,7 +336,7 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
     public boolean addAll(int index, Collection c) {
         // Add only elements of c which are RenderedImages.
         if (index < 0 || index > imageCollection.size()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("RenderedImageList3"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("RenderedImageList3"));
         }
 
         // Only allow RenderedImages
@@ -366,7 +366,7 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
      */
     public Object get(int index) {
         if (index < 0 || index >= imageCollection.size()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("RenderedImageList3"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("RenderedImageList3"));
         }
 
         return ((List) imageCollection).get(index);
@@ -401,7 +401,7 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
             return ((List) imageCollection).set(index, element);
         }
 
-        throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList2"));
+        throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList2"));
     }
 
     public List subList(int fromIndex, int toIndex) {
@@ -418,14 +418,14 @@ public class RenderedImageList extends CollectionImage implements List, Rendered
      */
     public boolean add(Object o) {
         if (o == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList0"));
         }
 
         if (o instanceof RenderedImage) {
             imageCollection.add(o);
             return true;
         } else {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedImageList2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedImageList2"));
         }
     }
 

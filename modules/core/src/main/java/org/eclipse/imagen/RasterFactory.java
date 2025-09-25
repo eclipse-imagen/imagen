@@ -68,7 +68,7 @@ public class RasterFactory {
     public static WritableRaster createInterleavedRaster(
             int dataType, int width, int height, int numBands, Point location) {
         if (numBands < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory0"));
         }
         int[] bandOffsets = new int[numBands];
         for (int i = 0; i < numBands; i++) {
@@ -109,7 +109,7 @@ public class RasterFactory {
             Point location) {
 
         if (bandOffsets == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory4"));
         }
 
         DataBuffer d;
@@ -124,7 +124,7 @@ public class RasterFactory {
 
         long lsize = (long) maxBandOff + (long) scanlineStride * (height - 1) + (long) pixelStride * (width - 1) + 1L;
         if (lsize > (long) Integer.MAX_VALUE) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory16"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory16"));
         }
         int size = (int) lsize;
 
@@ -154,7 +154,7 @@ public class RasterFactory {
                 break;
 
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("RasterFactory3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory3"));
         }
 
         return createInterleavedRaster(d, width, height, scanlineStride, pixelStride, bandOffsets, location);
@@ -181,7 +181,7 @@ public class RasterFactory {
      */
     public static WritableRaster createBandedRaster(int dataType, int width, int height, int bands, Point location) {
         if (bands < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory0"));
         }
         int[] bankIndices = new int[bands];
         int[] bandOffsets = new int[bands];
@@ -229,14 +229,14 @@ public class RasterFactory {
         int bands = bandOffsets.length;
 
         if (bankIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory1"));
         }
         if (bandOffsets == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory4"));
         }
 
         if (bandOffsets.length != bankIndices.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory2"));
         }
 
         // Figure out the #banks and the largest band offset
@@ -254,7 +254,7 @@ public class RasterFactory {
         int banks = maxBank + 1;
         long lsize = (long) maxBandOff + (long) scanlineStride * (height - 1) + (long) (width - 1) + 1L;
         if (lsize > (long) Integer.MAX_VALUE) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory16"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory16"));
         }
         int size = (int) lsize;
 
@@ -284,7 +284,7 @@ public class RasterFactory {
                 break;
 
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("RasterFactory3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory3"));
         }
 
         return createBandedRaster(d, width, height, scanlineStride, bankIndices, bandOffsets, location);
@@ -339,7 +339,7 @@ public class RasterFactory {
     public static WritableRaster createPackedRaster(
             int dataType, int width, int height, int numBands, int bitsPerBand, Point location) {
         if (bitsPerBand <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory15"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory15"));
         }
 
         return Raster.createPackedRaster(dataType, width, height, numBands, bitsPerBand, location);
@@ -372,7 +372,7 @@ public class RasterFactory {
             Point location) {
 
         if (bandOffsets == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory4"));
         }
         if (location == null) {
             location = new Point(0, 0);
@@ -398,13 +398,13 @@ public class RasterFactory {
                 }
                 maxBandOff -= minBandOff;
                 if (maxBandOff > scanlineStride) {
-                    throw new IllegalArgumentException(JaiI18N.getString("RasterFactory5"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory5"));
                 }
                 if (pixelStride * width > scanlineStride) {
-                    throw new IllegalArgumentException(JaiI18N.getString("RasterFactory6"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory6"));
                 }
                 if (pixelStride < maxBandOff) {
-                    throw new IllegalArgumentException(JaiI18N.getString("RasterFactory7"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory7"));
                 }
 
                 SampleModel sm =
@@ -412,7 +412,7 @@ public class RasterFactory {
                 return Raster.createWritableRaster(sm, dataBuffer, location);
 
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("RasterFactory3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory3"));
         }
     }
 
@@ -451,15 +451,15 @@ public class RasterFactory {
         int dataType = dataBuffer.getDataType();
 
         if (bankIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory1"));
         }
         if (bandOffsets == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory4"));
         }
 
         int bands = bankIndices.length;
         if (bandOffsets.length != bands) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory2"));
         }
 
         SampleModel bsm =
@@ -475,7 +475,7 @@ public class RasterFactory {
                 return Raster.createWritableRaster(bsm, dataBuffer, location);
 
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("RasterFactory3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory3"));
         }
     }
 
@@ -635,7 +635,7 @@ public class RasterFactory {
     public static SampleModel createBandedSampleModel(
             int dataType, int width, int height, int numBands, int bankIndices[], int bandOffsets[]) {
         if (numBands < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory0"));
         }
         if (bankIndices == null) {
             bankIndices = new int[numBands];
@@ -650,7 +650,7 @@ public class RasterFactory {
             }
         }
         if (bandOffsets.length != bankIndices.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory2"));
         }
         return new ComponentSampleModelJAI(dataType, width, height, 1, width, bankIndices, bandOffsets);
     }
@@ -693,7 +693,7 @@ public class RasterFactory {
     public static SampleModel createPixelInterleavedSampleModel(
             int dataType, int width, int height, int pixelStride, int scanlineStride, int bandOffsets[]) {
         if (bandOffsets == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory4"));
         }
         int minBandOff = bandOffsets[0];
         int maxBandOff = bandOffsets[0];
@@ -703,13 +703,13 @@ public class RasterFactory {
         }
         maxBandOff -= minBandOff;
         if (maxBandOff > scanlineStride) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory5"));
         }
         if (pixelStride * width > scanlineStride) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory6"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory6"));
         }
         if (pixelStride < maxBandOff) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory7"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory7"));
         }
 
         switch (dataType) {
@@ -723,7 +723,7 @@ public class RasterFactory {
             case DataBuffer.TYPE_DOUBLE:
                 return new ComponentSampleModelJAI(dataType, width, height, pixelStride, scanlineStride, bandOffsets);
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("RasterFactory3"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory3"));
         }
     }
 
@@ -741,7 +741,7 @@ public class RasterFactory {
      */
     public static SampleModel createPixelInterleavedSampleModel(int dataType, int width, int height, int numBands) {
         if (numBands < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory0"));
         }
         int[] bandOffsets = new int[numBands];
         for (int i = 0; i < numBands; i++) {
@@ -797,18 +797,18 @@ public class RasterFactory {
             int dataType, ColorSpace colorSpace, boolean useAlpha, boolean premultiplied, int transparency) {
 
         if (colorSpace == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if ((transparency != Transparency.OPAQUE)
                 && (transparency != Transparency.BITMASK)
                 && (transparency != Transparency.TRANSLUCENT)) {
             // Illegal value for transparency
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory13"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory13"));
         }
 
         if (useAlpha && (transparency == Transparency.OPAQUE)) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterFactory14"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory14"));
         }
 
         if (!useAlpha) {
@@ -845,7 +845,7 @@ public class RasterFactory {
             case DataBuffer.TYPE_DOUBLE:
                 return new FloatDoubleColorModel(colorSpace, useAlpha, premultiplied, transparency, dataType);
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("RasterFactory8"));
+                throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory8"));
         }
     }
 }

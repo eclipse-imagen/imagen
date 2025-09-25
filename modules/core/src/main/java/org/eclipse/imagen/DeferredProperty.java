@@ -49,7 +49,7 @@ public class DeferredProperty extends DeferredData implements PropertyChangeList
         super(propertyClass);
 
         if (propertySource == null || propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("DeferredData0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("DeferredData0"));
         }
 
         String[] propertyNames = propertySource.getPropertyNames();
@@ -65,7 +65,7 @@ public class DeferredProperty extends DeferredData implements PropertyChangeList
         }
 
         if (!isPropertyEmitted) {
-            throw new IllegalArgumentException(JaiI18N.getString("DeferredProperty0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("DeferredProperty0"));
         }
 
         if (propertySource instanceof PropertyChangeEmitter) {

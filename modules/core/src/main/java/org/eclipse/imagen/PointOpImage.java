@@ -85,7 +85,7 @@ public abstract class PointOpImage extends OpImage {
         int numSources = sources.size();
 
         if (numSources < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic5"));
         }
 
         RenderedImage source0 = (RenderedImage) sources.get(0);
@@ -103,7 +103,7 @@ public abstract class PointOpImage extends OpImage {
         }
 
         if (isect.isEmpty()) {
-            throw new IllegalArgumentException(JaiI18N.getString("PointOpImage0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage0"));
         }
 
         if (layout == null) {
@@ -128,11 +128,11 @@ public abstract class PointOpImage extends OpImage {
             Rectangle r = new Rectangle(
                     layout.getMinX(null), layout.getMinY(null), layout.getWidth(null), layout.getHeight(null));
             if (r.isEmpty()) {
-                throw new IllegalArgumentException(JaiI18N.getString("PointOpImage1"));
+                throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage1"));
             }
 
             if (!isect.contains(r)) {
-                throw new IllegalArgumentException(JaiI18N.getString("PointOpImage2"));
+                throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage2"));
             }
         }
 
@@ -899,11 +899,11 @@ public abstract class PointOpImage extends OpImage {
      */
     public final Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
         return new Rectangle(sourceRect);
     }
@@ -922,11 +922,11 @@ public abstract class PointOpImage extends OpImage {
      */
     public final Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
         return new Rectangle(destRect);
     }

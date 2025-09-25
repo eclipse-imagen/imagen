@@ -375,7 +375,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected void setImageLayout(ImageLayout layout) {
         if (layout == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else {
             // Set image bounds.
             if (layout.isValid(ImageLayout.MIN_X_MASK)) {
@@ -428,10 +428,10 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
             }
             if (colorModel != null && sampleModel != null) {
                 if (!JDKWorkarounds.areCompatibleDataModels(sampleModel, colorModel)) {
-                    throw new IllegalArgumentException(JaiI18N.getString("PlanarImage5"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage5"));
                     /* XXX Begin debugging statements: to be deleted
                     System.err.println("\n----- ERROR: "+
-                                       JaiI18N.getString("PlanarImage5"));
+                                       ImageNI18N.getString("PlanarImage5"));
                     System.err.println(getClass().getName());
                     System.err.println(sampleModel.getClass().getName()+": "+
                                        sampleModel);
@@ -460,7 +460,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public static PlanarImage wrapRenderedImage(RenderedImage image) {
         if (image == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (image instanceof PlanarImage) {
@@ -891,7 +891,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public static ColorModel createColorModel(SampleModel sm) {
         if (sm == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int bands = sm.getNumBands();
@@ -988,7 +988,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public PlanarImage getSource(int index) {
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
         }
 
         synchronized (sources) {
@@ -1009,7 +1009,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected void setSources(List sourceList) {
         if (sourceList == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int size = sourceList.size();
@@ -1032,7 +1032,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
             for (int i = 0; i < size; i++) {
                 Object sourceElement = sourceList.get(i);
                 if (sourceElement == null) {
-                    throw new IllegalArgumentException(JaiI18N.getString("PlanarImage7"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage7"));
                 }
 
                 sources.add(
@@ -1082,7 +1082,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public PlanarImage getSourceImage(int index) {
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
         }
 
         synchronized (sources) {
@@ -1102,7 +1102,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public Object getSourceObject(int index) {
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
         }
 
         synchronized (sources) {
@@ -1121,7 +1121,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected void addSource(Object source) {
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sources == null) {
@@ -1156,11 +1156,11 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected void setSource(Object source, int index) {
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
         }
 
         synchronized (sources) {
@@ -1185,7 +1185,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected boolean removeSource(Object source) {
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sources == null) {
@@ -1245,7 +1245,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public synchronized boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -1271,7 +1271,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public synchronized boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -1309,7 +1309,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected void addSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -1334,7 +1334,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     protected boolean removeSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -1496,7 +1496,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public synchronized void addTileComputationListener(TileComputationListener listener) {
         if (listener == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         Set listeners = getTileComputationListeners(true);
@@ -1513,7 +1513,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public synchronized void removeTileComputationListener(TileComputationListener listener) {
         if (listener == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         Set listeners = getTileComputationListeners(false);
@@ -1553,7 +1553,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public void getSplits(IntegerSequence xSplits, IntegerSequence ySplits, Rectangle rect) {
         if (xSplits == null || ySplits == null || rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int minTileX = XToTileX(rect.x);
@@ -1725,7 +1725,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         if (region == null) {
             region = b;
         } else if (!region.intersects(b)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PlanarImage4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage4"));
         }
 
         // Get the intersection of the region and the image bounds.
@@ -1804,7 +1804,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
                             dataType, region.width, region.height, nbands, region.width * nbands, bandOffs);
                     dstRaster = createWritableRaster(interleavedSM, region.getLocation());
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(JaiI18N.getString("PlanarImage2"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage2"));
                 }
 
                 switch (dataType) {
@@ -1838,7 +1838,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
                 try {
                     dstRaster = createWritableRaster(sm, region.getLocation());
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(JaiI18N.getString("PlanarImage2"));
+                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage2"));
                 }
 
                 for (int j = startTileY; j <= endTileY; j++) {
@@ -1986,7 +1986,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public void copyExtendedData(WritableRaster dest, BorderExtender extender) {
         if (dest == null || extender == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // If the Raster is within the image just copy directly.
@@ -2033,7 +2033,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public Raster getExtendedData(Rectangle region, BorderExtender extender) {
         if (region == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (getBounds().contains(region)) {
@@ -2041,7 +2041,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         }
 
         if (extender == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Create a WritableRaster of the desired size
@@ -2080,12 +2080,12 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         if (cm == null) {
             cm = getColorModel();
             if (cm == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("PlanarImage6"));
+                throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage6"));
             }
         }
 
         if (!JDKWorkarounds.areCompatibleDataModels(sampleModel, cm)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PlanarImage3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage3"));
         }
 
         if (rect == null) {
@@ -2125,7 +2125,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      * override this method to return a suitable <code>Graphics</code> object.
      */
     public Graphics getGraphics() {
-        throw new IllegalAccessError(JaiI18N.getString("PlanarImage1"));
+        throw new IllegalAccessError(ImageNI18N.getString("PlanarImage1"));
     }
 
     /**
@@ -2152,7 +2152,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public Raster[] getTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int size = tileIndices.length;
@@ -2189,7 +2189,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         TileComputationListener[] listeners = getTileComputationListeners();
@@ -2211,7 +2211,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic4"));
         }
 
         JAI.getDefaultInstance().getTileScheduler().cancelTiles(request, tileIndices);
@@ -2229,7 +2229,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
      */
     public void prefetchTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         JAI.getDefaultInstance().getTileScheduler().prefetchTiles(this, tileIndices);

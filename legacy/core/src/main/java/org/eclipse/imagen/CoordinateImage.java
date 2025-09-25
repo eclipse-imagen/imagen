@@ -42,7 +42,7 @@ public class CoordinateImage {
      */
     public CoordinateImage(PlanarImage pi, Object c) {
         if (pi == null || c == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         image = pi;

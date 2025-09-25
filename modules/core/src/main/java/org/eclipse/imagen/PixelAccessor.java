@@ -180,7 +180,7 @@ public final class PixelAccessor {
      */
     private static SampleModel getSampleModel(RenderedImage image) {
         if (image == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return image.getSampleModel();
     }
@@ -208,7 +208,7 @@ public final class PixelAccessor {
     public PixelAccessor(SampleModel sm, ColorModel cm) {
 
         if (sm == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         sampleModel = sm;
@@ -322,7 +322,7 @@ public final class PixelAccessor {
     public static int getDestPixelType(Vector sources) {
 
         if (sources == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int type = DataBuffer.TYPE_UNDEFINED;
@@ -374,7 +374,7 @@ public final class PixelAccessor {
     public static int getDestNumBands(Vector sources) {
 
         if (sources == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int bands = 0;
@@ -475,16 +475,16 @@ public final class PixelAccessor {
      */
     public UnpackedImageData getPixels(Raster raster, Rectangle rect, int type, boolean isDest) {
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
         }
 
         if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_DOUBLE) { // unknown data type
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor1"));
         }
 
         if (type < sampleType
                 || (sampleType == DataBuffer.TYPE_USHORT && type == DataBuffer.TYPE_SHORT)) { // type not large enough
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor2"));
         }
 
         if (isComponentSM) {
@@ -879,7 +879,7 @@ public final class PixelAccessor {
     public void setPixels(UnpackedImageData uid) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         setPixels(uid, true);
@@ -898,7 +898,7 @@ public final class PixelAccessor {
     public void setPixels(UnpackedImageData uid, boolean clamp) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!uid.convertToDest) {
@@ -1274,11 +1274,11 @@ public final class PixelAccessor {
      */
     public PackedImageData getPackedPixels(Raster raster, Rectangle rect, boolean isDest, boolean coerceZeroOffset) {
         if (!isPacked) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor3"));
         }
 
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
         }
 
         byte[] data; // packed pixels
@@ -1406,7 +1406,7 @@ public final class PixelAccessor {
     public void setPackedPixels(PackedImageData pid) {
 
         if (pid == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!pid.convertToDest) {
@@ -1519,21 +1519,21 @@ public final class PixelAccessor {
      */
     public UnpackedImageData getComponents(Raster raster, Rectangle rect, int type) {
         if (!hasCompatibleCM) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor5"));
         }
 
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
         }
 
         if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_DOUBLE) { // unknown data type
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor1"));
         }
 
         if (type < componentType
                 || (componentType == DataBuffer.TYPE_USHORT
                         && type == DataBuffer.TYPE_SHORT)) { // type not large enough
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor4"));
         }
 
         // Get color/alpha components in an integer array.
@@ -1628,7 +1628,7 @@ public final class PixelAccessor {
     public void setComponents(UnpackedImageData uid) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!uid.convertToDest) {
@@ -1727,11 +1727,11 @@ public final class PixelAccessor {
      */
     public UnpackedImageData getComponentsRGB(Raster raster, Rectangle rect) {
         if (!hasCompatibleCM) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor5"));
         }
 
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
         }
 
         int size = rect.width * rect.height;
@@ -1843,7 +1843,7 @@ public final class PixelAccessor {
     public void setComponentsRGB(UnpackedImageData uid) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!uid.convertToDest) {

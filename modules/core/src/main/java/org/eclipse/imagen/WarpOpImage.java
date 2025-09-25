@@ -258,7 +258,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
                 backgroundValues);
 
         if (warp == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         this.warp = warp;
 
@@ -338,9 +338,9 @@ public abstract class WarpOpImage extends GeometricOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex != 0) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         return warp.mapDestPoint(destPt);
@@ -361,9 +361,9 @@ public abstract class WarpOpImage extends GeometricOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex != 0) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         return warp.mapSourcePoint(sourcePt);
@@ -385,11 +385,11 @@ public abstract class WarpOpImage extends GeometricOpImage {
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex != 0) { // this image only has one source
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         return warp.mapSourceRect(sourceRect);
@@ -410,11 +410,11 @@ public abstract class WarpOpImage extends GeometricOpImage {
      */
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex != 0) { // this image only has one source
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle wrect = warp.mapDestRect(destRect);
