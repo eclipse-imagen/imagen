@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
  *    http://www.geo-solutions.it/
  *    Copyright 2018 GeoSolutions
  *
@@ -49,7 +49,7 @@ import org.eclipse.imagen.media.swing.ImageFrame;
 /**
  * Demonstrates using JiffleBuilder to compile and run a script.
  *
- * <p>Jiffle saves you from having to write lots of tedious JAI and Java AWT code.<br>
+ * <p>Jiffle saves you from having to write lots of tedious ImageN and Java AWT code.<br>
  * JiffleBuilder saves you from having to write lots of tedious Jiffle code ! Specifically, it uses concise chained
  * methods to set the script, associate variable names with images, and optionally create an image to receive the
  * processing results.

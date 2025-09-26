@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -34,8 +34,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -46,12 +46,12 @@ import org.junit.Test;
 
 /**
  * This class extends the TestAffine class and tests the Affine operation on a RGB image. If the user want to see the
- * result, must set the JAI.Ext.Interactive parameter to true, the JAI.Ext.TestSelector from 0 to 2 (the 3 interpolation
- * types) ,JAI.Ext.TransformationSelector from 0 to 3 (one of the possible transformations) and JAI.Ext.InverseScale to
- * 0 or 1 (Magnification/reduction) to the Console. The ROI is created by the roiCreation() method and its height and
- * width are half of the RGB image height and width. The 3 tests with the different interpolation types are executed by
- * calling 3 times the testImage() method and changing each time the selected interpolation. The transformation
- * performed is a combination of rotation, translation and scaling.
+ * result, must set the ImageN.Ext.Interactive parameter to true, the ImageN.Ext.TestSelector from 0 to 2 (the 3
+ * interpolation types) ,ImageN.Ext.TransformationSelector from 0 to 3 (one of the possible transformations) and
+ * ImageN.Ext.InverseScale to 0 or 1 (Magnification/reduction) to the Console. The ROI is created by the roiCreation()
+ * method and its height and width are half of the RGB image height and width. The 3 tests with the different
+ * interpolation types are executed by calling 3 times the testImage() method and changing each time the selected
+ * interpolation. The transformation performed is a combination of rotation, translation and scaling.
  */
 public class ImageRGBTest extends TestAffine {
     /** RGB image width */
@@ -175,7 +175,7 @@ public class ImageRGBTest extends TestAffine {
         if (roiUsed) {
             if (useROIAccessor) {
                 hints = new RenderingHints(
-                        JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
+                        ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_ZERO));
             }
             roi = roiCreation();
         } else {
@@ -208,10 +208,10 @@ public class ImageRGBTest extends TestAffine {
 
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 break;
@@ -221,10 +221,10 @@ public class ImageRGBTest extends TestAffine {
 
                 if (hints != null) {
                     hints.add(new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY)));
                 } else {
                     hints = new RenderingHints(
-                            JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+                            ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
                 }
 
                 break;

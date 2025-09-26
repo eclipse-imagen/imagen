@@ -7,12 +7,10 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.*;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
@@ -146,7 +144,7 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
         ParameterBlock paramBlock = new ParameterBlock();
         paramBlock.addSource(im);
         paramBlock.add(kernel);
-        return JAI.create("convolve", paramBlock, renderHints);
+        return ImageN.create("convolve", paramBlock, renderHints);
     }
 
     public void startAnimation() {}

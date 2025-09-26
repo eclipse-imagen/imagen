@@ -147,7 +147,7 @@ public abstract class BorderExtender implements Serializable {
                 return borderExtenderWrap;
 
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("BorderExtender0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("BorderExtender0"));
         }
     }
 }

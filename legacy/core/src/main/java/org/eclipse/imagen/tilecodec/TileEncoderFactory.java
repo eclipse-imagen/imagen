@@ -28,7 +28,7 @@ import org.eclipse.imagen.NegotiableCapability;
  * <code>getEncodingCapability()</code> method.
  *
  * @see org.eclipse.imagen.NegotiableCapability
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public interface TileEncoderFactory {
 

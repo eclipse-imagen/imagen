@@ -21,13 +21,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * A subclass of <code>DeferredData</code> to be used to wrap JAI property values which will be computed at a later
+ * A subclass of <code>DeferredData</code> to be used to wrap ImageN property values which will be computed at a later
  * time. For example, an instance of this class could be used to wrap a property emitted by an operation node so that
  * the actual computation of the property value was deferred until it was actually needed.
  *
  * @see DeferredData
  * @see RenderedOp
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class DeferredProperty extends DeferredData implements PropertyChangeListener {
 
@@ -49,7 +49,7 @@ public class DeferredProperty extends DeferredData implements PropertyChangeList
         super(propertyClass);
 
         if (propertySource == null || propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("DeferredData0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("DeferredData0"));
         }
 
         String[] propertyNames = propertySource.getPropertyNames();
@@ -65,7 +65,7 @@ public class DeferredProperty extends DeferredData implements PropertyChangeList
         }
 
         if (!isPropertyEmitted) {
-            throw new IllegalArgumentException(JaiI18N.getString("DeferredProperty0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("DeferredProperty0"));
         }
 
         if (propertySource instanceof PropertyChangeEmitter) {

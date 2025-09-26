@@ -7,12 +7,8 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
-import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIDyadicAddPanel extends JAIDyadicPanel {
@@ -33,6 +29,6 @@ public class JAIDyadicAddPanel extends JAIDyadicPanel {
         pb.addSource(im1);
         pb.addSource(im0);
 
-        return JAI.create("add", pb, renderHints);
+        return ImageN.create("add", pb, renderHints);
     }
 }

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -37,7 +37,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -73,10 +73,10 @@ public class RenderedImageInfoPanel extends JPanel {
         TYPE_MAP.put(DataBuffer.TYPE_USHORT, "Short");
 
         try {
-            Field[] fields = JAI.class.getFields();
+            Field[] fields = ImageN.class.getFields();
             for (Field field : fields) {
                 final int modifiers = field.getModifiers();
-                // funny enough most KEY in JAI are not final...
+                // funny enough most KEY in ImageN are not final...
                 if (Modifier.isStatic(modifiers)
                         && Modifier.isPublic(modifiers)
                         && field.getName().startsWith("KEY_")) {

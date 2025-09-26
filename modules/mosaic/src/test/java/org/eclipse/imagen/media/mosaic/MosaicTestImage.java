@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -28,7 +28,7 @@ import java.awt.image.WritableRaster;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.nullop.NullDescriptor;
 import org.eclipse.imagen.media.range.Range;
@@ -42,13 +42,13 @@ import org.junit.Test;
  * Simple class for displaying a mosaic of 2 images with the first image is translated by half of his dimension. The
  * mosaic operation used can be the old or the new version. The purpose of this class is to help the reader to
  * understand the behavior of the Mosaic operation. For displaying the mosaic, the RenderedImageBrowser clas is used.
- * There are no ROIs, Alpha channels or No Data. For selecting the new MosaicDescriptor, the JAI.Ext.NewDescriptor
+ * There are no ROIs, Alpha channels or No Data. For selecting the new MosaicDescriptor, the ImageN.Ext.NewDescriptor
  * boolean must be set to true, fale for the old descriptor. For printing the result to the screen the
- * JAI.Ext.Interactive parameter must be set to true.
+ * ImageN.Ext.Interactive parameter must be set to true.
  */
 public class MosaicTestImage extends TestBase {
 
-    private static final boolean INTERACTIVE = Boolean.getBoolean("JAI.Ext.Interactive");
+    private static final boolean INTERACTIVE = Boolean.getBoolean("ImageN.Ext.Interactive");
 
     public static RenderedImage getSyntheticByte(byte value) {
         final float width = 256;
@@ -59,7 +59,7 @@ public class MosaicTestImage extends TestBase {
         pb.add(height);
         pb.add(array);
         // Create the constant operation.
-        return JAI.create("constant", pb);
+        return ImageN.create("constant", pb);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class MosaicTestImage extends TestBase {
         // layout creation (same height of the source images, doubled width)
         ImageLayout layout = new ImageLayout(0, 0, image1.getWidth() + image2.getWidth(), image1.getHeight());
 
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
         // background values and threshold
         double[] background = {0};
         double[][] threshold = {{0}, {0}};

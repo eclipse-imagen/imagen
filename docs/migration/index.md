@@ -51,8 +51,12 @@ Eclipse ImageN offers a migration path for developers migrating from the Java Ad
    ant -f code-updates.xml -Dproject.dir=(absolute path to your project directory)
    ```
    
-   This is a simple refactoring script to fix imports and class references, and adjust to any
-   class name changes made during transition to ImageN library.
+4. This is a simple refactoring script to fix:
+   
+   * imports and class references
+   * class name changes made during transition to ImageN library
+   * ParameterBlock constants, like "ImageN.ImageReadParam".
+   
    
 ## Manual Update
 
@@ -93,10 +97,10 @@ To upgrade:
    </dependency>
    ```
    
-   Note `imagen-legacy-all` includes the origional legacy operators, and unsupported functionality
-   such as the `jai_codec` for which better replacements are avaialble. 
+   Note `imagen-legacy-all` includes the original legacy operators, and unsupported functionality
+   such as the `jai_codec` for which better replacements are available. 
 
-3. Source code imports:
+3. Source code imports and references to JAI in class names and constants:
    
    ```java
      import java.awt.Frame;
@@ -113,17 +117,19 @@ To upgrade:
      }
    ```
 
-4. Can be directly replaced:
+4. Can be directly replaced (in order):
    
    * Replace `javax.media.jai` with package `org.eclipse.imagen`
    * Replace `com.sun.media.jai` with package `org.eclipse.imagen.media`
+   * Replace `JAI` with `ImageN`
+   * Replace parameter block constants, such as `"JAI.ImageReadParam"` with `"ImageN.ImageReadParam"`
    
    ```java
    import java.awt.Frame;
    import java.awt.image.renderable.ParameterBlock;
    import java.io.IOException;
    import org.eclipse.imagen.Interpolation;
-   import org.eclipse.imagen.JAI;
+   import org.eclipse.imagen.ImageN;
    import org.eclipse.imagen.RenderedOp;
    import org.eclipse.imagen.media.codec.FileSeekableStream;
    import org.eclipse.imagen.widget.ScrollingImagePanel;
@@ -133,10 +139,10 @@ To upgrade:
    }
    ```
 
-4. Once your application compiles change to ``org.eclipse.imagen:imagen-all` dependency
+5. Recommended: Once your application compiles change to ``org.eclipse.imagen:imagen-all` dependency
    (for core library and supported operators) and add additional unsupported or legacy dependencies as needed.
    
-   * Legacy functionality has been identified for removal and will not be avaialble in future releases of ImageN.
+   * Legacy functionality has been identified for removal and will not be available in future releases of ImageN.
    
    * Unsupported functionality is provided "as is", and requires test case coverage to be fully supported.
 

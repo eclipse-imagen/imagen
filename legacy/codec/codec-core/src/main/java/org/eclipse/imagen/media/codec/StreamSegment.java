@@ -21,7 +21,8 @@ package org.eclipse.imagen.media.codec;
  * A utility class representing a segment within a stream as a <code>long</code> starting position and an <code>int
  * </code> length.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class StreamSegment {
 

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -25,7 +25,7 @@ import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -1622,7 +1622,7 @@ public class AlgebraTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "algebric");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "algebric");
         assertNotNull(descriptor);
         assertEquals("algebric", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
@@ -1632,7 +1632,7 @@ public class AlgebraTest extends TestBase {
     @Test
     public void testRegistrationAdd() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "add");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "add");
         assertNotNull(descriptor);
         assertEquals("add", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
@@ -1642,7 +1642,7 @@ public class AlgebraTest extends TestBase {
     @Test
     public void testRegistrationAnd() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "and");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "and");
         assertNotNull(descriptor);
         assertEquals("and", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
@@ -1652,7 +1652,7 @@ public class AlgebraTest extends TestBase {
     @Test
     public void testRegistrationSubtract() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "subtract");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "subtract");
         assertNotNull(descriptor);
         assertEquals("subtract", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");
@@ -1662,7 +1662,7 @@ public class AlgebraTest extends TestBase {
     @Test
     public void testRegistrationXor() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "xor");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "xor");
         assertNotNull(descriptor);
         assertEquals("xor", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

@@ -39,7 +39,7 @@ import javax.swing.JPanel;
  * {@link Graphics2D#drawRenderedImage(RenderedImage,AffineTransform)}.
  *
  * <p><i>This class is not a committed part of the Java<sup>TM</sup> Advanced Imaging API per se. It might therefore not
- * be supported by JAI implementations other than that of Sun Microsystems, Inc.</i>
+ * be supported by ImageN implementations other than that of Sun Microsystems, Inc.</i>
  *
  * @see java.awt.Graphics2D
  * @see java.awt.image.RenderedImage

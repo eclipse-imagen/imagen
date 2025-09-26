@@ -33,7 +33,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PackedImageData;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.media.util.ImageUtil;
@@ -164,15 +164,15 @@ public class SubsampleBinaryToGrayOpImage extends GeometricOpImage {
         Map config;
 
         if (configuration == null) {
-            config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+            config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
         } else {
 
             config = configuration;
 
-            if (!config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)) {
+            if (!config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)) {
                 RenderingHints hints = (RenderingHints) configuration;
                 config = (RenderingHints) hints.clone();
-                config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
+                config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.FALSE);
             }
         }
 
@@ -244,7 +244,7 @@ public class SubsampleBinaryToGrayOpImage extends GeometricOpImage {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -264,7 +264,7 @@ public class SubsampleBinaryToGrayOpImage extends GeometricOpImage {
      * @param sourcePt the position in source image coordinates to map to destination image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

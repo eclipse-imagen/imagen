@@ -24,13 +24,13 @@ import java.lang.reflect.Method;
 import java.security.PrivilegedActionException;
 
 /**
- * This class is designed to contain information of the (abnormal) situations that happen in JAI and the operations
- * plugged into JAI. The behavior of this class imitates the <code>Exception</code> class in Java<sup><font
+ * This class is designed to contain information of the (abnormal) situations that happen in ImageN and the operations
+ * plugged into ImageN. The behavior of this class imitates the <code>Exception</code> class in Java<sup><font
  * size="-2">TM</font></sup> 2 Platform version 1.4 to define a chained exception and is call-compatible with
  * Java<sup><font size="-2">TM</font></sup> 2 Platform version 1.4: The cause can be stored and retrieved from the
  * instance of this class. Also, the root cause for an instance can be retrieved.
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public class ImagingException extends RuntimeException {
     /** The cached cause. */

@@ -41,9 +41,9 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * @see PropertySource
  * @see WritablePropertySource
  * @see WritablePropertySourceImpl
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
-// NB A class of this name existed in JAI 1.0.2 but that class was renamed
+// NB A class of this name existed in ImageN 1.0.2 but that class was renamed
 // to what is now PropertyEnvironment.
 public class PropertySourceImpl implements PropertySource, Serializable {
     /**
@@ -102,7 +102,7 @@ public class PropertySourceImpl implements PropertySource, Serializable {
                 // Ignore it.
             }
             if (throwException) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
             }
         }
 
@@ -187,7 +187,7 @@ public class PropertySourceImpl implements PropertySource, Serializable {
      */
     public Class getPropertyClass(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         synchronized (properties) {
             Class propertyClass = null;
@@ -215,7 +215,7 @@ public class PropertySourceImpl implements PropertySource, Serializable {
      */
     public Object getProperty(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         synchronized (properties) {

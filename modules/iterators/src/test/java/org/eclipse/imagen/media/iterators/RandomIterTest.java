@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -41,24 +41,24 @@ import org.junit.Test;
  * The evaluating the capability of the various type of RandomIter to get the correct samples or pixels, with the help
  * of the old kind of RandomIter, an array of 4 pixels has been stored for every data type and every RandomIter type.
  * Other 3 tests are used for showing the calculation speed of the selected RandomIter type(With or without cache, with
- * or without array precalc). This RandomIter can be selected by passing the integral parameter JAI.Ext.TestSelector to
- * the JVM(0 = cached tiles, pre calculation; 1 = no cached tiles, pre calculation, 2 = no cached tiles, no pre
+ * or without array precalc). This RandomIter can be selected by passing the integral parameter ImageN.Ext.TestSelector
+ * to the JVM(0 = cached tiles, pre calculation; 1 = no cached tiles, pre calculation, 2 = no cached tiles, no pre
  * calculation). The speed tests can be tuned by changing the number of the benchmark and not benchmark cycles with the
- * 2 parameters JAI.Ext.BenchmarkCycles and JAI.Ext.NotBenchmarkCycles (default 1 and 0 respectively).
+ * 2 parameters ImageN.Ext.BenchmarkCycles and ImageN.Ext.NotBenchmarkCycles (default 1 and 0 respectively).
  */
 public class RandomIterTest {
 
     /** Number of benchmark iterations (Default 1) */
-    private static final Integer BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.BenchmarkCycles", 1);
+    private static final Integer BENCHMARK_ITERATION = Integer.getInteger("ImageN.Ext.BenchmarkCycles", 1);
 
     /** Number of not benchmark iterations (Default 0) */
-    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("JAI.Ext.NotBenchmarkCycles", 0);
+    private static final int NOT_BENCHMARK_ITERATION = Integer.getInteger("ImageN.Ext.NotBenchmarkCycles", 0);
 
     /** Test selector for the speed test */
-    private static final int TEST_SELECTOR = Integer.getInteger("JAI.Ext.TestSelector", 0);
+    private static final int TEST_SELECTOR = Integer.getInteger("ImageN.Ext.TestSelector", 0);
 
     /** Test selector for the speed test */
-    private static final boolean SUBSEQUENCY = Boolean.getBoolean("JAI.Ext.Subsequency");
+    private static final boolean SUBSEQUENCY = Boolean.getBoolean("ImageN.Ext.Subsequency");
 
     /** expected values from the RandomIterFallbackByte on an Integer image */
     private static int[] valueArrayByte;
@@ -117,31 +117,31 @@ public class RandomIterTest {
     /** Double test image for RandomIterFallbackInt */
     private static RenderedImage testImageIntIMGDouble;
 
-    /** JAI RandomIter used for integral image */
+    /** ImageN RandomIter used for integral image */
     private static RandomIter iterByte;
 
-    /** JAI RandomIter used for integral image */
+    /** ImageN RandomIter used for integral image */
     private static RandomIter iterShort;
 
-    /** JAI RandomIter used for integral image */
+    /** ImageN RandomIter used for integral image */
     private static RandomIter iterInt;
 
-    /** JAI RandomIter used for float image */
+    /** ImageN RandomIter used for float image */
     private static RandomIter iterByteIMGFloat;
 
-    /** JAI RandomIter used for float image */
+    /** ImageN RandomIter used for float image */
     private static RandomIter iterShortIMGFloat;
 
-    /** JAI RandomIter used for float image */
+    /** ImageN RandomIter used for float image */
     private static RandomIter iterIntIMGFloat;
 
-    /** JAI RandomIter used for double image */
+    /** ImageN RandomIter used for double image */
     private static RandomIter iterByteIMGDouble;
 
-    /** JAI RandomIter used for double image */
+    /** ImageN RandomIter used for double image */
     private static RandomIter iterShortIMGDouble;
 
-    /** JAI RandomIter used for double image */
+    /** ImageN RandomIter used for double image */
     private static RandomIter iterIntIMGDouble;
 
     /** Variable used as tolerance for comparing double or float values */
@@ -169,7 +169,7 @@ public class RandomIterTest {
 
         testImageIntIMGDouble = createTestImage(DataBuffer.TYPE_INT, Short.MAX_VALUE * 2, 1024, 1, 64);
 
-        // JAI INTERPOLATORS CREATIONS. USED ONLY FOR CALCULATING THE EXPECTED VALUES.
+        // ImageN INTERPOLATORS CREATIONS. USED ONLY FOR CALCULATING THE EXPECTED VALUES.
         iterByte = org.eclipse.imagen.iterator.RandomIterFactory.create(testImageByte, null);
 
         iterShort = org.eclipse.imagen.iterator.RandomIterFactory.create(testImageShort, null);

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -26,7 +26,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.util.Map;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.ROI;
@@ -193,7 +193,7 @@ public class RescaleOpImage extends PointOpImage {
             pb.set(topP, 2);
             pb.set(bottomP, 3);
             pb.set(ROI_EXTENDER, 4);
-            srcROIImgExt = JAI.create("border", pb);
+            srcROIImgExt = ImageN.create("border", pb);
             // The useRoiAccessor parameter is set
             this.useROIAccessor = useROIAccessor;
         } else {

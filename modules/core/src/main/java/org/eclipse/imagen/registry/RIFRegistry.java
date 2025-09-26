@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import java.util.Iterator;
 import java.util.List;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationNode;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PropertySource;
@@ -34,20 +34,20 @@ import org.eclipse.imagen.RenderedOp;
  * </code> objects.
  *
  * <p>If the <code>OperationRegistry</code> is <code>null</code>, then <code>
- * JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+ * ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class RIFRegistry {
 
     private static final String MODE_NAME = RenderedRegistryMode.MODE_NAME;
 
     /**
-     * Register a RIF with a particular product and operation against a specified mode. This is JAI 1.0.x equivalent of
-     * <code>registry.registerRIF(...)</code>
+     * Register a RIF with a particular product and operation against a specified mode. This is ImageN 1.0.x equivalent
+     * of <code>registry.registerRIF(...)</code>
      *
      * @param registry the <code>OperationRegistry</code> to register with. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param rif the <code>RenderedImageFactory</code> to be registered
@@ -58,7 +58,7 @@ public final class RIFRegistry {
     public static void register(
             OperationRegistry registry, String operationName, String productName, RenderedImageFactory rif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.registerFactory(MODE_NAME, operationName, productName, rif);
     }
@@ -67,7 +67,7 @@ public final class RIFRegistry {
      * Unregister a RIF previously registered with a product and operation against the specified mode.
      *
      * @param registry the <code>OperationRegistry</code> to unregister from. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param rif the <code>RenderedImageFactory</code> to be unregistered
@@ -79,7 +79,7 @@ public final class RIFRegistry {
     public static void unregister(
             OperationRegistry registry, String operationName, String productName, RenderedImageFactory rif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unregisterFactory(MODE_NAME, operationName, productName, rif);
     }
@@ -88,7 +88,7 @@ public final class RIFRegistry {
      * Sets a preference between two rifs for a given operation under a specified product.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param preferredRIF the preferred rif
@@ -106,7 +106,7 @@ public final class RIFRegistry {
             RenderedImageFactory preferredRIF,
             RenderedImageFactory otherRIF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.setFactoryPreference(MODE_NAME, operationName, productName, preferredRIF, otherRIF);
     }
@@ -115,7 +115,7 @@ public final class RIFRegistry {
      * Unsets a preference between two rifs for a given operation under a specified product.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @param preferredRIF the factory object formerly preferred
@@ -133,7 +133,7 @@ public final class RIFRegistry {
             RenderedImageFactory preferredRIF,
             RenderedImageFactory otherRIF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unsetFactoryPreference(MODE_NAME, operationName, productName, preferredRIF, otherRIF);
     }
@@ -143,7 +143,7 @@ public final class RIFRegistry {
      * </code>.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @throws IllegalArgumentException if operationName or productName is <code>null</code>
@@ -152,7 +152,7 @@ public final class RIFRegistry {
      */
     public static void clearPreferences(OperationRegistry registry, String operationName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.clearFactoryPreferences(MODE_NAME, operationName, productName);
     }
@@ -163,7 +163,7 @@ public final class RIFRegistry {
      * exist. Returns <code>null</code>, if the product does not exist under this operationName.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param productName the product name as a <code>String</code>
      * @return an ordered <code>List</code> of RIFs
@@ -173,7 +173,7 @@ public final class RIFRegistry {
      */
     public static List getOrderedList(OperationRegistry registry, String operationName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getOrderedFactoryList(MODE_NAME, operationName, productName);
     }
@@ -185,17 +185,17 @@ public final class RIFRegistry {
      * product. The <code>remove()</code> method of the <code>Iterator</code> may not be implemented.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @return an <code>Iterator</code> over <code>RenderedImageFactory</code> objects
      * @throws IllegalArgumentException if operationName is <code>null</code>
      * @throws IllegalArgumentException if there is no <code>
      *             OperationDescriptor</code> registered against the <code>operationName</code>
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static Iterator getIterator(OperationRegistry registry, String operationName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getFactoryIterator(MODE_NAME, operationName);
     }
@@ -206,7 +206,7 @@ public final class RIFRegistry {
      * <code>getIterator()</code> method.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @return a registered <code>RenderedImageFactory</code> object
      * @throws IllegalArgumentException if operationName is <code>null</code>
@@ -215,7 +215,7 @@ public final class RIFRegistry {
      */
     public static RenderedImageFactory get(OperationRegistry registry, String operationName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return (RenderedImageFactory) registry.getFactory(MODE_NAME, operationName);
     }
@@ -229,7 +229,7 @@ public final class RIFRegistry {
      * returned. Exceptions thrown by the RIFs will be caught by this method and will not be propagated.
      *
      * @param registry the <code>OperationRegistry</code> to use. if this is <code>null</code>, then <code>
-     *         JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *         ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param operationName the operation name as a <code>String</code>
      * @param paramBlock the operation's ParameterBlock.
      * @param renderHints a <code>RenderingHints</code> object containing rendering hints.
@@ -240,7 +240,7 @@ public final class RIFRegistry {
     public static RenderedImage create(
             OperationRegistry registry, String operationName, ParameterBlock paramBlock, RenderingHints renderHints) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         Object args[] = {paramBlock, renderHints};
 

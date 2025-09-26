@@ -20,7 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Tests for serialization of various AWT and JAI classes using the classes in the org.eclipse.imagen.media.serialize
+ * Tests for serialization of various AWT and ImageN classes using the classes in the org.eclipse.imagen.media.serialize
  * package.
  */
 public class SerializationTest {

@@ -19,7 +19,7 @@ package org.eclipse.imagen.registry;
 
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderContext;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.remote.RemoteCRIF;
 import org.eclipse.imagen.remote.RemoteRenderedImage;
@@ -29,9 +29,9 @@ import org.eclipse.imagen.remote.RemoteRenderedImage;
  * objects.
  *
  * <p>If the <code>OperationRegistry</code> specified as an argument to the methods in this class is null, then <code>
- * JAI.getOperationRegistry()</code> will be used.
+ * ImageN.getOperationRegistry()</code> will be used.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class RemoteCRIFRegistry {
 
@@ -43,7 +43,7 @@ public final class RemoteCRIFRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to register the <code>RemoteCRIF</code> with. If this is
      *     <code>null</code>, then <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param protocolName The protocolName to register the <code>RemoteCRIF</code> under.
      * @param rcrif The <code>RemoteCRIF</code> to register.
      * @throws IllegalArgumentException if protocolName is null.
@@ -53,7 +53,7 @@ public final class RemoteCRIFRegistry {
      */
     public static void register(OperationRegistry registry, String protocolName, RemoteCRIF rcrif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.registerFactory(MODE_NAME, protocolName, null, rcrif);
     }
@@ -64,7 +64,7 @@ public final class RemoteCRIFRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to unregister the <code>RemoteCRIF</code> from. If this is
      *     <code>null</code>, then <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param protocolName The protocolName to unregister the <code>RemoteCRIF</code> from under.
      * @param rcrif The <code>RemoteCRIF</code> to unregister.
      * @throws IllegalArgumentException if protocolName is null.
@@ -75,7 +75,7 @@ public final class RemoteCRIFRegistry {
      */
     public static void unregister(OperationRegistry registry, String protocolName, RemoteCRIF rcrif) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unregisterFactory(MODE_NAME, protocolName, null, rcrif);
     }
@@ -85,7 +85,7 @@ public final class RemoteCRIFRegistry {
      * OperationRegistry</code>.
      *
      * @param registry The <code>OperationRegistry</code> to use. If this is <code>null</code>, then <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param protocolName The name of the remote imaging protocol.
      * @throws IllegalArgumentException if protocolName is null.
      * @throws IllegalArgumentException if there is no <code>RemoteDescriptor</code> registered against the given <code>
@@ -93,7 +93,7 @@ public final class RemoteCRIFRegistry {
      */
     public static RemoteCRIF get(OperationRegistry registry, String protocolName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return (RemoteCRIF) registry.getFactory(MODE_NAME, protocolName);
     }
@@ -114,7 +114,7 @@ public final class RemoteCRIFRegistry {
      *
      * @param registry The <code>OperationRegistry</code> to use to create the rendering. If this is <code>null</code>,
      *     then <code>
-     *                     JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                     ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param protocolName The protocol to be used for remote imaging.
      * @param serverName The name of the server.
      * @param operationName The name of the operation to be performed remotely.
@@ -134,7 +134,7 @@ public final class RemoteCRIFRegistry {
             RenderContext renderContext,
             ParameterBlock paramBlock) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         Object args[] = {serverName, operationName, renderContext, paramBlock};
 

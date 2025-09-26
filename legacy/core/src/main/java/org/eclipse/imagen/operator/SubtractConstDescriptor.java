@@ -139,9 +139,9 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
      * Subtracts constants from an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -158,16 +158,16 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("constants", constants);
 
-        return JAI.create("SubtractConst", pb, hints);
+        return ImageN.create("SubtractConst", pb, hints);
     }
 
     /**
      * Subtracts constants from an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -184,6 +184,6 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
 
         pb.setParameter("constants", constants);
 
-        return JAI.createRenderable("SubtractConst", pb, hints);
+        return ImageN.createRenderable("SubtractConst", pb, hints);
     }
 }

@@ -25,7 +25,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * constants <code>MEDIAN_MASK_SQUARE</code>, <code>MEDIAN_MASK_PLUS</code>, <code>MEDIAN_MASK_X</code>, and <code>
  * MEDIAN_MASK_SQUARE_SEPARABLE</code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class MedianFilterShape extends EnumeratedParameter {
     MedianFilterShape(String name, int value) {

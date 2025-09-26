@@ -32,7 +32,7 @@ import org.eclipse.imagen.RenderedImageAdapter;
  * RenderedImageAdapter</code> and which has a <code>dispose()</code> method with no parameters. In the former case the
  * call is forwarded directly, and in the latter via reflection.
  *
- * @since JAI 1.1.3
+ * @since ImageN 1.1.3
  */
 public class DisposableNullOpImage extends NullOpImage {
     public DisposableNullOpImage(RenderedImage source, ImageLayout layout, Map configuration, int computeType) {

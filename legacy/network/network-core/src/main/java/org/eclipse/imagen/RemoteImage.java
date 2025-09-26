@@ -45,7 +45,7 @@ import org.eclipse.imagen.remote.SerializableRenderedImage;
  *
  * <p>Image layout attributes, once requested, are cached locally for speed.
  *
- * @deprecated as of JAI 1.1 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
+ * @deprecated as of ImageN 1.1 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
  */
 public class RemoteImage extends PlanarImage {
 
@@ -120,7 +120,7 @@ public class RemoteImage extends PlanarImage {
      * of the image data via transmission over a network link.
      *
      * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
-     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     * of ImageN, RMI is used to implement remote imaging so that the server name must be supplied in the format
      *
      * <pre>
      * host:port
@@ -147,7 +147,7 @@ public class RemoteImage extends PlanarImage {
 
         if (!remoteChainingHack && source == null) {
             // Don't throw the NullPointerException if it's the hack.
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage1"));
         }
 
         if (remoteChainingHack) {
@@ -189,7 +189,7 @@ public class RemoteImage extends PlanarImage {
      * using the server's local <code>OperationRegistry</code> and available <code>RenderedImageFactory</code> objects.
      *
      * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
-     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     * of ImageN, RMI is used to implement remote imaging so that the server name must be supplied in the format
      *
      * <pre>
      * host:port
@@ -212,7 +212,7 @@ public class RemoteImage extends PlanarImage {
         if (serverName == null) serverName = getLocalHostAddress();
 
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage1"));
         }
 
         // Construct the remote RMI image.
@@ -236,7 +236,7 @@ public class RemoteImage extends PlanarImage {
      * <code>RenderableOp</code> DAG will be copied over to the server.
      *
      * <p>The name of the server must be supplied in the form appropriate to the implementation. In the reference port
-     * of JAI, RMI is used to implement remote imaging so that the server name must be supplied in the format
+     * of ImageN, RMI is used to implement remote imaging so that the server name must be supplied in the format
      *
      * <pre>
      * host:port
@@ -260,7 +260,7 @@ public class RemoteImage extends PlanarImage {
         if (serverName == null) serverName = getLocalHostAddress();
 
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage1"));
         }
 
         if (renderContext == null) {
@@ -409,9 +409,9 @@ public class RemoteImage extends PlanarImage {
      */
     protected void requestField(int fieldIndex, int retries, int timeout) {
         if (retries < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage3"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage3"));
         } else if (timeout < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage4"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage4"));
         }
 
         int count = 0;
@@ -467,7 +467,7 @@ public class RemoteImage extends PlanarImage {
                 fieldValid[fieldIndex] = true;
                 return;
             } catch (RemoteException e) {
-                System.err.println(JaiI18N.getString("RemoteImage0"));
+                System.err.println(ImageNLegacy18N.getString("RemoteImage0"));
                 try {
                     java.lang.Thread.sleep(timeout);
                 } catch (java.lang.InterruptedException f) {
@@ -715,7 +715,7 @@ public class RemoteImage extends PlanarImage {
         if (rect == null) {
             rect = imageBounds;
         } else if (!rect.intersects(imageBounds)) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage2"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage2"));
         }
 
         int count = 0;

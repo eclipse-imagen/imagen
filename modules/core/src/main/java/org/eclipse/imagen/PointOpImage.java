@@ -85,7 +85,7 @@ public abstract class PointOpImage extends OpImage {
         int numSources = sources.size();
 
         if (numSources < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic5"));
         }
 
         RenderedImage source0 = (RenderedImage) sources.get(0);
@@ -103,7 +103,7 @@ public abstract class PointOpImage extends OpImage {
         }
 
         if (isect.isEmpty()) {
-            throw new IllegalArgumentException(JaiI18N.getString("PointOpImage0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage0"));
         }
 
         if (layout == null) {
@@ -128,11 +128,11 @@ public abstract class PointOpImage extends OpImage {
             Rectangle r = new Rectangle(
                     layout.getMinX(null), layout.getMinY(null), layout.getWidth(null), layout.getHeight(null));
             if (r.isEmpty()) {
-                throw new IllegalArgumentException(JaiI18N.getString("PointOpImage1"));
+                throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage1"));
             }
 
             if (!isect.contains(r)) {
-                throw new IllegalArgumentException(JaiI18N.getString("PointOpImage2"));
+                throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage2"));
             }
         }
 
@@ -326,7 +326,7 @@ public abstract class PointOpImage extends OpImage {
      * @throws IllegalArgumentException If combining the intersected source bounds with the user-specified bounds, if
      *     any, yields an empty rectangle, or the user-specified image bounds extends beyond the intersection of all the
      *     source bounds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public PointOpImage(Vector sources, ImageLayout layout, Map configuration, boolean cobbleSources) {
         super(
@@ -347,7 +347,7 @@ public abstract class PointOpImage extends OpImage {
      *     </code>s. This is simply forwarded to the superclass constructor.
      * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public PointOpImage(RenderedImage source, ImageLayout layout, Map configuration, boolean cobbleSources) {
         this(
@@ -369,7 +369,7 @@ public abstract class PointOpImage extends OpImage {
      *     </code>s. This is simply forwarded to the superclass constructor.
      * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
      * @throws IllegalArgumentException if <code>source0</code> or <code>source1</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public PointOpImage(
             RenderedImage source0,
@@ -398,7 +398,7 @@ public abstract class PointOpImage extends OpImage {
      * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
      * @throws IllegalArgumentException if <code>source0</code> or <code>source1</code> or <code>source2</code> is
      *     <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public PointOpImage(
             RenderedImage source0,
@@ -623,7 +623,7 @@ public abstract class PointOpImage extends OpImage {
      *
      * <p>The implementation in this class always returns <code>false</code>.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected boolean isColormapOperation() {
         return false;
@@ -899,11 +899,11 @@ public abstract class PointOpImage extends OpImage {
      */
     public final Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
         return new Rectangle(sourceRect);
     }
@@ -922,11 +922,11 @@ public abstract class PointOpImage extends OpImage {
      */
     public final Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
         return new Rectangle(destRect);
     }
@@ -938,7 +938,7 @@ public abstract class PointOpImage extends OpImage {
      * is non-<code>null</code>, then all tiles owned by this specific image are removed from the cache. Subsequent to
      * this <code>super.dispose()</code> is invoked.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public synchronized void dispose() {
         if (isDisposed) {

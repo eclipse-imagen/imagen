@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.util.Collection;
 import java.util.Iterator;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ParameterListDescriptor;
@@ -144,9 +144,9 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
      * Adds a collection of images.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>Collection</code> source 0.
@@ -159,16 +159,16 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
 
         pb.setSource("source0", source0);
 
-        return JAI.create("AddCollection", pb, hints);
+        return ImageN.create("AddCollection", pb, hints);
     }
 
     /**
      * Adds a collection of images.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>Collection</code> source 0.
@@ -181,6 +181,6 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
 
         pb.setSource("source0", source0);
 
-        return JAI.createRenderable("AddCollection", pb, hints);
+        return ImageN.createRenderable("AddCollection", pb, hints);
     }
 }

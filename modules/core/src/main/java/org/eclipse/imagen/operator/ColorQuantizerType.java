@@ -26,7 +26,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * </code>.
  *
  * @see ColorQuantizerDescriptor
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public final class ColorQuantizerType extends EnumeratedParameter {
     ColorQuantizerType(String name, int value) {

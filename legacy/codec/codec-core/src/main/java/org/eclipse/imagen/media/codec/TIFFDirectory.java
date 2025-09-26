@@ -35,7 +35,8 @@ import java.util.Vector;
  * <p>Every TIFF file is made up of one or more public IFDs that are joined in a linked list, rooted in the file header.
  * A file may also contain so-called private IFDs that are referenced from tag data and do not appear in the main list.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  *
  * @see org.eclipse.imagen.operator.TIFFDescriptor
  * @see TIFFField

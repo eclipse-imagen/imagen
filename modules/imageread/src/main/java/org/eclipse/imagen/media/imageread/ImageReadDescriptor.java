@@ -58,7 +58,7 @@ import java.util.Locale;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.PropertyGenerator;
@@ -81,7 +81,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * {@link java.nio.channels.ReadableByteChannel}, file path represented as a <code>String</code> or some other type
  * compatible with a reader plug-in. The {@link javax.imageio.ImageIO} class should be used to specify the location and
  * enable the use of cache files via its <code>setCacheDirectory()</code> and <code>setUseCache()</code> methods,
- * respectively. Note that this cache pertains to image stream caching and is unrelated to the JAI <code>TileCache
+ * respectively. Note that this cache pertains to image stream caching and is unrelated to the ImageN <code>TileCache
  * </code>.
  *
  * <p>The "ImageRead" operation supports <a href="#RenderedMode">rendered</a>, <a href="#RenderableMode">renderable</a>,
@@ -224,8 +224,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * correct behavior of this operation is made in the cases wherein a user passes in an ImageReadParam or ImageReader
  * parameter and modifies its state while this operation is still using these objects. This applies especially in the
  * case of multi-threaded applications. In such instances it is recommended that the user either not pass in either of
- * these parameters or simply use the Java Image I/O API directly rather than the JAI operation. (Threads managed
- * internally by JAI, e.g., in the TileScheduler, interact with the image object created by this operation only via
+ * these parameters or simply use the Java Image I/O API directly rather than the ImageN operation. (Threads managed
+ * internally by ImageN, e.g., in the TileScheduler, interact with the image object created by this operation only via
  * synchronized methods thereby preventing potential race conditions.) These caveats also apply to the use of
  * ImageReaders and ImageReadParams obtained from image org.eclipse.imagen.media.imageread.properties.
  *
@@ -260,7 +260,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * rendering associated with the operation node will be forced to match that of the layout even if this type is
  * different from or incompatible with the image types available from the ImageReader. Note that in such an eventuality
  * an extra amount of memory equal to one image tile might be needed for copying purposes. This copying is handled by
- * the JAI operation itself.
+ * the ImageN operation itself.
  *
  * <p>Any fields of the supplied ImageLayout which are not set will be set to default values as follows. The ImageLayout
  * will be cloned before it is modified.
@@ -283,9 +283,9 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *       be present.
  *       <p>For example, if the ImageReadParam had sourceRegion [0,0,w,h], destinationOffset [-w/2,-h/2], and no
  *       subsampling, then the Java Image I/O API would compute the effective source and destination regions to be
- *       [w/2,h/2,w/2,h/2] and [0,0,w/2,h/2], respectively. The JAI ImageRead operation would compute the effective
+ *       [w/2,h/2,w/2,h/2] and [0,0,w/2,h/2], respectively. The ImageN ImageRead operation would compute the effective
  *       source and destination regions to be [0,0,w,h] and [-w/2,-h/2,w,h], respectively. The Image I/O result would
- *       therefore be equal to the bottom right quadrant of the JAI result.
+ *       therefore be equal to the bottom right quadrant of the ImageN result.
  *       <p>
  *   <li>Tile Grid {tileGridXOffset, tileGridYOffset, tileWidth, tileHeight}
  *       <pre>
@@ -322,27 +322,27 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <th>Comment</th>
  * </tr>
  * <tr>
- * <td>JAI.ImageReadParam</td>
+ * <td>ImageN.ImageReadParam</td>
  * <td>ImageReadParam</td>
  * <td>Set to ImageReadParam actually used which may differ from the one passed in.</td>
  * </tr>
  * <tr>
- * <td>JAI.ImageReader</td>
+ * <td>ImageN.ImageReader</td>
  * <td>ImageReader</td>
  * <td>Set to ImageReader actually used.</td>
  * </tr>
  * <tr>
- * <td>JAI.ImageMetadata</td>
+ * <td>ImageN.ImageMetadata</td>
  * <td>IIOMetadata</td>
  * <td>Set if and only if ReadMetadata parameter is TRUE and image metadata are available.</td>
  * </tr>
  * <tr>
- * <td>JAI.StreamMetadata</td>
+ * <td>ImageN.StreamMetadata</td>
  * <td>IIOMetadata</td>
  * <td>Set if and only if ReadMetadata parameter is TRUE and stream metadata are available.</td>
  * </tr>
  * <tr>
- * <td>JAI.Thumbnails</td>
+ * <td>ImageN.Thumbnails</td>
  * <td>BufferedImage[]</td>
  * <td>Set if and only if ReadThumbnails parameter is TRUE and thumbnails are available.</td>
  * </tr>
@@ -394,7 +394,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>Note that using this approach the entire MultiResolutionRenderableImage must be regenerated for each invocation of
  * createRendering(). If multiple renderings are to be created from the RenderableImage without changing the operation
- * parameters, then a more efficient approach would be to use the "JAI.RenderableInput" property to be described.
+ * parameters, then a more efficient approach would be to use the "ImageN.RenderableInput" property to be described.
  *
  * <h3>Image Properties in Renderable Mode</h3>
  *
@@ -410,7 +410,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <th>Comment</th>
  * </tr>
  * <tr>
- * <td>JAI.RenderableInput</td>
+ * <td>ImageN.RenderableInput</td>
  * <td>RenderableImage</td>
  * <td>A RenderableImage derived from the input source according to the supplied set of parameters.</td>
  * </tr>
@@ -423,7 +423,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>If multiple renderings are to be created from the RenderableImage without changing the operation parameters, then
  * an efficient alternative approach to multiple invocations of createRendering() on the RenderableImage is to obtain
- * the RenderableImage value of the "JAI.RenderableInput" property and invoke createRendering() on this value.
+ * the RenderableImage value of the "ImageN.RenderableInput" property and invoke createRendering() on this value.
  *
  * <h2><a name="CollectionMode"</a>Collection Mode</h2>
  *
@@ -445,9 +445,10 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <h3>Image Properties in Collection Mode</h3>
  *
  * Contingent on parameter settings and the presence of the appropriate metadata, the rendered Collection may have the
- * "JAI.StreamMetadata", "JAI.ImageReadParam", and "JAI.ImageReader" org.eclipse.imagen.media.imageread.properties set.
- * Each RenderedImage in the Collection may contain the <a href="#RenderedModeProperties">rendered mode
- * org.eclipse.imagen.media.imageread.properties</a> contingent on parameter settings and data availability.
+ * "ImageN.StreamMetadata", "ImageN.ImageReadParam", and "ImageN.ImageReader"
+ * org.eclipse.imagen.media.imageread.properties set. Each RenderedImage in the Collection may contain the <a
+ * href="#RenderedModeProperties">rendered mode org.eclipse.imagen.media.imageread.properties</a> contingent on
+ * parameter settings and data availability.
  *
  * @see org.eclipse.imagen.OperationDescriptor
  * @see ImageReader
@@ -459,23 +460,23 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
 
     // Property name constants have package access for image factory use.
 
-    /** ImageReadParam property name "JAI.ImageReadParam". */
-    public static final String PROPERTY_NAME_IMAGE_READ_PARAM = "JAI.ImageReadParam";
+    /** ImageReadParam property name "ImageN.ImageReadParam". */
+    public static final String PROPERTY_NAME_IMAGE_READ_PARAM = "ImageN.ImageReadParam";
 
-    /** ImageReader property name "JAI.ImageReader". */
-    public static final String PROPERTY_NAME_IMAGE_READER = "JAI.ImageReader";
+    /** ImageReader property name "ImageN.ImageReader". */
+    public static final String PROPERTY_NAME_IMAGE_READER = "ImageN.ImageReader";
 
-    /** Image metadata property name "JAI.ImageMetadata". */
-    public static final String PROPERTY_NAME_METADATA_IMAGE = "JAI.ImageMetadata";
+    /** Image metadata property name "ImageN.ImageMetadata". */
+    public static final String PROPERTY_NAME_METADATA_IMAGE = "ImageN.ImageMetadata";
 
-    /** Stream metadata property name "JAI.StreamMetadata". */
-    public static final String PROPERTY_NAME_METADATA_STREAM = "JAI.StreamMetadata";
+    /** Stream metadata property name "ImageN.StreamMetadata". */
+    public static final String PROPERTY_NAME_METADATA_STREAM = "ImageN.StreamMetadata";
 
-    /** Thumbnail property name "JAI.Thumbnails". */
-    public static final String PROPERTY_NAME_THUMBNAILS = "JAI.Thumbnails";
+    /** Thumbnail property name "ImageN.Thumbnails". */
+    public static final String PROPERTY_NAME_THUMBNAILS = "ImageN.Thumbnails";
 
-    /** Renderable input property name "JAI.RenderableInput". */
-    public static final String PROPERTY_NAME_RENDERABLE_INPUT = "JAI.RenderableInput";
+    /** Renderable input property name "ImageN.RenderableInput". */
+    public static final String PROPERTY_NAME_RENDERABLE_INPUT = "ImageN.RenderableInput";
 
     /** The name of the operation. */
     private static final String OPERATION_NAME = "ImageRead";
@@ -594,7 +595,7 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
     /**
      * Type-safe convenience method for creating a {@link RenderedOp} representing the "ImageRead" operation in rendered
      * mode. The method packs the parameters into a new <code>ParameterBlock</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @param input The input source.
      * @param imageChoice The index of the image to read.
@@ -632,13 +633,13 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
         args.add(readParam);
         args.add(reader);
 
-        return JAI.create(OPERATION_NAME, args, hints);
+        return ImageN.create(OPERATION_NAME, args, hints);
     }
 
     /**
      * Type-safe convenience method for creating a {@link Collection} representing the "ImageRead" operation in
      * collection mode. The method packs the parameters into a new <code>ParameterBlock</code> and invokes
-     * {@link JAI#createCollection(String,ParameterBlock, RenderingHints)}.
+     * {@link ImageN#createCollection(String,ParameterBlock, RenderingHints)}.
      *
      * @param input The input source.
      * @param imageChoice The indices of the images to read.
@@ -676,13 +677,13 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
         args.add(readParam);
         args.add(reader);
 
-        return JAI.createCollection(OPERATION_NAME, args, hints);
+        return ImageN.createCollection(OPERATION_NAME, args, hints);
     }
 
     /**
      * Type-safe convenience method for creating a {@link RenderableOp} representing the "ImageRead" operation in
      * renderable mode. The method packs the parameters into a new <code>ParameterBlock</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @param input The input source.
      * @param imageChoice The indices of the images to read.
@@ -720,14 +721,14 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
         args.add(readParam);
         args.add(reader);
 
-        return JAI.createRenderable(OPERATION_NAME, args, hints);
+        return ImageN.createRenderable(OPERATION_NAME, args, hints);
     }
 
     /**
      * Returns the array of {@link PropertyGenerator}s for the specified mode of this operation.
      *
      * <p>For renderable mode returns an array containing a single <code>PropertyGenerator</code> which defines a
-     * {@link RenderableImage}-valued property named "JAI.RenderableInput". For all other modes <code>null</code> is
+     * {@link RenderableImage}-valued property named "ImageN.RenderableInput". For all other modes <code>null</code> is
      * returned.
      *
      * @param modeName The name of the mode.
@@ -889,8 +890,8 @@ final class ImageReadPropertyGenerator extends PropertyGeneratorImpl {
             ContextualRenderedImageFactory crif = null;
 
             // Try to get the CRIF from a registry specified in the hints.
-            if (hints != null && hints.containsKey(JAI.KEY_OPERATION_REGISTRY)) {
-                registry = (OperationRegistry) hints.get(JAI.KEY_OPERATION_REGISTRY);
+            if (hints != null && hints.containsKey(ImageN.KEY_OPERATION_REGISTRY)) {
+                registry = (OperationRegistry) hints.get(ImageN.KEY_OPERATION_REGISTRY);
                 crif = (ContextualRenderedImageFactory)
                         registry.getFactory(RenderableRegistryMode.MODE_NAME, "ImageRead");
             }
@@ -898,7 +899,7 @@ final class ImageReadPropertyGenerator extends PropertyGeneratorImpl {
             // If no registry in the hints or that registry does not contain
             // a CRIF for "ImageRead", try to get it from the default registry.
             if (crif == null) {
-                registry = JAI.getDefaultInstance().getOperationRegistry();
+                registry = ImageN.getDefaultInstance().getOperationRegistry();
                 crif = (ContextualRenderedImageFactory)
                         registry.getFactory(RenderableRegistryMode.MODE_NAME, "ImageRead");
             }

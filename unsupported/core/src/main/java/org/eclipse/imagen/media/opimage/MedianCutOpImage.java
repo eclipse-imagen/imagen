@@ -143,7 +143,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
 
         medianCut(maxColorNum);
         setProperty("LUT", colorMap);
-        setProperty("JAI.LookupTable", colorMap);
+        setProperty("ImageN.LookupTable", colorMap);
     }
 
     private void computeHistogram(Raster source) {

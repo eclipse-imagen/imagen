@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -36,7 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -475,7 +475,7 @@ public class ZonalStatsOpImage extends OpImage {
                 pb.set(topP, 2);
                 pb.set(bottomP, 3);
                 pb.set(ROI_EXTENDER, 4);
-                srcROIImgExt = JAI.create("border", pb);
+                srcROIImgExt = ImageN.create("border", pb);
             }
         } else {
             hasROI = false;
@@ -4905,7 +4905,7 @@ public class ZonalStatsOpImage extends OpImage {
      */
     @Override
     public Object getProperty(String name) {
-        // If the specified property is "JAI-EXT.stats", the calculations are performed.
+        // If the specified property is "ImageN-EXT.stats", the calculations are performed.
         if (ZonalStatsDescriptor.ZS_PROPERTY.equalsIgnoreCase(name)) {
 
             Point[] tileIndices = getTileIndices(union);

@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 - 2016 GeoSolutions
 
@@ -22,7 +22,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.piecewise.GenericPiecewiseOpImage;
 import org.eclipse.imagen.media.range.Range;
@@ -59,10 +59,10 @@ public class RasterClassifierOpImage<T extends ColorMapTransformElement> extends
     private static RenderingHints prepareHints(RenderingHints hints) {
         RenderingHints h = null;
         if (hints == null) {
-            h = new RenderingHints(JAI.KEY_TRANSFORM_ON_COLORMAP, false);
+            h = new RenderingHints(ImageN.KEY_TRANSFORM_ON_COLORMAP, false);
         } else {
             h = (RenderingHints) hints.clone();
-            h.put(JAI.KEY_TRANSFORM_ON_COLORMAP, false);
+            h.put(ImageN.KEY_TRANSFORM_ON_COLORMAP, false);
         }
 
         return h;

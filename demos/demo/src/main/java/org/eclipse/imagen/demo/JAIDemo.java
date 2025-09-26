@@ -87,7 +87,7 @@ class SourcePanel extends JPanel implements ListSelectionListener {
         pb.add(0.0F);
         pb.add(new InterpolationNearest());
 
-        PlanarImage scaled = JAI.create("scale", pb, null);
+        PlanarImage scaled = ImageN.create("scale", pb, null);
         return new IconJAI(scaled);
     }
 
@@ -142,7 +142,7 @@ class SourceAdj extends JAISourceAdjPanel implements ChangeListener {
         interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
         pb.add(interp);
 
-        PlanarImage img1 = JAI.create("scale", pb, renderHints);
+        PlanarImage img1 = ImageN.create("scale", pb, renderHints);
         demo.setDyadicSource(img1, srcId);
         return img1;
     }
@@ -283,7 +283,7 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
         JLabel capacityLabel = new JLabel("Tile Cache Capacity", SwingConstants.CENTER);
         add(capacityLabel);
 
-        long cacheCapacity = JAI.getDefaultInstance().getTileCache().getMemoryCapacity();
+        long cacheCapacity = ImageN.getDefaultInstance().getTileCache().getMemoryCapacity();
         int capacity = (int) (cacheCapacity / TILE_CACHE_BYTES_PER_TICK);
         JSlider capacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 16, capacity);
         Hashtable labels = new Hashtable();
@@ -302,7 +302,7 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        JAI.getDefaultInstance().getTileCache().flush();
+        ImageN.getDefaultInstance().getTileCache().flush();
     }
 
     public void stateChanged(ChangeEvent e) {
@@ -312,7 +312,7 @@ class CachePanel extends JPanel implements ActionListener, ChangeListener {
         }
 
         long capacity = source.getValue() * TILE_CACHE_BYTES_PER_TICK;
-        JAI.getDefaultInstance().getTileCache().setMemoryCapacity(capacity);
+        ImageN.getDefaultInstance().getTileCache().setMemoryCapacity(capacity);
     }
 }
 
@@ -334,7 +334,7 @@ class HintPanel extends JPanel implements ItemListener {
         BorderExtender.createInstance(BorderExtender.BORDER_WRAP)
     };
 
-    static final RenderingHints.Key extenderKey = JAI.KEY_BORDER_EXTENDER;
+    static final RenderingHints.Key extenderKey = ImageN.KEY_BORDER_EXTENDER;
 
     JAIDemo demo;
     RenderingHints renderHints = null;
@@ -390,7 +390,7 @@ public class JAIDemo extends WindowAdapter implements ChangeListener {
 
     public JAIDemo(String[] args) {
         // Create a top-level frame to hold the demo
-        frame = new JFrame("JAI Demo");
+        frame = new JFrame("ImageN Demo");
 
         // Read in the images
         sources = new PlanarImage[args.length];
@@ -545,7 +545,7 @@ public class JAIDemo extends WindowAdapter implements ChangeListener {
     }
 
     public static void main(String[] args) {
-        JAI.getDefaultInstance().setRenderingHint(JAI.KEY_CACHED_TILE_RECYCLING_ENABLED, Boolean.TRUE);
+        ImageN.getDefaultInstance().setRenderingHint(ImageN.KEY_CACHED_TILE_RECYCLING_ENABLED, Boolean.TRUE);
         new JAIDemo(args);
     }
 }

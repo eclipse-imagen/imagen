@@ -35,7 +35,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * <p>This class also provides information related to the server and allows for setting of parameters for the remote
  * communication with the server.
  *
- * <p>Conceptually this class is very similar to the <code>JAI</code> class, except that the <code>RemoteJAI</code>
+ * <p>Conceptually this class is very similar to the <code>ImageN</code> class, except that the <code>RemoteJAI</code>
  * class deals with remote operations. This class allows programmers to use the syntax:
  *
  * <pre>
@@ -112,19 +112,19 @@ import org.eclipse.imagen.util.ImagingListener;
  * RemoteRenderableOp</code> using the <code>setNumRetries</code> or <code>setRetryInterval</code> methods on <code>
  * RemoteRenderableOp</code>.
  *
- * @see JAI
+ * @see ImageN
  * @see JAIRMIDescriptor
  * @see RemoteImagingException
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class RemoteJAI {
 
     /** An inner class defining rendering hint keys. */
     static class RenderingKey extends RenderingHints.Key {
-        // cache the class of JAI to keep RemoteJAI.class in memory unless
+        // cache the class of ImageN to keep RemoteJAI.class in memory unless
         // the class RenderingKey is GC'ed.  In this case, the
         // WeakReferences in the map of RenderingHints.Key will release
-        // the instances of RenderingKey.  So when JAI is loaded next
+        // the instances of RenderingKey.  So when ImageN is loaded next
         // time, the keys can be recreated without any exception.
         // Fix bug: 4754807
         private static Class JAIclass = RemoteJAI.class;
@@ -151,7 +151,7 @@ public class RemoteJAI {
      * default hint corresponding to this key.
      *
      * @see RemoteJAI
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_RETRY_INTERVAL =
             new RemoteJAI.RenderingKey(HINT_RETRY_INTERVAL, Integer.class);
@@ -161,7 +161,7 @@ public class RemoteJAI {
      * corresponding to this key.
      *
      * @see RemoteJAI
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_NUM_RETRIES = new RemoteJAI.RenderingKey(HINT_NUM_RETRIES, Integer.class);
     /**
@@ -170,7 +170,7 @@ public class RemoteJAI {
      * do not contain a default hint corresponding to this key.
      *
      * @see RemoteJAI
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public static RenderingHints.Key KEY_NEGOTIATION_PREFERENCES =
             new RemoteJAI.RenderingKey(HINT_NEGOTIATION_PREFERENCES, NegotiableCapabilitySet.class);
@@ -181,7 +181,7 @@ public class RemoteJAI {
     protected String protocolName;
 
     /** The OperationRegistry instance used for instantiating operations. */
-    private OperationRegistry operationRegistry = JAI.getDefaultInstance().getOperationRegistry();
+    private OperationRegistry operationRegistry = ImageN.getDefaultInstance().getOperationRegistry();
 
     /** The amount of time to wait between retries (in Millseconds). */
     public static final int DEFAULT_RETRY_INTERVAL = 1000;
@@ -196,7 +196,7 @@ public class RemoteJAI {
     private int numRetries = DEFAULT_NUM_RETRIES;
 
     /** A reference to a centralized TileCache object. */
-    private transient TileCache cache = JAI.getDefaultInstance().getTileCache();
+    private transient TileCache cache = ImageN.getDefaultInstance().getTileCache();
 
     /** The RenderingHints object used to retrieve the TileCache, OperationRegistry hints. */
     private RenderingHints renderingHints;
@@ -243,8 +243,8 @@ public class RemoteJAI {
     /**
      * Constructs a <code>RemoteJAI</code> instance with the given protocol name, server name, <code>OperationRegistry
      * </code> and <code>TileCache</code>. If the specified <code>OperationRegistry</code> is null, the registry
-     * associated with the default <code>JAI</code> instance will be used. If the specified <code>TileCache</code> is
-     * null, the <code>TileCache</code> associated with the default <code>JAI</code> instance will be used.
+     * associated with the default <code>ImageN</code> instance will be used. If the specified <code>TileCache</code> is
+     * null, the <code>TileCache</code> associated with the default <code>ImageN</code> instance will be used.
      *
      * <p>An <code>IllegalArgumentException</code> may be thrown by the protocol specific classes at a later point, if
      * null is provided as the serverName argument and null is not considered a valid serverName by the specified
@@ -282,8 +282,8 @@ public class RemoteJAI {
         }
 
         this.renderingHints = new RenderingHints(null);
-        this.renderingHints.put(JAI.KEY_OPERATION_REGISTRY, operationRegistry);
-        this.renderingHints.put(JAI.KEY_TILE_CACHE, cache);
+        this.renderingHints.put(ImageN.KEY_OPERATION_REGISTRY, operationRegistry);
+        this.renderingHints.put(ImageN.KEY_TILE_CACHE, cache);
         this.renderingHints.put(KEY_RETRY_INTERVAL, new Integer(retryInterval));
         this.renderingHints.put(KEY_NUM_RETRIES, new Integer(numRetries));
     }
@@ -301,7 +301,7 @@ public class RemoteJAI {
     /**
      * Sets the amount of time between retries in milliseconds. The specified <code>retryInterval</code> parameter will
      * be added to the common <code>RenderingHints</code> of this <code>RemoteJAI</code> instance, under the <code>
-     * JAI.KEY_RETRY_INTERVAL</code> key.
+     * ImageN.KEY_RETRY_INTERVAL</code> key.
      *
      * @param retryInterval The time interval between retries (milliseconds).
      * @throws IllegalArgumentException if retryInterval is negative.
@@ -323,7 +323,7 @@ public class RemoteJAI {
 
     /**
      * Sets the number of retries. The specified <code>numRetries</code> parameter will be added to the common <code>
-     * RenderingHints</code> of this <code>RemoteJAI</code> instance, under the <code>JAI.KEY_NUM_RETRIES</code> key.
+     * RenderingHints</code> of this <code>RemoteJAI</code> instance, under the <code>ImageN.KEY_NUM_RETRIES</code> key.
      *
      * @param numRetries The number of retries.
      * @throws IllegalArgumentException if numRetries is negative.
@@ -359,7 +359,7 @@ public class RemoteJAI {
             throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI4"));
         }
         this.operationRegistry = operationRegistry;
-        this.renderingHints.put(JAI.KEY_OPERATION_REGISTRY, operationRegistry);
+        this.renderingHints.put(ImageN.KEY_OPERATION_REGISTRY, operationRegistry);
     }
 
     /**
@@ -373,7 +373,7 @@ public class RemoteJAI {
             throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI5"));
         }
         this.cache = tileCache;
-        renderingHints.put(JAI.KEY_TILE_CACHE, cache);
+        renderingHints.put(ImageN.KEY_TILE_CACHE, cache);
     }
 
     /** Returns the <code>TileCache</code> being used by this <code>RemoteJAI</code> instance. */
@@ -1030,7 +1030,7 @@ public class RemoteJAI {
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+        ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
         listener.errorOccurred(message, e, this, false);
     }
 }

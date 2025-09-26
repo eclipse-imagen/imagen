@@ -81,7 +81,7 @@ public abstract class StatisticsOpImage extends OpImage {
      * @param xPeriod The horizontal sampling rate.
      * @param yPeriod The vertical sampling rate.
      * @throws IllegalArgumentException If <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public StatisticsOpImage(RenderedImage source, ROI roi, int xStart, int yStart, int xPeriod, int yPeriod) {
         super(
@@ -103,7 +103,7 @@ public abstract class StatisticsOpImage extends OpImage {
      * Returns <code>false</code> as <code>computeTile()</code> invocations are forwarded to the <code>RenderedImage
      * </code> source and are therefore not unique objects in the global sense.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public boolean computesUniqueTiles() {
         return false;
@@ -131,7 +131,7 @@ public abstract class StatisticsOpImage extends OpImage {
      *
      * @param tileX The X index of the tile.
      * @param tileY The Y index of the tile.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Raster computeTile(int tileX, int tileY) {
         return getSource(0).getTile(tileX, tileY);
@@ -145,7 +145,7 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Raster[] getTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return getSource(0).getTiles(tileIndices);
@@ -162,11 +162,11 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex != 0) { // there is only 1 source
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
         return new Rectangle(sourceRect);
     }
@@ -182,11 +182,11 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex != 0) { // there is only 1 source
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
         return new Rectangle(destRect);
     }
@@ -199,7 +199,7 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Object getProperty(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Is this property already in the Hashtable?

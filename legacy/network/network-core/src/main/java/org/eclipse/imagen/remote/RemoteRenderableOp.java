@@ -44,7 +44,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * </code> to be emitted.
  *
  * @see org.eclipse.imagen.RenderableOp
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class RemoteRenderableOp extends RenderableOp {
 
@@ -664,7 +664,7 @@ public class RemoteRenderableOp extends RenderableOp {
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener = (ImagingListener) getRenderingHints().get(JAI.KEY_IMAGING_LISTENER);
+        ImagingListener listener = (ImagingListener) getRenderingHints().get(ImageN.KEY_IMAGING_LISTENER);
 
         listener.errorOccurred(message, e, this, false);
     }

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.tilecodec.TileCodecParameterList;
 import org.eclipse.imagen.tilecodec.TileEncoder;
@@ -34,9 +34,9 @@ import org.eclipse.imagen.tilecodec.TileEncoderFactory;
  * </code> objects.
  *
  * <p>If the <code>OperationRegistry</code> specified as an argument to the methods in this class is null, then <code>
- * JAI.getOperationRegistry()</code> will be used.
+ * ImageN.getOperationRegistry()</code> will be used.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class TileEncoderRegistry {
 
@@ -59,7 +59,7 @@ public final class TileEncoderRegistry {
     public static void register(
             OperationRegistry registry, String formatName, String productName, TileEncoderFactory tef) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.registerFactory(MODE_NAME, formatName, productName, tef);
     }
@@ -83,7 +83,7 @@ public final class TileEncoderRegistry {
     public static void unregister(
             OperationRegistry registry, String formatName, String productName, TileEncoderFactory tef) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unregisterFactory(MODE_NAME, formatName, productName, tef);
     }
@@ -113,7 +113,7 @@ public final class TileEncoderRegistry {
             TileEncoderFactory preferredTEF,
             TileEncoderFactory otherTEF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.setFactoryPreference(MODE_NAME, formatName, productName, preferredTEF, otherTEF);
     }
@@ -143,7 +143,7 @@ public final class TileEncoderRegistry {
             TileEncoderFactory preferredTEF,
             TileEncoderFactory otherTEF) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.unsetFactoryPreference(MODE_NAME, formatName, productName, preferredTEF, otherTEF);
     }
@@ -162,7 +162,7 @@ public final class TileEncoderRegistry {
      */
     public static void clearPreferences(OperationRegistry registry, String formatName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         registry.clearFactoryPreferences(MODE_NAME, formatName, productName);
     }
@@ -182,7 +182,7 @@ public final class TileEncoderRegistry {
      */
     public static List getOrderedList(OperationRegistry registry, String formatName, String productName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getOrderedFactoryList(MODE_NAME, formatName, productName);
     }
@@ -202,7 +202,7 @@ public final class TileEncoderRegistry {
      */
     public static Iterator getIterator(OperationRegistry registry, String formatName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return registry.getFactoryIterator(MODE_NAME, formatName);
     }
@@ -213,7 +213,7 @@ public final class TileEncoderRegistry {
      * </code> returned by the <code>getIterator()</code> method.
      *
      * @param registry The <code>OperationRegistry</code> to use. If this is <code>null</code>, then <code>
-     *                 JAI.getDefaultInstance().getOperationRegistry()</code> will be used.
+     *                 ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
      * @param formatName The format name as a <code>String</code>
      * @return a registered <code>TileEncoderFactory</code> object
      * @throws IllegalArgumentException if formatName is <code>null</code>.
@@ -222,7 +222,7 @@ public final class TileEncoderRegistry {
      */
     public static TileEncoderFactory get(OperationRegistry registry, String formatName) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         return (TileEncoderFactory) registry.getFactory(MODE_NAME, formatName);
     }
@@ -257,7 +257,7 @@ public final class TileEncoderRegistry {
             TileCodecParameterList paramList,
             SampleModel sampleModel) {
 
-        registry = (registry != null) ? registry : JAI.getDefaultInstance().getOperationRegistry();
+        registry = (registry != null) ? registry : ImageN.getDefaultInstance().getOperationRegistry();
 
         Object args[] = {output, paramList, sampleModel};
 

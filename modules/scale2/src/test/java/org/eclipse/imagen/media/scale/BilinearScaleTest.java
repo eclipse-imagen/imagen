@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -29,8 +29,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -213,8 +213,8 @@ public class BilinearScaleTest extends TestScale2 {
         source.setSample(0, 1, 0, 64);
         source.setSample(1, 0, 0, 32);
         source.setSample(1, 1, 0, noDataValue);
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
         RenderedImage scaled = Scale2Descriptor.create(
                 source,
                 2d,
@@ -319,12 +319,12 @@ public class BilinearScaleTest extends TestScale2 {
         shape.addPoint(1, 1);
 
         ROI roi = new ROIShape(shape);
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_BORDER_EXTENDER, BorderExtender.createInstance(BorderExtender.BORDER_COPY));
         double scaleFactor = 1.5d;
         int scaledW = (int) (scaleFactor * width);
         int scaledH = (int) (scaleFactor * height);
-        hints.put(JAI.KEY_IMAGE_LAYOUT, new ImageLayout(0, 0, scaledW, scaledH, 0, 0, scaledW, scaledH, null, null));
+        hints.put(ImageN.KEY_IMAGE_LAYOUT, new ImageLayout(0, 0, scaledW, scaledH, 0, 0, scaledW, scaledH, null, null));
         RenderedImage scaledImage = Scale2Descriptor.create(
                 source,
                 scaleFactor,

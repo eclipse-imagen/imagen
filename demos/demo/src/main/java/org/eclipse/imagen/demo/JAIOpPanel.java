@@ -8,13 +8,11 @@
 package org.eclipse.imagen.demo;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIOpPanel extends JAIDemoPanel {
@@ -66,9 +64,9 @@ public class JAIOpPanel extends JAIDemoPanel {
                 return im1;
 
             case 2:
-                return JAI.create("add", pb, renderHints);
+                return ImageN.create("add", pb, renderHints);
             case 3:
-                return JAI.create("subtract", pb, renderHints);
+                return ImageN.create("subtract", pb, renderHints);
             case 4:
                 rect = im0.getBounds().intersection(im1.getBounds());
                 nBands = Math.min(
@@ -77,7 +75,7 @@ public class JAIOpPanel extends JAIDemoPanel {
                 pb = new ParameterBlock();
                 pb.addSource(im0);
                 pb.addSource(im1);
-                im = JAI.create("multiply", pb, getRenderingHints(DataBuffer.TYPE_USHORT, rect, nBands));
+                im = ImageN.create("multiply", pb, getRenderingHints(DataBuffer.TYPE_USHORT, rect, nBands));
 
                 // Constants
                 constants = new double[3];
@@ -89,7 +87,7 @@ public class JAIOpPanel extends JAIDemoPanel {
                 pb.addSource(im);
                 pb.add(constants);
                 dst1 = (PlanarImage)
-                        JAI.create("dividebyconst", pb, getRenderingHints(DataBuffer.TYPE_BYTE, rect, nBands));
+                        ImageN.create("dividebyconst", pb, getRenderingHints(DataBuffer.TYPE_BYTE, rect, nBands));
                 return dst1;
 
             case 5:
@@ -100,7 +98,7 @@ public class JAIOpPanel extends JAIDemoPanel {
                 pb = new ParameterBlock();
                 pb.addSource(im0);
                 pb.addSource(im1);
-                im = JAI.create("divide", pb, getRenderingHints(DataBuffer.TYPE_FLOAT, rect, nBands));
+                im = ImageN.create("divide", pb, getRenderingHints(DataBuffer.TYPE_FLOAT, rect, nBands));
 
                 // Constants
                 constants = new double[3];
@@ -112,7 +110,7 @@ public class JAIOpPanel extends JAIDemoPanel {
                 pb.addSource(im);
                 pb.add(constants);
                 dst1 = (PlanarImage)
-                        JAI.create("multiplyconst", pb, getRenderingHints(DataBuffer.TYPE_BYTE, rect, nBands));
+                        ImageN.create("multiplyconst", pb, getRenderingHints(DataBuffer.TYPE_BYTE, rect, nBands));
                 return dst1;
 
             default:
@@ -125,7 +123,7 @@ public class JAIOpPanel extends JAIDemoPanel {
 
         ImageLayout il = new ImageLayout();
         il.setSampleModel(sm);
-        return new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        return new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
     }
 
     public void reset() {

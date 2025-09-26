@@ -45,7 +45,7 @@ package org.eclipse.imagen;
  * </pre>
  *
  * @see ImageSequence
- * @deprecated as of JAI 1.1. Use <code>AttributedImage</code> instead.
+ * @deprecated as of ImageN 1.1. Use <code>AttributedImage</code> instead.
  */
 public class SequentialImage {
 
@@ -71,7 +71,7 @@ public class SequentialImage {
      */
     public SequentialImage(PlanarImage pi, float ts, Object cp) {
         if (pi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         image = pi;

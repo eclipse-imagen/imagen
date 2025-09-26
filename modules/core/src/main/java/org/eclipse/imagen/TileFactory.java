@@ -26,7 +26,7 @@ import java.awt.image.WritableRaster;
  * might be based for example on managing a pool of memory, recycling previously allocated memory, or using an image as
  * a backing store.
  *
- * @since JAI 1.1.2
+ * @since ImageN 1.1.2
  */
 public interface TileFactory {
     /**

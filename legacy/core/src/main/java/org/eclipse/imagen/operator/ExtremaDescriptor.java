@@ -20,7 +20,7 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.ROI;
@@ -180,9 +180,9 @@ public class ExtremaDescriptor extends OperationDescriptorImpl {
      * Finds the maximum and minimum pixel value in each band of an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -213,6 +213,6 @@ public class ExtremaDescriptor extends OperationDescriptorImpl {
         pb.setParameter("saveLocations", saveLocations);
         pb.setParameter("maxRuns", maxRuns);
 
-        return JAI.create("Extrema", pb, hints);
+        return ImageN.create("Extrema", pb, hints);
     }
 }

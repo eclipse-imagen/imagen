@@ -117,7 +117,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
      */
     private RenderableGraphics(Rectangle2D dimensions, LinkedList opArgList, Point origin, Graphics2D g) {
         if (dimensions.isEmpty()) {
-            throw new RuntimeException(JaiI18N.getString("RenderableGraphics0"));
+            throw new RuntimeException(ImageNI18N.getString("RenderableGraphics0"));
         }
 
         // -- RenderableGraphics state --
@@ -182,7 +182,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
         RenderingHints hintsObserved = null;
         if (hints != null) {
             // Get the ImageLayout.
-            ImageLayout layout = (ImageLayout) hints.get(JAI.KEY_IMAGE_LAYOUT);
+            ImageLayout layout = (ImageLayout) hints.get(ImageN.KEY_IMAGE_LAYOUT);
 
             if (layout != null) {
                 // Initialize the observed hint variables.
@@ -227,7 +227,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
                 }
 
                 // Set the observed hints layout.
-                hintsObserved.put(JAI.KEY_IMAGE_LAYOUT, layoutObserved);
+                hintsObserved.put(ImageN.KEY_IMAGE_LAYOUT, layoutObserved);
             } // layout != null
         } // hints != null
 
@@ -299,7 +299,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
         try {
             method = GRAPHICS2D_CLASS.getMethod(name, argTypes);
         } catch (Exception e) {
-            String message = JaiI18N.getString("TiledGraphicsGraphics2") + name;
+            String message = ImageNI18N.getString("TiledGraphicsGraphics2") + name;
             sendExceptionToListener(message, new ImagingException(e));
             //            throw new RuntimeException(e.getMessage());
         }
@@ -329,7 +329,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
             try {
                 method.invoke(g2d, args);
             } catch (Exception e) {
-                String message = JaiI18N.getString("TiledGraphicsGraphics4") + method;
+                String message = ImageNI18N.getString("TiledGraphicsGraphics4") + method;
                 sendExceptionToListener(message, new ImagingException(e));
                 //                e.printStackTrace();
                 //                throw new RuntimeException(e.getMessage());
@@ -960,7 +960,7 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
 
     public RenderedImage createScaledRendering(int w, int h, RenderingHints hints) {
         if (w <= 0 && h <= 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderableGraphics1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderableGraphics1"));
         } else if (w <= 0) {
             w = (int) Math.round(h * dimensions.getWidth() / dimensions.getHeight());
         } else if (h <= 0) {
@@ -1051,9 +1051,9 @@ public class RenderableGraphics extends Graphics2D implements RenderableImage {
 
     void sendExceptionToListener(String message, Exception e) {
         ImagingListener listener = null;
-        if (renderingHints != null) listener = (ImagingListener) renderingHints.get(JAI.KEY_IMAGING_LISTENER);
+        if (renderingHints != null) listener = (ImagingListener) renderingHints.get(ImageN.KEY_IMAGING_LISTENER);
 
-        if (listener == null) listener = JAI.getDefaultInstance().getImagingListener();
+        if (listener == null) listener = ImageN.getDefaultInstance().getImagingListener();
         listener.errorOccurred(message, e, this, false);
     }
 }

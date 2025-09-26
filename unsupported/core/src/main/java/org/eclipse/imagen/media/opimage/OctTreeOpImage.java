@@ -120,7 +120,7 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
 
         colorMap = new LookupTableJAI(cube.colormap);
         setProperty("LUT", colorMap);
-        setProperty("JAI.LookupTable", colorMap);
+        setProperty("ImageN.LookupTable", colorMap);
     }
 
     class Cube {

@@ -28,7 +28,8 @@ import java.io.Serializable;
  * TIFF 6.0 defines 12 data types, which are mapped internally onto the Java datatypes byte, int, long, float, and
  * double.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  *
  * @see org.eclipse.imagen.operator.TIFFDescriptor
  * @see TIFFDirectory

@@ -37,7 +37,7 @@ import org.eclipse.imagen.media.serialize.SerializerFactory;
  * instance of this class may be used as a member field of the <code>OperationNode</code> and some of the <code>
  * OperationNode</code>'s work delegated to it.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public class OperationNodeSupport implements Serializable {
 
@@ -125,7 +125,7 @@ public class OperationNodeSupport implements Serializable {
      * @param registryModeName The name of the registry mode concerned.
      * @param opName The operation name to set.
      * @param registry The <code>OperationRegistry</code> to set; it may be <code>null</code> in which case the registry
-     *     will be set to the default JAI registry.
+     *     will be set to the default ImageN registry.
      * @param pb The <code>ParameterBlock</code> to set; it may be <code>null</code>.
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      * @param eventManager The event helper object. The property change event source of this object should be the <code>
@@ -141,13 +141,13 @@ public class OperationNodeSupport implements Serializable {
             RenderingHints hints,
             PropertyChangeSupportJAI eventManager) {
         if (registryModeName == null || opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Set instance variables.
         this.registryModeName = registryModeName;
         this.opName = opName;
-        if (registry == null) this.registry = JAI.getDefaultInstance().getOperationRegistry();
+        if (registry == null) this.registry = ImageN.getDefaultInstance().getOperationRegistry();
         else this.registry = registry;
         this.pb = pb;
         this.hints = hints;
@@ -175,7 +175,7 @@ public class OperationNodeSupport implements Serializable {
          */
         CopyDirective(String name, int index) {
             if (name == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
             }
             this.name = name;
             this.index = index;
@@ -206,7 +206,7 @@ public class OperationNodeSupport implements Serializable {
          */
         ParamObserver(int paramIndex, DeferredData dd) {
             if (dd == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
             } else if (paramIndex < 0 || (pb != null && (paramIndex >= ((ParameterBlock) pb).getNumParameters()))) {
                 throw new ArrayIndexOutOfBoundsException();
             }
@@ -304,7 +304,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void setOperationName(String opName) {
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (opName.equalsIgnoreCase(this.opName)) return;
@@ -323,7 +323,7 @@ public class OperationNodeSupport implements Serializable {
     /**
      * Sets the <code>OperationRegistry</code> that is used by the associated
      * node.  If the specified registry is <code>null</code>, the
-     * registry will be set to the default JAI registry.  The value is
+     * registry will be set to the default ImageN registry.  The value is
      * set by reference.
      *
      * <p> If the registry changes according to a direct comparison
@@ -337,7 +337,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void setRegistry(OperationRegistry registry) {
         if (registry == null) {
-            registry = JAI.getDefaultInstance().getOperationRegistry();
+            registry = ImageN.getDefaultInstance().getOperationRegistry();
         }
         if (registry != this.registry) {
             OperationRegistry oldRegistry = this.registry;
@@ -471,7 +471,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void addPropertyGenerator(PropertyGenerator pg) {
         if (pg == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         localPropEnv.add(pg);
         if (propertySource != null) {
@@ -489,7 +489,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void copyPropertyFromSource(String propertyName, int sourceIndex) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         localPropEnv.add(new CopyDirective(propertyName, sourceIndex));
         if (propertySource != null) {
@@ -508,7 +508,7 @@ public class OperationNodeSupport implements Serializable {
      */
     public void suppressProperty(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         localPropEnv.add(name);
         if (propertySource != null) {
@@ -542,7 +542,7 @@ public class OperationNodeSupport implements Serializable {
     public PropertySource getPropertySource(OperationNode opNode, PropertySource defaultPS) {
 
         if (opNode == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (propertySource == null) {
@@ -644,7 +644,7 @@ public class OperationNodeSupport implements Serializable {
                     pbClone.setSource(serializableImage, index);
                 } else {
                     throw new RuntimeException(
-                            source.getClass().getName() + JaiI18N.getString("OperationNodeSupport0"));
+                            source.getClass().getName() + ImageNI18N.getString("OperationNodeSupport0"));
                 }
             }
         }
@@ -664,11 +664,11 @@ public class OperationNodeSupport implements Serializable {
                 } else if (parameter instanceof RenderedImage) {
                     RenderedImage ri = (RenderedImage) parameter;
                     RenderingHints hints = new RenderingHints(null);
-                    hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, Boolean.TRUE);
+                    hints.put(ImageN.KEY_SERIALIZE_DEEP_COPY, Boolean.TRUE);
                     pbClone.set(SerializerFactory.getState(ri, hints), index);
                 } else {
                     throw new RuntimeException(
-                            parameter.getClass().getName() + JaiI18N.getString("OperationNodeSupport1"));
+                            parameter.getClass().getName() + ImageNI18N.getString("OperationNodeSupport1"));
                 }
             }
         }
@@ -716,6 +716,6 @@ public class OperationNodeSupport implements Serializable {
             }
         }
 
-        registry = JAI.getDefaultInstance().getOperationRegistry();
+        registry = ImageN.getDefaultInstance().getOperationRegistry();
     }
 }

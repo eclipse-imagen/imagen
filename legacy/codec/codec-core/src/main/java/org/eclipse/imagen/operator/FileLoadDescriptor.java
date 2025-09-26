@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.InputStream;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
@@ -32,7 +32,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * An <code>OperationDescriptor</code> describing the "FileLoad" operation.
  *
  * <p>In the default instance the <code>validateParameters()</code> method checks that the named file exists and is
- * readable. If not, it will return <code>false</code>, causing <code>JAI.createNS()</code> to throw an <code>
+ * readable. If not, it will return <code>false</code>, causing <code>ImageN.createNS()</code> to throw an <code>
  * IllegalArgumentException</code>.
  *
  * <p>In special cases like when an image is loaded from a Remote system, the above check for existence of a file on the
@@ -44,8 +44,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>The second parameter contains an instance of <code>ImageDecodeParam</code> to be used during the decoding. It may
  * be set to <code>null</code> in order to perform default decoding, or equivalently may be omitted.
  *
- * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the JAI
- * API. Future releases of JAI will make use of new classes in their place. This class will change accordingly.</b>
+ * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the ImageN
+ * API. Future releases of ImageN will make use of new classes in their place. This class will change accordingly.</b>
  *
  * <p>
  *
@@ -156,9 +156,9 @@ public class FileLoadDescriptor extends OperationDescriptorImpl {
      * Reads an image from a file.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param filename The path of the file to read from.
@@ -176,6 +176,6 @@ public class FileLoadDescriptor extends OperationDescriptorImpl {
         pb.setParameter("param", param);
         pb.setParameter("checkFileLocally", checkFileLocally);
 
-        return JAI.create("FileLoad", pb, hints);
+        return ImageN.create("FileLoad", pb, hints);
     }
 }

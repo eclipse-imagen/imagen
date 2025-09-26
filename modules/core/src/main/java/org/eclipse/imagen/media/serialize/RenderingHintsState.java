@@ -31,7 +31,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
  * This class is a serializable proxy for a RenderingHints object from which the RenderingHints object may be
@@ -49,13 +49,13 @@ public class RenderingHintsState extends SerializableStateImpl {
      * The classes wherein all possible relevant public static RenderingHints.Key objects are defined. Classes which
      * contain declarations of such keys should be added to this array.
      */
-    private static final Class[] KEY_CLASSES = {RenderingHints.class, JAI.class};
+    private static final Class[] KEY_CLASSES = {RenderingHints.class, ImageN.class};
 
     /**
      * Instances of keys which should not be serialized. Objects which represent such keys should be added to this
      * array. Presumably such objects would be static and final members of one of the classes in the KEY_CLASSES array.
      */
-    private static final Object[] SUPPRESSED_KEYS = {JAI.KEY_OPERATION_REGISTRY, JAI.KEY_TILE_CACHE};
+    private static final Object[] SUPPRESSED_KEYS = {ImageN.KEY_OPERATION_REGISTRY, ImageN.KEY_TILE_CACHE};
 
     /** A SoftReference to a Vector of keys which are to be suppressed. */
     private static SoftReference suppressedKeyReference = null;

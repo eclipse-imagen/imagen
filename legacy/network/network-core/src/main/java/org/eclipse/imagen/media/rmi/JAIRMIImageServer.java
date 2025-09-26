@@ -384,7 +384,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
             }
 
             TileCodecDescriptor tcd = (TileCodecDescriptor)
-                    JAI.getDefaultInstance().getOperationRegistry().getDescriptor("tileEncoder", capabilityName);
+                    ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("tileEncoder", capabilityName);
 
             if (tcd.includesSampleModelInfo() == false || tcd.includesLocationInfo() == false) {
                 throw new RuntimeException(JaiI18N.getString("JAIRMIImageServer1"));
@@ -814,12 +814,12 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
     /** Gets the operation names supported on the Server */
     public String[] getServerSupportedOperationNames() throws RemoteException {
-        return JAI.getDefaultInstance().getOperationRegistry().getDescriptorNames(OperationDescriptor.class);
+        return ImageN.getDefaultInstance().getOperationRegistry().getDescriptorNames(OperationDescriptor.class);
     }
 
     /** Gets the <code>OperationDescriptor</code>s of the operations supported on this server. */
     public List getOperationDescriptors() throws RemoteException {
-        return JAI.getDefaultInstance().getOperationRegistry().getDescriptors(OperationDescriptor.class);
+        return ImageN.getDefaultInstance().getOperationRegistry().getDescriptors(OperationDescriptor.class);
     }
 
     /**
@@ -846,7 +846,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
         RenderedOp op = (RenderedOp) nodes.get(id);
 
         OperationDescriptor od = (OperationDescriptor)
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", op.getOperationName());
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", op.getOperationName());
 
         boolean samePBs = false;
         if (oldParamBlock == newParamBlock) samePBs = true;
@@ -1064,7 +1064,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
      */
     public synchronized NegotiableCapabilitySet getServerCapabilities() {
 
-        OperationRegistry registry = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
 
         // Note that only the tileEncoder capabilities are returned from
         // this method since there is no way to distinguish between NC's
@@ -1105,7 +1105,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
      * <p>The usage of this class is
      *
      * <pre>
-     * java -Djava.rmi.server.codebase=file:$JAI/lib/jai.jar \
+     * java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \
      * -Djava.rmi.server.useCodebaseOnly=false \
      * -Djava.security.policy=\
      * file:`pwd`/policy org.eclipse.imagen.media.rmi.JAIRMIImageServer \
@@ -1125,7 +1125,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
         // Load all JAIServerConfigurationSpi implementations on the CLASSPATH
         Iterator spiIter = Service.providers(JAIServerConfigurationSpi.class);
-        JAI jai = JAI.getDefaultInstance();
+        ImageN jai = ImageN.getDefaultInstance();
 
         while (spiIter.hasNext()) {
 
@@ -1146,7 +1146,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
                 if (args[i].equalsIgnoreCase("-help")) {
 
-                    System.out.println("Usage: java -Djava.rmi.server.codebase=file:$JAI/lib/jai.jar \\");
+                    System.out.println("Usage: java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \\");
                     System.out.println("-Djava.rmi.server.useCodebaseOnly=false \\");
                     System.out.println("-Djava.security.policy=file:`pwd`/policy \\");
                     System.out.println("org.eclipse.imagen.media.rmi.JAIRMIImageServer \\");
@@ -1242,7 +1242,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
                 } else if (args[i].equalsIgnoreCase("-serializeDeepCopy")) {
 
-                    jai.setRenderingHint(JAI.KEY_SERIALIZE_DEEP_COPY, Boolean.valueOf(args[++i]));
+                    jai.setRenderingHint(ImageN.KEY_SERIALIZE_DEEP_COPY, Boolean.valueOf(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-tileCodecFormat")) {
 

@@ -27,7 +27,7 @@ import java.awt.image.WritableRenderedImage;
  * A <code>PlanarImage</code> wrapper for a <code>WritableRenderedImage</code>. The tile layout, sample model, and so
  * forth are preserved. Calls to <code>getTile()</code> and so forth are forwarded.
  *
- * <p>From JAI's point of view, this image is a <code>PlanarImage</code> of unknown type, with no sources, and
+ * <p>From ImageN's point of view, this image is a <code>PlanarImage</code> of unknown type, with no sources, and
  * additionally an implementer of the <code>WritableRenderedImage</code> interface. The image's pixel data appear to be
  * variable.
  *
@@ -63,7 +63,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      */
     public final void addTileObserver(TileObserver tileObserver) {
         if (tileObserver == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WritableRenderedImageAdapter0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WritableRenderedImageAdapter0"));
         }
         theWritableImage.addTileObserver(tileObserver);
     }
@@ -77,7 +77,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      */
     public final void removeTileObserver(TileObserver tileObserver) {
         if (tileObserver == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WritableRenderedImageAdapter0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WritableRenderedImageAdapter0"));
         }
         theWritableImage.removeTileObserver(tileObserver);
     }
@@ -148,7 +148,7 @@ public final class WritableRenderedImageAdapter extends RenderedImageAdapter imp
      */
     public final void setData(Raster raster) {
         if (raster == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("WritableRenderedImageAdapter1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WritableRenderedImageAdapter1"));
         }
         theWritableImage.setData(raster);
     }

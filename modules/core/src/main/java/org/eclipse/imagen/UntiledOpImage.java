@@ -55,7 +55,7 @@ public abstract class UntiledOpImage extends OpImage {
      */
     private static ImageLayout layoutHelper(ImageLayout layout, Vector sources) {
         if (sources.size() < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic5"));
         }
 
         RenderedImage source = (RenderedImage) sources.get(0);
@@ -91,7 +91,7 @@ public abstract class UntiledOpImage extends OpImage {
      *     </code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>sources</code> does not contain at least one element.
      * @throws ClassCastException If the first object in <code>sources</code> is not a <code>RenderedImage</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public UntiledOpImage(Vector sources, Map configuration, ImageLayout layout) {
         super(checkSourceVector(sources, true), layoutHelper(layout, sources), configuration, true);
@@ -112,7 +112,7 @@ public abstract class UntiledOpImage extends OpImage {
      *     ColorModel</code>. The tile grid layout information will be overridden in order to ensure that the image has
      *     a single tile.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public UntiledOpImage(RenderedImage source, Map configuration, ImageLayout layout) {
         super(
@@ -144,7 +144,7 @@ public abstract class UntiledOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         return getSource(sourceIndex).getBounds();
@@ -200,7 +200,7 @@ public abstract class UntiledOpImage extends OpImage {
      * @param sources The source Rasters; should be the whole image for each source.
      * @param dest The destination WritableRaster; should be the whole image.
      * @param destRect The destination Rectangle; should equal the destination image bounds.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     protected abstract void computeImage(Raster[] sources, WritableRaster dest, Rectangle destRect);
 
@@ -208,7 +208,7 @@ public abstract class UntiledOpImage extends OpImage {
      * Returns an array of points indicating the tile dependencies which in this case is the set of all tiles in the
      * specified source image.
      *
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Point[] getTileDependencies(int tileX, int tileY, int sourceIndex) {
         // Compute the tile dependencies only the first time that this

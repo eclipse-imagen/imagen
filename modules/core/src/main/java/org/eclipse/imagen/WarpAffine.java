@@ -91,7 +91,7 @@ public final class WarpAffine extends WarpPolynomial {
         super(xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
 
         if (xCoeffs.length != 3 || yCoeffs.length != 3) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpAffine0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpAffine0"));
         }
 
         c1 = xCoeffs[0];
@@ -250,7 +250,7 @@ public final class WarpAffine extends WarpPolynomial {
      */
     public Rectangle mapDestRect(Rectangle destRect) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         int dx0 = destRect.x;
@@ -301,11 +301,11 @@ public final class WarpAffine extends WarpPolynomial {
      * @return A <code>Rectangle</code> in the destination coordinate system that is guaranteed to contain all pixels
      *     within the forward mapping of the source rectangle.
      * @throws IllegalArgumentException if <code>srctRect</code> is <code>null</code>.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
         if (srcRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         //
@@ -412,11 +412,11 @@ public final class WarpAffine extends WarpPolynomial {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         double dx = (destPt.getX() + 0.5) * preScaleX;
@@ -456,11 +456,11 @@ public final class WarpAffine extends WarpPolynomial {
      * @throws IllegalArgumentException if <code>destPt</code> is
      * <code>null</code>.
      *
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (invTransform == null) {

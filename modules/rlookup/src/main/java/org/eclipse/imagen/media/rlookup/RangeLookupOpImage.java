@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -36,7 +36,7 @@ import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
- * This is a variation on the JAI {@linkplain org.eclipse.imagen.LookupDescriptor}. It works with a
+ * This is a variation on the ImageN {@linkplain org.eclipse.imagen.LookupDescriptor}. It works with a
  * {@linkplain RangeLookupTable} object in which each entry maps a source image value range to a destination image
  * value. Optional {@link ROI}s may be used in computations.
  *

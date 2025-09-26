@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -55,7 +55,7 @@ public abstract class Statistics {
     }
 
     /** Statistics property name */
-    public static final String STATS_PROPERTY = "JAI-EXT.stats";
+    public static final String STATS_PROPERTY = "ImageN-EXT.stats";
 
     /** Variable indicating the statistic used */
     protected StatsType type;

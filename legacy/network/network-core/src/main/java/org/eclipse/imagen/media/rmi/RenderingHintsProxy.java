@@ -23,7 +23,7 @@ import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.remote.RemoteJAI;
 
 /**
@@ -40,15 +40,15 @@ public class RenderingHintsProxy implements Serializable {
      * The classes wherein all possible relevant public static RenderingHints.Key objects are defined. Classes which
      * contain declarations of such keys should be added to this array.
      */
-    private static final Class[] KEY_CLASSES = {RenderingHints.class, JAI.class};
+    private static final Class[] KEY_CLASSES = {RenderingHints.class, ImageN.class};
 
     /**
      * Instances of keys which should not be serialized. Objects which represent such keys should be added to this
      * array. Presumably such objects would be static and final members of one of the classes in the KEY_CLASSES array.
      */
     private static final Object[] SUPPRESSED_KEYS = {
-        JAI.KEY_OPERATION_REGISTRY,
-        JAI.KEY_TILE_CACHE,
+        ImageN.KEY_OPERATION_REGISTRY,
+        ImageN.KEY_TILE_CACHE,
         RemoteJAI.KEY_RETRY_INTERVAL,
         RemoteJAI.KEY_NUM_RETRIES,
         RemoteJAI.KEY_NEGOTIATION_PREFERENCES

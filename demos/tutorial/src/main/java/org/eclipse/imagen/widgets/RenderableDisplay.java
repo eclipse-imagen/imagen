@@ -8,12 +8,10 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.awt.image.renderable.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 /**
@@ -88,8 +86,8 @@ public class RenderableDisplay extends JComponent {
     public void scale(int width, int height, boolean scaleOnly) {
 
         if (scaleOnly) {
-            RenderingHints hints =
-                    new RenderingHints(JAI.KEY_INTERPOLATION, Interpolation.getInstance(Interpolation.INTERP_BILINEAR));
+            RenderingHints hints = new RenderingHints(
+                    ImageN.KEY_INTERPOLATION, Interpolation.getInstance(Interpolation.INTERP_BILINEAR));
             rendering = (PlanarImage) source.createScaledRendering(width, height, hints);
         } else {
             AffineTransform transform = new AffineTransform();

@@ -25,7 +25,7 @@ import org.eclipse.imagen.media.tilecodec.TileCodecUtils;
 /**
  * A partial implementation of the <code>TileDecoder</code> interface useful for subclassing.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public abstract class TileDecoderImpl implements TileDecoder {
 

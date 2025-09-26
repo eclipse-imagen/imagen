@@ -13,7 +13,7 @@ import java.awt.Font;
 import java.io.File;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.widgets.*;
 
@@ -25,7 +25,7 @@ public class HelloWorld extends JPanel {
         File f = new File(filename);
 
         if (f.exists() && f.canRead()) {
-            source = JAI.create("fileload", filename);
+            source = ImageN.create("fileload", filename);
         } else {
             return;
         }

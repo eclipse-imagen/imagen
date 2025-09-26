@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.media.mosaic.MosaicDescriptor;
@@ -65,10 +65,10 @@ public class CropCRIF implements RenderedImageFactory {
         double[] destNoData = (double[]) paramBlock.getObjectParameter(CropDescriptor.DEST_NO_DATA_ARG);
 
         // only leave tile cache and tile scheduler (we can't instantiate directly RenderingHints
-        // as it won't allow for a null tile cache, even if the rest of JAI handles that peachy
+        // as it won't allow for a null tile cache, even if the rest of ImageN handles that peachy
         Map<Key, Object> tmp = new HashMap<RenderingHints.Key, Object>();
         for (Object key : renderingHints.keySet()) {
-            if (key == JAI.KEY_TILE_CACHE || key == JAI.KEY_TILE_SCHEDULER) {
+            if (key == ImageN.KEY_TILE_CACHE || key == ImageN.KEY_TILE_SCHEDULER) {
                 tmp.put((Key) key, renderingHints.get(key));
             }
         }

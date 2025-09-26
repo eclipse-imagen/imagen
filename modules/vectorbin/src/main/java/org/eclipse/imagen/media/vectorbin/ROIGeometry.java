@@ -1,6 +1,6 @@
 package org.eclipse.imagen.media.vectorbin;
 
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2016 GeoSolutions
 
@@ -35,8 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -64,7 +64,7 @@ import org.locationtech.jts.geom.util.AffineTransformation;
  * An ROI class backed by a vector object providing precision and the ability to handle massive regions. It has a
  * minimal memory footprint allowing it to be used with massive images.
  *
- * <p>JAI operations often involve converting ROI objects to images. This class implements its {@link #getAsImage()}
+ * <p>ImageN operations often involve converting ROI objects to images. This class implements its {@link #getAsImage()}
  * method using the JAITools "VectorBinarize" operator to avoid exhausting available memory when dealing with ROIs that
  * cover massive image areas.
  *
@@ -85,7 +85,7 @@ public class ROIGeometry extends ROI {
     /**
      * Default setting for use of anti-aliasing when drawing the reference {@code Geometry} during a
      * {@link #getAsImage()} request. The default value is {@code true} which provides behaviour corresponding to that
-     * of the standard JAI {@code ROIShape} class.
+     * of the standard ImageN {@code ROIShape} class.
      */
     public static final boolean DEFAULT_ROIGEOMETRY_ANTIALISING = true;
 
@@ -192,7 +192,7 @@ public class ROIGeometry extends ROI {
      * input geometry is copied so subsequent changes to it will not be reflected in the {@code ROIGeometry} object.
      *
      * @param geom either a {@code Polygon} or {@code MultiPolygon} object defining the area(s) of inclusion.
-     * @param hints The JAI hints to be used when generating the raster equivalent of this ROI
+     * @param hints The ImageN hints to be used when generating the raster equivalent of this ROI
      * @throws IllegalArgumentException if {@code geom} is {@code null} or not an instance of either {@code Polygon} or
      *     {@code MultiPolygon}
      */
@@ -208,7 +208,7 @@ public class ROIGeometry extends ROI {
      * @param antiAliasing whether to use anti-aliasing when converting this ROI to an image
      * @param useFixedPrecision whether to use fixed precision when comparing pixel coordinates to the reference
      *     geometry
-     * @param hints The JAI hints to be used when generating the raster equivalent of this ROI
+     * @param hints The ImageN hints to be used when generating the raster equivalent of this ROI
      * @throws IllegalArgumentException if {@code geom} is {@code null} or not an instance of either {@code Polygon} or
      *     {@code MultiPolygon}
      */
@@ -225,7 +225,7 @@ public class ROIGeometry extends ROI {
         this.useFixedPrecision = useFixedPrecision;
         if (hints == null) {
             // try hard to grab a tile cache for the getAsImage operation
-            this.hints = JAI.getDefaultInstance().getRenderingHints();
+            this.hints = ImageN.getDefaultInstance().getRenderingHints();
         } else {
             this.hints = hints;
         }
@@ -436,7 +436,7 @@ public class ROIGeometry extends ROI {
                     int h = (int) Math.ceil(env.getMaxY()) - y;
 
                     // TODO: for this case a "binary constant" operation would be much more efficient,
-                    // but the operation is to be built, the JAI Constant does not take an origin
+                    // but the operation is to be built, the ImageN Constant does not take an origin
                     // samplemodel, colormodel
                     boolean pixelPerfectRectangle = theGeom.getGeometry().isRectangle()
                             && x == env.getMinX()
@@ -451,7 +451,7 @@ public class ROIGeometry extends ROI {
                     pb.setParameter("height", h);
                     pb.setParameter("geometry", theGeom);
                     pb.setParameter("antiAliasing", useAntialiasing && !pixelPerfectRectangle);
-                    roiImage = JAI.create("VectorBinarize", pb, hints);
+                    roiImage = ImageN.create("VectorBinarize", pb, hints);
                 }
             }
         }

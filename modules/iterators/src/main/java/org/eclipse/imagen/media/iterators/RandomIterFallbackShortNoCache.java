@@ -1,4 +1,4 @@
-/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
+/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2014 GeoSolutions
 
@@ -25,7 +25,7 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
 /**
- * Modified version of JAI {@link RandomIterFallbackByte} that stores the tile positions in a short array with less
+ * Modified version of ImageN {@link RandomIterFallbackByte} that stores the tile positions in a short array with less
  * memory usage. The current tile is not cached but it is calculated every time.
  */
 public class RandomIterFallbackShortNoCache implements RandomIter {

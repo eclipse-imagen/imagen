@@ -32,7 +32,7 @@ import java.util.Vector;
  * functionality equivalent to a single <code>Serializer</code> which supports all the classes supported by the
  * aggregate of all <code>Serializer</code>s resident in the repository.
  *
- * <p>By default <code>Serializer</code>s for the following classes are registered by JAI:
+ * <p>By default <code>Serializer</code>s for the following classes are registered by ImageN:
  *
  * <ul>
  *   <li><code>java.awt.RenderingHints</code> <br>
@@ -41,7 +41,7 @@ import java.util.Vector;
  *       </code>s);
  *   <li><code>java.awt.RenderingHints.Key</code> <br>
  *       (limited to <code>RenderingHints.Key</code>s defined in <code>java.awt.RenderingHints</code> and <code>
- *       org.eclipse.imagen.JAI</code>);
+ *       org.eclipse.imagen.ImageN</code>);
  *   <li><code>java.awt.Shape</code>;
  *   <li><code>java.awt.image.DataBufferByte</code>;
  *   <li><code>java.awt.image.DataBufferShort</code>;
@@ -88,7 +88,7 @@ import java.util.Vector;
  * @see SerializableState
  * @see Serializer
  * @see java.io.Serializable
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class SerializerFactory {
 

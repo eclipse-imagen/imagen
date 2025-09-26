@@ -19,7 +19,7 @@ package org.eclipse.imagen.operator;
 
 import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderableOp;
@@ -158,9 +158,9 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
      * Creates an image with constant pixel values.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param width Image width in pixels.
@@ -179,16 +179,16 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
         pb.setParameter("height", height);
         pb.setParameter("bandValues", bandValues);
 
-        return JAI.create("Constant", pb, hints);
+        return ImageN.create("Constant", pb, hints);
     }
 
     /**
      * Creates an image with constant pixel values.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param width Image width in pixels.
@@ -207,6 +207,6 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
         pb.setParameter("height", height);
         pb.setParameter("bandValues", bandValues);
 
-        return JAI.createRenderable("Constant", pb, hints);
+        return ImageN.createRenderable("Constant", pb, hints);
     }
 }

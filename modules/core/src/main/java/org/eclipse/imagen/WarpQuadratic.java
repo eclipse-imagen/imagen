@@ -56,7 +56,7 @@ public final class WarpQuadratic extends WarpPolynomial {
         super(xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
 
         if (xCoeffs.length != 6 || yCoeffs.length != 6) {
-            throw new IllegalArgumentException(JaiI18N.getString("WarpQuadratic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("WarpQuadratic0"));
         }
 
         c1 = xCoeffs[0];
@@ -179,11 +179,11 @@ public final class WarpQuadratic extends WarpPolynomial {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since JAI 1.1.2
+     * @since ImageN 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         double x1 = (destPt.getX() + 0.5F) * preScaleX;

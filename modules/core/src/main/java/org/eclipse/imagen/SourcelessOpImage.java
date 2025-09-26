@@ -80,7 +80,7 @@ public abstract class SourcelessOpImage extends OpImage {
      *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
      *     </code>s. This is simply forwarded to the superclass constructor.
      * @param layout an <code>ImageLayout</code> describing the layout.
-     * @since JAI 1.1
+     * @since ImageN 1.1
      */
     public SourcelessOpImage(
             ImageLayout layout, Map configuration, SampleModel sampleModel, int minX, int minY, int width, int height) {
@@ -124,7 +124,7 @@ public abstract class SourcelessOpImage extends OpImage {
      * @throws IllegalArgumentException since the image has no sources.
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
-        throw new IllegalArgumentException(JaiI18N.getString("SourcelessOpImage0"));
+        throw new IllegalArgumentException(ImageNI18N.getString("SourcelessOpImage0"));
     }
 
     /**
@@ -135,6 +135,6 @@ public abstract class SourcelessOpImage extends OpImage {
      * @throws IllegalArgumentException since the image has no sources.
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
-        throw new IllegalArgumentException(JaiI18N.getString("SourcelessOpImage0"));
+        throw new IllegalArgumentException(ImageNI18N.getString("SourcelessOpImage0"));
     }
 }

@@ -11,10 +11,10 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 /**
- * An implementation of the <code>FilenameFilter</code> interface specific to image file formats supported by JAI 1.1.
- * This class allows a given file name to be classified as an image file name if the file name extension (the last three
- * or four letters after the ".") are any one of the following: bmp, gif, fpx, jpeg, jpg, png, pnm, pgm, ppm, tiff or
- * tif.
+ * An implementation of the <code>FilenameFilter</code> interface specific to image file formats supported by ImageN
+ * 1.1. This class allows a given file name to be classified as an image file name if the file name extension (the last
+ * three or four letters after the ".") are any one of the following: bmp, gif, fpx, jpeg, jpg, png, pnm, pgm, ppm, tiff
+ * or tif.
  */
 public class ImageFilenameFilterImpl implements FilenameFilter {
 

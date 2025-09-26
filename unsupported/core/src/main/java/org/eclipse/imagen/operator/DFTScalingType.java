@@ -25,7 +25,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * IDFTDescriptor</code> by the constants <code>SCALING_NONE</code>, <code>SCALING_UNITARY</code>, and <code>
  * SCALING_DIMENSIONS</code>.
  *
- * @since JAI 1.1
+ * @since ImageN 1.1
  */
 public final class DFTScalingType extends EnumeratedParameter {
     DFTScalingType(String name, int value) {

@@ -21,7 +21,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import org.eclipse.imagen.media.util.PropertyUtil;
 
-class JaiI18N {
+class ImageNI18N {
     static String packageName = "org.eclipse.imagen";
 
     public static String getString(String key) {

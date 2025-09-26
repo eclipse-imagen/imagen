@@ -24,8 +24,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.GeometricOpImage;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.PlanarImage;
@@ -154,7 +154,7 @@ class ScalePropertyGenerator extends PropertyGeneratorImpl {
  * <p>When interpolations which require padding the source such as Bilinear or Bicubic interpolation are specified, the
  * source needs to be extended such that it has the extra pixels needed to compute all the destination pixels. This
  * extension is performed via the <code>BorderExtender</code> class. The type of Border Extension can be specified as a
- * <code>RenderingHint</code> to the <code>JAI.create</code> method.
+ * <code>RenderingHint</code> to the <code>ImageN.create</code> method.
  *
  * <p>If no Border Extension is specified, the source will not be extended. The scaled image size is still calculated
  * according to the formula specified above. However since there isn't enough source to compute all the destination
@@ -165,17 +165,19 @@ class ScalePropertyGenerator extends PropertyGeneratorImpl {
  * and 1 (non-inclusive) decreases the size of an image. An IllegalArgumentException will be thrown if the specified
  * scale factors are negative or equal to zero.
  *
- * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
+ * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>ImageN.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
  * image bounds itself. The other <code>ImageLayout</code> hints, like tileWidth and tileHeight, however are honored.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>"Scale" defines a PropertyGenerator that performs an identical transformation on the "ROI" property of the source
@@ -327,9 +329,9 @@ public class ScaleDescriptor extends OperationDescriptorImpl {
      * Resizes an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -360,16 +362,16 @@ public class ScaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("yTrans", yTrans);
         pb.setParameter("interpolation", interpolation);
 
-        return JAI.create("Scale", pb, hints);
+        return ImageN.create("Scale", pb, hints);
     }
 
     /**
      * Resizes an image.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
@@ -400,6 +402,6 @@ public class ScaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("yTrans", yTrans);
         pb.setParameter("interpolation", interpolation);
 
-        return JAI.createRenderable("Scale", pb, hints);
+        return ImageN.createRenderable("Scale", pb, hints);
     }
 }

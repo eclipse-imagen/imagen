@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.OutputStream;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockJAI;
 import org.eclipse.imagen.RenderedOp;
@@ -39,8 +39,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * be set to <code>null</code> in order to perform default encoding, or equivalently may be omitted. If non-<code>null
  * </code>, it must be of the correct class type for the selected format.
  *
- * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the JAI
- * API. Future releases of JAI will make use of new classes in their place. This class will change accordingly.</b>
+ * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the ImageN
+ * API. Future releases of ImageN will make use of new classes in their place. This class will change accordingly.</b>
  *
  * <p>
  *
@@ -161,7 +161,7 @@ public class EncodeDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Returns true indicating that the operation should be rendered immediately during a call to <code>JAI.create()
+     * Returns true indicating that the operation should be rendered immediately during a call to <code>ImageN.create()
      * </code>.
      *
      * @see org.eclipse.imagen.OperationDescriptor
@@ -174,9 +174,9 @@ public class EncodeDescriptor extends OperationDescriptorImpl {
      * Stores an image to an OutputStream.
      *
      * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
+     * @see ImageN
      * @see ParameterBlockJAI
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
@@ -198,6 +198,6 @@ public class EncodeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("format", format);
         pb.setParameter("param", param);
 
-        return JAI.create("Encode", pb, hints);
+        return ImageN.create("Encode", pb, hints);
     }
 }
