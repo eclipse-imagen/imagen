@@ -73,15 +73,15 @@ public class RookIterFactory {
         if (sm instanceof ComponentSampleModel) {
             switch (sm.getDataType()) {
                 case DataBuffer.TYPE_BYTE:
-                    // return new RookIterCSMByte(im, bounds);
+                // return new RookIterCSMByte(im, bounds);
                 case DataBuffer.TYPE_SHORT:
-                    // return new RookIterCSMShort(im, bounds);
+                // return new RookIterCSMShort(im, bounds);
                 case DataBuffer.TYPE_USHORT:
-                    // return new RookIterCSMUShort(im, bounds);
+                // return new RookIterCSMUShort(im, bounds);
                 case DataBuffer.TYPE_INT:
-                    // return new RookIterCSMInt(im, bounds);
+                // return new RookIterCSMInt(im, bounds);
                 case DataBuffer.TYPE_FLOAT:
-                    // return new RookIterCSMFloat(im, bounds);
+                // return new RookIterCSMFloat(im, bounds);
                 case DataBuffer.TYPE_DOUBLE:
                     // return new RookIterCSMDouble(im, bounds);
             }
@@ -122,15 +122,15 @@ public class RookIterFactory {
         if (sm instanceof ComponentSampleModel) {
             switch (sm.getDataType()) {
                 case DataBuffer.TYPE_BYTE:
-                    // return new WritableRookIterCSMByte(im, bounds);
+                // return new WritableRookIterCSMByte(im, bounds);
                 case DataBuffer.TYPE_SHORT:
-                    // return new WritableRookIterCSMShort(im, bounds);
+                // return new WritableRookIterCSMShort(im, bounds);
                 case DataBuffer.TYPE_USHORT:
-                    // return new WritableRookIterCSMUShort(im, bounds);
+                // return new WritableRookIterCSMUShort(im, bounds);
                 case DataBuffer.TYPE_INT:
-                    // return new WritableRookIterCSMInt(im, bounds);
+                // return new WritableRookIterCSMInt(im, bounds);
                 case DataBuffer.TYPE_FLOAT:
-                    // return new WritableRookIterCSMFloat(im, bounds);
+                // return new WritableRookIterCSMFloat(im, bounds);
                 case DataBuffer.TYPE_DOUBLE:
                     // return new WritableRookIterCSMDouble(im, bounds);
             }

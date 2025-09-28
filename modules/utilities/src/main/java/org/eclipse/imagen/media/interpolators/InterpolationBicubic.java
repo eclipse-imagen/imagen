@@ -907,10 +907,10 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
         // mean value used in calculations
         long meanValue = 0;
         switch (sum) {
-                // All the 4 pixels are no data, an array of 0 data is returned
+            // All the 4 pixels are no data, an array of 0 data is returned
             case 0:
                 return emptyArray;
-                // Only one pixel is a valid data, all the pixel of the line have the same value.
+            // Only one pixel is a valid data, all the pixel of the line have the same value.
             case 1:
                 long validData = 0;
                 if (weightArray[0] == 1) {
@@ -927,11 +927,11 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                 emptyArray[2] = validData;
                 emptyArray[3] = validData;
                 return emptyArray;
-                // Only 2 pixels are valid data. If the No Data are on the border, they takes the value of the adjacent
-                // pixel,
-                // else , they take an average of the 2 neighbor pixels with valid data. A String representation is
-                // provided for a better
-                // comprehension. 0 is no Data and x is valid data.
+            // Only 2 pixels are valid data. If the No Data are on the border, they takes the value of the adjacent
+            // pixel,
+            // else , they take an average of the 2 neighbor pixels with valid data. A String representation is
+            // provided for a better
+            // comprehension. 0 is no Data and x is valid data.
             case 2:
 
                 // 0 0 x x
@@ -975,10 +975,10 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                     emptyArray[3] = s0;
                 }
                 return emptyArray;
-                // Only one pixel is a No Data. If it is at the boundaries, then it replicates the value
-                // of the adjacent pixel, else if takes an average of the 2 neighbor pixels.A String representation is
-                // provided for a better
-                // comprehension. 0 is no Data and x is valid data.
+            // Only one pixel is a No Data. If it is at the boundaries, then it replicates the value
+            // of the adjacent pixel, else if takes an average of the 2 neighbor pixels.A String representation is
+            // provided for a better
+            // comprehension. 0 is no Data and x is valid data.
             case 3:
                 // 0 x x x
                 if (weightArray[0] == 0) {
@@ -1008,7 +1008,7 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                     emptyArray[3] = s1;
                 }
                 return emptyArray;
-                // Absence of No Data, the pixels are returned.
+            // Absence of No Data, the pixels are returned.
             case 4:
                 emptyArray[0] = s_;
                 emptyArray[1] = s0;
@@ -1057,10 +1057,10 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
         // mean value used in calculations
         float meanValue = 0;
         switch (sum) {
-                // All the 4 pixels are no data, an array of 0 data is returned
+            // All the 4 pixels are no data, an array of 0 data is returned
             case 0:
                 return emptyArray;
-                // Only one pixel is a valid data, all the pixel of the line have the same value.
+            // Only one pixel is a valid data, all the pixel of the line have the same value.
             case 1:
                 float validData = 0;
                 if (weightArray[0] == 1) {
@@ -1077,11 +1077,11 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                 emptyArray[2] = validData;
                 emptyArray[3] = validData;
                 return emptyArray;
-                // Only 2 pixels are valid data. If the No Data are on the border, they takes the value of the adjacent
-                // pixel,
-                // else , they take an average of the 2 neighbor pixels with valid data. A String representation is
-                // provided for a better
-                // comprehension. 0 is no Data and x is valid data.
+            // Only 2 pixels are valid data. If the No Data are on the border, they takes the value of the adjacent
+            // pixel,
+            // else , they take an average of the 2 neighbor pixels with valid data. A String representation is
+            // provided for a better
+            // comprehension. 0 is no Data and x is valid data.
             case 2:
 
                 // 0 0 x x
@@ -1125,10 +1125,10 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                     emptyArray[3] = s0;
                 }
                 return emptyArray;
-                // Only one pixel is a No Data. If it is at the boundaries, then it replicates the value
-                // of the adjacent pixel, else if takes an average of the 2 neighbor pixels.A String representation is
-                // provided for a better
-                // comprehension. 0 is no Data and x is valid data.
+            // Only one pixel is a No Data. If it is at the boundaries, then it replicates the value
+            // of the adjacent pixel, else if takes an average of the 2 neighbor pixels.A String representation is
+            // provided for a better
+            // comprehension. 0 is no Data and x is valid data.
             case 3:
                 // 0 x x x
                 if (weightArray[0] == 0) {
@@ -1158,7 +1158,7 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                     emptyArray[3] = s1;
                 }
                 return emptyArray;
-                // Absence of No Data, the pixels are returned.
+            // Absence of No Data, the pixels are returned.
             case 4:
                 emptyArray[0] = s_;
                 emptyArray[1] = s0;
@@ -1207,10 +1207,10 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
         // mean value used in calculations
         double meanValue = 0;
         switch (sum) {
-                // All the 4 pixels are no data, an array of 0 data is returned
+            // All the 4 pixels are no data, an array of 0 data is returned
             case 0:
                 return emptyArray;
-                // Only one pixel is a valid data, all the pixel of the line have the same value.
+            // Only one pixel is a valid data, all the pixel of the line have the same value.
             case 1:
                 double validData = 0;
                 if (weightArray[0] == 1) {
@@ -1227,11 +1227,11 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                 emptyArray[2] = validData;
                 emptyArray[3] = validData;
                 return emptyArray;
-                // Only 2 pixels are valid data. If the No Data are on the border, they takes the value of the adjacent
-                // pixel,
-                // else , they take an average of the 2 neighbor pixels with valid data. A String representation is
-                // provided for a better
-                // comprehension. 0 is no Data and x is valid data.
+            // Only 2 pixels are valid data. If the No Data are on the border, they takes the value of the adjacent
+            // pixel,
+            // else , they take an average of the 2 neighbor pixels with valid data. A String representation is
+            // provided for a better
+            // comprehension. 0 is no Data and x is valid data.
             case 2:
 
                 // 0 0 x x
@@ -1275,10 +1275,10 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                     emptyArray[3] = s0;
                 }
                 return emptyArray;
-                // Only one pixel is a No Data. If it is at the boundaries, then it replicates the value
-                // of the adjacent pixel, else if takes an average of the 2 neighbor pixels.A String representation is
-                // provided for a better
-                // comprehension. 0 is no Data and x is valid data.
+            // Only one pixel is a No Data. If it is at the boundaries, then it replicates the value
+            // of the adjacent pixel, else if takes an average of the 2 neighbor pixels.A String representation is
+            // provided for a better
+            // comprehension. 0 is no Data and x is valid data.
             case 3:
                 // 0 x x x
                 if (weightArray[0] == 0) {
@@ -1308,7 +1308,7 @@ public class InterpolationBicubic extends InterpolationTable implements Interpol
                     emptyArray[3] = s1;
                 }
                 return emptyArray;
-                // Absence of No Data, the pixels are returned.
+            // Absence of No Data, the pixels are returned.
             case 4:
                 emptyArray[0] = s_;
                 emptyArray[1] = s0;
