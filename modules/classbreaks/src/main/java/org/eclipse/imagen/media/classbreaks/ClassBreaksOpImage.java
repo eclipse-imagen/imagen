@@ -176,8 +176,8 @@ public abstract class ClassBreaksOpImage extends StatisticsOpImage {
                 case DataBuffer.TYPE_USHORT:
                 case DataBuffer.TYPE_SHORT:
                 case DataBuffer.TYPE_INT:
-                    // countPixelsInt(accessor, raster, r, xPeriod, yPeriod, breaks);
-                    // break;
+                // countPixelsInt(accessor, raster, r, xPeriod, yPeriod, breaks);
+                // break;
                 case DataBuffer.TYPE_FLOAT:
                 case DataBuffer.TYPE_DOUBLE:
                 default:

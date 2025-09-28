@@ -674,16 +674,16 @@ public final class PixelAccessor {
                 case DataBuffer.TYPE_DOUBLE:
                     return getPixelsDouble(raster, rect, isDest);
 
-                    /*
-                     * Since the requested type must be greater than or equal to
-                     * sampleType, if type is byte, sampleType must also be byte,
-                     * because the smallest sampleType of ComponentSampleModel is
-                     * byte.  This case falls into the above uncopied case.
-                     *
-                     * If the Raster is a destination, then the pixel data have
-                     * not been computed and stored in the buffer yet.
-                     * Just create a new array, but no need to copy anything.
-                     */
+                /*
+                 * Since the requested type must be greater than or equal to
+                 * sampleType, if type is byte, sampleType must also be byte,
+                 * because the smallest sampleType of ComponentSampleModel is
+                 * byte.  This case falls into the above uncopied case.
+                 *
+                 * If the Raster is a destination, then the pixel data have
+                 * not been computed and stored in the buffer yet.
+                 * Just create a new array, but no need to copy anything.
+                 */
                 default: // byte to ushort or short
                     // The total number of data elements needed.
                     int size = rect.width * rect.height * numBands;
@@ -1318,8 +1318,8 @@ public final class PixelAccessor {
                         set = false; // no need to set for destination
                         break;
 
-                        // Copy even if it's destination so they can easily
-                        // be set back.
+                    // Copy even if it's destination so they can easily
+                    // be set back.
                     case DataBuffer.TYPE_USHORT:
                         lineStride = numElements * 2; // 2 bytes for each ushort
                         offset = smBitOffset / 8;

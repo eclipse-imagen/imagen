@@ -833,12 +833,12 @@ public class RasterFactory {
                 return new ComponentColorModel(colorSpace, bits, useAlpha, premultiplied, transparency, dataType);
             case DataBuffer.TYPE_USHORT:
                 return new ComponentColorModel(colorSpace, bits, useAlpha, premultiplied, transparency, dataType);
-                /// case DataBuffer.TYPE_SHORT:
-                /// return new ShortComponentColorModel(colorSpace,
-                /// bits,
-                /// useAlpha,
-                /// premultiplied,
-                /// transparency);
+            /// case DataBuffer.TYPE_SHORT:
+            /// return new ShortComponentColorModel(colorSpace,
+            /// bits,
+            /// useAlpha,
+            /// premultiplied,
+            /// transparency);
             case DataBuffer.TYPE_INT:
                 return new ComponentColorModel(colorSpace, bits, useAlpha, premultiplied, transparency, dataType);
             case DataBuffer.TYPE_FLOAT:

@@ -500,7 +500,7 @@ public class ContourOpImage extends AttributeOpImage {
                             double x0 = 0.0, y0 = 0.0, x1 = 0.0, y1 = 0.0;
                             boolean addSegment = true;
                             switch (config) {
-                                    /* Line between vertices 1 and 2 */
+                                /* Line between vertices 1 and 2 */
                                 case 1:
                                     x0 = xh[m1];
                                     y0 = yh[m1];
@@ -508,7 +508,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = yh[m2];
                                     break;
 
-                                    /* Line between vertices 2 and 3 */
+                                /* Line between vertices 2 and 3 */
                                 case 2:
                                     x0 = xh[m2];
                                     y0 = yh[m2];
@@ -516,12 +516,12 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = yh[m3];
                                     break;
 
-                                    /*
-                                     * Line between vertices 3 and 1.
-                                     * We only want to generate this segment
-                                     * for triangles m=2 and m=3, otherwise
-                                     * we will end up with duplicate segments.
-                                     */
+                                /*
+                                 * Line between vertices 3 and 1.
+                                 * We only want to generate this segment
+                                 * for triangles m=2 and m=3, otherwise
+                                 * we will end up with duplicate segments.
+                                 */
                                 case 3:
                                     if (m == 2 || m == 3) {
                                         x0 = xh[m3];
@@ -533,7 +533,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     }
                                     break;
 
-                                    /* Line between vertex 1 and side 2-3 */
+                                /* Line between vertex 1 and side 2-3 */
                                 case 4:
                                     x0 = xh[m1];
                                     y0 = yh[m1];
@@ -541,7 +541,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = sect(m2, m3, h, yh);
                                     break;
 
-                                    /* Line between vertex 2 and side 3-1 */
+                                /* Line between vertex 2 and side 3-1 */
                                 case 5:
                                     x0 = xh[m2];
                                     y0 = yh[m2];
@@ -549,7 +549,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = sect(m3, m1, h, yh);
                                     break;
 
-                                    /* Line between vertex 3 and side 1-2 */
+                                /* Line between vertex 3 and side 1-2 */
                                 case 6:
                                     x0 = xh[m3];
                                     y0 = yh[m3];
@@ -557,7 +557,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = sect(m1, m2, h, yh);
                                     break;
 
-                                    /* Line between sides 1-2 and 2-3 */
+                                /* Line between sides 1-2 and 2-3 */
                                 case 7:
                                     x0 = sect(m1, m2, h, xh);
                                     y0 = sect(m1, m2, h, yh);
@@ -565,7 +565,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = sect(m2, m3, h, yh);
                                     break;
 
-                                    /* Line between sides 2-3 and 3-1 */
+                                /* Line between sides 2-3 and 3-1 */
                                 case 8:
                                     x0 = sect(m2, m3, h, xh);
                                     y0 = sect(m2, m3, h, yh);
@@ -573,7 +573,7 @@ public class ContourOpImage extends AttributeOpImage {
                                     y1 = sect(m3, m1, h, yh);
                                     break;
 
-                                    /* Line between sides 3-1 and 1-2 */
+                                /* Line between sides 3-1 and 1-2 */
                                 case 9:
                                     x0 = sect(m3, m1, h, xh);
                                     y0 = sect(m3, m1, h, yh);

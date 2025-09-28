@@ -398,8 +398,8 @@ public class ConcurrentCacheTest {
                 TileCache cache = ImageN.getDefaultInstance().getTileCache();
                 long memory = 0;
                 switch (typeCache) {
-                        // select the tile cache type, for the last two types no memory usage is
-                        // calculated
+                    // select the tile cache type, for the last two types no memory usage is
+                    // calculated
                     case SUN_TILE_CACHE:
                         SunTileCache sunCache = (SunTileCache) cache;
                         memory = sunCache.getCacheMemoryUsed();

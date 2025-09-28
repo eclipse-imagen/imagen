@@ -228,16 +228,16 @@ final class ColorConvertOpImage extends PointOpImage {
         }
 
         switch (caseNumber) {
-                // 1. When source and destination color spaces are all ColorSpaceImageN,
-                // convert via RGB color space
+            // 1. When source and destination color spaces are all ColorSpaceJAI,
+            // convert via RGB color space
             case 1:
                 tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam);
                 computeRectColorSpaceJAIFromRGB(tempRas, tempParam, dest, dstParam);
                 break;
-                // when only the source color space is ColorSpaceImageN,
-                // 2. if the destination is not RGB, convert to RGB using
-                //    ColorSpaceImageN; then convert RGB to the destination
-                // 3. if the destination is RGB, convert using ColorSpaceImageN
+            // when only the source color space is ColorSpaceJAI,
+            // 2. if the destination is not RGB, convert to RGB using
+            //    ColorSpaceJAI; then convert RGB to the destination
+            // 3. if the destination is RGB, convert using ColorSpaceJAI
             case 2:
                 tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam);
                 computeRectNonColorSpaceJAI(tempRas, tempParam, dest, dstParam, destRect);
@@ -245,8 +245,8 @@ final class ColorConvertOpImage extends PointOpImage {
             case 3:
                 computeRectColorSpaceJAIToRGB(source, srcParam, dest, dstParam);
                 break;
-                // 4, 5. When only the destination color space is ColorSpaceImageN,
-                // similar to the case above.
+            // 4, 5. When only the destination color space is ColorSpaceJAI,
+            // similar to the case above.
             case 4:
                 tempRas = createTempWritableRaster(source);
                 computeRectNonColorSpaceJAI(source, srcParam, tempRas, tempParam, destRect);
@@ -255,7 +255,7 @@ final class ColorConvertOpImage extends PointOpImage {
             case 5:
                 computeRectColorSpaceJAIFromRGB(source, srcParam, dest, dstParam);
                 break;
-                // 6. If all the color space are not ColorSpaceImageN
+            // 6. If all the color space are not ColorSpaceJAI
             case 6:
                 computeRectNonColorSpaceJAI(source, srcParam, dest, dstParam, destRect);
             default:

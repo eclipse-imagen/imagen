@@ -232,7 +232,7 @@ public class BMPImageEncoder extends ImageEncoderImpl {
                 imageSize = (destScanlineBytes + padding) * h;
                 fileSize = imageSize + offset;
                 throw new RuntimeException(JaiI18N.getString("BMPImageEncoder5"));
-                // break;
+            // break;
 
             case BMPEncodeParam.VERSION_3:
                 // FileHeader is 14 bytes, BitmapHeader is 40 bytes,
@@ -339,7 +339,7 @@ public class BMPImageEncoder extends ImageEncoderImpl {
             // write palette
             switch (version) {
 
-                    // has 3 field entries
+                // has 3 field entries
                 case BMPEncodeParam.VERSION_2:
                     for (int i = 0; i < paletteEntries; i++) {
                         output.write(b[i]);
@@ -348,7 +348,7 @@ public class BMPImageEncoder extends ImageEncoderImpl {
                     }
                     break;
 
-                    // has 4 field entries
+                // has 4 field entries
                 default:
                     for (int i = 0; i < paletteEntries; i++) {
                         output.write(b[i]);
