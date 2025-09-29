@@ -330,11 +330,60 @@
                 <replacetoken>ImageN Image I/O</replacetoken>
                 <replacevalue>Image I/O</replacevalue>
             </replacefilter>
+            <replacefilter> <!-- revert JAI Image I/O -->
+                <replacetoken>ImageN ImageIO</replacetoken>
+                <replacevalue>ImageIO</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- Not useful citing JAI version number -->
+                <replacetoken>@since ImageN 1.1.2</replacetoken>
+                <replacevalue>@since ImageN 0.4.0</replacevalue>
+            </replacefilter>
             <replacefilter> <!-- Not useful citing JAI version number -->
                 <replacetoken>ImageN 1.1.2</replacetoken>
                 <replacevalue>ImageN</replacevalue>
             </replacefilter>
-            
+
+            <!-- Refactor jai variable names -->
+            <replacefilter>
+                <replacetoken>ImageN jai,</replacetoken>
+                <replacevalue>ImageN imagen,</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageN jai)</replacetoken>
+                <replacevalue>ImageN imagen)</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai.</replacetoken>
+                <replacevalue> imagen.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(jai)</replacetoken>
+                <replacevalue>(imagen)</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(jai,</replacetoken>
+                <replacevalue>(imagen,</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai)</replacetoken>
+                <replacevalue> imagen)</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai =</replacetoken>
+                <replacevalue> imagen =</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>{jai}</replacetoken>
+                <replacevalue>{imagen}</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>{jai,</replacetoken>
+                <replacevalue>{imagen,</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>panel:imagen.</replacetoken>
+                <replacevalue>panel:image.</replacevalue>
+            </replacefilter>
             <!-- Refactor ImageReadDescriptor Constants -->
             <replacefilter>
                 <replacetoken>"JAI.ImageReadParam"</replacetoken>
