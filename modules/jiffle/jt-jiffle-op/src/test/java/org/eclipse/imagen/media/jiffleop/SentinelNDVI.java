@@ -20,8 +20,8 @@ public class SentinelNDVI {
         String basePath =
                 "/opt/gisData/evo-odas/coverave-view-hetero/multires-s2/S2A_MSIL1C_20170410T103021_N0204_R108_T32UNU_20170410T103020.SAFE/20170410T103021026Z_fullres_CC2.4251_T32UNU_";
 
-        ImageN jai = ImageN.getDefaultInstance();
-        jai.getTileCache().setMemoryCapacity(1024l * 1024 * 1024);
+        ImageN imageN = ImageN.getDefaultInstance();
+        imageN.getTileCache().setMemoryCapacity(1024l * 1024 * 1024);
 
         // prepare inputs and outputs
         RenderedImage red = readImage(new File(basePath + "B04.tif"));
@@ -43,7 +43,7 @@ public class SentinelNDVI {
         System.out.println("Computing " + NumberFormat.getNumberInstance().format(pixels) + " pixels");
 
         for (int i = 0; i < 10; i++) {
-            jai.getTileCache().flush();
+            imageN.getTileCache().flush();
             long start = System.currentTimeMillis();
             ImageIO.write(op, "TIF", new File("/tmp/ndvi.tif"));
             long end = System.currentTimeMillis();

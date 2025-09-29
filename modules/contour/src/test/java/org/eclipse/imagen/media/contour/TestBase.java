@@ -75,10 +75,10 @@ public abstract class TestBase {
 
     @BeforeClass
     public static void quiet() {
-        ImageN jai = ImageN.getDefaultInstance();
-        final ImagingListener imagingListener = jai.getImagingListener();
+        ImageN imageN = ImageN.getDefaultInstance();
+        final ImagingListener imagingListener = imageN.getImagingListener();
         if (imagingListener == null || imagingListener.getClass().getName().contains("ImagingListenerImpl")) {
-            jai.setImagingListener(new ImagingListener() {
+            imageN.setImagingListener(new ImagingListener() {
                 @Override
                 public boolean errorOccurred(String message, Throwable thrown, Object where, boolean isRetryable)
                         throws RuntimeException {
