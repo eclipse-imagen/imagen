@@ -296,7 +296,7 @@
                 <replacetoken>org.eclipse.imagen.JAI</replacetoken>
                 <replacevalue>org.eclipse.imagen.ImageN</replacevalue>
             </replacefilter>
-            
+
             <!-- Refactor JAI class use, using a bunch of special cases to avoid a slow regex -->
             <replacefilter>
                 <replacetoken> JAI.class</replacetoken>
@@ -322,11 +322,18 @@
                 <replacetoken>= JAI</replacetoken>
                 <replacevalue>= ImageN</replacevalue>
             </replacefilter>
-            <replacefilter> <!-- revert false positives from above over eagar replacefilter -->
+            <replacefilter> <!-- revert JAIInfo-->
                 <replacetoken>= ImageNInfo.</replacetoken>
                 <replacevalue>= JAIInfo.</replacevalue>
             </replacefilter>
-
+            <replacefilter> <!-- revert JAI Image I/O -->
+                <replacetoken>ImageN Image I/O</replacetoken>
+                <replacevalue>Image I/O</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- Not useful citing JAI version number -->
+                <replacetoken>ImageN 1.1.2</replacetoken>
+                <replacevalue>ImageN</replacevalue>
+            </replacefilter>
             
             <!-- Refactor ImageReadDescriptor Constants -->
             <replacefilter>
