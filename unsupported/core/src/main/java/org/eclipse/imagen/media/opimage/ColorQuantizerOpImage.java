@@ -27,7 +27,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.ROI;
@@ -45,7 +45,7 @@ import org.eclipse.imagen.UnpackedImageData;
  * on the lookup table generated from this <code>OpImage</code>.
  *
  * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  */
 abstract class ColorQuantizerOpImage extends PointOpImage {
     /**
@@ -68,7 +68,7 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     protected PixelAccessor destPA;
 
     /** The color map which maps the <code>ErrorDiffusionOpImage</code> to its source. */
-    protected LookupTableJAI colorMap;
+    protected LookupTableImageN colorMap;
 
     /** The expected maximum number of color, that is, the expected size of the lookup table. */
     protected int maxColorNum;

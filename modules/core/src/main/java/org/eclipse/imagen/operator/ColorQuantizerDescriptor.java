@@ -33,7 +33,7 @@ import org.eclipse.imagen.util.Range;
  *
  * <p>This operation generates an optimal lookup table (LUT) based on the provided 3-band RGB source image by executing
  * a color quantization algorithm. This LUT is stored in the property "ImageN.LookupTable" that has a type of <code>
- * LookupTableJAI</code>. Thus, it can be retrieved by means of <code>getProperty</code>. This LUT can be further
+ * LookupTableImageN</code>. Thus, it can be retrieved by means of <code>getProperty</code>. This LUT can be further
  * utilized in other operations such as "errordiffusion" to convert the 3-band RGB image into a high-quality
  * color-indexed image. The computation of the LUT can be deferred by defining a <code>DeferredProperty</code> from the
  * property "ImageN.LookupTable" and providing that as the parameter value for "errordiffusion". This operation also

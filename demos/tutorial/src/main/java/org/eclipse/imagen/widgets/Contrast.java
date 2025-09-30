@@ -459,7 +459,7 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
                 }
             }
 
-            LookupTableJAI lookup = new LookupTableJAI(lut);
+            LookupTableImageN lookup = new LookupTableImageN(lut);
 
             pb = new ParameterBlock();
             pb.addSource(image);
@@ -497,7 +497,7 @@ public final class Contrast extends JComponent implements MouseListener, MouseMo
                 }
             }
 
-            LookupTableJAI lookup = new LookupTableJAI(lut);
+            LookupTableImageN lookup = new LookupTableImageN(lut);
 
             pb = new ParameterBlock();
             pb.addSource(image);

@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -350,7 +350,7 @@ public class MedianCutOpImage extends ColorQuantizerOpImage {
     /** Creates the lookup table and computes the inverse mapping. */
     private void createLUT(int ncubes) {
         if (colorMap == null) {
-            colorMap = new LookupTableJAI(new byte[3][ncubes]);
+            colorMap = new LookupTableImageN(new byte[3][ncubes]);
         }
 
         byte[] rLUT = colorMap.getByteData(0);

@@ -25,7 +25,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.media.util.ImageUtil;
@@ -61,7 +61,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
     private boolean isByteData = false;
 
     /** A lookup table for use in the case of byte data. */
-    private LookupTableJAI lut;
+    private LookupTableImageN lut;
 
     /**
      * Find the ordinate value for a given abscissa value.
@@ -224,7 +224,7 @@ final class PiecewiseOpImage extends ColormapOpImage {
         }
 
         // Construct the lookup table.
-        lut = new LookupTableJAI(data);
+        lut = new LookupTableImageN(data);
     }
 
     /**

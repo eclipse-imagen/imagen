@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
@@ -103,7 +103,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </tr>
  * <tr>
  * <td>colorMap</td>
- * <td>org.eclipse.imagen.LookupTableJAI</td>
+ * <td>org.eclipse.imagen.LookupTableImageN</td>
  * <td>NO_PARAMETER_DEFAULT</td>
  * <tr>
  * <td>errorKernel</td>
@@ -148,7 +148,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
 
     /** The parameter class types for the "ErrorDiffusion" operation. */
     private static final Class[] paramClasses = {
-        org.eclipse.imagen.LookupTableJAI.class,
+        LookupTableImageN.class,
         org.eclipse.imagen.KernelJAI.class,
         org.eclipse.imagen.ROI.class,
         org.eclipse.imagen.media.range.Range.class,
@@ -193,7 +193,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0,
-            LookupTableJAI colorMap,
+            LookupTableImageN colorMap,
             KernelJAI errorKernel,
             ROI roi,
             Range nodata,

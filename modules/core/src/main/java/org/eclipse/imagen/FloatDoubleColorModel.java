@@ -52,12 +52,12 @@ import java.awt.image.WritableRaster;
  *
  * <p>Methods that use a single int pixel representation throw an <code>IllegalArgumentException</code>.
  *
- * <p>A <code>FloatDoubleColorModel</code> can be used in conjunction with a <code>ComponentSampleModelJAI</code>.
+ * <p>A <code>FloatDoubleColorModel</code> can be used in conjunction with a <code>ComponentSampleModelImageN</code>.
  *
  * @see java.awt.image.ColorModel
  * @see java.awt.color.ColorSpace
  * @see java.awt.image.ComponentSampleModel
- * @see ComponentSampleModelJAI
+ * @see ComponentSampleModelImageN
  */
 public class FloatDoubleColorModel extends ComponentColorModel {
 
@@ -850,7 +850,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
         for (int i = 0; i < numComponents; i++) {
             bandOffsets[i] = i;
         }
-        return new ComponentSampleModelJAI(transferType, w, h, numComponents, w * numComponents, bandOffsets);
+        return new ComponentSampleModelImageN(transferType, w, h, numComponents, w * numComponents, bandOffsets);
     }
 
     /**

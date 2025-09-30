@@ -28,7 +28,7 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.eclipse.imagen.ComponentSampleModelJAI;
+import org.eclipse.imagen.ComponentSampleModelImageN;
 import org.eclipse.imagen.RasterFactory;
 
 /**
@@ -49,7 +49,7 @@ public class SampleModelState extends SerializableStateImpl {
     /** Flag indicating a MultiPixelPackedSampleModel. */
     private static final int TYPE_MULTI_PIXEL_PACKED = 4;
 
-    /** Flag indicating a ComponentSampleModelJAI. */
+    /** Flag indicating a ComponentSampleModelImageN. */
     private static final int TYPE_COMPONENT_JAI = 5;
 
     /** Flag indicating a generic ComponentSampleModel. */
@@ -62,7 +62,7 @@ public class SampleModelState extends SerializableStateImpl {
             ComponentSampleModel.class,
             MultiPixelPackedSampleModel.class,
             SinglePixelPackedSampleModel.class,
-            ComponentSampleModelJAI.class
+            ComponentSampleModelImageN.class
         };
     }
 
@@ -108,7 +108,7 @@ public class SampleModelState extends SerializableStateImpl {
                 sampleModelType = TYPE_PIXEL_INTERLEAVED;
             } else if (sampleModel instanceof BandedSampleModel) {
                 sampleModelType = TYPE_BANDED;
-            } else if (sampleModel instanceof ComponentSampleModelJAI
+            } else if (sampleModel instanceof ComponentSampleModelImageN
                     || transferType == DataBuffer.TYPE_FLOAT
                     || transferType == DataBuffer.TYPE_DOUBLE) {
                 sampleModelType = TYPE_COMPONENT_JAI;
@@ -166,7 +166,7 @@ public class SampleModelState extends SerializableStateImpl {
                                 in.readObject());
                 break;
             case TYPE_COMPONENT_JAI:
-                sampleModel = new ComponentSampleModelJAI(
+                sampleModel = new ComponentSampleModelImageN(
                         in.readInt(),
                         in.readInt(),
                         in.readInt(),

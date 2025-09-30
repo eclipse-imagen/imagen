@@ -25,7 +25,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
@@ -78,13 +78,13 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * </pre>
  *
  * @see org.eclipse.imagen.operator.LookupDescriptor
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  * @see LookupCRIF
  */
 final class LookupOpImage extends ColormapOpImage {
 
     /** The lookup table associated with this operation. The source image is passed through this table. */
-    protected LookupTableJAI table;
+    protected LookupTableImageN table;
 
     /**
      * Constructor.
@@ -97,7 +97,7 @@ final class LookupOpImage extends ColormapOpImage {
      * @param layout The destination image layout.
      * @param table The table used to perform the lookup operation, stored by reference.
      */
-    public LookupOpImage(RenderedImage source, Map config, ImageLayout layout, LookupTableJAI table) {
+    public LookupOpImage(RenderedImage source, Map config, ImageLayout layout, LookupTableImageN table) {
         super(source, layout, config, true);
 
         this.table = table;

@@ -556,8 +556,8 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Sets the <code>RenderingHints</code> of this node. The supplied parameter is cloned if non-<code>null</code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>RenderingChangeEvent</code> may be
-     * fired if the node has already been rendered.
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>RenderingChangeEvent</code> may
+     * be fired if the node has already been rendered.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      */

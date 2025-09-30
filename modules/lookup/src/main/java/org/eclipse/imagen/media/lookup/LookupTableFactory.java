@@ -18,7 +18,7 @@
 package org.eclipse.imagen.media.lookup;
 
 import java.awt.image.DataBuffer;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 
 public class LookupTableFactory {
     /**
@@ -297,7 +297,7 @@ public class LookupTableFactory {
      * @param table The multi-banded lookupTable.
      * @throws IllegalArgumentException if data is null.
      */
-    public static LookupTable create(LookupTableJAI table) {
+    public static LookupTable create(LookupTableImageN table) {
         int tableDataType = table.getDataType();
         int[] offsets = table.getOffsets();
         switch (tableDataType) {

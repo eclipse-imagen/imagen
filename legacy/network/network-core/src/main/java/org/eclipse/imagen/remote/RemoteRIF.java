@@ -63,13 +63,14 @@ public interface RemoteRIF {
     /**
      * Creates a <code>RemoteRenderedImage</code> representing the results of an imaging operation represented by the
      * given <code>OperationNode</code>, whose given old rendering is updated according to the given <code>
-     * PropertyChangeEventImageN</code>. This factory method should be used to create a new rendering updated according to
-     * the changes reported by the given <code>PropertyChangeEventImageN</code>. The <code>RemoteRIF</code> can query the
-     * supplied <code>OperationNode</code> for references to the server name, operation name, parameter block, and
+     * PropertyChangeEventImageN</code>. This factory method should be used to create a new rendering updated according
+     * to the changes reported by the given <code>PropertyChangeEventImageN</code>. The <code>RemoteRIF</code> can query
+     * the supplied <code>OperationNode</code> for references to the server name, operation name, parameter block, and
      * rendering hints. If only a new rendering of the node is desired in order to handle the supplied <code>
-     * PropertyChangeEventImageN</code>, the rendering can be obtained by calling the default <code>create()</code> method,
-     * the arguments to which can be retrieved from the supplied <code>OperationNode</code>. The <code>RemoteRIF</code>
-     * may also query any source images referenced by the <code>ParameterBlock</code> for their dimensions, <code>
+     * PropertyChangeEventImageN</code>, the rendering can be obtained by calling the default <code>create()</code>
+     * method, the arguments to which can be retrieved from the supplied <code>OperationNode</code>. The <code>RemoteRIF
+     * </code> may also query any source images referenced by the <code>ParameterBlock</code> for their dimensions,
+     * <code>
      * SampleModel</code>s, properties, etc., as necessary. The supplied <code>OperationNode</code> should not be edited
      * during the creation of the new rendering, otherwise the <code>OperationNode</code> might have an inconsistent
      * state.

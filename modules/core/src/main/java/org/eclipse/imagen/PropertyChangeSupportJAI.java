@@ -90,8 +90,8 @@ public final class PropertyChangeSupportJAI extends PropertyChangeSupport {
 
     /**
      * Report a bound property update to any registered listeners. If the supplied object is not a <code>
-     * PropertyChangeEventImageN</code> then a <code>PropertyChangeEventImageN</code> is constructed from the event object's
-     * accessors and fired instead.
+     * PropertyChangeEventImageN</code> then a <code>PropertyChangeEventImageN</code> is constructed from the event
+     * object's accessors and fired instead.
      *
      * @param evt The <code>PropertyChangeEvent</code> object.
      */
@@ -104,8 +104,8 @@ public final class PropertyChangeSupportJAI extends PropertyChangeSupport {
     }
 
     /**
-     * Report a bound property update to any registered listeners. A <code>PropertyChangeEventImageN</code> is created from
-     * the cached property event source and the supplied parameters and fired using the superclass <code>
+     * Report a bound property update to any registered listeners. A <code>PropertyChangeEventImageN</code> is created
+     * from the cached property event source and the supplied parameters and fired using the superclass <code>
      * firePropertyChange(PropertyChangeEvent)</code> method.
      *
      * @param propertyName The name of the changed property.

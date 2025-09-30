@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 
 /**
  * A <code>CRIF</code> supporting the "Lookup" operation in the rendered and renderable image layers.
@@ -54,6 +54,6 @@ public class LookupCRIF extends CRIFImpl {
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
 
         return new LookupOpImage(
-                args.getRenderedSource(0), renderHints, layout, (LookupTableJAI) args.getObjectParameter(0));
+                args.getRenderedSource(0), renderHints, layout, (LookupTableImageN) args.getObjectParameter(0));
     }
 }

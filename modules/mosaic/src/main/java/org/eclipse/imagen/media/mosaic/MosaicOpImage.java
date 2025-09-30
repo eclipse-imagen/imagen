@@ -39,7 +39,7 @@ import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.BorderExtenderConstant;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -671,7 +671,7 @@ public class MosaicOpImage extends OpImage {
                         RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
                         hints.put(ImageN.KEY_TRANSFORM_ON_COLORMAP, false);
 
-                        LookupTableJAI lt = buildNoDataLookupTable(dataType, noDataRange);
+                        LookupTableImageN lt = buildNoDataLookupTable(dataType, noDataRange);
 
                         ParameterBlock pb = new ParameterBlock();
                         pb.setSource(image, 0);

@@ -31,7 +31,7 @@ import org.eclipse.imagen.Histogram;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.InterpolationBilinear;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROIShape;
 
@@ -445,7 +445,7 @@ public class MedicalAppOpImage extends Observable
                 }
             }
 
-            LookupTableJAI lookup = new LookupTableJAI(lut);
+            LookupTableImageN lookup = new LookupTableImageN(lut);
 
             pb = new ParameterBlock();
             pb.addSource(source);

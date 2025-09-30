@@ -10,7 +10,7 @@ package org.eclipse.imagen.demo;
 import java.awt.image.IndexColorModel;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.media.codec.FileSeekableStream;
 import org.eclipse.imagen.media.codec.ImageCodec;
@@ -56,7 +56,7 @@ public class JAIImageReader {
             icm.getBlues(lutData[2]);
 
             // Create the lookup table object.
-            LookupTableJAI lut = new LookupTableJAI(lutData);
+            LookupTableImageN lut = new LookupTableImageN(lutData);
 
             // Replace the original image with the 3-band RGB image.
             image = ImageN.create("lookup", image, lut);
