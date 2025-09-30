@@ -1360,12 +1360,12 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * Implementation of <code>PropertyChangeListener</code>.
      *
      * <p>When invoked with an event emitted by the source image specified for this <code>TiledImage</code> and the
-     * event is either a <code>PropertyChangeEventJAI</code> named "InvalidRegion" (case-insensitive) or a <code>
+     * event is either a <code>PropertyChangeEventImageN</code> named "InvalidRegion" (case-insensitive) or a <code>
      * RenderingChangeEvent</code>, then all tiles which overlap the intersection of the invalid region and the region
      * of interest specified for this image (if any) will be cleared. If the event is a <code>RenderingChangeEvent
      * </code> then the invalid region will be obtained from the <code>getInvalidRegion</code> method of the event
-     * object; if a <code>PropertyChangeEventJAI</code> it will be obtained from the <code>getNewValue()</code> method.
-     * In either case, a new <code>PropertyChangeEventJAI</code> will be fired to all registered listeners of the
+     * object; if a <code>PropertyChangeEventImageN</code> it will be obtained from the <code>getNewValue()</code> method.
+     * In either case, a new <code>PropertyChangeEventImageN</code> will be fired to all registered listeners of the
      * property name "InvalidRegion" and to all known sinks which are <code>PropertyChangeListener</code>s. Its old and
      * new values will contain the previous and current invalid regions. This may be used to determine which tiles must
      * be re-requested. The <code>TiledImage</code> itself will not re-request the data.
@@ -1375,7 +1375,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
 
         if (evt.getSource() == src
                 && (evt instanceof RenderingChangeEvent
-                        || (evt instanceof PropertyChangeEventJAI
+                        || (evt instanceof PropertyChangeEventImageN
                                 && evt.getPropertyName().equalsIgnoreCase("InvalidRegion")))) {
 
             // Get the region.
@@ -1451,8 +1451,8 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
                 }
 
                 // Fire an InvalidRegion event.
-                PropertyChangeEventJAI irEvt =
-                        new PropertyChangeEventJAI(this, "InvalidRegion", oldInvalidRegion, invalidRegion);
+                PropertyChangeEventImageN irEvt =
+                        new PropertyChangeEventImageN(this, "InvalidRegion", oldInvalidRegion, invalidRegion);
 
                 // Fire an event to all registered PropertyChangeListeners.
                 eventManager.firePropertyChange(irEvt);

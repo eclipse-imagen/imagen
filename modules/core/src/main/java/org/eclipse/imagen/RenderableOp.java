@@ -98,7 +98,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * <p><code>RenderableOp</code> nodes may participate in Java Bean-style events. The <code>PropertyChangeEmitter</code>
  * methods may be used to register and unregister <code>PropertyChangeListener</code>s. Certain <code>
  * PropertyChangeEvent</code>s may be emitted by the <code>RenderableOp</code>. These include the <code>
- * PropertyChangeEventJAI</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
+ * PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
  * <code>OperationNode</code> interface.
  *
  * <p><code>RenderableOp</code> nodes are <code>WritablePropertySource</code>s and so manage a name-value database of
@@ -264,7 +264,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * Sets the <code>OperationRegistry</code> that is used by this node. If the specified registry is <code>null</code>
      * , the default registry is used.
      *
-     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventImageN</code> named
      * "OperationRegistry" will be fired
      */
     public synchronized void setRegistry(OperationRegistry registry) {
@@ -279,7 +279,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Sets the name of the operation this node represents. The parameter is saved by reference.
      *
-     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventImageN</code> named
      * "OperationName" will be fired.
      *
      * @param opName The new operation name to be set.
@@ -303,7 +303,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * node represents; otherwise some form of error or exception may occur at the time of rendering.
      *
      * <p>If the supplied <code>ParameterBlock</code> does not equal the current <code>ParameterBlock</code>, a <code>
-     * PropertyChangeEventJAI</code> named "ParameterBlock", "Sources", or "Parameters" will be fired.
+     * PropertyChangeEventImageN</code> named "ParameterBlock", "Sources", or "Parameters" will be fired.
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
      * until their values are actually required, i.e., when a rendering of the node is requested or the renderable
@@ -326,7 +326,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * </code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventJAI</code> named "RenderingHints" will be fired.
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      */

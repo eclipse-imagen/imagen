@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.NegotiableCapabilitySet;
 import org.eclipse.imagen.OperationNode;
-import org.eclipse.imagen.PropertyChangeEventJAI;
+import org.eclipse.imagen.PropertyChangeEventImageN;
 
 /**
  * The <code>RemoteRIF</code> interface is intended to be implemented by classes that wish to act as factories to
@@ -63,11 +63,11 @@ public interface RemoteRIF {
     /**
      * Creates a <code>RemoteRenderedImage</code> representing the results of an imaging operation represented by the
      * given <code>OperationNode</code>, whose given old rendering is updated according to the given <code>
-     * PropertyChangeEventJAI</code>. This factory method should be used to create a new rendering updated according to
-     * the changes reported by the given <code>PropertyChangeEventJAI</code>. The <code>RemoteRIF</code> can query the
+     * PropertyChangeEventImageN</code>. This factory method should be used to create a new rendering updated according to
+     * the changes reported by the given <code>PropertyChangeEventImageN</code>. The <code>RemoteRIF</code> can query the
      * supplied <code>OperationNode</code> for references to the server name, operation name, parameter block, and
      * rendering hints. If only a new rendering of the node is desired in order to handle the supplied <code>
-     * PropertyChangeEventJAI</code>, the rendering can be obtained by calling the default <code>create()</code> method,
+     * PropertyChangeEventImageN</code>, the rendering can be obtained by calling the default <code>create()</code> method,
      * the arguments to which can be retrieved from the supplied <code>OperationNode</code>. The <code>RemoteRIF</code>
      * may also query any source images referenced by the <code>ParameterBlock</code> for their dimensions, <code>
      * SampleModel</code>s, properties, etc., as necessary. The supplied <code>OperationNode</code> should not be edited
@@ -89,7 +89,7 @@ public interface RemoteRIF {
      * @param event An event that specifies the changes made to the imaging operation.
      * @return A <code>RemoteRenderedImage</code> containing the desired output.
      */
-    RemoteRenderedImage create(PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventJAI event)
+    RemoteRenderedImage create(PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventImageN event)
             throws RemoteImagingException;
 
     /** Returns the set of capabilities supported by the client object. */

@@ -923,7 +923,7 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
         // Put the op's negotiated result values for its rendering too.
         setServerNegotiatedValues(id, (NegotiableCapabilitySet) negotiated.get(renderedOpID));
 
-        // A PropertyChangeEventJAI with name "operationregistry",
+        // A PropertyChangeEventImageN with name "operationregistry",
         // "protocolname", "protocolandservername" or "servername" should
         // never be received here, since it is handled entirely on the
         // client side, so we don't handle those here.

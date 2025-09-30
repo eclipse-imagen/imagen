@@ -24,7 +24,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * Extension of the beans utility class <code>PropertyChangeSupport</code> which adds an accessor for the parameter
  * passed to the constructor. All events fired by the <code>firePropertyChange()</code> methods of this class are
- * instances of <code>PropertyChangeEventJAI</code>; consequently all property names are forced to lower case for
+ * instances of <code>PropertyChangeEventImageN</code>; consequently all property names are forced to lower case for
  * recognition purposes. The property name-specific <code>PropertyChangeListener</code> registration and unregistration
  * methods defined in this class also force the supplied property name to lower case.
  *
@@ -90,21 +90,21 @@ public final class PropertyChangeSupportJAI extends PropertyChangeSupport {
 
     /**
      * Report a bound property update to any registered listeners. If the supplied object is not a <code>
-     * PropertyChangeEventJAI</code> then a <code>PropertyChangeEventJAI</code> is constructed from the event object's
+     * PropertyChangeEventImageN</code> then a <code>PropertyChangeEventImageN</code> is constructed from the event object's
      * accessors and fired instead.
      *
      * @param evt The <code>PropertyChangeEvent</code> object.
      */
     public void firePropertyChange(PropertyChangeEvent evt) {
-        if (!(evt instanceof PropertyChangeEventJAI)) {
-            evt = new PropertyChangeEventJAI(
+        if (!(evt instanceof PropertyChangeEventImageN)) {
+            evt = new PropertyChangeEventImageN(
                     evt.getSource(), evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
         }
         super.firePropertyChange(evt);
     }
 
     /**
-     * Report a bound property update to any registered listeners. A <code>PropertyChangeEventJAI</code> is created from
+     * Report a bound property update to any registered listeners. A <code>PropertyChangeEventImageN</code> is created from
      * the cached property event source and the supplied parameters and fired using the superclass <code>
      * firePropertyChange(PropertyChangeEvent)</code> method.
      *
@@ -113,8 +113,8 @@ public final class PropertyChangeSupportJAI extends PropertyChangeSupport {
      * @param newValue The new value of the property.
      */
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        PropertyChangeEventJAI evt =
-                new PropertyChangeEventJAI(propertyChangeEventSource, propertyName, oldValue, newValue);
+        PropertyChangeEventImageN evt =
+                new PropertyChangeEventImageN(propertyChangeEventSource, propertyName, oldValue, newValue);
         super.firePropertyChange(evt);
     }
 

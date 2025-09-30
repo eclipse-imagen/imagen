@@ -262,9 +262,9 @@ public class ImageNRMICRIF implements RemoteCRIF {
 
     /**
      * Creates a <code>RemoteRenderedImage</code> representing the results of an imaging operation, whose given old
-     * rendering is updated according to the given <code>PropertyChangeEventJAI</code>. This factory method should be
+     * rendering is updated according to the given <code>PropertyChangeEventImageN</code>. This factory method should be
      * used to create a new rendering updated according to the changes reported by the given <code>
-     * PropertyChangeEventJAI</code>. The <code>RemoteRIF</code> can query the supplied <code>PlanarImageServerProxy
+     * PropertyChangeEventImageN</code>. The <code>RemoteRIF</code> can query the supplied <code>PlanarImageServerProxy
      * </code> for references to the server name, operation name, parameter block, and rendering hints. The <code>
      * RemoteRIF</code> may also query any source images referenced by the <code>ParameterBlock</code> for their
      * dimensions, <code>SampleModel</code>s, properties, etc., as necessary.
@@ -284,7 +284,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
      * @return A <code>RemoteRenderedImage</code> containing the desired output.
      */
     public RemoteRenderedImage create(
-            PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventJAI event)
+            PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventImageN event)
             throws RemoteImagingException {
 
         if (!(node instanceof RemoteRenderedOp)) return null;
