@@ -120,11 +120,11 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
     /**
      * Convert the color space of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param colorModel The destination color space.
@@ -134,7 +134,7 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>colorModel</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, ColorModel colorModel, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ColorConvert", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ColorConvert", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -146,11 +146,11 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
     /**
      * Convert the color space of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param colorModel The destination color space.
@@ -160,7 +160,7 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>colorModel</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, ColorModel colorModel, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ColorConvert", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ColorConvert", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

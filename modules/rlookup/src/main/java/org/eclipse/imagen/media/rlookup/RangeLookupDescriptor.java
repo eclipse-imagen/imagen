@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
@@ -65,7 +65,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * // Create the lookup table and the ImageN operation
  * RangeLookupTable&lt;Double, Integer&gt; table = builder.build();
  *
- * ParameterBlockJAI pb = new ParameterBlockJAI("rangelookup");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("rangelookup");
  * pb.setSource("source0", srcImage);
  * pb.setParameter("table", table);
  * RenderedImage destImage = ImageN.create("rangelookup", pb);
@@ -180,7 +180,7 @@ public class RangeLookupDescriptor extends OperationDescriptorImpl {
     public static RenderedOp create(
             RenderedImage source, RangeLookupTable table, Number defaultValue, ROI roi, RenderingHints hints) {
         // Definition of the ParameterBlock
-        ParameterBlockJAI pb = new ParameterBlockJAI("RLookup");
+        ParameterBlockImageN pb = new ParameterBlockImageN("RLookup");
         // Setting the source
         pb.setSource(source, 0);
         // Setting the parameters

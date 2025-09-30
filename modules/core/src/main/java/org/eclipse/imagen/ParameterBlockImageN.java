@@ -27,23 +27,23 @@ import org.eclipse.imagen.media.util.CaselessStringArrayTable;
 
 /**
  * A convenience subclass of <code>ParameterBlock</code> that allows the use of default parameter values and
- * getting/setting sources and parameters by name. A <code>ParameterBlockJAI</code> is constructed using either an
+ * getting/setting sources and parameters by name. A <code>ParameterBlockImageN</code> is constructed using either an
  * <code>OperationDescriptor</code>, or an operation name (that will be looked up in the appropriate default <code>
  * OperationRegistry</code>) and a mode which should be in <code>OperationDescriptor.getSupportedModes()</code> (such as
- * rendered, renderable, collection or renderableCollection). If the mode is not specified <code>ParameterBlockJAI
+ * rendered, renderable, collection or renderableCollection). If the mode is not specified <code>ParameterBlockImageN
  * </code> will by default work with the first mode in the array of <code>String</code>s returned by <code>
  * OperationDescriptor.getSupportedModes()</code>.
  *
- * <p>Once constructed, a <code>ParameterBlockJAI</code> appears to have no sources. It contains all the parameters
+ * <p>Once constructed, a <code>ParameterBlockImageN</code> appears to have no sources. It contains all the parameters
  * required by its <code>OperationDescriptor</code> for a specified mode, each having its default value as given by the
- * <code>OperationDescriptor</code>. Such a <code>ParameterBlockJAI</code> may not yet be usable, its sources (if any)
- * are not set, and some or all of its parameters may have inapproriate values. The <code>addSource</code> methods of
- * <code>ParameterBlock</code> may be used to initialize the source values, and the <code>set(value, index)</code>
+ * <code>OperationDescriptor</code>. Such a <code>ParameterBlockImageN</code> may not yet be usable, its sources (if
+ * any) are not set, and some or all of its parameters may have inapproriate values. The <code>addSource</code> methods
+ * of <code>ParameterBlock</code> may be used to initialize the source values, and the <code>set(value, index)</code>
  * methods may be used to modify new parameter values. The preferred way of setting parameter values is the <code>
  * setParameter(name, value)</code> described below. The <code>add()</code> methods should not be used since the
  * parameter list is already long enough to hold all of the parameters required by the <code>OperationDescriptor</code>.
  *
- * <p>Additionally, <code>ParameterBlockJAI</code> offers <code>setParameter(name, value)</code> methods that take a
+ * <p>Additionally, <code>ParameterBlockImageN</code> offers <code>setParameter(name, value)</code> methods that take a
  * parameter name; the index of the parameter is determined from the <code>OperationDescriptor</code> and the
  * corresponding parameter is set. (users are strongly recommended to use this method instead of the equivalent <code>
  * set(value, index)</code> or the deprecated <code>set(value, name)</code> methods). As in <code>ParameterBlock</code>,
@@ -51,13 +51,14 @@ import org.eclipse.imagen.media.util.CaselessStringArrayTable;
  * primitive types are simply convenience methods that transform values between the primitive types and their
  * corresponding wrapper classes.
  *
- * <p>The <code>OperationDescriptor</code> that is used to initialize a <code>ParameterBlockJAI</code> at construction
- * is not serializable and thus cannot be serialized using the default serialization mechanism. The operation name is
- * serialized instead and included in the serialized <code>ParameterBlockJAI</code> stream. During de-serialization, the
- * operation name is de-serialized and then looked up in the default <code>OperationRegistry</code> available at the
- * time of de-serialization. If no <code>OperationDescriptor</code> has been registered with this <code>
+ * <p>The <code>OperationDescriptor</code> that is used to initialize a <code>ParameterBlockImageN</code> at
+ * construction is not serializable and thus cannot be serialized using the default serialization mechanism. The
+ * operation name is serialized instead and included in the serialized <code>ParameterBlockImageN</code> stream. During
+ * de-serialization, the operation name is de-serialized and then looked up in the default <code>OperationRegistry
+ * </code> available at the time of de-serialization. If no <code>OperationDescriptor</code> has been registered with
+ * this <code>
  * OperationRegistry</code> under the given operation name, a NotSerializableException will be thrown. The serialization
- * of <code>ParameterBlockJAI</code> works correctly only if the <code>OperationDescriptor</code> registered for the
+ * of <code>ParameterBlockImageN</code> works correctly only if the <code>OperationDescriptor</code> registered for the
  * operation name in question is identical to the <code>OperationDescriptor</code> that was registered with the <code>
  * OperationRegistry</code> available at serialization time.
  *
@@ -65,11 +66,11 @@ import org.eclipse.imagen.media.util.CaselessStringArrayTable;
  *
  * <p><strong>Warning:</strong> Serialized objects of this class will not be compatible with future releases. The
  * current serialization support is appropriate for short term storage or RMI between applications running the same
- * version of ImageN. A future release of ImageN will provide support for long term persistence.
+ * version of ImageN.
  */
-public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
+public class ParameterBlockImageN extends ParameterBlock implements ParameterList {
 
-    /** The <code>OperationDescriptor</code> associated with this <code>ParameterBlockJAI</code>. */
+    /** The <code>OperationDescriptor</code> associated with this <code>ParameterBlockImageN</code>. */
     private transient OperationDescriptor odesc;
 
     /** The operation mode. */
@@ -110,7 +111,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     }
 
     /**
-     * Constructs a <code>ParameterBlockJAI</code> for use with an operation described by a particular <code>
+     * Constructs a <code>ParameterBlockImageN</code> for use with an operation described by a particular <code>
      * OperationDescriptor</code>. It uses the first mode in the array of <code>String</code>s returned by <code>
      * OperationDescriptor.getSupportedModes()</code> to get the <code>ParameterListDescriptor</code> from <code>
      * OperationDescriptor</code>. The default values of the parameters are filled in.
@@ -118,12 +119,12 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param odesc the OperationDescriptor describing the parameters to be managed.
      * @throws IllegalArgumentException if odesc is null
      */
-    public ParameterBlockJAI(OperationDescriptor odesc) {
+    public ParameterBlockImageN(OperationDescriptor odesc) {
         this(odesc, getDefaultMode(odesc));
     }
 
     /**
-     * Constructs a <code>ParameterBlockJAI</code> for a particular operation by name. The <code>OperationRegistry
+     * Constructs a <code>ParameterBlockImageN</code> for a particular operation by name. The <code>OperationRegistry
      * </code> associated with the default instance of the <code>ImageN</code> class is used to locate the <code>
      * OperationDescriptor</code> associated with the operation name.
      *
@@ -134,14 +135,14 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @param operationName a <code>String</code> giving the name of the operation.
      * @throws IllegalArgumentException if operationName is null.
      */
-    public ParameterBlockJAI(String operationName) {
+    public ParameterBlockImageN(String operationName) {
         this((OperationDescriptor) ImageN.getDefaultInstance()
                 .getOperationRegistry()
                 .getDescriptor(OperationDescriptor.class, operationName));
     }
 
     /**
-     * Constructs a <code>ParameterBlockJAI</code> for use with an operation described by a particular <code>
+     * Constructs a <code>ParameterBlockImageN</code> for use with an operation described by a particular <code>
      * OperationDescriptor</code> and a registry mode. The default values of the parameters are filled in.
      *
      * @param odesc the OperationDescriptor describing the parameters to be managed.
@@ -149,7 +150,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if modeName is null or odesc is null
      * @since ImageN 1.1
      */
-    public ParameterBlockJAI(OperationDescriptor odesc, String modeName) {
+    public ParameterBlockImageN(OperationDescriptor odesc, String modeName) {
 
         if ((odesc == null) || (modeName == null)) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
@@ -177,7 +178,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     }
 
     /**
-     * Constructs a <code>ParameterBlockJAI</code> for a particular operation by name and a registry mode. The <code>
+     * Constructs a <code>ParameterBlockImageN</code> for a particular operation by name and a registry mode. The <code>
      * OperationRegistry</code> associated with the default instance of the <code>ImageN</code> class is used to locate
      * the <code>OperationDescriptor</code> associated with the operation name. The default values of the parameters are
      * filled in.
@@ -187,7 +188,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if operationName or modeName is null
      * @since ImageN 1.1
      */
-    public ParameterBlockJAI(String operationName, String modeName) {
+    public ParameterBlockImageN(String operationName, String modeName) {
         this(
                 (OperationDescriptor)
                         ImageN.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName),
@@ -216,7 +217,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
         return paramIndices.indexOf(paramName);
     }
 
-    /** Returns the <code>OperationDescriptor</code> associated with this <code>ParameterBlockJAI</code>. */
+    /** Returns the <code>OperationDescriptor</code> associated with this <code>ParameterBlockImageN</code>. */
     public OperationDescriptor getOperationDescriptor() {
         return odesc;
     }
@@ -251,7 +252,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
      * @throws IllegalArgumentException if the associated operation has no source with the supplied name.
      * @since ImageN 1.1
      */
-    public ParameterBlockJAI setSource(String sourceName, Object source) {
+    public ParameterBlockImageN setSource(String sourceName, Object source) {
         if ((source == null) || (sourceName == null)) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -641,10 +642,10 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     /**
      * Adds an object to the list of parameters.
      *
-     * <p>This method always throws an <code>IllegalStateException</code> because the <code>ParameterBlockJAI</code>
+     * <p>This method always throws an <code>IllegalStateException</code> because the <code>ParameterBlockImageN</code>
      * constructor initializes all parameters with their default values.
      *
-     * @throws IllegalStateException if parameters are added to an already initialized ParameterBlockJAI
+     * @throws IllegalStateException if parameters are added to an already initialized ParameterBlockImageN
      * @since ImageN 1.1
      */
     public ParameterBlock add(Object obj) {
@@ -831,7 +832,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     // [De]serialization methods.
 
     /**
-     * Serialize the <code>ParameterBlockJAI</code>.
+     * Serialize the <code>ParameterBlockImageN</code>.
      *
      * @throws IOException
      */
@@ -844,7 +845,7 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     }
 
     /**
-     * Deserialize the <code>ParameterBlockJAI</code>.
+     * Deserialize the <code>ParameterBlockImageN</code>.
      *
      * @throws IOException
      * @throws NotSerializableException if no OperationDescriptor is registered with the current OperationRegistry under
@@ -868,16 +869,16 @@ public class ParameterBlockJAI extends ParameterBlock implements ParameterList {
     }
 
     /**
-     * Creates a copy of a <code>ParameterBlockJAI</code>. The source and parameter Vectors are cloned, but the actual
-     * sources and parameters are copied by reference. This allows modifications to the order and number of sources and
-     * parameters in the clone to be invisible to the original <code>ParameterBlockJAI</code>. Changes to the shared
-     * sources or parameters themselves will still be visible.
+     * Creates a copy of a <code>ParameterBlockImageN</code>. The source and parameter Vectors are cloned, but the
+     * actual sources and parameters are copied by reference. This allows modifications to the order and number of
+     * sources and parameters in the clone to be invisible to the original <code>ParameterBlockImageN</code>. Changes to
+     * the shared sources or parameters themselves will still be visible.
      *
-     * @return an Object clone of the <code>ParameterBlockJAI</code>.
+     * @return an Object clone of the <code>ParameterBlockImageN</code>.
      * @since ImageN 1.1
      */
     public Object clone() {
-        ParameterBlockJAI theClone = (ParameterBlockJAI) shallowClone();
+        ParameterBlockImageN theClone = (ParameterBlockImageN) shallowClone();
 
         if (sources != null) {
             theClone.setSources((Vector) sources.clone());

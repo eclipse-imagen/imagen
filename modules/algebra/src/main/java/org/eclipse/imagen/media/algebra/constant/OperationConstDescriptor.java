@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -117,11 +117,11 @@ public class OperationConstDescriptor extends OperationDescriptorImpl {
     /**
      * Executes the selected operation with a constant on the input image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source <code>RenderedImage</code> source.
      * @param constants the constants array to apply to the source
@@ -141,7 +141,7 @@ public class OperationConstDescriptor extends OperationDescriptorImpl {
             double destinationNoData,
             RenderingHints hints) {
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("operationConst", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("operationConst", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource(source, 0);
 
@@ -161,11 +161,11 @@ public class OperationConstDescriptor extends OperationDescriptorImpl {
     /**
      * Executes the selected operation with a constant on the input image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source <code>RenderedImage</code> source.
      * @param constants the constants array to apply to the source
@@ -185,7 +185,7 @@ public class OperationConstDescriptor extends OperationDescriptorImpl {
             double destinationNoData,
             RenderingHints hints) {
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("operationConst", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("operationConst", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource(source, 0);
 

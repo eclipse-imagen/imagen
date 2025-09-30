@@ -24,7 +24,7 @@ import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
@@ -173,11 +173,11 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     /**
      * Performs error diffusion color quantization using a specified color map and error filter.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param colorMap The color map.
@@ -199,7 +199,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
             Range nodata,
             double[] destNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ErrorDiffusion", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ErrorDiffusion", RenderedRegistryMode.MODE_NAME);
         // Setting source
         pb.setSource("source0", source0);
         // Setting parameters

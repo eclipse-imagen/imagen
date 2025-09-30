@@ -38,7 +38,7 @@ import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -62,7 +62,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void getMissingProperty() {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 5);
@@ -78,7 +78,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testEqualInterval() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.EQUAL_INTERVAL);
         pb.setParameter("numClasses", 4);
@@ -99,7 +99,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testQuantileBreaks() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 4);
@@ -125,7 +125,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testQuantileBreaksHistogram() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 4);
@@ -155,7 +155,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testNaturalBreaks() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 4);
@@ -177,7 +177,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testNaturalBreaksHistogram() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 4);
@@ -202,7 +202,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testNaturalBreaksWithPercentages() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 4);
@@ -222,7 +222,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testNaturalBreaksHistogramWithPercentages() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 4);
@@ -244,7 +244,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testNaturalBreaksWithPercentagesMoreClassesThanIntervals() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 11);
@@ -269,7 +269,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testNaturalBreaksHistogramWithPercentagesMoreClassesThanIntervals() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.NATURAL_BREAKS);
         pb.setParameter("numClasses", 11);
@@ -294,7 +294,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testQuantileBreaksWithPercentages() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 4);
@@ -314,7 +314,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testQuantileBreaksPercentagesMoreClassesThaIntervals() {
         RenderedImage image = ImageUtilities.createImageFromArray(
                 new Number[] {1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 3, 3, 3, 3}, 4, 4);
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 5);
@@ -331,7 +331,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     @Test
     public void testQuantileBreaksHistogramWithPercentages() throws Exception {
         RenderedImage image = createImage();
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.QUANTILE);
         pb.setParameter("numClasses", 4);
@@ -354,7 +354,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testQuantileBreaksHistogramsPercentagesMoreClassesThaIntervals() {
         RenderedImage image2 = ImageUtilities.createImageFromArray(
                 new Number[] {1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 11, 11, 11, 16}, 4, 4);
-        ParameterBlockJAI pb2 = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb2 = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb2.addSource(image2);
         pb2.setParameter("method", ClassificationMethod.QUANTILE);
         pb2.setParameter("numClasses", 5);
@@ -377,7 +377,7 @@ public class ClassBreaksOpImageTest extends TestBase {
     public void testEqualIntervalBreaksWithPercentages() throws Exception {
         RenderedImage image = createImage();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI(new ClassBreaksDescriptor());
+        ParameterBlockImageN pb = new ParameterBlockImageN(new ClassBreaksDescriptor());
         pb.addSource(image);
         pb.setParameter("method", ClassificationMethod.EQUAL_INTERVAL);
         pb.setParameter("numClasses", 4);

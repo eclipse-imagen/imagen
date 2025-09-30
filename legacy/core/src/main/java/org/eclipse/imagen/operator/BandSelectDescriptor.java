@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -144,11 +144,11 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
     /**
      * Selects n number of bands from an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param bandIndices The indices of the selected bands.
@@ -158,7 +158,7 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>bandIndices</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, int[] bandIndices, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -170,11 +170,11 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
     /**
      * Selects n number of bands from an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param bandIndices The indices of the selected bands.
@@ -184,7 +184,7 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>bandIndices</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, int[] bandIndices, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

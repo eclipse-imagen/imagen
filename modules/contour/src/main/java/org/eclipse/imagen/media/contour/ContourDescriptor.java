@@ -75,7 +75,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <pre>{@code
  * RenderedImage src = ...
- * ParameterBlockJAI pb = new ParameterBlockJAI("Contour");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("Contour");
  * pb.setSource("source0", src);
  *
  * // For contours at specific levels set the levels parameter

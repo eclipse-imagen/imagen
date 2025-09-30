@@ -43,7 +43,7 @@ import org.eclipse.imagen.FloatDoubleColorModel;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.NotAColorSpace;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
@@ -711,7 +711,7 @@ public class ImageUtilities {
             }
         }
 
-        ParameterBlockJAI pb = null;
+        ParameterBlockImageN pb = null;
         RenderedImage lookupImg = dataImg;
         byte[][] lookup = null;
         int offset = 0;
@@ -757,7 +757,7 @@ public class ImageUtilities {
             }
         }
 
-        pb = new ParameterBlockJAI("Lookup");
+        pb = new ParameterBlockImageN("Lookup");
         pb.setSource("source0", lookupImg);
         pb.setParameter("table", new LookupTableJAI(lookup, offset));
         RenderedOp displayImg = ImageN.create("Lookup", pb);
@@ -778,7 +778,7 @@ public class ImageUtilities {
         if (img != null) {
             int numBands = img.getSampleModel().getNumBands();
             for (int band = 0; band < numBands; band++) {
-                ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+                ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
                 pb.setSource("source0", img);
                 pb.setParameter("bandindices", new int[] {band});
                 RenderedImage bandImg = ImageN.create("BandSelect", pb);
@@ -810,7 +810,7 @@ public class ImageUtilities {
             }
 
             for (Integer band : sortedIndices) {
-                ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+                ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
                 pb.setSource("source0", img);
                 pb.setParameter("bandindices", new int[] {band});
                 RenderedImage bandImg = ImageN.create("BandSelect", pb);

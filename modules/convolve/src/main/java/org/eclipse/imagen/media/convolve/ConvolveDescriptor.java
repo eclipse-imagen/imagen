@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
@@ -223,11 +223,11 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
     /**
      * Performs kernel-based convolution on an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param kernel The convolution kernel.
@@ -249,7 +249,7 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
             double destNoData,
             boolean skipNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Convolve", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Convolve", RenderedRegistryMode.MODE_NAME);
         // Setting sources
         pb.setSource("source0", source0);
         // Setting params

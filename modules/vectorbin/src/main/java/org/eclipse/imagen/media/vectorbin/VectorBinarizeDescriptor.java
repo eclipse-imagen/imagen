@@ -38,7 +38,7 @@ import org.locationtech.jts.geom.prep.PreparedGeometry;
  * // Using a JTS polygon object as the reference geometry
  * Polygon triangle = WKTReader.read("POLYGON((100 100, 4900 4900, 4900 100, 100 100))");
  *
- * ParameterBlockJAI pb = new ParameterBlockJAI("VectorBinarize");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("VectorBinarize");
  * pb.setParameter("minx", 0);
  * pb.setParameter("miny", 0);
  * pb.setParameter("width", 5000);

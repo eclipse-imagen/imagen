@@ -146,8 +146,8 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * RenderedOp creation method that takes all the parameters, passes them to the ParameterBlockJAI and then call the
-     * ImageN create method for the mosaic operation with no data support.
+     * RenderedOp creation method that takes all the parameters, passes them to the ParameterBlockImageN and then call
+     * the ImageN create method for the mosaic operation with no data support.
      *
      * @param sources The RenderdImage source array used for the operation.
      * @param mosaicType This field sets which type of mosaic operation must be executed.
@@ -168,7 +168,7 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
             double[] backgroundValues,
             Range[] nodata,
             RenderingHints renderingHints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Mosaic", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Mosaic", RenderedRegistryMode.MODE_NAME);
 
         // All the source images are added to the parameter block.
         int numSources = sources.length;

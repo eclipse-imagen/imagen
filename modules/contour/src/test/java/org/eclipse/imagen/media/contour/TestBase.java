@@ -97,7 +97,7 @@ public abstract class TestBase {
      * @return the contours
      */
     protected Collection<LineString> doOp(PlanarImage src, Map<String, Object> args) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Contour");
+        ParameterBlockImageN pb = new ParameterBlockImageN("Contour");
         pb.setSource("source0", src);
 
         for (String paramName : pb.getParameterListDescriptor().getParamNames()) {

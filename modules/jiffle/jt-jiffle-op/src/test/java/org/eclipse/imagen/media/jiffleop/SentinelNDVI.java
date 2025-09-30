@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.imageread.ImageReadDescriptor;
 import org.eclipse.imagen.media.jiffle.JiffleException;
@@ -27,7 +27,7 @@ public class SentinelNDVI {
         RenderedImage red = readImage(new File(basePath + "B04.tif"));
         RenderedImage nir = readImage(new File(basePath + "B08.tif"));
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("Jiffle");
+        ParameterBlockImageN pb = new ParameterBlockImageN("Jiffle");
         String script = "n = nir; r = red; res = (n - r) / (n + r);"; // HERE IS THE NDVI SCRIPT! 5.5 seconds!
         // String script = "res = (nir - red) / (nir + red);";
         pb.setParameter("script", script);

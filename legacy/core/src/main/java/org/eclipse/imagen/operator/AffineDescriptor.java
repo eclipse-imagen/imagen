@@ -265,11 +265,11 @@ public class AffineDescriptor extends OperationDescriptorImpl {
     /**
      * Performs interpolated affine transform on an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param transform The affine transform matrix. May be <code>null</code>.
@@ -285,7 +285,7 @@ public class AffineDescriptor extends OperationDescriptorImpl {
             Interpolation interpolation,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Affine", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Affine", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -299,11 +299,11 @@ public class AffineDescriptor extends OperationDescriptorImpl {
     /**
      * Performs interpolated affine transform on an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param transform The affine transform matrix. May be <code>null</code>.
@@ -319,7 +319,7 @@ public class AffineDescriptor extends OperationDescriptorImpl {
             Interpolation interpolation,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Affine", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Affine", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

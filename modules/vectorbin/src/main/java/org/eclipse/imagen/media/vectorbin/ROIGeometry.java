@@ -37,7 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -444,7 +444,7 @@ public class ROIGeometry extends ROI {
                             && (x + w) == env.getMaxX()
                             && (y + h) == env.getMaxY();
 
-                    ParameterBlockJAI pb = new ParameterBlockJAI("VectorBinarize");
+                    ParameterBlockImageN pb = new ParameterBlockImageN("VectorBinarize");
                     pb.setParameter("minx", x);
                     pb.setParameter("miny", y);
                     pb.setParameter("width", w);

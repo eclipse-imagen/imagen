@@ -54,7 +54,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <pre>{@code
  * // Vectorize regions using default parameter settings
  * RenderedImage image = ...
- * ParameterBlockJAI pb = new ParameterBlockJAI("Vectorize");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("Vectorize");
  * pb.setSource("source0", image);
  * RenderedOp dest = ImageN.create("Vectorize", pb);
  *
@@ -85,7 +85,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * polygon (ie. lineal intersection). Two polygons that only touch at a single vertex are not considered neighbours.
  *
  * <pre>{@code
- * ParameterBlockJAI pb = new ParameterBlockJAI("Vectorize");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("Vectorize");
  * pb.setSource("source0", myImage);
  *
  * // Filter polygons with area up to 5 pixels by merging

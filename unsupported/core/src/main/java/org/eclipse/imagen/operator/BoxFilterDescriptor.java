@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.util.AreaOpPropertyGenerator;
@@ -199,11 +199,11 @@ public class BoxFilterDescriptor extends OperationDescriptorImpl {
      * Performs special case convolution where each source pixel contributes equally to the intensity of the destination
      * pixel.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param width The width of the box. May be <code>null</code>.
@@ -216,7 +216,7 @@ public class BoxFilterDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0, Integer width, Integer height, Integer xKey, Integer yKey, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BoxFilter", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BoxFilter", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

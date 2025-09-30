@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -106,11 +106,11 @@ public class DivideDescriptor extends OperationDescriptorImpl {
     /**
      * Divides one image by another image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param source1 <code>RenderedImage</code> source 1.
@@ -120,7 +120,7 @@ public class DivideDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source1</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, RenderedImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Divide", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Divide", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
@@ -131,11 +131,11 @@ public class DivideDescriptor extends OperationDescriptorImpl {
     /**
      * Divides one image by another image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param source1 <code>RenderableImage</code> source 1.
@@ -146,7 +146,7 @@ public class DivideDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, RenderableImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Divide", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Divide", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);

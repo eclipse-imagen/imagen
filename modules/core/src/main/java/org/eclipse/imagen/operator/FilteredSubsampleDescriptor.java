@@ -30,7 +30,7 @@ import org.eclipse.imagen.InterpolationBilinear;
 import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -474,11 +474,11 @@ public class FilteredSubsampleDescriptor extends OperationDescriptorImpl {
     /**
      * Filters and subsamples an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scaleX The X subsample factor. May be <code>null</code>.
@@ -496,7 +496,7 @@ public class FilteredSubsampleDescriptor extends OperationDescriptorImpl {
             float[] qsFilterArray,
             Interpolation interpolation,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("FilteredSubsample", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("FilteredSubsample", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

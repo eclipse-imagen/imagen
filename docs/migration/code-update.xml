@@ -436,6 +436,11 @@
                 <replacetoken>JAIRMIImageServer</replacetoken>
                 <replacevalue>ImageNRMIImageServer</replacevalue>
             </replacefilter>
+            <!-- refactor ParameterBlockJAI -->
+            <replacefilter>
+                <replacetoken>ParameterBlockJAI</replacetoken>
+                <replacevalue>ParameterBlockImageN</replacevalue>
+            </replacefilter>
 
             <!-- Downstream API Changes -->
             <replacefilter>

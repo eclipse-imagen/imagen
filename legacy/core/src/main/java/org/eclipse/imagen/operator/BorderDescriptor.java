@@ -27,7 +27,7 @@ import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationNode;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
@@ -284,11 +284,11 @@ public class BorderDescriptor extends OperationDescriptorImpl {
     /**
      * Adds a border around an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param leftPad The image's left padding. May be <code>null</code>.
@@ -308,7 +308,7 @@ public class BorderDescriptor extends OperationDescriptorImpl {
             Integer bottomPad,
             BorderExtender type,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Border", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Border", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

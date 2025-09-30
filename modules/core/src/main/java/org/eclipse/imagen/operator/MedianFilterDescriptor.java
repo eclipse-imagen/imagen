@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.util.AreaOpPropertyGenerator;
@@ -201,11 +201,11 @@ public class MedianFilterDescriptor extends OperationDescriptorImpl {
     /**
      * Performs median filtering on an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param maskShape The mask shape to be used for Median Filtering. May be <code>null</code>.
@@ -216,7 +216,7 @@ public class MedianFilterDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0, MedianFilterShape maskShape, Integer maskSize, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("MedianFilter", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("MedianFilter", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
