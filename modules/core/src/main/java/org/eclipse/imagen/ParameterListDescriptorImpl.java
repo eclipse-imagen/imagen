@@ -29,7 +29,7 @@ import org.eclipse.imagen.util.Range;
  * A concrete implementation of the <code>ParameterListDescriptor</code> interface.
  *
  * @see ParameterListDescriptor
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class ParameterListDescriptorImpl implements ParameterListDescriptor, java.io.Serializable {
 

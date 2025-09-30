@@ -200,7 +200,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if combining the source bounds with the layout parameter results in negative
      *     output width or height.
      * @throws IllegalArgumentException If <code>warp</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public WarpOpImage(
             RenderedImage source,
@@ -238,7 +238,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if combining the source bounds with the layout parameter results in negative
      *     output width or height.
      * @throws IllegalArgumentException If <code>warp</code> is <code>null</code>.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public WarpOpImage(
             RenderedImage source,
@@ -288,7 +288,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required to the left of the center.
      *
      * @return The left padding factor.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public int getLeftPadding() {
         return interp == null ? 0 : interp.getLeftPadding();
@@ -298,7 +298,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required to the right of the center.
      *
      * @return The right padding factor.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public int getRightPadding() {
         return interp == null ? 0 : interp.getRightPadding();
@@ -308,7 +308,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required above the center.
      *
      * @return The top padding factor.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public int getTopPadding() {
         return interp == null ? 0 : interp.getTopPadding();
@@ -318,7 +318,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * Returns the number of samples required below the center.
      *
      * @return The bottom padding factor.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public int getBottomPadding() {
         return interp == null ? 0 : interp.getBottomPadding();
@@ -335,7 +335,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>destPt</code> or <code>null</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -358,7 +358,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code> or <code>null</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -381,7 +381,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>sourceRect</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
@@ -407,7 +407,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>destRect</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {

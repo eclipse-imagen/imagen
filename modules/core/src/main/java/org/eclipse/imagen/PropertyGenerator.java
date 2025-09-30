@@ -51,7 +51,7 @@ public interface PropertyGenerator extends Serializable {
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     Class getClass(String propertyName);
 
@@ -60,7 +60,7 @@ public interface PropertyGenerator extends Serializable {
      * </code>.
      *
      * @exception IllegalArgumentException if <code>opNode</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     boolean canGenerateProperties(Object opNode);
 
@@ -80,7 +80,7 @@ public interface PropertyGenerator extends Serializable {
      * @exception IllegalArgumentException if <code>name</code> or <code>opNode</code> is <code>null</code>.
      * @exception IllegalArgumentException if <code>opNode</code> is not an instance of a supported class for this
      *     method, i.e., <code>canGenerateProperties(opNode)</code> returns <code>false</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     Object getProperty(String name, Object opNode);
 
@@ -97,7 +97,7 @@ public interface PropertyGenerator extends Serializable {
      * @return the value of the property, as an <code>Object</code> or the value <code>java.awt.Image.UndefinedProperty
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> or <code>op</code> is <code>null</code>.
-     * @deprecated as of ImageN 1.1. Use <code>getProperty(String,Object)</code> instead.
+     * @deprecated as of ImageN 0.4.0. Use <code>getProperty(String,Object)</code> instead.
      */
     Object getProperty(String name, RenderedOp op);
 
@@ -114,7 +114,7 @@ public interface PropertyGenerator extends Serializable {
      * @return the value of the property, as an <code>Object</code> or the value <code>java.awt.Image.UndefinedProperty
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> or <code>op</code> is <code>null</code>.
-     * @deprecated as of ImageN 1.1. Use <code>getProperty(String,Object)</code> instead.
+     * @deprecated as of ImageN 0.4.0. Use <code>getProperty(String,Object)</code> instead.
      */
     Object getProperty(String name, RenderableOp op);
 }

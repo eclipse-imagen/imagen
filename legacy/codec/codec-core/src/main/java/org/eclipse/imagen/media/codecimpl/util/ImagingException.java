@@ -30,7 +30,7 @@ import java.security.PrivilegedActionException;
  * Java<sup><font size="-2">TM</font></sup> 2 Platform version 1.4: The cause can be stored and retrieved from the
  * instance of this class. Also, the root cause for an instance can be retrieved.
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 public class ImagingException extends RuntimeException {
     /** The cached cause. */

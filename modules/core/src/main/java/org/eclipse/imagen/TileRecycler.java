@@ -31,7 +31,7 @@ import java.awt.image.Raster;
  * the calling code then undefined and unexpected behavior may be observed. A similar caution applies to the tile's
  * <code>DataBuffer</code> and the data bank array contained therein.</i>
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 public interface TileRecycler {
     /**

@@ -28,7 +28,7 @@ import org.eclipse.imagen.util.ImagingListener;
 /**
  * A class which provides information about the "tileEncoder" registry mode.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class TileEncoderRegistryMode extends RegistryMode {
 

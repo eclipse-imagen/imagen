@@ -116,7 +116,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     Class[] getSourceClasses(String modeName);
 
@@ -124,7 +124,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>String</code>s that are the names of the sources of this operation. If this operation
      * has no sources, this method returns <code>null</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     String[] getSourceNames();
 
@@ -134,7 +134,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     Class getDestClass(String modeName);
 
@@ -158,7 +158,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
      * @throws IllegalArgumentException if modeName is <code>null</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     boolean validateArguments(String modeName, ParameterBlock args, StringBuffer msg);
 
@@ -199,7 +199,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *     <code>null</code>.
      * @throws IllegalArgumentException if <code>oldParamBlock</code> or <code>newParamBlock</code> do not contain
      *     sufficient sources or parameters for the operation in question.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     Object getInvalidRegion(
             String registryModeName,
@@ -211,7 +211,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
 
     /** ******************** DEPRECATED METHODS ************************ */
 
-    // All mode specific methods are deprecated since ImageN 1.1
+    // All mode specific methods are deprecated since ImageN 0.4.0
     // in favor of the equivalent methods which accept a modeName
     // as a parameter.
 
@@ -221,7 +221,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @return An array of <code>PropertyGenerator</code>s, or <code>null</code> if this operation does not have any of
      *     its own <code>PropertyGenerator</code>s.
-     * @deprecated as of ImageN 1.1 in favor of the equivalent method that specifies the mode name.
+     * @deprecated as of ImageN 0.4.0 in favor of the equivalent method that specifies the mode name.
      */
     PropertyGenerator[] getPropertyGenerators();
 
@@ -236,7 +236,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * <p>If this method returns <code>true</code>, all the additional methods that supply the rendered mode information
      * must be implemented.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>isModeSupported("rendered")</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>isModeSupported("rendered")</code>
      */
     boolean isRenderedSupported();
 
@@ -244,7 +244,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>Class</code>es that describe the types of sources required by this operation in the
      * rendered image mode. If this operation has no source, this method returns <code>null</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>getSourceClasses("rendered")</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getSourceClasses("rendered")</code>
      */
     Class[] getSourceClasses();
 
@@ -253,7 +253,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * mode. Currently ImageN supports two destination class types: <code>java.awt.image.RenderedImage.class</code> and
      * <code>java.util.Collection.class</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>getDestClass("rendered")</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getDestClass("rendered")</code>
      */
     Class getDestClass();
 
@@ -275,7 +275,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
-     * @deprecated as of ImageN 1.1 in favor of <code>validateArguments("rendered", ...)</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>validateArguments("rendered", ...)</code>
      */
     boolean validateArguments(ParameterBlock args, StringBuffer msg);
 
@@ -290,7 +290,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * <p>If this method returns <code>true</code>, all the additional methods that supply the renderable mode
      * information must be implemented.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>isModeSupported("renderable")</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>isModeSupported("renderable")</code>
      */
     boolean isRenderableSupported();
 
@@ -299,7 +299,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * renderable image mode. If this operation does not support the renderable mode, or if it has no source, this
      * method returns <code>null</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>getSourceClasses("renderable")</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getSourceClasses("renderable")</code>
      */
     Class[] getRenderableSourceClasses();
 
@@ -308,7 +308,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * image mode. Currently ImageN supports two destination class types: <code>
      * java.awt.image.renderable.RenderableImage.class</code> and <code>java.util.Collection.class</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>getDestClass("renderable")</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getDestClass("renderable")</code>
      */
     Class getRenderableDestClass();
 
@@ -333,7 +333,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
-     * @deprecated as of ImageN 1.1 in favor of <code>validateArguments("renderable", ...)</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>validateArguments("renderable", ...)</code>
      */
     boolean validateRenderableArguments(ParameterBlock args, StringBuffer msg);
 
@@ -342,7 +342,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
     /**
      * Returns the number of parameters (not including the sources) required by this operation.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getNumParameters()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -352,7 +352,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>Class</code>es that describe the types of parameters required by this operation. If
      * this operation has no parameter, this method returns <code>null</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamClasses()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -362,7 +362,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * Returns an array of <code>String</code>s that are the localized parameter names of this operation. If this
      * operation has no parameter, this method returns <code>null</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamNames()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -375,7 +375,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * indicates that a parameter has no default value. If this operation has no parameter, this method returns <code>
      * null</code>.
      *
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamDefaults()</code> This will for the time being return the above
      *     value for modeName = getSupportedModes()[0]
      */
@@ -389,7 +389,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @throws NullPointerException if this operation has no parameter.
      * @throws ArrayIndexOutOfBoundsException if there is no parameter corresponding to the specified <code>index</code>
      *     .
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamDefaultValue()</code> This will for the time being return the
      *     above value for modeName = getSupportedModes()[0]
      */
@@ -408,7 +408,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @throws NullPointerException if this operation has no parameter.
      * @throws ArrayIndexOutOfBoundsException if there is no parameter corresponding to the specified <code>index</code>
      *     .
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamValueRange()</code> This will for the time being return
      *     "getMinValue" of the above return value for modeName = getSupportedModes()[0]
      */
@@ -427,7 +427,7 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @throws NullPointerException if this operation has no parameter.
      * @throws ArrayIndexOutOfBoundsException if there is no parameter corresponding to the specified <code>index</code>
      *     .
-     * @deprecated as of ImageN 1.1 in favor of <code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>
      *      getParameterListDescriptor(modeName).getParamValueRange()</code> This will for the time being return
      *     "getMaxValue" of the above return value for modeName = getSupportedModes()[0]
      */

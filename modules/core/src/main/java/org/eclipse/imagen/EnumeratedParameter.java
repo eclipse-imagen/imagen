@@ -49,7 +49,7 @@ import java.io.Serializable;
  *
  * @see OperationDescriptorImpl
  * @see org.eclipse.imagen.operator.TransposeDescriptor
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class EnumeratedParameter implements Serializable {
     private String name;

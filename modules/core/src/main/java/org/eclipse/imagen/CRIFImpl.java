@@ -37,10 +37,10 @@ import org.eclipse.imagen.util.ImagingListener;
  *
  * @see java.awt.image.renderable.ContextualRenderedImageFactory
  * @see java.awt.image.renderable.RenderedImageFactory
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 // This class was actually added in ImageN EA2 but was then in
-// org.eclipse.imagen.media.opimage. It was moved to the public API in ImageN 1.1.
+// org.eclipse.imagen.media.opimage. It was moved to the public API in ImageN 0.4.0.
 public abstract class CRIFImpl implements ContextualRenderedImageFactory {
 
     /**

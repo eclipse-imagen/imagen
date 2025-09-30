@@ -54,7 +54,7 @@ import java.io.InputStream;
  *
  * @see TileCodecDescriptor
  * @see TileEncoder
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public interface TileDecoder {
 

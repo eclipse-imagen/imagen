@@ -73,7 +73,7 @@ import java.lang.ref.SoftReference;
  * <p>Methods defined in the superclasses are not commented extensively.
  *
  * @see ColorSpaceJAI
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 // Old RGB-to-IHS equations ("Practical Algorithms for Image Analysis",
 // Seul, et. al., Cambridge, 2000):

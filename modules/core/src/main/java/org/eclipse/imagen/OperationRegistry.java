@@ -284,7 +284,7 @@ public class OperationRegistry implements Externalizable {
      * locks to wrap every method with a read or a write lock as appropriate. Note that none of the automatic loading of
      * registry files or services is done on this <code>OperationRegistry</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static OperationRegistry getThreadSafeOperationRegistry() {
         return new ThreadSafeOperationRegistry();
@@ -398,7 +398,7 @@ public class OperationRegistry implements Externalizable {
      * @param in The <code>InputStream</code> from which to read the data.
      * @throws IllegalArgumentException if in is null.
      * @see #writeExternal
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void updateFromStream(InputStream in) throws IOException {
 
@@ -505,7 +505,7 @@ public class OperationRegistry implements Externalizable {
         out.writeObject(bstream.toByteArray());
     }
 
-    /** ******************** NEW ImageN 1.1 methods ************************ */
+    /** ******************** NEW ImageN methods ************************ */
 
     /**
      * Remove a registry mode (including pre-defined ImageN modes) from the OperationRegistry. When a mode is removed,
@@ -516,7 +516,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removeRegistryMode(String modeName) {
 
@@ -529,7 +529,7 @@ public class OperationRegistry implements Externalizable {
      * Get's the list of known registry modes known to the <code>OperationRegistry</code>. This might not be all modes
      * listed in <code>RegistryMode.getModeNames()</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String[] getRegistryModes() {
 
@@ -562,7 +562,7 @@ public class OperationRegistry implements Externalizable {
      *     not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if another descriptor with the same name has already been registered against any
      *     of the modes supported by this descriptor.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void registerDescriptor(RegistryElementDescriptor descriptor) {
         if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -598,7 +598,7 @@ public class OperationRegistry implements Externalizable {
      *     not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if any of the <code>PropertyGenerator</code>s associated with the <code>
      *     RegistryElementDescriptor</code> to be unregistered is null.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void unregisterDescriptor(RegistryElementDescriptor descriptor) {
 
@@ -637,7 +637,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if <code>descriptorClass</code> is <code>null</code> or if the <code>
      *     descriptorClass</code> is not associated with any of the modes returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
 
@@ -671,7 +671,7 @@ public class OperationRegistry implements Externalizable {
      * @param descriptorClass the descriptor <code>Class</code>
      * @throws IllegalArgumentException if <code>descriptorClass</code> is <code>null</code> or if the <code>
      *     descriptorClass</code> is not associated with any of the modes returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public List getDescriptors(Class descriptorClass) {
 
@@ -704,7 +704,7 @@ public class OperationRegistry implements Externalizable {
      * @param descriptorClass the descriptor <code>Class</code>
      * @throws IllegalArgumentException if <code>descriptorClass</code> is <code>null</code> or if the <code>
      *     descriptorClass</code> is not associated with any of the modes returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String[] getDescriptorNames(Class descriptorClass) {
 
@@ -741,7 +741,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public RegistryElementDescriptor getDescriptor(String modeName, String descriptorName) {
 
@@ -758,7 +758,7 @@ public class OperationRegistry implements Externalizable {
      * @param modeName the registry mode name as a <code>String</code>
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public List getDescriptors(String modeName) {
         DescriptorCache dc = getDescriptorCache(modeName);
@@ -774,7 +774,7 @@ public class OperationRegistry implements Externalizable {
      * @param modeName the registry mode name as a <code>String</code>
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String[] getDescriptorNames(String modeName) {
         DescriptorCache dc = getDescriptorCache(modeName);
@@ -803,7 +803,7 @@ public class OperationRegistry implements Externalizable {
      *     modeName</code>.
      * @throws IllegalArgumentException if either of the products are not registered against <code>descriptorName</code>
      *     under <code>productName</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void setProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
@@ -828,7 +828,7 @@ public class OperationRegistry implements Externalizable {
      *     modeName</code>.
      * @throws IllegalArgumentException if either of the products are not registered against <code>descriptorName</code>
      *     under <code>productName</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void unsetProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
@@ -847,7 +847,7 @@ public class OperationRegistry implements Externalizable {
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void clearProductPreferences(String modeName, String descriptorName) {
 
@@ -867,7 +867,7 @@ public class OperationRegistry implements Externalizable {
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String[][] getProductPreferences(String modeName, String descriptorName) {
 
@@ -890,7 +890,7 @@ public class OperationRegistry implements Externalizable {
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Vector getOrderedProductList(String modeName, String descriptorName) {
 
@@ -933,7 +933,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void registerFactory(String modeName, String descriptorName, String productName, Object factory) {
 
@@ -979,7 +979,7 @@ public class OperationRegistry implements Externalizable {
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the factory object was not previously registered against descriptorName and
      *     productName
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void unregisterFactory(String modeName, String descriptorName, String productName, Object factory) {
 
@@ -1025,7 +1025,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if either of the factory objects were not previously registered against
      *     descriptorName and productName
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void setFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
@@ -1070,7 +1070,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if either of the factory objects were not previously registered against
      *     descriptorName and productName
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void unsetFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
@@ -1111,7 +1111,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void clearFactoryPreferences(String modeName, String descriptorName, String productName) {
 
@@ -1153,7 +1153,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Object[][] getFactoryPreferences(String modeName, String descriptorName, String productName) {
 
@@ -1185,7 +1185,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public List getOrderedFactoryList(String modeName, String descriptorName, String productName) {
 
@@ -1234,7 +1234,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Iterator getFactoryIterator(String modeName, String descriptorName) {
 
@@ -1282,7 +1282,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Object getFactory(String modeName, String descriptorName) {
 
@@ -1305,7 +1305,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Object invokeFactory(String modeName, String descriptorName, Object[] args) {
 
@@ -1362,7 +1362,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void addPropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
 
@@ -1383,7 +1383,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removePropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
 
@@ -1406,7 +1406,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void copyPropertyFromSource(String modeName, String descriptorName, String propertyName, int sourceIndex) {
 
@@ -1427,7 +1427,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void suppressProperty(String modeName, String descriptorName, String propertyName) {
 
@@ -1447,7 +1447,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void suppressAllProperties(String modeName, String descriptorName) {
 
@@ -1463,7 +1463,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is null or is not one of those returned by <code>
      *     RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void clearPropertyState(String modeName) {
 
@@ -1483,7 +1483,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String[] getGeneratedPropertyNames(String modeName, String descriptorName) {
 
@@ -1512,7 +1512,7 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public PropertySource getPropertySource(String modeName, String descriptorName, Object op, Vector sources) {
 
@@ -1531,7 +1531,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param op the <code>OperationNode</code> requesting its <code>PropertySource</code>.
      * @throws IllegalArgumentException if op is null.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public PropertySource getPropertySource(OperationNode op) {
 
@@ -1566,7 +1566,7 @@ public class OperationRegistry implements Externalizable {
      * initialized. Hence if <code>registerServices</code> is called twice with the same ClassLoader, the loading of the
      * registry files and/or initialization of the services will happen twice.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void registerServices(ClassLoader cl) throws IOException {
 
@@ -1607,7 +1607,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param odesc an <code>OperationDescriptor</code> containing information about the operation.
      * @param operationName the operation name as a String.
-     * @deprecated as of ImageN 1.1 in favor of <code>registerDescriptor(odesc)</code>
+     * @deprecated as of ImageN 0.4.0 in favor of <code>registerDescriptor(odesc)</code>
      * @see #registerDescriptor(RegistryElementDescriptor) registerDescriptor - for list of exceptions thrown.
      */
     public void registerOperationDescriptor(OperationDescriptor odesc, String operationName) {
@@ -1618,7 +1618,7 @@ public class OperationRegistry implements Externalizable {
      * Unregisters an <code>OperationDescriptor</code> from the registry.
      *
      * @param operationName the operation name as a String.
-     * @deprecated as of ImageN 1.1 in favor of <code>unregisterDescriptor(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>unregisterDescriptor(...)
      * 	</code> which accepts an <code>OperationDescriptor</code> and not a <code>operationName</code>.
      * @see #unregisterDescriptor(RegistryElementDescriptor) unregisterDescriptor - for list of exceptions thrown.
      */
@@ -1641,7 +1641,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the String to be queried.
      * @return an <code>OperationDescriptor</code>.
      * @throws IllegalArgumentException if operationName is null.
-     * @deprecated as of ImageN 1.1 in favor of <code>getDescriptor(...)</code> where the mode name is explicitly
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getDescriptor(...)</code> where the mode name is explicitly
      *     specified.
      * @see #getDescriptor(Class, String)
      */
@@ -1653,7 +1653,7 @@ public class OperationRegistry implements Externalizable {
      * Returns a Vector of all currently registered <code>OperationDescriptor</code>s.
      *
      * @return a Vector of <code>OperationDescriptor</code>s.
-     * @deprecated as of ImageN 1.1 in favor of <code>getDescriptors(
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getDescriptors(
      * OperationDescriptor.class)</code> which returns a <code>List</code> and not a <code>Vector</code>. This is
      *     currently equivalent to <code>new Vector(getDescriptors(OperationDescriptor.class))</code>
      * @see #getDescriptors(Class)
@@ -1668,7 +1668,7 @@ public class OperationRegistry implements Externalizable {
      * Returns a list of names under which all the <code>OperationDescriptor</code>s in the registry are registered.
      *
      * @return a list of currently existing operation names.
-     * @deprecated as of ImageN 1.1 in favor of <code>getDescriptorNames(
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getDescriptorNames(
      * 	OperationDescriptor.class)</code>.
      * @see #getDescriptorNames(Class)
      */
@@ -1684,7 +1684,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param productName the product name, as a String.
      * @param RIF the <code>RenderedImageFactory</code> to be registered.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.register(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.register(...)
      *     </code>. This is currently equivalent to <code>
      *     RIFRegistry.register(this, operationName, productName, RIF)</code>
      * @see #registerFactory registerFactory - for list of exceptions thrown.
@@ -1701,7 +1701,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param productName the product name, as a String.
      * @param RIF the <code>RenderedImageFactory</code> to be unregistered.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.unregister(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.unregister(...)
      *     </code>. This is currently equivalent to <code>
      *     RIFRegistry.unregister(this, operationName, productName, RIF)</code>
      * @see #unregisterFactory unregisterFactory - for list of exceptions thrown.
@@ -1717,7 +1717,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param CRIF the <code>ContextualRenderedImageFactory</code> to be registered.
-     * @deprecated as of ImageN 1.1 in favor of <code>CRIFRegistry.register(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CRIFRegistry.register(...)
      *     </code>. This is currently equivalent to <code>
      *     CRIFRegistry.register(this, operationName, productName, CRIF)</code>
      * @see #registerFactory registerFactory - for list of exceptions thrown.
@@ -1733,7 +1733,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param CRIF the <code>ContextualRenderedImageFactory</code> to be unregistered.
-     * @deprecated as of ImageN 1.1 in favor of <code>CRIFRegistry.unregister(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CRIFRegistry.unregister(...)
      *     </code>. This is currently equivalent to <code>
      *     CRIFRegistry.unregister(this, operationName, productName, CRIF)</code>
      * @see #unregisterFactory unregisterFactory - for list of exceptions thrown.
@@ -1750,7 +1750,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param productName the product name, as a String.
      * @param CIF the <code>CollectionImageFactory</code> to be registered.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.register(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.register(...)
      *     </code>. This is currently equivalent to <code>
      *     CIFRegistry.register(this, operationName, productName, CIF)</code>
      * @see #registerFactory registerFactory - for list of exceptions thrown.
@@ -1767,7 +1767,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param productName the product name, as a String.
      * @param CIF the <code>CollectionImageFactory</code> to be unregistered.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.unregister(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.unregister(...)
      *     </code>. This is currently equivalent to <code>
      *     CIFRegistry.unregister(this, operationName, productName, CIF)</code>
      * @see #unregisterFactory unregisterFactory - for list of exceptions thrown.
@@ -1787,7 +1787,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param preferredProductName the product to be preferred.
      * @param otherProductName the other product.
-     * @deprecated as of ImageN 1.1 in favor of <code>setProductPreference(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>setProductPreference(...)
      *     </code> which specifies a <code>modeName</code> also. This is currently equivalent to <code>
      *     setProductPreference("rendered",
      *     operationName, preferredProductName, otherProductName)</code>
@@ -1804,7 +1804,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param preferredProductName the product formerly preferred.
      * @param otherProductName the other product.
-     * @deprecated as of ImageN 1.1 in favor of <code>unsetProductPreference(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>unsetProductPreference(...)
      *     </code> which specifies a <code>modeName</code> also. This is currently equivalent to <code>
      *     unsetProductPreference("rendered",
      *     operationName, preferredProductName, otherProductName)</code>
@@ -1819,7 +1819,7 @@ public class OperationRegistry implements Externalizable {
      * Removes all preferences between products registered under a common <code>OperationDescriptor</code>.
      *
      * @param operationName the operation name as a String.
-     * @deprecated as of ImageN 1.1 in favor of <code>clearProductPreferences(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>clearProductPreferences(...)
      *     </code> which specifies a <code>modeName</code> also. This is currently equivalent to <code>
      *     clearProductPreferences("rendered", operationName)</code>
      * @see #clearProductPreferences clearProductPreferences - for list of exceptions thrown.
@@ -1835,7 +1835,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @return an array of 2-element arrays of Strings.
-     * @deprecated as of ImageN 1.1 in favor of <code>getProductPreferences(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getProductPreferences(...)
      *     </code> which accepts a <code>modeName</code> also. This is currently equivalent to <code>
      *     getProductPreferences("rendered", operationName)</code>
      * @see #getProductPreferences getProductPreferences - for list of exceptions thrown.
@@ -1853,7 +1853,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @return a Vector of Strings representing product names.
-     * @deprecated as of ImageN 1.1 in favor of <code>getOrderedProductList(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>getOrderedProductList(...)
      *     </code> which accepts a <code>modeName</code> also. This is currently equivalent to <code>
      *     getOrderedProductList("rendered", operationName)</code>
      * @see #getOrderedProductList getOrderedProductList - for list of exceptions thrown.
@@ -1873,7 +1873,7 @@ public class OperationRegistry implements Externalizable {
      * @param productName the name of the product.
      * @param preferredRIF the preferred <code>RenderedImageFactory</code>.
      * @param otherRIF the other <code>RenderedImageFactory</code>.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.setPreference(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.setPreference(...)
      *     </code>. This is currently equivalent to <code>
      *     RIFRegistry.setPreference(this, operationName, productName,
      *     preferredRIF, otherRIF)</code>
@@ -1897,7 +1897,7 @@ public class OperationRegistry implements Externalizable {
      * @param productName the name of the product.
      * @param preferredCIF the preferred CollectionRenderedImageFactory.
      * @param otherCIF the other CollectionRenderedImageFactory.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.setPreference(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.setPreference(...)
      *     </code>. This is currently equivalent to <code>
      *     CIFRegistry.setPreference(this, operationName, productName,
      *     preferredCIF, otherCIF)</code>
@@ -1920,7 +1920,7 @@ public class OperationRegistry implements Externalizable {
      * @param productName the name of the product.
      * @param preferredRIF the formerly preferred <code>RenderedImageFactory</code>.
      * @param otherRIF the other <code>RenderedImageFactory</code>.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.unsetPreference(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.unsetPreference(...)
      *     </code>. This is currently equivalent to <code>
      *     RIFRegistry.unsetPreference(this, operationName, productName,
      *     preferredRIF, otherRIF)</code>
@@ -1943,7 +1943,7 @@ public class OperationRegistry implements Externalizable {
      * @param productName the name of the product.
      * @param preferredCIF the formerly preferred <code>CollectionImageFactory</code>.
      * @param otherCIF the other <code>CollectionImageFactory</code>.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.unsetPreference(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.unsetPreference(...)
      *     </code>. This is currently equivalent to <code>
      *     CIFRegistry.unsetPreference(this, operationName, productName,
      *     preferredCIF, otherCIF)</code>
@@ -1965,7 +1965,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param productName the name of the product.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.clearPreferences(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.clearPreferences(...)
      *     </code>. This is currently equivalent to <code>
      *     RIFRegistry.clearPreferences(this, operationName, productName)</code>
      * @see #clearFactoryPreferences clearFactoryPreferences - for list of exceptions thrown.
@@ -1982,7 +1982,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param productName the name of the product.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.clearPreferences(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.clearPreferences(...)
      *     </code>. This is currently equivalent to <code>
      *     CIFRegistry.clearPreferences(this, operationName, productName)</code>
      * @see #clearFactoryPreferences clearFactoryPreferences - for list of exceptions thrown.
@@ -1999,7 +1999,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param productName the name of the product.
-     * @deprecated as of ImageN 1.1 in favor of calling <code>
+     * @deprecated as of ImageN 0.4.0 in favor of calling <code>
      *     *IFRegistry.clearPreferences(..)</code> on all image operation related modes.
      * @see #clearFactoryPreferences clearFactoryPreferences - for list of exceptions thrown.
      * @see RIFRegistry#clearPreferences
@@ -2029,7 +2029,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param productName the name of the product.
      * @return a Vector of RIFs.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.getOrderedList(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.getOrderedList(...)
      *     </code> which returns a <code>List</code> and not a <code>Vector</code>. This is currently equivalent to
      *     <code>
      *     new Vector(RIFRegistry.getOrderedList(this, operationName,
@@ -2052,7 +2052,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param productName the name of the product.
      * @return a Vector of CIFs.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.getOrderedList(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.getOrderedList(...)
      *     </code> which returns a <code>List</code> and not a <code>Vector</code>. This is currently equivalent to
      *     <code>
      *     new Vector(CIFRegistry.getOrderedList(this, operationName,
@@ -2081,7 +2081,7 @@ public class OperationRegistry implements Externalizable {
      * @param paramBlock the operation's ParameterBlock.
      * @param renderHints a RenderingHints object containing rendering hints.
      * @throws IllegalArgumentException if operationName is null.
-     * @deprecated as of ImageN 1.1 in favor of <code>RIFRegistry.create(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>RIFRegistry.create(...)
      *     </code> which returns a <code>RenderedImage</code> and not a <code>PlanarImage</code>. This is currently
      *     equivalent to <code>
      *     PlanarImage.wrapRenderedImage(RIFRegistry.create(this,
@@ -2099,7 +2099,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param paramBlock the operation's ParameterBlock.
      * @throws IllegalArgumentException if operationName is null.
-     * @deprecated as of ImageN 1.1 in favor of <code>CRIFRegistry.get(...)</code> This is currently equivalent to
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CRIFRegistry.get(...)</code> This is currently equivalent to
      *     <code>
      *     CRIFRegistry.get(this,
      *     operationName)</code>
@@ -2122,7 +2122,7 @@ public class OperationRegistry implements Externalizable {
      * @param args The operation's input parameters.
      * @param hints A RenderingHints object containing rendering hints.
      * @throws IllegalArgumentException if operationName is null.
-     * @deprecated as of ImageN 1.1 in favor of <code>CIFRegistry.create(...)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>CIFRegistry.create(...)
      *     </code>. This is currently equivalent to <code>
      *     CIFRegistry.create(this, operationName, args, hints))</code>
      * @see CIFRegistry#create
@@ -2136,7 +2136,7 @@ public class OperationRegistry implements Externalizable {
     /**
      * Removes all property associated information from this <code>OperationRegistry</code>.
      *
-     * @deprecated as of ImageN 1.1 in factor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in factor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>
      * clearPropertyState("rendered")</code>
      * @see #clearPropertyState
@@ -2152,7 +2152,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param generator the <code>PropertyGenerator</code> to be added.
-     * @deprecated as of ImageN 1.1 in favor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in favor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>addPropertyGenerator("rendered", ...)</code>
      * @see #addPropertyGenerator addPropertyGenerator - for list of exceptions thrown.
      */
@@ -2167,7 +2167,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param generator the <code>PropertyGenerator</code> to be removed.
-     * @deprecated as of ImageN 1.1 in favor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in favor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>removePropertyGenerator("rendered", ...)</code>
      * @see #removePropertyGenerator removePropertyGenerator - for list of exceptions thrown.
      */
@@ -2182,7 +2182,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @param propertyName the name of the property to be suppressed.
-     * @deprecated as of ImageN 1.1 in favor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in favor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>suppressProperty("rendered", ...)</code>
      * @see #suppressProperty suppressProperty - for list of exceptions thrown.
      */
@@ -2196,7 +2196,7 @@ public class OperationRegistry implements Externalizable {
      * passed through operations unchanged.
      *
      * @param operationName the operation name as a String.
-     * @deprecated as of ImageN 1.1 in favor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in favor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>suppressAllProperties("rendered", ...)</code>
      * @see #suppressAllProperties suppressAllProperties - for list of exceptions thrown.
      */
@@ -2213,7 +2213,7 @@ public class OperationRegistry implements Externalizable {
      * @param operationName the operation name as a String.
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the source to copy the property from.
-     * @deprecated as of ImageN 1.1 in favor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in favor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>copyPropertyFromSource("rendered", ...)</code>
      * @see #copyPropertyFromSource copyPropertyFromSource - for list of exceptions thrown.
      */
@@ -2228,7 +2228,7 @@ public class OperationRegistry implements Externalizable {
      *
      * @param operationName the operation name as a String.
      * @return an array of Strings.
-     * @deprecated as of ImageN 1.1 in favor of the version where the modeName is explicitly specified. This is
+     * @deprecated as of ImageN 0.4.0 in favor of the version where the modeName is explicitly specified. This is
      *     currently equivalent to <code>getGeneratedPropertyNames("rendered", ...)</code>
      * @see #getGeneratedPropertyNames getGeneratedPropertyNames - for list of exceptions thrown.
      */
@@ -2244,7 +2244,7 @@ public class OperationRegistry implements Externalizable {
      * getPropertySource()</code> may make use of deferred execution and caching.
      *
      * @param op the <code>RenderedOp</code> requesting its <code>PropertySource</code>.
-     * @deprecated as of ImageN 1.1 in favor <code>RIFRegistry.getPropertySource(op)</code>
+     * @deprecated as of ImageN 0.4.0 in favor <code>RIFRegistry.getPropertySource(op)</code>
      * @see RIFRegistry#getPropertySource #getPropertySource - for list of exceptions thrown.
      */
     public PropertySource getPropertySource(RenderedOp op) {
@@ -2259,7 +2259,7 @@ public class OperationRegistry implements Externalizable {
      * getPropertySource()</code> may make use of deferred execution and caching.
      *
      * @param op the <code>RenderableOp</code> requesting its <code>PropertySource</code>.
-     * @deprecated as of ImageN 1.1 in favor <code>CRIFRegistry.getPropertySource(op)</code>
+     * @deprecated as of ImageN 0.4.0 in favor <code>CRIFRegistry.getPropertySource(op)</code>
      * @see CRIFRegistry#getPropertySource
      */
     public PropertySource getPropertySource(RenderableOp op) {

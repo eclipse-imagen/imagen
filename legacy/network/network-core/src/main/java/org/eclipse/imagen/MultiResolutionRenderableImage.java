@@ -58,14 +58,14 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * A helper object to manage firing events.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected PropertyChangeSupportJAI eventManager = null;
 
     /**
      * A helper object to manage the image properties.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected WritablePropertySourceImpl properties = null;
 
@@ -123,7 +123,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * will be returned. The default implementation returns <code>null</code>, i.e., no property names are recognized.
      *
      * @return an array of Strings representing valid property names.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String[] getPropertyNames() {
         return properties.getPropertyNames();
@@ -152,7 +152,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Class getPropertyClass(String name) {
         return properties.getPropertyClass(name);
@@ -177,7 +177,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
      * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void setProperty(String name, Object value) {
         properties.setProperty(name, value);
@@ -189,7 +189,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * @return The value of the property removed or <code>java.awt.Image.UndefinedProperty</code> if it was not present
      *     in the property set.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
@@ -198,7 +198,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
@@ -208,7 +208,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
@@ -218,7 +218,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
@@ -227,7 +227,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
     /**
      * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);

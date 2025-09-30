@@ -51,7 +51,7 @@ package org.eclipse.imagen;
  * @see org.eclipse.imagen.remote.Serializer
  * @see org.eclipse.imagen.OperationRegistry
  * @see org.eclipse.imagen.OperationRegistry#writeExternal
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public interface OperationRegistrySpi {
 

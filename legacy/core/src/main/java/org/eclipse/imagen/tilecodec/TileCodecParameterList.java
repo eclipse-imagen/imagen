@@ -34,7 +34,7 @@ import org.eclipse.imagen.ParameterListImpl;
  * then for the "tileDecoder" mode, this class will be expected to contain a parameter named "sampleModel" with a
  * non-null <code>SampleModel</code> as its value.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class TileCodecParameterList extends ParameterListImpl {
 

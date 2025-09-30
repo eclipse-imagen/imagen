@@ -249,7 +249,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param sampleModel A <code>SampleModel</code> with which to be compatible.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public TiledImage(Point origin, SampleModel sampleModel, int tileWidth, int tileHeight) {
         this(
@@ -271,7 +271,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param sampleModel A <code>SampleModel</code> with which to be compatible.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public TiledImage(SampleModel sampleModel, int tileWidth, int tileHeight) {
         this(
@@ -293,7 +293,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param source The source <code>RenderedImage</code>.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public TiledImage(RenderedImage source, int tileWidth, int tileHeight) {
         this(
@@ -319,7 +319,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param source The source <code>RenderedImage</code>.
      * @param areBuffersShared Whether the tile <code>DataBuffer</code>s of the source are re-used in the tiles of this
      *     image. If <code>false</code> new <code>WritableRaster</code>s will be created.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public TiledImage(RenderedImage source, boolean areBuffersShared) {
         this(source, source.getTileWidth(), source.getTileHeight());
@@ -348,7 +348,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param tileHeight The tile height.
      * @param bandOffsets An array of non-duplicated integers between 0 and <code>numBands - 1</code> of length <code>
      *     numBands</code> indicating the relative offset of each band.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public static TiledImage createInterleaved(
             int minX,
@@ -382,7 +382,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      *     indices may be duplicated.
      * @param bandOffsets An array of integers indicating the starting offset of each band within its bank. Bands stored
      *     in the same bank must have sufficiently different offsets so as not to overlap.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public static TiledImage createBanded(
             int minX,
@@ -652,7 +652,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * </code>. The <code>TiledImage</code> must be of integral data type or an <code>UnsupportedOperationException
      * </code> will be thrown.
      *
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public Graphics getGraphics() {
         return createGraphics();
@@ -694,7 +694,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param cm the <code>ColorModel</code> of the sub-image.
      * @return The requested sub-image or <code>null</code> if either the specified rectangular area or its intersection
      *     with the current image is empty.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public TiledImage getSubImage(int x, int y, int w, int h, int[] bandSelect, ColorModel cm) {
         // Check for empty overlap.
@@ -772,7 +772,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param bandSelect an array of band indices; if null, all bands are selected.
      * @return The requested sub-image or <code>null</code> if either the specified rectangular area or its intersection
      *     with the current image is empty.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public TiledImage getSubImage(int x, int y, int w, int h, int[] bandSelect) {
         SampleModel sm = bandSelect != null ? getSampleModel().createSubsetSampleModel(bandSelect) : getSampleModel();
@@ -804,7 +804,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param bandSelect an array of band indices.
      * @param cm the <code>ColorModel</code> of the sub-image.
      * @throws <code>IllegalArgumentException</code> is <code>bandSelect</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public TiledImage getSubImage(int[] bandSelect, ColorModel cm) {
         if (bandSelect == null) {
@@ -821,7 +821,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * </code> could be <code>null</code>.
      *
      * @param bandSelect an array of band indices.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public TiledImage getSubImage(int[] bandSelect) {
         if (bandSelect == null) {
@@ -1236,7 +1236,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * Sets the <code>tiles</code> array to <code>null</code> so that the image may be used again.
      *
      * @throws IllegalStateException if <code>hasTileWriters()</code> returns <code>true</code>.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public void clearTiles() {
         if (hasTileWriters()) {
@@ -1375,7 +1375,7 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * new values will contain the previous and current invalid regions. This may be used to determine which tiles must
      * be re-requested. The <code>TiledImage</code> itself will not re-request the data.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         PlanarImage src = getNumSources() > 0 ? getSourceImage(0) : null;

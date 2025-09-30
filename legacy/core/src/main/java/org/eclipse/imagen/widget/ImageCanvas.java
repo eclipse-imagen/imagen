@@ -40,7 +40,7 @@ import org.eclipse.imagen.PlanarImage;
  * <p>This class has been deprecated. The source code has been moved to the samples/widget directory. These widgets are
  * no longer supported.
  *
- * @deprecated as of ImageN 1.1
+ * @deprecated as of ImageN 0.4.0
  */
 public class ImageCanvas extends Canvas {
 
@@ -374,7 +374,7 @@ public class ImageCanvas extends Canvas {
      * An interface used to notify listeners during a <code>paint</code> just after the image has been painted on the
      * image canvas. This allows registered listeners to draw additional graphics on top of the image.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public interface PaintListener {
 
@@ -387,7 +387,7 @@ public class ImageCanvas extends Canvas {
     /**
      * Adds the specified <code>PaintListener</code> to the canvas.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void addPaintListener(PaintListener pl) {
         paintListeners.add(pl);
@@ -396,7 +396,7 @@ public class ImageCanvas extends Canvas {
     /**
      * Removes the specified <code>PaintListener</code> from the canvas.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removePaintListener(PaintListener pl) {
         paintListeners.remove(pl);

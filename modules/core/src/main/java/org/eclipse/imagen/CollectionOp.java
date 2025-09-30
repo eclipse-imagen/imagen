@@ -183,21 +183,21 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
     /**
      * An object to assist in implementing <code>OperationNode</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected OperationNodeSupport nodeSupport;
 
     /**
      * The <code>PropertySource</code> containing the combined properties of all of the node's sources.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected PropertySource thePropertySource;
 
     /**
      * Flag indicating whether the operation is being instantiated in renderable mode.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected boolean isRenderable = false;
 
@@ -241,7 +241,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *     rendering. This parameter is cloned.
      * @param isRenderable Whether the operation is being executed in renderable mode.
      * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public CollectionOp(
             OperationRegistry registry, String opName, ParameterBlock pb, RenderingHints hints, boolean isRenderable) {
@@ -363,7 +363,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param pb The sources and other parameters. If <code>null</code>, it is assumed that this node has no sources and
      *     parameters. This parameter is cloned.
      * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      * @see #CollectionOp(OperationRegistry,String,ParameterBlock,RenderingHints)
      */
     public CollectionOp(OperationRegistry registry, String opName, ParameterBlock pb) {
@@ -373,7 +373,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
     /**
      * Returns whether the operation is being instantiated in renderable mode.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public boolean isRenderable() {
         return isRenderable;
@@ -382,7 +382,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
     /**
      * Returns the name of the <code>RegistryMode</code> corresponding to this <code>CollectionOp</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public String getRegistryModeName() {
         return isRenderable ? RenderableCollectionRegistryMode.MODE_NAME : CollectionRegistryMode.MODE_NAME;
@@ -631,7 +631,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * created for all <code>RenderableImage</code>s encountered. Any <code>RenderingHints</code> in the <code>
      * RenderContext</code> are merged with those set on the node with the argument hints taking precedence.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Collection createRendering(RenderContext renderContext) {
         if (!isRenderable) {
@@ -692,7 +692,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * RenderingChangeEvent</code> emitted by a <code>CollectionOp</code> or <code>RenderedOp</code> source,
      * respectively, the node will respond by re-rendering itself while retaining any data possible.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         // If this is a renderable node just return as CollectionChangeEvents
@@ -933,7 +933,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * completely reset; if <code>false</code> then only cached properties are cleared, i.e., those which were derived
      * from the property environment and are now stored in the local cache.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected synchronized void resetProperties(boolean resetPropertySource) {
         properties.clearCachedProperties();
@@ -948,7 +948,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * from prior nodes in the operation chain and those set locally.
      *
      * @return An array of <code>String</code>s containing valid property names or <code>null</code> if there are none.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public synchronized String[] getPropertyNames() {
         createPropertySource();
@@ -962,7 +962,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Class getPropertyClass(String name) {
         createPropertySource();
@@ -976,7 +976,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param name the name of the property to get, as a String.
      * @return a reference to the property Object, or the value java.awt.Image.UndefinedProperty.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Object getProperty(String name) {
         createPropertySource();
@@ -990,7 +990,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param name a String representing the property name.
      * @param value the property's value, as an Object.
      * @exception IllegalArgumentException if <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void setProperty(String name, Object value) {
         createPropertySource();
@@ -1002,7 +1002,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * property environment.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removeProperty(String name) {
         createPropertySource();
@@ -1019,7 +1019,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *
      * @param name A <code>String</code> naming the property.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public synchronized Object getDynamicProperty(String name) {
         createPropertySource();
@@ -1031,7 +1031,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * previous definitions.
      *
      * @param pg a PropertyGenerator to be added to this node's property environment.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void addPropertyGenerator(PropertyGenerator pg) {
         nodeSupport.addPropertyGenerator(pg);
@@ -1044,7 +1044,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the from which to copy the property.
      * @throws IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public synchronized void copyPropertyFromSource(String propertyName, int sourceIndex) {
         nodeSupport.copyPropertyFromSource(propertyName, sourceIndex);
@@ -1060,7 +1060,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *
      * @param name a String naming the property to be suppressed.
      * @throws <code>IllegalArgumentException</code> if <code>name</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void suppressProperty(String name) {
         nodeSupport.suppressProperty(name);

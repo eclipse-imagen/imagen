@@ -76,7 +76,7 @@ public class NullOpImage extends PointOpImage {
      * @throws <code>IllegalArgumentException</code> if <code>source</code> is <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if <code>computeType</code> is not one of the known <code>
      *     OP_*_BOUND</code> values.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public NullOpImage(RenderedImage source, ImageLayout layout, Map configuration, int computeType) {
         // cobbleSources is irrelevant since we override getTile().
@@ -110,7 +110,7 @@ public class NullOpImage extends PointOpImage {
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>computeType</code> is not one of the known <code>OP_*_BOUND</code>
      *     values.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public NullOpImage(RenderedImage source, TileCache cache, int computeType, ImageLayout layout) {
         this(source, layout, cache != null ? new RenderingHints(ImageN.KEY_TILE_CACHE, cache) : null, computeType);
@@ -158,7 +158,7 @@ public class NullOpImage extends PointOpImage {
     /**
      * Returns the class of the specified property from the source image.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Class getPropertyClass(String name) {
         return getSource(0).getPropertyClass(name);
@@ -180,7 +180,7 @@ public class NullOpImage extends PointOpImage {
     /**
      * Removes a property from the source image by name.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void removeProperty(String name) {
         getSource(0).removeProperty(name);

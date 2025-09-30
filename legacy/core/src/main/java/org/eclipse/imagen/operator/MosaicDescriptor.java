@@ -224,7 +224,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                               <td>double[] {0.0}</td>
  * </table>
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 public class MosaicDescriptor extends OperationDescriptorImpl {
 

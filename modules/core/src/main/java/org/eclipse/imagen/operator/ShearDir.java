@@ -24,7 +24,7 @@ import org.eclipse.imagen.EnumeratedParameter;
  * for the "shearDir" parameter are defined in the <code>ShearDescriptor</code> by the constants <code>SHEAR_HORIZONTAL
  * </code> and <code>SHEAR_VERTICAL</code>.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public final class ShearDir extends EnumeratedParameter {
     ShearDir(String name, int value) {

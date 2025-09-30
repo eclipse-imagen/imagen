@@ -41,7 +41,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * @see PropertySource
  * @see WritablePropertySource
  * @see WritablePropertySourceImpl
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 // NB A class of this name existed in ImageN 1.0.2 but that class was renamed
 // to what is now PropertyEnvironment.

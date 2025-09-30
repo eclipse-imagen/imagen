@@ -33,7 +33,7 @@ package org.eclipse.imagen;
  * @see PropertySource
  * @see PropertyChangeEmitter
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public interface WritablePropertySource extends PropertySource, PropertyChangeEmitter {
     /**

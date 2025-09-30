@@ -34,7 +34,7 @@ import org.eclipse.imagen.RenderableCollectionImageFactory;
  * ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
  *
  * @see CollectionImage
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public final class RCIFRegistry {
 

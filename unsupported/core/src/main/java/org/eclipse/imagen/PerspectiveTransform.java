@@ -63,7 +63,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     /**
      * Constructs a new PerspectiveTransform from 9 floats.
      *
-     * @deprecated as of ImageN 1.1 Use PerspectiveTransform(double[][]) instead.
+     * @deprecated as of ImageN 0.4.0 Use PerspectiveTransform(double[][]) instead.
      */
     public PerspectiveTransform(
             float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22) {
@@ -81,7 +81,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     /**
      * Constructs a new PerspectiveTransform from 9 doubles.
      *
-     * @deprecated as of ImageN 1.1 Use PerspectiveTransform(double[][]) instead.
+     * @deprecated as of ImageN 0.4.0 Use PerspectiveTransform(double[][]) instead.
      */
     public PerspectiveTransform(
             double m00,
@@ -110,7 +110,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      *
      * @throws IllegalArgumentException if flatmatrix is null
      * @throws ArrayIndexOutOfBoundsException if flatmatrix is too small
-     * @deprecated as of ImageN 1.1 Use PerspectiveTransform(double[][]) instead.
+     * @deprecated as of ImageN 0.4.0 Use PerspectiveTransform(double[][]) instead.
      */
     public PerspectiveTransform(float[] flatmatrix) {
         if (flatmatrix == null) {
@@ -133,7 +133,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      *
      * @throws IllegalArgumentException if matrix is null
      * @throws ArrayIndexOutOfBoundsException if matrix is too small
-     * @deprecated as of ImageN 1.1 Use PerspectiveTransform(double[][]) instead.
+     * @deprecated as of ImageN 0.4.0 Use PerspectiveTransform(double[][]) instead.
      */
     public PerspectiveTransform(float[][] matrix) {
         if (matrix == null) {
@@ -157,7 +157,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      *
      * @throws IllegalArgumentException if flatmatrix is null
      * @throws ArrayIndexOutOfBoundsException if flatmatrix is too small
-     * @deprecated as of ImageN 1.1 Use PerspectiveTransform(double[][]) instead.
+     * @deprecated as of ImageN 0.4.0 Use PerspectiveTransform(double[][]) instead.
      */
     public PerspectiveTransform(double[] flatmatrix) {
         if (flatmatrix == null) {
@@ -466,7 +466,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      * @param flatmatrix The double array used to store the returned values. The length of the array is assumed to be at
      *     least 9.
      * @throws ArrayIndexOutOfBoundsException if flatmatrix is too small
-     * @deprecated as of ImageN 1.1 Use double[][] getMatrix(double[][] matrix) instead.
+     * @deprecated as of ImageN 0.4.0 Use double[][] getMatrix(double[][] matrix) instead.
      */
     public double[] getMatrix(double[] flatmatrix) {
         if (flatmatrix == null) {
@@ -789,7 +789,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      * The matrix elements in the argument list are in column-major order unlike those of the constructor, which are in
      * row-major order.</i>
      *
-     * @deprecated as of ImageN 1.1 Use double[][] getMatrix(double[][] matrix) instead.
+     * @deprecated as of ImageN 0.4.0 Use double[][] getMatrix(double[][] matrix) instead.
      */
     public void setTransform(
             float m00, float m10, float m20, float m01, float m11, float m21, float m02, float m12, float m22) {
@@ -811,7 +811,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      * @param matrix The 2D double array to be used for setting this transform. The array is assumed to be at least 3x3.
      * @throws IllegalArgumentException if matrix is null
      * @throws ArrayIndexOutOfBoundsException if matrix is too small
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void setTransform(double[][] matrix) {
         if (matrix == null) {
