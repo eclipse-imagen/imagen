@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import org.eclipse.imagen.*;
-import org.eclipse.imagen.media.remote.JAIServerConfigurationSpi;
+import org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi;
 import org.eclipse.imagen.media.serialize.SerializableState;
 import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.media.tilecodec.TileCodecUtils;
@@ -52,11 +52,11 @@ import org.eclipse.imagen.tilecodec.TileEncoderFactory;
 import org.eclipse.imagen.util.ImagingListener;
 
 /**
- * The server-side implementation of the ImageServer interface. A JAIRMIImageServer has a RenderedImage source, acquired
- * via one of three setSource() methods. The first takes a RenderedImage directly as its parameter; this image is simply
- * copied over the network using the normal RMI mechanisms. Note that not every image can be transferred in this way --
- * for example, attempting to pass an OpImage that uses native code or that depends on the availability of a class not
- * resident on the server as a parameter will cause an exception to be thrown.
+ * The server-side implementation of the ImageServer interface. A ImageNRMIImageServer has a RenderedImage source,
+ * acquired via one of three setSource() methods. The first takes a RenderedImage directly as its parameter; this image
+ * is simply copied over the network using the normal RMI mechanisms. Note that not every image can be transferred in
+ * this way -- for example, attempting to pass an OpImage that uses native code or that depends on the availability of a
+ * class not resident on the server as a parameter will cause an exception to be thrown.
  *
  * <p>The second and third ways of setting sources make use of the RenderedOp and RenderableOp classes to send a
  * high-level description of an image chain based on operation names. This chain will be copied over to the server using
@@ -68,13 +68,13 @@ import org.eclipse.imagen.util.ImagingListener;
  * deal with errors. A simple implementation of error handling may be found in the RemoteRenderedImage class.
  *
  * <p>This class contains a main() method that should be run on the server after starting the RMI registry. The registry
- * will then construct new instances of JAIRMIImageServer on demand.
+ * will then construct new instances of ImageNRMIImageServer on demand.
  *
  * @see ImageServer
  * @see RenderedOp
  * @since 1.1
  */
-public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServer {
+public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageServer {
 
     private boolean DEBUG = true;
 
@@ -121,8 +121,8 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
         return (PropertySource) obj;
     }
 
-    /** Constructs a JAIRMIImageServer with a source to be specified later. */
-    public JAIRMIImageServer(int serverport) throws RemoteException {
+    /** Constructs a ImageNRMIImageServer with a source to be specified later. */
+    public ImageNRMIImageServer(int serverport) throws RemoteException {
         super(serverport);
     }
 
@@ -380,14 +380,14 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
             }
 
             if (tef == null) {
-                throw new RuntimeException(JaiI18N.getString("JAIRMIImageServer0"));
+                throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer0"));
             }
 
             TileCodecDescriptor tcd = (TileCodecDescriptor)
                     ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("tileEncoder", capabilityName);
 
             if (tcd.includesSampleModelInfo() == false || tcd.includesLocationInfo() == false) {
-                throw new RuntimeException(JaiI18N.getString("JAIRMIImageServer1"));
+                throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer1"));
             }
 
             ParameterListDescriptor pld = tcd.getParameterListDescriptor("tileEncoder");
@@ -425,7 +425,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
             return stream.toByteArray();
         } else {
-            throw new RuntimeException(JaiI18N.getString("JAIRMIImageServer2"));
+            throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer2"));
         }
     }
 
@@ -764,7 +764,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
         ContextualRenderedImageFactory crif = CRIFRegistry.get(rop.getRegistry(), operationName);
 
         if (crif == null) {
-            throw new RuntimeException(JaiI18N.getString("JAIRMIImageServer3"));
+            throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer3"));
         }
 
         RenderContext rc = crif.mapRenderContext(
@@ -783,7 +783,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
         ContextualRenderedImageFactory crif = CRIFRegistry.get(rop.getRegistry(), operationName);
 
         if (crif == null) {
-            throw new RuntimeException(JaiI18N.getString("JAIRMIImageServer3"));
+            throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer3"));
         }
 
         Rectangle2D r2D = crif.getBounds2D((ParameterBlock) rop.getParameterBlock());
@@ -1108,7 +1108,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
      * java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \
      * -Djava.rmi.server.useCodebaseOnly=false \
      * -Djava.security.policy=\
-     * file:`pwd`/policy org.eclipse.imagen.media.rmi.JAIRMIImageServer \
+     * file:`pwd`/policy org.eclipse.imagen.media.rmi.ImageNRMIImageServer \
      * [-host hostName] [-port portNumber]
      * </pre>
      *
@@ -1123,14 +1123,14 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
             System.setSecurityManager(new RMISecurityManager());
         }
 
-        // Load all JAIServerConfigurationSpi implementations on the CLASSPATH
-        Iterator spiIter = Service.providers(JAIServerConfigurationSpi.class);
-        ImageN jai = ImageN.getDefaultInstance();
+        // Load all ImageNServerConfigurationSpi implementations on the CLASSPATH
+        Iterator spiIter = Service.providers(ImageNServerConfigurationSpi.class);
+        ImageN imageN = ImageN.getDefaultInstance();
 
         while (spiIter.hasNext()) {
 
-            JAIServerConfigurationSpi serverSpi = (JAIServerConfigurationSpi) spiIter.next();
-            serverSpi.updateServer(jai);
+            ImageNServerConfigurationSpi serverSpi = (ImageNServerConfigurationSpi) spiIter.next();
+            serverSpi.updateServer(imageN);
         }
 
         // Set the host name and port number.
@@ -1149,7 +1149,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
                     System.out.println("Usage: java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \\");
                     System.out.println("-Djava.rmi.server.useCodebaseOnly=false \\");
                     System.out.println("-Djava.security.policy=file:`pwd`/policy \\");
-                    System.out.println("org.eclipse.imagen.media.rmi.JAIRMIImageServer \\");
+                    System.out.println("org.eclipse.imagen.media.rmi.ImageNRMIImageServer \\");
                     System.out.println("\nwhere options are:");
                     System.out.println("\t-host <string> The server name or server IP address");
                     System.out.println("\t-port <integer> The port that rmiregistry is running on");
@@ -1196,31 +1196,31 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
                 } else if (args[i].equalsIgnoreCase("-cacheMemCapacity")) {
 
-                    jai.getTileCache().setMemoryCapacity(Long.parseLong(args[++i]));
+                    imageN.getTileCache().setMemoryCapacity(Long.parseLong(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-cacheMemThreshold")) {
 
-                    jai.getTileCache().setMemoryThreshold(Float.parseFloat(args[++i]));
+                    imageN.getTileCache().setMemoryThreshold(Float.parseFloat(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-disableDefaultCache")) {
 
-                    jai.disableDefaultTileCache();
+                    imageN.disableDefaultTileCache();
 
                 } else if (args[i].equalsIgnoreCase("-schedulerParallelism")) {
 
-                    jai.getTileScheduler().setParallelism(Integer.parseInt(args[++i]));
+                    imageN.getTileScheduler().setParallelism(Integer.parseInt(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-schedulerPrefetchParallelism")) {
 
-                    jai.getTileScheduler().setPrefetchParallelism(Integer.parseInt(args[++i]));
+                    imageN.getTileScheduler().setPrefetchParallelism(Integer.parseInt(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-schedulerPriority")) {
 
-                    jai.getTileScheduler().setPriority(Integer.parseInt(args[++i]));
+                    imageN.getTileScheduler().setPriority(Integer.parseInt(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-schedulerPrefetchPriority")) {
 
-                    jai.getTileScheduler().setPrefetchPriority(Integer.parseInt(args[++i]));
+                    imageN.getTileScheduler().setPrefetchPriority(Integer.parseInt(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-defaultTileSize")) {
 
@@ -1229,7 +1229,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
                     int xSize = Integer.parseInt(value.substring(0, xpos));
                     int ySize = Integer.parseInt(value.substring(xpos + 1));
 
-                    jai.setDefaultTileSize(new Dimension(xSize, ySize));
+                    imageN.setDefaultTileSize(new Dimension(xSize, ySize));
 
                 } else if (args[i].equalsIgnoreCase("-defaultRenderingSize")) {
 
@@ -1238,23 +1238,23 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
                     int xSize = Integer.parseInt(value.substring(0, xpos));
                     int ySize = Integer.parseInt(value.substring(xpos + 1));
 
-                    jai.setDefaultRenderingSize(new Dimension(xSize, ySize));
+                    imageN.setDefaultRenderingSize(new Dimension(xSize, ySize));
 
                 } else if (args[i].equalsIgnoreCase("-serializeDeepCopy")) {
 
-                    jai.setRenderingHint(ImageN.KEY_SERIALIZE_DEEP_COPY, Boolean.valueOf(args[++i]));
+                    imageN.setRenderingHint(ImageN.KEY_SERIALIZE_DEEP_COPY, Boolean.valueOf(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-tileCodecFormat")) {
 
-                    jai.setRenderingHint(TileCodecUtils.KEY_TILE_CODEC_FORMAT, args[++i]);
+                    imageN.setRenderingHint(TileCodecUtils.KEY_TILE_CODEC_FORMAT, args[++i]);
 
                 } else if (args[i].equalsIgnoreCase("-retryInterval")) {
 
-                    jai.setRenderingHint(RemoteJAI.KEY_RETRY_INTERVAL, Integer.valueOf(args[++i]));
+                    imageN.setRenderingHint(RemoteJAI.KEY_RETRY_INTERVAL, Integer.valueOf(args[++i]));
 
                 } else if (args[i].equalsIgnoreCase("-numRetries")) {
 
-                    jai.setRenderingHint(RemoteJAI.KEY_NUM_RETRIES, Integer.valueOf(args[++i]));
+                    imageN.setRenderingHint(RemoteJAI.KEY_NUM_RETRIES, Integer.valueOf(args[++i]));
                 }
             }
         }
@@ -1277,7 +1277,7 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
         System.out.println(JaiI18N.getString("RMIImageImpl3") + " " + host + ":" + rmiRegistryPort);
 
         try {
-            JAIRMIImageServer im = new JAIRMIImageServer(serverport);
+            ImageNRMIImageServer im = new ImageNRMIImageServer(serverport);
             String serverName =
                     new String("rmi://" + host + ":" + rmiRegistryPort + "/" + JAIRMIDescriptor.IMAGE_SERVER_BIND_NAME);
             System.out.println(JaiI18N.getString("RMIImageImpl4") + " \"" + serverName + "\".");
@@ -1296,6 +1296,6 @@ public class JAIRMIImageServer extends UnicastRemoteObject implements ImageServe
 
     private static void sendExceptionToListener(String message, Exception e) {
         ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
-        listener.errorOccurred(message, new RemoteImagingException(message, e), JAIRMIImageServer.class, false);
+        listener.errorOccurred(message, new RemoteImagingException(message, e), ImageNRMIImageServer.class, false);
     }
 }

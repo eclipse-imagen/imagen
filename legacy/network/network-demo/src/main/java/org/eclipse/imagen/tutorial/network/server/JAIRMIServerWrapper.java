@@ -34,8 +34,8 @@ import javax.swing.ScrollPaneConstants;
 import org.eclipse.imagen.NegotiableCapabilitySet;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.rmi.ImageNRMIImageServer;
 import org.eclipse.imagen.media.rmi.ImageServer;
-import org.eclipse.imagen.media.rmi.JAIRMIImageServer;
 import org.eclipse.imagen.media.rmi.SerializableRenderableImage;
 import org.eclipse.imagen.media.serialize.SerializableState;
 import org.eclipse.imagen.remote.JAIRMIDescriptor;
@@ -118,8 +118,8 @@ class TextPanel extends JPanel {
 }
 
 /**
- * A class that wraps the JAIRMIImageServer image server supplied with ImageN such that it intercepts all calls to
- * JAIRMIImageServer in order to display the results of these operations in a server side GUI, before forwarding the
+ * A class that wraps the ImageNRMIImageServer image server supplied with ImageN such that it intercepts all calls to
+ * ImageNRMIImageServer in order to display the results of these operations in a server side GUI, before forwarding the
  * call to the image server for image processing.
  */
 public class JAIRMIServerWrapper extends UnicastRemoteObject implements ImageServer {
@@ -131,7 +131,7 @@ public class JAIRMIServerWrapper extends UnicastRemoteObject implements ImageSer
     /** Constructs <code>JAIRMIServerWrapper</code>. */
     public JAIRMIServerWrapper(JFrame frame) throws RemoteException {
 
-        this.server = new JAIRMIImageServer(0);
+        this.server = new ImageNRMIImageServer(0);
 
         this.imagePanel = new TilePanel();
         this.textPanel = new TextPanel();
@@ -678,7 +678,7 @@ public class JAIRMIServerWrapper extends UnicastRemoteObject implements ImageSer
      * java -Djava.rmi.server.codebase=file:$ImageN/lib/jai.jar \
      * -Djava.rmi.server.useCodebaseOnly=false \
      * -Djava.security.policy=\
-     * file:`pwd`/policy com.sun.media.jai.rmi.JAIRMIImageServer \
+     * file:`pwd`/policy com.sun.media.jai.rmi.ImageNRMIImageServer \
      * [-host hostName] [-port portNumber]
      * </pre>
      *
