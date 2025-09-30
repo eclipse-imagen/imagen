@@ -53,7 +53,7 @@ import org.eclipse.imagen.media.serialize.SerializerFactory;
  *
  * @see org.eclipse.imagen.operator.LookupDescriptor
  */
-public class LookupTableJAI extends Object implements Serializable {
+public class LookupTableImageN extends Object implements Serializable {
 
     /** The table data. */
     transient DataBuffer data;
@@ -67,7 +67,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The single-banded byte data.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(byte[] data) {
+    public LookupTableImageN(byte[] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -83,7 +83,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(byte[] data, int offset) {
+    public LookupTableImageN(byte[] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -98,7 +98,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The multi-banded byte data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(byte[][] data) {
+    public LookupTableImageN(byte[][] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -114,7 +114,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(byte[][] data, int offset) {
+    public LookupTableImageN(byte[][] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -130,7 +130,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(byte[][] data, int[] offsets) {
+    public LookupTableImageN(byte[][] data, int[] offsets) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -146,7 +146,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(short[] data, boolean isUShort) {
+    public LookupTableImageN(short[] data, boolean isUShort) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -167,7 +167,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(short[] data, int offset, boolean isUShort) {
+    public LookupTableImageN(short[] data, int offset, boolean isUShort) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -187,7 +187,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(short[][] data, boolean isUShort) {
+    public LookupTableImageN(short[][] data, boolean isUShort) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -208,7 +208,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(short[][] data, int offset, boolean isUShort) {
+    public LookupTableImageN(short[][] data, int offset, boolean isUShort) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -229,7 +229,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param isUShort True if data type is DataBuffer.TYPE_USHORT; false if data type is DataBuffer.TYPE_SHORT.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(short[][] data, int[] offsets, boolean isUShort) {
+    public LookupTableImageN(short[][] data, int[] offsets, boolean isUShort) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -249,7 +249,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The single-banded int data.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(int[] data) {
+    public LookupTableImageN(int[] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -265,7 +265,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(int[] data, int offset) {
+    public LookupTableImageN(int[] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -280,7 +280,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The multi-banded int data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(int[][] data) {
+    public LookupTableImageN(int[][] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -296,7 +296,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(int[][] data, int offset) {
+    public LookupTableImageN(int[][] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -312,7 +312,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(int[][] data, int[] offsets) {
+    public LookupTableImageN(int[][] data, int[] offsets) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -327,7 +327,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The single-banded float data.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(float[] data) {
+    public LookupTableImageN(float[] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -343,7 +343,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(float[] data, int offset) {
+    public LookupTableImageN(float[] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -358,7 +358,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The multi-banded float data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(float[][] data) {
+    public LookupTableImageN(float[][] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -374,7 +374,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(float[][] data, int offset) {
+    public LookupTableImageN(float[][] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -390,7 +390,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(float[][] data, int[] offsets) {
+    public LookupTableImageN(float[][] data, int[] offsets) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -405,7 +405,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The single-banded double data.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(double[] data) {
+    public LookupTableImageN(double[] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -421,7 +421,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The offset.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(double[] data, int offset) {
+    public LookupTableImageN(double[] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -436,7 +436,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param data The multi-banded double data in [band][index] format.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(double[][] data) {
+    public LookupTableImageN(double[][] data) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -452,7 +452,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offset The common offset for all bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(double[][] data, int offset) {
+    public LookupTableImageN(double[][] data, int offset) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -468,7 +468,7 @@ public class LookupTableJAI extends Object implements Serializable {
      * @param offsets The offsets for the bands.
      * @throws IllegalArgumentException if data is null.
      */
-    public LookupTableJAI(double[][] data, int[] offsets) {
+    public LookupTableImageN(double[][] data, int[] offsets) {
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
@@ -2184,7 +2184,8 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Determine which entry in the <code>LookupTableJAI</code> is closest in Euclidean distance to the argument pixel.
+     * Determine which entry in the <code>LookupTableImageN</code> is closest in Euclidean distance to the argument
+     * pixel.
      *
      * @param pixel The pixel the closest entry to which is to be found.
      * @return the index of the closest entry. If the data array of the lookup table is in the format
@@ -2367,7 +2368,7 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Serialize the <code>LookupTableJAI</code>.
+     * Serialize the <code>LookupTableImageN</code>.
      *
      * @param out The <code>ObjectOutputStream</code>.
      */
@@ -2377,7 +2378,7 @@ public class LookupTableJAI extends Object implements Serializable {
     }
 
     /**
-     * Deserialize the <code>LookupTableJAI</code>.
+     * Deserialize the <code>LookupTableImageN</code>.
      *
      * @param in The <code>ObjectInputStream</code>.
      */
