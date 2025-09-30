@@ -360,6 +360,25 @@
                 <replacetoken>"JAI.RenderableInput"</replacetoken>
                 <replacevalue>"ImageN.RenderableInput"</replacevalue>
             </replacefilter>
+
+            <!-- Refactor org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.media.remote.JAIServerConfigurationSpi</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>JAIServerConfigurationSpi</replacetoken>
+                <replacevalue>ImageNServerConfigurationSpi</replacevalue>
+            </replacefilter>
+            <!-- Refactor org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.media.rmi.JAIRMIImageServer</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.rmi.ImageNRMIImageServer</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>JAIRMIImageServer</replacetoken>
+                <replacevalue>ImageNRMIImageServer</replacevalue>
+            </replacefilter>
         </replace>
     </target>
 

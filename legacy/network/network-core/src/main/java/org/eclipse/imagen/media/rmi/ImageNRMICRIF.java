@@ -37,10 +37,10 @@ import org.eclipse.imagen.tilecodec.TileDecoderFactory;
 import org.eclipse.imagen.util.ImagingListener;
 
 /** An implementation of the <code>RemoteRIF</code> interface for the "jairmi" remote imaging protocol. */
-public class JAIRMICRIF implements RemoteCRIF {
+public class ImageNRMICRIF implements RemoteCRIF {
 
     /** No arg constructor. */
-    public JAIRMICRIF() {}
+    public ImageNRMICRIF() {}
 
     /**
      * Maps the operation's output <code>RenderContext</code> into a <code>RenderContext</code> for each of the
@@ -77,7 +77,7 @@ public class JAIRMICRIF implements RemoteCRIF {
             SerializableState rcpOut =
                     rmisp.getImageServer(serverName).mapRenderContext(i, rmisp.getRMIID(), operationName, rcs);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("JAIRMICRIF5");
+            String message = JaiI18N.getString("ImageNRMICRIF5");
             sendExceptionToListener(renderContext, message, re);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -110,7 +110,7 @@ public class JAIRMICRIF implements RemoteCRIF {
         try {
             bounds = rmisp.getImageServer(serverName).getBounds2D(rmisp.getRMIID(), operationName);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("JAIRMICRIF6");
+            String message = JaiI18N.getString("ImageNRMICRIF6");
             sendExceptionToListener(null, message, e);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -146,7 +146,7 @@ public class JAIRMICRIF implements RemoteCRIF {
         try {
             return rmisp.getProperty(name);
         } catch (Exception e) {
-            String message = JaiI18N.getString("JAIRMICRIF7");
+            String message = JaiI18N.getString("ImageNRMICRIF7");
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -161,7 +161,7 @@ public class JAIRMICRIF implements RemoteCRIF {
             return remoteImage.getPropertyNames(operationName);
         } catch (RemoteException e) {
             // Should we be catching Exception or RemoteException
-            String message = JaiI18N.getString("JAIRMICRIF8");
+            String message = JaiI18N.getString("ImageNRMICRIF8");
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -212,7 +212,7 @@ public class JAIRMICRIF implements RemoteCRIF {
         try {
             return remoteImage.isDynamic(operationName);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("JAIRMICRIF9");
+            String message = JaiI18N.getString("ImageNRMICRIF9");
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }

@@ -63,8 +63,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
     private NegotiableCapabilitySet negPref;
 
     // The class of the serializable representation of a NULL property.
-    private static final Class NULL_PROPERTY_CLASS =
-            org.eclipse.imagen.media.rmi.JAIRMIImageServer.NULL_PROPERTY.getClass();
+    private static final Class NULL_PROPERTY_CLASS = ImageNRMIImageServer.NULL_PROPERTY.getClass();
 
     // Cache the listener
     private ImagingListener listener;

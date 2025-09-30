@@ -26,6 +26,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi;
 import org.eclipse.imagen.media.rmi.ImageServer;
 import org.eclipse.imagen.media.rmi.JAIRMIUtil;
 import org.eclipse.imagen.media.rmi.RMIServerProxy;
@@ -66,7 +67,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * run:
  *
  * <pre>
- * java -Djava.rmi.server.codebase="file:$ImageN/lib/jai_core.jar file:$ImageN/lib/jai_codec.jar" -Djava.rmi.server.useCodebaseOnly=false -Djava.security.policy=file:$ImageN/policy org.eclipse.imagen.media.rmi.JAIRMIImageServer
+ * java -Djava.rmi.server.codebase="file:$ImageN/lib/jai_core.jar file:$ImageN/lib/jai_codec.jar" -Djava.rmi.server.useCodebaseOnly=false -Djava.security.policy=file:$ImageN/policy org.eclipse.imagen.media.rmi.ImageNRMIImageServer
  * </pre>
  *
  * where $ImageN refers to the directory where ImageN is installed. This server binds itself with the running
@@ -79,9 +80,8 @@ import org.eclipse.imagen.util.ImagingListener;
  * <p>http://java.sun.com/j2se/1.3/docs/guide/security/permissions.html
  *
  * <p>The ImageN instance used by the "jairmi" remote imaging server can be configured by providing an implementation of
- * the <code>org.eclipse.imagen.media.remote.JAIServerConfigurationSpi</code> interface on the <code>CLASSPATH</code>
- * when starting the server. For more details, please refer to
- * {@link org.eclipse.imagen.media.remote.JAIServerConfigurationSpi}
+ * the <code>org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi</code> interface on the <code>CLASSPATH</code>
+ * when starting the server. For more details, please refer to {@link ImageNServerConfigurationSpi}
  *
  * <p>The "jairmi" remote imaging server supports the following configurable parameters whose values can be specified on
  * the command line when starting the server : <code>
@@ -117,10 +117,10 @@ import org.eclipse.imagen.util.ImagingListener;
  *                           with network errors during remote imaging
  * </code>
  *
- * <p>It should be noted that if a parameter was set via JAIServerConfigurationSpi, and the command line option for the
- * same parameter specifies a different value, then the command line specified parameter value will be honored. That is
- * to say that the JAIServerConfigurationSpi specified configuration happens first, followed by command line parameter
- * configuration, and the last configuration to be applied overwrites all previous settings.
+ * <p>It should be noted that if a parameter was set via ImageNServerConfigurationSpi, and the command line option for
+ * the same parameter specifies a different value, then the command line specified parameter value will be honored. That
+ * is to say that the ImageNServerConfigurationSpi specified configuration happens first, followed by command line
+ * parameter configuration, and the last configuration to be applied overwrites all previous settings.
  *
  * @since ImageN 1.1
  */

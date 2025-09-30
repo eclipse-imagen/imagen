@@ -110,11 +110,11 @@ Before release we intend to package up a fat jar for the client and server used 
    used in the JAINetworkDemo network imaging demo application. 
 
    It may be noted that the server provided (JAIRMIServerWrapper) is simply
-   a wrapper around the JAIRMIImageServer class that is provided in the JAI
+   a wrapper around the ImageNRMIImageServer class that is provided in the JAI
    distribution as the server that implements the "jairmi" protocol. The
    JAIRMIServerWrapper class simply intercepts all calls in order to
    display images and text to the demo server GUI before forwarding the
-   call to the actual JAIRMIImageServer server instance that performs the
+   call to the actual ImageNRMIImageServer server instance that performs the
    image processing.
 
    The DirectoryListerServerImpl class is a server that provides the
