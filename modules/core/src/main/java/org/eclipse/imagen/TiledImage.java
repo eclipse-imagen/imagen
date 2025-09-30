@@ -1364,11 +1364,11 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * RenderingChangeEvent</code>, then all tiles which overlap the intersection of the invalid region and the region
      * of interest specified for this image (if any) will be cleared. If the event is a <code>RenderingChangeEvent
      * </code> then the invalid region will be obtained from the <code>getInvalidRegion</code> method of the event
-     * object; if a <code>PropertyChangeEventImageN</code> it will be obtained from the <code>getNewValue()</code> method.
-     * In either case, a new <code>PropertyChangeEventImageN</code> will be fired to all registered listeners of the
-     * property name "InvalidRegion" and to all known sinks which are <code>PropertyChangeListener</code>s. Its old and
-     * new values will contain the previous and current invalid regions. This may be used to determine which tiles must
-     * be re-requested. The <code>TiledImage</code> itself will not re-request the data.
+     * object; if a <code>PropertyChangeEventImageN</code> it will be obtained from the <code>getNewValue()</code>
+     * method. In either case, a new <code>PropertyChangeEventImageN</code> will be fired to all registered listeners of
+     * the property name "InvalidRegion" and to all known sinks which are <code>PropertyChangeListener</code>s. Its old
+     * and new values will contain the previous and current invalid regions. This may be used to determine which tiles
+     * must be re-requested. The <code>TiledImage</code> itself will not re-request the data.
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         PlanarImage src = getNumSources() > 0 ? getSourceImage(0) : null;

@@ -54,7 +54,7 @@ import java.util.Vector;
  *   <li><code>java.awt.image.PixelInterleavedSampleModel</code>;
  *   <li><code>java.awt.image.SinglePixelPackedSampleModel</code>;
  *   <li><code>java.awt.image.MultiPixelPackedSampleModel</code>;
- *   <li><code>org.eclipse.imagen.ComponentSampleModelJAI</code>;
+ *   <li><code>org.eclipse.imagen.ComponentSampleModelImageN</code>;
  *   <li><code>java.awt.image.Raster</code> <br>
  *       (limited to <code>Raster</code>s which have a <code>DataBuffer</code> and <code>SampleModel</code> supported by
  *       a <code>Serializer</code>);

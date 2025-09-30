@@ -20,16 +20,16 @@ package org.eclipse.imagen;
 import java.awt.image.DataBuffer;
 
 /**
- * A subclass of <code>LookupTableJAI</code> which represents a lookup table which is a color cube. A color cube
+ * A subclass of <code>LookupTableImageN</code> which represents a lookup table which is a color cube. A color cube
  * provides a fixed, invertible mapping between table indices and sample values. This allows the <code>findNearestEntry
  * </code> method to be implemented more efficiently than in the general case.
  *
  * <p>All constructors are protected. The correct way to create a <code>ColorCube</code> is to use one of the static
  * <code>create</code> methods defined in this class.
  *
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  */
-public class ColorCube extends LookupTableJAI {
+public class ColorCube extends LookupTableImageN {
     /**
      * A <code>ColorCube</code> for dithering RGB byte data into 216 colors. The offset of this <code>ColorCube</code>
      * is 38.

@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
@@ -57,13 +57,13 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>          <th>Class Type</th>
  *                            <th>Default Value</th></tr>
- * <tr><td>colorMap</td>          <td>org.eclipse.imagen.LookupTableJAI</td>
+ * <tr><td>colorMap</td>          <td>org.eclipse.imagen.LookupTableImageN</td>
  *                            <td>NO_PARAMETER_DEFAULT</td>
  * <tr><td>errorKernel</td>   <td>org.eclipse.imagen.KernelJAI</td>
  *                            <td>org.eclipse.imagen.KernelJAI.ERROR_FILTER_FLOYD_STEINBERG</td>
  * </table>
  *
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  * @see org.eclipse.imagen.KernelJAI
  * @see org.eclipse.imagen.ColorCube
  * @see org.eclipse.imagen.OperationDescriptor
@@ -92,9 +92,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"colorMap", "errorKernel"};
 
     /** The parameter class types for the "ErrorDiffusion" operation. */
-    private static final Class[] paramClasses = {
-        org.eclipse.imagen.LookupTableJAI.class, org.eclipse.imagen.KernelJAI.class
-    };
+    private static final Class[] paramClasses = {LookupTableImageN.class, org.eclipse.imagen.KernelJAI.class};
 
     /** The parameter default values for the "ErrorDiffusion" operation. */
     private static final Object[] paramDefaults = {
@@ -126,7 +124,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>colorMap</code> is <code>null</code>.
      */
     public static RenderedOp create(
-            RenderedImage source0, LookupTableJAI colorMap, KernelJAI errorKernel, RenderingHints hints) {
+            RenderedImage source0, LookupTableImageN colorMap, KernelJAI errorKernel, RenderingHints hints) {
         ParameterBlockImageN pb = new ParameterBlockImageN("ErrorDiffusion", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);

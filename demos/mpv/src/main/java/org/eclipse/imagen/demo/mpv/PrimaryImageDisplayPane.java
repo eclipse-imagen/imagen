@@ -28,7 +28,7 @@ import javax.swing.JSplitPane;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
 
@@ -438,7 +438,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
                     lut[i] = bValue;
                 }
             }
-            LookupTableJAI lookup = new LookupTableJAI(lut);
+            LookupTableImageN lookup = new LookupTableImageN(lut);
             pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(lookup);

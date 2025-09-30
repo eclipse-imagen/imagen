@@ -41,7 +41,7 @@ import java.util.TreeSet;
 import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.FloatDoubleColorModel;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.NotAColorSpace;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PixelAccessor;
@@ -759,7 +759,7 @@ public class ImageUtilities {
 
         pb = new ParameterBlockImageN("Lookup");
         pb.setSource("source0", lookupImg);
-        pb.setParameter("table", new LookupTableJAI(lookup, offset));
+        pb.setParameter("table", new LookupTableImageN(lookup, offset));
         RenderedOp displayImg = ImageN.create("Lookup", pb);
 
         return displayImg;

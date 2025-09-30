@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
@@ -79,7 +79,7 @@ public class ErrorDiffusionTest extends TestBase {
         for (int i = 0; i < 256; i++) {
             data[i] = i;
         }
-        LookupTableJAI lt = new LookupTableJAI(data);
+        LookupTableImageN lt = new LookupTableImageN(data);
         // Create the Kernel
         KernelJAI k = KernelJAI.GRADIENT_MASK_SOBEL_VERTICAL;
 

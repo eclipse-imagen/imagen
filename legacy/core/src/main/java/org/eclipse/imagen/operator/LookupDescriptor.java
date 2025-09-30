@@ -23,7 +23,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
@@ -100,11 +100,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>  <th>Class Type</th>
  *                    <th>Default Value</th></tr>
- * <tr><td>table</td> <td>org.eclipse.imagen.LookupTableJAI</td>
+ * <tr><td>table</td> <td>org.eclipse.imagen.LookupTableImageN</td>
  *                    <td>NO_PARAMETER_DEFAULT</td>
  * </table>
  *
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  * @see org.eclipse.imagen.OperationDescriptor
  */
 public class LookupDescriptor extends OperationDescriptorImpl {
@@ -126,7 +126,7 @@ public class LookupDescriptor extends OperationDescriptorImpl {
     };
 
     /** The parameter class list for this operation. */
-    private static final Class[] paramClasses = {org.eclipse.imagen.LookupTableJAI.class};
+    private static final Class[] paramClasses = {LookupTableImageN.class};
 
     /** The parameter name list for this operation. */
     private static final String[] paramNames = {"table"};
@@ -185,7 +185,7 @@ public class LookupDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>table</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0, LookupTableJAI table, RenderingHints hints) {
+    public static RenderedOp create(RenderedImage source0, LookupTableImageN table, RenderingHints hints) {
         ParameterBlockImageN pb = new ParameterBlockImageN("Lookup", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
@@ -211,7 +211,8 @@ public class LookupDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>table</code> is <code>null</code>.
      */
-    public static RenderableOp createRenderable(RenderableImage source0, LookupTableJAI table, RenderingHints hints) {
+    public static RenderableOp createRenderable(
+            RenderableImage source0, LookupTableImageN table, RenderingHints hints) {
         ParameterBlockImageN pb = new ParameterBlockImageN("Lookup", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);

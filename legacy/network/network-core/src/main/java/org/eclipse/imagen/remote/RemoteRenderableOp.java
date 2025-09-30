@@ -163,8 +163,9 @@ public class RemoteRenderableOp extends RenderableOp {
      * Sets a <code>String</code> identifying the remote imaging protocol.
      *
      * <p>If the supplied name does not equal the current protocol name, a <code>PropertyChangeEventImageN</code> named
-     * "ProtocolName" will be fired. The oldValue field in the <code>PropertyChangeEventImageN</code> will contain the old
-     * protocol name <code>String</code> and the newValue field will contain the new protocol name <code>String</code>.
+     * "ProtocolName" will be fired. The oldValue field in the <code>PropertyChangeEventImageN</code> will contain the
+     * old protocol name <code>String</code> and the newValue field will contain the new protocol name <code>String
+     * </code>.
      *
      * @param protocolName A <code>String</code> identifying the protocol.
      * @throws IllegalArgumentException if protocolName is null.
@@ -185,14 +186,15 @@ public class RemoteRenderableOp extends RenderableOp {
      * Sets the protocol name and the server name of this <code>RemoteRenderableOp</code> to the specified arguments..
      *
      * <p>If both the supplied protocol name and the supplied server name values do not equal the current values, a
-     * <code>PropertyChangeEventImageN</code> named "ProtocolAndServerName" will be fired. The oldValue field in the <code>
+     * <code>PropertyChangeEventImageN</code> named "ProtocolAndServerName" will be fired. The oldValue field in the
+     * <code>
      * PropertyChangeEventImageN</code> will contain a two element array of <code>String</code>s, the old protocol name
      * being the first element and the old server name being the second. Similarly the newValue field of the <code>
      * PropertyChangeEventImageN</code> will contain a two element array of <code>String</code>s, the new protocol name
      * being the first element and the new server name being the second. If only the supplied protocol name does not
      * equal the current protocol name, a <code>PropertyChangeEventImageN</code> named "ProtocolName" will be fired. If
-     * only the supplied server name does not equal the current server name, a <code>PropertyChangeEventImageN</code> named
-     * "ServerName" will be fired.
+     * only the supplied server name does not equal the current server name, a <code>PropertyChangeEventImageN</code>
+     * named "ServerName" will be fired.
      *
      * @param protocolName A <code>String</code> identifying the protocol.
      * @param serverName A <code>String</code> identifying the server.

@@ -39,7 +39,7 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -356,7 +356,7 @@ public class ColorIndexerTest extends TestBase {
         final boolean alpha = icm.hasAlpha();
         // Definition of the lookup table
         final int numDestinationBands = 4;
-        LookupTableJAI lut = null;
+        LookupTableImageN lut = null;
 
         final byte data[][] = new byte[numDestinationBands][icm.getMapSize()];
         icm.getReds(data[0]);
@@ -364,7 +364,7 @@ public class ColorIndexerTest extends TestBase {
         icm.getBlues(data[2]);
         icm.getAlphas(data[3]);
 
-        lut = new LookupTableJAI(data);
+        lut = new LookupTableImageN(data);
         // Layout creation
         final ImageLayout layout = new ImageLayout(image);
         final RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);

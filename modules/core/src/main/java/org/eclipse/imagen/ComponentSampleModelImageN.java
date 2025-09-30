@@ -43,7 +43,7 @@ import java.awt.image.SampleModel;
  *
  * @see java.awt.image.ComponentSampleModel
  */
-public class ComponentSampleModelJAI extends ComponentSampleModel {
+public class ComponentSampleModelImageN extends ComponentSampleModel {
 
     /**
      * Constructs a <code>ComponentSampleModel</code> with the specified parameters. The number of bands will be given
@@ -57,7 +57,8 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param scanlineStride The line stride of the region of image data described.
      * @param bandOffsets The offsets of all bands.
      */
-    public ComponentSampleModelJAI(int dataType, int w, int h, int pixelStride, int scanlineStride, int bandOffsets[]) {
+    public ComponentSampleModelImageN(
+            int dataType, int w, int h, int pixelStride, int scanlineStride, int bandOffsets[]) {
         super(dataType, w, h, pixelStride, scanlineStride, bandOffsets);
     }
 
@@ -74,7 +75,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
      * @param bankIndices The bank indices of all bands.
      * @param bandOffsets The band offsets of all bands.
      */
-    public ComponentSampleModelJAI(
+    public ComponentSampleModelImageN(
             int dataType, int w, int h, int pixelStride, int scanlineStride, int bankIndices[], int bandOffsets[]) {
         super(dataType, w, h, pixelStride, scanlineStride, bankIndices, bandOffsets);
     }
@@ -183,7 +184,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
         }
 
         for (int i = 0; i < bands; i++) bandOff[i] += base;
-        return new ComponentSampleModelJAI(dataType, w, h, pStride, lStride, bankIndices, bandOff);
+        return new ComponentSampleModelImageN(dataType, w, h, pStride, lStride, bankIndices, bandOff);
     }
 
     /**
@@ -203,7 +204,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
             newBankIndices[i] = bankIndices[b];
             newBandOffsets[i] = bandOffsets[b];
         }
-        return new ComponentSampleModelJAI(
+        return new ComponentSampleModelImageN(
                 this.dataType, width, height, this.pixelStride, this.scanlineStride, newBankIndices, newBandOffsets);
     }
 
@@ -875,7 +876,7 @@ public class ComponentSampleModelJAI extends ComponentSampleModel {
 
     /** Returns a <code>String</code> containing the values of all valid fields. */
     public String toString() {
-        String ret = "ComponentSampleModelJAI: " + "  dataType="
+        String ret = "ComponentSampleModelImageN: " + "  dataType="
                 + this.getDataType() + "  numBands="
                 + this.getNumBands() + "  width="
                 + this.getWidth() + "  height="

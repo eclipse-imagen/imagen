@@ -25,7 +25,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Vector;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 
 /**
  * A pane to contain an overview image for display. An overview image is a higher level image on an pyramid pyramid. It
@@ -207,7 +207,7 @@ public class SimpleOverviewImageDisplayPane extends ImageDisplayPane
                     lut[i] = bValue;
                 }
             }
-            LookupTableJAI lookup = new LookupTableJAI(lut);
+            LookupTableImageN lookup = new LookupTableImageN(lut);
             pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(lookup);

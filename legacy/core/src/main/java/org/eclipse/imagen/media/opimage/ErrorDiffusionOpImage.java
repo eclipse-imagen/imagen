@@ -30,7 +30,7 @@ import java.util.Map;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFactory;
 import org.eclipse.imagen.RasterFormatTag;
@@ -50,7 +50,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  *
  * @see org.eclipse.imagen.ColorCube
  * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  * @since EA2
  */
 final class ErrorDiffusionOpImage extends UntiledOpImage {
@@ -70,7 +70,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
     private static final int ERR_SHIFT = 8;
 
     /** The color map which maps the <code>ErrorDiffusionOpImage</code> to its source. */
-    protected LookupTableJAI colorMap;
+    protected LookupTableImageN colorMap;
 
     /** The kernel associated with the selected error filter. */
     protected KernelJAI errorKernel;
@@ -225,7 +225,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
     }
 
     /** Force the destination image to be single-banded. */
-    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, LookupTableJAI colorMap) {
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, LookupTableImageN colorMap) {
         // Create or clone the layout.
         ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
@@ -325,7 +325,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
      * @param source A RenderedImage.
      * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param colorMap The color map to use which must have a number of bands equal to the number of bands in the source
-     *     image. The offset of this <code>LookupTableJAI</code> must be the same for all bands.
+     *     image. The offset of this <code>LookupTableImageN</code> must be the same for all bands.
      * @param errorKernel The error filter kernel. This must have values between 0.0 and 1.0. Only the entries to the
      *     right of and on the same row as the key entry, and those entries below of the row of the key entry are used;
      *     all other values are ignored. The values used must sum to 1.0. Note that if a 1-by-1 error filter kernel is
@@ -333,7 +333,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
      *     the index in the supplied color map of the nearest matching color to the source pixel at the same position.
      */
     public ErrorDiffusionOpImage(
-            RenderedImage source, Map config, ImageLayout layout, LookupTableJAI colorMap, KernelJAI errorKernel) {
+            RenderedImage source, Map config, ImageLayout layout, LookupTableImageN colorMap, KernelJAI errorKernel) {
         super(source, config, layoutHelper(layout, source, colorMap));
 
         // Get the source sample model.
@@ -342,7 +342,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         // Cache the number of bands in the source.
         numBandsSource = srcSampleModel.getNumBands();
 
-        // Set a reference to the LookupTableJAI.
+        // Set a reference to the LookupTableImageN.
         this.colorMap = colorMap;
 
         // Set a reference to the KernelJAI.

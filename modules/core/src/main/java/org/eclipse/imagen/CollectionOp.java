@@ -114,10 +114,10 @@ import org.eclipse.imagen.registry.RenderableCollectionRegistryMode;
  * <code>RenderingChangeEvent</code>s from any <code>RenderedOp</code> sources.
  *
  * <p>Certain <code>PropertyChangeEvent</code>s may be emitted by the <code>CollectionOp</code>. These include the
- * <code>PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing
- * the <code>OperationNode</code> interface. Additionally a <code>CollectionChangeEvent</code> may be emitted if the
- * node is operating in the "collection" mode, has already been rendered, and one of the following conditions is
- * satisfied:
+ * <code>PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of
+ * implementing the <code>OperationNode</code> interface. Additionally a <code>CollectionChangeEvent</code> may be
+ * emitted if the node is operating in the "collection" mode, has already been rendered, and one of the following
+ * conditions is satisfied:
  *
  * <ul>
  *   <li>any of the critical attributes is changed (edited), i.e., the operation name, operation registry, node sources,
@@ -480,8 +480,8 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * Sets the <code>RenderingHints</code> of this node. The supplied parameter is cloned if non-<code>null</code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>CollectionChangeEvent</code> may
-     * be fired if the node has already been rendered.
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>CollectionChangeEvent</code>
+     * may be fired if the node has already been rendered.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      */

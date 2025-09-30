@@ -23,7 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import org.eclipse.imagen.Histogram;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.widgets.*;
@@ -154,7 +154,7 @@ public class HistogramDemo extends JPanel implements ActionListener {
             cumulative[i] = (byte) ((sum * scale) + .5F);
         }
 
-        LookupTableJAI lookup = new LookupTableJAI(cumulative);
+        LookupTableImageN lookup = new LookupTableImageN(cumulative);
 
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(source);

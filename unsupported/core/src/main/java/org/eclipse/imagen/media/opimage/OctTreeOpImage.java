@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -118,7 +118,7 @@ public class OctTreeOpImage extends ColorQuantizerOpImage {
         cube.reduction();
         cube.assignment();
 
-        colorMap = new LookupTableJAI(cube.colormap);
+        colorMap = new LookupTableImageN(cube.colormap);
         setProperty("LUT", colorMap);
         setProperty("ImageN.LookupTable", colorMap);
     }

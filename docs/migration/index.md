@@ -155,17 +155,19 @@ To upgrade:
 
 The following classes have been renamed:
 
-| JAI or JAI-Ext Class      | ImageN Class                 |
-|---------------------------|------------------------------|
-| ColorSpaceJAI             | ColorSpaceImageN             | 
-| ColorSpaceJAIExt          | ColorSpaceImageNExt          |
-| ColorSpaceJAIExtWrapper   | ColorSpaceImageNExtWrapper   |
-| IHSColorSpaceJAIExt       | IHSColorSpaceImageNExt       |
-| JAI                       | ImageN                       |
-| JAIRMIImageServer         | ImageNRMIImageServer         |
-| JAIServerConfigurationSpi | ImageNServerConfigurationSpi |
-| ParameterBlockJAI         | ParameterBlockImageN         |
-| PropertyChangeEventJAI    | PropertyChangeEventImageN    |  
+| JAI or JAI-Ext Class      | ImageN Class                  |
+|---------------------------|-------------------------------|
+| ColorSpaceJAI             | ColorSpaceImageN              | 
+| ColorSpaceJAIExt          | ColorSpaceImageNExt           |
+| ColorSpaceJAIExtWrapper   | ColorSpaceImageNExtWrapper    |
+| IHSColorSpaceJAIExt       | IHSColorSpaceImageNExt        |
+| JAI                       | ImageN                        |
+| JAIRMIImageServer         | ImageNRMIImageServer          |
+| JAIServerConfigurationSpi | ImageNServerConfigurationSpi  |
+| ParameterBlockJAI         | ParameterBlockImageN          |
+| PropertyChangeEventJAI    | PropertyChangeEventImageN     | 
+| LookupTableJAI            | LookupTableImageN             |
+| ComponentSampleModelJAI   | ComponentSampleModelImageN    |
 
 The following ImageReadDescriptors have been renamed:
 

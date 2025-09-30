@@ -699,7 +699,7 @@ tableData[i] = (byte)(i >8);
 LookupTableJAI table = new LookupTableJAI(tableData);
 ```
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `LookupTableJAI(byte[] data)`
 * `LookupTableJAI(byte[] data, int offset)`
@@ -752,7 +752,7 @@ tableData[2][i] = (byte)(i >8);
 LookupTableJAI table = new LookupTableJAI(tableData);
 ```
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `LookupTableJAI(byte[][] data)`
 * `LookupTableJAI(byte[][] data, int offset)`
@@ -927,7 +927,7 @@ Several methods are available to read the current contents of the
 lookup table. The choice of method depends on the data format: byte,
 short, integer, floating-point, or double floating-point.
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `java.awt.image.DataBuffer getData()`
 * `byte[][] getByteData()`
@@ -946,7 +946,7 @@ short, integer, floating-point, or double floating-point.
 There are three methods for reading the offset values within the
 current lookup table.
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `int[] getOffsets()`
 * `int getOffset()`
@@ -957,7 +957,7 @@ current lookup table.
 A single method is used to read the number of bands in the lookup
 table.
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `int getNumBands()`
 
@@ -966,7 +966,7 @@ table.
 A single method is used to read the number of entries per band in the
 lookup table.
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `int getNumEntries()`
 
@@ -974,13 +974,13 @@ lookup table.
 
 A single method is used to read the data type of the lookup table.
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `int getDataType()`
 
 #### 7.6.3.6 Reading the Destination Bands and SampleModel
 
-**API:** `org.eclipse.imagen.LookupTableJAI`
+**API:** `org.eclipse.imagen.LookupTableImageN`
 
 * `int getDestNumBands(int sourceNumBands)`
 * `java.awt.image.SampleModel getDestSampleModel(java.awt.image.SampleModel srcSampleModel)`

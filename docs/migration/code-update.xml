@@ -470,10 +470,18 @@
                 <replacetoken>IHSColorSpaceJAIExt</replacetoken>
                 <replacevalue>IHSColorSpaceImageNExt</replacevalue>
             </replacefilter>
-            <!-- reactor events -->
+            <!-- reactor others -->
             <replacefilter>
                 <replacetoken>PropertyChangeEventJAI</replacetoken>
                 <replacevalue>PropertyChangeEventImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>LookupTableJAI</replacetoken>
+                <replacevalue>LookupTableImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ComponentSampleModelJAI</replacetoken>
+                <replacevalue>ComponentSampleModelImageN</replacevalue>
             </replacefilter>
             <!--                        -->
             <!-- Downstream API Changes -->
@@ -481,6 +489,10 @@
             <replacefilter>
                 <replacetoken>ImageMosaicFormat.USE_JAI_IMAGEREAD</replacetoken>
                 <replacevalue>ImageMosaicFormat.USE_IMAGEN_IMAGEREAD</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ComponentColorModelJAI</replacetoken>
+                <replacevalue>ComponentColorModelImageN</replacevalue>
             </replacefilter>
         </replace>
     </target>

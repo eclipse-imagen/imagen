@@ -42,7 +42,7 @@ import java.awt.image.WritableRaster;
  * <p>This class provides the capability of creating <code>Raster</code>s with the enumerated data types in the
  * java.awt.image.DataBuffer.
  *
- * <p>In some cases, instances of <code>ComponentSampleModelJAI</code>, a subclass of <code>
+ * <p>In some cases, instances of <code>ComponentSampleModelImageN</code>, a subclass of <code>
  * java.awt.image.ComponentSampleModel</code> are instantiated instead of <code>java.awt.image.BandedSampleModel</code>
  * in order to work around bugs in the current release of the Java 2 SDK.
  */
@@ -407,8 +407,8 @@ public class RasterFactory {
                     throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory7"));
                 }
 
-                SampleModel sm =
-                        new ComponentSampleModelJAI(dataType, width, height, pixelStride, scanlineStride, bandOffsets);
+                SampleModel sm = new ComponentSampleModelImageN(
+                        dataType, width, height, pixelStride, scanlineStride, bandOffsets);
                 return Raster.createWritableRaster(sm, dataBuffer, location);
 
             default:
@@ -463,7 +463,7 @@ public class RasterFactory {
         }
 
         SampleModel bsm =
-                new ComponentSampleModelJAI(dataType, width, height, 1, scanlineStride, bankIndices, bandOffsets);
+                new ComponentSampleModelImageN(dataType, width, height, 1, scanlineStride, bankIndices, bandOffsets);
 
         switch (dataType) {
             case DataBuffer.TYPE_BYTE:
@@ -652,7 +652,7 @@ public class RasterFactory {
         if (bandOffsets.length != bankIndices.length) {
             throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory2"));
         }
-        return new ComponentSampleModelJAI(dataType, width, height, 1, width, bankIndices, bandOffsets);
+        return new ComponentSampleModelImageN(dataType, width, height, 1, width, bankIndices, bandOffsets);
     }
 
     /**
@@ -721,7 +721,8 @@ public class RasterFactory {
             case DataBuffer.TYPE_SHORT:
             case DataBuffer.TYPE_FLOAT:
             case DataBuffer.TYPE_DOUBLE:
-                return new ComponentSampleModelJAI(dataType, width, height, pixelStride, scanlineStride, bandOffsets);
+                return new ComponentSampleModelImageN(
+                        dataType, width, height, pixelStride, scanlineStride, bandOffsets);
             default:
                 throw new IllegalArgumentException(ImageNI18N.getString("RasterFactory3"));
         }
