@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.registry.CollectionRegistryMode;
 
 /**
@@ -139,11 +139,11 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
     /**
      * Adds constants to a collection of rendered images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createCollection(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see Collection
      * @param source0 <code>Collection</code> source 0.
      * @param constants The constants to be added. May be <code>null</code>.
@@ -152,7 +152,7 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static Collection createCollection(Collection source0, double[] constants, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("AddConstToCollection", CollectionRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("AddConstToCollection", CollectionRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

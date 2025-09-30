@@ -25,7 +25,7 @@ import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
@@ -207,11 +207,11 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
     /**
      * Performs ordered dither color quantization using a specified color cube and dither mask.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param colorMap The color cube. May be <code>null</code>.
@@ -222,7 +222,7 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0, ColorCube colorMap, KernelJAI[] ditherMask, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("OrderedDither", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("OrderedDither", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

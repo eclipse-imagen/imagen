@@ -38,7 +38,7 @@ import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.LookupTableJAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -85,7 +85,7 @@ public class ErrorDiffusionTest extends TestBase {
 
         final BufferedImage image = getSyntheticShortImage();
 
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ErrorDiffusion");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -104,7 +104,7 @@ public class ErrorDiffusionTest extends TestBase {
         Range nodata = RangeFactory.create((short) 5, (short) 5);
 
         // ROI
-        pbj = new ParameterBlockJAI("ErrorDiffusion");
+        pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -118,7 +118,7 @@ public class ErrorDiffusionTest extends TestBase {
         finalimage.dispose();
 
         // NODATA
-        pbj = new ParameterBlockJAI("ErrorDiffusion");
+        pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -132,7 +132,7 @@ public class ErrorDiffusionTest extends TestBase {
         finalimage.dispose();
 
         // NODATA AND ROI
-        pbj = new ParameterBlockJAI("ErrorDiffusion");
+        pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -254,7 +254,7 @@ public class ErrorDiffusionTest extends TestBase {
         KernelJAI k = KernelJAI.ERROR_FILTER_FLOYD_STEINBERG;
 
         final RenderedImage image = getTestTiff();
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ErrorDiffusion");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -273,7 +273,7 @@ public class ErrorDiffusionTest extends TestBase {
         Range nodata = RangeFactory.create((byte) 5, (byte) 5);
 
         // ROI
-        pbj = new ParameterBlockJAI("ErrorDiffusion");
+        pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -287,7 +287,7 @@ public class ErrorDiffusionTest extends TestBase {
         finalimage.dispose();
 
         // NODATA
-        pbj = new ParameterBlockJAI("ErrorDiffusion");
+        pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);
@@ -301,7 +301,7 @@ public class ErrorDiffusionTest extends TestBase {
         finalimage.dispose();
 
         // NODATA AND ROI
-        pbj = new ParameterBlockJAI("ErrorDiffusion");
+        pbj = new ParameterBlockImageN("ErrorDiffusion");
         pbj.addSource(image);
         pbj.setParameter("errorKernel", k);
         pbj.setParameter("colorMap", lt);

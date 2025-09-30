@@ -27,7 +27,7 @@ import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -233,11 +233,11 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
     /**
      * Moves an image to a new location.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param xTrans The displacement in X direction. May be <code>null</code>.
@@ -249,7 +249,7 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0, Float xTrans, Float yTrans, Interpolation interpolation, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Translate", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Translate", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -263,11 +263,11 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
     /**
      * Moves an image to a new location.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param xTrans The displacement in X direction. May be <code>null</code>.
@@ -279,7 +279,7 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, Float xTrans, Float yTrans, Interpolation interpolation, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Translate", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Translate", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

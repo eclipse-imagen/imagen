@@ -12,7 +12,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -66,7 +66,7 @@ public class SubtractDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if source0 or source1 is null.
      */
     public static RenderedOp create(RenderedImage source0, RenderedImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("subtract", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("subtract", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
@@ -85,7 +85,7 @@ public class SubtractDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, RenderableImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("subtract", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("subtract", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);

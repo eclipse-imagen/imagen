@@ -28,7 +28,7 @@ import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -465,11 +465,11 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
     /**
      * Resizes an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param xScale The X scale factor. May be <code>null</code>.
@@ -496,7 +496,7 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
             Range nodata,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Scale2", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Scale2", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -518,11 +518,11 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
     /**
      * Resizes an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param xScale The X scale factor. May be <code>null</code>.
@@ -548,7 +548,7 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
             Range nodata,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Scale2", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Scale2", RenderableRegistryMode.MODE_NAME);
         pb.setSource("source0", source0);
 
         pb.setParameter("xScale", xScale);

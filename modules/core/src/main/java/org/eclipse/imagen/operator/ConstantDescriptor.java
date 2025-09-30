@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -157,11 +157,11 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
     /**
      * Creates an image with constant pixel values.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param width Image width in pixels.
      * @param height Image height in pixels.
@@ -173,7 +173,7 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>bandValues</code> is <code>null</code>.
      */
     public static RenderedOp create(Float width, Float height, Number[] bandValues, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Constant", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Constant", RenderedRegistryMode.MODE_NAME);
 
         pb.setParameter("width", width);
         pb.setParameter("height", height);
@@ -185,11 +185,11 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
     /**
      * Creates an image with constant pixel values.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param width Image width in pixels.
      * @param height Image height in pixels.
@@ -201,7 +201,7 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>bandValues</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(Float width, Float height, Number[] bandValues, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Constant", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Constant", RenderableRegistryMode.MODE_NAME);
 
         pb.setParameter("width", width);
         pb.setParameter("height", height);

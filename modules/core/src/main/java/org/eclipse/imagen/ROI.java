@@ -172,7 +172,7 @@ public class ROI implements Serializable {
             // Otherwise binarize the image for efficiency.
         } else {
 
-            ParameterBlockJAI pbj = new ParameterBlockJAI("binarize");
+            ParameterBlockImageN pbj = new ParameterBlockImageN("binarize");
 
             pbj.setSource("source0", im);
             pbj.setParameter("threshold", (double) threshold);

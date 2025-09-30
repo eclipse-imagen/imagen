@@ -255,11 +255,11 @@ public class ShearDescriptor extends OperationDescriptorImpl {
     /**
      * Shears an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param shear The shear value. May be <code>null</code>.
@@ -281,7 +281,7 @@ public class ShearDescriptor extends OperationDescriptorImpl {
             Interpolation interpolation,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Shear", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Shear", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

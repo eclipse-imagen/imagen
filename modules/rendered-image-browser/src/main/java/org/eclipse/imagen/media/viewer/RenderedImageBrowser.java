@@ -42,7 +42,7 @@ import javax.swing.tree.TreePath;
 import org.eclipse.imagen.EnumeratedParameter;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.TileScheduler;
@@ -151,8 +151,8 @@ public class RenderedImageBrowser extends JPanel {
             Vector<Object> paramValues = block.getParameters();
             for (int i = 0; i < paramValues.size(); i++) {
                 String pname = "Parameter " + (i + 1);
-                if (block instanceof ParameterBlockJAI) {
-                    pname = ((ParameterBlockJAI) block)
+                if (block instanceof ParameterBlockImageN) {
+                    pname = ((ParameterBlockImageN) block)
                             .getParameterListDescriptor()
                             .getParamNames()[i];
                 }

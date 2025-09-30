@@ -27,7 +27,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -226,11 +226,11 @@ public class CropImageTest extends TestBase {
     private ParameterBlock buildParameterBlock(
             RenderedImage source, boolean newDescriptor, boolean roiUsed, boolean noDataUsed) {
         // Creation of the parameterBlock associated with its operation
-        ParameterBlockJAI pb;
+        ParameterBlockImageN pb;
         if (newDescriptor) {
-            pb = new ParameterBlockJAI("Crop");
+            pb = new ParameterBlockImageN("Crop");
         } else {
-            pb = new ParameterBlockJAI("crop");
+            pb = new ParameterBlockImageN("crop");
         }
         // Setting of the source
         pb.setSource("source0", source);

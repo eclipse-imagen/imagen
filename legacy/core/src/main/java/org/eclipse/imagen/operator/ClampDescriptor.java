@@ -155,11 +155,11 @@ public class ClampDescriptor extends OperationDescriptorImpl {
     /**
      * Clamps the pixel values of an image to a specified range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param low The lower boundary for each band. May be <code>null</code>.
@@ -169,7 +169,7 @@ public class ClampDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, double[] low, double[] high, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Clamp", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Clamp", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -182,11 +182,11 @@ public class ClampDescriptor extends OperationDescriptorImpl {
     /**
      * Clamps the pixel values of an image to a specified range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param low The lower boundary for each band. May be <code>null</code>.
@@ -197,7 +197,7 @@ public class ClampDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, double[] low, double[] high, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Clamp", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Clamp", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

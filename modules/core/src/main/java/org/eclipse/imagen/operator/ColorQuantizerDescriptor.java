@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
@@ -264,11 +264,11 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
     /**
      * Color quantization on the provided image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param algorithm The algorithm to be chosen. May be <code>null</code>.
@@ -290,7 +290,7 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
             Integer xPeriod,
             Integer yPeriod,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ColorQuantizer", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ColorQuantizer", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

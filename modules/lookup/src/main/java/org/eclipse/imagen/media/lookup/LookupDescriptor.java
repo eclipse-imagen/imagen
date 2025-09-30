@@ -23,7 +23,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -277,11 +277,11 @@ public class LookupDescriptor extends OperationDescriptorImpl {
     /**
      * Performs a lookup operation on an integral image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param table The lookuptable used.
@@ -302,7 +302,7 @@ public class LookupDescriptor extends OperationDescriptorImpl {
             boolean useRoiAccessor,
             RenderingHints hints) {
         // Creation of a parameterBlockJAI containing all the operation parameters
-        ParameterBlockJAI pb = new ParameterBlockJAI("Lookup", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Lookup", RenderedRegistryMode.MODE_NAME);
         // Source image
         pb.setSource("source0", source0);
         // Image parameters

@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationRegistry;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
@@ -142,7 +142,7 @@ public class CropDescriptor extends OperationDescriptorImpl {
             Range noData,
             double[] destNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Crop", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Crop", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.InputStream;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.codec.ImageDecodeParam;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
@@ -155,11 +155,11 @@ public class FileLoadDescriptor extends OperationDescriptorImpl {
     /**
      * Reads an image from a file.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param filename The path of the file to read from.
      * @param param The ImageDecodeParam to use. May be <code>null</code>.
@@ -170,7 +170,7 @@ public class FileLoadDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             String filename, ImageDecodeParam param, Boolean checkFileLocally, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("FileLoad", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("FileLoad", RenderedRegistryMode.MODE_NAME);
 
         pb.setParameter("filename", filename);
         pb.setParameter("param", param);

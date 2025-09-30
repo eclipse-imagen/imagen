@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
@@ -129,11 +129,11 @@ public class MeanDescriptor extends OperationDescriptorImpl {
     /**
      * Calculates the image-wise mean pixel value for each band of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param roi The region of the image to scan. May be <code>null</code>.
@@ -145,7 +145,7 @@ public class MeanDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0, ROI roi, Integer xPeriod, Integer yPeriod, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Mean", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Mean", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

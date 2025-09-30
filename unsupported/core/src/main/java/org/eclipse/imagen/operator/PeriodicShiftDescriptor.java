@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -156,11 +156,11 @@ public class PeriodicShiftDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the periodic translation of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param shiftX The displacement in the X direction. May be <code>null</code>.
@@ -170,7 +170,7 @@ public class PeriodicShiftDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Integer shiftX, Integer shiftY, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("PeriodicShift", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("PeriodicShift", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -183,11 +183,11 @@ public class PeriodicShiftDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the periodic translation of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param shiftX The displacement in the X direction. May be <code>null</code>.
@@ -198,7 +198,7 @@ public class PeriodicShiftDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, Integer shiftX, Integer shiftY, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("PeriodicShift", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("PeriodicShift", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

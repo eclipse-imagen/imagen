@@ -25,7 +25,7 @@ import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -444,7 +444,7 @@ public class RangeLookupTest extends TestBase {
     }
 
     private RenderedOp doOp(RenderedImage srcImg, RangeLookupTable table, ROI roi, Double defaultValue) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("RLookup");
+        ParameterBlockImageN pb = new ParameterBlockImageN("RLookup");
         pb.setSource("source0", srcImg);
         pb.setParameter("table", table);
         pb.setParameter("roi", roi);

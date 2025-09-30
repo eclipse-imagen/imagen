@@ -28,7 +28,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -51,7 +51,7 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(512f, 512f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {1});
         RenderedOp oneBand = ImageN.create("BandSelect", pb);
@@ -92,7 +92,7 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(1f, 1f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[0]);
         RenderedOp oneBand = ImageN.create("BandSelect", pb);
@@ -104,7 +104,7 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(1f, 1f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {-1});
         RenderedOp oneBand = ImageN.create("BandSelect", pb);
@@ -116,7 +116,7 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(1f, 1f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {2});
         RenderedOp oneBand = ImageN.create("BandSelect", pb);

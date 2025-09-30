@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -93,11 +93,11 @@ public class AbsoluteDescriptor extends OperationDescriptorImpl {
     /**
      * Replaces the pixel values of an image by their absolute values.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -105,7 +105,7 @@ public class AbsoluteDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Absolute", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Absolute", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -115,11 +115,11 @@ public class AbsoluteDescriptor extends OperationDescriptorImpl {
     /**
      * Replaces the pixel values of an image by their absolute values.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -127,7 +127,7 @@ public class AbsoluteDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Absolute", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Absolute", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

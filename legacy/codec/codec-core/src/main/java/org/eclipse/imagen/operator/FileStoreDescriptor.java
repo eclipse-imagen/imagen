@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageEncodeParam;
@@ -223,11 +223,11 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
     /**
      * Stores an image to a file.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param filename The path of the file to write to.
@@ -247,7 +247,7 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
             ImageEncodeParam param,
             Boolean checkFileLocally,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("FileStore", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("FileStore", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

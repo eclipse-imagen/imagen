@@ -47,7 +47,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.jiffle.runtime.BandTransform;
 import org.eclipse.imagen.media.jiffle.runtime.CoordinateTransform;
@@ -171,8 +171,8 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * RenderedOp creation method that takes all the parameters, passes them to the ParameterBlockJAI and then call the
-     * ImageN create method for the mosaic operation with no data support.
+     * RenderedOp creation method that takes all the parameters, passes them to the ParameterBlockImageN and then call
+     * the ImageN create method for the mosaic operation with no data support.
      *
      * @param sources The RenderdImage source array used for the operation.
      * @param sourceImageNames The array of source image names, that will be referred from the script. Can be null, in
@@ -200,7 +200,7 @@ public class JiffleDescriptor extends OperationDescriptorImpl {
             BandTransform[] sourceBandTransforms,
             Range[] noData,
             RenderingHints renderingHints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Jiffle", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Jiffle", RenderedRegistryMode.MODE_NAME);
 
         // All the source images are added to the parameter block.
         int numSources = sources.length;

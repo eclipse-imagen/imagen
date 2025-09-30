@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
@@ -107,11 +107,11 @@ public class PatternDescriptor extends OperationDescriptorImpl {
     /**
      * Defines an image with a repeated pattern.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param width The width of the image in pixels.
@@ -123,7 +123,7 @@ public class PatternDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>height</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Integer width, Integer height, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Pattern", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Pattern", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

@@ -24,7 +24,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.util.List;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
@@ -293,11 +293,11 @@ public class ZonalStatsDescriptor extends OperationDescriptorImpl {
     /**
      * Performs statistical operations on different image zones defined by the input geometry list.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source <code>RenderedImage</code> source image.
      * @param classifier <code>RenderedImage</code> optional classifier image(Integral dataType).
@@ -335,7 +335,7 @@ public class ZonalStatsDescriptor extends OperationDescriptorImpl {
             boolean localStats,
             RenderingHints hints) {
         // Creation of a parameterBlockJAI containing all the operation parameters
-        ParameterBlockJAI pb = new ParameterBlockJAI("Zonal", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Zonal", RenderedRegistryMode.MODE_NAME);
         // Source image
         pb.setSource(source, 0);
         // Image parameters
@@ -360,11 +360,11 @@ public class ZonalStatsDescriptor extends OperationDescriptorImpl {
     /**
      * Performs statistical operations on different image zones defined by the input geometry list.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source <code>RenderedImage</code> source image.
      * @param classifier <code>RenderedImage</code> optional classifier image(Integral dataType).

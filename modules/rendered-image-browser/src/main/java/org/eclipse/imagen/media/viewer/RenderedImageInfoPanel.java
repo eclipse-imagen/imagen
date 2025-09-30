@@ -38,7 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
@@ -215,8 +215,10 @@ public class RenderedImageInfoPanel extends JPanel {
         Vector<Object> paramValues = block.getParameters();
         for (int i = 0; i < paramValues.size(); i++) {
             String name = "Parameter " + (i + 1);
-            if (block instanceof ParameterBlockJAI) {
-                name = ((ParameterBlockJAI) block).getParameterListDescriptor().getParamNames()[i];
+            if (block instanceof ParameterBlockImageN) {
+                name = ((ParameterBlockImageN) block)
+                        .getParameterListDescriptor()
+                        .getParamNames()[i];
             }
             hb.dataLine(name, paramValues.get(i));
         }

@@ -22,7 +22,7 @@ import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageFunction;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderableOp;
@@ -300,11 +300,11 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
     /**
      * Generates an image from a functional description.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param function The functional description.
      * @param width The image width.
@@ -335,7 +335,7 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
             float destNoData,
             RenderingHints hints) {
         // Creating the parameter block
-        ParameterBlockJAI pb = new ParameterBlockJAI("ImageFunction", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ImageFunction", RenderedRegistryMode.MODE_NAME);
         // Setting the parameters (No Source is needed)
         pb.setParameter("function", function);
         pb.setParameter("width", width);

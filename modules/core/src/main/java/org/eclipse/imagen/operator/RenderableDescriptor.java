@@ -25,7 +25,7 @@ import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.KernelJAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -215,11 +215,11 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
     /**
      * Produces a RenderableImage from a RenderedImage.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param downSampler The operation chain used to derive the lower resolution images. May be <code>null</code>.
@@ -239,7 +239,7 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
             Float minY,
             Float height,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Renderable", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Renderable", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 

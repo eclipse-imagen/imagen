@@ -1329,7 +1329,7 @@ There are two separate classes for specifying parameter blocks:
 -   `java.awt.image.renderable.ParameterBlock` - the main class for
     specifying and changing parameter blocks.
 
--   `org.eclipse.imagen.ParameterBlockJAI` - extends `ParameterBlock` by
+-   `org.eclipse.imagen.ParameterBlockImageN` - extends `ParameterBlock` by
     allowing the use of default parameter values and the use of
     parameter names.
 
@@ -1446,7 +1446,7 @@ specified.
   pb.set(interp, "interpolation");  // The interpolation method
 ```
 
-**API:** `org.eclipse.imagen.ParameterBlockJAI`
+**API:** `org.eclipse.imagen.ParameterBlockImageN`
 
 
 * `ParameterBlock set(byte b, String paramName)`

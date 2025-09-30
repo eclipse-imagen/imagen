@@ -48,7 +48,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.iterator.RectIter;
 import org.eclipse.imagen.iterator.RectIterFactory;
@@ -84,7 +84,7 @@ public class NoSourceTest {
 
     @Test
     public void createSequentialImage() throws Exception {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Jiffle");
+        ParameterBlockImageN pb = new ParameterBlockImageN("Jiffle");
 
         String script = "dest = y() * width() + x();";
 

@@ -24,7 +24,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -217,11 +217,11 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
     /**
      * Performs arbitrary interband linear combination using a specified matrix.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param matrix The matrix specifying the band combination.
@@ -231,7 +231,7 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>matrix</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, double[][] matrix, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandCombine", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandCombine", RenderedRegistryMode.MODE_NAME);
         pb.setSource("source0", source0);
         pb.setParameter("matrix", matrix);
         return ImageN.create("BandCombine", pb, hints);
@@ -240,11 +240,11 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
     /**
      * Performs arbitrary interband linear combination using a specified matrix and checking ROI and NoData if defined.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param matrix The matrix specifying the band combination.
@@ -261,7 +261,7 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
             Range nodata,
             double destinationNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandCombine", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandCombine", RenderedRegistryMode.MODE_NAME);
         // Setting source
         pb.setSource("source0", source0);
         // Setting parameters
@@ -276,11 +276,11 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
     /**
      * Performs arbitrary interband linear combination using a specified matrix and checking ROI and NoData if defined.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param matrix The matrix specifying the band combination.
@@ -297,7 +297,7 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
             Range nodata,
             double destinationNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandCombine", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandCombine", RenderableRegistryMode.MODE_NAME);
         // Setting source
         pb.setSource("source0", source0);
         // Setting parameters

@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import java.awt.Dimension;
 import java.awt.image.Raster;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -72,7 +72,7 @@ public class VectorBinarizeTest extends TestBase {
 
         Polygon poly = (Polygon) reader.read(wkt);
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("VectorBinarize");
+        ParameterBlockImageN pb = new ParameterBlockImageN("VectorBinarize");
         pb.setParameter("width", Ntiles * TILE_WIDTH);
         pb.setParameter("height", Ntiles * TILE_WIDTH);
         pb.setParameter("geometry", poly);

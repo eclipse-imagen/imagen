@@ -27,7 +27,7 @@ import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -337,11 +337,11 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
     /**
      * Subsamples an image by averaging over a moving window.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scaleX The X scale factor. May be <code>null</code>.
@@ -351,7 +351,7 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Double scaleX, Double scaleY, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubsampleAverage", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubsampleAverage", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -364,11 +364,11 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
     /**
      * Subsamples an image by averaging over a moving window.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
      * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
      * @see ImageN
-     * @see ParameterBlockJAI
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param scaleX The X scale factor. May be <code>null</code>.
@@ -379,7 +379,7 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, Double scaleX, Double scaleY, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubsampleAverage", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubsampleAverage", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
