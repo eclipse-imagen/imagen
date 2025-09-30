@@ -270,9 +270,9 @@ public class RMIServerProxy extends PlanarImageServerProxy {
 
     /**
      * Creates a <code>RMIServerProxy</code> which is the new rendering produced by updating the given old rendering by
-     * the changes specified by the given <code>PropertyChangeEventJAI</code>.
+     * the changes specified by the given <code>PropertyChangeEventImageN</code>.
      */
-    public RMIServerProxy(PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventJAI event) {
+    public RMIServerProxy(PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventImageN event) {
 
         super(
                 ((RemoteRenderedOp) node).getServerName(),

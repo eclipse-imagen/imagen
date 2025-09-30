@@ -22,11 +22,11 @@ import java.beans.PropertyChangeListener;
 /**
  * A class which emits <code>PropertyChangeEvent</code>s. This abstraction permits objects of disparate types to be
  * recognized as sources of <code>PropertyChangeEvent</code>s. <code>PropertyChangeEvent</code>s emitted by ImageN
- * objects will be <code>PropertyChangeEventJAI</code> instances.
+ * objects will be <code>PropertyChangeEventImageN</code> instances.
  *
  * <p>Note that the case of property names used in this context is significant.
  *
- * @see PropertyChangeEventJAI
+ * @see PropertyChangeEventImageN
  */
 public interface PropertyChangeEmitter {
 

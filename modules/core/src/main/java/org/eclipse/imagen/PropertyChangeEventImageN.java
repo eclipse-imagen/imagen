@@ -26,12 +26,12 @@ import java.beans.PropertyChangeEvent;
  * class. Note that this does not prevent ImageN properties from colliding with other Java Bean properties in the Bean
  * property name space.
  */
-public class PropertyChangeEventJAI extends PropertyChangeEvent {
+public class PropertyChangeEventImageN extends PropertyChangeEvent {
     /** The case-retained property name as supplied to the constructor. */
     private String originalPropertyName;
 
     /**
-     * Constructs a <code>PropertyChangeEventJAI</code>. <code>propertyName</code> is forced to lower case; all other
+     * Constructs a <code>PropertyChangeEventImageN</code>. <code>propertyName</code> is forced to lower case; all other
      * parameters are passed unmodified to the superclass constructor. The original property name may be obtained by
      * invoking <code>getOriginalPropertyName()</code>.
      *
@@ -39,7 +39,7 @@ public class PropertyChangeEventJAI extends PropertyChangeEvent {
      * @exception IllegalArgumentException if <code>source</code> is <code>null</code> or if <code>oldValue</code> and
      *     <code>newValue</code> are both <code>null</code>.
      */
-    public PropertyChangeEventJAI(Object source, String propertyName, Object oldValue, Object newValue) {
+    public PropertyChangeEventImageN(Object source, String propertyName, Object oldValue, Object newValue) {
         super(source, propertyName.toLowerCase(), oldValue, newValue);
 
         if (source == null) {

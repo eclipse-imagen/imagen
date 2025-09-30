@@ -129,7 +129,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * CollectionChangeEvent</code>s from any <code>CollectionOp</code> sources.
  *
  * <p>Certain <code>PropertyChangeEvent</code>s may be emitted by the <code>RenderedOp</code>. These include the <code>
- * PropertyChangeEventJAI</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
+ * PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
  * <code>OperationNode</code> interface. Additionally a <code>RenderingChangeEvent</code> may be emitted if the node has
  * already been rendered and both of the following conditions are satisfied:
  *
@@ -457,7 +457,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Sets the <code>OperationRegistry</code> that is used by this node. If the specified registry is <code>null</code>
      * , the default registry is used. The parameter is saved by reference.
      *
-     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventImageN</code> named
      * "OperationRegistry" will be fired and a <code>RenderingChangeEvent</code> may be fired if the node has already
      * been rendered.
      *
@@ -475,7 +475,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     /**
      * Sets the name of the operation this node represents. The parameter is saved by reference.
      *
-     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventImageN</code> named
      * "OperationName" will be fired and a <code>RenderingChangeEvent</code> may be fired if the node has already been
      * rendered.
      *
@@ -500,7 +500,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * node represents; otherwise some form of error or exception may occur at the time of rendering.
      *
      * <p>If the supplied <code>ParameterBlock</code> does not equal the current <code>ParameterBlock</code>, a <code>
-     * PropertyChangeEventJAI</code> named "ParameterBlock", "Sources", or "Parameters" will be fired. A <code>
+     * PropertyChangeEventImageN</code> named "ParameterBlock", "Sources", or "Parameters" will be fired. A <code>
      * RenderingChangeEvent</code> may also be fired if the node has already been rendered.
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
@@ -556,7 +556,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Sets the <code>RenderingHints</code> of this node. The supplied parameter is cloned if non-<code>null</code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventJAI</code> named "RenderingHints" will be fired and a <code>RenderingChangeEvent</code> may be
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>RenderingChangeEvent</code> may be
      * fired if the node has already been rendered.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
@@ -787,7 +787,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         //
         // React if and only if the node has been rendered and
-        // A: a non-PropertySourceChangeEvent PropertyChangeEventJAI
+        // A: a non-PropertySourceChangeEvent PropertyChangeEventImageN
         //    was received from this node, or
         // B: a RenderingChangeEvent was received from a source RenderedOp, or
         // C: a CollectionChangeEvent was received from a source CollectionOp, or
@@ -803,13 +803,13 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
         String propName = evt.getPropertyName().toLowerCase(Locale.ENGLISH);
 
         if (theImage != null
-                && ((evt instanceof PropertyChangeEventJAI
+                && ((evt instanceof PropertyChangeEventImageN
                                 && evtSrc == this
                                 && !(evt instanceof PropertySourceChangeEvent)
                                 && nodeEventNames.contains(propName))
                         || ((evt instanceof RenderingChangeEvent
                                         || evt instanceof CollectionChangeEvent
-                                        || (evt instanceof PropertyChangeEventJAI
+                                        || (evt instanceof PropertyChangeEventImageN
                                                 && evtSrc instanceof RenderedImage
                                                 && propName.equals("invalidregion")))
                                 && nodeSources.contains(evtSrc)))) {

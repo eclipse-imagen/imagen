@@ -23,10 +23,10 @@ package org.eclipse.imagen;
  * superclass per se. The significance of the derivation is that instances of this event by definition refer to
  * properties in the ImageN sense of the term. Otherwise put, this class provides an extra level of indirection.
  *
- * @see PropertyChangeEventJAI
+ * @see PropertyChangeEventImageN
  * @see PropertySource
  */
-public class PropertySourceChangeEvent extends PropertyChangeEventJAI {
+public class PropertySourceChangeEvent extends PropertyChangeEventImageN {
     /**
      * Constructs a <code>PropertySourceChangeEvent</code>. <code>propertyName</code> is forced to lower case; all other
      * parameters are passed unmodified to the superclass constructor. If <code>oldValue</code> or <code>newValue</code>

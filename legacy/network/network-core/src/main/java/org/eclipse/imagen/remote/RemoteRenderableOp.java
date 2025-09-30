@@ -40,7 +40,7 @@ import org.eclipse.imagen.util.ImagingListener;
  *
  * <p>By virtue of being a subclass of <code>RemoteRenderableOp</code>, this class participates in Java Bean-style
  * events as specified by <code>RenderableOp</code>. <code>RemoteRenderableOp</code>s add the server name and the
- * protocol name to the critical attributes, the editing (chaging) of which may cause a <code>PropertyChangeEventJAI
+ * protocol name to the critical attributes, the editing (chaging) of which may cause a <code>PropertyChangeEventImageN
  * </code> to be emitted.
  *
  * @see org.eclipse.imagen.RenderableOp
@@ -136,8 +136,8 @@ public class RemoteRenderableOp extends RenderableOp {
     /**
      * Sets a <code>String</code> identifying the server.
      *
-     * <p>If the supplied name does not equal the current server name, a <code>PropertyChangeEventJAI</code> named
-     * "ServerName" will be fired. The oldValue field in the <code>PropertyChangeEventJAI</code> will contain the old
+     * <p>If the supplied name does not equal the current server name, a <code>PropertyChangeEventImageN</code> named
+     * "ServerName" will be fired. The oldValue field in the <code>PropertyChangeEventImageN</code> will contain the old
      * server name <code>String</code> and the newValue field will contain the new server name <code>String</code>.
      *
      * @param serverName A <code>String</code> identifying the server.
@@ -162,8 +162,8 @@ public class RemoteRenderableOp extends RenderableOp {
     /**
      * Sets a <code>String</code> identifying the remote imaging protocol.
      *
-     * <p>If the supplied name does not equal the current protocol name, a <code>PropertyChangeEventJAI</code> named
-     * "ProtocolName" will be fired. The oldValue field in the <code>PropertyChangeEventJAI</code> will contain the old
+     * <p>If the supplied name does not equal the current protocol name, a <code>PropertyChangeEventImageN</code> named
+     * "ProtocolName" will be fired. The oldValue field in the <code>PropertyChangeEventImageN</code> will contain the old
      * protocol name <code>String</code> and the newValue field will contain the new protocol name <code>String</code>.
      *
      * @param protocolName A <code>String</code> identifying the protocol.
@@ -185,13 +185,13 @@ public class RemoteRenderableOp extends RenderableOp {
      * Sets the protocol name and the server name of this <code>RemoteRenderableOp</code> to the specified arguments..
      *
      * <p>If both the supplied protocol name and the supplied server name values do not equal the current values, a
-     * <code>PropertyChangeEventJAI</code> named "ProtocolAndServerName" will be fired. The oldValue field in the <code>
-     * PropertyChangeEventJAI</code> will contain a two element array of <code>String</code>s, the old protocol name
+     * <code>PropertyChangeEventImageN</code> named "ProtocolAndServerName" will be fired. The oldValue field in the <code>
+     * PropertyChangeEventImageN</code> will contain a two element array of <code>String</code>s, the old protocol name
      * being the first element and the old server name being the second. Similarly the newValue field of the <code>
-     * PropertyChangeEventJAI</code> will contain a two element array of <code>String</code>s, the new protocol name
+     * PropertyChangeEventImageN</code> will contain a two element array of <code>String</code>s, the new protocol name
      * being the first element and the new server name being the second. If only the supplied protocol name does not
-     * equal the current protocol name, a <code>PropertyChangeEventJAI</code> named "ProtocolName" will be fired. If
-     * only the supplied server name does not equal the current server name, a <code>PropertyChangeEventJAI</code> named
+     * equal the current protocol name, a <code>PropertyChangeEventImageN</code> named "ProtocolName" will be fired. If
+     * only the supplied server name does not equal the current server name, a <code>PropertyChangeEventImageN</code> named
      * "ServerName" will be fired.
      *
      * @param protocolName A <code>String</code> identifying the protocol.
@@ -241,7 +241,7 @@ public class RemoteRenderableOp extends RenderableOp {
     private void fireEvent(String propName, Object oldVal, Object newVal) {
         if (eventManager != null) {
             Object eventSource = eventManager.getPropertyChangeEventSource();
-            PropertyChangeEventJAI evt = new PropertyChangeEventJAI(eventSource, propName, oldVal, newVal);
+            PropertyChangeEventImageN evt = new PropertyChangeEventImageN(eventSource, propName, oldVal, newVal);
             eventManager.firePropertyChange(evt);
         }
     }
