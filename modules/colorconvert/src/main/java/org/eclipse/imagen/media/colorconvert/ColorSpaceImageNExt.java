@@ -23,7 +23,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -37,11 +37,11 @@ import org.eclipse.imagen.media.range.RangeFactory;
 import org.eclipse.imagen.media.util.ImageUtil;
 
 /**
- * Abstract class extending the {@link ColorSpaceJAI} class in order to add support for external ROI or NoData.
+ * Abstract class extending the {@link ColorSpaceImageN} class in order to add support for external ROI or NoData.
  *
  * @author Nicola Lagomarsini geosolutions
  */
-public abstract class ColorSpaceJAIExt extends ColorSpaceJAI {
+public abstract class ColorSpaceImageNExt extends ColorSpaceImageN {
 
     /** Cache the maximum value for XYZ color space. */
     private static final double maxXYZ = 1 + 32767.0 / 32768.0;
@@ -66,7 +66,7 @@ public abstract class ColorSpaceJAIExt extends ColorSpaceJAI {
     /** Cache the power value for XYZ to RGB */
     public static final double POWER1 = 1.0 / 2.4;
 
-    protected ColorSpaceJAIExt(int type, int numComponents, boolean isRGBPreferredIntermediary) {
+    protected ColorSpaceImageNExt(int type, int numComponents, boolean isRGBPreferredIntermediary) {
         super(type, numComponents, isRGBPreferredIntermediary);
     }
 
@@ -231,9 +231,9 @@ public abstract class ColorSpaceJAIExt extends ColorSpaceJAI {
         }
     }
 
-    /** @return a new instance of {@link IHSColorSpaceJAIExt}. */
-    public static ColorSpaceJAIExt getIHSColorSpaceJAIEXT() {
-        return new IHSColorSpaceJAIExt();
+    /** @return a new instance of {@link IHSColorSpaceImageNExt}. */
+    public static ColorSpaceImageNExt getIHSColorSpaceJAIEXT() {
+        return new IHSColorSpaceImageNExt();
     }
 
     public static WritableRaster RGBToCIEXYZ(

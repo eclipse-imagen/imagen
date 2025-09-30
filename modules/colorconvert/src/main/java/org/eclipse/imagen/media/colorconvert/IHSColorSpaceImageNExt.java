@@ -84,7 +84,7 @@ import org.eclipse.imagen.media.util.ImageUtil;
  *
  * <p>Methods defined in the superclasses are not commented extensively.
  */
-public class IHSColorSpaceJAIExt extends ColorSpaceJAIExt {
+public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
     /** Constant indicating that the inner random iterators must pre-calculate an array of the image positions */
     public static final boolean ARRAY_CALC = true;
@@ -123,16 +123,16 @@ public class IHSColorSpaceJAIExt extends ColorSpaceJAIExt {
      * Retrieves the unique instance of this class the construction of which is deferred until the first invocation of
      * this method.
      */
-    public static IHSColorSpaceJAIExt getInstance() {
+    public static IHSColorSpaceImageNExt getInstance() {
         synchronized (reference) {
             Object referent = reference.get();
-            IHSColorSpaceJAIExt cs;
+            IHSColorSpaceImageNExt cs;
             if (referent == null) {
                 // First invocation or SoftReference has been cleared.
-                reference = new SoftReference(cs = new IHSColorSpaceJAIExt());
+                reference = new SoftReference(cs = new IHSColorSpaceImageNExt());
             } else {
                 // SoftReference has not been cleared.
-                cs = (IHSColorSpaceJAIExt) referent;
+                cs = (IHSColorSpaceImageNExt) referent;
             }
 
             return cs;
@@ -143,7 +143,7 @@ public class IHSColorSpaceJAIExt extends ColorSpaceJAIExt {
      * Constructs an instance of this class with <code>type</code> <code>ColorSpace.TYPE_HSV</code>, 3 components, and
      * preferred intermediary space sRGB.
      */
-    public IHSColorSpaceJAIExt() {
+    public IHSColorSpaceImageNExt() {
         super(ColorSpace.TYPE_HSV, 3, true);
     }
 

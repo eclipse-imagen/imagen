@@ -19,32 +19,32 @@ package org.eclipse.imagen.media.colorconvert;
 
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.range.Range;
 
 /**
- * This class is used for wrapping {@link ColorSpaceJAI} instances into {@link ColorSpaceJAIExt} ones.
+ * This class is used for wrapping {@link ColorSpaceImageN} instances into {@link ColorSpaceImageNExt} ones.
  *
  * @author Nicola Lagomarsini geosolutions
  */
-public class ColorSpaceJAIExtWrapper extends ColorSpaceJAIExt {
+public class ColorSpaceImageNExtWrapper extends ColorSpaceImageNExt {
 
     /** Input ColorSpace Provided */
-    private ColorSpaceJAI cs;
+    private ColorSpaceImageN csImageN;
 
-    /** Input Colorspace JAIEXt used if the input colorspace is JaiEXT */
-    private ColorSpaceJAIExt csJE;
+    /** Input Colorspace ColorSpaceImageNExt used if the input colorspace is ColorSpaceImageNExt */
+    private ColorSpaceImageNExt csImageNExt;
 
-    /** Boolean used for checking if the input ColorSpace is a {@link ColorSpaceJAIExt} instance */
+    /** Boolean used for checking if the input ColorSpace is a {@link ColorSpaceImageNExt} instance */
     boolean isJAIExt = false;
 
-    protected ColorSpaceJAIExtWrapper(ColorSpaceJAI cs) {
+    protected ColorSpaceImageNExtWrapper(ColorSpaceImageN cs) {
         super(cs.getType(), cs.getNumComponents(), cs.isRGBPreferredIntermediary());
-        this.cs = cs;
-        if (cs instanceof ColorSpaceJAIExt) {
+        this.csImageN = cs;
+        if (cs instanceof ColorSpaceImageNExt) {
             isJAIExt = true;
-            csJE = (ColorSpaceJAIExt) cs;
+            csImageNExt = (ColorSpaceImageNExt) cs;
         }
     }
 
@@ -58,9 +58,9 @@ public class ColorSpaceJAIExtWrapper extends ColorSpaceJAIExt {
             Range nodata,
             float[] destNodata) {
         if (isJAIExt) {
-            return csJE.fromCIEXYZ(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
+            return csImageNExt.fromCIEXYZ(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
         }
-        return cs.fromCIEXYZ(src, srcComponentSize, dest, dstComponentSize);
+        return csImageN.fromCIEXYZ(src, srcComponentSize, dest, dstComponentSize);
     }
 
     @Override
@@ -73,9 +73,9 @@ public class ColorSpaceJAIExtWrapper extends ColorSpaceJAIExt {
             Range nodata,
             float[] destNodata) {
         if (isJAIExt) {
-            return csJE.fromRGB(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
+            return csImageNExt.fromRGB(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
         }
-        return cs.fromRGB(src, srcComponentSize, dest, dstComponentSize);
+        return csImageN.fromRGB(src, srcComponentSize, dest, dstComponentSize);
     }
 
     @Override
@@ -88,9 +88,9 @@ public class ColorSpaceJAIExtWrapper extends ColorSpaceJAIExt {
             Range nodata,
             float[] destNodata) {
         if (isJAIExt) {
-            return csJE.toCIEXYZ(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
+            return csImageNExt.toCIEXYZ(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
         }
-        return cs.toCIEXYZ(src, srcComponentSize, dest, dstComponentSize);
+        return csImageN.toCIEXYZ(src, srcComponentSize, dest, dstComponentSize);
     }
 
     @Override
@@ -103,28 +103,28 @@ public class ColorSpaceJAIExtWrapper extends ColorSpaceJAIExt {
             Range nodata,
             float[] destNodata) {
         if (isJAIExt) {
-            return csJE.toRGB(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
+            return csImageNExt.toRGB(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
         }
-        return cs.toRGB(src, srcComponentSize, dest, dstComponentSize);
+        return csImageN.toRGB(src, srcComponentSize, dest, dstComponentSize);
     }
 
     @Override
     public float[] fromCIEXYZ(float[] src) {
-        return cs.fromCIEXYZ(src);
+        return csImageN.fromCIEXYZ(src);
     }
 
     @Override
     public float[] fromRGB(float[] src) {
-        return cs.fromRGB(src);
+        return csImageN.fromRGB(src);
     }
 
     @Override
     public float[] toCIEXYZ(float[] src) {
-        return cs.toCIEXYZ(src);
+        return csImageN.toCIEXYZ(src);
     }
 
     @Override
     public float[] toRGB(float[] src) {
-        return cs.toRGB(src);
+        return csImageN.toRGB(src);
     }
 }

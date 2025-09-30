@@ -1795,7 +1795,7 @@ public final class PixelAccessor {
                 }
             }
         } else {
-            // XXX If ColorSpaceJAI is implemented use the
+            // XXX If ColorSpaceImageN is implemented use the
             // Raster-based methods here.
             // Not an IndexColorModel: use the "slow method".
             for (int i = 0, y = rect.y; y < maxY; y++) {

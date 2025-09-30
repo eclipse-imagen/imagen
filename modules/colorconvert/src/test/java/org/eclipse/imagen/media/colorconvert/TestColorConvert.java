@@ -36,7 +36,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.IHSColorSpace;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterBlockImageN;
@@ -325,7 +325,7 @@ public class TestColorConvert extends TestBase {
             }
         }
         final ColorModel cm = new ComponentColorModel(
-                new IHSColorSpaceJAIExt(), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+                new IHSColorSpaceImageNExt(), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
         final BufferedImage image = new BufferedImage(cm, raster, false, null);
         return image;
     }
@@ -440,16 +440,16 @@ public class TestColorConvert extends TestBase {
         return image;
     }
 
-    /** @return a ColorModel which contains an instance of {@link ColorSpaceJAIExt} */
+    /** @return a ColorModel which contains an instance of {@link ColorSpaceImageNExt} */
     private ColorModel getJAIEXTCm() {
-        ColorSpace cs = new IHSColorSpaceJAIExt();
+        ColorSpace cs = new IHSColorSpaceImageNExt();
 
         final ColorModel cm = new ComponentColorModel(cs, false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 
         return cm;
     }
 
-    /** @return a ColorModel which contains an instance of {@link ColorSpaceJAI} */
+    /** @return a ColorModel which contains an instance of {@link ColorSpaceImageN} */
     private ColorModel getJAICm() {
         ColorSpace cs = IHSColorSpace.getInstance();
 
@@ -459,8 +459,8 @@ public class TestColorConvert extends TestBase {
     }
 
     /**
-     * @return a ColorModel which contains an instance of {@link ColorSpace} different from {@link ColorSpaceJAIExt} and
-     *     {@link ColorSpaceJAI}
+     * @return a ColorModel which contains an instance of {@link ColorSpace} different from {@link ColorSpaceImageNExt}
+     *     and {@link ColorSpaceImageN}
      */
     private ColorModel getNotJAICm() {
         ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB);
