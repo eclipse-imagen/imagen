@@ -58,8 +58,6 @@ import java.awt.image.renderable.ParameterBlock;
  *
  * Invocation of these methods would not affect the global property environment of the operation as maintained by the
  * <code>OperationRegistry</code>.
- *
- * @since ImageN 0.4.0
  */
 public interface OperationNode extends PropertySource, PropertyChangeEmitter {
 

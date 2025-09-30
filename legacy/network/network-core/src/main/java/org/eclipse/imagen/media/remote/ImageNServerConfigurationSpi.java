@@ -57,7 +57,6 @@ import org.eclipse.imagen.ImageN;
  * @see org.eclipse.imagen.OperationRegistry
  * @see org.eclipse.imagen.OperationRegistry#writeExternal
  * @see org.eclipse.imagen.OperationRegistrySpi
- * @since ImageN 0.4.0
  */
 public interface ImageNServerConfigurationSpi {
 

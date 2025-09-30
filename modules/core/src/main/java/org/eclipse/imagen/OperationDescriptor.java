@@ -116,15 +116,12 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since ImageN 0.4.0
      */
     Class[] getSourceClasses(String modeName);
 
     /**
      * Returns an array of <code>String</code>s that are the names of the sources of this operation. If this operation
      * has no sources, this method returns <code>null</code>.
-     *
-     * @since ImageN 0.4.0
      */
     String[] getSourceNames();
 
@@ -134,7 +131,6 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since ImageN 0.4.0
      */
     Class getDestClass(String modeName);
 
@@ -158,7 +154,6 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
      * @throws IllegalArgumentException if modeName is <code>null</code>
-     * @since ImageN 0.4.0
      */
     boolean validateArguments(String modeName, ParameterBlock args, StringBuffer msg);
 
@@ -199,7 +194,6 @@ public interface OperationDescriptor extends RegistryElementDescriptor {
      *     <code>null</code>.
      * @throws IllegalArgumentException if <code>oldParamBlock</code> or <code>newParamBlock</code> do not contain
      *     sufficient sources or parameters for the operation in question.
-     * @since ImageN 0.4.0
      */
     Object getInvalidRegion(
             String registryModeName,

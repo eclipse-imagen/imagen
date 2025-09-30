@@ -24,8 +24,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * for the "type" parameter are defined in the <code>TransposeDescriptor</code> by the constants <code>FLIP_VERTICAL
  * </code>, <code>FLIP_HORIZONTAL</code>, <code>FLIP_DIAGONAL</code>, <code>FLIP_ANTIDIAGONAL</code>, <code>ROTATE_90
  * </code>, <code>ROTATE_180</code>, and <code>ROTATE_270</code>.
- *
- * @since ImageN 0.4.0
  */
 public final class TransposeType extends EnumeratedParameter {
     TransposeType(String name, int value) {

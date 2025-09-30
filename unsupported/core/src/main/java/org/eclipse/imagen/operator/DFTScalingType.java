@@ -24,8 +24,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * Acceptable values for the "scalingType" parameter are defined in the <code>DFTDescriptor</code> and <code>
  * IDFTDescriptor</code> by the constants <code>SCALING_NONE</code>, <code>SCALING_UNITARY</code>, and <code>
  * SCALING_DIMENSIONS</code>.
- *
- * @since ImageN 0.4.0
  */
 public final class DFTScalingType extends EnumeratedParameter {
     DFTScalingType(String name, int value) {

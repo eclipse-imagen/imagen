@@ -119,7 +119,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * @see org.eclipse.imagen.OperationDescriptor
  * @see MinFilterShape
- * @since ImageN 0.4.0
  */
 public class MinFilterDescriptor extends OperationDescriptorImpl {
 

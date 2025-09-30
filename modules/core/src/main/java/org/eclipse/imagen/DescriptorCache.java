@@ -983,7 +983,6 @@ class DescriptorCache {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     PropertySource getPropertySource(String descriptorName, Object op, Vector sources) {
 

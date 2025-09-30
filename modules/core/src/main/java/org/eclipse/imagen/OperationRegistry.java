@@ -283,8 +283,6 @@ public class OperationRegistry implements Externalizable {
      * Creates and returns a new thread-safe version of the <code>OperationRegistry</code> which uses reader-writer
      * locks to wrap every method with a read or a write lock as appropriate. Note that none of the automatic loading of
      * registry files or services is done on this <code>OperationRegistry</code>.
-     *
-     * @since ImageN 0.4.0
      */
     public static OperationRegistry getThreadSafeOperationRegistry() {
         return new ThreadSafeOperationRegistry();
@@ -398,7 +396,6 @@ public class OperationRegistry implements Externalizable {
      * @param in The <code>InputStream</code> from which to read the data.
      * @throws IllegalArgumentException if in is null.
      * @see #writeExternal
-     * @since ImageN 0.4.0
      */
     public void updateFromStream(InputStream in) throws IOException {
 
@@ -516,7 +513,6 @@ public class OperationRegistry implements Externalizable {
      *
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 0.4.0
      */
     public void removeRegistryMode(String modeName) {
 
@@ -528,8 +524,6 @@ public class OperationRegistry implements Externalizable {
     /**
      * Get's the list of known registry modes known to the <code>OperationRegistry</code>. This might not be all modes
      * listed in <code>RegistryMode.getModeNames()</code>.
-     *
-     * @since ImageN 0.4.0
      */
     public String[] getRegistryModes() {
 
@@ -562,7 +556,6 @@ public class OperationRegistry implements Externalizable {
      *     not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if another descriptor with the same name has already been registered against any
      *     of the modes supported by this descriptor.
-     * @since ImageN 0.4.0
      */
     public void registerDescriptor(RegistryElementDescriptor descriptor) {
         if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -598,7 +591,6 @@ public class OperationRegistry implements Externalizable {
      *     not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if any of the <code>PropertyGenerator</code>s associated with the <code>
      *     RegistryElementDescriptor</code> to be unregistered is null.
-     * @since ImageN 0.4.0
      */
     public void unregisterDescriptor(RegistryElementDescriptor descriptor) {
 
@@ -637,7 +629,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if <code>descriptorClass</code> is <code>null</code> or if the <code>
      *     descriptorClass</code> is not associated with any of the modes returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
-     * @since ImageN 0.4.0
      */
     public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
 
@@ -671,7 +662,6 @@ public class OperationRegistry implements Externalizable {
      * @param descriptorClass the descriptor <code>Class</code>
      * @throws IllegalArgumentException if <code>descriptorClass</code> is <code>null</code> or if the <code>
      *     descriptorClass</code> is not associated with any of the modes returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 0.4.0
      */
     public List getDescriptors(Class descriptorClass) {
 
@@ -704,7 +694,6 @@ public class OperationRegistry implements Externalizable {
      * @param descriptorClass the descriptor <code>Class</code>
      * @throws IllegalArgumentException if <code>descriptorClass</code> is <code>null</code> or if the <code>
      *     descriptorClass</code> is not associated with any of the modes returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 0.4.0
      */
     public String[] getDescriptorNames(Class descriptorClass) {
 
@@ -741,7 +730,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
-     * @since ImageN 0.4.0
      */
     public RegistryElementDescriptor getDescriptor(String modeName, String descriptorName) {
 
@@ -758,7 +746,6 @@ public class OperationRegistry implements Externalizable {
      * @param modeName the registry mode name as a <code>String</code>
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 0.4.0
      */
     public List getDescriptors(String modeName) {
         DescriptorCache dc = getDescriptorCache(modeName);
@@ -774,7 +761,6 @@ public class OperationRegistry implements Externalizable {
      * @param modeName the registry mode name as a <code>String</code>
      * @throws IllegalArgumentException if modeName is <code>null</code> or if the modeName is not one of the modes
      *     returned <code>RegistryMode.getModes()</code>
-     * @since ImageN 0.4.0
      */
     public String[] getDescriptorNames(String modeName) {
         DescriptorCache dc = getDescriptorCache(modeName);
@@ -803,7 +789,6 @@ public class OperationRegistry implements Externalizable {
      *     modeName</code>.
      * @throws IllegalArgumentException if either of the products are not registered against <code>descriptorName</code>
      *     under <code>productName</code>.
-     * @since ImageN 0.4.0
      */
     public void setProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
@@ -828,7 +813,6 @@ public class OperationRegistry implements Externalizable {
      *     modeName</code>.
      * @throws IllegalArgumentException if either of the products are not registered against <code>descriptorName</code>
      *     under <code>productName</code>.
-     * @since ImageN 0.4.0
      */
     public void unsetProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
@@ -847,7 +831,6 @@ public class OperationRegistry implements Externalizable {
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 0.4.0
      */
     public void clearProductPreferences(String modeName, String descriptorName) {
 
@@ -867,7 +850,6 @@ public class OperationRegistry implements Externalizable {
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 0.4.0
      */
     public String[][] getProductPreferences(String modeName, String descriptorName) {
 
@@ -890,7 +872,6 @@ public class OperationRegistry implements Externalizable {
      *     returned <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if descriptorName is <code>null</code>
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 0.4.0
      */
     public Vector getOrderedProductList(String modeName, String descriptorName) {
 
@@ -933,7 +914,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public void registerFactory(String modeName, String descriptorName, String productName, Object factory) {
 
@@ -979,7 +959,6 @@ public class OperationRegistry implements Externalizable {
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the factory object was not previously registered against descriptorName and
      *     productName
-     * @since ImageN 0.4.0
      */
     public void unregisterFactory(String modeName, String descriptorName, String productName, Object factory) {
 
@@ -1025,7 +1004,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if either of the factory objects were not previously registered against
      *     descriptorName and productName
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 0.4.0
      */
     public void setFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
@@ -1070,7 +1048,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if either of the factory objects were not previously registered against
      *     descriptorName and productName
      * @throws IllegalArgumentException if the registry mode does not support preferences
-     * @since ImageN 0.4.0
      */
     public void unsetFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
@@ -1111,7 +1088,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public void clearFactoryPreferences(String modeName, String descriptorName, String productName) {
 
@@ -1153,7 +1129,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public Object[][] getFactoryPreferences(String modeName, String descriptorName, String productName) {
 
@@ -1185,7 +1160,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public List getOrderedFactoryList(String modeName, String descriptorName, String productName) {
 
@@ -1234,7 +1208,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public Iterator getFactoryIterator(String modeName, String descriptorName) {
 
@@ -1282,7 +1255,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public Object getFactory(String modeName, String descriptorName) {
 
@@ -1305,7 +1277,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is not one of those returned by <code>RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
-     * @since ImageN 0.4.0
      */
     public Object invokeFactory(String modeName, String descriptorName, Object[] args) {
 
@@ -1362,7 +1333,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public void addPropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
 
@@ -1383,7 +1353,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public void removePropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
 
@@ -1406,7 +1375,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public void copyPropertyFromSource(String modeName, String descriptorName, String propertyName, int sourceIndex) {
 
@@ -1427,7 +1395,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public void suppressProperty(String modeName, String descriptorName, String propertyName) {
 
@@ -1447,7 +1414,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public void suppressAllProperties(String modeName, String descriptorName) {
 
@@ -1463,7 +1429,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if modeName is null or is not one of those returned by <code>
      *     RegistryMode.getModes()</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public void clearPropertyState(String modeName) {
 
@@ -1483,7 +1448,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public String[] getGeneratedPropertyNames(String modeName, String descriptorName) {
 
@@ -1512,7 +1476,6 @@ public class OperationRegistry implements Externalizable {
      * @throws IllegalArgumentException if there is no <code>
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
-     * @since ImageN 0.4.0
      */
     public PropertySource getPropertySource(String modeName, String descriptorName, Object op, Vector sources) {
 
@@ -1531,7 +1494,6 @@ public class OperationRegistry implements Externalizable {
      *
      * @param op the <code>OperationNode</code> requesting its <code>PropertySource</code>.
      * @throws IllegalArgumentException if op is null.
-     * @since ImageN 0.4.0
      */
     public PropertySource getPropertySource(OperationNode op) {
 
@@ -1565,8 +1527,6 @@ public class OperationRegistry implements Externalizable {
      * <p>Note that the ImageN does not keep track of which JAR files have their registry files loaded and/or services
      * initialized. Hence if <code>registerServices</code> is called twice with the same ClassLoader, the loading of the
      * registry files and/or initialization of the services will happen twice.
-     *
-     * @since ImageN 0.4.0
      */
     public void registerServices(ClassLoader cl) throws IOException {
 

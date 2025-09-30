@@ -36,8 +36,6 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * class, the <code>NegotiableCapability</code> added earliest has the highest preference.
  *
  * <p>All names are treated in a case-retentive and case-insensitive manner.
- *
- * @since ImageN 0.4.0
  */
 public class NegotiableCapabilitySet implements Serializable {
 

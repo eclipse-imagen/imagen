@@ -61,54 +61,28 @@ import java.awt.image.WritableRaster;
  */
 public class FloatDoubleColorModel extends ComponentColorModel {
 
-    /**
-     * The associated <code>ColorSpace</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** The associated <code>ColorSpace</code>. */
     protected ColorSpace colorSpace;
 
-    /**
-     * The type or family of the associated <code>ColorSpace</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** The type or family of the associated <code>ColorSpace</code>. */
     protected int colorSpaceType;
 
-    /**
-     * The number of components of the associated <code>ColorSpace</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** The number of components of the associated <code>ColorSpace</code>. */
     protected int numColorComponents;
 
     /**
      * The number of components represented by this <code>ColorModel</code>. This will differ from the number of
      * components of the associated <code>ColorSpace</code> if there is an alpha channel.
-     *
-     * @since ImageN 0.4.0
      */
     protected int numComponents;
 
-    /**
-     * Specifies what alpha values can be represented by this <code>ColorModel</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Specifies what alpha values can be represented by this <code>ColorModel</code>. */
     protected int transparency;
 
-    /**
-     * Whether this <code>ColorModel</code> supports alpha.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Whether this <code>ColorModel</code> supports alpha. */
     protected boolean hasAlpha;
 
-    /**
-     * Whether alpha is premultiplied.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Whether alpha is premultiplied. */
     protected boolean isAlphaPremultiplied;
 
     private static int[] bitsHelper(int transferType, ColorSpace colorSpace, boolean hasAlpha) {

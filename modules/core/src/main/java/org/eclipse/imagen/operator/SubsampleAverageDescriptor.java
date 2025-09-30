@@ -38,11 +38,7 @@ import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 import org.eclipse.imagen.util.Range;
 
-/**
- * This property generator computes the properties for the operation "SubsampleAverage" dynamically.
- *
- * @since ImageN 0.4.0.2
- */
+/** This property generator computes the properties for the operation "SubsampleAverage" dynamically. */
 class SubsampleAveragePropertyGenerator implements PropertyGenerator {
 
     /** Constructor. */
@@ -249,8 +245,6 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
  * <tr><td>scaleY</td>        <td>java.lang.Double</td>
  *                            <td>scaleX</td>
  * </table>
- *
- * @since ImageN 0.4.0.2
  */
 public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
 

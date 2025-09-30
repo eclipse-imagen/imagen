@@ -811,7 +811,6 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      * @param matrix The 2D double array to be used for setting this transform. The array is assumed to be at least 3x3.
      * @throws IllegalArgumentException if matrix is null
      * @throws ArrayIndexOutOfBoundsException if matrix is too small
-     * @since ImageN 0.4.0
      */
     public void setTransform(double[][] matrix) {
         if (matrix == null) {

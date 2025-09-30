@@ -24,8 +24,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * Acceptable values for the "maskShape" parameter are defined in the <code>MedianFilterDescriptor</code> by the
  * constants <code>MEDIAN_MASK_SQUARE</code>, <code>MEDIAN_MASK_PLUS</code>, <code>MEDIAN_MASK_X</code>, and <code>
  * MEDIAN_MASK_SQUARE_SEPARABLE</code>.
- *
- * @since ImageN 0.4.0
  */
 public final class MedianFilterShape extends EnumeratedParameter {
     MedianFilterShape(String name, int value) {

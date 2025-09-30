@@ -55,7 +55,6 @@ import org.eclipse.imagen.media.util.ImageUtil;
  * @see Interpolation
  * @see InterpolationNearest
  * @see OpImage
- * @since ImageN 0.4.0
  */
 public abstract class GeometricOpImage extends OpImage {
     /**
@@ -193,7 +192,6 @@ public abstract class GeometricOpImage extends OpImage {
      *     </code> is <code>null</code>.
      * @throws IllegalArgumentException if combining the intersected source bounds with the layout parameter results in
      *     negative output width or height.
-     * @since ImageN 0.4.0.2
      */
     public GeometricOpImage(
             Vector sources,
@@ -274,7 +272,6 @@ public abstract class GeometricOpImage extends OpImage {
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since ImageN 0.4.0.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -321,7 +318,6 @@ public abstract class GeometricOpImage extends OpImage {
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since ImageN 0.4.0.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {

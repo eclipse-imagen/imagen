@@ -31,8 +31,6 @@ import org.eclipse.imagen.PropertyChangeEventJAI;
  * <p>All factories that produce renderings for operations remotely must implement <code>RemoteRIF</code>.
  *
  * <p>Classes that implement this interface must provide a constructor with no arguments.
- *
- * @since ImageN 0.4.0
  */
 public interface RemoteRIF {
 

@@ -28,7 +28,6 @@ import java.util.Observable;
  *
  * @see DeferredProperty
  * @see RenderedOp
- * @since ImageN 0.4.0
  */
 public abstract class DeferredData extends Observable implements Serializable {
     /** The class of the wrapped data. */

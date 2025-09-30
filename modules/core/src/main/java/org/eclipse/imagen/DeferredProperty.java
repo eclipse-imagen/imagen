@@ -27,7 +27,6 @@ import java.beans.PropertyChangeListener;
  *
  * @see DeferredData
  * @see RenderedOp
- * @since ImageN 0.4.0
  */
 public class DeferredProperty extends DeferredData implements PropertyChangeListener {
 

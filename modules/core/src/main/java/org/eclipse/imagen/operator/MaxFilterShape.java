@@ -24,8 +24,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * values for the "maskShape" parameter are defined in the <code>MaxFilterDescriptor</code> by the constants <code>
  * MAX_MASK_SQUARE</code>, <code>MAX_MASK_PLUS</code>, <code>MAX_MASK_X</code>, and <code>MAX_MASK_SQUARE_SEPARABLE
  * </code>.
- *
- * @since ImageN 0.4.0
  */
 public final class MaxFilterShape extends EnumeratedParameter {
     MaxFilterShape(String name, int value) {

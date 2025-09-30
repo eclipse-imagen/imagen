@@ -30,7 +30,7 @@ import java.util.Iterator;
  *
  * @see PlanarImage
  * @see SequentialImage
- * @deprecated as of ImageN 0.4.0. Use <code>AttributedImageCollection</code> instead.
+ * @deprecated Use <code>AttributedImageCollection</code> instead.
  */
 public class ImageSequence extends CollectionImage {
 

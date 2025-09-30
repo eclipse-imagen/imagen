@@ -47,7 +47,6 @@ import java.awt.image.renderable.ParameterBlock;
  *
  * @see CRIFImpl
  * @see java.awt.image.renderable.ContextualRenderedImageFactory
- * @since ImageN 0.4.0
  */
 public class NullCRIF extends CRIFImpl {
 

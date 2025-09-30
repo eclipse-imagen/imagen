@@ -22,11 +22,7 @@ import java.io.InputStream;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.media.tilecodec.TileCodecUtils;
 
-/**
- * A partial implementation of the <code>TileDecoder</code> interface useful for subclassing.
- *
- * @since ImageN 0.4.0
- */
+/** A partial implementation of the <code>TileDecoder</code> interface useful for subclassing. */
 public abstract class TileDecoderImpl implements TileDecoder {
 
     /** The name of the format. */

@@ -45,7 +45,6 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * <p>There is no attempt to rescale binary images to the approapriate gray levels, such as 255 or 0. A lookup should be
  * performed first if so desired.
  *
- * @since ImageN 0.4.0
  * @see org.eclipse.imagen.operator.BandMergeDescriptor
  * @see BandMergeCRIF
  */

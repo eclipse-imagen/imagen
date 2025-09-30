@@ -96,11 +96,14 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
 =======
  * @see org.eclipse.imagen.operator.ConvolveDescriptor
 <<<<<<< HEAD:modules/convolve/src/main/java/org/eclipse/imagen/media/convolve/UnsharpMaskDescriptor.java
+<<<<<<< HEAD:modules/convolve/src/main/java/org/eclipse/imagen/media/convolve/UnsharpMaskDescriptor.java
  * @since ImageN 1.1
 >>>>>>> 28ea3901 (Refactor JAI class to ImageN):modules/core/src/main/java/org/eclipse/imagen/operator/UnsharpMaskDescriptor.java
 =======
  * @since ImageN 0.4.0
 >>>>>>> 36bedf42 (Clean up ImageN 1.1 references):modules/core/src/main/java/org/eclipse/imagen/operator/UnsharpMaskDescriptor.java
+=======
+>>>>>>> 9686c159 (Resotrations, including restoring JAI-Ext headers):modules/core/src/main/java/org/eclipse/imagen/operator/UnsharpMaskDescriptor.java
  */
 public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
 

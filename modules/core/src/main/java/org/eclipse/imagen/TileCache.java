@@ -64,7 +64,6 @@ public interface TileCache {
      * @param tileY The Y index of the tile in the owner's tile grid.
      * @param data A <code>Raster</code> containing the tile data.
      * @param tileCacheMetric An <code>Object</code> as a tile metric.
-     * @since ImageN 0.4.0
      */
     void add(RenderedImage owner, int tileX, int tileY, Raster data, Object tileCacheMetric);
 
@@ -92,7 +91,6 @@ public interface TileCache {
      * @param owner The <code>RenderedImage</code> to which the tiles belong.
      * @return An array of all tiles owned by the specified image or <code>null</code> if there are none currently in
      *     the cache.
-     * @since ImageN 0.4.0
      */
     Raster[] getTiles(RenderedImage owner);
 
@@ -113,7 +111,6 @@ public interface TileCache {
      * @param tiles The array of tile <code>Raster</code>s containing tile data.
      * @param tileCacheMetric Object which provides an ordering metric associated with the <code>RenderedImage</code>
      *     owner.
-     * @since ImageN 0.4.0
      */
     void addTiles(RenderedImage owner, Point[] tileIndices, Raster[] tiles, Object tileCacheMetric);
 
@@ -126,18 +123,13 @@ public interface TileCache {
      * @param owner The <code>RenderedImage</code> that the tile belongs to.
      * @param tileIndices An array of <code>Point</code>s containing the <code>tileX</code> and <code>tileY</code>
      *     indices for each tile.
-     * @since ImageN 0.4.0
      */
     Raster[] getTiles(RenderedImage owner, Point[] tileIndices);
 
     /** Advises the cache that all of its tiles may be discarded. It is legal to implement this method as a no-op. */
     void flush();
 
-    /**
-     * Advises the cache that some of its tiles may be discarded. It is legal to implement this method as a no-op.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Advises the cache that some of its tiles may be discarded. It is legal to implement this method as a no-op. */
     void memoryControl();
 
     /**
@@ -176,15 +168,10 @@ public interface TileCache {
      *
      * @param memoryThreshold. Retained fraction of memory
      * @throws IllegalArgumentException if the memoryThreshold is less than 0.0 or greater than 1.0
-     * @since ImageN 0.4.0
      */
     void setMemoryThreshold(float memoryThreshold);
 
-    /**
-     * Returns the memory threshold, which is the fractional amount of cache memory to retain during tile removal.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Returns the memory threshold, which is the fractional amount of cache memory to retain during tile removal. */
     float getMemoryThreshold();
 
     /**
@@ -200,7 +187,6 @@ public interface TileCache {
      *
      * @param comparator A <code>Comparator</code> which orders the <code>CachedTile</code>s stored by the <code>
      *     TileCache</code>; if <code>null</code> an implementation-dependent algorithm will be used.
-     * @since ImageN 0.4.0
      */
     void setTileComparator(Comparator comparator);
 
@@ -210,7 +196,6 @@ public interface TileCache {
      *
      * @return The tile <code>Comparator</code> or <code>null</code> if the implementation-dependent ordering algorithm
      *     is being used.
-     * @since ImageN 0.4.0
      */
     Comparator getTileComparator();
 }

@@ -24,7 +24,6 @@ import java.io.Serializable;
  * non-serializable classes.
  *
  * @see java.io.Serializable
- * @since ImageN 0.4.0
  */
 public interface SerializableState extends Serializable {
 

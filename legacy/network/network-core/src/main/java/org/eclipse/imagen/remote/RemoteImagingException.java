@@ -27,8 +27,6 @@ import org.eclipse.imagen.util.ImagingException;
  * <p>From ImageN 0.4.0 on, this class is re-parented to <code>ImagingException</code> which behaves as a chained
  * exception. Thus, the cause of a <code>RemoteImagingException</code> can be retrieved by using the method <code>
  * getCause</code>.
- *
- * @since ImageN 0.4.0
  */
 public class RemoteImagingException extends ImagingException {
 
@@ -54,7 +52,6 @@ public class RemoteImagingException extends ImagingException {
      * Constructs a <code>RemoteImagingException</code> with the provided cause.
      *
      * @param cause The cause of this <code>RemoteImagingException</code>.
-     * @since ImageN 0.4.0.2
      */
     public RemoteImagingException(Throwable cause) {
         super(cause);
@@ -66,7 +63,6 @@ public class RemoteImagingException extends ImagingException {
      *
      * @param message The message that describes the situation.
      * @param cause The cause of this <code>RemoteImagingException</code>
-     * @since ImageN 0.4.0.2
      */
     public RemoteImagingException(String message, Throwable cause) {
         super(message, cause);

@@ -36,18 +36,12 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
 
     private boolean deprecated = false;
 
-    /**
-     * The resource tags and their corresponding data, stored as an two-dimensional <code>String</code> array.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** The resource tags and their corresponding data, stored as an two-dimensional <code>String</code> array. */
     protected final String[][] resources;
 
     /**
      * An array of operation modes supported by this operator. Must be a non-empty subset of "rendered", "renderable",
      * "collection" and "renderableCollection" or other image operator modes to be defined later.
-     *
-     * @since ImageN 0.4.0
      */
     protected final String[] supportedModes;
 
@@ -60,8 +54,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
     /**
      * An array of <code>String</code>s that are the names of the sources of this operation. The names must be listed in
      * the order corresponding to the source <code>Class</code>es.
-     *
-     * @since ImageN 0.4.0
      */
     protected final String[] sourceNames;
 
@@ -177,7 +169,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if this operation has parameters and <code>paramClasses</code>, <code>paramNames
      *     </code>, and <code>paramDefaults</code> (if all are not <code>null</code>) do not all have the same number of
      *     elements.
-     * @since ImageN 0.4.0
      */
     public OperationDescriptorImpl(
             String[][] resources,
@@ -271,7 +262,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if this operation has parameters and <code>paramClasses</code>, <code>paramNames
      *     </code>, and <code>paramDefaults</code> (if all are not <code>null</code>) do not all have the same number of
      *     elements.
-     * @since ImageN 0.4.0
      */
     public OperationDescriptorImpl(
             String[][] resources,
@@ -332,7 +322,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if this operation has parameters and <code>paramClasses</code>, <code>paramNames
      *     </code>, and <code>paramDefaults</code> (if all are not <code>null</code>) do not all have the same number of
      *     elements.
-     * @since ImageN 0.4.0
      */
     public OperationDescriptorImpl(
             String[][] resources,
@@ -387,7 +376,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *     not equal to the number of sourceNames (if non-null).
      * @throws IllegalArgumentException if <code>sourceNames</code> is non-<code>null</code> and its length does not
      *     equal the number of sources of this operation.
-     * @since ImageN 0.4.0
      */
     public OperationDescriptorImpl(
             String[][] resources,
@@ -446,7 +434,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *     not equal to the number of sourceNames (if non-null).
      * @throws IllegalArgumentException if <code>sourceNames</code> is non-<code>null</code> and its length does not
      *     equal the number of sources of this operation.
-     * @since ImageN 0.4.0
      */
     public OperationDescriptorImpl(
             String[][] resources,
@@ -510,7 +497,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @return an array of <code>String</code>s specifying the supported modes.
      * @see RegistryMode
      * @see RegistryElementDescriptor
-     * @since ImageN 0.4.0
      */
     public String[] getSupportedModes() {
         return supportedModes;
@@ -524,7 +510,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @return true, if the implementation of this descriptor supports the specified mode. false otherwise.
      * @throws IllegalArgumentException if <code>modeName</code> is null
      * @see RegistryElementDescriptor
-     * @since ImageN 0.4.0
      */
     public boolean isModeSupported(String modeName) {
 
@@ -540,7 +525,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *     supported. Operations that do not wish to support properties must override this implementation.
      * @see PropertyGenerator
      * @see RegistryElementDescriptor
-     * @since ImageN 0.4.0
      */
     public boolean arePropertiesSupported() {
         return true;
@@ -562,7 +546,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if <code>modeName</code> is null or if it is not one of the supported modes.
      * @throws UnsupportedOperationException if <code>arePropertiesSupported</code> returns <code>false</code>
      * @see RegistryElementDescriptor
-     * @since ImageN 0.4.0
      */
     public PropertyGenerator[] getPropertyGenerators(String modeName) {
 
@@ -590,7 +573,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @param modeName the registry mode name.
      * @throws IllegalArgumentException if <code>modeName</code> is null or if it is not one of the supported modes.
      * @see RegistryElementDescriptor
-     * @since ImageN 0.4.0
      */
     public ParameterListDescriptor getParameterListDescriptor(String modeName) {
         return paramListDescriptors[modeIndices.indexOf(modeName)];
@@ -646,7 +628,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since ImageN 0.4.0
      */
     public Class[] getSourceClasses(String modeName) {
         checkModeName(modeName);
@@ -662,8 +643,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * Returns an array of <code>String</code>s that are the names of the sources of this operation. If this operation
      * has no sources, this method returns <code>null</code>. If this operation has sources but their names were not
      * provided at construction time, then the returned names will be of the form "source0", "source1", etc.
-     *
-     * @since ImageN 0.4.0
      */
     public String[] getSourceNames() {
 
@@ -682,7 +661,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *
      * @param modeName the operation mode name
      * @throws IllegalArgumentException if modeName is <code>null</code> or if it is not one of the supported modes.
-     * @since ImageN 0.4.0
      */
     public Class getDestClass(String modeName) {
 
@@ -714,7 +692,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @param args a <code>ParameterBlock</code> that has the sources
      * @param msg A string that may contain error messages.
      * @throws IllegalArgumentException if any of the input parameters are <code>null</code>.
-     * @since ImageN 0.4.0
      * @see #validateArguments
      */
     protected boolean validateSources(String modeName, ParameterBlock args, StringBuffer msg) {
@@ -754,7 +731,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * "renderable". </strong>
      *
      * @throws IllegalArgumentException if any of the input parameters are <code>null</code>.
-     * @since ImageN 0.4.0
      * @see #validateArguments
      * @see ParameterListDescriptorImpl#isParameterValueValid
      */
@@ -792,7 +768,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @param args Input arguments, including source(s) and/or parameter(s).
      * @param msg A string that may contain error messages.
      * @throws IllegalArgumentException if <code>modeName</code> is <code>null</code>
-     * @since ImageN 0.4.0
      * @see #validateSources
      * @see #validateParameters
      */
@@ -840,7 +815,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *     null</code>.
      * @throws IllegalArgumentException if <code>oldParamBlock</code> or <code>newParamBlock</code> do not contain
      *     sufficient sources or parameters for the operation in question.
-     * @since ImageN 0.4.0
      */
     public Object getInvalidRegion(
             String modeName,
@@ -859,8 +833,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *
      * <p>"rendered" - java.awt.image.RenderedImage.class "renderable" - java.awt.image.renderable.RenderableImage.class
      * "collection" - java.util.Collection.class "renderableCollection" - java.util.Collection.class
-     *
-     * @since ImageN 0.4.0
      */
     protected static Class getDefaultSourceClass(String modeName) {
 
@@ -878,8 +850,6 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
     /**
      * Create a list of per mode source classes for each supported mode which can then be passed on to the constructor.
      * Uses <code>getDefaultSourceClass(modeName)</code> to construct this list.
-     *
-     * @since ImageN 0.4.0
      */
     protected static Class[][] makeDefaultSourceClassList(String[] supportedModes, int numSources) {
 
@@ -983,7 +953,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if this operation has parameters and <code>paramClasses</code>, <code>paramNames
      *     </code>, and <code>paramDefaults</code> (if all are not <code>null</code>) do not all have the same number of
      *     elements.
-     * @deprecated as of ImageN 0.4.0 in favor of constructors where supported modes are explicitly specified. Uses <code>
+     * @deprecated as of ImageN 0.4.0 in favor of constructors where supported modes are explicitly specified. Uses
+     *     <code>
      *     isRenderedSupported()</code> and <code>
      * isRenderableSupported()</code> to figure out the supported modes.
      * @see OperationDescriptorImpl#OperationDescriptorImpl(String[][], String[], String[], Class [][], String[], Class
@@ -1046,7 +1017,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if this operation has parameters and <code>paramClasses</code>, <code>paramNames
      *     </code>, and <code>paramDefaults</code> (if not <code>null</code>) do not all have the same number of
      *     elements.
-     * @deprecated as of ImageN 0.4.0 in favor of constructors where supported modes are explicitly specified. Uses <code>
+     * @deprecated as of ImageN 0.4.0 in favor of constructors where supported modes are explicitly specified. Uses
+     *     <code>
      *     isRenderedSupported()</code> and <code>
      * isRenderableSupported()</code> to figure out the supported modes.
      * @see OperationDescriptorImpl#OperationDescriptorImpl(String[][], String[], int, String[], Class [], Object[],
@@ -1091,7 +1063,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @param sourceClasses The source types required by this operation in the rendered mode. It may be <code>null
      *     </code> if this operation has no sources.
      * @throws IllegalArgumentException if <code>resources</code> is <code>null</code>.
-     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly specified.
+     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly
+     *     specified.
      * @see OperationDescriptorImpl#OperationDescriptorImpl(String[][], String[], String[], Class [][], String[], Class
      *     [], Object[], Object[])
      */
@@ -1115,7 +1088,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      *     renderableSourceClasses</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>sourceClasses</code> and <code>renderableSourceClasses</code> (if both
      *     are not <code>null</code>) do not have the same number of elements.
-     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly specified.
+     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly
+     *     specified.
      * @see OperationDescriptorImpl#OperationDescriptorImpl(String[][], String[], String[], Class [][], String[], Class
      *     [], Object[], Object[])
      */
@@ -1133,7 +1107,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @throws IllegalArgumentException if this operation has parameters and <code>paramClasses</code>, <code>paramNames
      *     </code>, and <code>paramDefaults</code> (if not <code>null</code>) do not all have the same number of
      *     elements.
-     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly specified.
+     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly
+     *     specified.
      * @see OperationDescriptorImpl#OperationDescriptorImpl(String[][], String[], int, String[], Class [], Object[],
      *     Object[])
      */
@@ -1152,7 +1127,8 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
      * @param numSources The number of sources required by this operation. It should not be negative. A negative value
      *     indicates this operation has no sources.
      * @throws IllegalArgumentException if <code>resources</code> is <code>null</code>.
-     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly specified.
+     * @deprecated as of ImageN 0.4.0 in favor of constructors where the mode specfic information is explicitly
+     *     specified.
      * @see OperationDescriptorImpl#OperationDescriptorImpl(String[][], String[], int, String[], Class [], Object[],
      *     Object[])
      */

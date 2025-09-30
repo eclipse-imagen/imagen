@@ -23,11 +23,7 @@ import org.eclipse.imagen.RegistryMode;
 import org.eclipse.imagen.remote.RemoteDescriptor;
 import org.eclipse.imagen.util.ImagingListener;
 
-/**
- * A class which provides information about the "remoteRenderable" registry mode.
- *
- * @since ImageN 0.4.0
- */
+/** A class which provides information about the "remoteRenderable" registry mode. */
 public class RemoteRenderableRegistryMode extends RegistryMode {
 
     public static final String MODE_NAME = "remoteRenderable";

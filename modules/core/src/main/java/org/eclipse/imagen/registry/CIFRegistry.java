@@ -35,8 +35,6 @@ import org.eclipse.imagen.PropertySource;
  *
  * <p>If the <code>OperationRegistry</code> is <code>null</code>, then <code>
  * ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
- *
- * @since ImageN 0.4.0
  */
 public final class CIFRegistry {
 
@@ -191,7 +189,6 @@ public final class CIFRegistry {
      * @throws IllegalArgumentException if operationName is <code>null</code>
      * @throws IllegalArgumentException if there is no <code>
      *             OperationDescriptor</code> registered against the <code>operationName</code>
-     * @since ImageN 0.4.0
      */
     public static Iterator getIterator(OperationRegistry registry, String operationName) {
 

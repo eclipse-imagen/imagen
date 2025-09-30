@@ -336,7 +336,7 @@
             </replacefilter>
             <replacefilter> <!-- Not useful citing JAI version number -->
                 <replacetoken>@since ImageN 1.1.2</replacetoken>
-                <replacevalue>@since ImageN 0.4.0</replacevalue>
+                <replacevalue></replacevalue>
             </replacefilter>
             <replacefilter> <!-- Not useful citing JAI version number -->
                 <replacetoken>ImageN 1.1.2</replacetoken>

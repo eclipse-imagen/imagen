@@ -50,7 +50,6 @@ import org.eclipse.imagen.RegistryElementDescriptor;
  *
  * @see TileDecoder
  * @see TileEncoder
- * @since ImageN 0.4.0
  */
 public interface TileCodecDescriptor extends RegistryElementDescriptor {
 

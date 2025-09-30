@@ -350,7 +350,6 @@ class FilteredSubsamplePropertyGenerator extends PropertyGeneratorImpl {
  * @see org.eclipse.imagen.Interpolation
  * @see org.eclipse.imagen.BorderExtender
  * @see org.eclipse.imagen.OperationDescriptor
- * @since ImageN 0.4.0
  */
 public class FilteredSubsampleDescriptor extends OperationDescriptorImpl {
 

@@ -30,7 +30,6 @@ import org.eclipse.imagen.util.ImagingListener;
  * method <code>getInstance</code>.
  *
  * @see ImagingListener
- * @since ImageN 0.4.0.2
  */
 public class ImagingListenerImpl implements ImagingListener {
     private static SoftReference reference = new SoftReference(null);

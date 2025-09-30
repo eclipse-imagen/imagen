@@ -326,7 +326,6 @@ public abstract class PointOpImage extends OpImage {
      * @throws IllegalArgumentException If combining the intersected source bounds with the user-specified bounds, if
      *     any, yields an empty rectangle, or the user-specified image bounds extends beyond the intersection of all the
      *     source bounds.
-     * @since ImageN 0.4.0
      */
     public PointOpImage(Vector sources, ImageLayout layout, Map configuration, boolean cobbleSources) {
         super(
@@ -347,7 +346,6 @@ public abstract class PointOpImage extends OpImage {
      *     </code>s. This is simply forwarded to the superclass constructor.
      * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public PointOpImage(RenderedImage source, ImageLayout layout, Map configuration, boolean cobbleSources) {
         this(
@@ -369,7 +367,6 @@ public abstract class PointOpImage extends OpImage {
      *     </code>s. This is simply forwarded to the superclass constructor.
      * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
      * @throws IllegalArgumentException if <code>source0</code> or <code>source1</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public PointOpImage(
             RenderedImage source0,
@@ -398,7 +395,6 @@ public abstract class PointOpImage extends OpImage {
      * @param cobbleSources Indicates whether <code>computeRect()</code> expects contiguous sources.
      * @throws IllegalArgumentException if <code>source0</code> or <code>source1</code> or <code>source2</code> is
      *     <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public PointOpImage(
             RenderedImage source0,
@@ -622,8 +618,6 @@ public abstract class PointOpImage extends OpImage {
      * place, the corresponding tile of the first source image.
      *
      * <p>The implementation in this class always returns <code>false</code>.
-     *
-     * @since ImageN 0.4.0
      */
     protected boolean isColormapOperation() {
         return false;
@@ -937,8 +931,6 @@ public abstract class PointOpImage extends OpImage {
      * <p>If <code>cache</code> is non-<code>null</code>, in place operation is enabled, and <code>tileRecycler</code>
      * is non-<code>null</code>, then all tiles owned by this specific image are removed from the cache. Subsequent to
      * this <code>super.dispose()</code> is invoked.
-     *
-     * @since ImageN 0.4.0.2
      */
     public synchronized void dispose() {
         if (isDisposed) {

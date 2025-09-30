@@ -23,8 +23,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * Class used to represent the acceptable values of the "shearDir" parameter of the "Shear" operation. Acceptable values
  * for the "shearDir" parameter are defined in the <code>ShearDescriptor</code> by the constants <code>SHEAR_HORIZONTAL
  * </code> and <code>SHEAR_VERTICAL</code>.
- *
- * @since ImageN 0.4.0
  */
 public final class ShearDir extends EnumeratedParameter {
     ShearDir(String name, int value) {

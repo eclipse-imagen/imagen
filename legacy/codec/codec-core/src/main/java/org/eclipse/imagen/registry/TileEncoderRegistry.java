@@ -35,8 +35,6 @@ import org.eclipse.imagen.tilecodec.TileEncoderFactory;
  *
  * <p>If the <code>OperationRegistry</code> specified as an argument to the methods in this class is null, then <code>
  * ImageN.getOperationRegistry()</code> will be used.
- *
- * @since ImageN 0.4.0
  */
 public final class TileEncoderRegistry {
 

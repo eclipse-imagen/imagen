@@ -30,8 +30,6 @@ import java.awt.image.Raster;
  * submitted for recycling not be used elsewhere. If one or more references to tiles submitted to a recycler are held by
  * the calling code then undefined and unexpected behavior may be observed. A similar caution applies to the tile's
  * <code>DataBuffer</code> and the data bank array contained therein.</i>
- *
- * @since ImageN 0.4.0.2
  */
 public interface TileRecycler {
     /**

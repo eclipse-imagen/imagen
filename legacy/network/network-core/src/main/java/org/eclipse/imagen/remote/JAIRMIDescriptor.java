@@ -121,8 +121,6 @@ import org.eclipse.imagen.util.ImagingListener;
  * the same parameter specifies a different value, then the command line specified parameter value will be honored. That
  * is to say that the ImageNServerConfigurationSpi specified configuration happens first, followed by command line
  * parameter configuration, and the last configuration to be applied overwrites all previous settings.
- *
- * @since ImageN 0.4.0
  */
 public class JAIRMIDescriptor extends RemoteDescriptorImpl {
 

@@ -56,7 +56,6 @@ import java.util.Vector;
  * </code>; as previously stated, <code>RenderedImage</code> method invocations are forwarded to the <code>RenderedImage
  * </code> at position zero in the <code>List</code>.
  *
- * @since ImageN 0.4.0
  * @see CollectionImage
  * @see java.awt.image.RenderedImage
  * @see java.util.List

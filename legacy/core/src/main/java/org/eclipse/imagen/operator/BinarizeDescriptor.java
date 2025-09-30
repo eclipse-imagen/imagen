@@ -69,7 +69,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since ImageN 0.4.0
  */
 public class BinarizeDescriptor extends OperationDescriptorImpl {
 

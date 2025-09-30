@@ -19,11 +19,7 @@ package org.eclipse.imagen;
 
 import java.awt.Shape;
 
-/**
- * Class representing the event that occurs when a <code>RenderedOp</code> node is re-rendered.
- *
- * @since ImageN 0.4.0
- */
+/** Class representing the event that occurs when a <code>RenderedOp</code> node is re-rendered. */
 public class RenderingChangeEvent extends PropertyChangeEventJAI {
     private Shape invalidRegion;
 

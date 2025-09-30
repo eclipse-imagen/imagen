@@ -30,7 +30,6 @@ import org.eclipse.imagen.media.util.CaselessStringArrayTable;
  * @see ParameterList
  * @see ParameterListDescriptor
  * @see ParameterListDescriptorImpl
- * @since ImageN 0.4.0
  */
 public class ParameterListImpl implements ParameterList, java.io.Serializable {
 
