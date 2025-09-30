@@ -38,7 +38,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.FloatDoubleColorModel;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
@@ -845,8 +845,8 @@ public class ImageUtilities {
                 if (setAlpha) {
 
                     cs = numBands == 2
-                            ? ColorSpace.getInstance(ColorSpaceJAI.CS_GRAY)
-                            : ColorSpace.getInstance(ColorSpaceJAI.CS_sRGB);
+                            ? ColorSpace.getInstance(ColorSpaceImageN.CS_GRAY)
+                            : ColorSpace.getInstance(ColorSpaceImageN.CS_sRGB);
                 } else {
                     // For 2 and 4 bands a custom colorspace is created
                     cs = new ColorSpace(dataType, numBands) {

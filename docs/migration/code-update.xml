@@ -441,11 +441,39 @@
                 <replacetoken>ParameterBlockJAI</replacetoken>
                 <replacevalue>ParameterBlockImageN</replacevalue>
             </replacefilter>
-
+            <!-- refactor color space classes -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.ColorSpaceJAI</replacetoken>
+                <replacevalue>org.eclipse.imagen.ColorSpaceImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ColorSpaceJAI</replacetoken>
+                <replacevalue>ColorSpaceImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.ColorSpaceJAIExt</replacetoken>
+                <replacevalue>org.eclipse.imagen.ColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ColorSpaceJAIExt</replacetoken>
+                <replacevalue>ColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ColorSpaceJAIExtWrapper</replacetoken>
+                <replacevalue>ColorSpaceImageNExtWrapper</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.IHSColorSpaceJAIExt</replacetoken>
+                <replacevalue>org.eclipse.imagen.IHSColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>IHSColorSpaceJAIExt</replacetoken>
+                <replacevalue>IHSColorSpaceImageNExt</replacevalue>
+            </replacefilter>
             <!-- Downstream API Changes -->
             <replacefilter>
-                <replacetoken>USE_JAI_IMAGEREAD</replacetoken>
-                <replacevalue>USE_IMAGEN_IMAGEREAD</replacevalue>
+                <replacetoken>ImageMosaicFormat.USE_JAI_IMAGEREAD</replacetoken>
+                <replacevalue>ImageMosaicFormat.USE_IMAGEN_IMAGEREAD</replacevalue>
             </replacefilter>
         </replace>
     </target>

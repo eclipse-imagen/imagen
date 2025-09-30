@@ -34,8 +34,9 @@ import java.awt.image.WritableRaster;
  * <p>This class is particularly applicable for use with color spaces which are mathematically defined and for which no
  * I.C.C. profile is readily available. (Note however that color conversions specified by a simple matrix transformation
  * might best be effected using the "BandCombine" operation.) The ImageN "ColorConvert" operation recognizes when an
- * instance of <code>ColorSpaceJAI</code> is present and uses the <code>Raster</code>-based conversion methods to
- * improve performance. This is possible because without the <code>ColorSpaceJAI</code> definition, a <code>ColorSpace
+ * instance of <code>ColorSpaceImageN</code> is present and uses the <code>Raster</code>-based conversion methods to
+ * improve performance. This is possible because without the <code>ColorSpaceImageN</code> definition, a <code>
+ * ColorSpace
  * </code> which was not an {@link ICC_ColorSpace} would permit color conversion only by means of pixel-by-pixel
  * invocations of <code>toCIEXYZ(float[])</code> and <code>fromCIEXYZ(float[])</code> (or, equivalently <code>
  * toRGB(float[])</code> and <code>fromRGB(float[])</code>).
@@ -45,7 +46,7 @@ import java.awt.image.WritableRaster;
  * @see org.eclipse.imagen.operator.ColorConvertDescriptor
  * @see org.eclipse.imagen.operator.BandCombineDescriptor
  */
-public abstract class ColorSpaceJAI extends ColorSpace {
+public abstract class ColorSpaceImageN extends ColorSpace {
     /** Cache the maximum value for XYZ color space. */
     private static final double maxXYZ = 1 + 32767.0 / 32768.0;
 
@@ -63,7 +64,7 @@ public abstract class ColorSpaceJAI extends ColorSpace {
         }
     }
 
-    /** Whether conversion to/from this <code>ColorSpaceJAI</code> is more efficient using the sRGB methods. */
+    /** Whether conversion to/from this <code>ColorSpaceImageN</code> is more efficient using the sRGB methods. */
     private boolean isRGBPreferredIntermediary;
 
     /**
@@ -1115,7 +1116,7 @@ public abstract class ColorSpaceJAI extends ColorSpace {
     }
 
     /**
-     * Constructs a <code>ColorSpaceJAI</code> object given the color space type, the number of components, and an
+     * Constructs a <code>ColorSpaceImageN</code> object given the color space type, the number of components, and an
      * indicator of the preferred intermediary or connection color space.
      *
      * @param type The color space type (<code>ColorSpace.TYPE_*</code>).
@@ -1124,7 +1125,7 @@ public abstract class ColorSpaceJAI extends ColorSpace {
      *     preferred connection color space.
      * @exception IllegalArgumentException if <code>numComponents</code> is non-positive.
      */
-    protected ColorSpaceJAI(int type, int numComponents, boolean isRGBPreferredIntermediary) {
+    protected ColorSpaceImageN(int type, int numComponents, boolean isRGBPreferredIntermediary) {
         super(type, numComponents);
         this.isRGBPreferredIntermediary = isRGBPreferredIntermediary;
     }

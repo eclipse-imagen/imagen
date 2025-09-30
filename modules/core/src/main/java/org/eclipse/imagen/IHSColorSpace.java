@@ -47,8 +47,12 @@ import java.lang.ref.SoftReference;
  *
  * <p><code>R = (1-S)I</code>
  *
- * <p>and <code><ul><li>G = (c1 + c2)/2</li>
- *    <li>B = (c1 - c2)/2</li></ul></code>
+ * <p>and
+ *
+ * <ul>
+ *   <li><code>G = (c1 + c2)/2</code>
+ *   <li><code>B = (c1 - c2)/2</code>
+ * </ul>
  *
  * <p>where <code>c1 = 3I-R</code> and <code>c2 = sqrt(3)(R-I)tg(H)</code>
  *
@@ -56,23 +60,31 @@ import java.lang.ref.SoftReference;
  *
  * <p><code>G = (1-S)I</code>
  *
- * <p>and <code><ul><li>B = (c1 + c2)/2</li>
- *        <li>R = (c1 - c2)/2</li></ul></code>
+ * <p>and
  *
- * <p>where c1 = 3I-G and c2 = sqrt(3)(G-I)tg(H-2PI/3)
+ * <ul>
+ *   <li><code>B = (c1 + c2)/2</code>
+ *   <li><code>R = (c1 - c2)/2</code>
+ * </ul>
  *
- * <p>when <code>H</code> is in <code>[0, 2PI/3]</code>,
+ * <p>where {@code c1 = 3I-G} and {@code c2 = sqrt(3)(G-I)tg(H-2PI/3)}
  *
- * <p><code>B = (1-S)I</code>
+ * <p>when {@code H} is in {@code [0, 2PI/3]},
  *
- * <p>and <code><ul><li>R = (c1 + c2)/2</li>
- *  <li>G = (c1 - c2)/2</li></ul></code>
+ * <p>{@code B = (1-S)I}
+ *
+ * <p>and
+ *
+ * <ul>
+ *   <li><code>R = (c1 + c2)/2</code>
+ *   <li><code>G = (c1 - c2)/2</code>
+ * </ul>
  *
  * <p>where <code>c1 = 3I-B</code> and <code>c2 = sqrt(3)(B-I)tg(H-4PI/3)</code>
  *
  * <p>Methods defined in the superclasses are not commented extensively.
  *
- * @see ColorSpaceJAI
+ * @see ColorSpaceImageN
  */
 // Old RGB-to-IHS equations ("Practical Algorithms for Image Analysis",
 // Seul, et. al., Cambridge, 2000):
@@ -109,7 +121,7 @@ import java.lang.ref.SoftReference;
 //
 // Refer to <i>Digital Image Processing</i>, Second Edition, William K. Pratt
 // (Wiley, 1991), pages 71-72, for more information.
-public final class IHSColorSpace extends ColorSpaceJAI {
+public final class IHSColorSpace extends ColorSpaceImageN {
     // Constant for rgb-to-ihs
     private static final double PI2 = Math.PI * 2.0;
 
