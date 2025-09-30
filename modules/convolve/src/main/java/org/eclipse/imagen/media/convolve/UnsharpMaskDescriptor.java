@@ -15,7 +15,7 @@
  *
  */
 
-package org.eclipse.imagen.operator;
+package org.eclipse.imagen.media.convolve;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
@@ -90,7 +90,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * @see org.eclipse.imagen.OperationDescriptor
  * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.operator.ConvolveDescriptor
+ * @see org.eclipse.imagen.media.convolve.ConvolveDescriptor
  * @since JAI 1.1
  */
 public class UnsharpMaskDescriptor extends OperationDescriptorImpl {

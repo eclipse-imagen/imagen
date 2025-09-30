@@ -3,6 +3,7 @@
 #
 
 descriptor  org.eclipse.imagen.media.convolve.ConvolveDescriptor
+descriptor	org.eclipse.imagen.media.convolve.UnsharpMaskDescriptor
 
 #
 # RenderedImageFactories
