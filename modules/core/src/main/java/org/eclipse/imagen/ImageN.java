@@ -193,7 +193,7 @@ public class ImageN implements AutoCloseable {
      *
      * @see OpImage#OpImage
      * @see TileCache
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_CACHE_METRIC = new RenderingKey(HINT_TILE_CACHE_METRIC, Object.class);
 
@@ -203,7 +203,7 @@ public class ImageN implements AutoCloseable {
      * The hint is automatically set by <code>setTileScheduler()</code>.
      *
      * @see OpImage#OpImage
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_SCHEDULER = new RenderingKey(HINT_TILE_SCHEDULER, TileScheduler.class);
 
@@ -214,7 +214,7 @@ public class ImageN implements AutoCloseable {
      * TRUE</code>.
      *
      * @see OpImage#OpImage
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_DEFAULT_COLOR_MODEL_ENABLED =
             new RenderingKey(HINT_DEFAULT_COLOR_MODEL_ENABLED, Boolean.class);
@@ -227,7 +227,7 @@ public class ImageN implements AutoCloseable {
      * <code>Method</code> corresponding to {@link PlanarImage#createColorModel(SampleModel)}.
      *
      * @see OpImage#OpImage
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_DEFAULT_COLOR_MODEL_METHOD =
             new RenderingKey(HINT_DEFAULT_COLOR_MODEL_METHOD, Method.class);
@@ -238,7 +238,7 @@ public class ImageN implements AutoCloseable {
      * <code>java.awt.Dimension</code>.
      *
      * @see RenderableOp#createDefaultRendering()
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final RenderingHints.Key KEY_DEFAULT_RENDERING_SIZE =
             new RenderingKey(HINT_DEFAULT_RENDERING_SIZE, Dimension.class);
@@ -248,7 +248,7 @@ public class ImageN implements AutoCloseable {
      * hint corresponding to this key.
      *
      * @see OpImage#OpImage
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_COLOR_MODEL_FACTORY =
             new RenderingKey(HINT_COLOR_MODEL_FACTORY, ColorModelFactory.class);
@@ -275,7 +275,7 @@ public class ImageN implements AutoCloseable {
      *
      * @see org.eclipse.imagen.OpImage#OpImage
      * @see org.eclipse.imagen.RasterAccessor
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_REPLACE_INDEX_COLOR_MODEL =
             new RenderingKey(HINT_REPLACE_INDEX_COLOR_MODEL, Boolean.class);
@@ -287,7 +287,7 @@ public class ImageN implements AutoCloseable {
      *
      * @see PlanarImage#PlanarImage(ImageLayout,Vector,Map)
      * @see OpImage#OpImage(Vector,ImageLayout,Map,boolean)
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_TILE_FACTORY = new RenderingKey(HINT_TILE_FACTORY, TileFactory.class);
 
@@ -297,7 +297,7 @@ public class ImageN implements AutoCloseable {
      * {@link #KEY_TILE_FACTORY} is initially mapped.
      *
      * @see OpImage#OpImage(Vector,ImageLayout,Map,boolean)
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_TILE_RECYCLER = new RenderingKey(HINT_TILE_RECYCLER, TileRecycler.class);
 
@@ -307,7 +307,7 @@ public class ImageN implements AutoCloseable {
      * this key.
      *
      * @see OpImage#OpImage(Vector,ImageLayout,Map,boolean)
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_CACHED_TILE_RECYCLING_ENABLED =
             new RenderingKey(HINT_CACHED_TILE_RECYCLING_ENABLED, Boolean.class);
@@ -317,7 +317,7 @@ public class ImageN implements AutoCloseable {
      * corresponding object must be a <code>Boolean</code>. The common <code>RenderingHints</code> do not contain a
      * default hint corresponding to this key.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_SERIALIZE_DEEP_COPY =
             new RenderingKey(HINT_SERIALIZE_DEEP_COPY, Boolean.class);
@@ -328,7 +328,7 @@ public class ImageN implements AutoCloseable {
      * </code>. The common <code>RenderingHints</code> do not contain a default hint corresponding to this key. The
      * default behavior is equivalent to setting a hint with a value of <code>Boolean.TRUE</code>.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_TRANSFORM_ON_COLORMAP =
             new RenderingKey(HINT_TRANSFORM_ON_COLORMAP, Boolean.class);
@@ -338,7 +338,7 @@ public class ImageN implements AutoCloseable {
      * ImageN instance rethrows <code>RuntimeException</code>s and prints the error message and stack trace of other
      * exceptions to <code>System.err</code>.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public static RenderingHints.Key KEY_IMAGING_LISTENER =
             new RenderingKey(HINT_IMAGING_LISTENER, ImagingListener.class);
@@ -361,7 +361,7 @@ public class ImageN implements AutoCloseable {
      * A <code>ImagingListener</code> to listen and/or process the special situations in the operations registered in
      * this <code>ImageN</code>.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     private ImagingListener imagingListener = ImagingListenerImpl.getInstance();
 
@@ -396,7 +396,7 @@ public class ImageN implements AutoCloseable {
     /**
      * Returns ImageN version information as a <code>String</code>
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final String getBuildVersion() {
         try {
@@ -429,7 +429,7 @@ public class ImageN implements AutoCloseable {
     /**
      * Disable use of default tile cache. Tiles are not stored.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final void disableDefaultTileCache() {
         TileCache tmp = defaultInstance.getTileCache();
@@ -442,7 +442,7 @@ public class ImageN implements AutoCloseable {
     /**
      * Enable use of default tile cache. Tiles are stored.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final void enableDefaultTileCache() {
         defaultInstance.renderingHints.put(KEY_TILE_CACHE, defaultInstance.getTileCache());
@@ -455,7 +455,7 @@ public class ImageN implements AutoCloseable {
      * @param tileDimensions The default tile dimensions or <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if <code>tileDimensions</code> is non-<code>null</code> and has
      *     non-positive width or height.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final void setDefaultTileSize(Dimension tileDimensions) {
         if (tileDimensions != null && (tileDimensions.width <= 0 || tileDimensions.height <= 0)) {
@@ -469,7 +469,7 @@ public class ImageN implements AutoCloseable {
      * Retrieves the clone of the default tile dimensions. If <code>null</code> there are no default dimensions set.
      *
      * @return The default tile dimensions or <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final Dimension getDefaultTileSize() {
         return defaultTileSize != null ? (Dimension) defaultTileSize.clone() : null;
@@ -491,7 +491,7 @@ public class ImageN implements AutoCloseable {
      * @param defaultSize The default rendering size or <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if <code>defaultSize</code> is non-<code>null</code> and both the
      *     width and height are non-positive.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final void setDefaultRenderingSize(Dimension defaultSize) {
         if (defaultSize != null && defaultSize.width <= 0 && defaultSize.height <= 0) {
@@ -505,7 +505,7 @@ public class ImageN implements AutoCloseable {
      * Retrieves a copy of the default rendering size. If <code>null</code> there is no default size set.
      *
      * @return The default rendering size or <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static final Dimension getDefaultRenderingSize() {
         return defaultRenderingSize == null ? null : new Dimension(defaultRenderingSize);
@@ -628,7 +628,7 @@ public class ImageN implements AutoCloseable {
      * capacity of 0 may be used. An exception will be thrown if memCapacity is negative. Attempting to set either value
      * larger than the JVM size may result in an OutOfMemory exception.
      *
-     * @deprecated as of ImageN 1.1 Refer to createTileCache(long memCapacity).
+     * @deprecated as of ImageN 0.4.0 Refer to createTileCache(long memCapacity).
      */
     public static TileCache createTileCache(int tileCapacity, long memCapacity) {
         if (memCapacity < 0) {
@@ -646,7 +646,7 @@ public class ImageN implements AutoCloseable {
      * exception will be thrown if memCapacity is negative. Attempting to set either value larger than the JVM size may
      * result in an OutOfMemory exception.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static TileCache createTileCache(long memCapacity) {
         if (memCapacity < 0) {
@@ -673,7 +673,7 @@ public class ImageN implements AutoCloseable {
      * priority is <code>THREAD.NORM_PRIORITY</code>, default prefetch parallelism is 1, and default prefetch priority
      * is <code>THREAD.MIN_PRIORITY</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static TileScheduler createTileScheduler() {
         return new SunTileScheduler();
@@ -1079,7 +1079,7 @@ public class ImageN implements AutoCloseable {
      * @param opName The name of the operation.
      * @param param1 The <code>Object</code> parameter.
      * @param param2 The <code>int</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, int param2) {
         ParameterBlock args = new ParameterBlock();
@@ -1095,7 +1095,7 @@ public class ImageN implements AutoCloseable {
      * @param param1 The first <code>Object</code> parameter.
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, Object param2, Object param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1112,7 +1112,7 @@ public class ImageN implements AutoCloseable {
      * @param param1 The first <code>int</code> parameter.
      * @param param2 The second <code>int</code> parameter.
      * @param param3 The <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, int param1, int param2, Object param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1130,7 +1130,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, Object param2, Object param3, Object param4) {
         ParameterBlock args = new ParameterBlock();
@@ -1149,7 +1149,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The first <code>int</code> parameter.
      * @param param3 The second <code>Object</code> parameter.
      * @param param4 The second <code>int</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Object param1, int param2, Object param3, int param4) {
         ParameterBlock args = new ParameterBlock();
@@ -1177,7 +1177,7 @@ public class ImageN implements AutoCloseable {
      *
      * @param opName The name of the operation.
      * @param srcCol The Collection src parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, Collection srcCol) {
         ParameterBlock args = new ParameterBlock();
@@ -1207,7 +1207,7 @@ public class ImageN implements AutoCloseable {
      * @param opName The name of the operation.
      * @param src The <code>RenderedImage</code> src parameter.
      * @param param The <code>int</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, int param) {
         ParameterBlock args = new ParameterBlock();
@@ -1241,7 +1241,7 @@ public class ImageN implements AutoCloseable {
      * @param src The <code>RenderedImage</code> src parameter.
      * @param param1 The <code>Object</code> parameter.
      * @param param2 The <code>float</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, Object param1, float param2) {
         ParameterBlock args = new ParameterBlock();
@@ -1279,7 +1279,7 @@ public class ImageN implements AutoCloseable {
      * @param param1 The <code>Object</code> parameter.
      * @param param2 The first <code>int</code> parameter.
      * @param param3 The second <code>int</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, Object param1, int param2, int param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1299,7 +1299,7 @@ public class ImageN implements AutoCloseable {
      * @param param1 The first <code>float</code> parameter.
      * @param param2 The second <code>float</code> parameter.
      * @param param3 The <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, float param1, float param2, Object param3) {
         ParameterBlock args = new ParameterBlock();
@@ -1320,7 +1320,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, Object param1, Object param2, Object param3, Object param4) {
@@ -1343,7 +1343,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The first <code>int</code> parameter.
      * @param param4 The second <code>int</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, Object param1, Object param2, int param3, int param4) {
@@ -1366,7 +1366,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The second <code>int</code> parameter.
      * @param param3 The third <code>int</code> parameter.
      * @param param4 The fourth <code>int</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(String opName, RenderedImage src, int param1, int param2, int param3, int param4) {
         ParameterBlock args = new ParameterBlock();
@@ -1388,7 +1388,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The second <code>float</code> parameter.
      * @param param3 The third <code>float</code> parameter.
      * @param param4 The <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, float param1, float param2, float param3, Object param4) {
@@ -1412,7 +1412,7 @@ public class ImageN implements AutoCloseable {
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
      * @param param5 The fifth <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1443,7 +1443,7 @@ public class ImageN implements AutoCloseable {
      * @param param3 The third <code>float</code> parameter.
      * @param param4 The fourth <code>float</code> parameter.
      * @param param5 The <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, float param1, float param2, float param3, float param4, Object param5) {
@@ -1468,7 +1468,7 @@ public class ImageN implements AutoCloseable {
      * @param param3 The second <code>float</code> parameter.
      * @param param4 The third <code>float</code> parameter.
      * @param param5 The <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName, RenderedImage src, float param1, int param2, float param3, float param4, Object param5) {
@@ -1494,7 +1494,7 @@ public class ImageN implements AutoCloseable {
      * @param param4 The fourth <code>Object</code> parameter.
      * @param param5 The fifth <code>Object</code> parameter.
      * @param param6 The sixth <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1528,7 +1528,7 @@ public class ImageN implements AutoCloseable {
      * @param param4 The fourth <code>int</code> parameter.
      * @param param5 The fifth <code>int</code> parameter.
      * @param param6 The <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1575,7 +1575,7 @@ public class ImageN implements AutoCloseable {
      * @param param2 The second <code>Object</code> parameter.
      * @param param3 The third <code>Object</code> parameter.
      * @param param4 The fourth <code>Object</code> parameter.
-     * @deprecated as of ImageN 1.1. Instead use <code>create(String,ParameterBlock)</code>.
+     * @deprecated as of ImageN 0.4.0. Instead use <code>create(String,ParameterBlock)</code>.
      */
     public static RenderedOp create(
             String opName,
@@ -1631,7 +1631,7 @@ public class ImageN implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>RenderableOp</code> that represents the named operation.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderableOp createRenderable(String opName, ParameterBlock args, RenderingHints hints) {
         return defaultInstance.createRenderableNS(opName, args, hints);
@@ -1708,7 +1708,7 @@ public class ImageN implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>RenderableOp</code> that represents the named operation.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public RenderableOp createRenderableNS(String opName, ParameterBlock args, RenderingHints hints) {
 
@@ -1790,7 +1790,7 @@ public class ImageN implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>RenderableOp</code> that represents the named operation.
-     * @deprecated as of ImageN 1.1 in favor of <code>createRenderableNS(String,ParameterBlock,RenderingHints)</code>.
+     * @deprecated as of ImageN 0.4.0 in favor of <code>createRenderableNS(String,ParameterBlock,RenderingHints)</code>.
      * @see ImageN#createRenderableNS(String,ParameterBlock,RenderingHints)
      */
     public RenderableOp createRenderableNS(String opName, ParameterBlock args) {
@@ -1821,7 +1821,7 @@ public class ImageN implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>Collection</code> that represents the named operation.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static Collection createRenderableCollection(String opName, ParameterBlock args, RenderingHints hints) {
         return defaultInstance.createRenderableCollectionNS(opName, args, hints);
@@ -1898,7 +1898,7 @@ public class ImageN implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>Collection</code> that represents the named operation.
-     * @deprecated as of ImageN 1.1 in favor of <code>createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
+     * @deprecated as of ImageN 0.4.0 in favor of <code>createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
      *     </code>.
      * @see ImageN#createRenderableCollectionNS(String,ParameterBlock,RenderingHints)
      */
@@ -1954,7 +1954,7 @@ public class ImageN implements AutoCloseable {
      * @throws IllegalArgumentException if the specified operation is unable to handle the sources and parameters
      *     specified in <code>args</code>.
      * @return A <code>Collection</code> that represents the named operation.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Collection createRenderableCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
         if (opName == null) {

@@ -32,7 +32,7 @@ import java.util.Vector;
  *
  * <p>This class is used by the implementation of the OperationRegistry class and is not intended to be part of the API.
  *
- * <p>- what was OperationGraph pre-ImageN 1.1 is now FactoryOperationGraph
+ * <p>- what was OperationGraph is now FactoryOperationGraph
  */
 class OperationGraph implements java.io.Serializable {
 

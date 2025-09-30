@@ -26,7 +26,7 @@ import java.util.Vector;
  * NegotiableCollection</code> is a convenience class to specify a <code>Negotiable</code> value for a parameter whose
  * valid values are contained in an <code>Collection</code>.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class NegotiableCollection implements Negotiable {
 

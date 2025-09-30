@@ -140,7 +140,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  *
  * <p>All names are treated in a case-retentive and case-insensitive manner.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class NegotiableCapability extends ParameterListImpl implements Serializable {
 

@@ -103,10 +103,10 @@ import org.eclipse.imagen.util.ImagingListener;
  * @see java.awt.image.WritableRenderedImage
  * @see org.eclipse.imagen.PlanarImage
  * @see org.eclipse.imagen.RenderedOp
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 // NB: This class was added in EA3 to org.eclipse.imagen.media.rmi and made
-// public only in ImageN 1.1.
+// public only in ImageN 0.4.0.
 public final class SerializableRenderedImage implements RenderedImage, Serializable {
     /** Value to indicate the server socket timeout period (milliseconds). */
     private static final int SERVER_TIMEOUT = 60000; // XXX 1 minute?

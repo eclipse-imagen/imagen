@@ -91,7 +91,7 @@ public abstract class UntiledOpImage extends OpImage {
      *     </code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>sources</code> does not contain at least one element.
      * @throws ClassCastException If the first object in <code>sources</code> is not a <code>RenderedImage</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public UntiledOpImage(Vector sources, Map configuration, ImageLayout layout) {
         super(checkSourceVector(sources, true), layoutHelper(layout, sources), configuration, true);
@@ -112,7 +112,7 @@ public abstract class UntiledOpImage extends OpImage {
      *     ColorModel</code>. The tile grid layout information will be overridden in order to ensure that the image has
      *     a single tile.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public UntiledOpImage(RenderedImage source, Map configuration, ImageLayout layout) {
         super(
@@ -200,7 +200,7 @@ public abstract class UntiledOpImage extends OpImage {
      * @param sources The source Rasters; should be the whole image for each source.
      * @param dest The destination WritableRaster; should be the whole image.
      * @param destRect The destination Rectangle; should equal the destination image bounds.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected abstract void computeImage(Raster[] sources, WritableRaster dest, Rectangle destRect);
 
@@ -208,7 +208,7 @@ public abstract class UntiledOpImage extends OpImage {
      * Returns an array of points indicating the tile dependencies which in this case is the set of all tiles in the
      * specified source image.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Point[] getTileDependencies(int tileX, int tileY, int sourceIndex) {
         // Compute the tile dependencies only the first time that this

@@ -863,7 +863,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws IllegalArgumentException if combining the source bounds with the layout parameter results in negative
      *     output width or height.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Scale2OpImage(
             RenderedImage source,
@@ -1157,7 +1157,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -1191,7 +1191,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @return a <code>Point2D</code> of the same class as <code>sourcePt</code>.
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is non-zero.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -1219,7 +1219,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>sourceRect</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
@@ -1372,7 +1372,7 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      * @throws IllegalArgumentException if <code>sourceIndex</code> is negative or greater than the index of the last
      *     source.
      * @throws IllegalArgumentException if <code>destRect</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
 

@@ -51,7 +51,7 @@ public interface CollectionImageFactory {
      *     not match that expected by this <code>CollectionImageFactory</code>.
      * @return A <code>CollectionImage</code> modified according to the new values of the <code>ParameterBlock</code>
      *     and <code>RenderingHints</code> or <code>null</code> if it is impracticable to perform the update.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     CollectionImage update(
             ParameterBlock oldParamBlock,

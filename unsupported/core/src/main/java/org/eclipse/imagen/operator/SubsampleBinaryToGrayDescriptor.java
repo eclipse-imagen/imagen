@@ -161,7 +161,7 @@ class SubsampleBinaryToGrayPropertyGenerator extends PropertyGeneratorImpl {
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
 

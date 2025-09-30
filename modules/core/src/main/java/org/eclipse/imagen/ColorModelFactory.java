@@ -29,7 +29,7 @@ import java.util.Vector;
  * must be of type <code>ColorModelFactory</code>. This configuration variable is recognized by the constructor
  * {@link OpImage#OpImage(Vector,ImageLayout,Map,boolean)}.
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 public interface ColorModelFactory {
     /**

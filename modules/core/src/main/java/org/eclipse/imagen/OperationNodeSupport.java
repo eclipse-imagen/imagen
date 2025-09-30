@@ -37,7 +37,7 @@ import org.eclipse.imagen.media.serialize.SerializerFactory;
  * instance of this class may be used as a member field of the <code>OperationNode</code> and some of the <code>
  * OperationNode</code>'s work delegated to it.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class OperationNodeSupport implements Serializable {
 

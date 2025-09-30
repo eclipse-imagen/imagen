@@ -34,7 +34,7 @@ import java.awt.image.renderable.RenderableImage;
  *
  * <p>Classes that implement this interface must provide a constructor with no arguments.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public interface RemoteCRIF extends RemoteRIF {
 

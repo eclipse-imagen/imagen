@@ -772,7 +772,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      * @param obj the <code>Object</code> to test for equality
      * @return <code>true</code> if the specified <code>Object</code> is an instance of <code>ImageLayout</code> and
      *     equals this <code>ImageLayout</code>; <code>false</code> otherwise.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public boolean equals(Object obj) {
 
@@ -799,7 +799,7 @@ public class ImageLayout extends Object implements Cloneable, Serializable {
      * Returns the hash code for this <code>ImageLayout</code>.
      *
      * @return a hash code for this <code>ImageLayout</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public int hashCode() {
 

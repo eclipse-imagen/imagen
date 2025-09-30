@@ -34,7 +34,7 @@ import org.eclipse.imagen.RenderableOp;
  * <p>If the <code>OperationRegistry</code> is <code>null</code>, then <code>
  * ImageN.getDefaultInstance().getOperationRegistry()</code> will be used.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public final class CRIFRegistry {
 

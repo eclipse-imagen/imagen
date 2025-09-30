@@ -45,7 +45,7 @@ import org.eclipse.imagen.remote.SerializableRenderedImage;
  *
  * <p>Image layout attributes, once requested, are cached locally for speed.
  *
- * @deprecated as of ImageN 1.1 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
+ * @deprecated as of ImageN 0.4.0 in favor of <code>org.eclipse.imagen.remote.RemoteJAI</code>.
  */
 public class RemoteImage extends PlanarImage {
 

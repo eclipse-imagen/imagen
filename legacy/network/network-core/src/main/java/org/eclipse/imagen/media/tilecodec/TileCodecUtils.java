@@ -64,7 +64,7 @@ public class TileCodecUtils {
      * corresponding object must be a <code>String</code>. The common <code>RenderingHints</code> do not contain a
      * default hint corresponding to this key.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_CODEC_FORMAT = new RenderingKey(HINT_TILE_CODEC_FORMAT, String.class);
 
@@ -73,7 +73,7 @@ public class TileCodecUtils {
      * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
      * not contain a default hint corresponding to this key.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_ENCODING_PARAM =
             new RenderingKey(HINT_TILE_ENCODING_PARAM, TileCodecParameterList.class);
@@ -83,7 +83,7 @@ public class TileCodecUtils {
      * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
      * not contain a default hint corresponding to this key.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_DECODING_PARAM =
             new RenderingKey(HINT_TILE_DECODING_PARAM, TileCodecParameterList.class);

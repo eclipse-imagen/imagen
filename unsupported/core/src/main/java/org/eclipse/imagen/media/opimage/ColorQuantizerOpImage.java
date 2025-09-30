@@ -45,7 +45,7 @@ import org.eclipse.imagen.UnpackedImageData;
  * on the lookup table generated from this <code>OpImage</code>.
  *
  * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.LookupTableJAI @ImageN 1.1.2
+ * @see org.eclipse.imagen.LookupTableJAI
  */
 abstract class ColorQuantizerOpImage extends PointOpImage {
     /**

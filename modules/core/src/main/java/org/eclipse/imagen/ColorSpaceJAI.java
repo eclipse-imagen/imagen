@@ -44,7 +44,7 @@ import java.awt.image.WritableRaster;
  * @see java.awt.color.ICC_ColorSpace
  * @see org.eclipse.imagen.operator.ColorConvertDescriptor
  * @see org.eclipse.imagen.operator.BandCombineDescriptor
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public abstract class ColorSpaceJAI extends ColorSpace {
     /** Cache the maximum value for XYZ color space. */

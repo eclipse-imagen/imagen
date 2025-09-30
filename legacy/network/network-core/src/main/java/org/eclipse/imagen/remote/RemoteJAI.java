@@ -115,7 +115,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * @see ImageN
  * @see JAIRMIDescriptor
  * @see RemoteImagingException
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class RemoteJAI {
 
@@ -151,7 +151,7 @@ public class RemoteJAI {
      * default hint corresponding to this key.
      *
      * @see RemoteJAI
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_RETRY_INTERVAL =
             new RemoteJAI.RenderingKey(HINT_RETRY_INTERVAL, Integer.class);
@@ -161,7 +161,7 @@ public class RemoteJAI {
      * corresponding to this key.
      *
      * @see RemoteJAI
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_NUM_RETRIES = new RemoteJAI.RenderingKey(HINT_NUM_RETRIES, Integer.class);
     /**
@@ -170,7 +170,7 @@ public class RemoteJAI {
      * do not contain a default hint corresponding to this key.
      *
      * @see RemoteJAI
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_NEGOTIATION_PREFERENCES =
             new RemoteJAI.RenderingKey(HINT_NEGOTIATION_PREFERENCES, NegotiableCapabilitySet.class);

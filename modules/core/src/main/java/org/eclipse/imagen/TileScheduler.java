@@ -79,7 +79,7 @@ public interface TileScheduler extends AutoCloseable {
      *     <code>null</code>.
      * @return The <code>TileRequest</code> for this set of tiles.
      * @throws IllegalArgumentException if <code>target</code> or <code>tileIndices</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     TileRequest scheduleTiles(PlanarImage target, Point[] tileIndices, TileComputationListener[] tileListeners);
 
@@ -100,7 +100,7 @@ public interface TileScheduler extends AutoCloseable {
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException if <code>request</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     void cancelTiles(TileRequest request, Point[] tileIndices);
 
@@ -130,28 +130,28 @@ public interface TileScheduler extends AutoCloseable {
      *
      * @param parallelism The suggested degree of parallelism.
      * @throws IllegalArgumentException if <code>parallelism</code> is negative.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     void setParallelism(int parallelism);
 
     /**
      * Returns the degree of parallelism of the scheduler.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     int getParallelism();
 
     /**
      * Identical to <code>setParallelism()</code> but applies only to <code>prefetchTiles()</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     void setPrefetchParallelism(int parallelism);
 
     /**
      * Identical to <code>getParallelism()</code> but applies only to <code>prefetchTiles()</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     int getPrefetchParallelism();
 
@@ -165,14 +165,14 @@ public interface TileScheduler extends AutoCloseable {
      * threads used for tile computation. Its initial value is <code>Thread.NORM_PRIORITY</code>.
      *
      * @param priority The suggested priority.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     void setPriority(int priority);
 
     /**
      * Returns the priority of <code>scheduleTiles()</code> processing.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     int getPriority();
 
@@ -182,14 +182,14 @@ public interface TileScheduler extends AutoCloseable {
      * <p>In the Sun Microsystems reference implementation of <code>TileScheduler</code>, this method sets the priority
      * of any threads spawned to prefetch tiles. Its initial value is <code>Thread.MIN_PRIORITY</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     void setPrefetchPriority(int priority);
 
     /**
      * Identical to <code>getPriority()</code> but applies only to <code>prefetchTiles()</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     int getPrefetchPriority();
 }

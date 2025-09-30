@@ -46,7 +46,7 @@ import java.util.EventListener;
  * @see TileRequest
  * @see RenderedOp
  * @see OpImage
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public interface TileComputationListener extends EventListener {
 

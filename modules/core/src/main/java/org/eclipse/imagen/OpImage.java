@@ -166,7 +166,7 @@ public abstract class OpImage extends PlanarImage {
      * Metric used to produce an ordered list of tiles. This determines which tiles are removed from the cache first if
      * a memory control operation is required.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected Object tileCacheMetric;
 
@@ -192,7 +192,7 @@ public abstract class OpImage extends PlanarImage {
      * A <code>TileRecycler</code> for use in <code>createTile()</code>. May be <code>null</code>. This field is set by
      * the configuration map passed to {@link #OpImage(Vector,ImageLayout,Map,boolean}.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     protected TileRecycler tileRecycler;
 
@@ -643,7 +643,7 @@ public abstract class OpImage extends PlanarImage {
      * @throws RuntimeException If default <code>ColorModel</code> setting is enabled via a hint in the configuration
      *     <code>Map</code> and the supplied <code>Method</code> does not conform to the requirements stated in the
      *     <code>ImageN</code> class for the hint key <code>KEY_DEFAULT_COLOR_MODEL_METHOD</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public OpImage(Vector sources, ImageLayout layout, Map configuration, boolean cobbleSources) {
         super(layoutHelper(layout, sources, configuration), sources, configuration);
@@ -733,7 +733,7 @@ public abstract class OpImage extends PlanarImage {
      * @param image The image to be stored in the <code>Vector</code>.
      * @return A <code>Vector</code> containing the image.
      * @throws IllegalArgumentException if <code>image</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected static Vector vectorize(RenderedImage image) {
         if (image == null) {
@@ -751,7 +751,7 @@ public abstract class OpImage extends PlanarImage {
      * @param image2 The second image to be stored in the <code>Vector</code>.
      * @return A <code>Vector</code> containing the images.
      * @throws IllegalArgumentException if <code>image1</code> or <code>image2</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected static Vector vectorize(RenderedImage image1, RenderedImage image2) {
         if (image1 == null || image2 == null) {
@@ -772,7 +772,7 @@ public abstract class OpImage extends PlanarImage {
      * @return A <code>Vector</code> containing the images.
      * @throws IllegalArgumentException if <code>image1</code> or <code>image2</code> or <code>image3</code> is <code>
      *     null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     protected static Vector vectorize(RenderedImage image1, RenderedImage image2, RenderedImage image3) {
         if (image1 == null || image2 == null || image3 == null) {
@@ -822,7 +822,7 @@ public abstract class OpImage extends PlanarImage {
      * Returns the tile cache object of this image by reference. If this image does not have a tile cache, this method
      * returns <code>null</code>.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public TileCache getTileCache() {
         return cache;
@@ -872,7 +872,7 @@ public abstract class OpImage extends PlanarImage {
     /**
      * Returns the <code>tileCacheMetric</code> instance variable by reference.
      *
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public Object getTileCacheMetric() {
         return tileCacheMetric;
@@ -1241,7 +1241,7 @@ public abstract class OpImage extends PlanarImage {
      *
      * @param tileIndices A list of tile indices indicating which tiles to schedule for computation.
      * @throws IllegalArgumentException If <code>tileIndices</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         if (tileIndices == null) {
@@ -1284,7 +1284,7 @@ public abstract class OpImage extends PlanarImage {
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException If <code>request</code> is <code>null</code>.
-     * @since ImageN 1.1
+     * @since ImageN 0.4.0
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
@@ -1348,7 +1348,7 @@ public abstract class OpImage extends PlanarImage {
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -1394,7 +1394,7 @@ public abstract class OpImage extends PlanarImage {
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -1491,7 +1491,7 @@ public abstract class OpImage extends PlanarImage {
      *
      * <p>The results of referencing an image after a call to <code>dispose()</code> are undefined.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public synchronized void dispose() {
         if (isDisposed) {
@@ -1522,7 +1522,7 @@ public abstract class OpImage extends PlanarImage {
      *
      * @param sourceIndex The index of the source in question.
      * @return <code>true</code> if the indicated source has an extender.
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public boolean hasExtender(int sourceIndex) {
         if (sourceIndex != 0) {
@@ -1541,7 +1541,7 @@ public abstract class OpImage extends PlanarImage {
      * IndexColorModel</code> the effective number of bands is given by <code>colorModel.getNumComponents()</code>,
      * since a single physical sample represents multiple color components.
      *
-     * @deprecated as of ImageN 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public static int getExpandedNumBands(SampleModel sampleModel, ColorModel colorModel) {
         if (colorModel instanceof IndexColorModel) {
@@ -1577,7 +1577,7 @@ public abstract class OpImage extends PlanarImage {
     /**
      * Returns the value of the instance variable <code>tileRecycler</code>.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     public TileRecycler getTileRecycler() {
         return tileRecycler;
@@ -1591,7 +1591,7 @@ public abstract class OpImage extends PlanarImage {
      * <p>Subclasses should ideally use this method to create destination tiles as this method will take advantage of
      * any <code>TileFactory</code> specified to the <code>OpImage</code> at construction.
      *
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     protected final WritableRaster createTile(int tileX, int tileY) {
         return createWritableRaster(sampleModel, new Point(tileXToX(tileX), tileYToY(tileY)));
@@ -1610,7 +1610,7 @@ public abstract class OpImage extends PlanarImage {
      * exited.
      *
      * @throws IllegalArgumentException if <code>tile</code> is <code>null</code>.
-     * @since ImageN 1.1.2
+     * @since ImageN 0.4.0.2
      */
     protected void recycleTile(Raster tile) {
         if (tile == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));

@@ -19,7 +19,7 @@
  * This class has been deprecated. The source code has been moved to the samples/widget directory. These widgets are no
  * longer supported.
  *
- * @deprecated as of ImageN 1.1
+ * @deprecated as of ImageN 0.4.0
  */
 package org.eclipse.imagen.widget;
 

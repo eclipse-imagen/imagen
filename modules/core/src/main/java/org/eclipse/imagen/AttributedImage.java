@@ -21,7 +21,7 @@ package org.eclipse.imagen;
  * A class which associates a <code>PlanarImage</code> with an attribute of unspecified type. The class is itself a
  * <code>PlanarImage</code> equivalent to the one which it wraps.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class AttributedImage extends RenderedImageAdapter {
     /** The attribute associated with the image. */

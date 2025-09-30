@@ -23,7 +23,7 @@ import java.awt.image.RenderedImage;
 /**
  * Public interface for cached tiles used to retrieve information about the tile.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public interface CachedTile {
 

@@ -41,7 +41,7 @@ import org.eclipse.imagen.util.Range;
 /**
  * This property generator computes the properties for the operation "SubsampleAverage" dynamically.
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 class SubsampleAveragePropertyGenerator implements PropertyGenerator {
 
@@ -250,7 +250,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
  *                            <td>scaleX</td>
  * </table>
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
 

@@ -35,7 +35,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  *
  * <p>The <code>String</code>s used to represent the registry modes are all used in a case-insensitive manner.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class RegistryMode {
 

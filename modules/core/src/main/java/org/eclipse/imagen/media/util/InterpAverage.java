@@ -23,7 +23,7 @@ import org.eclipse.imagen.Interpolation;
  * An <code>Interpolation</code> class which performs simple averaging of all pixels within a specified neighborhood. It
  * is used by the "SubsampleAverage" operation implementations.
  *
- * @since ImageN 1.1.2
+ * @since ImageN 0.4.0.2
  */
 public class InterpAverage extends Interpolation {
     /**

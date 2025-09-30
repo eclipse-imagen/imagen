@@ -26,7 +26,7 @@ import org.eclipse.imagen.PropertyGenerator;
  *
  * <p>All <code>String</code>s are treated in a case-retentive and case-insensitive manner.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public abstract class TileCodecDescriptorImpl implements TileCodecDescriptor {
 

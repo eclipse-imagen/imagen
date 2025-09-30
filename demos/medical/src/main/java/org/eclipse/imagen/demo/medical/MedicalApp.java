@@ -30,7 +30,7 @@ import javax.swing.KeyStroke;
 import org.eclipse.imagen.ImageN;
 
 /**
- * The main entrance of the Medical Image Application for ImageN 1.1.
+ * The main entrance of the Medical Image Application for ImageN.
  *
  * <p>Before load any data set, this class displays a medical image slice with the title for this demo in a single view
  * image display panel.

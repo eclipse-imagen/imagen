@@ -34,7 +34,7 @@ import java.util.Set;
  * </code> could be an instance of a class which compared only the position if it were desired to obtain or remove all
  * images at a given position irrespective of the time stamp.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class AttributedImageCollection extends CollectionImage {
 

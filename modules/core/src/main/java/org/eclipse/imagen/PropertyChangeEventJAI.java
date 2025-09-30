@@ -26,7 +26,7 @@ import java.beans.PropertyChangeEvent;
  * class. Note that this does not prevent ImageN properties from colliding with other Java Bean properties in the Bean
  * property name space.
  *
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class PropertyChangeEventJAI extends PropertyChangeEvent {
     /** The case-retained property name as supplied to the constructor. */

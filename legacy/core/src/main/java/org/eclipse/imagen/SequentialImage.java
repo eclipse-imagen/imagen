@@ -45,7 +45,7 @@ package org.eclipse.imagen;
  * </pre>
  *
  * @see ImageSequence
- * @deprecated as of ImageN 1.1. Use <code>AttributedImage</code> instead.
+ * @deprecated as of ImageN 0.4.0. Use <code>AttributedImage</code> instead.
  */
 public class SequentialImage {
 

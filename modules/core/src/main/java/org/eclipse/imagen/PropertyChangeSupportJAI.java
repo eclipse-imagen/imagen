@@ -29,7 +29,7 @@ import java.beans.PropertyChangeSupport;
  * methods defined in this class also force the supplied property name to lower case.
  *
  * @see PropertyChangeSupport
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public final class PropertyChangeSupportJAI extends PropertyChangeSupport {
     /** The <code>PropertyChangeEvent</code> source. */

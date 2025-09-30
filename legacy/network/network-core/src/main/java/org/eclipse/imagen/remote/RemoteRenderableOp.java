@@ -44,7 +44,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * </code> to be emitted.
  *
  * @see org.eclipse.imagen.RenderableOp
- * @since ImageN 1.1
+ * @since ImageN 0.4.0
  */
 public class RemoteRenderableOp extends RenderableOp {
 
