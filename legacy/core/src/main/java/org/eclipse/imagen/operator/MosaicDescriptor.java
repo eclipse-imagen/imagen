@@ -223,8 +223,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>backgroundValues</td> <td>double[]</td>
  *                               <td>double[] {0.0}</td>
  * </table>
- *
- * @since ImageN 0.4.0.2
  */
 public class MosaicDescriptor extends OperationDescriptorImpl {
 

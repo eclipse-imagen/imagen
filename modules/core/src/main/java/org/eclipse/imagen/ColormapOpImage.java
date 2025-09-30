@@ -46,7 +46,6 @@ import java.util.Map;
  *
  * @see java.awt.image.IndexColorModel
  * @see PointOpImage
- * @since ImageN 0.4.0
  */
 public abstract class ColormapOpImage extends PointOpImage {
 

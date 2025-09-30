@@ -25,11 +25,7 @@ import org.eclipse.imagen.tilecodec.TileCodecParameterList;
 import org.eclipse.imagen.tilecodec.TileEncoderFactory;
 import org.eclipse.imagen.util.ImagingListener;
 
-/**
- * A class which provides information about the "tileEncoder" registry mode.
- *
- * @since ImageN 0.4.0
- */
+/** A class which provides information about the "tileEncoder" registry mode. */
 public class TileEncoderRegistryMode extends RegistryMode {
 
     public static final String MODE_NAME = "tileEncoder";

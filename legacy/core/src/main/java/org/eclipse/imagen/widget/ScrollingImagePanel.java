@@ -86,11 +86,7 @@ public class ScrollingImagePanel extends ScrollPane
         }
     }
 
-    /**
-     * Returns the image canvas. Allows mouse listeners to be used on the image canvas.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Returns the image canvas. Allows mouse listeners to be used on the image canvas. */
     public ImageCanvas getImageCanvas() {
         return ic;
     }

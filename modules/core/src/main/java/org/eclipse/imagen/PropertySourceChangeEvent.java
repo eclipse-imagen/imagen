@@ -25,7 +25,6 @@ package org.eclipse.imagen;
  *
  * @see PropertyChangeEventJAI
  * @see PropertySource
- * @since ImageN 0.4.0
  */
 public class PropertySourceChangeEvent extends PropertyChangeEventJAI {
     /**

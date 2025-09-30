@@ -301,7 +301,6 @@ public final class WarpAffine extends WarpPolynomial {
      * @return A <code>Rectangle</code> in the destination coordinate system that is guaranteed to contain all pixels
      *     within the forward mapping of the source rectangle.
      * @throws IllegalArgumentException if <code>srctRect</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
         if (srcRect == null) {
@@ -412,7 +411,6 @@ public final class WarpAffine extends WarpPolynomial {
      * @param destPt the position in destination image coordinates to map to source image coordinates.
      * @return a <code>Point2D</code> of the same class as <code>destPt</code>.
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
-     * @since ImageN 0.4.0.2
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
@@ -456,7 +454,7 @@ public final class WarpAffine extends WarpPolynomial {
      * @throws IllegalArgumentException if <code>destPt</code> is
      * <code>null</code>.
      *
-     * @since ImageN 0.4.0.2
+     *
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {

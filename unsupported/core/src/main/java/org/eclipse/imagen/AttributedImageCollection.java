@@ -33,8 +33,6 @@ import java.util.Set;
  * one type of value. For example, if the attribute contained both position and time, then the parameter <code>attribute
  * </code> could be an instance of a class which compared only the position if it were desired to obtain or remove all
  * images at a given position irrespective of the time stamp.
- *
- * @since ImageN 0.4.0
  */
 public class AttributedImageCollection extends CollectionImage {
 

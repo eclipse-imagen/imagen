@@ -26,8 +26,6 @@ import java.awt.image.renderable.ParameterBlock;
  * executed in renderable mode. The images contained in the generated <code>CollectionImage</code> would be expected to
  * be <code>
  * RenderableImage</code>s.
- *
- * @since ImageN 0.4.0
  */
 public interface RenderableCollectionImageFactory {
 

@@ -25,8 +25,6 @@ import java.awt.image.WritableRaster;
  * An interface defining a mechanism which may be used to create tiles for an image. Implementations of this interface
  * might be based for example on managing a pool of memory, recycling previously allocated memory, or using an image as
  * a backing store.
- *
- * @since ImageN 0.4.0.2
  */
 public interface TileFactory {
     /**

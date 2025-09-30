@@ -159,7 +159,6 @@ import org.eclipse.imagen.util.Range;
  * @see com.sun.image.codec.jpeg.JPEGQTable
  * @see com.sun.image.codec.jpeg.JPEGDecodeParam
  * @see com.sun.image.codec.jpeg.JPEGEncodeParam
- * @since ImageN 0.4.0
  */
 public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
 

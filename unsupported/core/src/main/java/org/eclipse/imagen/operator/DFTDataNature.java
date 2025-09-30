@@ -24,8 +24,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * Acceptable values for the "dataNature" parameter are defined in the <code>DFTDescriptor</code> and <code>
  * IDFTDescriptor</code> by the constants <code>REAL_TO_COMPLEX</code>, <code>COMPLEX_TO_COMPLEX</code>, and <code>
  * COMPLEX_TO_REAL</code>.
- *
- * @since ImageN 0.4.0
  */
 public final class DFTDataNature extends EnumeratedParameter {
     DFTDataNature(String name, int value) {

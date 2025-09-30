@@ -29,7 +29,7 @@ import java.util.Iterator;
  * <p>This class can be used to represent medical or geophysical images.
  *
  * @see PlanarImage
- * @deprecated as of ImageN 0.4.0. Use <code>AttributedImageCollection</code> instead.
+ * @deprecated Use <code>AttributedImageCollection</code> instead.
  */
 public abstract class ImageStack extends CollectionImage {
 

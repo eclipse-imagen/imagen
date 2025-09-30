@@ -27,7 +27,6 @@ import java.beans.PropertyChangeListener;
  * <p>Note that the case of property names used in this context is significant.
  *
  * @see PropertyChangeEventJAI
- * @since ImageN 0.4.0
  */
 public interface PropertyChangeEmitter {
 

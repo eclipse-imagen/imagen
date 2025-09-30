@@ -63,7 +63,6 @@ import org.eclipse.imagen.util.ImagingListener;
  * that of dealing with Network errors as mentioned above.
  *
  * @see RemoteImagingException
- * @since ImageN 0.4.0
  */
 public abstract class PlanarImageServerProxy extends PlanarImage implements RemoteRenderedImage {
 

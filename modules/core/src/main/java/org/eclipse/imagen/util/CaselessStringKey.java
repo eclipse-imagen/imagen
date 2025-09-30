@@ -26,7 +26,6 @@ import java.util.Locale;
  *
  * @see org.eclipse.imagen.PropertySourceImpl
  * @see java.util.Map
- * @since ImageN 0.4.0
  */
 public final class CaselessStringKey implements Cloneable, Serializable {
 

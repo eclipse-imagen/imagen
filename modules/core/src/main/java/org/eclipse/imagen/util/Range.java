@@ -39,8 +39,6 @@ import java.io.Serializable;
  * <p>An empty range is defined as a <code>Range</code> whose minimum value is greater than it's maximum value if the
  * ends are included, or as a <code>Range</code> whose minimum value is greater than or equal to it's maximum value, if
  * the minimum or the maximum value is excluded.
- *
- * @since ImageN 0.4.0
  */
 public class Range implements Serializable {
 

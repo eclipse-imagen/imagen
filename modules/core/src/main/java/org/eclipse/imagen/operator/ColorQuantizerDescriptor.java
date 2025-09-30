@@ -153,7 +153,6 @@ import org.eclipse.imagen.util.Range;
  *
  * @see org.eclipse.imagen.ROI
  * @see org.eclipse.imagen.OperationDescriptor
- * @since ImageN 0.4.0.2
  */
 public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
     /** The predefined color quantization algorithms. */

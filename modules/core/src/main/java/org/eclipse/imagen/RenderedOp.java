@@ -233,11 +233,7 @@ import org.eclipse.imagen.util.ImagingListener;
  */
 public class RenderedOp extends PlanarImage implements OperationNode, PropertyChangeListener, Serializable {
 
-    /**
-     * An object to assist in implementing <code>OperationNode</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** An object to assist in implementing <code>OperationNode</code>. */
     protected OperationNodeSupport nodeSupport;
 
     /** The <code>PropertySource</code> containing the combined properties of all of the node's sources. */
@@ -442,8 +438,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     /**
      * Returns the name of the <code>RegistryMode</code> corresponding to this <code>RenderedOp</code>. This method
      * always returns the <code>String</code> "rendered".
-     *
-     * @since ImageN 0.4.0
      */
     public String getRegistryModeName() {
         return RegistryMode.getMode("rendered").getName();
@@ -612,7 +606,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @throws RuntimeException if the image factory charged with rendering the node is unable to create a rendering.
      * @see #createInstance()
-     * @since ImageN 0.4.0
      */
     protected synchronized PlanarImage createInstance(boolean isNodeRendered) {
         ParameterBlock pb = new ParameterBlock();
@@ -683,7 +676,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @throws RuntimeException if the image factory charged with rendering the node is unable to create a rendering.
      * @see #createInstance()
-     * @since ImageN 0.4.0
      */
     protected synchronized void createRendering() {
         if (theImage == null) {
@@ -712,8 +704,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     /**
      * Returns the value of the protected variable <code>theImage</code> which may be <code>null</code> if no rendering
      * has yet been created. This method does not force the node to be rendered.
-     *
-     * @since ImageN 0.4.0
      */
     public PlanarImage getCurrentRendering() {
         return theImage;
@@ -737,7 +727,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @return The (possibly regenerated) rendering of the node. This value may be ignored if the intent of invoking the
      *     method was merely to re-render the node and generate events for <code>RenderingChangeEvent</code> listeners.
-     * @since ImageN 0.4.0
      */
     public PlanarImage getNewRendering() {
         if (theImage == null) {
@@ -794,7 +783,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * <code>RenderingChangeEvent</code>s.
      *
      * @see TiledImage#propertyChange
-     * @since ImageN 0.4.0
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         //
@@ -1311,8 +1299,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * <p>The <code>Vector</code> may include <code>DeferredData</code> parameters. These will not be evaluated until
      * their values are actually required, i.e., when the node is rendered.
-     *
-     * @since ImageN 0.4.0
      */
     public synchronized void setParameters(Vector parameters) {
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
@@ -1424,7 +1410,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @throws IllegalArgumentException if the key or value is <code>null</code>.
      * @throws IllegalArgumentException value is not appropriate for the specified key.
-     * @since ImageN 0.4.0
      */
     public synchronized void setRenderingHint(RenderingHints.Key key, Object value) {
 
@@ -1445,7 +1430,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Gets a hint from the <code>RenderingHints</code> of this node.
      *
      * @return the value associated with the specified key or <code>null</code> if the key is not mapped to any value.
-     * @since ImageN 0.4.0
      */
     public synchronized Object getRenderingHint(RenderingHints.Key key) {
         RenderingHints rh = nodeSupport.getRenderingHints();
@@ -1491,8 +1475,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Resets the <code>PropertySource</code>. If the parameter is <code>true</code> then the property environment is
      * completely reset; if <code>false</code> then only cached properties are cleared, i.e., those which were derived
      * from the property environment and are now stored in the local cache.
-     *
-     * @since ImageN 0.4.0
      */
     protected synchronized void resetProperties(boolean resetPropertySource) {
         properties.clearCachedProperties();
@@ -1554,7 +1536,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
-     * @since ImageN 0.4.0
      */
     public Class getPropertyClass(String name) {
         createPropertySource();
@@ -1675,7 +1656,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @throws RuntimeException if <code>name</code> conflicts with Synthetic property.
-     * @since ImageN 0.4.0
      */
     public void removeProperty(String name) {
         if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -1699,7 +1679,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param name A <code>String</code> naming the property.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public synchronized Object getDynamicProperty(String name) {
         createPropertySource();
@@ -1724,7 +1703,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the from which to copy the property.
      * @throws IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public synchronized void copyPropertyFromSource(String propertyName, int sourceIndex) {
         nodeSupport.copyPropertyFromSource(propertyName, sourceIndex);
@@ -1907,7 +1885,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param tileIndices A list of tile indices indicating which tiles to schedule for computation.
      * @throws IllegalArgumentException If <code>tileIndices</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         createRendering();
@@ -1921,7 +1898,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException If <code>request</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
@@ -1963,7 +1939,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param source The source to be added to the <code>ParameterBlock</code>
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @deprecated as of ImageN 0.4.0. Use <code>addSource(Object)</code>.
+     * @deprecated Use <code>addSource(Object)</code>.
      */
     public synchronized void addSource(PlanarImage source) {
         Object sourceObject = source;
@@ -1992,7 +1968,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param index The index of the source.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @deprecated as of ImageN 0.4.0. Use <code>setSource(Object, int)</code>.
+     * @deprecated Use <code>setSource(Object, int)</code>.
      */
     public synchronized void setSource(PlanarImage source, int index) {
         Object sourceObject = source;
@@ -2022,7 +1998,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @return A <code>PlanarImage</code> source.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
      * @throws ClassCastException if the source at the indicated index is not a <code>PlanarImage</code>.
-     * @deprecated as of ImageN 0.4.0. Use <code>getSourceObject()</code>.
+     * @deprecated Use <code>getSourceObject()</code>.
      */
     public PlanarImage getSource(int index) {
         return (PlanarImage) nodeSupport.getParameterBlock().getSource(index);
@@ -2046,7 +2022,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param source A <code>PlanarImage</code> to be removed.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
-     * @deprecated as of ImageN 0.4.0. Use <code>removeSource(Object)</code>.
+     * @deprecated Use <code>removeSource(Object)</code>.
      */
     public synchronized boolean removeSource(PlanarImage source) {
         Object sourceObject = source;
@@ -2062,7 +2038,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param source The source to be added to the <code>ParameterBlock</code>
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public synchronized void addSource(Object source) {
         if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -2090,7 +2065,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param index The Index at which it is to be set.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @since ImageN 0.4.0
      */
     public synchronized void setSource(Object source, int index) {
         if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -2125,7 +2099,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param source A <code>Object</code> to be removed.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
-     * @since ImageN 0.4.0
      */
     public synchronized boolean removeSource(Object source) {
         if (source == null) {
@@ -2158,7 +2131,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @return A <code>PlanarImage</code> source.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
      * @throws ClassCastException if the source at the indicated index is not a <code>PlanarImage</code>.
-     * @since ImageN 0.4.0
      */
     public PlanarImage getSourceImage(int index) {
         return (PlanarImage) nodeSupport.getParameterBlock().getSource(index);
@@ -2170,7 +2142,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param index The index of the source.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @since ImageN 0.4.0
      */
     public synchronized Object getSourceObject(int index) {
         return nodeSupport.getParameterBlock().getSource(index);
@@ -2315,11 +2286,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
         return super.removeSink(sink);
     }
 
-    /**
-     * Removes all sinks from the list of sinks of the node.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Removes all sinks from the list of sinks of the node. */
     public void removeSinks() {
         super.removeSinks();
     }
@@ -2330,7 +2297,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * as long as its <code>WeakReference</code> has not yet been cleared.
      *
      * @throws IllegalArgumentException if <code>sink</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public boolean addSink(Object sink) {
         if (sink == null) {
@@ -2345,7 +2311,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * this property.
      *
      * @throws IllegalArgumentException if <code>sink</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public boolean removeSink(Object sink) {
         if (sink == null) {
@@ -2372,7 +2337,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since ImageN 0.4.0.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
@@ -2406,7 +2370,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since ImageN 0.4.0.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
@@ -2433,8 +2396,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * theImage.dispose()</code>. Subsequent to this <code>super.dispose()</code> is invoked.
      *
      * <p>The results of referencing an image after a call to <code>dispose()</code> are undefined.
-     *
-     * @since ImageN 0.4.0.2
      */
     public synchronized void dispose() {
         if (isDisposed) {

@@ -23,11 +23,7 @@ import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.RegistryMode;
 import org.eclipse.imagen.util.ImagingListener;
 
-/**
- * A class that provides information about the "renderable" registry (operation) mode.
- *
- * @since ImageN 0.4.0
- */
+/** A class that provides information about the "renderable" registry (operation) mode. */
 public class RenderableRegistryMode extends RegistryMode {
 
     public static final String MODE_NAME = "renderable";

@@ -148,7 +148,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @param odesc the OperationDescriptor describing the parameters to be managed.
      * @param modeName the operation mode whose paramters are to be managed.
      * @throws IllegalArgumentException if modeName is null or odesc is null
-     * @since ImageN 0.4.0
      */
     public ParameterBlockImageN(OperationDescriptor odesc, String modeName) {
 
@@ -186,7 +185,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @param operationName a <code>String</code> giving the name of the operation.
      * @param modeName the operation mode whose paramters are to be managed.
      * @throws IllegalArgumentException if operationName or modeName is null
-     * @since ImageN 0.4.0
      */
     public ParameterBlockImageN(String operationName, String modeName) {
         this(
@@ -200,7 +198,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *
      * @param sourceName a <code>String</code> containing the parameter name.
      * @throws IllegalArgumentException if source is null or if there is no source with the specified name.
-     * @since ImageN 0.4.0
      */
     public int indexOfSource(String sourceName) {
         return sourceIndices.indexOf(sourceName);
@@ -211,7 +208,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *
      * @param paramName a <code>String</code> containing the parameter name.
      * @throws IllegalArgumentException if paramName is null or if there is no parameter with the specified name.
-     * @since ImageN 0.4.0
      */
     public int indexOfParam(String paramName) {
         return paramIndices.indexOf(paramName);
@@ -225,18 +221,12 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     /**
      * Returns the <code>ParameterListDescriptor</code> that provides descriptions of the parameters associated with the
      * operator and mode.
-     *
-     * @since ImageN 0.4.0
      */
     public ParameterListDescriptor getParameterListDescriptor() {
         return pld;
     }
 
-    /**
-     * Get the operation mode used to determine parameter names, classes and default values.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Get the operation mode used to determine parameter names, classes and default values. */
     public String getMode() {
         return modeName;
     }
@@ -250,7 +240,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if <code>sourceName</code> is null.
      * @throws IllegalArgumentException if <code>source</code> is not an instance of (any of) the expected class(es).
      * @throws IllegalArgumentException if the associated operation has no source with the supplied name.
-     * @since ImageN 0.4.0
      */
     public ParameterBlockImageN setSource(String sourceName, Object source) {
         if ((source == null) || (sourceName == null)) {
@@ -275,8 +264,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     /**
      * Returns an array of <code>Class</code> objects describing the types of the parameters. This is a more efficient
      * implementation than that of the superclass as the parameter classes are known a priori.
-     *
-     * @since ImageN 0.4.0
      */
     public Class[] getParamClasses() {
         // Just return the Class array obtained from the OD's PLD.
@@ -331,7 +318,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws ClassCastException if the parameter is of a different type.
      * @throws IllegalStateException if the parameter value is still ParameterListDescriptor.NO_PARAMETER_DEFAULT
-     * @since ImageN 0.4.0
      */
     public boolean getBooleanParameter(String paramName) {
         return ((Boolean) getObjectParameter0(paramName)).booleanValue();
@@ -358,7 +344,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws ClassCastException if the parameter is of a different type.
      * @throws IllegalStateException if the parameter value is still ParameterListDescriptor.NO_PARAMETER_DEFAULT
-     * @since ImageN 0.4.0
      */
     public short getShortParameter(String paramName) {
         return ((Short) getObjectParameter0(paramName)).shortValue();
@@ -429,7 +414,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Byte
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, byte b) {
         return setParameter0(paramName, new Byte(b));
@@ -446,7 +430,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>
      *     Boolean</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, boolean b) {
         return setParameter0(paramName, new Boolean(b));
@@ -463,7 +446,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>
      *     Character</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, char c) {
         return setParameter0(paramName, new Character(c));
@@ -480,7 +462,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Short
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, short s) {
         return setParameter0(paramName, new Short(s));
@@ -497,7 +478,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>
      *     Integer</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, int i) {
         return setParameter0(paramName, new Integer(i));
@@ -514,7 +494,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Long
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, long l) {
         return setParameter0(paramName, new Long(l));
@@ -531,7 +510,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Float
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, float f) {
         return setParameter0(paramName, new Float(f));
@@ -548,7 +526,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if the class type of parameter pointed to by the paramName is not a <code>Double
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, double d) {
         return setParameter0(paramName, new Double(d));
@@ -566,7 +543,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if paramName is null.
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws IllegalArgumentException if the parameter value is invalid.
-     * @since ImageN 0.4.0
      */
     public ParameterList setParameter(String paramName, Object obj) {
         return setParameter0(paramName, obj);
@@ -646,7 +622,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * constructor initializes all parameters with their default values.
      *
      * @throws IllegalStateException if parameters are added to an already initialized ParameterBlockImageN
-     * @since ImageN 0.4.0
      */
     public ParameterBlock add(Object obj) {
         throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
@@ -661,7 +636,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     parameters expected for the associated operation.
      * @throws IllegalArgumentException if <code>obj</code> is non-<code>null</code> and not an instance of the class
      *     expected for the indicated parameter or if <code>obj</code> is an invalid value for the indicated parameter.
-     * @since ImageN 0.4.0
      */
     public ParameterBlock set(Object obj, int index) {
         if (index < 0 || index >= pld.getNumParameters()) {
@@ -686,7 +660,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if a non-<code>null</code>, <code>DeferredData</code> value does not wrap an
      *     instance of the class expected for the indicated parameter or if it is valid but its wrapped value is invalid
      *     for the indicated parameter.
-     * @since ImageN 0.4.0
      */
     public void setParameters(Vector parameters) {
         if (parameters == null || parameters.size() != numParameters) {
@@ -875,7 +848,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * the shared sources or parameters themselves will still be visible.
      *
      * @return an Object clone of the <code>ParameterBlockImageN</code>.
-     * @since ImageN 0.4.0
      */
     public Object clone() {
         ParameterBlockImageN theClone = (ParameterBlockImageN) shallowClone();

@@ -28,8 +28,6 @@ import java.util.Vector;
  * operation chain. The value corresponding to the key {@link ImageN#KEY_COLOR_MODEL_FACTORY} in a configuration mapping
  * must be of type <code>ColorModelFactory</code>. This configuration variable is recognized by the constructor
  * {@link OpImage#OpImage(Vector,ImageLayout,Map,boolean)}.
- *
- * @since ImageN 0.4.0.2
  */
 public interface ColorModelFactory {
     /**

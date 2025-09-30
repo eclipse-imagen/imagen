@@ -153,8 +153,6 @@ public class RasterAccessor {
      * first bit in each image line will be the left-most bit of the first byte of the line. The line stride in bytes
      * will be <code>(int)((rectWidth+7)/8)</code>. The length of the array will be <code>rectHeight</code> multiplied
      * by the line stride.
-     *
-     * @since ImageN 0.4.0
      */
     protected byte binaryDataArray[] = null;
 
@@ -859,8 +857,6 @@ public class RasterAccessor {
     /**
      * Whether the <code>RasterAccessor</code> represents binary data. This occurs when the <code>Raster</code> has a
      * <code>MultiPixelPackedSampleModel</code> with a single band and one bit per pixel.
-     *
-     * @since ImageN 0.4.0
      */
     public boolean isBinary() {
         return (formatTagID & TAG_BINARY) == TAG_BINARY && ImageUtil.isBinary(raster.getSampleModel());
@@ -875,7 +871,6 @@ public class RasterAccessor {
      *
      * @return the binary data as a packed array of bytes with zero offset of <code>null</code> if the data are not
      *     binary.
-     * @since ImageN 0.4.0
      */
     public byte[] getBinaryDataArray() {
         if (binaryDataArray == null && isBinary()) {
@@ -1050,8 +1045,6 @@ public class RasterAccessor {
      * For the case of binary data (<code>isBinary()</code> returns <code>true</code>), copy the binary data back into
      * the <code>Raster</code> of the <code>RasterAccessor</code>. If this method is invoked in the non-binary case it
      * does nothing. Any bit offset in the original <code>SampleModel</code> will be accounted for.
-     *
-     * @since ImageN 0.4.0
      */
     // Note: ALL branches of this method have been tested. (bpb 10 May 2000)
     public void copyBinaryDataToRaster() {

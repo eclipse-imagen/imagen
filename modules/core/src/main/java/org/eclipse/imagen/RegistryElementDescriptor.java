@@ -23,7 +23,6 @@ package org.eclipse.imagen;
  *
  * @see OperationRegistry
  * @see RegistryMode
- * @since ImageN 0.4.0
  */
 public interface RegistryElementDescriptor {
 

@@ -162,7 +162,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * @see org.eclipse.imagen.OperationDescriptor
  * @see org.eclipse.imagen.KernelJAI
  * @see org.eclipse.imagen.operator.ErodeDescriptor
- * @since ImageN 0.4.0
  */
 public class DilateDescriptor extends OperationDescriptorImpl {
 

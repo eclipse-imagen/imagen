@@ -162,7 +162,6 @@ public abstract class AreaOpImage extends OpImage {
      * @param bottomPadding The desired bottom padding.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws IllegalArgumentException if the user-specified bounds do intersect the source bounds.
-     * @since ImageN 0.4.0
      */
     public AreaOpImage(
             RenderedImage source,
@@ -244,7 +243,6 @@ public abstract class AreaOpImage extends OpImage {
      * reference.
      *
      * @return The associated <code>BorderExtender</code> object or <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public BorderExtender getBorderExtender() {
         return extender;

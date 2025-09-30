@@ -293,7 +293,6 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param source The source <code>RenderedImage</code>.
      * @param tileWidth The desired tile width.
      * @param tileHeight The desired tile height.
-     * @since ImageN 0.4.0
      */
     public TiledImage(RenderedImage source, int tileWidth, int tileHeight) {
         this(
@@ -319,7 +318,6 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param source The source <code>RenderedImage</code>.
      * @param areBuffersShared Whether the tile <code>DataBuffer</code>s of the source are re-used in the tiles of this
      *     image. If <code>false</code> new <code>WritableRaster</code>s will be created.
-     * @since ImageN 0.4.0
      */
     public TiledImage(RenderedImage source, boolean areBuffersShared) {
         this(source, source.getTileWidth(), source.getTileHeight());
@@ -694,7 +692,6 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param cm the <code>ColorModel</code> of the sub-image.
      * @return The requested sub-image or <code>null</code> if either the specified rectangular area or its intersection
      *     with the current image is empty.
-     * @since ImageN 0.4.0
      */
     public TiledImage getSubImage(int x, int y, int w, int h, int[] bandSelect, ColorModel cm) {
         // Check for empty overlap.
@@ -804,7 +801,6 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * @param bandSelect an array of band indices.
      * @param cm the <code>ColorModel</code> of the sub-image.
      * @throws <code>IllegalArgumentException</code> is <code>bandSelect</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public TiledImage getSubImage(int[] bandSelect, ColorModel cm) {
         if (bandSelect == null) {
@@ -1236,7 +1232,6 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * Sets the <code>tiles</code> array to <code>null</code> so that the image may be used again.
      *
      * @throws IllegalStateException if <code>hasTileWriters()</code> returns <code>true</code>.
-     * @since ImageN 0.4.0.2
      */
     public void clearTiles() {
         if (hasTileWriters()) {
@@ -1374,8 +1369,6 @@ public class TiledImage extends PlanarImage implements WritableRenderedImage, Pr
      * property name "InvalidRegion" and to all known sinks which are <code>PropertyChangeListener</code>s. Its old and
      * new values will contain the previous and current invalid regions. This may be used to determine which tiles must
      * be re-requested. The <code>TiledImage</code> itself will not re-request the data.
-     *
-     * @since ImageN 0.4.0
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         PlanarImage src = getNumSources() > 0 ? getSourceImage(0) : null;

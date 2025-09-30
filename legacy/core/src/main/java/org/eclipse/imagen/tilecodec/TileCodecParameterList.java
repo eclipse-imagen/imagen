@@ -33,8 +33,6 @@ import org.eclipse.imagen.ParameterListImpl;
  * <p>If the associated <code>TileCodecDescriptor</code>'s <code>includesSampleModelInfo()</code> method returns false,
  * then for the "tileDecoder" mode, this class will be expected to contain a parameter named "sampleModel" with a
  * non-null <code>SampleModel</code> as its value.
- *
- * @since ImageN 0.4.0
  */
 public class TileCodecParameterList extends ParameterListImpl {
 

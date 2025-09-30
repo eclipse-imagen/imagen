@@ -25,8 +25,6 @@ import java.awt.image.Raster;
  * must be single banded and one bit in depth, and are stored in a one-dimensional <code>byte</code> array, with eight
  * pixels packed into one <code>byte</code>. To insure that each scanline has an integral number of bytes the last byte
  * may be padded with zeros.
- *
- * @since ImageN 0.4.0
  */
 public final class PackedImageData {
 

@@ -80,7 +80,6 @@ public abstract class SourcelessOpImage extends OpImage {
      *     RenderingHints.Key</code>s and image properties indexed by <code>String</code>s or <code>CaselessStringKey
      *     </code>s. This is simply forwarded to the superclass constructor.
      * @param layout an <code>ImageLayout</code> describing the layout.
-     * @since ImageN 0.4.0
      */
     public SourcelessOpImage(
             ImageLayout layout, Map configuration, SampleModel sampleModel, int minX, int minY, int width, int height) {

@@ -1,6 +1,6 @@
 package org.eclipse.imagen.media.vectorbin;
 
-/* ImageN-Ext - OpenSource Java Advanced Image Extensions Library
+/* JAI-Ext - OpenSource Java Advanced Image Extensions Library
 *    http://www.geo-solutions.it/
 *    Copyright 2016 GeoSolutions
 

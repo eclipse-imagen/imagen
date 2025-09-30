@@ -122,11 +122,7 @@ public class RenderedImageAdapter extends PlanarImage {
                 theImage.getMinTileX(), theImage.getMinTileY(), theImage.getNumXTiles(), theImage.getNumYTiles());
     }
 
-    /**
-     * Returns the reference to the external <code>RenderedImage</code> originally supplied to the constructor.
-     *
-     * @since ImageN 0.4.0.2
-     */
+    /** Returns the reference to the external <code>RenderedImage</code> originally supplied to the constructor. */
     public final RenderedImage getWrappedImage() {
         return theImage;
     }
@@ -187,7 +183,6 @@ public class RenderedImageAdapter extends PlanarImage {
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
-     * @since ImageN 0.4.0
      */
     public final Class getPropertyClass(String name) {
         // Get the class if the property is local.

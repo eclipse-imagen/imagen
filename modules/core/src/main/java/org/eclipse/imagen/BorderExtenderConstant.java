@@ -86,11 +86,7 @@ public final class BorderExtenderConstant extends BorderExtender {
         return (c > min) ? ((c > max) ? max : (int) c) : min;
     }
 
-    /**
-     * Returns a clone of the <code>constants</code> array originally supplied to the constructor.
-     *
-     * @since ImageN 0.4.0.2
-     */
+    /** Returns a clone of the <code>constants</code> array originally supplied to the constructor. */
     public final double[] getConstants() {
         return (double[]) constants;
     }

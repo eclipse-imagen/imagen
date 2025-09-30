@@ -78,11 +78,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 
-    /**
-     * Returns the reference to the external <code>RenderableImage</code> originally supplied to the constructor.
-     *
-     * @since ImageN 0.4.0.2
-     */
+    /** Returns the reference to the external <code>RenderableImage</code> originally supplied to the constructor. */
     public final RenderableImage getWrappedImage() {
         return im;
     }
@@ -126,7 +122,6 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public Class getPropertyClass(String name) {
         // Get the class if the property is local.
@@ -174,7 +169,6 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
      * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public void setProperty(String name, Object value) {
         properties.setProperty(name, value);
@@ -184,26 +178,17 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      * Removes the named property from the <code>RenderableImageAdapter</code>.
      *
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
     }
 
-    /**
-     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Add a PropertyChangeListener to the listener list. The listener is registered for all properties. */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
     }
 
-    /**
-     * Add a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Add a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
     }
@@ -211,18 +196,12 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
     /**
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
-     *
-     * @since ImageN 0.4.0
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Remove a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }

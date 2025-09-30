@@ -373,8 +373,6 @@ public class ImageCanvas extends Canvas {
     /**
      * An interface used to notify listeners during a <code>paint</code> just after the image has been painted on the
      * image canvas. This allows registered listeners to draw additional graphics on top of the image.
-     *
-     * @since ImageN 0.4.0
      */
     public interface PaintListener {
 
@@ -384,20 +382,12 @@ public class ImageCanvas extends Canvas {
 
     private HashSet paintListeners = new HashSet();
 
-    /**
-     * Adds the specified <code>PaintListener</code> to the canvas.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Adds the specified <code>PaintListener</code> to the canvas. */
     public void addPaintListener(PaintListener pl) {
         paintListeners.add(pl);
     }
 
-    /**
-     * Removes the specified <code>PaintListener</code> from the canvas.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Removes the specified <code>PaintListener</code> from the canvas. */
     public void removePaintListener(PaintListener pl) {
         paintListeners.remove(pl);
     }

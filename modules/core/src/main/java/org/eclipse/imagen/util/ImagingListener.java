@@ -52,10 +52,8 @@ package org.eclipse.imagen.util;
  * subclass of <code>RuntimeException</code> and thrown if this listener cannot handle it properly, in which case the
  * <code>Throwable</code> will be propogated back to the calling application.
  *
- * <p>In the ImageN implementation from Sun, when the method <code>errorOccurred</code> is called, the parameter
- * <code>isRetryable</code> is always <code>false</code>; future implementations may activate retry capability.
- *
- * @since ImageN 0.4.0.2
+ * <p>In the ImageN implementation from Sun, when the method <code>errorOccurred</code> is called, the parameter <code>
+ * isRetryable</code> is always <code>false</code>; future implementations may activate retry capability.
  */
 public interface ImagingListener {
     /**

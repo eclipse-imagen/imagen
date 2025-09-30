@@ -27,7 +27,6 @@ import java.awt.Point;
  * @see TileComputationListener
  * @see RenderedOp
  * @see OpImage
- * @since ImageN 0.4.0
  */
 public interface TileRequest {
 

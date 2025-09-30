@@ -34,11 +34,7 @@ import java.util.Locale;
 import java.util.Vector;
 import org.eclipse.imagen.util.CaselessStringKey;
 
-/**
- * A class to parse the ImageN registry file.
- *
- * @since ImageN 0.4.0
- */
+/** A class to parse the ImageN registry file. */
 class RegistryFileParser {
 
     /**

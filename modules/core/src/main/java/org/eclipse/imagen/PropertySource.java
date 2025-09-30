@@ -85,7 +85,6 @@ public interface PropertySource {
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     Class getPropertyClass(String propertyName);
 

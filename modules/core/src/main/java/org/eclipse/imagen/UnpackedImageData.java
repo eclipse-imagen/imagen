@@ -24,8 +24,6 @@ import java.awt.image.Raster;
 /**
  * This class is used by <code>PixelAccessor</code> to store unpacked image data and the information needed to access
  * it. The data are stored in a two-dimensional primitive array.
- *
- * @since ImageN 0.4.0
  */
 public final class UnpackedImageData {
 

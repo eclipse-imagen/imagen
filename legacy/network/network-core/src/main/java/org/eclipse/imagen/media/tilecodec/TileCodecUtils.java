@@ -63,8 +63,6 @@ public class TileCodecUtils {
      * Key for specifying the default format to be used for tile serialization via <code>TileCodec</code>s. The
      * corresponding object must be a <code>String</code>. The common <code>RenderingHints</code> do not contain a
      * default hint corresponding to this key.
-     *
-     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_CODEC_FORMAT = new RenderingKey(HINT_TILE_CODEC_FORMAT, String.class);
 
@@ -72,8 +70,6 @@ public class TileCodecUtils {
      * Key for specifying the default encoding parameters to be used for tile serialization via <code>TileCodec</code>s.
      * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
      * not contain a default hint corresponding to this key.
-     *
-     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_ENCODING_PARAM =
             new RenderingKey(HINT_TILE_ENCODING_PARAM, TileCodecParameterList.class);
@@ -82,8 +78,6 @@ public class TileCodecUtils {
      * Key for specifying the default decoding parameters to be used for tile serialization via <code>TileCodec</code>s.
      * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
      * not contain a default hint corresponding to this key.
-     *
-     * @since ImageN 0.4.0
      */
     public static RenderingHints.Key KEY_TILE_DECODING_PARAM =
             new RenderingKey(HINT_TILE_DECODING_PARAM, TileCodecParameterList.class);

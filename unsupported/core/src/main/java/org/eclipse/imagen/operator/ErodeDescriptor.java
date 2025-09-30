@@ -161,7 +161,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </pre>
  *
  * @see org.eclipse.imagen.KernelJAI
- * @since ImageN 0.4.0
  */
 public class ErodeDescriptor extends OperationDescriptorImpl {
 

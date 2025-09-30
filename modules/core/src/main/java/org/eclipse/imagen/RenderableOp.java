@@ -148,25 +148,13 @@ import org.eclipse.imagen.util.CaselessStringKey;
  */
 public class RenderableOp implements RenderableImage, OperationNode, WritablePropertySource, Serializable {
 
-    /**
-     * A helper object to manage firing events.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** A helper object to manage firing events. */
     protected PropertyChangeSupportJAI eventManager = null;
 
-    /**
-     * A helper object to manage the image properties.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
 
-    /**
-     * An object to assist in implementing <code>OperationNode</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** An object to assist in implementing <code>OperationNode</code>. */
     protected OperationNodeSupport nodeSupport;
 
     /** The <code>PropertySource</code> containing the combined properties of all of the node's sources. */
@@ -192,7 +180,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @param hints The common node <code>RenderingHints</code> to be set; it may be <code>null</code>. This parameter
      *     is cloned.
      * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public RenderableOp(OperationRegistry registry, String opName, ParameterBlock pb, RenderingHints hints) {
 
@@ -258,8 +245,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Returns the name of the <code>RegistryMode</code> corresponding to this <code>RenderableOp</code>. This method
      * always returns the <code>String</code> "renderable".
-     *
-     * @since ImageN 0.4.0
      */
     public String getRegistryModeName() {
         return RegistryMode.getMode("renderable").getName();
@@ -330,11 +315,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
         nodeSupport.setParameterBlock(pb == null ? new ParameterBlock() : (ParameterBlock) pb.clone());
     }
 
-    /**
-     * Returns a clone of the common <code>RenderingHints</code> of this node or <code>null</code>.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Returns a clone of the common <code>RenderingHints</code> of this node or <code>null</code>. */
     public RenderingHints getRenderingHints() {
         RenderingHints hints = nodeSupport.getRenderingHints();
         return hints == null ? null : (RenderingHints) hints.clone();
@@ -348,7 +329,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * PropertyChangeEventJAI</code> named "RenderingHints" will be fired.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public synchronized void setRenderingHints(RenderingHints hints) {
         if (hints != null) {
@@ -701,7 +681,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public Class getPropertyClass(String name) {
         createPropertySource();
@@ -742,7 +721,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * property environment.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public void removeProperty(String name) {
         createPropertySource();
@@ -759,7 +737,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      *
      * @param name A <code>String</code> naming the property.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public synchronized Object getDynamicProperty(String name) {
         createPropertySource();
@@ -783,7 +760,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the from which to copy the property.
      * @throws IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since ImageN 0.4.0
      */
     public synchronized void copyPropertyFromSource(String propertyName, int sourceIndex) {
         nodeSupport.copyPropertyFromSource(propertyName, sourceIndex);
@@ -806,11 +782,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
 
     /* ----- PropertyChangeEmitter methods. ----- */
 
-    /**
-     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Add a PropertyChangeListener to the listener list. The listener is registered for all properties. */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
     }
@@ -818,8 +790,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
-     *
-     * @since ImageN 0.4.0
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
@@ -828,18 +798,12 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
-     *
-     * @since ImageN 0.4.0
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since ImageN 0.4.0
-     */
+    /** Remove a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }
@@ -875,8 +839,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Removes all the node's sources. This is a convenience method that invokes <code>setParameterBlock()</code> and so
      * adheres to the same event firing behavior.
-     *
-     * @since ImageN 0.4.0
      */
     public void removeSources() {
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();

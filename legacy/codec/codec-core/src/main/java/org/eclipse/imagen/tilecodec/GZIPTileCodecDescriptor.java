@@ -48,8 +48,6 @@ import org.eclipse.imagen.ParameterListDescriptorImpl;
  * <tr><th>Name</th>          <th>Class Type</th>
  *                            <th>Default Value</th></tr>
  * </table>
- *
- * @since ImageN 0.4.0
  */
 public class GZIPTileCodecDescriptor extends TileCodecDescriptorImpl {
 

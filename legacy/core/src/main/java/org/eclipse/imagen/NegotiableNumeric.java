@@ -21,8 +21,6 @@ package org.eclipse.imagen;
  * A class that wraps a numeric primitive data type or a subclass of <code>Number</code> to implement the <code>
  * Negotiable</code> interface. <code>NegotiableNumeric</code> is a convenience class to specify a <code>Negotiable
  * </code> value for a parameter which has a single valid numeric value.
- *
- * @since ImageN 0.4.0
  */
 public class NegotiableNumeric implements Negotiable {
 

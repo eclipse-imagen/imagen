@@ -24,8 +24,6 @@ import org.eclipse.imagen.EnumeratedParameter;
  * values for the "maskShape" parameter are defined in the <code>MinFilterDescriptor</code> by the constants <code>
  * MIN_MASK_SQUARE</code>, <code>MIN_MASK_PLUS</code>, <code>MIN_MASK_X</code>, and <code>MIN_MASK_SQUARE_SEPARABLE
  * </code>.
- *
- * @since ImageN 0.4.0
  */
 public final class MinFilterShape extends EnumeratedParameter {
     MinFilterShape(String name, int value) {

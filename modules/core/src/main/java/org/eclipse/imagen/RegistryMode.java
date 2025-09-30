@@ -34,8 +34,6 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * The <code>RegistryMode</code>s installed by ImageN cannot be replaced or removed.
  *
  * <p>The <code>String</code>s used to represent the registry modes are all used in a case-insensitive manner.
- *
- * @since ImageN 0.4.0
  */
 public class RegistryMode {
 

@@ -36,7 +36,6 @@ class ParameterNoDefault implements java.io.Serializable {
  * case-insensitive but any request for a parameter name should return the original name with the case preserved.
  *
  * @see ParameterList
- * @since ImageN 0.4.0
  */
 public interface ParameterListDescriptor {
 

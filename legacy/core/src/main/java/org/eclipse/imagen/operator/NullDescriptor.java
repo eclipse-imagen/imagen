@@ -61,7 +61,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>No parameters are needed for this operation.
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since ImageN 0.4.0
  */
 public class NullDescriptor extends OperationDescriptorImpl {
 
