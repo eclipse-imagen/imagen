@@ -381,6 +381,14 @@
                 <replacevalue>{imagen,</replacevalue>
             </replacefilter>
             <replacefilter>
+                <replacetoken> jai;</replacetoken>
+                <replacevalue> imagen;</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(jai.</replacetoken>
+                <replacevalue>(imagen.</replacevalue>
+            </replacefilter>
+            <replacefilter>
                 <replacetoken>panel:imagen.</replacetoken>
                 <replacevalue>panel:image.</replacevalue>
             </replacefilter>
@@ -427,6 +435,12 @@
             <replacefilter>
                 <replacetoken>JAIRMIImageServer</replacetoken>
                 <replacevalue>ImageNRMIImageServer</replacevalue>
+            </replacefilter>
+
+            <!-- Downstream API Changes -->
+            <replacefilter>
+                <replacetoken>USE_JAI_IMAGEREAD</replacetoken>
+                <replacevalue>USE_IMAGEN_IMAGEREAD</replacevalue>
             </replacefilter>
         </replace>
     </target>
