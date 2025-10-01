@@ -61,15 +61,15 @@ public class RandomIterFactory {
         if (sm instanceof ComponentSampleModel) {
             switch (sm.getDataType()) {
                 case DataBuffer.TYPE_BYTE:
-                    // return new RandomIterCSMByte(im, bounds);
+                // return new RandomIterCSMByte(im, bounds);
                 case DataBuffer.TYPE_SHORT:
-                    // return new RandomIterCSMShort(im, bounds);
+                // return new RandomIterCSMShort(im, bounds);
                 case DataBuffer.TYPE_USHORT:
-                    // return new RandomIterCSMUShort(im, bounds);
+                // return new RandomIterCSMUShort(im, bounds);
                 case DataBuffer.TYPE_INT:
-                    // return new RandomIterCSMInt(im, bounds);
+                // return new RandomIterCSMInt(im, bounds);
                 case DataBuffer.TYPE_FLOAT:
-                    // return new RandomIterCSMFloat(im, bounds);
+                // return new RandomIterCSMFloat(im, bounds);
                 case DataBuffer.TYPE_DOUBLE:
                     // return new RandomIterCSMDouble(im, bounds);
             }
@@ -110,15 +110,15 @@ public class RandomIterFactory {
         if (sm instanceof ComponentSampleModel) {
             switch (sm.getDataType()) {
                 case DataBuffer.TYPE_BYTE:
-                    // return new WritableRandomIterCSMByte(im, bounds);
+                // return new WritableRandomIterCSMByte(im, bounds);
                 case DataBuffer.TYPE_SHORT:
-                    // return new WritableRandomIterCSMShort(im, bounds);
+                // return new WritableRandomIterCSMShort(im, bounds);
                 case DataBuffer.TYPE_USHORT:
-                    // return new WritableRandomIterCSMUShort(im, bounds);
+                // return new WritableRandomIterCSMUShort(im, bounds);
                 case DataBuffer.TYPE_INT:
-                    // return new WritableRandomIterCSMInt(im, bounds);
+                // return new WritableRandomIterCSMInt(im, bounds);
                 case DataBuffer.TYPE_FLOAT:
-                    // return new WritableRandomIterCSMFloat(im, bounds);
+                // return new WritableRandomIterCSMFloat(im, bounds);
                 case DataBuffer.TYPE_DOUBLE:
                     // return new WritableRandomIterCSMDouble(im, bounds);
             }
