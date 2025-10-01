@@ -26,7 +26,7 @@ package org.eclipse.imagen;
  * operations effected using the property name as a key, the operation should ignore the case of the property name while
  * on the other hand the property name retrieval methods should return the names with their case preserved.
  *
- * <p><code>PropertySource</code> is implemented by the <code>ImageJAI</code> interface and, among other classes, by
+ * <p><code>PropertySource</code> is implemented by the <code>ImageImageN</code> interface and, among other classes, by
  * <code>PlanarImage</code>, <code>RenderableOp</code> and <code>CollectionImage</code>. Since all <code>RenderedImage
  * </code>s used with ImageN are "wrapped" by a <code>RenderedImageAdapter</code>, all ImageN <code>RenderedImage</code>
  * s may be assumed to implement <code>PropertySource</code>.
@@ -47,7 +47,7 @@ package org.eclipse.imagen;
  * problem with this approach exists when a <code>PropertySourceChangeEvent</code> is fired: it might be necessary to
  * clone the entire tree of properties in order to obtain the old value of event object.
  *
- * @see ImageJAI
+ * @see ImageImageN
  * @see PlanarImage
  * @see PropertyChangeEmitter
  * @see WritablePropertySource

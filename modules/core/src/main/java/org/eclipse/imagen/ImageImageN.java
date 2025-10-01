@@ -18,4 +18,4 @@
 package org.eclipse.imagen;
 
 /** An interface implemented by all ImageN image classes. */
-public interface ImageJAI extends WritablePropertySource {}
+public interface ImageImageN extends WritablePropertySource {}

@@ -502,6 +502,10 @@
                 <replacetoken>KernelJAI</replacetoken>
                 <replacevalue>KernelImageN</replacevalue>
             </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageJAI</replacetoken>
+                <replacevalue>ImageImageN</replacevalue>
+            </replacefilter>
         </replace>
     </target>
 
