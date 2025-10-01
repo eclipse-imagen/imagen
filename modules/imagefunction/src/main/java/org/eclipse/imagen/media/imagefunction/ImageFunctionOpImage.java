@@ -43,7 +43,7 @@ public class ImageFunctionOpImage extends SourcelessOpImage {
     public static final boolean TILE_CACHED = true;
 
     /** The functional description of the image. */
-    protected ImageFunctionJAIEXT function;
+    protected ImageFunctionExt function;
 
     /** The X scale factor. */
     protected float xScale;
@@ -123,9 +123,9 @@ public class ImageFunctionOpImage extends SourcelessOpImage {
                 height);
 
         // Cache the parameters.
-        this.function = function instanceof ImageFunctionJAIEXT
-                ? (ImageFunctionJAIEXT) function
-                : new ImageFunctionJAIEXTWrapper(function);
+        this.function = function instanceof ImageFunctionExt
+                ? (ImageFunctionExt) function
+                : new ImageFunctionExtWrapper(function);
         this.xScale = xScale;
         this.yScale = yScale;
         this.xTrans = xTrans;

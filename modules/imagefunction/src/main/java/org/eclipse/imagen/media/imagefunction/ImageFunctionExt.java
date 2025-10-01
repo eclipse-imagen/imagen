@@ -27,7 +27,7 @@ import org.eclipse.imagen.media.range.Range;
  *
  * @author Nicola Lagomarsini
  */
-public interface ImageFunctionJAIEXT extends ImageFunction {
+public interface ImageFunctionExt extends ImageFunction {
 
     /**
      * Returns all values of a given element for a specified set of coordinates. An ArrayIndexOutOfBoundsException may

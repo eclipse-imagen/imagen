@@ -62,7 +62,7 @@ public class ImageFunctionTest extends TestBase {
         int width = 128;
         int height = 128;
         // New dummy function for test
-        ImageFunctionJAIEXT function = new DummyFunction();
+        ImageFunctionExt function = new DummyFunction();
         // Performing operation
         RenderedOp transformed = ImageFunctionDescriptor.create(
                 function, width, height, xScale, yScale, xTrans, yTrans, roi, nodata, destNoData, null);
@@ -124,12 +124,12 @@ public class ImageFunctionTest extends TestBase {
     }
 
     /**
-     * Dummy implementation of the {@link ImageFunctionJAIEXT} interface used for testing the
-     * {@link ImageFunctionOpImage} class
+     * Dummy implementation of the {@link ImageFunctionExt} interface used for testing the {@link ImageFunctionOpImage}
+     * class
      *
      * @author Nicola Lagomarsini
      */
-    public static class DummyFunction implements ImageFunctionJAIEXT {
+    public static class DummyFunction implements ImageFunctionExt {
 
         public void getElements(
                 float arg0,

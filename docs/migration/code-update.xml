@@ -506,6 +506,14 @@
                 <replacetoken>ImageJAI</replacetoken>
                 <replacevalue>ImageImageN</replacevalue>
             </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageFunctionJAIEXT</replacetoken>
+                <replacevalue>ImageFunctionExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageFunctionJAIEXTWrapper</replacetoken>
+                <replacevalue>ImageFunctionExtWrapper</replacevalue>
+            </replacefilter>
         </replace>
     </target>
 
