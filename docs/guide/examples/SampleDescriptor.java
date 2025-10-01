@@ -47,7 +47,7 @@ public class SampleDescriptor extends OperationDescriptorImpl
     };
 
     // The default parameter values for the "Sample" operation
-    // when using a ParameterBlockJAI.
+    // when using a ParameterBlockImageN.
     private static final Object[] paramDefaults = {
         new Integer(0), new Integer(255)
     };

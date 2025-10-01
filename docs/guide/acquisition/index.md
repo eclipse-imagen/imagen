@@ -406,7 +406,7 @@ tile cache is 300 tiles. The default memory capacity reserved for tile
 cache is 20M bytes.
 
 The `TileCache` to be used by a particular operation may be set during
-construction, or by calling the `JAI.setTileCache` method. This
+construction, or by calling the `ImageN.setTileCache` method. This
 results in the provided tile cache being added to the set of common
 rendering hints.
 
@@ -473,7 +473,7 @@ for (int x = 0; x < pattern.getWidth(); x++) {
 }
 
 // Create a 100x100 image with the given raster.
-PlanarImage im0 = (PlanarImage)JAI.create("pattern",
+PlanarImage im0 = (PlanarImage)ImageN.create("pattern",
                                            100, 100,
                                            pattern);
 ```
@@ -578,7 +578,7 @@ The `ImageSequence` class represents a sequence of images with
 associated timestamps and a camera position. It can be used to
 represent video or time-lapse photography.
 
-The images are of the type `ImageJAI`. The timestamps are of the type
+The images are of the type `ImageImageN`. The timestamps are of the type
 `long`. The camera positions are of the type `Point`. The tuple
 (image, time stamp, camera position) is represented by class
 `SequentialImage`.
@@ -602,9 +602,9 @@ coordinates are of the type `org.eclipse.imagen.Coordinate`. The tuple
 
 * `ImageStack(Collection images)`
 
-* `ImageJAI getImage(Coordinate coordinate)`
+* `ImageImageN getImage(Coordinate coordinate)`
 
-* `Coordinate getCoordinate(ImageJAI image)`
+* `Coordinate getCoordinate(ImageImageN image)`
 
 ### 4.2.8 Image MIP Map
 
@@ -884,7 +884,7 @@ with the addition of seven \"seekable\" stream classes, as shown in
 
 ------------------------------------------------------------------------
 
-***Figure 4-4*  JAI Stream Classes**
+***Figure 4-4*  Stream Classes**
 
 The new seekable classes are used to cache the image data being read
 so that methods can be used to seek backwards and forwards through the
@@ -894,7 +894,7 @@ re-read to locate important information.
 
 <a name="table-4-3"></a>
 
-***Table 4-3*  JAI Stream Classes**
+***Table 4-3* Stream Classes**
   
 | Class   | Description |
 |---------|-------------|
@@ -924,7 +924,7 @@ little-endian representations of fundamental data types.
 The `SeekableStream` class adds several `read` methods to the already
 extensive java.io.`DataInput` class, including methods for reading
 data in little-endian (LE) order. In Java, all values are written in
-big-endian fashion. However, JAI needs methods for reading data that
+big-endian fashion. However, ImageN needs methods for reading data that
 is not produced by Java; data that is produced on other platforms that
 produce data in the little-endian fashion. [Table
 4-4](acquisition) is a complete list of the methods to
@@ -1072,7 +1072,7 @@ listed in [Table 4-6](#table-4-6).
 
 | Operator | Description |
 |----------|-------------|
-| AWTImage | Imports a standard AWT image into JAI. |
+| AWTImage | Imports a standard AWT image into ImageN. |
 | BMP | Reads BMP data from an input stream. |
 | FileLoad | Reads an image from a file. |
 | FPX | Reads FlashPix data from an input stream. |
@@ -1093,7 +1093,7 @@ stream file reader to read `InputStream` files, or the `FileLoad`
 operator to read from a disk file. The `Stream` and `FileLoad`
 operations are generic file readers in the sense that the image file
 type does not have to be known ahead of time, assuming that the file
-type is one of those recognized by JAI. These file read operations
+type is one of those recognized by ImageN. These file read operations
 automatically detect the file type when invoked and use the
 appropriate file reader. This means that the programmer can use the
 same graph to read any of the \"recognized\" file types.
@@ -1133,7 +1133,7 @@ The `Stream` operation takes a single parameter:
 
 ```java
    // Load the source image from a Stream.
-   RenderedImage im = JAI.create("stream", stream);
+   RenderedImage im = ImageN.create("stream", stream);
 ```
 
 #### 4.4.1.2 The FileLoad Operation
@@ -1155,7 +1155,7 @@ The `FileLoad` operation takes a single parameter:
 
 ```java
   // Load the source image from a file.
-  RenderedImage src = (RenderedImage)JAI.create("fileload", fileName);
+  RenderedImage src = (RenderedImage)ImageN.create("fileload", fileName);
 ```
 
 ### 4.4.2 Reading TIFF Images
@@ -1444,7 +1444,7 @@ ParameterBlock pb = new ParameterBlock();
 pb.add(s);
 
 // Perform the BMP operation
-op = JAI.create("BMP", pb);
+op = ImageN.create("BMP", pb);
 ```
 **API:**  `org.eclipse.imagen.media.codec.SeekableStream`
 
@@ -1497,7 +1497,7 @@ ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the PNG operation.
-op = JAI.create("PNG", pb);
+op = ImageN.create("PNG", pb);
 ```
 
 Several aspects of the PNG image decoding may be controlled. By
@@ -1674,13 +1674,13 @@ ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the PNM operation.
-op = JAI.create("PNM", pb);
+op = ImageN.create("PNM", pb);
 ```
 
 ### 4.4.9 Reading Standard AWT Images
 
 The `AWTImage` operation allows standard Java AWT images to be
-directly imported into JAI, as a rendered image. By default, the width
+directly imported into ImageN, as a rendered image. By default, the width
 and height of the image are the same as the original AWT image. The
 sample model and color model are set according to the AWT image data.
 The layout of the `PlanarImage` may be specified using the
@@ -1702,7 +1702,7 @@ ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the AWTImage operation.
-PlanarImage im = (PlanarImage)JAI.create("awtImage", pb);
+PlanarImage im = (PlanarImage)ImageN.create("awtImage", pb);
 ```
 **API:** `org.eclipse.imagen.PlanarImage`
 
@@ -1727,7 +1727,7 @@ parameter.
 url = new URL("http://webstuff/images/duke.gif");
 
 // Read the image from the designated URL.
-RenderedOp src = JAI.create("url", url);
+RenderedOp src = ImageN.create("url", url);
 ```
 
 4.5 Reformatting an Image
@@ -1906,7 +1906,7 @@ pb.addSource(src);
 pb.add(null).add(null).add(null).add(null).add(null);
 
 // Create the Renderable operation.
-RenderableImage ren = JAI.createRenderable("renderable", pb);
+RenderableImage ren = ImageN.createRenderable("renderable", pb);
 ```
 
 4.7 Creating a Constant Image
@@ -1944,18 +1944,18 @@ the constant from the first entry.
          pb.add(bandValues);                   // The band values
 
          // Create the constant operation.
-         PlanarImage afa1 = (PlanarImage)JAI.create("constant", pb);
+         PlanarImage afa1 = (PlanarImage)ImageN.create("constant", pb);
 ```
 
 4.8 Image Display
 --------------------------------------
 
-JAI uses the Java 2D `BufferedImage` model for displaying images. The
+ImageN uses the Java 2D `BufferedImage` model for displaying images. The
 `BufferedImage` manages an image in memory and provides ways to store
 pixel data, interpret pixel data, and to render the pixel data to a
 `Graphics2D` context.
 
-The display of images in JAI may be accomplished in several ways.
+The display of images may be accomplished in several ways.
 First, the `drawRenderedImage()` call on `Graphics2D` may be used to
 produce an immediate rendering. Another method is to instantiate a
 display widget that responds to user requests such as scrolling and
@@ -1963,7 +1963,7 @@ panning, as well as expose events, and requests image data from a
 `RenderedImage` source. This technique allows image data to be
 computed on demand.
 
-It is for this purpose that JAI provides a widget, available in the
+It is for this purpose that ImageN provides a widget, available in the
 `org.eclipse.imagen.widget` package, called a `ScrollingImagePanel`. The
 `ScrollingImagePanel` takes a `RenderedImage` and a specified width
 and height and creates a panel with scrolling bars on the right and
@@ -2070,7 +2070,7 @@ a given (*x*, *y*) position within the `ScrollingImagePanel`.
 
 ### 4.8.2 The ImageCanvas Class
 
-A canvas in Java is a rectangular area in which you draw. JAI extends
+A canvas in Java is a rectangular area in which you draw. ImageN extends
 the `java.awt.Canvas` class with the `ImageCanvas` class, which allows
 you to \"draw\" an image in the canvas. Like `Canvas`, the
 `ImageCanvas` class inherits most of its methods from

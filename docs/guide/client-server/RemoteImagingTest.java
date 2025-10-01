@@ -67,8 +67,8 @@ RemoteImagingTest riTest =
 RemoteImagingTest(String serverName, String fileName1, String
                   fileName2) {
 // Create the operations to load the images from files.
-RenderedOp src1 = JAI.create("fileload", fileName1);
-RenderedOp src2 = JAI.create("fileload", fileName2);
+RenderedOp src1 = ImageN.create("fileload", fileName1);
+RenderedOp src2 = ImageN.create("fileload", fileName2);
 
 // Render the sources without freezing the nodes.
 PlanarImage ren1 = src1.createInstance();
@@ -105,22 +105,22 @@ layout.setTileWidth(TILE_WIDTH).setTileHeight(TILE_HEIGHT);
 ParameterBlock pb = (new ParameterBlock());
 pb.addSource(ti1);
 pb.add(new double[] {0.5}).add(new double[] {0.0});
-RenderedOp addend1 = JAI.create("rescale", pb, rh);
+RenderedOp addend1 = ImageN.create("rescale", pb, rh);
 pb = (new ParameterBlock());
 pb.addSource(ti2);
 pb.add(new double[] {0.5}).add(new double[] {0.0});
-RenderedOp addend2 = JAI.create("rescale", pb, rh);
+RenderedOp addend2 = ImageN.create("rescale", pb, rh);
 
 // Add the rescaled images.
 pb = (new
    ParameterBlock()).addSource(addend1).addSource(addend2);
-        RenderedOp sum = JAI.create("add", pb, rh);
+        RenderedOp sum = ImageN.create("add", pb, rh);
 
         // Dither the sum of the rescaled images.
         pb = (new ParameterBlock()).addSource(sum);
         
 pb.add(ColorCube.BYTE_496).add(KernelJAI.DITHER_MASK_443);
-        RenderedOp dithered = JAI.create("ordereddither", pb, rh);
+        RenderedOp dithered = ImageN.create("ordereddither", pb, rh);
 
 // Construct a RemoteImage from the RenderedOp chain.
 RemoteImage remoteImage = new RemoteImage(serverName, sum);
@@ -149,10 +149,10 @@ add(new ScrollingImagePanel(remoteImage,
 // RenderableOp remote rendering.
 pb = new ParameterBlock();
 pb.addSource(dithered);
-RenderableOp absImage = JAI.createRenderable("absolute", pb);
+RenderableOp absImage = ImageN.createRenderable("absolute", pb);
 pb = new ParameterBlock();
 pb.addSource(absImage).add(ColorCube.BYTE_496);
-RenderableOp lutImage = JAI.createRenderable("lookup", pb);
+RenderableOp lutImage = ImageN.createRenderable("lookup", pb);
 AffineTransform tf =
        AffineTransform.getScaleInstance(384/dithered.getWidth(),
                                         256/dithered.getHeight());

@@ -452,7 +452,7 @@ Graphics2D example.
 // Read a RenderedImage and convert it to a BufferedImage.
 imagePath = new String("./images/sample.jpg");
 Image ai = loadAWTImage(imagePath, this);
-RenderedImage ri = JAI.create("awtimage", ai);
+RenderedImage ri = ImageN.create("awtimage", ai);
 BufferedImage bi = getBufferedImage(ri);
 RenderedImage targetImage = null;
 targetImage = new BufferedImage(bi.getWidth(),

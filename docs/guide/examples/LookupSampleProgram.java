@@ -3,7 +3,7 @@ import java.awt.RenderingHints;
 import java.awt.image.DataBuffer;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.LookupTableJAI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.codec.FileSeekableStream;
@@ -44,7 +44,7 @@ public class LookupSampleProgram {
     decodeParam.setDecodePaletteAsShorts(true);
 
     // Create an operator to decode the TIFF file.
-    RenderedOp image1 = JAI.create("tiff", params);
+    RenderedOp image1 = ImageN.create("tiff", params);
 
     // Find out the first image's data type.
     int dataType = image1.getSampleModel().getDataType();
@@ -68,7 +68,7 @@ public class LookupSampleProgram {
        LookupTableJAI table = new LookupTableJAI(tableData);
 
        // Create an operator to lookup image1.
-       image2 = JAI.create("lookup", image1, table);
+       image2 = ImageN.create("lookup", image1, table);
     } else {
         System.out.println("TIFF image is type " + dataType +
                            ", and will not be displayed.");

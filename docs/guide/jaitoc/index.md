@@ -35,7 +35,7 @@ Release 1.0.1, November 1999
 
 :   1.2 Why Another Imaging API? [](../Introduction)
 
-:   1.3 JAI Features
+:   1.3 Features
 
     :   1.3.1 Cross-platform Imaging [](../Introduction)
 

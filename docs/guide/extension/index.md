@@ -135,9 +135,9 @@ described in [Table 14-1](../extension).
 
 ### 14.3.2 Extending the OperationDescriptor Interface <a name="operationdescriptor"></a>
 
-Operations that are to be created using one of the `JAI.create`
+Operations that are to be created using one of the `ImageN.create`
 methods must be defined in the `registryFile`, which is included in
-the `jai_core.jar`. Each operation has an OperationDescriptor (denoted
+the `core` module. Each operation has an OperationDescriptor (denoted
 as \"`odesc`\" in the `registryFile`), which provides a textual
 description of the operation and specifies the number and type of its
 sources and parameters. The OperationDescriptor also specifies whether
@@ -175,10 +175,10 @@ To avoid the problems associated with directly editing the
 OperationDescriptors and RIFs and CRIFs using the OperationRegistry\'s
 `registerOperationDescription`, and `registerRIF` and `registerCRIF`
 methods. The only drawback to this method of registration is that the
-new operator will not be automatically reloaded every time a JAI
+new operator will not be automatically reloaded every time a
 program is executed., since the operation is not actually present in
 the `registryFile`. This means that to use the new operation, the
-operation will always have to be invoked beforehand.``
+operation will always have to be invoked beforehand.
 
 To temporarily register a new operation:
 
@@ -258,7 +258,7 @@ private static final String[][] resources = {
     {"LocalName",   "Clamp"},
     {"Vendor",      "com.sun.org.eclipse.imagen"},
     {"Description", "Clamps the pixel values of a rendered image"},
-    {"DocURL",      "ImageN Project](https://projects.eclipse.org/projects/technology.imagen/jaiapi/org.eclipse.imagen.operator.ClampDescriptor.html"},
+    {"DocURL",      "https://projects.eclipse.org/projects/technology.imagen/jaiapi/org.eclipse.imagen.operator.ClampDescriptor.html"},
     {"Version",     "Beta")},
     {"arg0Desc",    "The lower boundary for each band."},
     {"arg1Desc",    "The upper boundary for each band."}
@@ -266,7 +266,7 @@ private static final String[][] resources = {
 ```
 
 As described in [Section 3.3, \"Processing
-Graphs](../programming-environ),\" JAI has two image
+Graphs](../programming-environ),\" there are two image
 modes: Rendered and Renderable. An operation supporting the Rendered
 mode takes `RenderedImages` as its sources, can only be used in a
 Rendered op chain, and produces a `RenderedImage`. An operation
@@ -292,7 +292,7 @@ relative to operation parameters.
 | Method | Description |
 | ------ | ----------- |
 | isRenderedSupported | Returns true if the operation supports the Rendered image mode. This must be true for all operations. |
-| isImmediate | Returns true if the operation should be rendered immediately during the call to JAI.create; that is, the operation is placed in immediate mode. |
+| isImmediate | Returns true if the operation should be rendered immediately during the call to ImageN.create; that is, the operation is placed in immediate mode. |
 | getSourceClasses | Returns an array of Classes that describe the types of sources required by this operation in the Rendered image mode. |
 | getDestClass | Returns a Class that describes the type of destination this operation produces in the Rendered image mode. |
 | validateArguments | Returns true if this operation is capable of handling the input rendered source(s) and/or parameter(s) specified in the ParameterBlock. |
@@ -330,7 +330,7 @@ relative to operation parameters.
 ## 14.4 Iterators
 
 Iterators are provided to help the programmer who writes extensions to
-the JAI API and does not want to use any of the existing API methods
+the ImageN API and does not want to use any of the existing API methods
 for traversing pixels. Iterators define the manner in which the source
 image pixels are traversed for processing. Iterators may be used both
 in the implementation of `computeRect` methods or `getTile` methods of

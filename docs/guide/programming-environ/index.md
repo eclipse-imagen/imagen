@@ -27,7 +27,7 @@ An imaging operation within ImageN is summarized in the following four steps:
 
 2. Define the imaging graph. This is a two part process:
 
-   a. Define the image operators (see [Section 3.6, \"JAI API Operators\"](#36-operators) )
+   a. Define the image operators (see [Section 3.6, \"Operators\"](#36-operators) )
 
    b. Define the parent/child relationship between sources and sinks
 
@@ -202,15 +202,15 @@ destination image (see [Section 4.7, \"Creating a Constant
 Image](../acquisition#47-creating-a-constant-image)\").
 
 ```java
-   RenderedOp im0 = JAI.create("constant", param1);
-   RenderedOp im1 = JAI.create("constant", param2);
+   RenderedOp im0 = ImageN.create("constant", param1);
+   RenderedOp im1 = ImageN.create("constant", param2);
 ```
 
 Next, our example adds the two images together (see [Section 6.5.1,
 \"Adding Two Source Images](../image-manipulation)\").
 
 ```java
-         RenderedOp im2 = JAI.create("add", im0, im1);
+         RenderedOp im2 = ImageN.create("add", im0, im1);
 ```
 
 Finally, we display the destination image in a scrolling window and
@@ -274,7 +274,7 @@ entire class definition.
   // `hints1', and `hints2' contain rendering hints and are
   // assumed to be created outside of this code fragment.
   RenderedOp sourceImg = 
-            JAI.create("TIFF", pb0);
+            ImageN.create("TIFF", pb0);
 
   // Derive the RenderableImage from the source RenderedImage.
   ParameterBlock pb = new ParameterBlock();
@@ -282,14 +282,14 @@ entire class definition.
   pb.add(null).add(null).add(null).add(null).add(null);
 
   // Create the Renderable operation.
-  RenderableImage ren = JAI.createRenderable("renderable", pb);
+  RenderableImage ren = ImageN.createRenderable("renderable", pb);
 
   // Set up the parameter block for the first op.
   ParameterBlock pb1 = new ParameterBlock();
   pb1.addSource(ren);
 
   // Make first Op in Renderable chain an invert.
-  RenderableOp Op1 = JAI.createRenderable("invert", pb1);
+  RenderableOp Op1 = ImageN.createRenderable("invert", pb1);
 
   // Set up the parameter block for the second Op.
   // The constant to be added is "2".
@@ -299,7 +299,7 @@ entire class definition.
 
   // Make a second Op a constant add operation.
   RenderableOp Op2 = 
-            JAI.createRenderable("addconst", pb2);
+            ImageN.createRenderable("addconst", pb2);
 
   // Set up a rendering context.
   AffineTransform screenResolution = ...;
@@ -317,7 +317,7 @@ is created as a source for the subsequent operations:
 
 ```java
   RenderedOp sourceImg = 
-            JAI.create("TIFF", pb0);
+            ImageN.create("TIFF", pb0);
 ```
 
 The rendered source image is then converted to a renderable image:
@@ -326,7 +326,7 @@ The rendered source image is then converted to a renderable image:
   ParameterBlock pb = new ParameterBlock();
   pb.addSource(sourceImg);
   pb.add(null).add(null).add(null).add(null).add(null);
-  RenderableImage ren = JAI.createRenderable("renderable", pb);
+  RenderableImage ren = ImageN.createRenderable("renderable", pb);
 ```
 
 Next, a `ParameterBlock` is set up for the first operation. The
@@ -344,7 +344,7 @@ source image and creates a `RenderableImage` as the result of applying
 the operation to a tuple (source and parameters).
 
 ```java
-  RenderableOp Op1 = JAI.createRenderable("invert", pb1);
+  RenderableOp Op1 = ImageN.createRenderable("invert", pb1);
 ```
 
 The next part of the code example sets up a `ParameterBlock` for the
@@ -366,7 +366,7 @@ in the previous step.
 
 ```java
   RenderableOp Op2 = 
-            JAI.createRenderable("addconst", pb2);
+            ImageN.createRenderable("addconst", pb2);
 ```
 
 After `Op2` is created, the renderable chain thus far is shown in
@@ -541,9 +541,9 @@ Now, let\'s take a look at the most common classes in the ImageN class
 hierarchy.
 
 
-### 3.5.1 The JAI Class
+### 3.5.1 The ImageN Class
 
-The `JAI` class cannot be instantiated; it is simply a placeholder for
+The `ImageN` class cannot be instantiated; it is simply a placeholder for
 static methods that provide a simple syntax for creating Renderable
 and Rendered graphs. The majority of the methods in this class are
 used to create a `RenderedImage`, taking an operation name, a
@@ -561,7 +561,7 @@ automatically.
 The `PlanarImage` class is the main class for describing
 two-dimensional images in ImageN. `PlanarImage` implements the
 `RenderedImage` interface from the Java 2D API. `TiledImage` and
-`OpImage`, described later, are subclasses of `PlanarImage`.``
+`OpImage`, described later, are subclasses of `PlanarImage`.
 
 The `RenderedImage` interface describes a tiled, read-only image with
 a pixel layout described by a `SampleModel` and a `DataBuffer`. Each
@@ -574,7 +574,7 @@ of rendered graphs. Since graph nodes are connected bidirectionally,
 the garbage collector requires assistance to detect when a portion of
 a graph is no longer referenced from user code and may be discarded.
 `PlanarImage` takes care of this by using the *Weak References API* of
-Java 2.
+Java.
 
 Any `RenderedImage`s from outside the API are \"wrapped\" to produce
 an instance of `PlanarImage`. This allows the API to make use of the
@@ -1183,8 +1183,8 @@ There are two static methods for creating operations in the Renderable mode.
 
 **API:** `org.eclipse.imagen.ImageN`
 
-* `JAI.createRenderable( opName, parameterBlock)`
-* `JAI.createRenderableCollection( opName, parameterBlock)`
+* `ImageN.createRenderable( opName, parameterBlock)`
+* `ImageN.createRenderableCollection( opName, parameterBlock)`
 
 These call the non static:
 
@@ -1196,11 +1196,11 @@ These call the non static:
 For example:
 
 ```java
-   RenderableOp im = JAI.createRenderable("operationName",
+   RenderableOp im = ImageN.createRenderable("operationName",
                                paramBlock);
 ```
 
-The `JAI.createRenderable` method creates a renderable node operation
+The `ImageN.createRenderable` method creates a renderable node operation
 that takes two parameters:
 
 -   An operation name (see [Section 3.7.1, \"Operation Name\"](#section-3.7.1-operation-name) )
@@ -1218,30 +1218,30 @@ The first static methods take sources and parameters specified in a `ParameterBl
 
 **API:** `org.eclipse.imagen.ImageN`
 
-* `JAI.create( opName, parameterBlock)`
-* `JAI.create( opName, parameterBlock, hints)`
-* `JAI.createCollection( opName, parameterBlock)`
-* `JAI.createCollection( opName, parameterBlock, hints)`
+* `ImageN.create( opName, parameterBlock)`
+* `ImageN.create( opName, parameterBlock, hints)`
+* `ImageN.createCollection( opName, parameterBlock)`
+* `ImageN.createCollection( opName, parameterBlock, hints)`
 
 The remaining static methods are convenience methods that take various
 numbers of sources and parameters directly.
 
 **API:** `org.eclipse.imagen.ImageN`
 
-* `JAI.create( opName, param)`
-* `JAI.create( opName, param1, param2)`
-* `JAI.create( opName, param1, param2, param3)`
-* `JAI.create( opName, param1, param2, param3,param4)`
-* `JAI.create( opName, renderedImage)`
-* `JAI.create( opName, collection)`
-* `JAI.create( opName, renderedImage,param)`
-* `JAI.create( opName, renderedImage,param1,param2)`
-* `JAI.create( opName, renderedImage,param1,param2,param3)`
-* `JAI.create( opName, renderedImage,param1,param2,param3,param4)`
-* `JAI.create( opName, renderedImage,param1,param2,param3,param4,param5)`
-* `JAI.create( opName, renderedImage,param1,param2,param3,param4,param5,param6)`
-* `JAI.create( opName, renderedImage1,renderedImage2)`
-* `JAI.create( opName, renderedImage1,renderedImage2,param1,param2)`
+* `ImageN.create( opName, param)`
+* `ImageN.create( opName, param1, param2)`
+* `ImageN.create( opName, param1, param2, param3)`
+* `ImageN.create( opName, param1, param2, param3,param4)`
+* `ImageN.create( opName, renderedImage)`
+* `ImageN.create( opName, collection)`
+* `ImageN.create( opName, renderedImage,param)`
+* `ImageN.create( opName, renderedImage,param1,param2)`
+* `ImageN.create( opName, renderedImage,param1,param2,param3)`
+* `ImageN.create( opName, renderedImage,param1,param2,param3,param4)`
+* `ImageN.create( opName, renderedImage,param1,param2,param3,param4,param5)`
+* `ImageN.create( opName, renderedImage,param1,param2,param3,param4,param5,param6)`
+* `ImageN.create( opName, renderedImage1,renderedImage2)`
+* `ImageN.create( opName, renderedImage1,renderedImage2,param1,param2)`
 
 Two versions of the `create` method are non-static and are identified
 as `createNS`. These methods may be used with a specific instance of
@@ -1259,7 +1259,7 @@ These call the non-static methods:
 The following is an example of one of these methods:
 
 ```java
-  RenderedOp im = JAI.createNS("operationName", source, param1,
+  RenderedOp im = ImageN.createNS("operationName", source, param1,
                              param2)
 ```
 
@@ -1334,7 +1334,7 @@ There are two separate classes for specifying parameter blocks:
     parameter names.
 
 The parameter block must contain the same number of sources and
-parameters as required by the operation (unless ParameterBlockJAI is
+parameters as required by the operation (unless ParameterBlockImageN is
 used and the operation supplies default values). Note that, if the
 operation calls for one or more source images, they must be specified
 in the parameter block. For example, the `Add` operation requires two
@@ -1342,7 +1342,7 @@ source images and no parameters. The `addConst` operator requires one
 source and a parameter specifying the constant value.
 
 If the sources and parameters do not match the operation requirements,
-an exception is thrown. However, when the `ParameterBlockJAI` class is
+an exception is thrown. However, when the `ParameterBlockImageN` class is
 used, if the required parameter values are not specified, default
 parameter values are automatically inserted when available. For some
 operations, default parameter values are not available and must be
@@ -1373,9 +1373,9 @@ methods.
 #### 3.7.2.2 Adding or Setting Parameters
 
 As described before, there are two separate classes for specifying
-parameter blocks: `ParameterBlock` and `ParameterBlockJAI`. Both
+parameter blocks: `ParameterBlock` and `ParameterBlockImageN`. Both
 classes work very much alike, except for two differences:
-`ParameterBlockJAI` automatically provides default parameter values
+`ParameterBlockImageN` automatically provides default parameter values
 and allows setting parameters by name; `ParameterBlock` does not.``
 
 
@@ -1412,17 +1412,17 @@ must be added, else the operation will fail.``
 
 * `ParameterBlock add(double d)`
 
-##### ParameterBlockJAI
+##### ParameterBlockImageN
 
-Since the `ParameterBlockJAI` object already contains default values
+Since the `ParameterBlockImageN` object already contains default values
 for the parameters at the time of construction, the parameters must be
-changed (or set) with the `ParameterBlockJAI.set(value, index)`
+changed (or set) with the `ParameterBlockImageN.set(value, index)`
 methods rather than the `add()` method. The `add()` methods should not
 be used since the parameter list is already long enough to hold all of
 the parameters required by the `OperationDescriptor`.
 
 [Listing 3-3](../programming-environ) shows the creation
-of a `ParameterBlockJAI` intended to be passed to a rotate operation.
+of a `ParameterBlockImageN` intended to be passed to a rotate operation.
 The rotate operation takes four parameters: `xOrigin`, `yOrigin`,
 `angle`, and `interpolation`. The default values for `xOrigin` and
 `yOrigin` are 0.0F (for both). In this example, these two values are
@@ -1433,14 +1433,14 @@ specified.
 
 <a name="listing-3-3"></a>
 
-***Listing 3-3*  Example ParameterBlockJAI**
+***Listing 3-3*  Example ParameterBlockImageN**
 
 ```java
   // Specify the interpolation method to be used
   interp = Interpolation.create(Interpolation.INTERP_NEAREST);
 
-  // Create the ParameterBlockJAI and add the interpolation to it
-  ParameterBlockJAI pb = new ParameterBlockJAI();
+  // Create the ParameterBlockImageN and add the interpolation to it
+  ParameterBlockImageN pb = new ParameterBlockImageN();
   pb.addSource(im);                 // The source image
   pb.set(1.2F, "angle");            // The rotation angle in radians
   pb.set(interp, "interpolation");  // The interpolation method
@@ -1574,7 +1574,7 @@ mode.
 ----------------------------
 
 To set the rendering hints, create a `RenderingHints` object and pass
-it to the `JAI.create` method you want to affect. Setting a rendering
+it to the `ImageN.create` method you want to affect. Setting a rendering
 hint does not guarantee that a particular rendering algorithm, will be
 used; not all platforms support modification of the rendering code.
 
@@ -1587,14 +1587,14 @@ qualityHints = new
 ```
 
 Now that a `RenderingHints` object, `qualityHints`, has been created,
-the hints can be used in an operation using a `JAI.create` method.
+the hints can be used in an operation using a `ImageN.create` method.
 
 
 #### 3.7.3.2 JAI Rendering Hints
 
 Each instance of a `JAI` object contains a set of rendering hints that
 will be used for all image or collection creations. These hints are
-merged with any hints supplied to the `JAI.create` method; directly
+merged with any hints supplied to the `ImageN.create` method; directly
 supplied hints take precedence over the common hints. When a new `JAI`
 instance is constructed, its hints are initialized to a copy of the
 hints associated with the default instance. The hints associated with
@@ -1712,5 +1712,5 @@ destination opimage is set to 200 x 200.
               new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
 
   // Create the scale operation.
-  PlanarImage im2 = (PlanarImage)JAI.create("scale", pb, layout)
+  PlanarImage im2 = (PlanarImage)ImageN.create("scale", pb, layout)
 ```

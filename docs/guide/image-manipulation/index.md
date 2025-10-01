@@ -275,11 +275,11 @@ rendered mode.
 
 ```java
 // Create two constant images
-RenderedOp im0 = JAI.create("constant", param1);
-RenderedOp im1 = JAI.create("constant", param2);
+RenderedOp im0 = ImageN.create("constant", param1);
+RenderedOp im1 = ImageN.create("constant", param2);
 
 // Find the maximum value of the two images
-RenderedOp im2 = JAI.create("max", im0, im1);
+RenderedOp im2 = ImageN.create("max", im0, im1);
 ```
 
 ### 6.3.2 Finding the Minimum Values of Two Images
@@ -321,7 +321,7 @@ pb.add(im0);
 pb.add(im1);
 
 // Find the maximum value of the two images
-RenderableOp im2 = JAI.createRenderable("min", pb, hints);
+RenderableOp im2 = ImageN.createRenderable("min", pb, hints);
 ```
 
 6.4 Logical Operators
@@ -417,7 +417,7 @@ pb.addSource(im0);          // The first image
 pb.addSource(im1);          // The second image
 
 // AND the two images together.
-RenderableOp op = JAI.createRenderable("and", pb, hints);
+RenderableOp op = ImageN.createRenderable("and", pb, hints);
 ```
 
 
@@ -476,7 +476,7 @@ pb.addSource(im);       // im as the source image
 pb.add(1.2f);     // The constant
 
 // AND the image with the constant.
-RenderableOp op = JAI.createRenderable("andconst", pb, hints);
+RenderableOp op = ImageN.createRenderable("andconst", pb, hints);
 ```
 
 ### 6.4.3 ORing Two Images
@@ -523,15 +523,15 @@ sample of using the `or` operation to OR two images.
 // Read the first image.
 pb = new ParameterBlock();
 pb.addSource(file1);
-RenderedOp src1 = JAI.create("stream", pb);
+RenderedOp src1 = ImageN.create("stream", pb);
 
 // Read the second image.
 pb = new ParameterBlock();
 pb.addSource(file2);
-RenderedImage src2 = JAI.create("stream", pb);
+RenderedImage src2 = ImageN.create("stream", pb);
 
 // OR the two images.
-RenderedOp dst = JAI.create("or", src1, src2);
+RenderedOp dst = ImageN.create("or", src1, src2);
 ```
 
 
@@ -694,10 +694,10 @@ sample of using the `Not` operation.
 // Read the source image.
 pb = new ParameterBlock();
 pb.addSource(file);
-RenderedOp src = JAI.create("stream", pb);
+RenderedOp src = ImageN.create("stream", pb);
 
 // Create the Not operation.
-RenderedOp dst = JAI.create("Not", src);
+RenderedOp dst = ImageN.create("Not", src);
 ```
 
 6.5 Arithmetic Operators
@@ -829,11 +829,11 @@ sample of using the `Add` operation to add two images.
 // Read the two images.
 pb = new ParameterBlock();
 pb.addSource(s1);
-RenderedImage src1 = (RenderedImage)JAI.create("stream", pb);
+RenderedImage src1 = (RenderedImage)ImageN.create("stream", pb);
 
 pb = new ParameterBlock();
 pb.addSource(s2);
-RenderedImage src2 = (RenderedImage)JAI.create("stream", pb);
+RenderedImage src2 = (RenderedImage)ImageN.create("stream", pb);
 
 // Create the ParameterBlock for the operation
 pb = new ParameterBlock();
@@ -841,7 +841,7 @@ pb.addSource(src1);
 pb.addSource(src2);
 
 // Create the Add operation.
-RenderedImage dst = (RenderedImage)JAI.create("add", pb);
+RenderedImage dst = (RenderedImage)ImageN.create("add", pb);
 ```
 
 ### 6.5.2 Adding a Constant Value to an Image
@@ -897,7 +897,7 @@ constants[2] = k2;
 pb.add(constants);
 
 // Construct the AddConst operation.
-RenderedImage addConstImage = JAI.create("addconst", pb, null);
+RenderedImage addConstImage = ImageN.create("addconst", pb, null);
 ```
 
 ### 6.5.3 Adding a Collection of Images
@@ -1399,7 +1399,7 @@ pb = new ParameterBlock();
 pb.addSource(src);
 
 // Perform the Exp operation
-RenderedImage dst = JAI.create("exp", pb);
+RenderedImage dst = ImageN.create("exp", pb);
 ```
 
 6.6 Dithering an Image
@@ -1446,7 +1446,7 @@ parameters:
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | colorMap  |  ColorCube | The color cube. See Section 6.6.1.1 |
-| ditherMask | KernelJAI | The dither mask. See Section 6.6.1.2 |
+| ditherMask | KernelImageN | The dither mask. See Section 6.6.1.2 |
 
 #### 6.6.1.1 Color Map Parameter
 
@@ -1466,9 +1466,9 @@ The predefined color maps are:
 
 The dither mask is a three-dimensional array of floating point values,
 the depth of which equals the number of bands in the image. The dither
-mask is supplied as an array of `KernelJAI` objects. Each element of
-the array is a `KernelJAI` object that represents the dither mask
-matrix for the corresponding band. All `KernelJAI` objects in the
+mask is supplied as an array of `KernelImageN` objects. Each element of
+the array is a `KernelImageN` object that represents the dither mask
+matrix for the corresponding band. All `KernelImageN` objects in the
 array must have the same dimensions and contain floating point values
 greater than or equal to 0.0 and less than or equal to 1.0.
 
@@ -1512,7 +1512,7 @@ ColorCube colorMap =
     ColorCube.createColorCube(dataType, 38, new int[] {4, 9, 6});
 
 // Set the dither mask to the pre-defined 4x4x3 mask.
-KernelJAI[] ditherMask = KernelJAI.DITHER_MASK_443;
+KernelImageN[] ditherMask = KernelImageN.DITHER_MASK_443;
 
 // Create a new ParameterBlock.
 ParameterBlock pb = new ParameterBlock();
@@ -1531,10 +1531,10 @@ layout.setTileWidth(TILE_WIDTH).setTileHeight(TILE_HEIGHT);
 layout.setColorModel(cm);
 
 // Create RenderingHints for the ImageLayout.
-rh = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+rh = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
 // Create the ordered dither OpImage.
-PlanarImage image = (PlanarImage)JAI.create("ordereddither",
+PlanarImage image = (PlanarImage)ImageN.create("ordereddither",
                                             pb, rh);
 ```
 
@@ -1558,8 +1558,8 @@ parameters:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| colorMap | LookupTableJAI | The color map. A LookupTableJAI (see [Section 7.6.1, \"Creating the Lookup Table](../image-enhance) ") or a ColorCube (see [Section 6.6.1.1, \"Color Map Parameter](../image-manipulation)\").\ |
-| errorKernel | KernelJAI | The error filter kernel. See [Section 6.6.2.1, \"Error Filter Kernel](../image-manipulation).\"\ |
+| colorMap | LookupTableImageN | The color map. A LookupTableImageN (see [Section 7.6.1, \"Creating the Lookup Table](../image-enhance) ") or a ColorCube (see [Section 6.6.1.1, \"Color Map Parameter](../image-manipulation)\").\ |
+| errorKernel | KernelImageN | The error filter kernel. See [Section 6.6.2.1, \"Error Filter Kernel](../image-manipulation).\"\ |
 
 #### 6.6.2.1 Error Filter Kernel
 
@@ -1638,10 +1638,10 @@ sample of using the `ErrorDiffusion` operation.
 ParameterBlock pb;
 pb.addSource(src);
 pb.add(ColorCube.BYTE_496);
-pb.add(KernelJAI.ERROR_FILTER_FLOYD_STEINBERG);
+pb.add(KernelImageN.ERROR_FILTER_FLOYD_STEINBERG);
 
 // Perform the error diffusion operation.
-dst = (PlanarImage)JAI.create("errordiffusion", pb, null);
+dst = (PlanarImage)ImageN.create("errordiffusion", pb, null);
 ```
 
 6.7 Clamping Pixel Values
@@ -1723,7 +1723,7 @@ pb.add(low);
 pb.add(high);
 
 // Perform the operation.
-RenderedImage dst = JAI.create("clamp", pb);
+RenderedImage dst = ImageN.create("clamp", pb);
 ```
 
 
@@ -1774,31 +1774,31 @@ pb.addSource(src);
 pb.add(bandIndices);
 
 // Perform the operation
-RenderedImage dst = (RenderedImage)JAI.create("bandSelect", pb);
+RenderedImage dst = (RenderedImage)ImageN.create("bandSelect", pb);
 ```
 
 
 6.9 Constructing a Kernel
 ----------------------------------------------
 
-The `KernelJAI` class is an auxiliary class used with the convolve,
+The `KernelImageN` class is an auxiliary class used with the convolve,
 ordered dither, error diffusion dither, dilate, and erode operations.
-A `KernelJAI` is characterized by its width, height, and key element
+A `KernelImageN` is characterized by its width, height, and key element
 (origin) position. The key element is the element that is placed over
 the current source pixel to perform convolution or error diffusion.
 
 For the `OrderedDither` operation (see [Section 6.6.1, \"Ordered
-Dither](../image-manipulation)\"), an array of `KernelJAI`
-objects is actually required with there being one `KernelJAI` per band
+Dither](../image-manipulation)\"), an array of `KernelImageN`
+objects is actually required with there being one `KernelImageN` per band
 of the image to be dithered. The location of the key element is in
 fact irrelevant to the `OrderedDither` operation.
 
-There are four constructors for creating a `KernelJAI`. The following
-constructor constructs a `KernelJAI` object with the given parameters.
+There are four constructors for creating a `KernelImageN`. The following
+constructor constructs a `KernelImageN` object with the given parameters.
 
 
 ```java
-KernelJAI(int width, int height, float[] data)
+KernelImageN(int width, int height, float[] data)
 ```
 
 The `width` and `height` parameters determine the kernel size. The
@@ -1807,32 +1807,32 @@ data array. The key element is set to
 
 :   ![](../Image-manipulation.doc.anc7.gif)
 
-The following constructor constructs a `KernelJAI` object with the
+The following constructor constructs a `KernelImageN` object with the
 given parameters.
 
 ```java
-KernelJAI(int width, int height, int xOrigin, int yOrigin, float[] data)
+KernelImageN(int width, int height, int xOrigin, int yOrigin, float[] data)
 ```
 
 The `xOrigin` and `yOrigin` parameters determine the key element\'s
 origin.
 
-The following constructor constructs a separable `KernelJAI` object
+The following constructor constructs a separable `KernelImageN` object
 from two float arrays.
 
 ```java
-KernelJAI(int width, int height, int xOrigin, int yOrigin,
+KernelImageN(int width, int height, int xOrigin, int yOrigin,
       float[] dataH, float[] dataV)
 ```
 
 The `dataH` and `dataV` parameters specify the float data for the
 horizontal and vertical directions, respectively.
 
-The following constructor constructs a `KernelJAI` object from a
+The following constructor constructs a `KernelImageN` object from a
 `java.awt.image.Kernel` object.
 
 ```java
-KernelJAI(java.awt.image.Kernel k)
+KernelImageN(java.awt.image.Kernel k)
 ```
 
 [Listing 6-14](image-manipulation) shows a partial code
@@ -1840,16 +1840,16 @@ sample for creating a simple 3 x 3 kernel with the key element located
 at coordinates 1,1, as shown in [Figure
 6-4](../image-manipulation).
 
-***Listing 6-14*  Constructing a KernelJAI** <a name="listing6-14"></a>
+***Listing 6-14*  Constructing a KernelImageN** <a name="listing6-14"></a>
 
 ```java
-kernel = new KernelJAI;
+kernel = new KernelImageN;
 float[] kernelData = {
     0.0F,        1.0F,        0.0F,
     1.0F,        1.0F,        1.0F,
     0.0F,        1.0F,        0.0F
 };
-kernel = new KernelJAI(3, 3, 1, 1, kernelData);
+kernel = new KernelImageN(3, 3, 1, 1, kernelData);
 ```
 
 <a name="figure-6-4"></a>
@@ -1889,17 +1889,17 @@ The following code sample shows the format for creating a named
 kernel:
 
 ```java
-KernelJAI kernel = KernelJAI.ERROR_FILTER_FLOYD_STEINBERG;
+KernelImageN kernel = KernelImageN.ERROR_FILTER_FLOYD_STEINBERG;
 ```
 
 **API:** `org.eclipse.imagen.KernelImageN`
 
-* `public KernelJAI(int width, int height, int xOrigin, 
+* `public KernelImageN(int width, int height, int xOrigin, 
            int  yOrigin, float[] data)`
 
-* `public KernelJAI(int width, int height, int xOrigin, 
+* `public KernelImageN(int width, int height, int xOrigin, 
            int  yOrigin, float[] dataH, float[] dataV)`
 
-* `public KernelJAI(int width, int height, float[] data)`
+* `public KernelImageN(int width, int height, float[] data)`
 
-* `public KernelJAI(Kernel k)`
+* `public KernelImageN(Kernel k)`

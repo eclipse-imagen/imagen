@@ -470,7 +470,7 @@ for(int b = 0; b < numBands; b++) {
 }
 
 // Create the Piecewise operation.
-RenderedOp pw = JAI.create("piecewise", fmt, bp);
+RenderedOp pw = ImageN.create("piecewise", fmt, bp);
 ```
 
 ### 7.5.2 Histogram Matching
@@ -538,7 +538,7 @@ private static Histogram getHistogram(RenderedOp img,
 
     // Create the histogram op.
     RenderedOp histImage =
-        JAI.create("histogram", img,
+        ImageN.create("histogram", img,
                     hist, roi, new Integer(1), new Integer(1));
 
     // Retrieve the histogram.
@@ -580,10 +580,10 @@ for(int b = 0; b < numBands; b++) {
 }
 
 // Create a histogram-equalized image.
-RenderedOp eq = JAI.create("matchcdf", fmt, CDFeq);
+RenderedOp eq = ImageN.create("matchcdf", fmt, CDFeq);
 
 // Create a histogram-normalized image.
-RenderedOp nm = JAI.create("matchcdf", fmt, CDFnorm);
+RenderedOp nm = ImageN.create("matchcdf", fmt, CDFnorm);
 ```
 
 7.6 Lookup Table Modification
@@ -645,13 +645,13 @@ amplitude scaling problem.
 
 ### 7.6.1 Creating the Lookup Table
 
-The `LookupTableJAI` object represents a single- or multi-banded table
+The `LookupTableImageN` object represents a single- or multi-banded table
 or a color cube of any supported data types. A single- or multi-banded
 source image of integer data types is passed through the table and
 transformed into a single- or multi-banded destination image of both
 integral and float or double data types.
 
-The `LookupTableJAI` object is used for the `ErrorDiffusion`
+The `LookupTableImageN` object is used for the `ErrorDiffusion`
 operation, where it describes a color map, and the `Lookup` operation,
 where it describes the lookup table. For the `Lookup` operation, the
 table data may cover only a subrange of the legal range of the input
@@ -694,23 +694,23 @@ for (int i = 0; i < 0x10000; i++) {
 tableData[i] = (byte)(i >8);
 }
 
-// Create a LookupTableJAI object to be used with the
+// Create a LookupTableImageN object to be used with the
 // "lookup" operator.
-LookupTableJAI table = new LookupTableJAI(tableData);
+LookupTableImageN table = new LookupTableImageN(tableData);
 ```
 
 **API:** `org.eclipse.imagen.LookupTableImageN`
 
-* `LookupTableJAI(byte[] data)`
-* `LookupTableJAI(byte[] data, int offset)`
-* `LookupTableJAI(short[] data, boolean isUShort)`
-* `LookupTableJAI(short[] data, int offset, boolean isUShort)`
-* `LookupTableJAI(int[] data)`
-* `LookupTableJAI(int[] data, int offset)`
-* `LookupTableJAI(float[] data)`
-* `LookupTableJAI(float[] data, int offset)`
-* `LookupTableJAI(double[] data)`
-* `LookupTableJAI(double[] data, int offset)`
+* `LookupTableImageN(byte[] data)`
+* `LookupTableImageN(byte[] data, int offset)`
+* `LookupTableImageN(short[] data, boolean isUShort)`
+* `LookupTableImageN(short[] data, int offset, boolean isUShort)`
+* `LookupTableImageN(int[] data)`
+* `LookupTableImageN(int[] data, int offset)`
+* `LookupTableImageN(float[] data)`
+* `LookupTableImageN(float[] data, int offset)`
+* `LookupTableImageN(double[] data)`
+* `LookupTableImageN(double[] data, int offset)`
 
 #### 7.6.1.2 Creating a Multi-band Lookup Table
 
@@ -747,27 +747,27 @@ tableData[1][i] = (byte)(i >8); // for each band
 tableData[2][i] = (byte)(i >8);
 }
 
-// Create a LookupTableJAI object to be used with the
+// Create a LookupTableImageN object to be used with the
 // "lookup" operator.
-LookupTableJAI table = new LookupTableJAI(tableData);
+LookupTableImageN table = new LookupTableImageN(tableData);
 ```
 
 **API:** `org.eclipse.imagen.LookupTableImageN`
 
-* `LookupTableJAI(byte[][] data)`
-* `LookupTableJAI(byte[][] data, int offset)`
-* `LookupTableJAI(byte[][] data, int[] offsets)`
-* `LookupTableJAI(short[][] data, boolean isUShort)`
-* `LookupTableJAI(short[][] data, int offset, boolean isUShort)`
-* `LookupTableJAI(short[][] data, int[] offsets, boolean isUShort)`
-* `LookupTableJAI(int[][] data)`
-* `LookupTableJAI(int[][] data, int offset)`
-* `LookupTableJAI(int[][] data, int[] offsets)`
-* `LookupTableJAI(float[][] data)`
-* `LookupTableJAI(float[][] data, int offset)`
-* `LookupTableJAI(float[][] data, int[] offsets)`
-* `LookupTableJAI(double[][] data)`
-* `LookupTableJAI(double[][] data, int[] offsets)`
+* `LookupTableImageN(byte[][] data)`
+* `LookupTableImageN(byte[][] data, int offset)`
+* `LookupTableImageN(byte[][] data, int[] offsets)`
+* `LookupTableImageN(short[][] data, boolean isUShort)`
+* `LookupTableImageN(short[][] data, int offset, boolean isUShort)`
+* `LookupTableImageN(short[][] data, int[] offsets, boolean isUShort)`
+* `LookupTableImageN(int[][] data)`
+* `LookupTableImageN(int[][] data, int offset)`
+* `LookupTableImageN(int[][] data, int[] offsets)`
+* `LookupTableImageN(float[][] data)`
+* `LookupTableImageN(float[][] data, int offset)`
+* `LookupTableImageN(float[][] data, int[] offsets)`
+* `LookupTableImageN(double[][] data)`
+* `LookupTableImageN(double[][] data, int[] offsets)`
 
 #### 7.6.1.3 Creating a Color-cube Lookup Table
 
@@ -775,7 +775,7 @@ Dithering operations that use a color cube are considerably faster
 than those that use a generic lookup table. However, the color cube
 provides less control over the exact contents of the lookup table.
 
-The `ColorCube` class is a subclass of `LookupTableJAI` and represents
+The `ColorCube` class is a subclass of `LookupTableImageN` and represents
 a color cube lookup table. You create a colorcube using one of the
 `ColorCube.createColorCube` methods. Rather than specifying the data
 to be loaded into the lookup table, you provide an array of
@@ -905,7 +905,7 @@ and one parameter:
   -------------------------------------------------------------------------------------------------------------------------
   Parameter   Type              Description
   --------------------- --------------------------- -----------------------------------------------------------------------
-  table      LookupTableJAI   The lookup table through which the source image is passed.
+  table      LookupTableImageN   The lookup table through which the source image is passed.
 
   -------------------------------------------------------------------------------------------------------------------------
 
@@ -1100,7 +1100,7 @@ kernel elements and four source pixels contribute to the destination
 pixel located at (0,0). Such pixels are not included in the
 destination image. A border extension may be added via the
 `BorderExtender` class. The type of border extension can be specified
-as a `RenderingHint` to the `JAI.create` method. If no border
+as a `RenderingHint` to the `ImageN.create` method. If no border
 extension type is provided, a default extension of
 `BorderExtender.BORDER_COPY` will be used to perform the extension.
 See [Section 3.7.3, \"Rendering
@@ -1112,7 +1112,7 @@ parameter:
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Parameter   Type         Description
   --------------------- ---------------------- ---------------------------------------------------------------------------------------------------------------------
-  kernel     KernelJAI   The convolution kernel. See [Section 6.9, \"Constructing a Kernel](Image-manipulation.doc.html#70882).\"\
+  kernel     KernelImageN   The convolution kernel. See [Section 6.9, \"Constructing a Kernel](Image-manipulation.doc.html#70882).\"\
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1126,13 +1126,13 @@ The default `kernel` is `null`.
 
 ```java
 // Create the kernel.
-kernel = new KernelJAI
+kernel = new KernelImageN
 float[] = {  0.0F, -1.0F,  0.0F,
             -1.0F,  5.0F, -1.0F,
              0.0F, -1.0F,  0.0F };
 
 // Create the convolve operation.
-im1 = JAI.create("convolve", im, kernel);
+im1 = ImageN.create("convolve", im, kernel);
 ```
 
 ### 7.7.2 Box Filter
@@ -1210,10 +1210,10 @@ new BoxFilterExample(fileName, width, height);
 public BoxFilterExample(String fileName, int width, int height)
 
 // Load the image.
-RenderedOp src =  JAI.create("fileload", fileName);
+RenderedOp src =  ImageN.create("fileload", fileName);
 
 // Create the BoxFilter operation.
-RenderedOp dst = JAI.create("boxfilter", src,
+RenderedOp dst = ImageN.create("boxfilter", src,
                             width, height,
                             width/2, height/2);
 ```
@@ -1404,7 +1404,7 @@ pb.add(DFTDescriptor.SCALING_NONE);
 pb.add(DFTDescriptor.REAL_TO_COMPLEX);
 
 // Create the DFT operation.
-PlanarImage dft = (PlanarImage)JAI.create("dft", pb, null);
+PlanarImage dft = (PlanarImage)ImageN.create("dft", pb, null);
 
 // Get the DFT image information.
 int width = dft.getWidth();
@@ -1519,12 +1519,12 @@ DCT operation.
 
 ```java
 // Load the source image.
-RenderedImage src = (RenderedImage)JAI.create("fileload",
+RenderedImage src = (RenderedImage)ImageN.create("fileload",
                     fileName);
 
 // Calculate a DCT image from the source image.
 ParameterBlock pb = (new ParameterBlock()).addSource(src);
-PlanarImage dct = JAI.create("dct", pb, null);
+PlanarImage dct = ImageN.create("dct", pb, null);
 
 // Get the DCT image data.
 int width = dct.getWidth();
@@ -1557,12 +1557,12 @@ then computes the inverse discrete cosine transform.
 // Calculate a DCT image from the source image.
 System.out.println("Creating DCT of source image ...");
 ParameterBlock pb = (new ParameterBlock()).addSource(src);
-PlanarImage dct = JAI.create("dct", pb, null);
+PlanarImage dct = ImageN.create("dct", pb, null);
 
 // Calculate an IDCT image from the DCT image.
 System.out.println("Creating IDCT of DCT of source image ...");
 pb = (new ParameterBlock()).addSource(dct);
-PlanarImage idct = JAI.create("idct", pb, null);
+PlanarImage idct = ImageN.create("idct", pb, null);
 
 // Create display image for inverse DCT of DCT of source image.
 System.out.println("Creating display image for IDCT of DCT");
@@ -1603,14 +1603,14 @@ image containing complex data and no parameters.
 // Calculate a DFT image from the source image.
 pb = new ParameterBlock();
 pb.addSource(src).add(DFTDescriptor.SCALING_NONE);
-PlanarImage dft = JAI.create("dft", pb, null);
+PlanarImage dft = ImageN.create("dft", pb, null);
 
 // Create the ParameterBlock specifying the source image.
 pb = new ParameterBlock();
 pb.addSource(dft);
 
 // Calculate the magnitude.
-PlanarImage magnitude = JAI.create("magnitude", pb, null);
+PlanarImage magnitude = ImageN.create("magnitude", pb, null);
 ```
 
 ### 7.9.4 Magnitude-squared Enhancement
@@ -1938,7 +1938,7 @@ pb = new ParameterBlock();
 pb.addSource(image);
 
 // Create the Log operation.
-RenderedImage dst = JAI.create("log", pb);
+RenderedImage dst = ImageN.create("log", pb);
 ```
 
 7.11 Dual Image Pixel Point Processing
@@ -2056,12 +2056,12 @@ composite operation.
 // Get the first image.
 pb = new ParameterBlock();
 pb.add(s1);
-RenderedImage src1 = (RenderedImage)JAI.create("jpeg", pb);
+RenderedImage src1 = (RenderedImage)ImageN.create("jpeg", pb);
 
 // Get the second image
 pb = new ParameterBlock();
 pb.add(s2);
-RenderedImage src2 = (RenderedImage)JAI.create("jpeg", pb);
+RenderedImage src2 = (RenderedImage)ImageN.create("jpeg", pb);
 
 // Create the ParameterBlock
 pb = new ParameterBlock();
@@ -2071,7 +2071,7 @@ pb.add(new Boolean(false));
 pb.add(new Boolean(false));
 
 // Create the composite operation.
-RenderedImage dst = (RenderedImage)JAI.create("composite", pb);
+RenderedImage dst = (RenderedImage)ImageN.create("composite", pb);
 ```
 
 7.12 Thresholding
@@ -2157,5 +2157,5 @@ pb.addSource(src);
 pb.add(low);
 pb.add(high);
 pb.add(map);
-RenderedImage dst = JAI.create("threshold", pb);
+RenderedImage dst = ImageN.create("threshold", pb);
 ```
