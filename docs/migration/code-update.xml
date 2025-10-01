@@ -494,6 +494,10 @@
                 <replacetoken>ComponentColorModelJAI</replacetoken>
                 <replacevalue>ComponentColorModelImageN</replacevalue>
             </replacefilter>
+            <replacefilter>
+                <replacetoken>PropertyChangeSupportJAI</replacetoken>
+                <replacevalue>PropertyChangeSupportImageN</replacevalue>
+            </replacefilter>
         </replace>
     </target>
 

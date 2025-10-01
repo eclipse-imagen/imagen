@@ -149,7 +149,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
 public class RenderableOp implements RenderableImage, OperationNode, WritablePropertySource, Serializable {
 
     /** A helper object to manage firing events. */
-    protected PropertyChangeSupportJAI eventManager = null;
+    protected PropertyChangeSupportImageN eventManager = null;
 
     /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
@@ -197,7 +197,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
         }
 
         // Initialize the various helper objects.
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
 
         properties = new WritablePropertySourceImpl(null, null, eventManager);
 

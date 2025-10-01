@@ -199,7 +199,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
     private Vector sinks = null;
 
     /** A helper object to manage firing events. */
-    protected PropertyChangeSupportJAI eventManager = null;
+    protected PropertyChangeSupportImageN eventManager = null;
 
     /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
@@ -228,7 +228,7 @@ public abstract class PlanarImage implements ImageJAI, RenderedImage {
         this.weakThis = new WeakReference(this);
 
         // Create an event manager.
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
 
         // Copy the properties by reference.
         this.properties = new WritablePropertySourceImpl(null, null, eventManager);

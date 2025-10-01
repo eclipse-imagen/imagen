@@ -40,7 +40,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
     private RenderableImage im;
 
     /** A helper object to manage firing events. */
-    private PropertyChangeSupportJAI eventManager = null;
+    private PropertyChangeSupportImageN eventManager = null;
 
     /** A helper object to manage the image properties. */
     private WritablePropertySourceImpl properties = null;
@@ -74,7 +74,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
         }
 
         this.im = im;
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 

@@ -56,14 +56,14 @@ public class ImageMIPMap implements ImageJAI {
     protected RenderedOp downSampler;
 
     /** A helper object to manage firing events. */
-    protected PropertyChangeSupportJAI eventManager = null;
+    protected PropertyChangeSupportImageN eventManager = null;
 
     /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
 
     /** The default constructor. */
     protected ImageMIPMap() {
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 

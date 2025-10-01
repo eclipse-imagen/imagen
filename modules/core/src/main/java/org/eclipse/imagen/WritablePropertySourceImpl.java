@@ -24,11 +24,11 @@ import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
  * A utility implementation of the <code>WritablePropertySource</code> interface. The same internal superclass data
- * structures are used and are supplemented by a <code>PropertyChangeSupportJAI</code> to handle property event firing.
- * All events fired by an instance of this class will be <code>PropertySourceChangeEvent</code>s with an event source
- * equal to the object used to create the <code>PropertyChangeSupportJAI</code> helper object. This object is
+ * structures are used and are supplemented by a <code>PropertyChangeSupportImageN</code> to handle property event
+ * firing. All events fired by an instance of this class will be <code>PropertySourceChangeEvent</code>s with an event
+ * source equal to the object used to create the <code>PropertyChangeSupportImageN</code> helper object. This object is
  * user-specifiable at construction time or automatically created when a <code>PropertyChangeListener</code> is added or
- * removed and the <code>PropertyChangeSupportJAI</code> specified at construction was <code>null</code>.
+ * removed and the <code>PropertyChangeSupportImageN</code> specified at construction was <code>null</code>.
  *
  * @see CaselessStringKey
  * @see PropertySource
@@ -36,7 +36,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * @see PropertySourceImpl
  * @see WritablePropertySource
  * @see PropertyChangeEmitter
- * @see PropertyChangeSupportJAI
+ * @see PropertyChangeSupportImageN
  */
 public class WritablePropertySourceImpl extends PropertySourceImpl implements WritablePropertySource {
 
@@ -44,7 +44,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * Helper object for bean-style property events. Its default value is <code>null</code> which indicates that no
      * events are to be fired.
      */
-    protected PropertyChangeSupportJAI manager = null;
+    protected PropertyChangeSupportImageN manager = null;
 
     /** Constructs a <code>WritablePropertySourceImpl</code> instance with no properties set. */
     public WritablePropertySourceImpl() {
@@ -67,7 +67,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * @param manager The object which will actually fire the events. May be <code>null</code> in which case a default
      *     event manager will be created as needed with this object as its event source.
      */
-    public WritablePropertySourceImpl(Map propertyMap, PropertySource source, PropertyChangeSupportJAI manager) {
+    public WritablePropertySourceImpl(Map propertyMap, PropertySource source, PropertyChangeSupportImageN manager) {
         super(propertyMap, source);
         this.manager = manager;
     }
@@ -133,7 +133,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * new values set to the previous and current values of the property,
      * respectively.  The value returned by the <code>getSource()</code>
      * method of the event is determined by the value passed to the
-     * constructor of the <code>PropertyChangeSupportJAI</code> parameter.
+     * constructor of the <code>PropertyChangeSupportImageN</code> parameter.
      * Neither the old nor the new value may be <code>null</code>: undefined
      * properties must as usual be indicated by the constant value
      * <code>java.awt.Image.UndefinedProperty</code>.  It is however
@@ -369,7 +369,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * Add a <code>PropertyChangeListener</code> to the listener list. The listener is registered for all properties.
      *
      * <p>If the property event utility object was not set at construction, then it will be initialized to a <code>
-     * PropertyChangeSupportJAI</code> whose property event source is this object.
+     * PropertyChangeSupportImageN</code> whose property event source is this object.
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         getEventManager().addPropertyChangeListener(listener);
@@ -380,7 +380,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * on firePropertyChange names that specific property.
      *
      * <p>If the property event utility object was not set at construction, then it will be initialized to a <code>
-     * PropertyChangeSupportJAI</code> whose property event source is this object.
+     * PropertyChangeSupportImageN</code> whose property event source is this object.
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         getEventManager().addPropertyChangeListener(propertyName, listener);
@@ -391,7 +391,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * </code> that was registered for all properties.
      *
      * <p>If the property event utility object was not set at construction, then it will be initialized to a <code>
-     * PropertyChangeSupportJAI</code> whose property event source is this object.
+     * PropertyChangeSupportImageN</code> whose property event source is this object.
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         getEventManager().removePropertyChangeListener(listener);
@@ -401,7 +401,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * Remove a <code>PropertyChangeListener</code> for a specific property.
      *
      * <p>If the property event utility object was not set at construction, then it will be initialized to a <code>
-     * PropertyChangeSupportJAI</code> whose property event source is this object.
+     * PropertyChangeSupportImageN</code> whose property event source is this object.
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         getEventManager().removePropertyChangeListener(propertyName, listener);
@@ -411,10 +411,10 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      * Returns the utility property event manager. If none has been set, initialize it to one whose source is this
      * object.
      */
-    private PropertyChangeSupportJAI getEventManager() {
+    private PropertyChangeSupportImageN getEventManager() {
         if (manager == null) {
             synchronized (this) {
-                manager = new PropertyChangeSupportJAI(this);
+                manager = new PropertyChangeSupportImageN(this);
             }
         }
         return manager;
