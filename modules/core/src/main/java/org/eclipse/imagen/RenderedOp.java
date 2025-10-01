@@ -2430,7 +2430,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
         in.defaultReadObject();
 
         // Explicitly deserialize the required superclass fields.
-        eventManager = (PropertyChangeSupportJAI) in.readObject();
+        eventManager = (PropertyChangeSupportImageN) in.readObject();
         properties = (WritablePropertySourceImpl) in.readObject();
 
         // If this operation requires immediate rendering then render it.

@@ -51,7 +51,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
     private Boolean isFactorySet = Boolean.FALSE;
 
     /** A helper object to manage firing events. */
-    protected PropertyChangeSupportJAI eventManager = null;
+    protected PropertyChangeSupportImageN eventManager = null;
 
     /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
@@ -66,7 +66,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * a later time when methods which use to the <code>imageCollection</code> instance variable are invoked.
      */
     protected CollectionImage() {
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 

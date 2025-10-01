@@ -55,7 +55,7 @@ public class OperationNodeSupport implements Serializable {
     private transient RenderingHints hints;
 
     // Event helper.
-    private PropertyChangeSupportJAI eventManager;
+    private PropertyChangeSupportImageN eventManager;
 
     /**
      * This instance variable is lazily constructed only when one of the PropertySource methods or one of the local
@@ -108,8 +108,8 @@ public class OperationNodeSupport implements Serializable {
 
     /**
      * Constructs an <code>OperationNodeSupport</code> instance. All parameters except <code>opName</code> may be <code>
-     * null</code>. If non-<code>null</code> the <code>PropertyChangeSupportJAI</code> should have been created with the
-     * node as its event source (note that this cannot be verified).
+     * null</code>. If non-<code>null</code> the <code>PropertyChangeSupportImageN</code> should have been created with
+     * the node as its event source (note that this cannot be verified).
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
      * until their values are actually required, i.e., when the node is rendered. Any <code>Observable</code> events
@@ -137,7 +137,7 @@ public class OperationNodeSupport implements Serializable {
             OperationRegistry registry,
             ParameterBlock pb,
             RenderingHints hints,
-            PropertyChangeSupportJAI eventManager) {
+            PropertyChangeSupportImageN eventManager) {
         if (registryModeName == null || opName == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }

@@ -251,7 +251,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
         }
 
         // Initialize the various helper objects.
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
 
         properties = new WritablePropertySourceImpl(null, null, eventManager);
 

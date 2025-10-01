@@ -30,18 +30,19 @@ import java.beans.PropertyChangeSupport;
  *
  * @see PropertyChangeSupport
  */
-public final class PropertyChangeSupportJAI extends PropertyChangeSupport {
+public final class PropertyChangeSupportImageN extends PropertyChangeSupport {
     /** The <code>PropertyChangeEvent</code> source. */
     protected Object propertyChangeEventSource;
 
     /**
-     * Constructs a <code>PropertyChangeSupportJAI</code> object. The parameter is cached for later use and retrieval.
+     * Constructs a <code>PropertyChangeSupportImageN</code> object. The parameter is cached for later use and
+     * retrieval.
      *
      * @param propertyChangeEventSource The property change event source.
      * @throws If <code>propertyChangeEventSource</code> is <code>null</code> then a <code>NullPointerException</code>
      *     will be thrown in the superclass.
      */
-    public PropertyChangeSupportJAI(Object propertyChangeEventSource) {
+    public PropertyChangeSupportImageN(Object propertyChangeEventSource) {
         // if propertyChangeEventSource is null, a NullPointerException
         // is thrown in the superclass.
         super(propertyChangeEventSource);
