@@ -23,7 +23,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
@@ -36,9 +36,9 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * color cube and "shifting" the resulting index value by a pseudo-random amount determined by the values of a supplied
  * dither mask.
  *
- * <p>The dither mask is supplied as an array of <code>KernelJAI</code> objects the length of which must equal the
- * number of bands in the image. Each element of the array is a <code>KernelJAI</code> object which represents the
- * dither mask matrix for the corresponding band. All <code>KernelJAI</code> objects in the array must have the same
+ * <p>The dither mask is supplied as an array of <code>KernelImageN</code> objects the length of which must equal the
+ * number of bands in the image. Each element of the array is a <code>KernelImageN</code> object which represents the
+ * dither mask matrix for the corresponding band. All <code>KernelImageN</code> objects in the array must have the same
  * dimensions and contain floating point values greater than or equal to 0.0 and less than or equal to 1.0.
  *
  * <p>For all integral data types, the source image samples are presumed to occupy the full range of the respective
@@ -69,11 +69,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *                            <th>Default Value</th></tr>
  * <tr><td>colorMap</td>      <td>org.eclipse.imagen.ColorCube</td>
  *                            <td>ColorCube.BYTE_496</td>
- * <tr><td>ditherMask</td>   <td>org.eclipse.imagen.KernelJAI[]</td>
- *                            <td>KernelJAI.DITHER_MASK_443</td>
+ * <tr><td>ditherMask</td>   <td>org.eclipse.imagen.KernelImageN[]</td>
+ *                            <td>KernelImageN.DITHER_MASK_443</td>
  * </table>
  *
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  * @see org.eclipse.imagen.ColorCube
  * @see org.eclipse.imagen.OperationDescriptor
  */
@@ -100,12 +100,10 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"colorMap", "ditherMask"};
 
     /** The parameter class types for the "OrderedDither" operation. */
-    private static final Class[] paramClasses = {
-        org.eclipse.imagen.ColorCube.class, org.eclipse.imagen.KernelJAI[].class
-    };
+    private static final Class[] paramClasses = {org.eclipse.imagen.ColorCube.class, KernelImageN[].class};
 
     /** The parameter default values for the "OrderedDither" operation. */
-    private static final Object[] paramDefaults = {ColorCube.BYTE_496, KernelJAI.DITHER_MASK_443};
+    private static final Object[] paramDefaults = {ColorCube.BYTE_496, KernelImageN.DITHER_MASK_443};
 
     private static final String[] supportedModes = {"rendered"};
 
@@ -133,8 +131,8 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Method to check the validity of the dither mask parameter. The dither mask is an array of <code>KernelJAI</code>
-     * objects wherein the number of elements in the array must equal the number of bands in the source image.
+     * Method to check the validity of the dither mask parameter. The dither mask is an array of <code>KernelImageN
+     * </code> objects wherein the number of elements in the array must equal the number of bands in the source image.
      * Furthermore all kernels in the array must have the same width and height. Finally all data elements of all
      * kernels must be greater than or equal to zero and less than or equal to unity.
      *
@@ -143,7 +141,7 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
      * @param msg The buffer to which messages should be appended.
      * @return Whether the dither mask is valid.
      */
-    private static boolean isValidDitherMask(RenderedImage sourceImage, KernelJAI[] ditherMask, StringBuffer msg) {
+    private static boolean isValidDitherMask(RenderedImage sourceImage, KernelImageN[] ditherMask, StringBuffer msg) {
         if (ditherMask.length != sourceImage.getSampleModel().getNumBands()) {
             msg.append(JaiI18N.getString("OrderedDitherDescriptor5"));
             return false;
@@ -189,7 +187,7 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
         // Retrieve the operation source and parameters.
         RenderedImage src = args.getRenderedSource(0);
         ColorCube colorMap = (ColorCube) args.getObjectParameter(0);
-        KernelJAI[] ditherMask = (KernelJAI[]) args.getObjectParameter(1);
+        KernelImageN[] ditherMask = (KernelImageN[]) args.getObjectParameter(1);
 
         // Check color map validity.
         if (!isValidColorMap(src, colorMap, msg)) {
@@ -221,7 +219,7 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(
-            RenderedImage source0, ColorCube colorMap, KernelJAI[] ditherMask, RenderingHints hints) {
+            RenderedImage source0, ColorCube colorMap, KernelImageN[] ditherMask, RenderingHints hints) {
         ParameterBlockImageN pb = new ParameterBlockImageN("OrderedDither", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);

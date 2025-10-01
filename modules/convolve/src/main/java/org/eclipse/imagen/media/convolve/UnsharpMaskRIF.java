@@ -24,7 +24,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.util.ImageUtil;
 
@@ -48,10 +48,10 @@ public class UnsharpMaskRIF implements RenderedImageFactory {
 
         // map the input kernel + gain factor to an equivalent
         // convolution kernel and then do a normal convolve.
-        KernelJAI unRotatedKernel = ImageUtil.getUnsharpMaskEquivalentKernel(
-                (KernelJAI) paramBlock.getObjectParameter(0), paramBlock.getFloatParameter(1));
+        KernelImageN unRotatedKernel = ImageUtil.getUnsharpMaskEquivalentKernel(
+                (KernelImageN) paramBlock.getObjectParameter(0), paramBlock.getFloatParameter(1));
 
-        KernelJAI kJAI = unRotatedKernel.getRotatedKernel();
+        KernelImageN kJAI = unRotatedKernel.getRotatedKernel();
 
         RenderedImage source = paramBlock.getRenderedSource(0);
         int dataType = source.getSampleModel().getDataType();

@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /** @see GradientOpImage */
 public class GradientRIF implements RenderedImageFactory {
@@ -46,8 +46,8 @@ public class GradientRIF implements RenderedImageFactory {
         RenderedImage source = paramBlock.getRenderedSource(0);
 
         // Get the Horizontal & Vertical kernels
-        KernelJAI kern_h = (KernelJAI) paramBlock.getObjectParameter(0);
-        KernelJAI kern_v = (KernelJAI) paramBlock.getObjectParameter(1);
+        KernelImageN kern_h = (KernelImageN) paramBlock.getObjectParameter(0);
+        KernelImageN kern_v = (KernelImageN) paramBlock.getObjectParameter(1);
 
         return new GradientOpImage(source, extender, renderHints, layout, kern_h, kern_v);
     }

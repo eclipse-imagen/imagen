@@ -36,7 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
@@ -81,7 +81,7 @@ public class ErrorDiffusionTest extends TestBase {
         }
         LookupTableImageN lt = new LookupTableImageN(data);
         // Create the Kernel
-        KernelJAI k = KernelJAI.GRADIENT_MASK_SOBEL_VERTICAL;
+        KernelImageN k = KernelImageN.GRADIENT_MASK_SOBEL_VERTICAL;
 
         final BufferedImage image = getSyntheticShortImage();
 
@@ -251,7 +251,7 @@ public class ErrorDiffusionTest extends TestBase {
     public void testTiff() throws IOException {
 
         ColorCube lt = ColorCube.BYTE_496;
-        KernelJAI k = KernelJAI.ERROR_FILTER_FLOYD_STEINBERG;
+        KernelImageN k = KernelImageN.ERROR_FILTER_FLOYD_STEINBERG;
 
         final RenderedImage image = getTestTiff();
         ParameterBlockImageN pbj = new ParameterBlockImageN("ErrorDiffusion");

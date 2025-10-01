@@ -22,7 +22,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.opimage.RIFUtil;
@@ -45,7 +45,7 @@ public class ErrorDiffusionRIF implements RenderedImageFactory {
         RenderedImage source = paramBlock.getRenderedSource(0);
         // Get the parameters
         LookupTableImageN lookupTable = (LookupTableImageN) paramBlock.getObjectParameter(0);
-        KernelJAI kernel = (KernelJAI) paramBlock.getObjectParameter(1);
+        KernelImageN kernel = (KernelImageN) paramBlock.getObjectParameter(1);
         ROI roi = (ROI) paramBlock.getObjectParameter(2);
         Range nodata = (Range) paramBlock.getObjectParameter(3);
         int destNoData = paramBlock.getIntParameter(4);

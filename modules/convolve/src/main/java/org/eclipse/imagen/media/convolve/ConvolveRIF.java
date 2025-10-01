@@ -24,7 +24,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.range.Range;
@@ -41,7 +41,7 @@ public class ConvolveRIF implements RenderedImageFactory {
         // Getting source
         RenderedImage img = pb.getRenderedSource(0);
         // Getting parameters
-        KernelJAI kernel = (KernelJAI) pb.getObjectParameter(0);
+        KernelImageN kernel = (KernelImageN) pb.getObjectParameter(0);
         ROI roi = (ROI) pb.getObjectParameter(1);
         Range nodata = (Range) pb.getObjectParameter(2);
         double destinationNoData = pb.getDoubleParameter(3);

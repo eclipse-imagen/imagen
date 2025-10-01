@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 
@@ -119,12 +119,12 @@ import org.eclipse.imagen.RasterFormatTag;
  * <p>Reference: An Introduction to Nonlinear Image Processing, by Edward R. Bougherty and Jaakko Astola, Spie Optical
  * Engineering Press, 1994.
  *
- * @see KernelJAI
+ * @see KernelImageN
  */
 final class ErodeOpImage extends AreaOpImage {
 
     /** The kernel with which to do the erode operation. */
-    protected KernelJAI kernel;
+    protected KernelImageN kernel;
 
     /** Kernel variables. */
     private int kw, kh, kx, ky;
@@ -139,10 +139,10 @@ final class ErodeOpImage extends AreaOpImage {
      * @param source a RenderedImage.
      * @param extender a BorderExtender, or null.
      * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
-     * @param kernel the pre-rotated erosion KernelJAI.
+     * @param kernel the pre-rotated erosion KernelImageN.
      */
     public ErodeOpImage(
-            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelJAI kernel) {
+            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelImageN kernel) {
         super(
                 source,
                 layout,

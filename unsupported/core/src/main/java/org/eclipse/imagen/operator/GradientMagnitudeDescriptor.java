@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
@@ -79,14 +79,14 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>   <th>Class Type</th>
  *                     <th>Default Value</th></tr>
- * <tr><td>mask1</td>  <td>org.eclipse.imagen.KernelJAI</td>
+ * <tr><td>mask1</td>  <td>org.eclipse.imagen.KernelImageN</td>
  *                     <td>KernalJAI.GRADIENT_MASK_SOBEL_HORIZONTAL</td>
- * <tr><td>mask2</td>  <td>org.eclipse.imagen.KernelJAI</td>
+ * <tr><td>mask2</td>  <td>org.eclipse.imagen.KernelImageN</td>
  *                     <td>KernalJAI.GRADIENT_MASK_SOBEL_VERTICAL</td>
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  */
 public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
 
@@ -112,12 +112,11 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"mask1", "mask2"};
 
     /** The parameter class types for the GradientMagnitude operation. */
-    private static final Class[] paramClasses = {org.eclipse.imagen.KernelJAI.class, org.eclipse.imagen.KernelJAI.class
-    };
+    private static final Class[] paramClasses = {KernelImageN.class, KernelImageN.class};
 
     /** The parameter default values for the GradientMagnitude operation. */
     private static final Object[] paramDefaults = {
-        KernelJAI.GRADIENT_MASK_SOBEL_HORIZONTAL, KernelJAI.GRADIENT_MASK_SOBEL_VERTICAL
+        KernelImageN.GRADIENT_MASK_SOBEL_HORIZONTAL, KernelImageN.GRADIENT_MASK_SOBEL_VERTICAL
     };
 
     /** Constructor for the GradientMagnitudeDescriptor. */
@@ -136,8 +135,8 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
             return false;
         }
 
-        KernelJAI h_kernel = (KernelJAI) args.getObjectParameter(0);
-        KernelJAI v_kernel = (KernelJAI) args.getObjectParameter(1);
+        KernelImageN h_kernel = (KernelImageN) args.getObjectParameter(0);
+        KernelImageN v_kernel = (KernelImageN) args.getObjectParameter(1);
 
         /* Check if both kernels are equivalent in terms of dimensions. */
         if ((h_kernel.getWidth() != v_kernel.getWidth()) || (h_kernel.getHeight() != v_kernel.getHeight())) {
@@ -176,7 +175,8 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0, KernelJAI mask1, KernelJAI mask2, RenderingHints hints) {
+    public static RenderedOp create(
+            RenderedImage source0, KernelImageN mask1, KernelImageN mask2, RenderingHints hints) {
         ParameterBlockImageN pb = new ParameterBlockImageN("GradientMagnitude", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);

@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 
@@ -36,7 +36,7 @@ final class SeparableConvolveOpImage extends AreaOpImage {
 
     static int byteLoopCounter = 0;
 
-    protected KernelJAI kernel;
+    protected KernelImageN kernel;
     protected int kw, kh, kx, ky;
 
     protected float hValues[];
@@ -54,7 +54,7 @@ final class SeparableConvolveOpImage extends AreaOpImage {
      * @param kernel a pre-rotated convolution kernel
      */
     public SeparableConvolveOpImage(
-            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelJAI kernel) {
+            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelImageN kernel) {
         super(
                 source,
                 layout,
@@ -681,7 +681,7 @@ final class SeparableConvolveOpImage extends AreaOpImage {
     //         float data[] = {0.05f,0.10f,0.05f,
     //                         0.10f,0.20f,0.10f,
     //                         0.05f,0.10f,0.05f};
-    //         KernelJAI kJAI = new KernelJAI(3,3,1,1,data);
+    //         KernelImageN kJAI = new KernelImageN(3,3,1,1,data);
     //         return new SeparableConvolveOpImage(oit.getSource(), null, null,
     //                                    new ImageLayout(oit.getSource()),
     //                                    kJAI);

@@ -27,6 +27,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PointOpImage;
@@ -44,7 +45,7 @@ import org.eclipse.imagen.UnpackedImageData;
  * <p>This <code>OpImage</code> contains the pixels of the result images from the nearest distance classification based
  * on the lookup table generated from this <code>OpImage</code>.
  *
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  * @see LookupTableImageN
  */
 abstract class ColorQuantizerOpImage extends PointOpImage {

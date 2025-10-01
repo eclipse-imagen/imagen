@@ -23,8 +23,8 @@ import java.io.Serializable;
 /**
  * A kernel representing a matrix with a key position, used by operators such as <code> Convolve </code>.
  *
- * <p>A <code>KernelJAI</code> is characterized by its width, height, and origin, or key element. The key element is the
- * element which is placed over the current source pixel to perform convolution or error diffusion.
+ * <p>A <code>KernelImageN</code> is characterized by its width, height, and origin, or key element. The key element is
+ * the element which is placed over the current source pixel to perform convolution or error diffusion.
  *
  * <p>A kernel K is separable it the outer product of two one-dimensional vectors. It can speed up computation. One can
  * construct a kernel from two one-dimensional vectors.
@@ -32,7 +32,7 @@ import java.io.Serializable;
  * <p><>The symmetry can be useful (such as computation speedup). Currently the protected instance variables
  * isHorizonallySymmetric and isVerticallySymmetric are set to false.
  */
-public class KernelJAI extends Object implements Serializable {
+public class KernelImageN extends Object implements Serializable {
 
     /**
      * Floyd and Steinberg error filter (1975).
@@ -42,7 +42,7 @@ public class KernelJAI extends Object implements Serializable {
      *           [ 3 5 1 ]
      * </pre>
      */
-    public static final KernelJAI ERROR_FILTER_FLOYD_STEINBERG = new KernelJAI(3, 2, 1, 0, new float[] {
+    public static final KernelImageN ERROR_FILTER_FLOYD_STEINBERG = new KernelImageN(3, 2, 1, 0, new float[] {
         0.0F / 16.0F, 0.0F / 16.0F, 7.0F / 16.0F,
         3.0F / 16.0F, 5.0F / 16.0F, 1.0F / 16.0F
     });
@@ -56,7 +56,7 @@ public class KernelJAI extends Object implements Serializable {
      *           [ 1 3 5 3 1 ]
      * </pre>
      */
-    public static final KernelJAI ERROR_FILTER_JARVIS = new KernelJAI(5, 3, 2, 0, new float[] {
+    public static final KernelImageN ERROR_FILTER_JARVIS = new KernelImageN(5, 3, 2, 0, new float[] {
         0.0F,
         0.0F,
         0.0F,
@@ -83,7 +83,7 @@ public class KernelJAI extends Object implements Serializable {
      *           [ 1 2 4 2 1 ]
      * </pre>
      */
-    public static final KernelJAI ERROR_FILTER_STUCKI = new KernelJAI(5, 3, 2, 0, new float[] {
+    public static final KernelImageN ERROR_FILTER_STUCKI = new KernelImageN(5, 3, 2, 0, new float[] {
         0.0F,
         0.0F,
         0.0F,
@@ -102,8 +102,8 @@ public class KernelJAI extends Object implements Serializable {
     });
 
     /** 4x4x1 mask useful for dithering 8-bit grayscale images to 1-bit images. */
-    public static final KernelJAI[] DITHER_MASK_441 = new KernelJAI[] {
-        new KernelJAI(4, 4, 1, 1, new float[] {
+    public static final KernelImageN[] DITHER_MASK_441 = new KernelImageN[] {
+        new KernelImageN(4, 4, 1, 1, new float[] {
             0.9375F, 0.4375F, 0.8125F, 0.3125F,
             0.1875F, 0.6875F, 0.0625F, 0.5625F,
             0.7500F, 0.2500F, 0.8750F, 0.3750F,
@@ -112,20 +112,20 @@ public class KernelJAI extends Object implements Serializable {
     };
 
     /** 4x4x3 mask useful for dithering 24-bit color images to 8-bit pseudocolor images. */
-    public static final KernelJAI[] DITHER_MASK_443 = new KernelJAI[] {
-        new KernelJAI(4, 4, 1, 1, new float[] {
+    public static final KernelImageN[] DITHER_MASK_443 = new KernelImageN[] {
+        new KernelImageN(4, 4, 1, 1, new float[] {
             0.0000F, 0.5000F, 0.1250F, 0.6250F,
             0.7500F, 0.2500F, 0.8750F, 0.3750F,
             0.1875F, 0.6875F, 0.0625F, 0.5625F,
             0.9375F, 0.4375F, 0.8125F, 0.3125F
         }),
-        new KernelJAI(4, 4, 1, 1, new float[] {
+        new KernelImageN(4, 4, 1, 1, new float[] {
             0.6250F, 0.1250F, 0.5000F, 0.0000F,
             0.3750F, 0.8750F, 0.2500F, 0.7500F,
             0.5625F, 0.0625F, 0.6875F, 0.1875F,
             0.3125F, 0.8125F, 0.4375F, 0.9375F
         }),
-        new KernelJAI(4, 4, 1, 1, new float[] {
+        new KernelImageN(4, 4, 1, 1, new float[] {
             0.9375F, 0.4375F, 0.8125F, 0.3125F,
             0.1875F, 0.6875F, 0.0625F, 0.5625F,
             0.7500F, 0.2500F, 0.8750F, 0.3750F,
@@ -134,11 +134,11 @@ public class KernelJAI extends Object implements Serializable {
     };
 
     /** Gradient Mask for SOBEL_VERTICAL. */
-    public static final KernelJAI GRADIENT_MASK_SOBEL_VERTICAL =
-            new KernelJAI(3, 3, 1, 1, new float[] {-1, -2, -1, 0, 0, 0, 1, 2, 1});
+    public static final KernelImageN GRADIENT_MASK_SOBEL_VERTICAL =
+            new KernelImageN(3, 3, 1, 1, new float[] {-1, -2, -1, 0, 0, 0, 1, 2, 1});
 
     /** Gradient Mask for SOBEL_HORIZONTAL. */
-    public static final KernelJAI GRADIENT_MASK_SOBEL_HORIZONTAL = new KernelJAI(3, 3, 1, 1, new float[] {
+    public static final KernelImageN GRADIENT_MASK_SOBEL_HORIZONTAL = new KernelImageN(3, 3, 1, 1, new float[] {
         -1, 0, 1,
         -2, 0, 2,
         -1, 0, 1
@@ -175,7 +175,7 @@ public class KernelJAI extends Object implements Serializable {
     protected boolean isVerticallySymmetric = false;
 
     /** Variable to cache a copy of the rotated kernel */
-    protected KernelJAI rotatedKernel = null;
+    protected KernelImageN rotatedKernel = null;
 
     private synchronized void checkSeparable() {
         // Define a local constant for single precision floating
@@ -291,7 +291,7 @@ public class KernelJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a KernelJAI with the given parameters. The data array is copied.
+     * Constructs a KernelImageN with the given parameters. The data array is copied.
      *
      * @param width the width of the kernel.
      * @param height the height of the kernel.
@@ -304,7 +304,7 @@ public class KernelJAI extends Object implements Serializable {
      * @throws IllegalArgumentException if kernel data array does not have width * height number of elements.
      * @classifies as non-separable if width or height is 1.
      */
-    public KernelJAI(int width, int height, int xOrigin, int yOrigin, float[] data) {
+    public KernelImageN(int width, int height, int xOrigin, int yOrigin, float[] data) {
 
         if (data == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -328,7 +328,7 @@ public class KernelJAI extends Object implements Serializable {
     }
 
     /**
-     * Constructs a separable KernelJAI from two float arrays. The data arrays are copied.
+     * Constructs a separable KernelImageN from two float arrays. The data arrays are copied.
      *
      * <p>A Separable kernel K = dataH * dataV^T, the outer product of two one dimensional vectors dataH and dataV. It
      * can often speed up compution.
@@ -347,7 +347,7 @@ public class KernelJAI extends Object implements Serializable {
      * @throws IllegalArgumentException if dataV does not have height elements.
      * @must use the other constructor when dataH or dataV is null
      */
-    public KernelJAI(int width, int height, int xOrigin, int yOrigin, float[] dataH, float[] dataV) {
+    public KernelImageN(int width, int height, int xOrigin, int yOrigin, float[] dataH, float[] dataV) {
 
         if (dataH == null || dataV == null) {
             throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
@@ -401,16 +401,16 @@ public class KernelJAI extends Object implements Serializable {
      * @throws IllegalArgumentException if height is not a positive number.
      * @throws IllegalArgumentException if data does not have width * height number of elements.
      */
-    public KernelJAI(int width, int height, float[] data) {
+    public KernelImageN(int width, int height, float[] data) {
         this(width, height, width / 2, height / 2, data);
     }
 
     /**
-     * Constructs a KernelJAI from a java.awt.image.Kernel object.
+     * Constructs a KernelImageN from a java.awt.image.Kernel object.
      *
      * @throws NullPointerException if k is null.
      */
-    public KernelJAI(Kernel k) {
+    public KernelImageN(Kernel k) {
         // XXX - NullPointerException (inconsistent style)
         this(k.getWidth(), k.getHeight(), k.getXOrigin(), k.getYOrigin(), k.getKernelData(null));
     }
@@ -516,7 +516,7 @@ public class KernelJAI extends Object implements Serializable {
      *
      * @return the rotated kernel.
      */
-    public KernelJAI getRotatedKernel() {
+    public KernelImageN getRotatedKernel() {
         if (rotatedKernel == null) {
             if (this.isSeparable) {
                 float rotDataH[] = new float[this.width];
@@ -528,14 +528,14 @@ public class KernelJAI extends Object implements Serializable {
                     rotDataV[i] = this.dataV[height - 1 - i];
                 }
                 rotatedKernel =
-                        new KernelJAI(width, height, width - 1 - xOrigin, height - 1 - yOrigin, rotDataH, rotDataV);
+                        new KernelImageN(width, height, width - 1 - xOrigin, height - 1 - yOrigin, rotDataH, rotDataV);
             } else {
                 int length = data.length;
                 float newData[] = new float[data.length];
                 for (int i = 0; i < length; i++) {
                     newData[i] = data[length - 1 - i];
                 }
-                rotatedKernel = new KernelJAI(width, height, width - 1 - xOrigin, height - 1 - yOrigin, newData);
+                rotatedKernel = new KernelImageN(width, height, width - 1 - xOrigin, height - 1 - yOrigin, newData);
             }
         }
         return rotatedKernel;

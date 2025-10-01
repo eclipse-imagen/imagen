@@ -1892,7 +1892,7 @@ kernel:
 KernelJAI kernel = KernelJAI.ERROR_FILTER_FLOYD_STEINBERG;
 ```
 
-**API:** `org.eclipse.imagen.KernelJAI`
+**API:** `org.eclipse.imagen.KernelImageN`
 
 * `public KernelJAI(int width, int height, int xOrigin, 
            int  yOrigin, float[] data)`

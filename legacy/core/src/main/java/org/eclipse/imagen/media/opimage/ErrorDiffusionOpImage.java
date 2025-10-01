@@ -29,7 +29,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFactory;
@@ -49,7 +49,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * in the source image according to the specified error filter.
  *
  * @see org.eclipse.imagen.ColorCube
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  * @see LookupTableImageN
  * @since EA2
  */
@@ -73,7 +73,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
     protected LookupTableImageN colorMap;
 
     /** The kernel associated with the selected error filter. */
-    protected KernelJAI errorKernel;
+    protected KernelImageN errorKernel;
 
     /** The number of bands in the source image. */
     private int numBandsSource;
@@ -90,10 +90,10 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
     /**
      * Determines whether a kernel is the Floyd-Steinberg kernel.
      *
-     * @param kernel The <code>KernelJAI</code> to examine.
+     * @param kernel The <code>KernelImageN</code> to examine.
      * @return Whether the kernel argument is the Floyd-Steinberg kernel.
      */
-    private static boolean isFloydSteinbergKernel(KernelJAI kernel) {
+    private static boolean isFloydSteinbergKernel(KernelImageN kernel) {
         int ky = kernel.getYOrigin();
 
         return (kernel.getWidth() == 3
@@ -333,7 +333,11 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
      *     the index in the supplied color map of the nearest matching color to the source pixel at the same position.
      */
     public ErrorDiffusionOpImage(
-            RenderedImage source, Map config, ImageLayout layout, LookupTableImageN colorMap, KernelJAI errorKernel) {
+            RenderedImage source,
+            Map config,
+            ImageLayout layout,
+            LookupTableImageN colorMap,
+            KernelImageN errorKernel) {
         super(source, config, layoutHelper(layout, source, colorMap));
 
         // Get the source sample model.
@@ -345,7 +349,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
         // Set a reference to the LookupTableImageN.
         this.colorMap = colorMap;
 
-        // Set a reference to the KernelJAI.
+        // Set a reference to the KernelImageN.
         this.errorKernel = errorKernel;
 
         // Determine whether this is an (read "the") optimized case.
