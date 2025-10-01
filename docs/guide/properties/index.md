@@ -78,9 +78,9 @@ The interface consists of the `getProperty` and `getPropertyNames`
 methods familiar from the `RenderedImage` and `RenderableImage`
 interfaces.
 
-`PropertySource` is implemented by `ImageJAI`. Since all
+`PropertySource` is implemented by `ImageImageN`. Since all
 RenderedImages used within ImageN are descendents of `PlanarImage` which
-implements `ImageJAI`, all images may be assumed to implement
+implements `ImageImageN`, all images may be assumed to implement
 `PropertySource`.
 
 **API:** `org.eclipse.imagen.PropertySource`

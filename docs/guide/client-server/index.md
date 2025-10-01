@@ -32,7 +32,7 @@ a complex imaging chain on a server, including references to source
 images on other network hosts, and to request rendered output from the
 server.
 
-JAI uses Java Remote Method Invocation (RMI) to implement
+ImageN Java Remote Method Invocation (RMI) to implement
 client-server imaging. To communicate using Remote Method Invocation,
 both the client and server must be running Java. A *stub* object is
 instantiated on the client. The stub object forwards its method calls
@@ -217,8 +217,8 @@ If the `start` command is not available, use `javaw`.
 ### 12.5.3 Step 3: Start the Remote Image Server
 
 While still logged in to the remote server system, set the `CLASSPATH`
-and `LD_LIBRARY_PATH` environment variables as required for JAI (see
-the `INSTALL` file) and start the remote imaging server. For example:
+and `LD_LIBRARY_PATH` environment variable (see the `INSTALL` file) and
+start the remote imaging server. For example:
 
          $ CLASSPATH=$JAI/lib/jai.jar
          $ export CLASSPATH
@@ -253,7 +253,7 @@ constructors should be `"myserver"`.
 
 # 12.6 Internet Imaging Protocol (IIP)
 
-There are two JAI operations that support Internet Imaging Protocol
+There are two operations that support Internet Imaging Protocol
 (IIP) operations. Two separate operations provide client-side support
 of the Internet Imaging Protocol. These operations, `IIP` and
 `IIPResolution`, request an image from an IIP server then create
@@ -483,7 +483,7 @@ AffineTransform at =
 RenderContext rc = new RenderContext(at);
 
 // Create a RenderableImage.
-RenderableImage renderable = JAI.createRenderable("iip", pb);
+RenderableImage renderable = ImageN.createRenderable("iip", pb);
 ```
 
 ### 12.6.2 IIPResolution Operation
@@ -607,5 +607,5 @@ public static void main(String[] args) {
 
 ParameterBlock pb = new ParameterBlock();
 pb.add(url).add(resolution);
-PlanarImage pi = JAI.create("iipresolution", pb);
+PlanarImage pi = ImageN.create("iipresolution", pb);
 ```

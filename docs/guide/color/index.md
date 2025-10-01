@@ -412,14 +412,14 @@ Space](#color-space).\"
 
 ```java
 // Read the image from the specified file name.
-RenderedOp src = JAI.create("fileload", fileName);
+RenderedOp src = ImageN.create("fileload", fileName);
 
 // Create the ParameterBlock.
 ParameterBlock pb = new ParameterBlock();
 pb.addSource(src).add(colorSpace);
 
 // Perform the color conversion.
-RenderedOp dst = JAI.create("ColorConvert", pb);
+RenderedOp dst = ImageN.create("ColorConvert", pb);
 ```
 
 5.5 Non-standard Linear Color Conversion (BandCombine)
@@ -505,5 +505,5 @@ pb.addSource(src_image);
 pb.add(matrix);
 
 // Perform the band combine operation.
-dst = (PlanarImage)JAI.create("bandcombine", pb, null);
+dst = (PlanarImage)ImageN.create("bandcombine", pb, null);
 ```

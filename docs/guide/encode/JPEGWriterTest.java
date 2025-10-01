@@ -66,7 +66,7 @@ public static void main(String args[]) {
 private PlanarImage loadImage(String imageName) {
 ParameterBlock pb = (new
         ParameterBlock()).add(imageName);
-PlanarImage src = JAI.create("fileload", pb);
+PlanarImage src = ImageN.create("fileload", pb);
         if (src == null) {
         System.out.println("Error in loading image " + imageName);
             System.exit(1);
@@ -125,7 +125,7 @@ layout.setTileWidth(57);
 layout.setTileHeight(57);
 RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT,
                                                   layout);
-PlanarImage src1 = JAI.create("addconst", pb, hints);
+PlanarImage src1 = ImageN.create("addconst", pb, hints);
 
 // ----- End src loading ------
 

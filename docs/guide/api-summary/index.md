@@ -127,7 +127,7 @@ The Eclipse ImagenN API consists of the following packages:
     display
 
 
-### B.3.1 JAI Interfaces
+### B.3.1 ImageN Interfaces
 
 [Table B-4](#table-B-4) lists and briefly describes
 the interfaces defined in the Java Advanced Imaging API
@@ -140,7 +140,7 @@ the interfaces defined in the Java Advanced Imaging API
 
   ImageFunction            A common interface for vector-valued functions that are to be evaluated at positions in the X-Y coordinate system.
 
-  ImageJAI                 The top-level JAI image type, implemented by all JAI image classes.
+  ImageImageN                 The top-level ImageN image type, implemented by all ImageN image classes.
 
   OperationDescriptor      Describes a family of implementations of a high-level operation (RIF) that are to be added to an OperationRegistry.
 
@@ -153,7 +153,7 @@ the interfaces defined in the Java Advanced Imaging API
   TileScheduler            Implements a mechanism for scheduling tile calculation.
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  :  **[Table B-4 **Summary of jai Interfaces**]{#72483}**
+  :  **[Table B-4 **Summary of ImageN Interfaces**]{#72483}**
 
 
 ### B.3.2 ImageN Classes
@@ -162,8 +162,9 @@ the interfaces defined in the Java Advanced Imaging API
 the classes defined in the Eclipse ImageN API
 (`org.eclipse.imagen`).
 
-| Class | Description |
-| ----- | ------------|
+
+| Class       | Description |
+|-------------|-------------|
 | AreaOpImage | Extends: `OpImage` <br/> An abstract base class for image operators that require only a fixed rectangular source region around a source pixel in order to compute each each destination pixel. |
 | BorderExtender | An abstract superclass for classes that extend a WritableRaster with additional pixel data taken from a PlanarImage. |
 | BorderExtenderConstant | Extends: BorderExtender <br/>  Implements border extension by filling all pixels outside of the image bounds with constant values. |
@@ -172,18 +173,10 @@ the classes defined in the Eclipse ImageN API
 | BorderExtenderWrap | Extends: `BorderExtender` <br/> Implements border extension by filling all pixels outside of the image bounds with copies of the whole image. |
 | BorderExtenderZero | Extends: `BorderExtender` <br/> Implements border extension by filling all pixels outside of the image bounds with zeros. |
 | CanvasJAI | Extends: `java.awt.Canvas <br/> Automatically returns an instance of GraphicsJAI from its getGraphics method.
-| CollectionImage                   Extends: ImageJAI
-                                               Implements: java.util.Collection
-                                               An abstract superclass for classes representing a collection of objects.
-
-| CollectionOp                      Extends: CollectionImage
-                                               A node in a rendered imaging chain representing a CollectionImage.
-
-| ColorCube                         Extends: LookupTableJAI
-                                               Represents a color cube lookup table that provides a fixed, invertible mapping between tables indices and sample values.
-
-| ComponentSampleModelJAI           Extends: ComponentSampleModel
-                                               Represents image data that is stored such that each sample of a pixel occupies one data element of the DataBuffer.
+| CollectionImage     |              Extends: ImageImageN <br/>  Implements: java.util.Collection <br/>  An abstract superclass for classes representing a collection of objects. |
+| CollectionOp        |              Extends: CollectionImage <br/> A node in a rendered imaging chain representing a CollectionImage. |
+| ColorCube           |             Extends: LookupTableImageN<br/>  Represents a color cube lookup table that provides a fixed, invertible mapping between tables indices and sample values. |
+| ComponentSampleModelImageN  |         Extends: ComponentSampleModel<br/>  Represents image data that is stored such that each sample of a pixel occupies one data element of the DataBuffer. |
 
 | CoordinateImage                   Extends: java.lang.Object
                                                Represents an image that is associated with a coordinate. This class is used with ImageStack.
@@ -243,13 +236,13 @@ the classes defined in the Eclipse ImageN API
   InterpolationTable                Extends: Interpolation
                                                Represents nearest-neighbor interpolation.
 
-  JAI                               Extends: java.lang.Object
+  ImageN                               Extends: java.lang.Object
                                                A convenience class for instantiating operations.
 
-  KernelJAI                         Extends: java.lang.Object
+  KernelImageN                         Extends: java.lang.Object
                                                A convolution kernel, used by the Convolve operation.
 
-  LookupTableJAI                    Extends: java.lang.Object
+  LookupTableImageN                    Extends: java.lang.Object
                                                A lookup table object for the Lookup operation.
 
   MultiResolutionRenderable-Image   Extends: java.lang.Object
@@ -271,7 +264,7 @@ the classes defined in the Eclipse ImageN API
   OpImage                           Extends: PlanarImage
                                                The parent class for all imaging operations. OpImage centralizes a number of common functions, including connecting sources and sinks during construction of OpImage chains, and tile cache management.
 
-  ParameterBlockJAI                 Extends: java.awt.image.renderable, ParameterBlock
+  ParameterBlockImageN                 Extends: java.awt.image.renderable, ParameterBlock
                                                A convenience subclass of ParameterBlock that allows the use of default parameter values and getting/setting parameters by name.
 
   PerspectiveTransform              Extends: java.lang.Object
@@ -308,7 +301,7 @@ the classes defined in the Eclipse ImageN API
 
   RenderableOp                      Extends: java.awt.image.renderable.RenderableImageOp
                                                Implements: PropertySource
-                                               A JAI version of RenderableImageOp.
+                                               A ImageN version of RenderableImageOp.
 
   RenderedImageAdapter              Extends: PlanarImage
                                                A PlanarImage wrapper for a non-writable RenderedImage.
@@ -377,12 +370,12 @@ the classes defined in the Eclipse ImageN API
                                                A PlanarImage wrapper for a WritableRenderedImage.
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  :  **[Table B-5 Summary of jai Classes]{#72571}**
+  :  **[Table B-5 Summary of ImageN Classes]{#72571}**
 
 
 ### B.3.3 JAI Iterator Interfaces
 
-[Table B-6](api-summary/index.html) lists the JAI iterator classes
+[Table B-6](api-summary/index.html) lists the ImageN iterator classes
 (`org.eclipse.imagen.iterator`).
 
 
@@ -400,12 +393,12 @@ the classes defined in the Eclipse ImageN API
                                   An iterator for traversing a read/write image using arbitrary up-down and left-right moves.
   ------------------------------------------------------------------------------------------------------------------------------------------
 
-  :  **[Table B-6 JAI Iterator Interfaces]{#77306}**
+  :  **[Table B-6 ImageN Iterator Interfaces]{#77306}**
 
 
-### B.3.4 JAI Iterator Classes
+### B.3.4 Iterator Classes
 
-[Table B-7](api-summary/index.html) lists the JAI iterator classes
+[Table B-7](api-summary/index.html) lists the ImageN iterator classes
 (`org.eclipse.imagen.iterator`).
 
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -421,15 +414,15 @@ the classes defined in the Eclipse ImageN API
                                  A factory class to instantiate instances of the RookIter and WritableRookIter interfaces on sources of type Raster, RenderedImage, and WritableRenderedImage.
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  :  **[Table B-7 JAI Iterator Classes]{#77427}**
+  :  **[Table B-7 ImageN Iterator Classes]{#77427}**
 
 ``
 
 
-### B.3.5 JAI Operator Classes
+### B.3.5 Operator Classes
 
 [Table B-8](api-summary/index.html) lists the operator classes
-(`javax.jai.operator`). These classes extend the JAI
+(`org.eclipse.imagen.operator`). These classes extend the ImageN
 OperationDescriptor class.
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -460,7 +453,7 @@ OperationDescriptor class.
                                                An OperationDescriptor for the And operation, which performs a bitwise logical AND between the pixel values of the two source images on a per-band basis.
 
   AWTImageDescriptor                Extends: OperationDescriptorImpl
-                                               An OperationDescriptor for the AWTImage operation, which imports a standard AWT image into JAI.
+                                               An OperationDescriptor for the AWTImage operation, which imports a standard AWT image into ImageN.
 
   BandCombineDescriptor             Extends: OperationDescriptorImpl
                                                An OperationDescriptor for the BandCombine operation, which computes an arbitrary linear combination of the bands of a source image for each band of a destination image, using a specified matrix.
@@ -694,12 +687,12 @@ OperationDescriptor class.
                                                An OperationDescriptor for the Xor operation, which performs a bitwise logical XOR between the pixel values of two source images on a per-band basis.
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  :  **[Table B-8 JAI Operator Classes]{#73482}**
+  :  **[Table B-8 ImageN Operator Classes]{#73482}**
 
 
-### B.3.6 JAI Widget Interfaces
+### B.3.6 Widget Interfaces
 
-[Table B-9](api-summary/index.html) lists the JAI widget
+[Table B-9](api-summary/index.html) lists the ImageN widget
 interfaces (`org.eclipse.imagen.widget`).
 
   -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -709,14 +702,14 @@ interfaces (`org.eclipse.imagen.widget`).
 
   -----------------------------------------------------------------------------------------------------------------------------------------------
 
-  :  **[Table B-9 JAI Widget Interfaces]{#79156}**
+  :  **[Table B-9 ImageN Widget Interfaces]{#79156}**
 
 ``
 
 
-### B.3.7 JAI Widget Classes
+### B.3.7 Widget Classes
 
-[Table B-10](#table-B-10) lists the JAI widget classes
+[Table B-10](#table-B-10) lists the ImageN widget classes
 (`org.eclipse.imagen.widget`).
 
 **Table B-10 ImageN Widget Classes** <a name="table-B-10"></a>

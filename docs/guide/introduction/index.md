@@ -7,7 +7,7 @@ nav_order: 2
 
 # Introduction to Eclipse ImageN
 
-THe Java programming language has continued to grow both in
+The Java programming language has continued to grow both in
 popularity and scope since its initial release. Java in its current
 form is the culmination of several years work, dating back to 1991
 when it was conceived as a modular and extensible programming
@@ -42,7 +42,7 @@ ability to use such features as:
 
 Java 2 introduced *extensions* to enable the runtime to find and load extension classes without the extension classes having to be named on the classpath.
 
-In *Java 9* the *Jigsaw module system* was introduced, replacing the *extensions* system.
+Java 9 introduced a *module system*, replacing the *extensions* system. By dividing the runtime into modules applications could load the aspects of the runtime needed.
 
 1.1 The Evolution of Imaging in Java
 ---------------------------------------------------------
@@ -69,9 +69,9 @@ The *Java Advanced Imaging (JAI) API* further extends the Java platform
 image processing to be incorporated. *JAI was published by Sun Microsystems
 as Java Extension and standalone Java library.* 
 
-The *JAI-Extension* project offers replacement operator for greater
-performance, and with region of intertests and no-data support.
-The *JAI-Extension* supplies performance tuned components such as a
+The *JAI-Ext* project offers replacement operator for greater
+performance, and with **region of intertest** and **no-data** support.
+The *JAI-Ext* supplies performance tuned components such as a
 concurrent cache implementation, and additional operators including
 an advanced Jiffle raster calculator operator.
 
@@ -112,7 +112,7 @@ everyone\'s needs.
 Previous industry and academic experience in the design of image
 processing libraries, the usefulness of these libraries across a wide
 variety of application domains, and the feedback from the users of
-these libraries have been incorporated into the design of JAI.
+these libraries have been incorporated into the design of ImageN.
 
 Eclipse ImageN is intended to support image processing using the Java programming
 language as generally as possible so that few, if any, image
@@ -200,12 +200,12 @@ which can be added to the core API.
 
 The processing of images can be specified in device-independent
 coordinates, with the ultimate translation to pixels being specified
-as needed at run time. JAI\'s \"renderable\" mode treats all image
+as needed at run time. ImageN\'s \"renderable\" mode treats all image
 sources as rendering-independent. You can set up a graph (or chain) of
 renderable operations without any concern for the source image
 resolution or size; ImageN takes care of the details of the operations.
 
-To make it possible to develop platform-independent applications, JAI
+To make it possible to develop platform-independent applications, ImageN
 makes no assumptions about output device resolution, color space, or
 color model. Nor does the API assume a particular file format. Image
 files may be acquired and manipulated without the programmer having
@@ -214,11 +214,11 @@ any knowledge of the file format being acquired.
 
 ### 1.3.6 Powerful
 
-JAI supports complex image formats, including images of up to three
+ImageN supports complex image formats, including images of up to three
 dimensions and an arbitrary number of bands. Many classes of imaging
 algorithms are supported directly, others may be added as needed.
 
-JAI implements a set of core image processing capabilities, including
+ImageN implements a set of core image processing capabilities, including
 image tiling, regions of interest, and deferred execution. The API
 also implements a set of core image processing operators, including
 many common point, area, and frequency-domain operations. For a list
@@ -235,13 +235,13 @@ processors and VIS on UltraSparc.
 
 ### 1.3.8 Interoperable
 
-JAI is integrated with the rest of the Java Media APIs, enabling
+ImageN is integrated with the rest of the Java Media APIs, enabling
 media-rich applications to be deployed on the Java platform. ImageN works
 well with other Java APIs, such as Java 3D and Java component
 technologies. This allows sophisticated imaging to be a part of every
 Java technology programmer\'s tool box.
 
-JAI is a Java Media API. It is classified as a Standard Extension to
+ImageN is a Java Media API. It is classified as a Standard Extension to
 the Java platform. ImageN provides imaging functionality beyond that of
 the Java Foundation Classes, although it is compatible with those
 classes in most cases.
@@ -261,7 +261,7 @@ interpolation, then displays the result.
 
 Before proceeding any further, let's take a look at an example ImageN program to get an idea of what it looks like. The Listing below shows a simple example of a complete ImageN program. This example reads an image, passed to the program as a command line argument, scales the image by 2x with bilinear interpolation, then displays the result.
 
-***Listing 1-1 Simple Example JAI Program***
+***Listing 1-1 Simple Example ImageN Program***
 
 <a name="listing-1-1"></a>
 

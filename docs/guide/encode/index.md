@@ -17,7 +17,7 @@ Dscribes ImageN\'s codec system for writing image data files.
 
 ## 13.1 Introduction
 
-The JAI codec system supports a variety of image formats for writing
+The codec system supports a variety of image formats for writing
 an image to a file or to an `OutputStream` for further manipulation.
 For writing an image to a file, the `FileStore` operation (see
 [Section 13.2, \"Writing to a File](../encode)\") writes
@@ -48,7 +48,7 @@ The `filename` parameter must be supplied or the operation will not be
 performed. Also, the specified file path must be writable.
 
 The `format` parameter defaults to `tiff` if no value is provided.
-[Table 13-1](#table-13-1) lists the recognized JAI file
+[Table 13-1](#table-13-1) lists the recognized file
 formats.
 
 ***Table 13-1* ImageN Writable File Formats** <a name="table-13-1"></a>
@@ -110,15 +110,15 @@ String inputFile = /images/FarmHouse.tif
 String outputFile = /images/FarmHouse.bmp
 
 // Load the input image.
-RenderedOp src = JAI.create("fileload", inputFile);
+RenderedOp src = ImageN.create("fileload", inputFile);
 
 // Encode the file as a BMP image.
 FileOutputStream stream =
     new FileOutputStream(outputFile);
-JAI.create("encode", src, stream, BMP, null);
+ImageN.create("encode", src, stream, BMP, null);
 
 // Store the image in the BMP format.
-JAI.create("filestore", src, outputFile, BMP, null);
+ImageN.create("filestore", src, outputFile, BMP, null);
 ```
 
 13.4 Writing BMP Image Files
@@ -133,12 +133,12 @@ these values are:
 
 -   Data layout - pixels are stored in bottom-up order
 
-The JAI BMP encoder does not support compression of BMP image files.
+The BMP encoder does not support compression of BMP image files.
 
 
 ### 13.4.1 BMP Version
 
-JAI currently reads and writes Version2, Version3, and some of the
+Encoder currently reads and writes Version2, Version3, and some of the
 Version 4 images. The BMP version number is read and specified with
 `getVersion` and `setVersion` methods in the `BMPEncodeParam` class.
 The BMP version parameters are as follows:
@@ -253,7 +253,7 @@ information that is missing from the JPEG stream, such as version
 number, *x* and *y* pixel density (dots per inch or dots per cm.),
 pixel aspect ratio (derived from *x* and *y* pixel density), and
 thumbnail. The `setWriteJFIFHeader` method controls whether the
-encoder writes a JFIF header using the APP0 marker.``
+encoder writes a JFIF header using the APP0 marker.
 
 **API:** `org.eclipse.imagen.media.codec.JPEGEncodeParam`
 
@@ -261,7 +261,7 @@ encoder writes a JFIF header using the APP0 marker.``
 
 ### 13.5.2 JPEG DCT Compression Parameters
 
-JAI uses the JPEG baseline DCT coding process, shown in [Figure
+Encoder uses the JPEG baseline DCT coding process, shown in [Figure
 13-1](#figure-13-1).
 
 <a name="figure-13-1"></a>
@@ -396,7 +396,7 @@ image quality and compression ratio. See also [Section 13.5.3,
 JPEG images use restart markers to define multiple strips or tiles.
 The restart markers are inserted periodically into the image data to
 delineate image segments known as *restart intervals*. To limit the
-effect of bitstream errors to a single restart interval, JAI provides
+effect of bitstream errors to a single restart interval, enoder provides
 methods to set the restart interval in JPEG Minimum Coded Units
 (MCUs). The default is zero (no restart interval markers).
 
@@ -438,7 +438,7 @@ The Portable Network Graphics (PNG) format is a file standard for
 compressed lossless bitmapped image files. A PNG file consists of an
 eight-byte PNG *signature* followed by several *chunks*. The signature
 identifies the file as a PNG file. The chunks provide additional
-information about the image. The JAI codec architecture supports PNG
+information about the image. The ImageN codec architecture supports PNG
 1.1 and provides control over several of the chunks as described in
 this section.
 
@@ -1027,17 +1027,17 @@ The TIFF file format is a tag-based file format for storing and
 interchanging raster images. TIFF files typically come from scanners,
 frame grabbers, and paint- or photo-retouching programs.
 
-By default, TIFF images in JAI are encoded without any compression and
-are written out in strips rather than tiles. However, JAI does support
+By default, TIFF images in ImageN are encoded without any compression and
+are written out in strips rather than tiles. However, ImageN does support
 image compression, and the writing of tiled TIFF images.
 
 ### 13.8.1 TIFF Compression
 
-JAI currently does not support compression of TIFF images.
+Encoder currently does not support compression of TIFF images.
 
 ### 13.8.2 TIFF Tiled Images
 
-By default, the JAI encoder organizes TIFF images into strips. For
+By default, the encoder organizes TIFF images into strips. For
 low- to medium-resolution images, this is adequate. However, for
 high-resolution (large) images, the images can be accessed more
 efficiently if the image is divided into roughly square tiles instead
