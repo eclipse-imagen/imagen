@@ -41,7 +41,7 @@ import java.util.Vector;
  *
  * @see ImagePyramid
  */
-public class ImageMIPMap implements ImageJAI {
+public class ImageMIPMap implements ImageImageN {
 
     /** The image with the highest resolution. */
     protected RenderedImage highestImage;

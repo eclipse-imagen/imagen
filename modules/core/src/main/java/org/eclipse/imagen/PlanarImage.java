@@ -139,13 +139,13 @@ import org.eclipse.imagen.media.util.PropertyUtil;
  * @see java.awt.image.RenderedImage
  * @see java.lang.ref.Reference
  * @see java.lang.ref.WeakReference
- * @see ImageJAI
+ * @see ImageImageN
  * @see OpImage
  * @see RenderedImageAdapter
  * @see SnapshotImage
  * @see TiledImage
  */
-public abstract class PlanarImage implements ImageJAI, RenderedImage {
+public abstract class PlanarImage implements ImageImageN, RenderedImage {
 
     /** The UID for this image. */
     private Object UID;

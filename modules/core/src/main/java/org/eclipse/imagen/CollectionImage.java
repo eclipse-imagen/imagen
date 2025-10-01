@@ -33,7 +33,7 @@ import org.eclipse.imagen.media.util.PropertyUtil;
  * Collection</code>s that include images. In other words, this class supports nested <code>Collection</code>s, but at
  * the very bottom, there must be images associated with the <code>Collection</code> objects.
  */
-public abstract class CollectionImage implements ImageJAI, Collection {
+public abstract class CollectionImage implements ImageImageN, Collection {
 
     /**
      * A <code>Collection</code> of objects. It may be a <code>Collection</code> of images of the same type, a <code>
