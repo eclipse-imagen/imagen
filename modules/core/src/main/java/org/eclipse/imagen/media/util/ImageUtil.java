@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Vector;
 import org.eclipse.imagen.DeferredData;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterAccessor;
@@ -1155,9 +1155,9 @@ public final class ImageUtil {
      *
      * @param kernel the unsharp mask kernel
      * @param gain the unsharp mask gain (sharpness) factor.
-     * @return an equivalent convolution KernelJAI
+     * @return an equivalent convolution KernelImageN
      */
-    public static KernelJAI getUnsharpMaskEquivalentKernel(KernelJAI kernel, float gain) {
+    public static KernelImageN getUnsharpMaskEquivalentKernel(KernelImageN kernel, float gain) {
 
         int width = kernel.getWidth();
         int height = kernel.getHeight();
@@ -1174,7 +1174,7 @@ public final class ImageUtil {
         k = yOrigin * width + xOrigin;
         newData[k] = 1.0f + gain * (1.0f - oldData[k]);
 
-        return new KernelJAI(width, height, xOrigin, yOrigin, newData);
+        return new KernelImageN(width, height, xOrigin, yOrigin, newData);
     }
 
     /** Retrieve the indices of a set of tiles in row-major order with the given tile index bounds in x and y. */

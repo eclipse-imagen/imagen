@@ -29,7 +29,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -89,7 +89,7 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
     protected LookupTableImageN colorMap;
 
     /** The kernel associated with the selected error filter. */
-    protected KernelJAI errorKernel;
+    protected KernelImageN errorKernel;
 
     /** The number of bands in the source image. */
     private int numBandsSource;
@@ -139,10 +139,10 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
     /**
      * Determines whether a kernel is the Floyd-Steinberg kernel.
      *
-     * @param kernel The <code>KernelJAI</code> to examine.
+     * @param kernel The <code>KernelImageN</code> to examine.
      * @return Whether the kernel argument is the Floyd-Steinberg kernel.
      */
-    private static boolean isFloydSteinbergKernel(KernelJAI kernel) {
+    private static boolean isFloydSteinbergKernel(KernelImageN kernel) {
         int ky = kernel.getYOrigin();
 
         return (kernel.getWidth() == 3
@@ -386,7 +386,7 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
             Map config,
             ImageLayout layout,
             LookupTableImageN colorMap,
-            KernelJAI errorKernel,
+            KernelImageN errorKernel,
             ROI roi,
             Range nodata,
             int destNoData) {
@@ -401,7 +401,7 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
         // Set a reference to the LookupTableImageN.
         this.colorMap = colorMap;
 
-        // Set a reference to the KernelJAI.
+        // Set a reference to the KernelImageN.
         this.errorKernel = errorKernel;
 
         // Checking ROI

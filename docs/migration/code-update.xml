@@ -498,6 +498,10 @@
                 <replacetoken>PropertyChangeSupportJAI</replacetoken>
                 <replacevalue>PropertyChangeSupportImageN</replacevalue>
             </replacefilter>
+            <replacefilter>
+                <replacetoken>KernelJAI</replacetoken>
+                <replacevalue>KernelImageN</replacevalue>
+            </replacefilter>
         </replace>
     </target>
 

@@ -39,10 +39,10 @@
 
 package org.eclipse.imagen.media.kernel;
 
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /**
- * Static utility methods for KernelJAI objects.
+ * Static utility methods for KernelImageN objects.
  *
  * @author Michael Bedward
  * @since 1.0
@@ -55,9 +55,9 @@ public class KernelUtil {
      * and location of the key element are retained by the new kernel.
      *
      * @param kernel the input kernel
-     * @return a new KernelJAI object
+     * @return a new KernelImageN object
      */
-    public static KernelJAI standardize(KernelJAI kernel) {
+    public static KernelImageN standardize(KernelImageN kernel) {
         float[] data = kernel.getKernelData();
         float sum = 0f;
         for (float f : data) {
@@ -68,7 +68,7 @@ public class KernelUtil {
             data[i] /= sum;
         }
 
-        return new KernelJAI(kernel.getWidth(), kernel.getHeight(), kernel.getXOrigin(), kernel.getYOrigin(), data);
+        return new KernelImageN(kernel.getWidth(), kernel.getHeight(), kernel.getXOrigin(), kernel.getYOrigin(), data);
     }
 
     /**
@@ -81,7 +81,7 @@ public class KernelUtil {
      * @return the new kernel
      * @throws IllegalArgumentException if {@code kernel} is {@code null} or {@code x} or {@code y} are out of bounds
      */
-    public static KernelJAI setElement(KernelJAI kernel, int x, int y, float newValue) {
+    public static KernelImageN setElement(KernelImageN kernel, int x, int y, float newValue) {
         if (kernel == null) {
             throw new IllegalArgumentException("kernel must not be null");
         }
@@ -99,18 +99,18 @@ public class KernelUtil {
 
         int index = y * w + x;
         data[index] = newValue;
-        return new KernelJAI(w, h, kernel.getXOrigin(), kernel.getYOrigin(), data);
+        return new KernelImageN(w, h, kernel.getXOrigin(), kernel.getYOrigin(), data);
     }
 
     /**
-     * A utility function that returns a string representation of a KernelJAI object's data.
+     * A utility function that returns a string representation of a KernelImageN object's data.
      *
      * @param kernel the input kernel
      * @param multiLine if true, each row of kernel data is followed by a newline; if false, the string contains no
      *     newlines
      * @return a String
      */
-    public static String kernelToString(KernelJAI kernel, boolean multiLine) {
+    public static String kernelToString(KernelImageN kernel, boolean multiLine) {
         float[] data = kernel.getKernelData();
         int w = kernel.getWidth();
         int h = kernel.getHeight();

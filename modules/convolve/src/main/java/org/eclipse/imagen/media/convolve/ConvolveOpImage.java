@@ -91,7 +91,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
 
     protected Rectangle destBounds;
 
-    protected KernelJAI kernel;
+    protected KernelImageN kernel;
 
     protected int kw;
 
@@ -106,7 +106,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
             BorderExtender extender,
             RenderingHints hints,
             ImageLayout l,
-            KernelJAI kernel,
+            KernelImageN kernel,
             ROI roi,
             Range noData,
             double destinationNoData,

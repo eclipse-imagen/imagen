@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.util.Arrays;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /**
  * This CRIF implements rendering-independent filtering (blur/sharpen).
@@ -36,7 +36,7 @@ final class FilterCRIF extends CRIFImpl {
     private static final int STEPSIZE = 5;
 
     /** Create a kernel given the filter parameter. Positive is blur, negative sharpen. */
-    private static final KernelJAI createKernel(double p) {
+    private static final KernelImageN createKernel(double p) {
         int STEPSIZE = 5;
 
         if (p == 0.0) {
@@ -86,7 +86,7 @@ final class FilterCRIF extends CRIFImpl {
             data[data.length / 2] += 2.0F;
         }
 
-        return new KernelJAI(size, size, data);
+        return new KernelImageN(size, size, data);
     }
 
     /** Constructor. */
@@ -96,7 +96,7 @@ final class FilterCRIF extends CRIFImpl {
 
     /** Implementation of "RIF" create(). */
     public RenderedImage create(ParameterBlock paramBlock, RenderingHints renderHints) {
-        KernelJAI kernel = createKernel(paramBlock.getFloatParameter(0));
+        KernelImageN kernel = createKernel(paramBlock.getFloatParameter(0));
 
         return kernel == null
                 ? paramBlock.getRenderedSource(0)

@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.kernel.KernelFactory;
 import org.eclipse.imagen.media.testclasses.TestBase;
@@ -25,7 +25,7 @@ public class ConvolveTest extends TestBase {
     @Test
     public void testIdentityFloat() {
         RenderedImage source = createTestImage(DataBuffer.TYPE_FLOAT, IMAGE_SIZE, IMAGE_SIZE, null, false, 1);
-        KernelJAI kernel = KernelFactory.createRectangle(1, 1);
+        KernelImageN kernel = KernelFactory.createRectangle(1, 1);
         RenderedOp convolve = ConvolveDescriptor.create(source, kernel, null, null, 0, false, null);
 
         float[] sourcePixel = new float[1];
@@ -45,7 +45,7 @@ public class ConvolveTest extends TestBase {
     @Test
     public void testIdentityDouble() {
         RenderedImage source = createTestImage(DataBuffer.TYPE_DOUBLE, IMAGE_SIZE, IMAGE_SIZE, null, false, 1);
-        KernelJAI kernel = KernelFactory.createRectangle(1, 1);
+        KernelImageN kernel = KernelFactory.createRectangle(1, 1);
         RenderedOp convolve = ConvolveDescriptor.create(source, kernel, null, null, 0, false, null);
 
         double[] sourcePixel = new double[1];

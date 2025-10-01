@@ -45,7 +45,7 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -53,7 +53,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPoint;
 
 /**
- * Provides static methods to create a variety of raster kernels ({@code KernelJAI} objects).
+ * Provides static methods to create a variety of raster kernels ({@code KernelImageN} objects).
  *
  * @author Michael Bedward
  * @since 1.0
@@ -115,9 +115,9 @@ public class KernelFactory {
      * </code></pre>
      *
      * @param radius radius of the circle
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      */
-    public static KernelJAI createCircle(int radius) {
+    public static KernelImageN createCircle(int radius) {
         return createConstantCircle(radius, 1.0f);
     }
 
@@ -127,9 +127,9 @@ public class KernelFactory {
      *
      * @param radius radius of the circle
      * @param value constant value
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      */
-    public static KernelJAI createConstantCircle(int radius, float value) {
+    public static KernelImageN createConstantCircle(int radius, float value) {
         if (radius <= 0) {
             throw new IllegalArgumentException("Invalid radius (" + radius + "); must be > 0");
         }
@@ -140,7 +140,7 @@ public class KernelFactory {
         int w = 2 * radius + 1;
         helper.rowFill(weights, w, w, value);
 
-        return new KernelJAI(w, w, weights);
+        return new KernelImageN(w, w, weights);
     }
 
     /**
@@ -150,12 +150,12 @@ public class KernelFactory {
      * @param radius the radius of the circle expressed in pixels
      * @param type a {@link ValueType} constant
      * @param centreValue the value to assign to the kernel centre (key element)
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @deprecated Please use {@link #createCircle(int, ValueType)} instead and set the centre element value on the
      *     returned kernel if that is required.
      */
-    public static KernelJAI createCircle(int radius, ValueType type, float centreValue) {
-        KernelJAI kernel = createCircle(radius, type);
+    public static KernelImageN createCircle(int radius, ValueType type, float centreValue) {
+        KernelImageN kernel = createCircle(radius, type);
         return KernelUtil.setElement(kernel, radius, radius, centreValue);
     }
 
@@ -167,9 +167,9 @@ public class KernelFactory {
      *
      * @param radius the radius of the circle expressed in pixels
      * @param type a {@link ValueType} constant
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      */
-    public static KernelJAI createCircle(int radius, ValueType type) {
+    public static KernelImageN createCircle(int radius, ValueType type) {
 
         if (radius <= 0) {
             throw new IllegalArgumentException("Invalid radius (" + radius + "); must be > 0");
@@ -282,7 +282,7 @@ public class KernelFactory {
             weights[k0] = value;
         }
 
-        return new KernelJAI(width, width, weights);
+        return new KernelImageN(width, width, weights);
     }
 
     /**
@@ -295,13 +295,13 @@ public class KernelFactory {
      * @param innerRadius the radius of the 'hole'
      * @param type a {@link ValueType} constant
      * @param centreValue the value to assign to the kernel centre (key element)
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if {@code outerRadius <= 0} or {@code innerRadius >= outerRadius}
      * @deprecated Please use {@link #createAnnulus(int, int, ValueType)} instead and set the centre element value on
      *     the returned kernel if that is required.
      */
-    public static KernelJAI createAnnulus(int outerRadius, int innerRadius, ValueType type, float centreValue) {
-        KernelJAI kernel = createAnnulus(outerRadius, innerRadius, type);
+    public static KernelImageN createAnnulus(int outerRadius, int innerRadius, ValueType type, float centreValue) {
+        KernelImageN kernel = createAnnulus(outerRadius, innerRadius, type);
         return KernelUtil.setElement(kernel, outerRadius, outerRadius, centreValue);
     }
 
@@ -315,10 +315,10 @@ public class KernelFactory {
      * @param outerRadius the outer radius of the annulus
      * @param innerRadius the radius of the 'hole'
      * @param value element value
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if {@code outerRadius <= 0} or {@code innerRadius >= outerRadius}
      */
-    public static KernelJAI createConstantAnnulus(int outerRadius, int innerRadius, float value) {
+    public static KernelImageN createConstantAnnulus(int outerRadius, int innerRadius, float value) {
         if (outerRadius <= 0) {
             throw new IllegalArgumentException("outerRadius must be > 0");
         }
@@ -345,7 +345,7 @@ public class KernelFactory {
             }
         }
 
-        return new KernelJAI(w, w, data);
+        return new KernelImageN(w, w, data);
     }
 
     /**
@@ -360,10 +360,10 @@ public class KernelFactory {
      * @param outerRadius the outer radius of the annulus
      * @param innerRadius the radius of the 'hole'
      * @param type a {@link ValueType} constant
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if {@code outerRadius <= 0} or {@code innerRadius >= outerRadius}
      */
-    public static KernelJAI createAnnulus(int outerRadius, int innerRadius, ValueType type) {
+    public static KernelImageN createAnnulus(int outerRadius, int innerRadius, ValueType type) {
 
         if (innerRadius < 0) {
             throw new IllegalArgumentException("Invalid innerRadius (" + innerRadius + "); must be >= 0");
@@ -484,7 +484,7 @@ public class KernelFactory {
             }
         }
 
-        return new KernelJAI(width, width, weights);
+        return new KernelImageN(width, width, weights);
     }
 
     /**
@@ -493,10 +493,10 @@ public class KernelFactory {
      *
      * @param width rectangle width
      * @param height rectangle height
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if either {@code width} or {@code height} are less than 1
      */
-    public static KernelJAI createRectangle(int width, int height) {
+    public static KernelImageN createRectangle(int width, int height) {
         return createConstantRectangle(width, height, 1.0f);
     }
 
@@ -507,16 +507,16 @@ public class KernelFactory {
      * @param width rectangle width
      * @param height rectangle height
      * @param value element value
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if either {@code width} or {@code height} are less than 1
      */
-    public static KernelJAI createConstantRectangle(int width, int height, float value) {
+    public static KernelImageN createConstantRectangle(int width, int height, float value) {
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("width and height must both be >= 1");
         }
 
         float[] weights = (new KernelFactoryHelper()).makeRect(width, height, value);
-        return new KernelJAI(width, height, weights);
+        return new KernelImageN(width, height, weights);
     }
 
     /**
@@ -527,11 +527,11 @@ public class KernelFactory {
      * @param value element value
      * @param keyX key element X ordinate
      * @param keyY key element Y ordinate
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if either {@code width} or {@code height} are less than 1 or if the key element
      *     location is outside the rectangle
      */
-    public static KernelJAI createConstantRectangle(int width, int height, int keyX, int keyY, float value) {
+    public static KernelImageN createConstantRectangle(int width, int height, int keyX, int keyY, float value) {
 
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("width and height must both be >= 1");
@@ -542,7 +542,7 @@ public class KernelFactory {
         }
 
         float[] weights = (new KernelFactoryHelper()).makeRect(width, height, value);
-        return new KernelJAI(width, height, keyX, keyY, weights);
+        return new KernelImageN(width, height, keyX, keyY, weights);
     }
 
     /**
@@ -556,15 +556,16 @@ public class KernelFactory {
      * @param keyX X ordinate of the key element
      * @param keyY Y ordinate of the key element (0 is top)
      * @param keyValue value of the key element
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if either {@code width} or {@code height} are less than 1; or if {@code keyX} is
      *     not in the interval {@code [0,width)}; or if {@code keyY} is not in the interval {@code [0,height)};
      * @deprecated Please use {@link #createRectangle(int, int, ValueType, int, int)} instead and set the centre element
      *     value on the returned kernel if that is required.
      */
-    public static KernelJAI createRectangle(int width, int height, ValueType type, int keyX, int keyY, float keyValue) {
+    public static KernelImageN createRectangle(
+            int width, int height, ValueType type, int keyX, int keyY, float keyValue) {
 
-        KernelJAI kernel = createRectangle(width, height, type, keyX, keyY);
+        KernelImageN kernel = createRectangle(width, height, type, keyX, keyY);
         return KernelUtil.setElement(kernel, keyX, keyY, keyValue);
     }
 
@@ -578,11 +579,11 @@ public class KernelFactory {
      * @param type a {@link ValueType} constant
      * @param keyX X ordinate of the key element
      * @param keyY Y ordinate of the key element (0 is top)
-     * @return a new {@code KernelJAI} object
+     * @return a new {@code KernelImageN} object
      * @throws IllegalArgumentException if either {@code width} or {@code height} are less than 1; or if {@code keyX} is
      *     not in the interval {@code [0,width)}; or if {@code keyY} is not in the interval {@code [0,height)};
      */
-    public static KernelJAI createRectangle(int width, int height, ValueType type, int keyX, int keyY) {
+    public static KernelImageN createRectangle(int width, int height, ValueType type, int keyX, int keyY) {
 
         if (width < 1) {
             throw new IllegalArgumentException("width must be >= 1");
@@ -602,7 +603,7 @@ public class KernelFactory {
 
         if (type == ValueType.BINARY) {
             weights = kh.makeRect(width, height, 1.0f);
-            return new KernelJAI(width, height, keyX, keyY, weights);
+            return new KernelImageN(width, height, keyX, keyY, weights);
         }
 
         weights = new float[width * height];
@@ -662,7 +663,7 @@ public class KernelFactory {
             }
         }
 
-        return new KernelJAI(width, height, keyX, keyY, weights);
+        return new KernelImageN(width, height, keyX, keyY, weights);
     }
 
     /**
@@ -680,9 +681,9 @@ public class KernelFactory {
      * @param keyX X ordinate of the key element
      * @param keyY Y ordinate of the key element
      * @param keyValue the value of the key element
-     * @return a new instance of KernelJAI
+     * @return a new instance of KernelImageN
      */
-    public static KernelJAI createFromShape(
+    public static KernelImageN createFromShape(
             Shape shape, AffineTransform transform, ValueType type, int keyX, int keyY, float keyValue) {
         /*
          * First we transform the shape to a JTS Polygon object
@@ -815,6 +816,6 @@ public class KernelFactory {
         // set the key element to the requested value
         weights[keyX + offset[keyY]] = keyValue;
 
-        return new KernelJAI(width, height, keyX, keyY, weights);
+        return new KernelImageN(width, height, keyX, keyY, weights);
     }
 }

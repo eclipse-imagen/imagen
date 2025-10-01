@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
@@ -142,7 +142,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </tr>
  * <tr>
  * <td>kernel</td>
- * <td>org.eclipse.imagen.KernelJAI</td>
+ * <td>org.eclipse.imagen.KernelImageN</td>
  * <td>NO_PARAMETER_DEFAULT</td>
  * <tr>
  * <td>roi</td>
@@ -193,7 +193,7 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
 
     /** The parameter class types for the Convolve operation. */
     private static final Class[] paramClasses = {
-        org.eclipse.imagen.KernelJAI.class,
+        KernelImageN.class,
         org.eclipse.imagen.ROI.class,
         org.eclipse.imagen.media.range.Range.class,
         Double.class,
@@ -243,7 +243,7 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0,
-            KernelJAI kernel,
+            KernelImageN kernel,
             ROI roi,
             Range nodata,
             double destNoData,

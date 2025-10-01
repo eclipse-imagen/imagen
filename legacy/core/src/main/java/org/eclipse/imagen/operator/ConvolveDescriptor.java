@@ -20,7 +20,7 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
@@ -91,12 +91,12 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>   <th>Class Type</th>
  *                     <th>Default Value</th></tr>
- * <tr><td>kernel</td> <td>org.eclipse.imagen.KernelJAI</td>
+ * <tr><td>kernel</td> <td>org.eclipse.imagen.KernelImageN</td>
  *                     <td>NO_PARAMETER_DEFAULT</td>
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  */
 public class ConvolveDescriptor extends OperationDescriptorImpl {
 
@@ -121,7 +121,7 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"kernel"};
 
     /** The parameter class types for the Convolve operation. */
-    private static final Class[] paramClasses = {org.eclipse.imagen.KernelJAI.class};
+    private static final Class[] paramClasses = {KernelImageN.class};
 
     /** The parameter default values for the Convolve operation. */
     private static final Object[] paramDefaults = {NO_PARAMETER_DEFAULT};
@@ -159,7 +159,7 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>kernel</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0, KernelJAI kernel, RenderingHints hints) {
+    public static RenderedOp create(RenderedImage source0, KernelImageN kernel, RenderingHints hints) {
         ParameterBlockImageN pb = new ParameterBlockImageN("Convolve", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);

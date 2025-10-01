@@ -27,7 +27,7 @@ import java.util.Vector;
 import javax.swing.JSplitPane;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RenderedOp;
@@ -382,7 +382,7 @@ public class PrimaryImageDisplayPane extends ImageDisplayPane
             sVal, mVal, sVal,
             cVal, sVal, cVal
         };
-        KernelJAI kernel = new KernelJAI(3, 3, 1, 1, kernelData);
+        KernelImageN kernel = new KernelImageN(3, 3, 1, 1, kernelData);
 
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(source);

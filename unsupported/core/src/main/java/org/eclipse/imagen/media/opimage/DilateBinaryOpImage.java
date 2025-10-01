@@ -27,7 +27,7 @@ import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.PackedImageData;
 import org.eclipse.imagen.PixelAccessor;
 
@@ -107,12 +107,12 @@ import org.eclipse.imagen.PixelAccessor;
  * <p>Reference: An Introduction to Nonlinear Image Processing, by Edward R. Bougherty and Jaakko Astola, Spie Optical
  * Engineering Press, 1994.
  *
- * @see KernelJAI
+ * @see KernelImageN
  */
 final class DilateBinaryOpImage extends AreaOpImage {
 
     /** The kernel with which to do the dilate operation. */
-    protected KernelJAI kernel;
+    protected KernelImageN kernel;
 
     /** Kernel variables. */
     private int kw, kh, kx, ky;
@@ -150,10 +150,10 @@ final class DilateBinaryOpImage extends AreaOpImage {
      * @param source a RenderedImage.
      * @param extender a BorderExtender, or null.
      * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
-     * @param kernel the pre-rotated dilation KernelJAI.
+     * @param kernel the pre-rotated dilation KernelImageN.
      */
     public DilateBinaryOpImage(
-            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelJAI kernel) {
+            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelImageN kernel) {
         super(
                 source,
                 layout,
@@ -273,7 +273,7 @@ final class DilateBinaryOpImage extends AreaOpImage {
      * @params kernel - the given kernel (already rotated)
      * @returns an integer array of ints from packed kernel data
      */
-    private final int[] packKernel(KernelJAI kernel) {
+    private final int[] packKernel(KernelImageN kernel) {
         int kw = kernel.getWidth();
         int kh = kernel.getHeight();
         int kwPack = (31 + kw) / 32;

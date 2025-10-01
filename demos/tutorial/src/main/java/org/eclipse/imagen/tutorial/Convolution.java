@@ -24,7 +24,7 @@ public class Convolution extends JPanel implements ActionListener {
     private JTextField[][] krn;
     private JLabel textline;
     private JButton[] btns;
-    private KernelJAI kernel;
+    private KernelImageN kernel;
     private float sum = 9.0F;
     private Font btnFont = new Font("sanserif", Font.BOLD, 10);
     private final String[] labels = {
@@ -298,7 +298,7 @@ public class Convolution extends JPanel implements ActionListener {
         }
 
         normalize(data);
-        kernel = new KernelJAI(3, 3, data);
+        kernel = new KernelImageN(3, 3, data);
     }
 
     public void normalize(float[] data) {

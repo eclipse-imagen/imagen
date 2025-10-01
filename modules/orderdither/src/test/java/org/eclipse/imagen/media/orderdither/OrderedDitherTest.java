@@ -27,7 +27,7 @@ import java.awt.image.RenderedImage;
 import java.util.Arrays;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
@@ -232,7 +232,7 @@ public class OrderedDitherTest extends TestBase {
 
         // Getting the dithering mask
         int numBands = src.getSampleModel().getNumBands();
-        KernelJAI[] k = new KernelJAI[numBands];
+        KernelImageN[] k = new KernelImageN[numBands];
         int width;
         int height;
         float[] data;
@@ -242,17 +242,17 @@ public class OrderedDitherTest extends TestBase {
             height = 8;
             data = new float[width * height];
             Arrays.fill(data, 0.5f);
-            k[0] = new KernelJAI(width, height, data);
+            k[0] = new KernelImageN(width, height, data);
             if (opt3p3) {
-                k[1] = new KernelJAI(width, height, data);
-                k[2] = new KernelJAI(width, height, data);
+                k[1] = new KernelImageN(width, height, data);
+                k[2] = new KernelImageN(width, height, data);
             }
         } else {
             width = 64;
             height = 64;
             data = new float[width * height];
             Arrays.fill(data, 0.5f);
-            k[0] = new KernelJAI(width, height, data);
+            k[0] = new KernelImageN(width, height, data);
         }
 
         // Ordered Dither operation

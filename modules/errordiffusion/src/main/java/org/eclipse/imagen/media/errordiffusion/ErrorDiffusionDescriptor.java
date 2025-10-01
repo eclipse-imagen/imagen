@@ -21,7 +21,7 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
@@ -107,8 +107,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <td>NO_PARAMETER_DEFAULT</td>
  * <tr>
  * <td>errorKernel</td>
- * <td>org.eclipse.imagen.KernelJAI</td>
- * <td>org.eclipse.imagen.KernelJAI.ERROR_FILTER_FLOYD_STEINBERG</td>
+ * <td>org.eclipse.imagen.KernelImageN</td>
+ * <td>org.eclipse.imagen.KernelImageN.ERROR_FILTER_FLOYD_STEINBERG</td>
  * <tr>
  * <td>roi</td>
  * <td>org.eclipse.imagen.ROI</td>
@@ -149,7 +149,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     /** The parameter class types for the "ErrorDiffusion" operation. */
     private static final Class[] paramClasses = {
         LookupTableImageN.class,
-        org.eclipse.imagen.KernelJAI.class,
+        KernelImageN.class,
         org.eclipse.imagen.ROI.class,
         org.eclipse.imagen.media.range.Range.class,
         Integer.class
@@ -159,7 +159,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     private static final Object[] paramDefaults = {
         NO_PARAMETER_DEFAULT,
         // Default error filter to Floyd-Steinberg.
-        KernelJAI.ERROR_FILTER_FLOYD_STEINBERG,
+        KernelImageN.ERROR_FILTER_FLOYD_STEINBERG,
         null,
         null,
         0
@@ -194,7 +194,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     public static RenderedOp create(
             RenderedImage source0,
             LookupTableImageN colorMap,
-            KernelJAI errorKernel,
+            KernelImageN errorKernel,
             ROI roi,
             Range nodata,
             double[] destNoData,

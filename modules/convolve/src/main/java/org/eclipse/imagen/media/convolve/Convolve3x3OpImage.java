@@ -22,7 +22,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.iterator.RandomIter;
@@ -38,7 +38,7 @@ public class Convolve3x3OpImage extends ConvolveOpImage {
             BorderExtender extender,
             RenderingHints hints,
             ImageLayout l,
-            KernelJAI kernel,
+            KernelImageN kernel,
             ROI roi,
             Range noData,
             double destinationNoData,

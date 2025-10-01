@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
@@ -167,7 +167,7 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
 
             // Add the filtering operation.
             ParameterBlock pb = new ParameterBlock();
-            KernelJAI kernel = new KernelJAI(
+            KernelImageN kernel = new KernelImageN(
                     DEFAULT_KERNEL_1D.length,
                     DEFAULT_KERNEL_1D.length,
                     DEFAULT_KERNEL_1D.length / 2,
