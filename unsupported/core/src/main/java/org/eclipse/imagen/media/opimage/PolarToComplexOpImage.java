@@ -33,7 +33,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
 
 /// XXX Testing
 /// import org.eclipse.imagen.TiledImage;
-/// import org.eclipse.imagen.JAI;
+/// import org.eclipse.imagen.ImageN;
 
 /**
  * An <code>OpImage</code> implementing the "PolarToComplex" operation as described in <code>

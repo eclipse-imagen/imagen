@@ -50,7 +50,7 @@ import javax.imageio.ImageReader;
 import org.eclipse.imagen.CollectionImage;
 import org.eclipse.imagen.CollectionImageFactory;
 import org.eclipse.imagen.CollectionOp;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.PlanarImage;
 
 public class ImageReadCIF implements CollectionImageFactory {
@@ -73,7 +73,7 @@ public class ImageReadCIF implements CollectionImageFactory {
 
             // Load the first image.
             renderedPB.set(0, 1);
-            PlanarImage image = JAI.create("ImageRead", renderedPB, hints);
+            PlanarImage image = ImageN.create("ImageRead", renderedPB, hints);
 
             // Get the ImageReader property.
             Object readerProperty = image.getProperty(ImageReadDescriptor.PROPERTY_NAME_IMAGE_READER);
@@ -110,7 +110,7 @@ public class ImageReadCIF implements CollectionImageFactory {
 
             // Load the first image requested.
             renderedPB.set(imageIndices[0], 1);
-            PlanarImage image = JAI.create("ImageRead", renderedPB, hints);
+            PlanarImage image = ImageN.create("ImageRead", renderedPB, hints);
 
             // Add the first image to the list.
             imageList.add(image);
@@ -119,7 +119,7 @@ public class ImageReadCIF implements CollectionImageFactory {
         // Read subsequent images and add to the list.
         for (int idx = 1; idx < numSources; idx++) {
             renderedPB.set(imageIndices[idx], 1);
-            PlanarImage image = JAI.create("ImageRead", renderedPB, hints);
+            PlanarImage image = ImageN.create("ImageRead", renderedPB, hints);
             imageList.add(image);
         }
 

@@ -19,10 +19,10 @@ package org.eclipse.imagen.media.convolve;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.util.AreaOpPropertyGenerator;
@@ -82,16 +82,15 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>   <th>Class Type</th>
  *                     <th>Default Value</th></tr>
- * <tr><td>kernel</td> <td>org.eclipse.imagen.KernelJAI</td>
+ * <tr><td>kernel</td> <td>org.eclipse.imagen.KernelImageN</td>
  *                     <td>3 X 3 average</td>
  * <tr><td>gain</td> <td>java.lang.Float</td>
  *                     <td>1.0F</td>
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  * @see org.eclipse.imagen.media.convolve.ConvolveDescriptor
- * @since JAI 1.1
  */
 public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
 
@@ -117,11 +116,12 @@ public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"kernel", "gain"};
 
     /** The parameter class types for the UnsharpMask operation. */
-    private static final Class[] paramClasses = {org.eclipse.imagen.KernelJAI.class, java.lang.Float.class};
+    private static final Class[] paramClasses = {KernelImageN.class, java.lang.Float.class};
 
     /** The parameter default values for the UnsharpMask operation. */
     private static final Object[] paramDefaults = {
-        new KernelJAI(3, 3, 1, 1, new float[] {1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F}),
+        new KernelImageN(
+                3, 3, 1, 1, new float[] {1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F, 1 / 9F}),
         new Float(1.0F)
     };
 
@@ -145,11 +145,11 @@ public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
     /**
      * Performs UnsharpMask operation on the image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param kernel The low-pass convolution kernel. May be <code>null</code>.
@@ -158,14 +158,14 @@ public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0, KernelJAI kernel, Float gain, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("UnsharpMask", RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(RenderedImage source0, KernelImageN kernel, Float gain, RenderingHints hints) {
+        ParameterBlockImageN pb = new ParameterBlockImageN("UnsharpMask", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("kernel", kernel);
         pb.setParameter("gain", gain);
 
-        return JAI.create("UnsharpMask", pb, hints);
+        return ImageN.create("UnsharpMask", pb, hints);
     }
 }

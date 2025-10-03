@@ -52,7 +52,6 @@ import org.eclipse.imagen.RegistryElementDescriptor;
  *
  * @see org.eclipse.imagen.registry.RemoteRenderedRegistryMode
  * @see org.eclipse.imagen.registry.RemoteRenderableRegistryMode
- * @since JAI 1.1
  */
 public interface RemoteDescriptor extends RegistryElementDescriptor {
 

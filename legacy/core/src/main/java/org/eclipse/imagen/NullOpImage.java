@@ -29,7 +29,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * A trivial <code>OpImage</code> subclass that simply transmits its source unchanged. This may be useful when an
  * interface requires an <code>OpImage</code> but another sort of <code>RenderedImage</code> (such as a <code>
  * BufferedImage</code> or <code>TiledImage</code>) is available. Additionally, <code>NullOpImage</code> is able to make
- * use of JAI's tile caching mechanisms.
+ * use of ImageN's tile caching mechanisms.
  *
  * <p>Methods that get or set properties are implemented to forward the requests to the source image; no independent
  * property information is stored in the <code>NullOpImage</code> itself.
@@ -76,7 +76,6 @@ public class NullOpImage extends PointOpImage {
      * @throws <code>IllegalArgumentException</code> if <code>source</code> is <code>null</code>.
      * @throws <code>IllegalArgumentException</code> if <code>computeType</code> is not one of the known <code>
      *     OP_*_BOUND</code> values.
-     * @since JAI 1.1
      */
     public NullOpImage(RenderedImage source, ImageLayout layout, Map configuration, int computeType) {
         // cobbleSources is irrelevant since we override getTile().
@@ -87,7 +86,7 @@ public class NullOpImage extends PointOpImage {
                 false);
 
         if (computeType != OP_COMPUTE_BOUND && computeType != OP_IO_BOUND && computeType != OP_NETWORK_BOUND) {
-            throw new IllegalArgumentException(JaiI18N.getString("NullOpImage0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("NullOpImage0"));
         }
 
         this.computeType = computeType;
@@ -110,10 +109,10 @@ public class NullOpImage extends PointOpImage {
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>computeType</code> is not one of the known <code>OP_*_BOUND</code>
      *     values.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public NullOpImage(RenderedImage source, TileCache cache, int computeType, ImageLayout layout) {
-        this(source, layout, cache != null ? new RenderingHints(JAI.KEY_TILE_CACHE, cache) : null, computeType);
+        this(source, layout, cache != null ? new RenderingHints(ImageN.KEY_TILE_CACHE, cache) : null, computeType);
     }
 
     /**
@@ -155,11 +154,7 @@ public class NullOpImage extends PointOpImage {
         return getSource(0).getPropertyNames(prefix);
     }
 
-    /**
-     * Returns the class of the specified property from the source image.
-     *
-     * @since JAI 1.1
-     */
+    /** Returns the class of the specified property from the source image. */
     public Class getPropertyClass(String name) {
         return getSource(0).getPropertyClass(name);
     }
@@ -177,11 +172,7 @@ public class NullOpImage extends PointOpImage {
         getSource(0).setProperty(name, value);
     }
 
-    /**
-     * Removes a property from the source image by name.
-     *
-     * @since JAI 1.1
-     */
+    /** Removes a property from the source image by name. */
     public void removeProperty(String name) {
         getSource(0).removeProperty(name);
     }

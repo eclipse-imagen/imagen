@@ -36,7 +36,7 @@ public class JAISamplePanel extends JAIDemoPanel implements ChangeListener, Item
 
         String operationName = "sample";
         String productName = "com.mycompany";
-        OperationRegistry or = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry or = ImageN.getDefaultInstance().getOperationRegistry();
         or.registerDescriptor(odesc);
         RIFRegistry.register(or, operationName, productName, rif);
         masterSetup();
@@ -95,7 +95,7 @@ public class JAISamplePanel extends JAIDemoPanel implements ChangeListener, Item
         pb.addSource(im);
         pb.add(param1);
         pb.add(param2);
-        return JAI.create("sample", pb, renderHints);
+        return ImageN.create("sample", pb, renderHints);
     }
 
     public void startAnimation() {}

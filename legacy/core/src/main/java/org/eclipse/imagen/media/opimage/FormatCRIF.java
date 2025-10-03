@@ -25,7 +25,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.util.Map;
 import org.eclipse.imagen.CRIFImpl;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.NullOpImage;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.RasterFactory;
@@ -115,9 +115,9 @@ public class FormatCRIF extends CRIFImpl {
             } else {
                 // Remove TileCache hint from RenderingHints if present.
                 RenderingHints hints = renderHints;
-                if (hints != null && hints.containsKey(JAI.KEY_TILE_CACHE)) {
+                if (hints != null && hints.containsKey(ImageN.KEY_TILE_CACHE)) {
                     hints = new RenderingHints((Map) renderHints);
-                    hints.remove(JAI.KEY_TILE_CACHE);
+                    hints.remove(ImageN.KEY_TILE_CACHE);
                 }
 
                 // Only the ColorModel is changing.
@@ -127,14 +127,14 @@ public class FormatCRIF extends CRIFImpl {
 
         if (isDataTypeChange == true) {
 
-            // Add JAI.KEY_REPLACE_INDEX_COLOR_MODEL hint to renderHints
+            // Add ImageN.KEY_REPLACE_INDEX_COLOR_MODEL hint to renderHints
             if (renderHints == null) {
-                renderHints = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                renderHints = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
 
-            } else if (!renderHints.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)) {
+            } else if (!renderHints.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)) {
                 // If the user specified a value for this hint, we don't
                 // want to change that
-                renderHints.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                renderHints.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
             }
         }
 

@@ -54,7 +54,8 @@ import org.eclipse.imagen.media.util.SimpleCMYKColorSpace;
  * if arbitrary access to the stream is required, and otherwise returns the number of header bytes required to recognize
  * the format. Each subclass of <code>ImageCodec</code> needs to implement only one of the two variants.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public abstract class ImageCodec {
 

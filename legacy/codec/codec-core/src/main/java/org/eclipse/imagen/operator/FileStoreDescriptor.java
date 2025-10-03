@@ -22,9 +22,9 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.IOException;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.codec.ImageCodec;
 import org.eclipse.imagen.media.codec.ImageEncodeParam;
@@ -38,7 +38,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>In the default instance the <code>validateParameters()</code> method checks for the named file to be writable if
  * it already exists, else that it can be created. If not, it will return <code>false</code>, causing <code>
- * JAI.createNS()</code> to throw an <code>IllegalArgumentException</code>.
+ * ImageN.createNS()</code> to throw an <code>IllegalArgumentException</code>.
  *
  * <p>In special cases such as an image being written to a remote system, the above check for existence of a file on the
  * local system should be bypassed. This can be accomplished by setting the <code>Boolean</code> variable <code>
@@ -50,8 +50,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>The requested file path must be writable.
  *
- * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the JAI
- * API. Future releases of JAI will make use of new classes in their place. This class will change accordingly.</b>
+ * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the ImageN
+ * API. Future releases of ImageN will make use of new classes in their place. This class will change accordingly.</b>
  *
  * <p>
  *
@@ -211,7 +211,7 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Returns true indicating that the operation should be rendered immediately during a call to <code>JAI.create()
+     * Returns true indicating that the operation should be rendered immediately during a call to <code>ImageN.create()
      * </code>.
      *
      * @see org.eclipse.imagen.OperationDescriptor
@@ -223,11 +223,11 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
     /**
      * Stores an image to a file.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param filename The path of the file to write to.
@@ -247,7 +247,7 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
             ImageEncodeParam param,
             Boolean checkFileLocally,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("FileStore", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("FileStore", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -256,6 +256,6 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
         pb.setParameter("param", param);
         pb.setParameter("checkFileLocally", checkFileLocally);
 
-        return JAI.create("FileStore", pb, hints);
+        return ImageN.create("FileStore", pb, hints);
     }
 }

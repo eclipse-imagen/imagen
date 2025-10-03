@@ -24,7 +24,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /** @see ConvolveOpImage */
 public class ConvolveRIF implements RenderedImageFactory {
@@ -44,8 +44,8 @@ public class ConvolveRIF implements RenderedImageFactory {
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
 
-        KernelJAI unRotatedKernel = (KernelJAI) paramBlock.getObjectParameter(0);
-        KernelJAI kJAI = unRotatedKernel.getRotatedKernel();
+        KernelImageN unRotatedKernel = (KernelImageN) paramBlock.getObjectParameter(0);
+        KernelImageN kJAI = unRotatedKernel.getRotatedKernel();
 
         int dataType = paramBlock.getRenderedSource(0).getSampleModel().getDataType();
         boolean dataTypeOk = (dataType == DataBuffer.TYPE_BYTE

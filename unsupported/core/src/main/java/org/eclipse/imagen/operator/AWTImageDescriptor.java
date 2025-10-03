@@ -19,9 +19,9 @@ package org.eclipse.imagen.operator;
 
 import java.awt.Image;
 import java.awt.RenderingHints;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
@@ -95,11 +95,11 @@ public class AWTImageDescriptor extends OperationDescriptorImpl {
     /**
      * Converts a java.awt.Image into a rendered image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param awtImage The AWT image to be converted.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -107,10 +107,10 @@ public class AWTImageDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>awtImage</code> is <code>null</code>.
      */
     public static RenderedOp create(Image awtImage, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("AWTImage", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("AWTImage", RenderedRegistryMode.MODE_NAME);
 
         pb.setParameter("awtImage", awtImage);
 
-        return JAI.create("AWTImage", pb, hints);
+        return ImageN.create("AWTImage", pb, hints);
     }
 }

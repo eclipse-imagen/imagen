@@ -37,13 +37,14 @@ import java.awt.image.renderable.ParameterBlock;
  * Whether an implementing class maintains these critical attributes by reference or by copying or cloning is left to
  * the discretion of the implementation.
  *
- * <p><code>OperationNode</code>s should fire a <code>PropertyChangeEventJAI</code> when any of the critical attributes
- * of the node is modified. These events should be named "OperationName", "OperationRegistry", "ParameterBlock", and
- * "RenderingHints" corresponding to the respective critical attributes. Events named "Sources" and "Parameters" may
- * instead be fired if it can be determined that a <code>ParameterBlock</code> modification has affected only the
- * sources or parameters of the node, respectively. Nodes which implement convenience methods to edit individual node
- * sources, parameters, or hints should still fire an event for the attribute as a whole. Note that this might require
- * cloning the respective object. <code>OperationNode</code>s are also required to fire <code>PropertySourceChangeEvent
+ * <p><code>OperationNode</code>s should fire a <code>PropertyChangeEventImageN</code> when any of the critical
+ * attributes of the node is modified. These events should be named "OperationName", "OperationRegistry",
+ * "ParameterBlock", and "RenderingHints" corresponding to the respective critical attributes. Events named "Sources"
+ * and "Parameters" may instead be fired if it can be determined that a <code>ParameterBlock</code> modification has
+ * affected only the sources or parameters of the node, respectively. Nodes which implement convenience methods to edit
+ * individual node sources, parameters, or hints should still fire an event for the attribute as a whole. Note that this
+ * might require cloning the respective object. <code>OperationNode</code>s are also required to fire <code>
+ * PropertySourceChangeEvent
  * </code>s by virtue of their being a <code>PropertySource</code> as well as a <code>PropertyChangeEmitter</code>.
  *
  * <p>Methods are also provided to modify the local property environment of the node. The global property environment is
@@ -58,8 +59,6 @@ import java.awt.image.renderable.ParameterBlock;
  *
  * Invocation of these methods would not affect the global property environment of the operation as maintained by the
  * <code>OperationRegistry</code>.
- *
- * @since JAI 1.1
  */
 public interface OperationNode extends PropertySource, PropertyChangeEmitter {
 
@@ -76,8 +75,8 @@ public interface OperationNode extends PropertySource, PropertyChangeEmitter {
      * Sets the name of the operation this node represents.
      *
      * <p>If the operation name changes according to a case-insensitive comparison by <code>equals()</code> of the old
-     * and new names, a <code>PropertyChangeEventJAI</code> named "OperationName" should be fired with source equal to
-     * this node and old and new values set to the old and new values of the operation name, respectively.
+     * and new names, a <code>PropertyChangeEventImageN</code> named "OperationName" should be fired with source equal
+     * to this node and old and new values set to the old and new values of the operation name, respectively.
      *
      * @param opName The new operation name to be set.
      * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
@@ -95,7 +94,7 @@ public interface OperationNode extends PropertySource, PropertyChangeEmitter {
      * , the default registry is used.
      *
      * <p>If the registry changes according to a direct comparison of the old and new registry references, a <code>
-     * PropertyChangeEventJAI</code> named "OperationRegistry" should be fired with source equal to this node and old
+     * PropertyChangeEventImageN</code> named "OperationRegistry" should be fired with source equal to this node and old
      * and new values set to the old and new values of the registry, respectively.
      *
      * @param registry The new <code>OperationRegistry</code> to be set; it may be <code>null</code>.
@@ -115,10 +114,10 @@ public interface OperationNode extends PropertySource, PropertyChangeEmitter {
      *
      * <p>If the <code>ParameterBlock</code> changes according to a comparison of the sources and parameters <code>
      * Vector</code>s of the old and new <code>ParameterBlock</code>s using <code>equals()</code>, a <code>
-     * PropertyChangeEventJAI</code> named "ParameterBlock" should be fired with source equal to this node and old and
-     * new values set to the old and new values of the <code>ParameterBlock</code>, respectively. A <code>
-     * PropertyChangeEventJAI</code> named "Sources" or "Parameters" may instead be fired if it can be determined that
-     * the <code>ParameterBlock</code> modification has affected only the sources or parameters of the node,
+     * PropertyChangeEventImageN</code> named "ParameterBlock" should be fired with source equal to this node and old
+     * and new values set to the old and new values of the <code>ParameterBlock</code>, respectively. A <code>
+     * PropertyChangeEventImageN</code> named "Sources" or "Parameters" may instead be fired if it can be determined
+     * that the <code>ParameterBlock</code> modification has affected only the sources or parameters of the node,
      * respectively.
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
@@ -137,8 +136,8 @@ public interface OperationNode extends PropertySource, PropertyChangeEmitter {
      * set on them by this mechanism.
      *
      * <p>If the <code>RenderingHints</code> changes according to a comparison by <code>equals()</code> of the old and
-     * new hints, a <code>PropertyChangeEventJAI</code> named "RenderingHints" should be fired with source equal to this
-     * node and old and new values set to the old and new values of the hints, respectively.
+     * new hints, a <code>PropertyChangeEventImageN</code> named "RenderingHints" should be fired with source equal to
+     * this node and old and new values set to the old and new values of the hints, respectively.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      */

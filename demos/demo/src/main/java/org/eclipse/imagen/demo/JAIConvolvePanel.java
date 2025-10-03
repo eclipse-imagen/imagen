@@ -7,12 +7,10 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.*;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
@@ -40,8 +38,8 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
 
     JComboBox kernelBox;
 
-    KernelJAI[] kernels;
-    KernelJAI kernel;
+    KernelImageN[] kernels;
+    KernelImageN kernel;
 
     public JAIConvolvePanel(Vector sourceVec) {
         super(sourceVec);
@@ -62,7 +60,7 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
         controls.add(kernelBox);
     }
 
-    private KernelJAI makeGaussianKernel(int radius) {
+    private KernelImageN makeGaussianKernel(int radius) {
         int diameter = 2 * radius + 1;
         float invrsq = 1.0F / (radius * radius);
 
@@ -82,11 +80,11 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
             gaussianData[i] *= invsum;
         }
 
-        return new KernelJAI(diameter, diameter, radius, radius, gaussianData, gaussianData);
+        return new KernelImageN(diameter, diameter, radius, radius, gaussianData, gaussianData);
     }
 
     private void initKernels() {
-        kernels = new KernelJAI[kernelLabels.length];
+        kernels = new KernelImageN[kernelLabels.length];
 
         float[] normalData = {1.0F};
 
@@ -112,13 +110,13 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
 
         float[] embossData = {-5.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 5.0F};
 
-        kernels[0] = new KernelJAI(1, 1, 0, 0, normalData);
-        kernels[1] = new KernelJAI(3, 3, 1, 1, blurData);
-        kernels[2] = new KernelJAI(3, 3, 1, 1, blurMoreData);
-        kernels[3] = new KernelJAI(3, 3, 1, 1, sharpenData);
-        kernels[4] = new KernelJAI(3, 3, 1, 1, sharpenMoreData);
-        kernels[5] = new KernelJAI(3, 3, 1, 1, edgeData);
-        kernels[6] = new KernelJAI(3, 3, 1, 1, embossData);
+        kernels[0] = new KernelImageN(1, 1, 0, 0, normalData);
+        kernels[1] = new KernelImageN(3, 3, 1, 1, blurData);
+        kernels[2] = new KernelImageN(3, 3, 1, 1, blurMoreData);
+        kernels[3] = new KernelImageN(3, 3, 1, 1, sharpenData);
+        kernels[4] = new KernelImageN(3, 3, 1, 1, sharpenMoreData);
+        kernels[5] = new KernelImageN(3, 3, 1, 1, edgeData);
+        kernels[6] = new KernelImageN(3, 3, 1, 1, embossData);
         kernels[7] = makeGaussianKernel(1);
         kernels[8] = makeGaussianKernel(2);
         kernels[9] = makeGaussianKernel(3);
@@ -146,7 +144,7 @@ public class JAIConvolvePanel extends JAIDemoPanel implements ItemListener {
         ParameterBlock paramBlock = new ParameterBlock();
         paramBlock.addSource(im);
         paramBlock.add(kernel);
-        return JAI.create("convolve", paramBlock, renderHints);
+        return ImageN.create("convolve", paramBlock, renderHints);
     }
 
     public void startAnimation() {}

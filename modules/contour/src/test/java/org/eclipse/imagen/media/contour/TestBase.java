@@ -75,10 +75,10 @@ public abstract class TestBase {
 
     @BeforeClass
     public static void quiet() {
-        JAI jai = JAI.getDefaultInstance();
-        final ImagingListener imagingListener = jai.getImagingListener();
+        ImageN imageN = ImageN.getDefaultInstance();
+        final ImagingListener imagingListener = imageN.getImagingListener();
         if (imagingListener == null || imagingListener.getClass().getName().contains("ImagingListenerImpl")) {
-            jai.setImagingListener(new ImagingListener() {
+            imageN.setImagingListener(new ImagingListener() {
                 @Override
                 public boolean errorOccurred(String message, Throwable thrown, Object where, boolean isRetryable)
                         throws RuntimeException {
@@ -97,7 +97,7 @@ public abstract class TestBase {
      * @return the contours
      */
     protected Collection<LineString> doOp(PlanarImage src, Map<String, Object> args) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Contour");
+        ParameterBlockImageN pb = new ParameterBlockImageN("Contour");
         pb.setSource("source0", src);
 
         for (String paramName : pb.getParameterListDescriptor().getParamNames()) {
@@ -107,7 +107,7 @@ public abstract class TestBase {
             }
         }
 
-        RenderedOp dest = JAI.create("Contour", pb);
+        RenderedOp dest = ImageN.create("Contour", pb);
         Object prop = dest.getProperty(ContourDescriptor.CONTOUR_PROPERTY_NAME);
         assertNotNull(prop);
         assertTrue(prop instanceof Collection);

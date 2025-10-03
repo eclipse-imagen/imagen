@@ -65,14 +65,15 @@ import org.eclipse.imagen.registry.RenderableCollectionRegistryMode;
  *
  * or by the <code>createCollection</code> or <code>createCollectionNS()</code> "collection" mode methods or the <code>
  * createRenderableCollection()</code> or <code>createRenderableCollectionNS()</code> "renderableCollection" mode
- * methods defined in the <code>JAI</code> class. The difference between direct construction of a node and creation via
- * a convenience method is that in the latter case:
+ * methods defined in the <code>ImageN</code> class. The difference between direct construction of a node and creation
+ * via a convenience method is that in the latter case:
  *
  * <ol>
  *   <li>It is verified that the operation supports the appropriate mode, i.e., "collection" or "renderableCollection".
  *   <li>It is verified that the operation generates a <code>CollectionImage</code>, a <code>RenderedImage</code>
  *       ("collection" mode only), or a <code>RenderableImage</code> ("renderableCollection" mode only).
- *   <li>Global <code>RenderingHints</code> maintained by the <code>JAI</code> instance are merged with the local <code>
+ *   <li>Global <code>RenderingHints</code> maintained by the <code>ImageN</code> instance are merged with the local
+ *       <code>
  *       RenderingHints</code> with the local hints taking precedence.
  *   <li>Using the <code>validateArguments()</code> method of the associated <code>OperationDescriptor</code>, the
  *       arguments (sources and parameters) are validated as being compatible with the specified operation in the
@@ -113,10 +114,10 @@ import org.eclipse.imagen.registry.RenderableCollectionRegistryMode;
  * <code>RenderingChangeEvent</code>s from any <code>RenderedOp</code> sources.
  *
  * <p>Certain <code>PropertyChangeEvent</code>s may be emitted by the <code>CollectionOp</code>. These include the
- * <code>PropertyChangeEventJAI</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing
- * the <code>OperationNode</code> interface. Additionally a <code>CollectionChangeEvent</code> may be emitted if the
- * node is operating in the "collection" mode, has already been rendered, and one of the following conditions is
- * satisfied:
+ * <code>PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of
+ * implementing the <code>OperationNode</code> interface. Additionally a <code>CollectionChangeEvent</code> may be
+ * emitted if the node is operating in the "collection" mode, has already been rendered, and one of the following
+ * conditions is satisfied:
  *
  * <ul>
  *   <li>any of the critical attributes is changed (edited), i.e., the operation name, operation registry, node sources,
@@ -179,25 +180,13 @@ import org.eclipse.imagen.registry.RenderableCollectionRegistryMode;
  */
 public class CollectionOp extends CollectionImage implements OperationNode, PropertyChangeListener {
 
-    /**
-     * An object to assist in implementing <code>OperationNode</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** An object to assist in implementing <code>OperationNode</code>. */
     protected OperationNodeSupport nodeSupport;
 
-    /**
-     * The <code>PropertySource</code> containing the combined properties of all of the node's sources.
-     *
-     * @since JAI 1.1
-     */
+    /** The <code>PropertySource</code> containing the combined properties of all of the node's sources. */
     protected PropertySource thePropertySource;
 
-    /**
-     * Flag indicating whether the operation is being instantiated in renderable mode.
-     *
-     * @since JAI 1.1
-     */
+    /** Flag indicating whether the operation is being instantiated in renderable mode. */
     protected boolean isRenderable = false;
 
     /** The RenderingHints when the node was last rendered, i.e., when "theImage" was set to its current value. */
@@ -240,13 +229,12 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *     rendering. This parameter is cloned.
      * @param isRenderable Whether the operation is being executed in renderable mode.
      * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public CollectionOp(
             OperationRegistry registry, String opName, ParameterBlock pb, RenderingHints hints, boolean isRenderable) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (pb == null) {
@@ -263,7 +251,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
         }
 
         // Initialize the various helper objects.
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
 
         properties = new WritablePropertySourceImpl(null, null, eventManager);
 
@@ -362,27 +350,19 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param pb The sources and other parameters. If <code>null</code>, it is assumed that this node has no sources and
      *     parameters. This parameter is cloned.
      * @throws <code>IllegalArgumentException</code> if <code>opName</code> is <code>null</code>.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 0.4.0.
      * @see #CollectionOp(OperationRegistry,String,ParameterBlock,RenderingHints)
      */
     public CollectionOp(OperationRegistry registry, String opName, ParameterBlock pb) {
         this(registry, opName, pb, null);
     }
 
-    /**
-     * Returns whether the operation is being instantiated in renderable mode.
-     *
-     * @since JAI 1.1
-     */
+    /** Returns whether the operation is being instantiated in renderable mode. */
     public boolean isRenderable() {
         return isRenderable;
     }
 
-    /**
-     * Returns the name of the <code>RegistryMode</code> corresponding to this <code>CollectionOp</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** Returns the name of the <code>RegistryMode</code> corresponding to this <code>CollectionOp</code>. */
     public String getRegistryModeName() {
         return isRenderable ? RenderableCollectionRegistryMode.MODE_NAME : CollectionRegistryMode.MODE_NAME;
     }
@@ -401,7 +381,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * Sets the <code>OperationRegistry</code> that is used by this node. If the specified registry is <code>null</code>
      * , the default registry is used. The parameter is saved by reference.
      *
-     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventImageN</code> named
      * "OperationRegistry" will be fired and a <code>CollectionChangeEvent</code> may be fired if the node has already
      * been rendered.
      *
@@ -419,7 +399,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
     /**
      * Sets the name of the operation this node represents. The parameter is saved by reference.
      *
-     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventImageN</code> named
      * "OperationName" will be fired and a <code>CollectionChangeEvent</code> may be fired if the node has already been
      * rendered.
      *
@@ -444,7 +424,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * node represents; otherwise some form of error or exception may occur at the time of rendering.
      *
      * <p>If the supplied <code>ParameterBlock</code> does not equal the current <code>ParameterBlock</code>, a <code>
-     * PropertyChangeEventJAI</code> named "ParameterBlock", "Sources", or "Parameters" will be fired. A <code>
+     * PropertyChangeEventImageN</code> named "ParameterBlock", "Sources", or "Parameters" will be fired. A <code>
      * CollectionChangeEvent</code> may also be fired if the node has already been rendered.
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
@@ -500,8 +480,8 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * Sets the <code>RenderingHints</code> of this node. The supplied parameter is cloned if non-<code>null</code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventJAI</code> named "RenderingHints" will be fired and a <code>CollectionChangeEvent</code> may
-     * be fired if the node has already been rendered.
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>CollectionChangeEvent</code>
+     * may be fired if the node has already been rendered.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      */
@@ -608,7 +588,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
 
         // Throw an error if the rendering is null.
         if (instance == null) {
-            throw new RuntimeException(JaiI18N.getString("CollectionOp0"));
+            throw new RuntimeException(ImageNI18N.getString("CollectionOp0"));
         }
 
         // Save the RenderingHints.
@@ -629,8 +609,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * contains any nested <code>Collection</code>s, these will be unwrapped recursively such that a rendering is
      * created for all <code>RenderableImage</code>s encountered. Any <code>RenderingHints</code> in the <code>
      * RenderContext</code> are merged with those set on the node with the argument hints taking precedence.
-     *
-     * @since JAI 1.1
      */
     public Collection createRendering(RenderContext renderContext) {
         if (!isRenderable) {
@@ -639,7 +617,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
 
         // Merge argument hints with node hints.
         RenderingHints mergedHints =
-                JAI.mergeRenderingHints(nodeSupport.getRenderingHints(), renderContext.getRenderingHints());
+                ImageN.mergeRenderingHints(nodeSupport.getRenderingHints(), renderContext.getRenderingHints());
         if (mergedHints != renderContext.getRenderingHints()) {
             renderContext = (RenderContext) renderContext.clone();
             renderContext.setRenderingHints(mergedHints);
@@ -690,8 +668,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * <p>When invoked with an event which is an instance of either <code>CollectionChangeEvent</code> or <code>
      * RenderingChangeEvent</code> emitted by a <code>CollectionOp</code> or <code>RenderedOp</code> source,
      * respectively, the node will respond by re-rendering itself while retaining any data possible.
-     *
-     * @since JAI 1.1
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         // If this is a renderable node just return as CollectionChangeEvents
@@ -700,7 +676,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
 
         //
         // React if and only if the node has been rendered and
-        // A: a non-PropertySourceChangeEvent PropertyChangeEventJAI
+        // A: a non-PropertySourceChangeEvent PropertyChangeEventImageN
         //    was received from this node, or
         // B: a CollectionChangeEvent was received from a source node, or
         // C: a RenderingChangeEvent was received from a source node.
@@ -715,7 +691,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
         String propName = evt.getPropertyName().toLowerCase(Locale.ENGLISH);
 
         if (imageCollection != null
-                && ((evt instanceof PropertyChangeEventJAI
+                && ((evt instanceof PropertyChangeEventImageN
                                 && evtSrc == this
                                 && !(evt instanceof PropertySourceChangeEvent)
                                 && nodeEventNames.contains(propName))
@@ -931,8 +907,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * Resets the <code>PropertySource</code>. If the parameter is <code>true</code> then the property environment is
      * completely reset; if <code>false</code> then only cached properties are cleared, i.e., those which were derived
      * from the property environment and are now stored in the local cache.
-     *
-     * @since JAI 1.1
      */
     protected synchronized void resetProperties(boolean resetPropertySource) {
         properties.clearCachedProperties();
@@ -947,7 +921,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * from prior nodes in the operation chain and those set locally.
      *
      * @return An array of <code>String</code>s containing valid property names or <code>null</code> if there are none.
-     * @since JAI 1.1
      */
     public synchronized String[] getPropertyNames() {
         createPropertySource();
@@ -961,7 +934,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
         createPropertySource();
@@ -975,7 +947,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param name the name of the property to get, as a String.
      * @return a reference to the property Object, or the value java.awt.Image.UndefinedProperty.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public Object getProperty(String name) {
         createPropertySource();
@@ -989,7 +960,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param name a String representing the property name.
      * @param value the property's value, as an Object.
      * @exception IllegalArgumentException if <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void setProperty(String name, Object value) {
         createPropertySource();
@@ -1001,7 +971,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * property environment.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void removeProperty(String name) {
         createPropertySource();
@@ -1018,7 +987,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *
      * @param name A <code>String</code> naming the property.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized Object getDynamicProperty(String name) {
         createPropertySource();
@@ -1030,7 +998,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * previous definitions.
      *
      * @param pg a PropertyGenerator to be added to this node's property environment.
-     * @since JAI 1.1
      */
     public void addPropertyGenerator(PropertyGenerator pg) {
         nodeSupport.addPropertyGenerator(pg);
@@ -1043,7 +1010,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the from which to copy the property.
      * @throws IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized void copyPropertyFromSource(String propertyName, int sourceIndex) {
         nodeSupport.copyPropertyFromSource(propertyName, sourceIndex);
@@ -1059,7 +1025,6 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
      *
      * @param name a String naming the property to be suppressed.
      * @throws <code>IllegalArgumentException</code> if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void suppressProperty(String name) {
         nodeSupport.suppressProperty(name);

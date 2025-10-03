@@ -24,11 +24,11 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.GeometricOpImage;
 import org.eclipse.imagen.ImageLayout;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.InterpolationNearest;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -103,7 +103,7 @@ class WarpPropertyGenerator extends PropertyGeneratorImpl {
             Warp warp = (Warp) pb.getObjectParameter(0);
 
             // Create the warped ROI.
-            ROI dstROI = new ROI(JAI.create("warp", srcROI.getAsImage(), warp, interpNN));
+            ROI dstROI = new ROI(ImageN.create("warp", srcROI.getAsImage(), warp, interpNN));
 
             // Retrieve the destination bounds.
             Rectangle dstBounds = op.getBounds();
@@ -145,12 +145,14 @@ class WarpPropertyGenerator extends PropertyGeneratorImpl {
  * the proper range.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>
@@ -240,11 +242,11 @@ public class WarpDescriptor extends OperationDescriptorImpl {
     /**
      * Warps an image according to a specified Warp object.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param warp The warp object.
@@ -261,7 +263,7 @@ public class WarpDescriptor extends OperationDescriptorImpl {
             Interpolation interpolation,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Warp", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Warp", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -269,6 +271,6 @@ public class WarpDescriptor extends OperationDescriptorImpl {
         pb.setParameter("interpolation", interpolation);
         pb.setParameter("backgroundValues", backgroundValues);
 
-        return JAI.create("Warp", pb, hints);
+        return ImageN.create("Warp", pb, hints);
     }
 }

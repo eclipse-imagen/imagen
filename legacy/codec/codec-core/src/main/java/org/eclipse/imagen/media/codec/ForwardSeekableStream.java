@@ -24,7 +24,8 @@ import java.io.InputStream;
  * A subclass of <code>SeekableStream</code> that may be used to wrap a regular <code>InputStream</code> efficiently.
  * Seeking backwards is not supported.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class ForwardSeekableStream extends SeekableStream {
 

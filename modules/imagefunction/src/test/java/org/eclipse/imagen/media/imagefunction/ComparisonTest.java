@@ -28,7 +28,7 @@ import org.junit.Test;
 public class ComparisonTest extends ComparisonTestBase {
 
     /** {@link ImageFunction} used in test */
-    private static ImageFunctionJAIEXT function;
+    private static ImageFunctionExt function;
 
     /** Output image width */
     private static int width;

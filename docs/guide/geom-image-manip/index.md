@@ -127,7 +127,7 @@ or Bicubic interpolation are specified, the boundary of the source
 image needs to be extended such that it has the extra pixels needed to
 compute all the destination pixels. This extension is performed via
 the `BorderExtender` class. The type of border extension can be
-specified as a `RenderingHint` to the `JAI.create` method. If no
+specified as a `RenderingHint` to the `ImageN.create` method. If no
 border extension type is provided, a default extension of
 `BorderExtender.BORDER_COPY` will be used to perform the extension.
 See [Section 3.7.3, \"Rendering
@@ -157,7 +157,7 @@ pb.add(interp);           // The interpolation method
 
 // Create the rotation operation and include the parameter
 // block
-RenderedOp op JAI.create("rotate", pb, null);
+RenderedOp op ImageN.create("rotate", pb, null);
 ```
 
 The `Interpolation` class provides methods for the most common cases
@@ -640,7 +640,7 @@ or bicubic interpolation are specified, the boundary of the source
 image needs to be extended such that it has the extra pixels needed to
 compute all the destination pixels. This extension is performed via
 the `BorderExtender` class. The type of border extension can be
-specified as a `RenderingHint` to the `JAI.create` method. If no
+specified as a `RenderingHint` to the `ImageN.create` method. If no
 border extension type is provided, a default extension of
 `BorderExtender.BORDER_COPY` will be used to perform the extension.
 See [Section 3.7.3, \"Rendering
@@ -661,7 +661,7 @@ ParameterBlock pb = new ParameterBlock();
      pb.add(new InterpolationNearest()); // The interpolation
 
 // Create the translate operation
-im = JAI.create("translate", pb, null);
+im = ImageN.create("translate", pb, null);
 ```
 
 ### 8.3.2 Scaling Transformation <a name="ScalingTransformation"></a>
@@ -727,7 +727,7 @@ or Bicubic interpolation are specified, the boundary of the source
 image needs to be extended such that it has the extra pixels needed to
 compute all the destination pixels. This extension is performed via
 the `BorderExtender` class. The type of border extension can be
-specified as a `RenderingHint` to the `JAI.create` method. See
+specified as a `RenderingHint` to the `ImageN.create` method. See
 [Section 3.7.3, \"Rendering
 Hints](../programming-environ).\"
 
@@ -756,7 +756,7 @@ ParameterBlock pb = new ParameterBlock();
      pb.add(new InterpolationNearest()); // The interpolation
 
 // Create the scale operation
-im = JAI.create("scale", pb, null);
+im = ImageN.create("scale", pb, null);
 ```
 
 ### 8.3.3 Rotation Transformation <a name="RotationTransformation"></a>
@@ -795,7 +795,7 @@ or Bicubic interpolation are specified, the boundary of the source
 image needs to be extended such that it has the extra pixels needed to
 compute all the destination pixels. This extension is performed via
 the `BorderExtender` class. The type of border extension can be
-specified as a `RenderingHint` to the `JAI.create` method. If no
+specified as a `RenderingHint` to the `ImageN.create` method. If no
 border extension type is provided, a default extension of
 `BorderExtender.BORDER_COPY` will be used to perform the extension.
 See [Section 3.7.3, \"Rendering
@@ -824,7 +824,7 @@ ParameterBlock pb = new ParameterBlock();
      pb.add(new InterpolationNearest()); // The interpolation
 
 // Create the rotate operation
-im = JAI.create("Rotate", pb, null);
+im = ImageN.create("Rotate", pb, null);
 ```
 
 ### 8.3.4 Affine Transformation <a name="AffineTransformation"></a>
@@ -925,7 +925,7 @@ or Bicubic interpolation are specified, the boundary of the source
 image needs to be extended such that it has the extra pixels needed to
 compute all the destination pixels. This extension is performed via
 the `BorderExtender` class. The type of border extension can be
-specified as a `RenderingHint` to the `JAI.create` method. If no
+specified as a `RenderingHint` to the `ImageN.create` method. If no
 border extension type is provided, a default extension of
 `BorderExtender.BORDER_COPY` will be used to perform the extension.
 See [Section 3.7.3, \"Rendering
@@ -940,7 +940,7 @@ rotation.
 ```java
 // Load the image.
 String filename = "images/Trees.gif";
-PlanarImage im = (PlanarImage)JAI.create("fileload",
+PlanarImage im = (PlanarImage)ImageN.create("fileload",
                                           filename);
 
 // Create the affine transform matrix.
@@ -955,7 +955,7 @@ AffineTransform tr = new AffineTransform(0.707107,
 Interpolation interp = new InterpolationNearest();
 
 // Create the affine operation.
-PlanarImage im2 = (PlanarImage)JAI.create("affine", im, tr,
+PlanarImage im2 = (PlanarImage)ImageN.create("affine", im, tr,
                                            interp);
 ```
 **API:** `java.awt.geom.AffineTransform 
@@ -1173,7 +1173,7 @@ flip on the source image and creates the destination image `im2`.
 // Create a pattern image.
 ParameterBlock pb = new ParameterBlock();
 pb.add(image);
-PlanarImage im0 = (PlanarImage)JAI.create("awtImage", pb);
+PlanarImage im0 = (PlanarImage)ImageN.create("awtImage", pb);
 
 // Transpose type : 0=FLIP_VERTICAL
 //                : 1=FLIP_HORIZONTAL
@@ -1185,7 +1185,7 @@ PlanarImage im0 = (PlanarImage)JAI.create("awtImage", pb);
 int type = 1;
 
 // Create the Transpose operation.
-PlanarImage im2 = (PlanarImage)JAI.create("transpose", im0,
+PlanarImage im2 = (PlanarImage)ImageN.create("transpose", im0,
                                           type);
 ```
 
@@ -1236,7 +1236,7 @@ or Bicubic interpolation are specified, the boundary of the source
 image needs to be extended such that it has the extra pixels needed to
 compute all the destination pixels. This extension is performed via
 the `BorderExtender` class. The type of border extension can be
-specified as a `RenderingHint` to the `JAI.create` method. If no
+specified as a `RenderingHint` to the `ImageN.create` method. If no
 border extension type is provided, a default extension of
 `BorderExtender.BORDER_COPY` will be used to perform the extension.
 See [Section 3.7.3, \"Rendering
@@ -1249,7 +1249,7 @@ Hints](programming-environ).\"
 ```java
 // Load the image.
 String filename = "images/Picketfence.gif";
-PlanarImage im0 = (PlanarImage)JAI.create("fileload",
+PlanarImage im0 = (PlanarImage)ImageN.create("fileload",
                                           filename);
 
 imagePanel1 = new ScrollingImagePanel(im0, 512, 512);
@@ -1268,7 +1268,7 @@ float x_trans = 50.0F;
 float y_trans = 100.0F;
 
 // Create the Shear operation.
-PlanarImage im2 = (PlanarImage)JAI.create("shear",
+PlanarImage im2 = (PlanarImage)ImageN.create("shear",
                                            im0,
                                            shear_amt,
                                            shear_dir,
@@ -1399,12 +1399,12 @@ necessary parameters to it. The `Warp` operation takes two parameters:
    pixels needed to compute all the destination pixels. This
    extension is performed via the `BorderExtender` class. The type of
    border extension can be specified as a `RenderingHint` to the
-   `JAI.create` method. If no border extension type is provided, a
+   `ImageN.create` method. If no border extension type is provided, a
    default extension of `BorderExtender.BORDER_COPY` will be used to
    perform the extension. See [Section 3.7.3, \"Rendering
    Hints\"](../programming-environ).
 
-3. Create the warp operation with the `JAI.create` method.
+3. Create the warp operation with the `ImageN.create` method.
 
    [Listing 8-8](#listing-8-8) shows a sample code for
 a simple second-order warp operation.
@@ -1424,7 +1424,7 @@ ParameterBlock pb = new ParameterBlock();
      pb.add(new InterpolationNearest());
 
 // Create the warp operation.
-dstImage = JAI.create("warp", pb);
+dstImage = ImageN.create("warp", pb);
 ```
 
 ### 8.7.2 Polynomial Warp <a name="PolynomialWarp"></a>
@@ -1678,7 +1678,7 @@ pb.add(warp);
 pb.add(interp);
 
 // Create the warp operation.
-return (RenderedImage)JAI.create("warp", pb);
+return (RenderedImage)ImageN.create("warp", pb);
 ```
 
 **API:** `org.eclipse.imagen.WarpAffine`

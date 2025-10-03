@@ -21,7 +21,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.util.Arrays;
 import org.eclipse.imagen.ColorCube;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.range.Range;
@@ -36,7 +36,7 @@ public class ComparisonTest extends ComparisonTestBase {
     private static ColorCube colorMap;
 
     /** Dithering mask used for testing */
-    private static KernelJAI[] ditherMask;
+    private static KernelImageN[] ditherMask;
 
     @BeforeClass
     public static void init() {
@@ -45,14 +45,14 @@ public class ComparisonTest extends ComparisonTestBase {
         colorMap = ColorCube.BYTE_496;
         // Definition of the Kernels
         // Getting the dithering mask
-        ditherMask = new KernelJAI[NUM_BANDS];
+        ditherMask = new KernelImageN[NUM_BANDS];
         int width = 64;
         int height = 64;
         float[] data = new float[width * height];
         Arrays.fill(data, 0.5f);
-        ditherMask[0] = new KernelJAI(width, height, data);
-        ditherMask[1] = new KernelJAI(width, height, data);
-        ditherMask[2] = new KernelJAI(width, height, data);
+        ditherMask[0] = new KernelImageN(width, height, data);
+        ditherMask[1] = new KernelImageN(width, height, data);
+        ditherMask[2] = new KernelImageN(width, height, data);
     }
 
     @Test

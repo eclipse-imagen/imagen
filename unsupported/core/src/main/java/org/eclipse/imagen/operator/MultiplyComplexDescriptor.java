@@ -21,9 +21,9 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -144,11 +144,11 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the complex product of two images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param source1 <code>RenderedImage</code> source 1.
@@ -158,22 +158,22 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source1</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, RenderedImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("MultiplyComplex", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("MultiplyComplex", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.create("MultiplyComplex", pb, hints);
+        return ImageN.create("MultiplyComplex", pb, hints);
     }
 
     /**
      * Computes the complex product of two images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param source1 <code>RenderableImage</code> source 1.
@@ -184,11 +184,11 @@ public class MultiplyComplexDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, RenderableImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("MultiplyComplex", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("MultiplyComplex", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.createRenderable("MultiplyComplex", pb, hints);
+        return ImageN.createRenderable("MultiplyComplex", pb, hints);
     }
 }

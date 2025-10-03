@@ -25,8 +25,6 @@ import org.eclipse.imagen.PropertyGenerator;
  * should override these methods if they do not wish to retain the default implementation.
  *
  * <p>All <code>String</code>s are treated in a case-retentive and case-insensitive manner.
- *
- * @since JAI 1.1
  */
 public abstract class TileCodecDescriptorImpl implements TileCodecDescriptor {
 

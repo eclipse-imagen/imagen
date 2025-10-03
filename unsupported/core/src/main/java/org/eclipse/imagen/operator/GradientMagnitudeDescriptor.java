@@ -20,10 +20,10 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.util.AreaOpPropertyGenerator;
@@ -47,12 +47,14 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>Origins set on the kernels will be ignored. The origins are assumed to be width/2 & height/2.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>
@@ -77,14 +79,14 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>   <th>Class Type</th>
  *                     <th>Default Value</th></tr>
- * <tr><td>mask1</td>  <td>org.eclipse.imagen.KernelJAI</td>
+ * <tr><td>mask1</td>  <td>org.eclipse.imagen.KernelImageN</td>
  *                     <td>KernalJAI.GRADIENT_MASK_SOBEL_HORIZONTAL</td>
- * <tr><td>mask2</td>  <td>org.eclipse.imagen.KernelJAI</td>
+ * <tr><td>mask2</td>  <td>org.eclipse.imagen.KernelImageN</td>
  *                     <td>KernalJAI.GRADIENT_MASK_SOBEL_VERTICAL</td>
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @see org.eclipse.imagen.KernelJAI
+ * @see KernelImageN
  */
 public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
 
@@ -110,12 +112,11 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
     private static final String[] paramNames = {"mask1", "mask2"};
 
     /** The parameter class types for the GradientMagnitude operation. */
-    private static final Class[] paramClasses = {org.eclipse.imagen.KernelJAI.class, org.eclipse.imagen.KernelJAI.class
-    };
+    private static final Class[] paramClasses = {KernelImageN.class, KernelImageN.class};
 
     /** The parameter default values for the GradientMagnitude operation. */
     private static final Object[] paramDefaults = {
-        KernelJAI.GRADIENT_MASK_SOBEL_HORIZONTAL, KernelJAI.GRADIENT_MASK_SOBEL_VERTICAL
+        KernelImageN.GRADIENT_MASK_SOBEL_HORIZONTAL, KernelImageN.GRADIENT_MASK_SOBEL_VERTICAL
     };
 
     /** Constructor for the GradientMagnitudeDescriptor. */
@@ -134,8 +135,8 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
             return false;
         }
 
-        KernelJAI h_kernel = (KernelJAI) args.getObjectParameter(0);
-        KernelJAI v_kernel = (KernelJAI) args.getObjectParameter(1);
+        KernelImageN h_kernel = (KernelImageN) args.getObjectParameter(0);
+        KernelImageN v_kernel = (KernelImageN) args.getObjectParameter(1);
 
         /* Check if both kernels are equivalent in terms of dimensions. */
         if ((h_kernel.getWidth() != v_kernel.getWidth()) || (h_kernel.getHeight() != v_kernel.getHeight())) {
@@ -161,11 +162,11 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the gradient of an image
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param mask1 A gradient mask. May be <code>null</code>.
@@ -174,14 +175,15 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0, KernelJAI mask1, KernelJAI mask2, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("GradientMagnitude", RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(
+            RenderedImage source0, KernelImageN mask1, KernelImageN mask2, RenderingHints hints) {
+        ParameterBlockImageN pb = new ParameterBlockImageN("GradientMagnitude", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("mask1", mask1);
         pb.setParameter("mask2", mask2);
 
-        return JAI.create("GradientMagnitude", pb, hints);
+        return ImageN.create("GradientMagnitude", pb, hints);
     }
 }

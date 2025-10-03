@@ -138,11 +138,11 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
     /**
      * Subtracts constants from an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param constants The constants to be subtracted.
@@ -152,23 +152,23 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>constants</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, double[] constants, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubtractConst", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubtractConst", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("constants", constants);
 
-        return JAI.create("SubtractConst", pb, hints);
+        return ImageN.create("SubtractConst", pb, hints);
     }
 
     /**
      * Subtracts constants from an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param constants The constants to be subtracted.
@@ -178,12 +178,12 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>constants</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, double[] constants, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubtractConst", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubtractConst", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("constants", constants);
 
-        return JAI.createRenderable("SubtractConst", pb, hints);
+        return ImageN.createRenderable("SubtractConst", pb, hints);
     }
 }

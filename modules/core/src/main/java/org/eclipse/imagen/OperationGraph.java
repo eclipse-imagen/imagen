@@ -32,7 +32,7 @@ import java.util.Vector;
  *
  * <p>This class is used by the implementation of the OperationRegistry class and is not intended to be part of the API.
  *
- * <p>- what was OperationGraph pre-JAI 1.1 is now FactoryOperationGraph
+ * <p>- what was OperationGraph is now FactoryOperationGraph
  */
 class OperationGraph implements java.io.Serializable {
 
@@ -120,7 +120,7 @@ class OperationGraph implements java.io.Serializable {
         boolean retval = false;
 
         if ((preferred == null) || (other == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (preferred == other) return retval;
@@ -143,7 +143,7 @@ class OperationGraph implements java.io.Serializable {
         boolean retval = false;
 
         if ((preferred == null) || (other == null)) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (preferred == other) return retval;

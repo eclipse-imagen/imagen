@@ -25,7 +25,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.Serializable;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFactory;
@@ -43,7 +43,7 @@ import org.eclipse.imagen.media.range.Range;
  * data associated with the selected input image. The lase method called lookup(Raster,WritableRaster,Rectangle) is
  * abstract because its implementation depends on the subClass data type.
  */
-public class LookupTable extends LookupTableJAI implements Serializable {
+public class LookupTable extends LookupTableImageN implements Serializable {
 
     /** Destination no data for Byte images */
     protected byte destinationNoDataByte;

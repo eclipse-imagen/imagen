@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 
@@ -36,12 +36,12 @@ import org.eclipse.imagen.RasterFormatTag;
  *
  * <p>The Kernels cannot be bigger in any dimension than the image data.
  *
- * @see KernelJAI
+ * @see KernelImageN
  */
 final class GradientOpImage extends AreaOpImage {
 
     /** The kernel with which to do the gradient operation. */
-    protected KernelJAI kernel_h, kernel_v;
+    protected KernelImageN kernel_h, kernel_v;
 
     /** Kernel variables. */
     private int kw, kh;
@@ -62,8 +62,8 @@ final class GradientOpImage extends AreaOpImage {
             BorderExtender extender,
             Map config,
             ImageLayout layout,
-            KernelJAI kernel_h,
-            KernelJAI kernel_v) {
+            KernelImageN kernel_h,
+            KernelImageN kernel_v) {
         super(
                 source,
                 layout,
@@ -518,8 +518,8 @@ final class GradientOpImage extends AreaOpImage {
     //                           -2.0f, 0.0f, 2.0f,
     //                           -1.0f, 0.0f, 1.0f};
 
-    //         KernelJAI kern_h = new KernelJAI(3,3,data_h);
-    //         KernelJAI kern_v = new KernelJAI(3,3,data_v);
+    //         KernelImageN kern_h = new KernelImageN(3,3,data_h);
+    //         KernelImageN kern_v = new KernelImageN(3,3,data_v);
 
     //         return new GradientOpImage(oit.getSource(), null, null,
     //                                    new ImageLayout(oit.getSource()),

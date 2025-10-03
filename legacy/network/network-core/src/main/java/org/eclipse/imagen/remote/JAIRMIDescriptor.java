@@ -26,6 +26,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 import org.eclipse.imagen.*;
+import org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi;
 import org.eclipse.imagen.media.rmi.ImageServer;
 import org.eclipse.imagen.media.rmi.JAIRMIUtil;
 import org.eclipse.imagen.media.rmi.RMIServerProxy;
@@ -37,8 +38,8 @@ import org.eclipse.imagen.util.ImagingListener;
 
 /**
  * This class describes the "jairmi" remote imaging protocol. This protocol assumes that both the client and the server
- * are running JAI. The communication between the client and the server takes place using the Remote Method Invocation
- * (RMI) mechanism.
+ * are running ImageN. The communication between the client and the server takes place using the Remote Method
+ * Invocation (RMI) mechanism.
  *
  * <p>In order to locate the "jairmi" server, a RMI registry must be running on this server, and the "jairmi" server
  * must have registered itself with this RMI registry by binding itself under the <code>IMAGE_SERVER_BIND_NAME</code>
@@ -61,27 +62,26 @@ import org.eclipse.imagen.util.ImagingListener;
  * <p>If the serverName supplied to any "jairmi" protocol implementing class's method is null, then the local host will
  * be used instead.
  *
- * <p>The default "jairmi" server provided with JAI is <code>org.eclipse.imagen.media.rmi.JAIRMIRemoteServer</code>.
+ * <p>The default "jairmi" server provided with ImageN is <code>org.eclipse.imagen.media.rmi.JAIRMIRemoteServer</code>.
  * This server can be run in the following manner, after starting a rmiregistry on the host where the server will be
  * run:
  *
  * <pre>
- * java -Djava.rmi.server.codebase="file:$JAI/lib/jai_core.jar file:$JAI/lib/jai_codec.jar" -Djava.rmi.server.useCodebaseOnly=false -Djava.security.policy=file:$JAI/policy org.eclipse.imagen.media.rmi.JAIRMIImageServer
+ * java -Djava.rmi.server.codebase="file:$ImageN/lib/jai_core.jar file:$ImageN/lib/jai_codec.jar" -Djava.rmi.server.useCodebaseOnly=false -Djava.security.policy=file:$ImageN/policy org.eclipse.imagen.media.rmi.ImageNRMIImageServer
  * </pre>
  *
- * where $JAI refers to the directory where JAI is installed. This server binds itself with the running rmiregistry
- * under the <code>IMAGE_SERVER_BIND_NAME</code> <code>String</code> bind name, and can be used to serve "jairmi"
- * requests. The policy file specified above needs to be created by the user. Information on policy files and
+ * where $ImageN refers to the directory where ImageN is installed. This server binds itself with the running
+ * rmiregistry under the <code>IMAGE_SERVER_BIND_NAME</code> <code>String</code> bind name, and can be used to serve
+ * "jairmi" requests. The policy file specified above needs to be created by the user. Information on policy files and
  * permissions can be found at
  *
  * <p>http://java.sun.com/j2se/1.3/docs/guide/security/PolicyFiles.html
  *
  * <p>http://java.sun.com/j2se/1.3/docs/guide/security/permissions.html
  *
- * <p>The JAI instance used by the "jairmi" remote imaging server can be configured by providing an implementation of
- * the <code>org.eclipse.imagen.media.remote.JAIServerConfigurationSpi</code> interface on the <code>CLASSPATH</code>
- * when starting the server. For more details, please refer to
- * {@link org.eclipse.imagen.media.remote.JAIServerConfigurationSpi}
+ * <p>The ImageN instance used by the "jairmi" remote imaging server can be configured by providing an implementation of
+ * the <code>org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi</code> interface on the <code>CLASSPATH</code>
+ * when starting the server. For more details, please refer to {@link ImageNServerConfigurationSpi}
  *
  * <p>The "jairmi" remote imaging server supports the following configurable parameters whose values can be specified on
  * the command line when starting the server : <code>
@@ -117,12 +117,10 @@ import org.eclipse.imagen.util.ImagingListener;
  *                           with network errors during remote imaging
  * </code>
  *
- * <p>It should be noted that if a parameter was set via JAIServerConfigurationSpi, and the command line option for the
- * same parameter specifies a different value, then the command line specified parameter value will be honored. That is
- * to say that the JAIServerConfigurationSpi specified configuration happens first, followed by command line parameter
- * configuration, and the last configuration to be applied overwrites all previous settings.
- *
- * @since JAI 1.1
+ * <p>It should be noted that if a parameter was set via ImageNServerConfigurationSpi, and the command line option for
+ * the same parameter specifies a different value, then the command line specified parameter value will be honored. That
+ * is to say that the ImageNServerConfigurationSpi specified configuration happens first, followed by command line
+ * parameter configuration, and the last configuration to be applied overwrites all previous settings.
  */
 public class JAIRMIDescriptor extends RemoteDescriptorImpl {
 
@@ -468,7 +466,7 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+        ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
         listener.errorOccurred(message, e, this, false);
     }
 }

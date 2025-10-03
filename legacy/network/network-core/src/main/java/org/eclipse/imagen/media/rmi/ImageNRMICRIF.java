@@ -37,10 +37,10 @@ import org.eclipse.imagen.tilecodec.TileDecoderFactory;
 import org.eclipse.imagen.util.ImagingListener;
 
 /** An implementation of the <code>RemoteRIF</code> interface for the "jairmi" remote imaging protocol. */
-public class JAIRMICRIF implements RemoteCRIF {
+public class ImageNRMICRIF implements RemoteCRIF {
 
     /** No arg constructor. */
-    public JAIRMICRIF() {}
+    public ImageNRMICRIF() {}
 
     /**
      * Maps the operation's output <code>RenderContext</code> into a <code>RenderContext</code> for each of the
@@ -77,7 +77,7 @@ public class JAIRMICRIF implements RemoteCRIF {
             SerializableState rcpOut =
                     rmisp.getImageServer(serverName).mapRenderContext(i, rmisp.getRMIID(), operationName, rcs);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("JAIRMICRIF5");
+            String message = JaiI18N.getString("ImageNRMICRIF5");
             sendExceptionToListener(renderContext, message, re);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -110,7 +110,7 @@ public class JAIRMICRIF implements RemoteCRIF {
         try {
             bounds = rmisp.getImageServer(serverName).getBounds2D(rmisp.getRMIID(), operationName);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("JAIRMICRIF6");
+            String message = JaiI18N.getString("ImageNRMICRIF6");
             sendExceptionToListener(null, message, e);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -146,7 +146,7 @@ public class JAIRMICRIF implements RemoteCRIF {
         try {
             return rmisp.getProperty(name);
         } catch (Exception e) {
-            String message = JaiI18N.getString("JAIRMICRIF7");
+            String message = JaiI18N.getString("ImageNRMICRIF7");
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -161,7 +161,7 @@ public class JAIRMICRIF implements RemoteCRIF {
             return remoteImage.getPropertyNames(operationName);
         } catch (RemoteException e) {
             // Should we be catching Exception or RemoteException
-            String message = JaiI18N.getString("JAIRMICRIF8");
+            String message = JaiI18N.getString("ImageNRMICRIF8");
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -212,7 +212,7 @@ public class JAIRMICRIF implements RemoteCRIF {
         try {
             return remoteImage.isDynamic(operationName);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("JAIRMICRIF9");
+            String message = JaiI18N.getString("ImageNRMICRIF9");
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -262,9 +262,9 @@ public class JAIRMICRIF implements RemoteCRIF {
 
     /**
      * Creates a <code>RemoteRenderedImage</code> representing the results of an imaging operation, whose given old
-     * rendering is updated according to the given <code>PropertyChangeEventJAI</code>. This factory method should be
+     * rendering is updated according to the given <code>PropertyChangeEventImageN</code>. This factory method should be
      * used to create a new rendering updated according to the changes reported by the given <code>
-     * PropertyChangeEventJAI</code>. The <code>RemoteRIF</code> can query the supplied <code>PlanarImageServerProxy
+     * PropertyChangeEventImageN</code>. The <code>RemoteRIF</code> can query the supplied <code>PlanarImageServerProxy
      * </code> for references to the server name, operation name, parameter block, and rendering hints. The <code>
      * RemoteRIF</code> may also query any source images referenced by the <code>ParameterBlock</code> for their
      * dimensions, <code>SampleModel</code>s, properties, etc., as necessary.
@@ -284,7 +284,7 @@ public class JAIRMICRIF implements RemoteCRIF {
      * @return A <code>RemoteRenderedImage</code> containing the desired output.
      */
     public RemoteRenderedImage create(
-            PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventJAI event)
+            PlanarImageServerProxy oldRendering, OperationNode node, PropertyChangeEventImageN event)
             throws RemoteImagingException {
 
         if (!(node instanceof RemoteRenderedOp)) return null;
@@ -342,7 +342,7 @@ public class JAIRMICRIF implements RemoteCRIF {
     /** Returns the set of capabilities supported by the client object. */
     public NegotiableCapabilitySet getClientCapabilities() {
 
-        OperationRegistry registry = JAI.getDefaultInstance().getOperationRegistry();
+        OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
         String modeName = "tileDecoder";
         String[] descriptorNames = registry.getDescriptorNames(modeName);
         TileDecoderFactory tdf = null;

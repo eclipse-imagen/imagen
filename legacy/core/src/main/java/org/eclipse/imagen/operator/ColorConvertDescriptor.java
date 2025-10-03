@@ -39,7 +39,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>The calculation pathway is selected to optimize performance and accuracy based on which <code>ColorSpace</code>
  * subclasses are used to represent the source and destination color spaces. The subclass categories are <code>
- * ICC_ColorSpace</code>, <code>ColorSpaceJAI</code>, and generic <code>ColorSpace</code>, i.e., one which is not an
+ * ICC_ColorSpace</code>, <code>ColorSpaceImageN</code>, and generic <code>ColorSpace</code>, i.e., one which is not an
  * instance of either the two aforementioned subclasses. Note that in the Sun Microsystems implementation, an <code>
  * ICC_ColorSpace</code> instance is what is returned by <code>ColorSpace.getInstance()</code>.
  *
@@ -77,7 +77,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * @see java.awt.color.ColorSpace
  * @see java.awt.color.ICC_ColorSpace
  * @see ColorModel
- * @see org.eclipse.imagen.ColorSpaceJAI
+ * @see ColorSpaceImageN
  * @see org.eclipse.imagen.IHSColorSpace
  */
 public class ColorConvertDescriptor extends OperationDescriptorImpl {
@@ -120,11 +120,11 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
     /**
      * Convert the color space of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param colorModel The destination color space.
@@ -134,23 +134,23 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>colorModel</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, ColorModel colorModel, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ColorConvert", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ColorConvert", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("colorModel", colorModel);
 
-        return JAI.create("ColorConvert", pb, hints);
+        return ImageN.create("ColorConvert", pb, hints);
     }
 
     /**
      * Convert the color space of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param colorModel The destination color space.
@@ -160,12 +160,12 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>colorModel</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, ColorModel colorModel, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ColorConvert", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ColorConvert", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("colorModel", colorModel);
 
-        return JAI.createRenderable("ColorConvert", pb, hints);
+        return ImageN.createRenderable("ColorConvert", pb, hints);
     }
 }

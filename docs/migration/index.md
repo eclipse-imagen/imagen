@@ -51,8 +51,12 @@ Eclipse ImageN offers a migration path for developers migrating from the Java Ad
    ant -f code-updates.xml -Dproject.dir=(absolute path to your project directory)
    ```
    
-   This is a simple refactoring script to fix imports and class references, and adjust to any
-   class name changes made during transition to ImageN library.
+4. This is a simple refactoring script to fix:
+   
+   * imports and class references
+   * class name changes made during transition to ImageN library
+   * ParameterBlock constants, like "ImageN.ImageReadParam".
+   
    
 ## Manual Update
 
@@ -93,10 +97,10 @@ To upgrade:
    </dependency>
    ```
    
-   Note `imagen-legacy-all` includes the origional legacy operators, and unsupported functionality
-   such as the `jai_codec` for which better replacements are avaialble. 
+   Note `imagen-legacy-all` includes the original legacy operators, and unsupported functionality
+   such as the `jai_codec` for which better replacements are available. 
 
-3. Source code imports:
+3. Source code imports and references to JAI in class names and constants:
    
    ```java
      import java.awt.Frame;
@@ -113,17 +117,24 @@ To upgrade:
      }
    ```
 
-4. Can be directly replaced:
+4. Can be directly replaced (in order):
    
    * Replace `javax.media.jai` with package `org.eclipse.imagen`
    * Replace `com.sun.media.jai` with package `org.eclipse.imagen.media`
-   
+   * Replace `JAI` with `ImageN` classe
+   * Replace classes containing the JAI with their ImageN equivalent,
+     such as `ParameterBlockJAI` with `ParameterBlockImageN`.
+     Consult the table in the next section as a reference.
+   * Replace parameter block constants,
+     such as `"JAI.ImageReadParam"` with `"ImageN.ImageReadParam"`.
+     A complete table is provided in the next section.
+
    ```java
    import java.awt.Frame;
    import java.awt.image.renderable.ParameterBlock;
    import java.io.IOException;
    import org.eclipse.imagen.Interpolation;
-   import org.eclipse.imagen.JAI;
+   import org.eclipse.imagen.ImageN;
    import org.eclipse.imagen.RenderedOp;
    import org.eclipse.imagen.media.codec.FileSeekableStream;
    import org.eclipse.imagen.widget.ScrollingImagePanel;
@@ -131,29 +142,63 @@ To upgrade:
    public class ImageNSampleProgram {
       ...
    }
-   ```
+   ``` 
 
-4. Once your application compiles change to ``org.eclipse.imagen:imagen-all` dependency
+6. Recommended: Once your application compiles change to ``org.eclipse.imagen:imagen-all` dependency
    (for core library and supported operators) and add additional unsupported or legacy dependencies as needed.
    
-   * Legacy functionality has been identified for removal and will not be avaialble in future releases of ImageN.
+   * Legacy functionality has been identified for removal and will not be available in future releases of ImageN.
    
    * Unsupported functionality is provided "as is", and requires test case coverage to be fully supported.
+
+# ImageN Name Changes
+
+The following classes have been renamed:
+
+| JAI or JAI-Ext Class       | ImageN Class                 |
+|----------------------------|------------------------------|
+| ColorSpaceJAI              | ColorSpaceImageN             | 
+| ColorSpaceJAIExt           | ColorSpaceImageNExt          |
+| ColorSpaceJAIExtWrapper    | ColorSpaceImageNExtWrapper   |
+| IHSColorSpaceJAIExt        | IHSColorSpaceImageNExt       |
+| JAI                        | ImageN                       |
+| JAIRMIImageServer          | ImageNRMIImageServer         |
+| JAIServerConfigurationSpi  | ImageNServerConfigurationSpi |
+| ParameterBlockJAI          | ParameterBlockImageN         |
+| PropertyChangeEventJAI     | PropertyChangeEventImageN    | 
+| LookupTableJAI             | LookupTableImageN            |
+| ComponentSampleModelJAI    | ComponentSampleModelImageN   |
+| PropertyChangeSupportJAI   | PropertyChangeSupportImageN  |
+| KernelJAI                  | KernelImageN                 |
+| ImageJAI                   | ImageImageN                  | 
+| ImageFunctionJAIEXT        | ImageFunctionExt             |
+| ImageFunctionJAIEXTWrapper | ImageFunctionExtWrapper      |
+
+The following ImageReadDescriptors have been renamed:
+
+| JAI Descriptor        | ImageN Descriptor        |
+|-----------------------|--------------------------|
+| `JAI.ImageReadParam`  | `ImageN.ImageReadParam`  |
+| `JAI.ImageReader`     | `ImageN.ImageReader`     |
+| `JAI.ImageMetadata`   | `ImageN.ImageMetadata`   |
+| `JAI.StreamMetadata`  | `ImageN.StreamMetadata`  |
+| `JAI.Thumbnails`      | `ImageN.Thumbnails`      |
+| `JAI.RenderableInput` | `ImageN.RenderableInput` | 
 
 # Java Image Formats
 
 Both the Java platform and ImageN include encoding/decoding codecs for image formats:
 
-Format         | [Java 8 ImageIO](https://docs.oracle.com/javase/8/docs/api/javax/imageio/package-summary.html) | ImageN Codec   | [Java 11 ImageIO](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/imageio/package-summary.html)
--------------- | -------------- | -------------- | -------------- 
-BMP            | read/write     | read/write     | read/write
-FlashPix       |                | read           | 
-GIF            | read/write     | read           | read/write
-JPEG           | read/write     | read/write     | read/write
-PNG            | read/write     | read/write     | read/write
-PNM            |                | read/write     | 
-TIFF           |                | read/write     | read/write
-WBMP           | read/write     | read           | read/write
+| Format   | Java 8 ImageIO  | ImageN Codec | Java 11 ImageIO |
+|----------|-----------------|--------------|-----------------| 
+| BMP      | read/write      | read/write   | read/write      |
+| FlashPix |                 | read         |                 |
+| GIF      | read/write      | read         | read/write      |
+| JPEG     | read/write      | read/write   | read/write      |
+| PNG      | read/write      | read/write   | read/write      |
+| PNM      |                 | read/write   |                 |
+| TIFF     |                 | read/write   | read/write      | 
+|  WBMP    | read/write      | read         | read/write      |
 
 Oracle JDK 8 includes the internal `com.sun.image.codec.jpeg` packages used by `imagen-codec` JPEG read/write support listed above. These packages are not available in OpenJDK 8 or Java 11.
 

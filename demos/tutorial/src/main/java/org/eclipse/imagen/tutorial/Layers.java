@@ -70,7 +70,7 @@ public class Layers extends JPanel implements ActionListener, ChangeListener {
             btns[i].addActionListener(this);
             top.add(btns[i]);
 
-            PlanarImage im = JAI.create("fileload", file[i]);
+            PlanarImage im = ImageN.create("fileload", file[i]);
             sources.addElement(im);
 
             rasters.add(((PlanarImage) im).getAsBufferedImage().getRaster());
@@ -89,7 +89,7 @@ public class Layers extends JPanel implements ActionListener, ChangeListener {
             pb = new ParameterBlock();
             pb.addSource(im);
             pb.add(constants[i]);
-            targets.addElement(JAI.create("multiplyconst", pb, null));
+            targets.addElement(ImageN.create("multiplyconst", pb, null));
 
             sliders[i] = new JSlider(JSlider.HORIZONTAL, 0, 10, 0);
             sliders[i].setPreferredSize(new Dimension(70, 20));
@@ -99,7 +99,7 @@ public class Layers extends JPanel implements ActionListener, ChangeListener {
         pb = new ParameterBlock();
         pb.addSource(targets);
 
-        result = JAI.create("addcollection", pb, null);
+        result = ImageN.create("addcollection", pb, null);
 
         JPanel dest = new JPanel();
         dest.setLayout(new BorderLayout());
@@ -232,14 +232,14 @@ public class Layers extends JPanel implements ActionListener, ChangeListener {
             pb = new ParameterBlock();
             pb.addSource(bi);
             pb.add(constants[i]);
-            PlanarImage tmp = JAI.create("multiplyconst", pb, null);
+            PlanarImage tmp = ImageN.create("multiplyconst", pb, null);
             targets.set(i, tmp);
         }
 
         pb = new ParameterBlock();
         pb.addSource(targets);
 
-        result = JAI.create("addcollection", pb, null);
+        result = ImageN.create("addcollection", pb, null);
         dst_display.set(result);
     }
 }

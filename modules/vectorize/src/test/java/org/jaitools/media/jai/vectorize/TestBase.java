@@ -46,8 +46,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.util.ImagingListener;
@@ -70,10 +70,10 @@ public abstract class TestBase {
 
     @BeforeClass
     public static void quiet() {
-        JAI jai = JAI.getDefaultInstance();
-        final ImagingListener imagingListener = jai.getImagingListener();
+        ImageN imageN = ImageN.getDefaultInstance();
+        final ImagingListener imagingListener = imageN.getImagingListener();
         if (imagingListener == null || imagingListener.getClass().getName().contains("ImagingListenerImpl")) {
-            jai.setImagingListener(new ImagingListener() {
+            imageN.setImagingListener(new ImagingListener() {
                 @Override
                 public boolean errorOccurred(String message, Throwable thrown, Object where, boolean isRetryable)
                         throws RuntimeException {
@@ -94,7 +94,7 @@ public abstract class TestBase {
      * @return the destination image
      */
     protected RenderedOp doOp(RenderedImage sourceImg, Map<String, Object> args) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Vectorize");
+        ParameterBlockImageN pb = new ParameterBlockImageN("Vectorize");
         pb.setSource("source0", sourceImg);
 
         if (args != null) {
@@ -107,7 +107,7 @@ public abstract class TestBase {
             }
         }
 
-        return JAI.create("Vectorize", pb);
+        return ImageN.create("Vectorize", pb);
     }
 
     /**

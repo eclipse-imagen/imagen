@@ -24,10 +24,10 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.GeometricOpImage;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -38,11 +38,7 @@ import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 import org.eclipse.imagen.util.Range;
 
-/**
- * This property generator computes the properties for the operation "SubsampleAverage" dynamically.
- *
- * @since JAI 1.1.2
- */
+/** This property generator computes the properties for the operation "SubsampleAverage" dynamically. */
 class SubsampleAveragePropertyGenerator implements PropertyGenerator {
 
     /** Constructor. */
@@ -249,8 +245,6 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
  * <tr><td>scaleY</td>        <td>java.lang.Double</td>
  *                            <td>scaleX</td>
  * </table>
- *
- * @since JAI 1.1.2
  */
 public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
 
@@ -337,11 +331,11 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
     /**
      * Subsamples an image by averaging over a moving window.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scaleX The X scale factor. May be <code>null</code>.
@@ -351,24 +345,24 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Double scaleX, Double scaleY, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubsampleAverage", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubsampleAverage", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("scaleX", scaleX);
         pb.setParameter("scaleY", scaleY);
 
-        return JAI.create("SubsampleAverage", pb, hints);
+        return ImageN.create("SubsampleAverage", pb, hints);
     }
 
     /**
      * Subsamples an image by averaging over a moving window.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param scaleX The X scale factor. May be <code>null</code>.
@@ -379,13 +373,13 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, Double scaleX, Double scaleY, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubsampleAverage", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubsampleAverage", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("scaleX", scaleX);
         pb.setParameter("scaleY", scaleY);
 
-        return JAI.createRenderable("SubsampleAverage", pb, hints);
+        return ImageN.createRenderable("SubsampleAverage", pb, hints);
     }
 }

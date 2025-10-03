@@ -30,8 +30,6 @@ import org.eclipse.imagen.media.util.RWLock;
 /**
  * A wrapper class on <code>OperationRegistry</code> which is thread safe. Every method is wrapped with an appropriate
  * read or a write lock. Exceptions are caught and the lock is released before the exception is re-thrown.
- *
- * @since JAI 1.1
  */
 final class ThreadSafeOperationRegistry extends OperationRegistry {
 
@@ -128,7 +126,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
         }
     }
 
-    /** ******************** NEW JAI 1.1 methods ************************ */
+    /** ******************** NEW ImageN methods ************************ */
     public void removeRegistryMode(String modeName) {
         try {
             lock.forWriting();

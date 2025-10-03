@@ -25,7 +25,7 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ColormapOpImage;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.media.util.ImageUtil;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
 
@@ -34,7 +34,7 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  *
  * <p>This <code>OpImage</code> performs the general table lookup on a source image by passing it through a lookup
  * table. The source image may be single- or multi-banded and of any integral data types. The lookup table may be
- * single- or multi-banded of any JAI supported data types. The destination image must have the same data type as the
+ * single- or multi-banded of any ImageN supported data types. The destination image must have the same data type as the
  * lookup table, and its number of bands is determined based on the number of bands of the source and the table.
  *
  * <p>If both the source and the lookup table are multi-banded, they should have the same number of bands. In case their
@@ -78,13 +78,13 @@ import org.eclipse.imagen.media.util.JDKWorkarounds;
  * </pre>
  *
  * @see org.eclipse.imagen.operator.LookupDescriptor
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  * @see LookupCRIF
  */
 final class LookupOpImage extends ColormapOpImage {
 
     /** The lookup table associated with this operation. The source image is passed through this table. */
-    protected LookupTableJAI table;
+    protected LookupTableImageN table;
 
     /**
      * Constructor.
@@ -97,7 +97,7 @@ final class LookupOpImage extends ColormapOpImage {
      * @param layout The destination image layout.
      * @param table The table used to perform the lookup operation, stored by reference.
      */
-    public LookupOpImage(RenderedImage source, Map config, ImageLayout layout, LookupTableJAI table) {
+    public LookupOpImage(RenderedImage source, Map config, ImageLayout layout, LookupTableImageN table) {
         super(source, layout, config, true);
 
         this.table = table;

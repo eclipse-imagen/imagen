@@ -514,7 +514,7 @@ public class PNGImageEncoder extends ImageEncoderImpl {
             ChunkStream cs = new ChunkStream("iCCP");
             String name = param.getICCProfileName();
             if (name == null || name.length() < 1) {
-                name = "JAI-Placed Profile";
+                name = "ImageN-Placed Profile";
             } else {
                 name = name.trim();
                 if (name.length() > 79) {

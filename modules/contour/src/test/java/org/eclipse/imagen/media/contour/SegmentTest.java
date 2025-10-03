@@ -41,7 +41,7 @@ package org.eclipse.imagen.media.contour;
 
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.media.contour.Segment.MergePoint;
 import org.eclipse.imagen.util.ImagingListener;
 import org.junit.BeforeClass;
@@ -51,10 +51,10 @@ public class SegmentTest {
 
     @BeforeClass
     public static void quiet() {
-        JAI jai = JAI.getDefaultInstance();
-        final ImagingListener imagingListener = jai.getImagingListener();
+        ImageN imageN = ImageN.getDefaultInstance();
+        final ImagingListener imagingListener = imageN.getImagingListener();
         if (imagingListener == null || imagingListener.getClass().getName().contains("ImagingListenerImpl")) {
-            jai.setImagingListener(new ImagingListener() {
+            imageN.setImagingListener(new ImagingListener() {
                 @Override
                 public boolean errorOccurred(String message, Throwable thrown, Object where, boolean isRetryable)
                         throws RuntimeException {

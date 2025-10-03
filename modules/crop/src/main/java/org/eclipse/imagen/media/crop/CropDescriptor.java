@@ -21,18 +21,18 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationRegistry;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
 /**
- * Describes the "Crop" operation which performs a crop on an image, like the standard JAI Crop, but does so respecting
- * the tile scheduler and tile cache specified in the rendering hints
+ * Describes the "Crop" operation which performs a crop on an image, like the standard ImageN Crop, but does so
+ * respecting the tile scheduler and tile cache specified in the rendering hints
  *
  * @author Andrea Aime
  */
@@ -100,10 +100,10 @@ public class CropDescriptor extends OperationDescriptorImpl {
     /** Manually registers the operation in the registry in case it's not already there */
     public static void register() {
         try {
-            final OperationRegistry opr = JAI.getDefaultInstance().getOperationRegistry();
+            final OperationRegistry opr = ImageN.getDefaultInstance().getOperationRegistry();
             if (opr.getDescriptor(RenderedRegistryMode.MODE_NAME, "Crop") == null) {
 
-                final OperationRegistry registry = JAI.getDefaultInstance().getOperationRegistry();
+                final OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
 
                 OperationDescriptorImpl descriptor = new CropDescriptor();
 
@@ -142,7 +142,7 @@ public class CropDescriptor extends OperationDescriptorImpl {
             Range noData,
             double[] destNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Crop", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Crop", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -154,6 +154,6 @@ public class CropDescriptor extends OperationDescriptorImpl {
         pb.setParameter("NoData", noData);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.create("Crop", pb, hints);
+        return ImageN.create("Crop", pb, hints);
     }
 }

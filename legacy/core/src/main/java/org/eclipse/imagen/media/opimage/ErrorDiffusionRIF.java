@@ -22,8 +22,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.KernelImageN;
+import org.eclipse.imagen.LookupTableImageN;
 
 /**
  * A <code>RIF</code> supporting the "ErrorDiffusion" operation in the rendered image layer.
@@ -46,8 +46,8 @@ public class ErrorDiffusionRIF implements RenderedImageFactory {
         ImageLayout layout = RIFUtil.getImageLayoutHint(renderHints);
 
         RenderedImage source = paramBlock.getRenderedSource(0);
-        LookupTableJAI lookupTable = (LookupTableJAI) paramBlock.getObjectParameter(0);
-        KernelJAI kernel = (KernelJAI) paramBlock.getObjectParameter(1);
+        LookupTableImageN lookupTable = (LookupTableImageN) paramBlock.getObjectParameter(0);
+        KernelImageN kernel = (KernelImageN) paramBlock.getObjectParameter(1);
 
         return new ErrorDiffusionOpImage(source, renderHints, layout, lookupTable, kernel);
     }

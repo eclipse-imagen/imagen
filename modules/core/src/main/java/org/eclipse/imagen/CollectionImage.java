@@ -33,7 +33,7 @@ import org.eclipse.imagen.media.util.PropertyUtil;
  * Collection</code>s that include images. In other words, this class supports nested <code>Collection</code>s, but at
  * the very bottom, there must be images associated with the <code>Collection</code> objects.
  */
-public abstract class CollectionImage implements ImageJAI, Collection {
+public abstract class CollectionImage implements ImageImageN, Collection {
 
     /**
      * A <code>Collection</code> of objects. It may be a <code>Collection</code> of images of the same type, a <code>
@@ -45,32 +45,18 @@ public abstract class CollectionImage implements ImageJAI, Collection {
     /**
      * The <code>CollectionImageFactory</code> which created this <code>CollectionImage</code>; may be <code>null</code>
      * which implies that the <code>CollectionImage</code> was not created by a <code>CollectionImageFactory</code>.
-     *
-     * @since JAI 1.1
      */
     protected CollectionImageFactory imageFactory;
 
     private Boolean isFactorySet = Boolean.FALSE;
 
-    /**
-     * A helper object to manage firing events.
-     *
-     * @since JAI 1.1
-     */
-    protected PropertyChangeSupportJAI eventManager = null;
+    /** A helper object to manage firing events. */
+    protected PropertyChangeSupportImageN eventManager = null;
 
-    /**
-     * A helper object to manage the image properties.
-     *
-     * @since JAI 1.1
-     */
+    /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
 
-    /**
-     * A <code>Set</code> of <code>WeakReference</code>s to the sinks of this <code>CollectionImage</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** A <code>Set</code> of <code>WeakReference</code>s to the sinks of this <code>CollectionImage</code>. */
     protected Set sinks;
 
     /**
@@ -80,7 +66,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * a later time when methods which use to the <code>imageCollection</code> instance variable are invoked.
      */
     protected CollectionImage() {
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 
@@ -94,7 +80,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
         this();
 
         if (collection == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         imageCollection = collection;
@@ -112,7 +98,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * @param index The index of the desired element.
      * @throws IndexOutOfBoundsException if the index is out of range (<code>index</code> &lt; 0 || <code>index</code>
      *     &ge; <code>imageCollection.size()</code>).
-     * @since JAI 1.1
      */
     public Object get(int index) {
         if (index < 0 || index >= imageCollection.size()) {
@@ -135,7 +120,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      *
      * @param imageFactory The creating <code>CollectionImageFactory</code> or <code>null</code>
      * @throws IllegalStateException if the corresponding instance variable was already set.
-     * @since JAI 1.1
      */
     public void setImageFactory(CollectionImageFactory imageFactory) {
         synchronized (isFactorySet) {
@@ -150,8 +134,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
     /**
      * If this <code>CollectionImage</code> was created by a <code>CollectionImageFactory</code> then return a reference
      * to that factory; otherwise return <code>null</code>.
-     *
-     * @since JAI 1.1
      */
     public CollectionImageFactory getImageFactory() {
         synchronized (isFactorySet) {
@@ -161,14 +143,10 @@ public abstract class CollectionImage implements ImageJAI, Collection {
 
     /* ----- Sink methods. ----- */
 
-    /**
-     * Adds a sink to the set of sinks.
-     *
-     * @since JAI 1.1
-     */
+    /** Adds a sink to the set of sinks. */
     public synchronized boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -182,11 +160,10 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * Removes a sink from the set of sinks.
      *
      * @return <code>true</code> if and only if the set of sinks changed as a result of the call.
-     * @since JAI 1.1
      */
     public synchronized boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sinks == null) {
@@ -211,11 +188,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
         return result;
     }
 
-    /**
-     * Retrieves the set of sinks or <code>null</code> if there are none.
-     *
-     * @since JAI 1.1
-     */
+    /** Retrieves the set of sinks or <code>null</code> if there are none. */
     public synchronized Set getSinks() {
         Set v = null;
 
@@ -239,11 +212,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
         return v;
     }
 
-    /**
-     * Removes all sinks from the set of sinks.
-     *
-     * @since JAI 1.1
-     */
+    /** Removes all sinks from the set of sinks. */
     public synchronized void removeSinks() {
         sinks = null;
     }
@@ -282,7 +251,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
         return properties.getPropertyClass(name);
@@ -301,7 +269,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * Returns the specified property. The default implementation returns <code>java.awt.Image.UndefinedProperty</code>.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @deprecated as of JAI 1.1.
+     * @deprecated as of ImageN 0.4.0.
      */
     public Object getProperty(String name, Collection collection) {
         return Image.UndefinedProperty;
@@ -314,7 +282,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
      * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void setProperty(String name, Object value) {
         properties.setProperty(name, value);
@@ -323,8 +290,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
     /**
      * Removes the named property from the <code>CollectionImage</code>. Some <code>CollectionImage</code> subclasses
      * may ignore attempts to remove properties.
-     *
-     * @since JAI 1.1
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
@@ -332,11 +297,7 @@ public abstract class CollectionImage implements ImageJAI, Collection {
 
     /* ----- PropertyChangeEmitter methods. ----- */
 
-    /**
-     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
-     *
-     * @since JAI 1.1
-     */
+    /** Add a PropertyChangeListener to the listener list. The listener is registered for all properties. */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
     }
@@ -344,8 +305,6 @@ public abstract class CollectionImage implements ImageJAI, Collection {
     /**
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
@@ -354,18 +313,12 @@ public abstract class CollectionImage implements ImageJAI, Collection {
     /**
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
-     *
-     * @since JAI 1.1
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
-     */
+    /** Remove a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }

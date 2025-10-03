@@ -17,19 +17,19 @@
 
 package org.eclipse.imagen.media.remote;
 
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 // This uses the ImageIO idea of "services" to look for
 // concrete class that implement this interface. These concrete
 // classes must have been registered/listed in the
-// META-INF/services/org.eclipse.imagen.media.remote.JAIServerConfigurationSpi file.
+// META-INF/services/org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi file.
 
 /**
- * An interface definition to aid in the automatic loading of user-defined JAI based Remote Imaging server configuration
- * logic.
+ * An interface definition to aid in the automatic loading of user-defined ImageN based Remote Imaging server
+ * configuration logic.
  *
  * <p>All concrete classes that implement this interface can register by listing themselves in the "<code>
- * META-INF/services/org.eclipse.imagen.media.remote.JAIServerConfigurationSpi</code>" file that can be found in the
+ * META-INF/services/org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi</code>" file that can be found in the
  * classpath (this file is often contained in a jar file along with the class files). The file should contain a list of
  * fully-qualified concrete provider-class names, one per line. Space and tab characters surrounding each name, as well
  * as blank lines, are ignored. The comment character is <tt>'#'</tt> (<tt>0x23</tt>); on each line all characters
@@ -43,11 +43,11 @@ import org.eclipse.imagen.JAI;
  *
  * <p>All such concrete classes must have a zero-argument constructor so that they may be instantiated during lookup.
  * The <code>updateServer()</code> method of all such registered classes will be called with the default instance of the
- * <code>JAI</code> class. Note that this will take place after the JAI <code>OperationRegistry</code> has been
- * initialized with the default JAI registry file (META-INF/registryFile.jai), once all "META-INF/registryFile.jai"s
+ * <code>ImageN</code> class. Note that this will take place after the ImageN <code>OperationRegistry</code> has been
+ * initialized with the default ImageN registry file (META-INF/registryFile.jai), once all "META-INF/registryFile.jai"s
  * found in the classpath are loaded and the <code>updateRegistry</code> method of each <code>OperationRegistrySpi
  * </code> instance has been executed. There is no guarantee of the order in which the <code>
- * updateServer()</code> method of each <code>JAIServerConfigurationSpi</code> instance will be invoked.
+ * updateServer()</code> method of each <code>ImageNServerConfigurationSpi</code> instance will be invoked.
  *
  * <p>It is possible to provide arguments to a class implementing this interface (or any other Service Provider
  * Interface) using the standard <code>Java</code> <code> -D<propertyName>=<value></code> mechanism on the command line
@@ -57,13 +57,14 @@ import org.eclipse.imagen.JAI;
  * @see org.eclipse.imagen.OperationRegistry
  * @see org.eclipse.imagen.OperationRegistry#writeExternal
  * @see org.eclipse.imagen.OperationRegistrySpi
- * @since JAI 1.1
  */
-public interface JAIServerConfigurationSpi {
+public interface ImageNServerConfigurationSpi {
 
     /**
      * This method will be called for all registered "service-providers" of this interface just after the default <code>
-     * JAI</code> instance has been constructed.
+     * ImageN</code> instance has been constructed.
+     *
+     * @param imageNInstance The default ImageN instance.
      */
-    public void updateServer(JAI jaiInstance);
+    public void updateServer(ImageN imageNInstance);
 }

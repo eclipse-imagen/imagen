@@ -49,8 +49,6 @@ import org.eclipse.imagen.ParameterListDescriptorImpl;
  * <tr><th>Name</th>          <th>Class Type</th>
  *                            <th>Default Value</th></tr>
  * </table>
- *
- * @since JAI 1.1
  */
 public class RawTileCodecDescriptor extends TileCodecDescriptorImpl {
 

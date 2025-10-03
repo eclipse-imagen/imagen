@@ -82,7 +82,7 @@ public class JAIBlurSharpPanel extends JAIDemoPanel implements ChangeListener, I
         }
         kData[4] = alpha;
 
-        KernelJAI k = new KernelJAI(3, 3, 1, 1, kData);
+        KernelImageN k = new KernelImageN(3, 3, 1, 1, kData);
         pb.add(k);
         return client.create("convolve", pb, renderHints);
     }

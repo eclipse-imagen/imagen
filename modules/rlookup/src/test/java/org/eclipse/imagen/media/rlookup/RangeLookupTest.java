@@ -24,8 +24,8 @@ import static org.junit.Assert.assertNotNull;
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -444,12 +444,12 @@ public class RangeLookupTest extends TestBase {
     }
 
     private RenderedOp doOp(RenderedImage srcImg, RangeLookupTable table, ROI roi, Double defaultValue) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("RLookup");
+        ParameterBlockImageN pb = new ParameterBlockImageN("RLookup");
         pb.setSource("source0", srcImg);
         pb.setParameter("table", table);
         pb.setParameter("roi", roi);
         pb.setParameter("default", defaultValue);
-        return JAI.create("RLookup", pb);
+        return ImageN.create("RLookup", pb);
     }
 
     /**
@@ -556,7 +556,7 @@ public class RangeLookupTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RLookup");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RLookup");
         assertNotNull(descriptor);
         assertEquals("RLookup", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

@@ -25,7 +25,7 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
 /**
- * Modified version of JAI {@link RandomIterFallbackByte} that stores the tile positions in a int array. The current
+ * Modified version of ImageN {@link RandomIterFallbackByte} that stores the tile positions in a int array. The current
  * tile is not cached but it is calculated every time.
  */
 public class RandomIterFallbackIntNoCache implements RandomIter {

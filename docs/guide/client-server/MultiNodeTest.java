@@ -23,15 +23,15 @@ public MultiNodeTest(String fileName, String node1, String
 // Create a chain on node 1.
 System.out.println("Creating dst1 = log(invert(fileload("+
                            fileName+"))) on "+node1);
-        RenderedOp src = JAI.create("fileload", fileName);
-        RenderedOp op1 = JAI.create("invert", src);
-        RenderedOp op2 = JAI.create("log", op1);
+        RenderedOp src = ImageN.create("fileload", fileName);
+        RenderedOp op1 = ImageN.create("invert", src);
+        RenderedOp op2 = ImageN.create("log", op1);
         RemoteImage rmt1 = new RemoteImage(node1, op2);
 
 // Create a chain on node 2.
 System.out.println("Creating dst2 = not(exp(dst1)) on "+node2);
-        RenderedOp op3 = JAI.create("exp", rmt1);
-        RenderedOp op4 = JAI.create("not", op3);
+        RenderedOp op3 = ImageN.create("exp", rmt1);
+        RenderedOp op4 = ImageN.create("not", op3);
         RemoteImage rmt2 = new RemoteImage(node2, op4);
 
 // Display the result of node 2.

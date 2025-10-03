@@ -20,9 +20,9 @@ package org.eclipse.imagen.operator;
 import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageFunction;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -217,11 +217,11 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
     /**
      * Generates an image from a functional description.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param function The functional description.
      * @param width The image width.
@@ -245,7 +245,7 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
             Float xTrans,
             Float yTrans,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ImageFunction", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ImageFunction", RenderedRegistryMode.MODE_NAME);
 
         pb.setParameter("function", function);
         pb.setParameter("width", width);
@@ -255,6 +255,6 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
         pb.setParameter("xTrans", xTrans);
         pb.setParameter("yTrans", yTrans);
 
-        return JAI.create("ImageFunction", pb, hints);
+        return ImageN.create("ImageFunction", pb, hints);
     }
 }

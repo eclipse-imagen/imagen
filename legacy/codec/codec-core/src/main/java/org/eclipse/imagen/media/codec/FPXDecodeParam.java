@@ -20,7 +20,8 @@ package org.eclipse.imagen.media.codec;
 /**
  * An instance of <code>ImageDecodeParam</code> for decoding images in the FlashPIX format.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class FPXDecodeParam implements ImageDecodeParam {
 

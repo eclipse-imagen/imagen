@@ -25,8 +25,8 @@ import java.awt.image.SampleModel;
 import org.eclipse.imagen.ImageLayout;
 
 /**
- * Extends the standard JAI {@link ImageLayout} to provide a reliable hash function. {@code ImageLayout} has a bug that
- * will cause an application to crash if doing hashing when some fields have not been initialized.
+ * Extends the standard ImageN {@link ImageLayout} to provide a reliable hash function. {@code ImageLayout} has a bug
+ * that will cause an application to crash if doing hashing when some fields have not been initialized.
  *
  * @see org.eclipse.imagen.ImageLayout
  * @author Simone Giannecchini, GeoSolutions S.A.S.

@@ -76,7 +76,7 @@ public class IconJAI implements Icon {
             pb.add((float) Math.max(-mx, 0));
             pb.add((float) Math.max(-my, 0));
             pb.add(new InterpolationNearest());
-            im = JAI.create("translate", pb, null);
+            im = ImageN.create("translate", pb, null);
         }
 
         this.im = im;

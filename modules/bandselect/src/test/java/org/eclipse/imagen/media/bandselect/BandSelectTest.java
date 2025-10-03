@@ -27,8 +27,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -51,10 +51,10 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(512f, 512f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {1});
-        RenderedOp oneBand = JAI.create("BandSelect", pb);
+        RenderedOp oneBand = ImageN.create("BandSelect", pb);
 
         // make sure we got the right band
         assertEquals(1, oneBand.getSampleModel().getNumBands());
@@ -71,7 +71,7 @@ public class BandSelectTest extends TestBase {
         layout.setColorModel(null);
 
         // Creation of the RenderingHints
-        RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
         // create image with 2 bands
         RenderedImage twoBands = ConstantDescriptor.create(512f, 512f, new Byte[] {1, 0}, null);
@@ -92,10 +92,10 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(1f, 1f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[0]);
-        RenderedOp oneBand = JAI.create("BandSelect", pb);
+        RenderedOp oneBand = ImageN.create("BandSelect", pb);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -104,10 +104,10 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(1f, 1f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {-1});
-        RenderedOp oneBand = JAI.create("BandSelect", pb);
+        RenderedOp oneBand = ImageN.create("BandSelect", pb);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -116,16 +116,16 @@ public class BandSelectTest extends TestBase {
         RenderedImage twoBands = ConstantDescriptor.create(1f, 1f, new Double[] {1d, 0d}, null);
 
         // now select second band
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
         pb.addSource(twoBands);
         pb.setParameter("bandIndices", new int[] {2});
-        RenderedOp oneBand = JAI.create("BandSelect", pb);
+        RenderedOp oneBand = ImageN.create("BandSelect", pb);
     }
 
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandSelect");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "BandSelect");
         assertNotNull(descriptor);
         assertEquals("BandSelect", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

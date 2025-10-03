@@ -24,7 +24,7 @@ import java.awt.image.renderable.RenderedImageFactory;
 import java.util.Arrays;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /**
  * A <code>RIF</code> supporting the "BoxFilter" operation in the rendered image layer.
@@ -69,7 +69,7 @@ public class BoxFilterRIF implements RenderedImageFactory {
         }
 
         // Construct a separable kernel.
-        KernelJAI kernel = new KernelJAI(width, height, xOrigin, yOrigin, dataH, dataV);
+        KernelImageN kernel = new KernelImageN(width, height, xOrigin, yOrigin, dataH, dataV);
 
         // Construct and return the OpImage.
         return new SeparableConvolveOpImage(paramBlock.getRenderedSource(0), extender, renderHints, layout, kernel);

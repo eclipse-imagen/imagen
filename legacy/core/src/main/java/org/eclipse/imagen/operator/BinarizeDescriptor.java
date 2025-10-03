@@ -21,9 +21,9 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -69,7 +69,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since JAI 1.1
  */
 public class BinarizeDescriptor extends OperationDescriptorImpl {
 
@@ -131,11 +130,11 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
     /**
      * Binarize an image from a threshold value.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param threshold Argment must be of type java.lang.Double.
@@ -145,23 +144,23 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>threshold</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Double threshold, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Binarize", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Binarize", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("threshold", threshold);
 
-        return JAI.create("Binarize", pb, hints);
+        return ImageN.create("Binarize", pb, hints);
     }
 
     /**
      * Binarize an image from a threshold value.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param threshold Argment must be of type java.lang.Double.
@@ -171,12 +170,12 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>threshold</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, Double threshold, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Binarize", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Binarize", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("threshold", threshold);
 
-        return JAI.createRenderable("Binarize", pb, hints);
+        return ImageN.createRenderable("Binarize", pb, hints);
     }
 }

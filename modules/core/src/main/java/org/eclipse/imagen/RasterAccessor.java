@@ -45,7 +45,7 @@ import org.eclipse.imagen.media.util.ImageUtil;
  * that has a non-<code>IndexColorModel</code>, <code>RasterAccessor</code> will perform expansion of the source pixels.
  * If the source(s) and the destination have an IndexColorModel, then <code>RasterAccessor</code> will assume that the
  * operation can correctly process an IndexColorModel source and will not expand the source pixels (colormap indices)
- * into color components. Refer to {@link JAI#KEY_REPLACE_INDEX_COLOR_MODEL} for a mechanism by which the destination
+ * into color components. Refer to {@link ImageN#KEY_REPLACE_INDEX_COLOR_MODEL} for a mechanism by which the destination
  * image's <code>ColorModel</code> is set to a non-<code>IndexColorModel</code> to cause <code>RasterAccessor</code> to
  * expand the source's <code>IndexColorModel</code>.
  *
@@ -153,8 +153,6 @@ public class RasterAccessor {
      * first bit in each image line will be the left-most bit of the first byte of the line. The line stride in bytes
      * will be <code>(int)((rectWidth+7)/8)</code>. The length of the array will be <code>rectHeight</code> multiplied
      * by the line stride.
-     *
-     * @since JAI 1.1
      */
     protected byte binaryDataArray[] = null;
 
@@ -371,13 +369,13 @@ public class RasterAccessor {
     public RasterAccessor(Raster raster, Rectangle rect, RasterFormatTag rft, ColorModel theColorModel) {
 
         if (raster == null || rect == null || rft == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // If requesting a region that lies outside the bounds,
         // throw an exception.
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(JaiI18N.getString("RasterAccessor2"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RasterAccessor2"));
         }
 
         this.raster = raster;
@@ -427,7 +425,7 @@ public class RasterAccessor {
                     bandDataOffsets[i] = bandOffsets[i] + dataBufferOffsets[i] + subRasterOffset;
                 }
             } else {
-                throw new RuntimeException(JaiI18N.getString("RasterAccessor0"));
+                throw new RuntimeException(ImageNI18N.getString("RasterAccessor0"));
             }
 
             switch (formatTagID & DATATYPE_MASK) {
@@ -859,8 +857,6 @@ public class RasterAccessor {
     /**
      * Whether the <code>RasterAccessor</code> represents binary data. This occurs when the <code>Raster</code> has a
      * <code>MultiPixelPackedSampleModel</code> with a single band and one bit per pixel.
-     *
-     * @since JAI 1.1
      */
     public boolean isBinary() {
         return (formatTagID & TAG_BINARY) == TAG_BINARY && ImageUtil.isBinary(raster.getSampleModel());
@@ -875,7 +871,6 @@ public class RasterAccessor {
      *
      * @return the binary data as a packed array of bytes with zero offset of <code>null</code> if the data are not
      *     binary.
-     * @since JAI 1.1
      */
     public byte[] getBinaryDataArray() {
         if (binaryDataArray == null && isBinary()) {
@@ -1050,8 +1045,6 @@ public class RasterAccessor {
      * For the case of binary data (<code>isBinary()</code> returns <code>true</code>), copy the binary data back into
      * the <code>Raster</code> of the <code>RasterAccessor</code>. If this method is invoked in the non-binary case it
      * does nothing. Any bit offset in the original <code>SampleModel</code> will be accounted for.
-     *
-     * @since JAI 1.1
      */
     // Note: ALL branches of this method have been tested. (bpb 10 May 2000)
     public void copyBinaryDataToRaster() {
@@ -1090,7 +1083,7 @@ public class RasterAccessor {
                         // error within this accessor since the only case
                         // wherein byte data should be COPIED is when the
                         // data set is binary.
-                        throw new RuntimeException(JaiI18N.getString("RasterAccessor1"));
+                        throw new RuntimeException(ImageNI18N.getString("RasterAccessor1"));
                     }
 
                     // This case only occurs for binary src and dst.

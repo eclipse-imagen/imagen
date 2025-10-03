@@ -99,7 +99,7 @@ public class JAIAddConstPanel extends JAIDemoPanel implements ChangeListener, It
         pb.addSource(im);
         double consts[] = {param1, param2, param3};
         pb.add(consts);
-        return JAI.create("addconst", pb, renderHints);
+        return ImageN.create("addconst", pb, renderHints);
     }
 
     public void startAnimation() {}

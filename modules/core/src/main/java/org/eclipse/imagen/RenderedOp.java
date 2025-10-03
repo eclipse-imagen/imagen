@@ -77,14 +77,15 @@ import org.eclipse.imagen.util.ImagingListener;
  * </code>
  * </pre>
  *
- * or via the <code>create</code> or <code>createNS()</code> methods defined in the <code>JAI</code> class. The
+ * or via the <code>create</code> or <code>createNS()</code> methods defined in the <code>ImageN</code> class. The
  * difference between direct construction of a node and creation via a convenience method is that in the latter case:
  *
  * <ol>
  *   <li>It is verified that the operation supports the rendered mode.
  *   <li>Using the <code>validateArguments()</code> method of the associated <code>OperationDescriptor</code>, the
  *       arguments (sources and parameters) are validated as being compatible with the specified operation.
- *   <li>Global <code>RenderingHints</code> maintained by the <code>JAI</code> instance are merged with the local <code>
+ *   <li>Global <code>RenderingHints</code> maintained by the <code>ImageN</code> instance are merged with the local
+ *       <code>
  *       RenderingHints</code> with the local hints taking precedence.
  *   <li>If the operation is defined to be "immediate" (the <code>isImmediate()</code> method of the corresponding
  *       <code>OperationDescriptor</code> returns <code>true</code>) then the node is rendered.
@@ -128,7 +129,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * CollectionChangeEvent</code>s from any <code>CollectionOp</code> sources.
  *
  * <p>Certain <code>PropertyChangeEvent</code>s may be emitted by the <code>RenderedOp</code>. These include the <code>
- * PropertyChangeEventJAI</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
+ * PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
  * <code>OperationNode</code> interface. Additionally a <code>RenderingChangeEvent</code> may be emitted if the node has
  * already been rendered and both of the following conditions are satisfied:
  *
@@ -220,7 +221,7 @@ import org.eclipse.imagen.util.ImagingListener;
  * operation chains of <code>RenderableImage</code>s and <code>CollectionImage</code>s, respectively.
  *
  * @see CollectionOp
- * @see JAI
+ * @see ImageN
  * @see OperationDescriptor
  * @see OperationRegistry
  * @see OpImage
@@ -232,11 +233,7 @@ import org.eclipse.imagen.util.ImagingListener;
  */
 public class RenderedOp extends PlanarImage implements OperationNode, PropertyChangeListener, Serializable {
 
-    /**
-     * An object to assist in implementing <code>OperationNode</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** An object to assist in implementing <code>OperationNode</code>. */
     protected OperationNodeSupport nodeSupport;
 
     /** The <code>PropertySource</code> containing the combined properties of all of the node's sources. */
@@ -441,8 +438,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     /**
      * Returns the name of the <code>RegistryMode</code> corresponding to this <code>RenderedOp</code>. This method
      * always returns the <code>String</code> "rendered".
-     *
-     * @since JAI 1.1
      */
     public String getRegistryModeName() {
         return RegistryMode.getMode("rendered").getName();
@@ -462,7 +457,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Sets the <code>OperationRegistry</code> that is used by this node. If the specified registry is <code>null</code>
      * , the default registry is used. The parameter is saved by reference.
      *
-     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventImageN</code> named
      * "OperationRegistry" will be fired and a <code>RenderingChangeEvent</code> may be fired if the node has already
      * been rendered.
      *
@@ -480,7 +475,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     /**
      * Sets the name of the operation this node represents. The parameter is saved by reference.
      *
-     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventImageN</code> named
      * "OperationName" will be fired and a <code>RenderingChangeEvent</code> may be fired if the node has already been
      * rendered.
      *
@@ -505,7 +500,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * node represents; otherwise some form of error or exception may occur at the time of rendering.
      *
      * <p>If the supplied <code>ParameterBlock</code> does not equal the current <code>ParameterBlock</code>, a <code>
-     * PropertyChangeEventJAI</code> named "ParameterBlock", "Sources", or "Parameters" will be fired. A <code>
+     * PropertyChangeEventImageN</code> named "ParameterBlock", "Sources", or "Parameters" will be fired. A <code>
      * RenderingChangeEvent</code> may also be fired if the node has already been rendered.
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
@@ -561,8 +556,8 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Sets the <code>RenderingHints</code> of this node. The supplied parameter is cloned if non-<code>null</code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventJAI</code> named "RenderingHints" will be fired and a <code>RenderingChangeEvent</code> may be
-     * fired if the node has already been rendered.
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired and a <code>RenderingChangeEvent</code> may
+     * be fired if the node has already been rendered.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
      */
@@ -611,7 +606,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @throws RuntimeException if the image factory charged with rendering the node is unable to create a rendering.
      * @see #createInstance()
-     * @since JAI 1.1
      */
     protected synchronized PlanarImage createInstance(boolean isNodeRendered) {
         ParameterBlock pb = new ParameterBlock();
@@ -649,7 +643,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
 
         // Throw an exception if the rendering is null.
         if (rendering == null) {
-            throw new RuntimeException(JaiI18N.getString("RenderedOp0"));
+            throw new RuntimeException(ImageNI18N.getString("RenderedOp0"));
         }
 
         // XXX: RenderedImageList - bpb 8 dec 2000
@@ -682,7 +676,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @throws RuntimeException if the image factory charged with rendering the node is unable to create a rendering.
      * @see #createInstance()
-     * @since JAI 1.1
      */
     protected synchronized void createRendering() {
         if (theImage == null) {
@@ -711,8 +704,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     /**
      * Returns the value of the protected variable <code>theImage</code> which may be <code>null</code> if no rendering
      * has yet been created. This method does not force the node to be rendered.
-     *
-     * @since JAI 1.1
      */
     public PlanarImage getCurrentRendering() {
         return theImage;
@@ -736,7 +727,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @return The (possibly regenerated) rendering of the node. This value may be ignored if the intent of invoking the
      *     method was merely to re-render the node and generate events for <code>RenderingChangeEvent</code> listeners.
-     * @since JAI 1.1
      */
     public PlanarImage getNewRendering() {
         if (theImage == null) {
@@ -793,12 +783,11 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * <code>RenderingChangeEvent</code>s.
      *
      * @see TiledImage#propertyChange
-     * @since JAI 1.1
      */
     public synchronized void propertyChange(PropertyChangeEvent evt) {
         //
         // React if and only if the node has been rendered and
-        // A: a non-PropertySourceChangeEvent PropertyChangeEventJAI
+        // A: a non-PropertySourceChangeEvent PropertyChangeEventImageN
         //    was received from this node, or
         // B: a RenderingChangeEvent was received from a source RenderedOp, or
         // C: a CollectionChangeEvent was received from a source CollectionOp, or
@@ -814,13 +803,13 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
         String propName = evt.getPropertyName().toLowerCase(Locale.ENGLISH);
 
         if (theImage != null
-                && ((evt instanceof PropertyChangeEventJAI
+                && ((evt instanceof PropertyChangeEventImageN
                                 && evtSrc == this
                                 && !(evt instanceof PropertySourceChangeEvent)
                                 && nodeEventNames.contains(propName))
                         || ((evt instanceof RenderingChangeEvent
                                         || evt instanceof CollectionChangeEvent
-                                        || (evt instanceof PropertyChangeEventJAI
+                                        || (evt instanceof PropertyChangeEventImageN
                                                 && evtSrc instanceof RenderedImage
                                                 && propName.equals("invalidregion")))
                                 && nodeSources.contains(evtSrc)))) {
@@ -1168,7 +1157,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * setParameterBlock()</code> and so adheres to the same event firing behavior.
      *
      * @param source The source to be added to the <code>ParameterBlock</code>
-     * @deprecated as of JAI 1.1 Use <code>addSource(Object)</code>.
+     * @deprecated as of ImageN 0.4.0 Use <code>addSource(Object)</code>.
      */
     public synchronized void addNodeSource(Object source) {
         addSource(source);
@@ -1183,7 +1172,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param index The Index at which it is to be set.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @deprecated as of JAI 1.1 Use <code>setSource(Object,int)</code>.
+     * @deprecated as of ImageN 0.4.0 Use <code>setSource(Object,int)</code>.
      */
     public synchronized void setNodeSource(Object source, int index) {
         setSource(source, index);
@@ -1194,7 +1183,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * corresponding to the specified index, an <code>ArrayIndexOutOfBoundsException</code> will be thrown.
      *
      * @param index The index of the source.
-     * @deprecated as of JAI 1.1 Use <code>getSourceObject(int)</code>.
+     * @deprecated as of ImageN 0.4.0 Use <code>getSourceObject(int)</code>.
      */
     public synchronized Object getNodeSource(int index) {
         return nodeSupport.getParameterBlock().getSource(index);
@@ -1310,8 +1299,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * <p>The <code>Vector</code> may include <code>DeferredData</code> parameters. These will not be evaluated until
      * their values are actually required, i.e., when the node is rendered.
-     *
-     * @since JAI 1.1
      */
     public synchronized void setParameters(Vector parameters) {
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
@@ -1423,12 +1410,11 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @throws IllegalArgumentException if the key or value is <code>null</code>.
      * @throws IllegalArgumentException value is not appropriate for the specified key.
-     * @since JAI 1.1
      */
     public synchronized void setRenderingHint(RenderingHints.Key key, Object value) {
 
         if (key == null || value == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         RenderingHints rh = nodeSupport.getRenderingHints();
@@ -1444,7 +1430,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Gets a hint from the <code>RenderingHints</code> of this node.
      *
      * @return the value associated with the specified key or <code>null</code> if the key is not mapped to any value.
-     * @since JAI 1.1
      */
     public synchronized Object getRenderingHint(RenderingHints.Key key) {
         RenderingHints rh = nodeSupport.getRenderingHints();
@@ -1490,8 +1475,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * Resets the <code>PropertySource</code>. If the parameter is <code>true</code> then the property environment is
      * completely reset; if <code>false</code> then only cached properties are cleared, i.e., those which were derived
      * from the property environment and are now stored in the local cache.
-     *
-     * @since JAI 1.1
      */
     protected synchronized void resetProperties(boolean resetPropertySource) {
         properties.clearCachedProperties();
@@ -1553,7 +1536,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
-     * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
         createPropertySource();
@@ -1606,7 +1588,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized Object getProperty(String name) {
 
-        if (name == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         createPropertySource();
         CaselessStringKey key = new CaselessStringKey(name);
@@ -1656,12 +1638,12 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws RuntimeException if <code>name</code> conflicts with Synthetic property.
      */
     public synchronized void setProperty(String name, Object value) {
-        if (name == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
-        if (value == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (value == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // Check whether property conflicts with synthetic properties.
         if (synthProps.contains(new CaselessStringKey(name))) {
-            throw new RuntimeException(JaiI18N.getString("RenderedOp4"));
+            throw new RuntimeException(ImageNI18N.getString("RenderedOp4"));
         }
 
         createPropertySource();
@@ -1674,14 +1656,13 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @throws RuntimeException if <code>name</code> conflicts with Synthetic property.
-     * @since JAI 1.1
      */
     public void removeProperty(String name) {
-        if (name == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         // Check whether property conflicts with synthetic properties.
         if (synthProps.contains(new CaselessStringKey(name))) {
-            throw new RuntimeException(JaiI18N.getString("RenderedOp4"));
+            throw new RuntimeException(ImageNI18N.getString("RenderedOp4"));
         }
 
         createPropertySource();
@@ -1698,7 +1679,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param name A <code>String</code> naming the property.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized Object getDynamicProperty(String name) {
         createPropertySource();
@@ -1723,7 +1703,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the from which to copy the property.
      * @throws IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized void copyPropertyFromSource(String propertyName, int sourceIndex) {
         nodeSupport.copyPropertyFromSource(propertyName, sourceIndex);
@@ -1742,10 +1721,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>name</code> conflicts with Synthetic property.
      */
     public synchronized void suppressProperty(String name) {
-        if (name == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         if (synthProps.contains(new CaselessStringKey(name))) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderedOp5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderedOp5"));
         }
 
         nodeSupport.suppressProperty(name);
@@ -1906,7 +1885,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param tileIndices A list of tile indices indicating which tiles to schedule for computation.
      * @throws IllegalArgumentException If <code>tileIndices</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         createRendering();
@@ -1920,11 +1898,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param tileIndices The tiles to be cancelled; may be <code>null</code>. Any tiles not actually in the <code>
      *     TileRequest</code> will be ignored.
      * @throws IllegalArgumentException If <code>request</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic4"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic4"));
         }
         createRendering();
         theImage.cancelTiles(request, tileIndices);
@@ -1962,7 +1939,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param source The source to be added to the <code>ParameterBlock</code>
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @deprecated as of JAI 1.1. Use <code>addSource(Object)</code>.
+     * @deprecated Use <code>addSource(Object)</code>.
      */
     public synchronized void addSource(PlanarImage source) {
         Object sourceObject = source;
@@ -1991,7 +1968,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param index The index of the source.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @deprecated as of JAI 1.1. Use <code>setSource(Object, int)</code>.
+     * @deprecated Use <code>setSource(Object, int)</code>.
      */
     public synchronized void setSource(PlanarImage source, int index) {
         Object sourceObject = source;
@@ -2021,7 +1998,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @return A <code>PlanarImage</code> source.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
      * @throws ClassCastException if the source at the indicated index is not a <code>PlanarImage</code>.
-     * @deprecated as of JAI 1.1. Use <code>getSourceObject()</code>.
+     * @deprecated Use <code>getSourceObject()</code>.
      */
     public PlanarImage getSource(int index) {
         return (PlanarImage) nodeSupport.getParameterBlock().getSource(index);
@@ -2045,7 +2022,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param source A <code>PlanarImage</code> to be removed.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
-     * @deprecated as of JAI 1.1. Use <code>removeSource(Object)</code>.
+     * @deprecated Use <code>removeSource(Object)</code>.
      */
     public synchronized boolean removeSource(PlanarImage source) {
         Object sourceObject = source;
@@ -2061,10 +2038,9 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param source The source to be added to the <code>ParameterBlock</code>
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized void addSource(Object source) {
-        if (source == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
         pb.addSource(source);
@@ -2089,10 +2065,9 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param index The Index at which it is to be set.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @since JAI 1.1
      */
     public synchronized void setSource(Object source, int index) {
-        if (source == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
 
@@ -2124,11 +2099,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @param source A <code>Object</code> to be removed.
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      * @return <code>true</code> if the element was present, <code>false</code> otherwise.
-     * @since JAI 1.1
      */
     public synchronized boolean removeSource(Object source) {
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
@@ -2157,7 +2131,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @return A <code>PlanarImage</code> source.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
      * @throws ClassCastException if the source at the indicated index is not a <code>PlanarImage</code>.
-     * @since JAI 1.1
      */
     public PlanarImage getSourceImage(int index) {
         return (PlanarImage) nodeSupport.getParameterBlock().getSource(index);
@@ -2169,7 +2142,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      *
      * @param index The index of the source.
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
-     * @since JAI 1.1
      */
     public synchronized Object getSourceObject(int index) {
         return nodeSupport.getParameterBlock().getSource(index);
@@ -2208,7 +2180,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>sourceList</code> is <code>null</code>.
      */
     public synchronized void setSources(List sourceList) {
-        if (sourceList == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (sourceList == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
 
@@ -2284,7 +2256,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized void addSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         super.addSink(sink);
     }
@@ -2309,16 +2281,12 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized boolean removeSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return super.removeSink(sink);
     }
 
-    /**
-     * Removes all sinks from the list of sinks of the node.
-     *
-     * @since JAI 1.1
-     */
+    /** Removes all sinks from the list of sinks of the node. */
     public void removeSinks() {
         super.removeSinks();
     }
@@ -2329,11 +2297,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * as long as its <code>WeakReference</code> has not yet been cleared.
      *
      * @throws IllegalArgumentException if <code>sink</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return super.addSink(sink);
     }
@@ -2344,11 +2311,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * this property.
      *
      * @throws IllegalArgumentException if <code>sink</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         return super.removeSink(sink);
     }
@@ -2371,13 +2337,12 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since JAI 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         createRendering();
@@ -2405,13 +2370,12 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since JAI 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         createRendering();
@@ -2432,8 +2396,6 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * theImage.dispose()</code>. Subsequent to this <code>super.dispose()</code> is invoked.
      *
      * <p>The results of referencing an image after a call to <code>dispose()</code> are undefined.
-     *
-     * @since JAI 1.1.2
      */
     public synchronized void dispose() {
         if (isDisposed) {
@@ -2468,7 +2430,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
         in.defaultReadObject();
 
         // Explicitly deserialize the required superclass fields.
-        eventManager = (PropertyChangeSupportJAI) in.readObject();
+        eventManager = (PropertyChangeSupportImageN) in.readObject();
         properties = (WritablePropertySourceImpl) in.readObject();
 
         // If this operation requires immediate rendering then render it.
@@ -2481,7 +2443,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     }
 
     void sendExceptionToListener(String message, Exception e) {
-        ImagingListener listener = (ImagingListener) getRenderingHints().get(JAI.KEY_IMAGING_LISTENER);
+        ImagingListener listener = (ImagingListener) getRenderingHints().get(ImageN.KEY_IMAGING_LISTENER);
 
         listener.errorOccurred(message, e, this, false);
     }

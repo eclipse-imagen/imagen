@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -59,7 +59,7 @@ public class FormatTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Format");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Format");
         assertNotNull(descriptor);
         assertEquals("Format", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

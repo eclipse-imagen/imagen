@@ -55,7 +55,6 @@ import org.eclipse.imagen.media.util.ImageUtil;
  * @see Interpolation
  * @see InterpolationNearest
  * @see OpImage
- * @since JAI 1.1
  */
 public abstract class GeometricOpImage extends OpImage {
     /**
@@ -132,20 +131,20 @@ public abstract class GeometricOpImage extends OpImage {
         Map config;
 
         if (configuration == null) {
-            config = new RenderingHints(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+            config = new RenderingHints(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
         } else {
 
             config = configuration;
 
             // If the user specified a value for this hint, we don't
             // want to change that
-            if (!config.containsKey(JAI.KEY_REPLACE_INDEX_COLOR_MODEL)) {
+            if (!config.containsKey(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL)) {
 
                 RenderingHints hints = new RenderingHints(null);
                 // This is effectively a clone of configuration
                 hints.putAll(configuration);
                 config = hints;
-                config.put(JAI.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
+                config.put(ImageN.KEY_REPLACE_INDEX_COLOR_MODEL, Boolean.TRUE);
             }
         }
 
@@ -161,16 +160,16 @@ public abstract class GeometricOpImage extends OpImage {
      * </code> may be obtained by specifying an <code>ImageLayout</code> parameter. This parameter will be passed to the
      * superclass constructor unchanged.
      *
-     * <p>A <code>RenderingHints</code> for <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>
+     * <p>A <code>RenderingHints</code> for <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>
      * Boolean.TRUE</code> is automatically added to the given <code>configuration</code> and passed up to the
      * superclass constructor so that geometric operations are performed on the pixel values instead of being performed
      * on the indices into the color map for those operations whose source(s) have an <code>IndexColorModel</code>. This
-     * addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already
-     * been provided by the user. Note that the <code>configuration</code> Map is cloned before the new hint is added to
-     * it. Regarding the value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>RenderingHints</code>, the
-     * operator itself can be smart based on the parameters, i.e. while the default value for the <code>
-     * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class, in
-     * some cases the operator could set the default.
+     * addition will take place only if a value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not
+     * already been provided by the user. Note that the <code>configuration</code> Map is cloned before the new hint is
+     * added to it. Regarding the value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> <code>RenderingHints
+     * </code>, the operator itself can be smart based on the parameters, i.e. while the default value for the <code>
+     * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> is <code>Boolean.TRUE</code> for operations that extend this class,
+     * in some cases the operator could set the default.
      *
      * @param layout An <code>ImageLayout</code> containing the source bounds before padding, and optionally containing
      *     the tile grid layout, <code>SampleModel</code>, and <code>ColorModel</code>.
@@ -193,7 +192,6 @@ public abstract class GeometricOpImage extends OpImage {
      *     </code> is <code>null</code>.
      * @throws IllegalArgumentException if combining the intersected source bounds with the layout parameter results in
      *     negative output width or height.
-     * @since JAI 1.1.2
      */
     public GeometricOpImage(
             Vector sources,
@@ -274,13 +272,12 @@ public abstract class GeometricOpImage extends OpImage {
      * @throws IllegalArgumentException if <code>destPt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since JAI 1.1.2
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle destRect = new Rectangle((int) destPt.getX(), (int) destPt.getY(), 1, 1);
@@ -321,13 +318,12 @@ public abstract class GeometricOpImage extends OpImage {
      * @throws IllegalArgumentException if <code>sourcePt</code> is <code>null</code>.
      * @throws IndexOutOfBoundsException if <code>sourceIndex</code> is negative or greater than or equal to the number
      *     of sources.
-     * @since JAI 1.1.2
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(JaiI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
         }
 
         Rectangle sourceRect = new Rectangle((int) sourcePt.getX(), (int) sourcePt.getY(), 1, 1);
@@ -415,11 +411,11 @@ public abstract class GeometricOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         // Cache left and top padding.
@@ -458,11 +454,11 @@ public abstract class GeometricOpImage extends OpImage {
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
         }
 
         // Map the destination Rectangle into the appropriate source space.

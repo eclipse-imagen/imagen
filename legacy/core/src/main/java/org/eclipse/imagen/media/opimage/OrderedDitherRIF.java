@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /**
  * A <code>RIF</code> supporting the "OrderedDither" operation in the rendered image layer.
@@ -47,7 +47,7 @@ public class OrderedDitherRIF implements RenderedImageFactory {
 
         RenderedImage source = paramBlock.getRenderedSource(0);
         ColorCube colorMap = (ColorCube) paramBlock.getObjectParameter(0);
-        KernelJAI[] ditherMask = (KernelJAI[]) paramBlock.getObjectParameter(1);
+        KernelImageN[] ditherMask = (KernelImageN[]) paramBlock.getObjectParameter(1);
 
         return new OrderedDitherOpImage(source, renderHints, layout, colorMap, ditherMask);
     }

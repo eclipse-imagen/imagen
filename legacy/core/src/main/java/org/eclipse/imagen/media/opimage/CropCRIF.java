@@ -24,7 +24,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderContext;
 import org.eclipse.imagen.CRIFImpl;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
  * A <code>CRIF</code> supporting the "Crop" operation in the rendered and renderable image layers.
@@ -93,7 +93,7 @@ public class CropCRIF extends CRIFImpl {
         pb.set((float) rect.getHeight(), 3);
 
         // Crop the rendered source.
-        return JAI.create("crop", pb, renderContext.getRenderingHints());
+        return ImageN.create("crop", pb, renderContext.getRenderingHints());
     }
 
     /**

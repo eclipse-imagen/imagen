@@ -28,7 +28,6 @@ import java.util.Observable;
  *
  * @see DeferredProperty
  * @see RenderedOp
- * @since JAI 1.1
  */
 public abstract class DeferredData extends Observable implements Serializable {
     /** The class of the wrapped data. */
@@ -48,7 +47,7 @@ public abstract class DeferredData extends Observable implements Serializable {
      */
     protected DeferredData(Class dataClass) {
         if (dataClass == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("DeferredData0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("DeferredData0"));
         }
         this.dataClass = dataClass;
     }
@@ -106,7 +105,7 @@ public abstract class DeferredData extends Observable implements Serializable {
      */
     protected final void setData(Object data) {
         if (data != null && !dataClass.isInstance(data)) {
-            throw new IllegalArgumentException(JaiI18N.getString("DeferredData1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("DeferredData1"));
         }
         if (this.data == null || !this.data.equals(data)) {
             Object oldData = this.data;

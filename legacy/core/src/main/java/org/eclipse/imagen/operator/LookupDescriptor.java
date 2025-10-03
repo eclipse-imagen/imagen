@@ -22,10 +22,10 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -38,7 +38,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * passing the source image through the table.
  *
  * <p>The source may be a single- or multi-banded image of data types <code>byte</code>, <code>ushort</code>, <code>
- * short</code>, or <code>int</code>. The lookup table may be single- or multi-banded and of any JAI supported data
+ * short</code>, or <code>int</code>. The lookup table may be single- or multi-banded and of any ImageN supported data
  * types. The destination image must have the same data type as the lookup table, and its number of bands is determined
  * based on the number of bands of the source and the table. If the source is single-banded, the destination has the
  * same number of bands as the lookup table; otherwise, the destination has the same number of bands as the source.
@@ -100,11 +100,11 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <caption>Parameter List</caption>
  * <tr><th>Name</th>  <th>Class Type</th>
  *                    <th>Default Value</th></tr>
- * <tr><td>table</td> <td>org.eclipse.imagen.LookupTableJAI</td>
+ * <tr><td>table</td> <td>org.eclipse.imagen.LookupTableImageN</td>
  *                    <td>NO_PARAMETER_DEFAULT</td>
  * </table>
  *
- * @see org.eclipse.imagen.LookupTableJAI
+ * @see LookupTableImageN
  * @see org.eclipse.imagen.OperationDescriptor
  */
 public class LookupDescriptor extends OperationDescriptorImpl {
@@ -126,7 +126,7 @@ public class LookupDescriptor extends OperationDescriptorImpl {
     };
 
     /** The parameter class list for this operation. */
-    private static final Class[] paramClasses = {org.eclipse.imagen.LookupTableJAI.class};
+    private static final Class[] paramClasses = {LookupTableImageN.class};
 
     /** The parameter name list for this operation. */
     private static final String[] paramNames = {"table"};
@@ -172,11 +172,11 @@ public class LookupDescriptor extends OperationDescriptorImpl {
     /**
      * Performs general table lookup on an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param table The lookup table the source image is passed through.
@@ -185,24 +185,24 @@ public class LookupDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>table</code> is <code>null</code>.
      */
-    public static RenderedOp create(RenderedImage source0, LookupTableJAI table, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Lookup", RenderedRegistryMode.MODE_NAME);
+    public static RenderedOp create(RenderedImage source0, LookupTableImageN table, RenderingHints hints) {
+        ParameterBlockImageN pb = new ParameterBlockImageN("Lookup", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("table", table);
 
-        return JAI.create("Lookup", pb, hints);
+        return ImageN.create("Lookup", pb, hints);
     }
 
     /**
      * Performs general table lookup on an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param table The lookup table the source image is passed through.
@@ -211,13 +211,14 @@ public class LookupDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>table</code> is <code>null</code>.
      */
-    public static RenderableOp createRenderable(RenderableImage source0, LookupTableJAI table, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Lookup", RenderableRegistryMode.MODE_NAME);
+    public static RenderableOp createRenderable(
+            RenderableImage source0, LookupTableImageN table, RenderingHints hints) {
+        ParameterBlockImageN pb = new ParameterBlockImageN("Lookup", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("table", table);
 
-        return JAI.createRenderable("Lookup", pb, hints);
+        return ImageN.createRenderable("Lookup", pb, hints);
     }
 }

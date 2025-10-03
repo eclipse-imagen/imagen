@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.IHSColorSpace;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PlanarImage;
@@ -237,29 +237,29 @@ public class ColorConvertOpImage extends PointOpImage {
 
         // for each case, define the case number; create tempParam
         // and/or ColorConvertOp if necessary
-        if (srcColorSpace instanceof ColorSpaceJAI && dstColorSpace instanceof ColorSpaceJAI) {
+        if (srcColorSpace instanceof ColorSpaceImageN && dstColorSpace instanceof ColorSpaceImageN) {
 
-            // when both are ColorSpaceJAI, convert via RGB
+            // when both are ColorSpaceImageN, convert via RGB
             caseNumber = 1;
             tempParam = createTempParam();
-        } else if (srcColorSpace instanceof ColorSpaceJAI) {
+        } else if (srcColorSpace instanceof ColorSpaceImageN) {
             if (srcColorSpace instanceof IHSColorSpace) {
-                srcColorSpace = ColorSpaceJAIExt.getIHSColorSpaceJAIEXT();
+                srcColorSpace = ColorSpaceImageNExt.getIHSColorSpaceJAIEXT();
             }
 
-            // when source is ColorSpaceJAI, 1. convert via RGB if
+            // when source is ColorSpaceImageN, 1. convert via RGB if
             // the dest isn't RGB; 2. convert to RGB
             if (dstColorSpace != rgbColorSpace) {
                 caseNumber = 2;
                 tempParam = createTempParam();
                 colorConvertOp = getColorConvertOp(rgbColorSpace, dstColorSpace);
             } else caseNumber = 3;
-        } else if (dstColorSpace instanceof ColorSpaceJAI) {
+        } else if (dstColorSpace instanceof ColorSpaceImageN) {
             if (dstColorSpace instanceof IHSColorSpace) {
-                dstColorSpace = ColorSpaceJAIExt.getIHSColorSpaceJAIEXT();
+                dstColorSpace = ColorSpaceImageNExt.getIHSColorSpaceJAIEXT();
             }
 
-            // when destination is ColorSpaceJAI, 1. convert via RGB if
+            // when destination is ColorSpaceImageN, 1. convert via RGB if
             // source isn't RGB; 2. convert from RGB
             if (srcColorSpace != rgbColorSpace) {
                 caseNumber = 4;
@@ -268,7 +268,7 @@ public class ColorConvertOpImage extends PointOpImage {
             } else caseNumber = 5;
         } else {
 
-            // if all the color space are not ColorSpaceJAI
+            // if all the color space are not ColorSpaceImageN
             caseNumber = 6;
             colorConvertOp = getColorConvertOp(srcColorSpace, dstColorSpace);
         }
@@ -406,16 +406,16 @@ public class ColorConvertOpImage extends PointOpImage {
         }
 
         switch (caseNumber) {
-                // 1. When source and destination color spaces are all ColorSpaceJAI,
+                // 1. When source and destination color spaces are all ColorSpaceImageN,
                 // convert via RGB color space
             case 1:
                 tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam);
                 computeRectColorSpaceJAIFromRGB(tempRas, tempParam, dest, dstParam);
                 break;
-                // when only the source color space is ColorSpaceJAI,
+                // when only the source color space is ColorSpaceImageN,
                 // 2. if the destination is not RGB, convert to RGB using
-                // ColorSpaceJAI; then convert RGB to the destination
-                // 3. if the destination is RGB, convert using ColorSpaceJAI
+                // ColorSpaceImageN; then convert RGB to the destination
+                // 3. if the destination is RGB, convert using ColorSpaceImageN
             case 2:
                 tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam);
                 computeRectNonColorSpaceJAI(
@@ -424,7 +424,7 @@ public class ColorConvertOpImage extends PointOpImage {
             case 3:
                 computeRectColorSpaceJAIToRGB(source, srcParam, dest, dstParam);
                 break;
-                // 4, 5. When only the destination color space is ColorSpaceJAI,
+                // 4, 5. When only the destination color space is ColorSpaceImageN,
                 // similar to the case above.
             case 4:
                 tempRas = createTempWritableRaster(source);
@@ -435,7 +435,7 @@ public class ColorConvertOpImage extends PointOpImage {
             case 5:
                 computeRectColorSpaceJAIFromRGB(source, srcParam, dest, dstParam);
                 break;
-                // 6. If all the color space are not ColorSpaceJAI
+                // 6. If all the color space are not ColorSpaceImageN
             case 6:
                 computeRectNonColorSpaceJAI(
                         source, srcParam, dest, dstParam, destRect, roiDisjointTile, roiContainsTile, roiIter);
@@ -444,7 +444,7 @@ public class ColorConvertOpImage extends PointOpImage {
         }
     }
 
-    // when the source color space is ColorSpaceJAI, convert it to RGB.
+    // when the source color space is ColorSpaceImageN, convert it to RGB.
     // 1. If the source data type is short/int, shift the data to [0,
     // MAX-MIN]
     // 2. Convert to RGB.
@@ -453,19 +453,20 @@ public class ColorConvertOpImage extends PointOpImage {
             Raster src, ImageParameters srcParam, WritableRaster dest, ImageParameters dstParam) {
         src = convertRasterToUnsigned(src);
 
-        ColorSpaceJAI colorSpaceJAI = (ColorSpaceJAI) srcParam.getColorModel().getColorSpace();
-        ColorSpaceJAIExt colorSpaceJAIExt;
+        ColorSpaceImageN colorSpaceJAI =
+                (ColorSpaceImageN) srcParam.getColorModel().getColorSpace();
+        ColorSpaceImageNExt colorSpaceJAIExt;
         // Checks on the ColorSpace
-        if (colorSpaceJAI instanceof ColorSpaceJAIExt) {
-            colorSpaceJAIExt = (ColorSpaceJAIExt) colorSpaceJAI;
+        if (colorSpaceJAI instanceof ColorSpaceImageNExt) {
+            colorSpaceJAIExt = (ColorSpaceImageNExt) colorSpaceJAI;
         } else {
             if (colorSpaceJAI instanceof IHSColorSpace) {
-                colorSpaceJAIExt = ColorSpaceJAIExt.getIHSColorSpaceJAIEXT();
+                colorSpaceJAIExt = ColorSpaceImageNExt.getIHSColorSpaceJAIEXT();
             } else {
-                colorSpaceJAIExt = new ColorSpaceJAIExtWrapper(colorSpaceJAI);
+                colorSpaceJAIExt = new ColorSpaceImageNExtWrapper(colorSpaceJAI);
                 LOGGER.log(
                         Level.SEVERE,
-                        "Input colorspace is not an instance of ColorSpaceJAIExt, No ROI/NoData support provided");
+                        "Input colorspace is not an instance of ColorSpaceImageNExt, No ROI/NoData support provided");
             }
         }
         dest = colorSpaceJAIExt.toRGB(
@@ -475,7 +476,7 @@ public class ColorConvertOpImage extends PointOpImage {
         return dest;
     }
 
-    // when the source color space is ColorSpaceJAI, convert it from RGB.
+    // when the source color space is ColorSpaceImageN, convert it from RGB.
     // 1. If the source data type is short/int, shift the data to [0,
     // MAX-MIN]
     // 2. Convert from RGB.
@@ -483,19 +484,20 @@ public class ColorConvertOpImage extends PointOpImage {
     private WritableRaster computeRectColorSpaceJAIFromRGB(
             Raster src, ImageParameters srcParam, WritableRaster dest, ImageParameters dstParam) {
         src = convertRasterToUnsigned(src);
-        ColorSpaceJAI colorSpaceJAI = (ColorSpaceJAI) dstParam.getColorModel().getColorSpace();
-        ColorSpaceJAIExt colorSpaceJAIExt;
+        ColorSpaceImageN colorSpaceJAI =
+                (ColorSpaceImageN) dstParam.getColorModel().getColorSpace();
+        ColorSpaceImageNExt colorSpaceJAIExt;
         // Check on the ColorSpace
-        if (colorSpaceJAI instanceof ColorSpaceJAIExt) {
-            colorSpaceJAIExt = (ColorSpaceJAIExt) colorSpaceJAI;
+        if (colorSpaceJAI instanceof ColorSpaceImageNExt) {
+            colorSpaceJAIExt = (ColorSpaceImageNExt) colorSpaceJAI;
         } else {
             if (colorSpaceJAI instanceof IHSColorSpace) {
-                colorSpaceJAIExt = ColorSpaceJAIExt.getIHSColorSpaceJAIEXT();
+                colorSpaceJAIExt = ColorSpaceImageNExt.getIHSColorSpaceJAIEXT();
             } else {
-                colorSpaceJAIExt = new ColorSpaceJAIExtWrapper(colorSpaceJAI);
+                colorSpaceJAIExt = new ColorSpaceImageNExtWrapper(colorSpaceJAI);
                 LOGGER.log(
                         Level.SEVERE,
-                        "Input colorspace is not an instance of ColorSpaceJAIExt, No ROI/NoData support provided");
+                        "Input colorspace is not an instance of ColorSpaceImageNExt, No ROI/NoData support provided");
             }
         }
         dest = colorSpaceJAIExt.fromRGB(
@@ -505,7 +507,7 @@ public class ColorConvertOpImage extends PointOpImage {
         return dest;
     }
 
-    // When the source and destination color spaces are not ColorSpaceJAI,
+    // When the source and destination color spaces are not ColorSpaceImageN,
     // convert using ColorConvertOp of Java 2D for integer type. For the
     // floating point, use the following method.
     private void computeRectNonColorSpaceJAI(

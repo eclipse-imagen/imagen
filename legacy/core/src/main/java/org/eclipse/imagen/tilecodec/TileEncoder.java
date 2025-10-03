@@ -36,7 +36,6 @@ import java.io.OutputStream;
  *
  * @see TileCodecDescriptor
  * @see TileDecoder
- * @since JAI 1.1
  */
 public interface TileEncoder {
 

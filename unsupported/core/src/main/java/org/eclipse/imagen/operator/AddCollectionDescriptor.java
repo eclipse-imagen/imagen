@@ -23,9 +23,9 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.util.Collection;
 import java.util.Iterator;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -143,11 +143,11 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
     /**
      * Adds a collection of images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>Collection</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -155,21 +155,21 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(Collection source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("AddCollection", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("AddCollection", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.create("AddCollection", pb, hints);
+        return ImageN.create("AddCollection", pb, hints);
     }
 
     /**
      * Adds a collection of images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>Collection</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -177,10 +177,10 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(Collection source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("AddCollection", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("AddCollection", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.createRenderable("AddCollection", pb, hints);
+        return ImageN.createRenderable("AddCollection", pb, hints);
     }
 }

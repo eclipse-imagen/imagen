@@ -21,7 +21,7 @@ import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.iterator.RandomIter;
@@ -224,11 +224,11 @@ public class NeuQuantOpImage extends ColorQuantizerOpImage {
         inxbuild();
         createLUT();
         setProperty("LUT", colorMap);
-        setProperty("JAI.LookupTable", colorMap);
+        setProperty("ImageN.LookupTable", colorMap);
     }
 
     private void createLUT() {
-        colorMap = new LookupTableJAI(new byte[3][maxColorNum]);
+        colorMap = new LookupTableImageN(new byte[3][maxColorNum]);
         byte[][] map = colorMap.getByteData();
         int[] index = new int[maxColorNum];
         for (int i = 0; i < maxColorNum; i++) index[network[i][3]] = i;

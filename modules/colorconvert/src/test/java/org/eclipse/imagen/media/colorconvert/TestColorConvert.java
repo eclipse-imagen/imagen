@@ -36,10 +36,10 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.IHSColorSpace;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -78,10 +78,10 @@ public class TestColorConvert extends TestBase {
         // /////////////////////////////////////////////////////////////////////
         final BufferedImage image = getSyntheticShortImage();
 
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ColorConvert");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAICm());
-        RenderedOp finalimage = JAI.create("ColorConvert", pbj);
+        RenderedOp finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -94,34 +94,34 @@ public class TestColorConvert extends TestBase {
         Range nodata = RangeFactory.create((short) 5, (short) 5);
 
         // ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAICm());
         pbj.setParameter("roi", roi);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAICm());
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA AND ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAICm());
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -169,10 +169,10 @@ public class TestColorConvert extends TestBase {
 
         BufferedImage image = getSyntheticByteImage();
 
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ColorConvert");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAIEXTCm());
-        RenderedOp finalimage = JAI.create("ColorConvert", pbj);
+        RenderedOp finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -185,34 +185,34 @@ public class TestColorConvert extends TestBase {
         Range nodata = RangeFactory.create((byte) 5, (byte) 5);
 
         // ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAIEXTCm());
         pbj.setParameter("roi", roi);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAIEXTCm());
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA AND ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getJAIEXTCm());
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -236,10 +236,10 @@ public class TestColorConvert extends TestBase {
 
         final BufferedImage image = getSyntheticByteImageIHSColorSpace();
 
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ColorConvert");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
-        RenderedOp finalimage = JAI.create("ColorConvert", pbj);
+        RenderedOp finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -252,34 +252,34 @@ public class TestColorConvert extends TestBase {
         Range nodata = RangeFactory.create((byte) 5, (byte) 5);
 
         // ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
         pbj.setParameter("roi", roi);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA AND ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -325,7 +325,7 @@ public class TestColorConvert extends TestBase {
             }
         }
         final ColorModel cm = new ComponentColorModel(
-                new IHSColorSpaceJAIExt(), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+                new IHSColorSpaceImageNExt(), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
         final BufferedImage image = new BufferedImage(cm, raster, false, null);
         return image;
     }
@@ -339,10 +339,10 @@ public class TestColorConvert extends TestBase {
     public void testTiff() throws IOException {
 
         final RenderedImage image = getTestTiff();
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ColorConvert");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
-        RenderedOp finalimage = JAI.create("ColorConvert", pbj);
+        RenderedOp finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -355,34 +355,34 @@ public class TestColorConvert extends TestBase {
         Range nodata = RangeFactory.create((byte) 5, (byte) 5);
 
         // ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
         pbj.setParameter("roi", roi);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
         finalimage.dispose();
 
         // NODATA AND ROI
-        pbj = new ParameterBlockJAI("ColorConvert");
+        pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(image);
         pbj.setParameter("colorModel", getNotJAICm());
         pbj.setParameter("roi", roi);
         pbj.setParameter("nodata", nodata);
-        finalimage = JAI.create("ColorConvert", pbj);
+        finalimage = ImageN.create("ColorConvert", pbj);
 
         if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
         else finalimage.getTiles();
@@ -411,14 +411,14 @@ public class TestColorConvert extends TestBase {
         final ImageLayout2 il = new ImageLayout2(bi);
         il.setColorModel(cm);
         il.setSampleModel(cm.createCompatibleSampleModel(bi.getWidth(), bi.getHeight()));
-        RenderingHints ri = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
+        RenderingHints ri = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
 
         // perform color expansion
-        ParameterBlockJAI pbj = new ParameterBlockJAI("ColorConvert");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("ColorConvert");
         pbj.addSource(bi);
         pbj.setParameter("colorModel", cm);
         pbj.setParameter("noData", RangeFactory.create(-1, -1));
-        RenderedOp finalimage = JAI.create("ColorConvert", pbj, ri);
+        RenderedOp finalimage = ImageN.create("ColorConvert", pbj, ri);
 
         int[] pixel = new int[3];
         finalimage.getData().getPixel(0, 0, pixel);
@@ -436,20 +436,20 @@ public class TestColorConvert extends TestBase {
      */
     private RenderedImage getTestTiff() throws IOException, FileNotFoundException {
         File spearfish = TestData.file(this, "test.tif");
-        RenderedOp image = JAI.create("ImageRead", spearfish);
+        RenderedOp image = ImageN.create("ImageRead", spearfish);
         return image;
     }
 
-    /** @return a ColorModel which contains an instance of {@link ColorSpaceJAIExt} */
+    /** @return a ColorModel which contains an instance of {@link ColorSpaceImageNExt} */
     private ColorModel getJAIEXTCm() {
-        ColorSpace cs = new IHSColorSpaceJAIExt();
+        ColorSpace cs = new IHSColorSpaceImageNExt();
 
         final ColorModel cm = new ComponentColorModel(cs, false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 
         return cm;
     }
 
-    /** @return a ColorModel which contains an instance of {@link ColorSpaceJAI} */
+    /** @return a ColorModel which contains an instance of {@link ColorSpaceImageN} */
     private ColorModel getJAICm() {
         ColorSpace cs = IHSColorSpace.getInstance();
 
@@ -459,8 +459,8 @@ public class TestColorConvert extends TestBase {
     }
 
     /**
-     * @return a ColorModel which contains an instance of {@link ColorSpace} different from {@link ColorSpaceJAIExt} and
-     *     {@link ColorSpaceJAI}
+     * @return a ColorModel which contains an instance of {@link ColorSpace} different from {@link ColorSpaceImageNExt}
+     *     and {@link ColorSpaceImageN}
      */
     private ColorModel getNotJAICm() {
         ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB);
@@ -472,7 +472,7 @@ public class TestColorConvert extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ColorConvert");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ColorConvert");
         assertNotNull(descriptor);
         assertEquals("ColorConvert", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

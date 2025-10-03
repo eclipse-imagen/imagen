@@ -22,9 +22,9 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -1432,11 +1432,11 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
     /**
      * Executes the selected operation on an image array.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String, ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String, ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param op operation to execute
      * @param roi optional ROI object
@@ -1455,7 +1455,7 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
             RenderingHints hints,
             RenderedImage... sources) {
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("algebric", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("algebric", RenderedRegistryMode.MODE_NAME);
 
         int numSources = sources.length;
 
@@ -1475,17 +1475,17 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
         pb.setParameter("noData", noData);
         pb.setParameter("destinationNoData", destinationNoData);
 
-        return JAI.create("algebric", pb, hints);
+        return ImageN.create("algebric", pb, hints);
     }
 
     /**
      * Executes the selected operation on an image array.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param op operation to execute
      * @param roi optional ROI object
@@ -1504,7 +1504,7 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
             RenderingHints hints,
             RenderableImage... sources) {
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("algebric", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("algebric", RenderableRegistryMode.MODE_NAME);
 
         int numSources = sources.length;
 
@@ -1524,6 +1524,6 @@ public class AlgebraDescriptor extends OperationDescriptorImpl {
         pb.setParameter("noData", noData);
         pb.setParameter("destinationNoData", destinationNoData);
 
-        return JAI.createRenderable("algebric", pb, hints);
+        return ImageN.createRenderable("algebric", pb, hints);
     }
 }

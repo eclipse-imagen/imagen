@@ -21,9 +21,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -103,13 +103,13 @@ class StatisticsPropertyGenerator extends PropertyGeneratorImpl {
  *   <li>Median
  * </ul>
  *
- * <p>The source can have all the possible JAI accepted data types. The statistical calculations are performed on every
- * tile and stored inside an object which is a subclass of the "Statistics" class. For avoiding concurrency issues
+ * <p>The source can have all the possible ImageN accepted data types. The statistical calculations are performed on
+ * every tile and stored inside an object which is a subclass of the "Statistics" class. For avoiding concurrency issues
  * various techniques are used: for simple statistics, which does not request an array for storing the values, local
  * statistics are calculated and then accumulated in a synchronized block; for complex statistics, other techniques are
  * used. The statistical results are returned by calling the getProperty() method. The statistics are calculated only
- * the first time for avoiding unnecessary calculations. With this setup an advantage is taken by using the internal JAI
- * MultiThreading.
+ * the first time for avoiding unnecessary calculations. With this setup an advantage is taken by using the internal
+ * ImageN MultiThreading.
  *
  * <p>When the results are returned by the getProperty() method as a 2-D array, the user must only select the first
  * index related to one band and the second index related to a specific computation, as defined at the image creation,
@@ -304,11 +304,11 @@ public class StatisticsDescriptor extends OperationDescriptorImpl {
     /**
      * Performs a statistical operation on an image defined by its "stats type" parameter.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param xPeriod Horizontal subsampling.
@@ -339,7 +339,7 @@ public class StatisticsDescriptor extends OperationDescriptorImpl {
             int[] numBins,
             RenderingHints hints) {
         // Creation of a parameterBlockJAI containing all the operation parameters
-        ParameterBlockJAI pb = new ParameterBlockJAI("Stats", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Stats", RenderedRegistryMode.MODE_NAME);
         // Source image
         pb.setSource("source0", source0);
         // Image parameters
@@ -358,17 +358,17 @@ public class StatisticsDescriptor extends OperationDescriptorImpl {
             throw new IllegalArgumentException("bounds and bins must be declared together");
         }
         // RenderedImage creation
-        return JAI.create("Stats", pb, hints);
+        return ImageN.create("Stats", pb, hints);
     }
 
     /**
      * Performs a statistical operation on an image defined by its "stats type" parameter.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param xPeriod Horizontal subsampling.

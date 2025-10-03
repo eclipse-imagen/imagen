@@ -26,7 +26,7 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
 /**
- * Slight modified version of JAI {@link RandomIterFallbackNoCacheNoArray} that uses short vectors to handle indexes
+ * Slight modified version of ImageN {@link RandomIterFallbackNoCacheNoArray} that uses short vectors to handle indexes
  * rather than int vector. This way we use 2x2 times less memory in the iterator
  *
  * @author Simone Giannecchini, GeoSolutions SAS

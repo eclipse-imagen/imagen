@@ -19,9 +19,9 @@ package org.eclipse.imagen.operator;
 
 import java.awt.RenderingHints;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.codec.PNGDecodeParam;
 import org.eclipse.imagen.media.codec.SeekableStream;
@@ -43,8 +43,8 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>The documentation for <code>PNGDecodeParam</code> describes the possible output formats of PNG images after
  * decoding.
  *
- * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the JAI
- * API. Future releases of JAI will make use of new classes in their place. This class will change accordingly.</b>
+ * <p><b> The classes in the <code>org.eclipse.imagen.media.codec</code> package are not a committed part of the ImageN
+ * API. Future releases of ImageN will make use of new classes in their place. This class will change accordingly.</b>
  *
  * <p>
  *
@@ -171,11 +171,11 @@ public class PNGDescriptor extends OperationDescriptorImpl {
     /**
      * Reads a standard JFIF (PNG) file.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param stream The SeekableStream to read from.
      * @param param The PNGDecodeParam to use. May be <code>null</code>.
@@ -184,11 +184,11 @@ public class PNGDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>stream</code> is <code>null</code>.
      */
     public static RenderedOp create(SeekableStream stream, PNGDecodeParam param, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("PNG", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("PNG", RenderedRegistryMode.MODE_NAME);
 
         pb.setParameter("stream", stream);
         pb.setParameter("param", param);
 
-        return JAI.create("PNG", pb, hints);
+        return ImageN.create("PNG", pb, hints);
     }
 }

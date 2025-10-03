@@ -23,10 +23,10 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.util.Vector;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
 import org.eclipse.imagen.OperationNode;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -61,7 +61,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <p>No parameters are needed for this operation.
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since JAI 1.1
  */
 public class NullDescriptor extends OperationDescriptorImpl {
 
@@ -160,11 +159,11 @@ public class NullDescriptor extends OperationDescriptorImpl {
     /**
      * An operation which does no processing.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -172,21 +171,21 @@ public class NullDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Null", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Null", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.create("Null", pb, hints);
+        return ImageN.create("Null", pb, hints);
     }
 
     /**
      * An operation which does no processing.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -194,10 +193,10 @@ public class NullDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Null", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Null", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.createRenderable("Null", pb, hints);
+        return ImageN.createRenderable("Null", pb, hints);
     }
 }

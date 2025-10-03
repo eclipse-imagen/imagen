@@ -20,7 +20,7 @@ package org.eclipse.imagen.media.bandselect;
 import java.awt.*;
 import java.awt.image.*;
 import java.util.Map;
-import org.eclipse.imagen.ComponentSampleModelJAI;
+import org.eclipse.imagen.ComponentSampleModelImageN;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.media.util.JDKWorkarounds;
@@ -68,7 +68,7 @@ public class BandSelectOpImage extends PointOpImage {
                     numBands,
                     sourceSM.getWidth() * numBands,
                     numBands == 1 ? new int[] {0} : new int[] {0, 1});
-        } else if (DATABUFFER_WORKAROUND && sourceSM instanceof ComponentSampleModelJAI) {
+        } else if (DATABUFFER_WORKAROUND && sourceSM instanceof ComponentSampleModelImageN) {
             // Do not use standard method. Let's create a subSampleModel
             // using an internal method to keep into account
             // pixelStride/lineStride adjustments
@@ -95,7 +95,7 @@ public class BandSelectOpImage extends PointOpImage {
     }
 
     private static SampleModel createSubSampleComponentSampleModel(SampleModel sourceSM, int[] bandIndices) {
-        ComponentSampleModelJAI csm = (ComponentSampleModelJAI) sourceSM;
+        ComponentSampleModelImageN csm = (ComponentSampleModelImageN) sourceSM;
         // These same checks are made in PlanarImage's getData code
         int[] bankIndices = csm.getBankIndices();
         int[] bandOffsets = csm.getBandOffsets();
@@ -130,7 +130,7 @@ public class BandSelectOpImage extends PointOpImage {
             newBankIndices[i] = bankIndices[b];
             newBandOffsets[i] = bandOffsets[b];
         }
-        return new ComponentSampleModelJAI(
+        return new ComponentSampleModelImageN(
                 csm.getDataType(),
                 csm.getWidth(),
                 csm.getHeight(),
@@ -192,8 +192,8 @@ public class BandSelectOpImage extends PointOpImage {
             SampleModel sm = getSampleModel();
             SampleModel dataSampleModel = raster.getSampleModel();
             if (DATABUFFER_WORKAROUND
-                    && dataSampleModel instanceof ComponentSampleModelJAI
-                    && sm instanceof ComponentSampleModelJAI) {
+                    && dataSampleModel instanceof ComponentSampleModelImageN
+                    && sm instanceof ComponentSampleModelImageN) {
                 int opPixelStride = ((ComponentSampleModel) dataSampleModel).getPixelStride();
                 int tilePixelStride = ((ComponentSampleModel) sm).getPixelStride();
                 if (opPixelStride != tilePixelStride) {

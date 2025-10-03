@@ -34,7 +34,7 @@ public class JAIFileBrowser extends WindowAdapter implements ListSelectionListen
     public JAIFileBrowser(String[] filenames) {
         this.filenames = filenames;
 
-        frame = new JFrame("JAI File Browser");
+        frame = new JFrame("ImageN File Browser");
         frame2 = new JFrame(filenames[0]);
 
         // Read first image

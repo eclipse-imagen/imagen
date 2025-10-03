@@ -23,9 +23,9 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.util.List;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -183,11 +183,11 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderedOp for setting the output no data value.
@@ -210,11 +210,11 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderedOp for setting the output no data value.
@@ -240,11 +240,11 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderedOp for setting the output no data value.
@@ -265,7 +265,7 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
             List<AffineTransform> transform,
             ROI roi,
             RenderedImage... sources) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandMerge", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandMerge", RenderedRegistryMode.MODE_NAME);
         // Source number
         int numSources = sources.length;
         // Check on the source number
@@ -297,17 +297,17 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("setAlpha", setAlpha);
 
         // Creation of the RenderedOp
-        return JAI.create("BandMerge", pb, hints);
+        return ImageN.create("BandMerge", pb, hints);
     }
 
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderableOp for setting the output no data value.
@@ -325,11 +325,11 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderableOp for setting the output no data value.
@@ -353,11 +353,11 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
     /**
      * Merge (possibly multi-banded)images into a multibanded image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderableOp for setting the output no data value.
@@ -377,7 +377,7 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
             List<AffineTransform> transform,
             ROI roi,
             RenderableImage... sources) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("BandMerge", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("BandMerge", RenderableRegistryMode.MODE_NAME);
         // Source number
         int numSources = sources.length;
         // Check on the source number
@@ -407,6 +407,6 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
         pb.setParameter("roi", roi);
 
         // Creation of the RenderedOp
-        return JAI.createRenderable("BandMerge", pb, hints);
+        return ImageN.createRenderable("BandMerge", pb, hints);
     }
 }

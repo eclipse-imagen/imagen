@@ -23,9 +23,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -118,14 +118,15 @@ class SubsampleBinaryToGrayPropertyGenerator extends PropertyGeneratorImpl {
  *       dstHeight = floor(srcHeight * yScale)
  * </pre></code>
  *
- * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
+ * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>ImageN.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
  * image bounds itself. The other <code>ImageLayout</code> hints, like tileWidth and tileHeight, however, are honored.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.FALSE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> since this operation is capable of
- * dealing correctly with a source that has an <code>IndexColorModel</code>, without having to expand the <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> since this operation is capable
+ * of dealing correctly with a source that has an <code>IndexColorModel</code>, without having to expand the <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
  * new hint is added to it.
  *
@@ -160,7 +161,6 @@ class SubsampleBinaryToGrayPropertyGenerator extends PropertyGeneratorImpl {
  * </table>
  *
  * @see org.eclipse.imagen.OperationDescriptor
- * @since JAI 1.1
  */
 public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
 
@@ -265,11 +265,11 @@ public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
     /**
      * To subsamples binary image to gray; reverse of dithering.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param xScale scaleX must be between 0 and 1, excluding 0. May be <code>null</code>.
@@ -279,24 +279,24 @@ public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Float xScale, Float yScale, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubsampleBinaryToGray", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubsampleBinaryToGray", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("xScale", xScale);
         pb.setParameter("yScale", yScale);
 
-        return JAI.create("SubsampleBinaryToGray", pb, hints);
+        return ImageN.create("SubsampleBinaryToGray", pb, hints);
     }
 
     /**
      * To subsamples binary image to gray; reverse of dithering.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param xScale scaleX must be between 0 and 1, excluding 0. May be <code>null</code>.
@@ -307,13 +307,13 @@ public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, Float xScale, Float yScale, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("SubsampleBinaryToGray", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("SubsampleBinaryToGray", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("xScale", xScale);
         pb.setParameter("yScale", yScale);
 
-        return JAI.createRenderable("SubsampleBinaryToGray", pb, hints);
+        return ImageN.createRenderable("SubsampleBinaryToGray", pb, hints);
     }
 }

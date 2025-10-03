@@ -21,9 +21,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -277,11 +277,11 @@ public class LookupDescriptor extends OperationDescriptorImpl {
     /**
      * Performs a lookup operation on an integral image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param table The lookuptable used.
@@ -302,7 +302,7 @@ public class LookupDescriptor extends OperationDescriptorImpl {
             boolean useRoiAccessor,
             RenderingHints hints) {
         // Creation of a parameterBlockJAI containing all the operation parameters
-        ParameterBlockJAI pb = new ParameterBlockJAI("Lookup", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Lookup", RenderedRegistryMode.MODE_NAME);
         // Source image
         pb.setSource("source0", source0);
         // Image parameters
@@ -312,6 +312,6 @@ public class LookupDescriptor extends OperationDescriptorImpl {
         pb.setParameter("NoData", noData);
         pb.setParameter("useRoiAccessor", useRoiAccessor);
         // RenderedImage creation
-        return JAI.create("Lookup", pb, hints);
+        return ImageN.create("Lookup", pb, hints);
     }
 }

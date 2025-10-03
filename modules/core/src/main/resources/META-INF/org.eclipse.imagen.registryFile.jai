@@ -292,10 +292,10 @@ renderable	org.eclipse.imagen.media.opimage.SubsampleAverageCRIF	subsampleaverag
 #
 # remote rendered factory objects
 #
-#remoterendered      org.eclipse.imagen.media.rmi.JAIRMICRIF             jairmi
+#remoterendered      org.eclipse.imagen.media.rmi.ImageNRMICRIF             jairmi
 
 #
 # remote renderable factory objects
 #
-#remoterenderable    org.eclipse.imagen.media.rmi.JAIRMICRIF             jairmi
+#remoterenderable    org.eclipse.imagen.media.rmi.ImageNRMICRIF             jairmi
 

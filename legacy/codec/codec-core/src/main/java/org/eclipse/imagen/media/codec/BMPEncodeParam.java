@@ -24,7 +24,8 @@ package org.eclipse.imagen.media.codec;
  * default, the version used is VERSION_3, no compression is used, and the data layout is bottom_up, such that the
  * pixels are stored in bottom-up order, the first scanline being stored last.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class BMPEncodeParam implements ImageEncodeParam {
 

@@ -21,11 +21,11 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.BorderExtender;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -167,7 +167,7 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
 
             // Add the filtering operation.
             ParameterBlock pb = new ParameterBlock();
-            KernelJAI kernel = new KernelJAI(
+            KernelImageN kernel = new KernelImageN(
                     DEFAULT_KERNEL_1D.length,
                     DEFAULT_KERNEL_1D.length,
                     DEFAULT_KERNEL_1D.length / 2,
@@ -176,11 +176,11 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
                     DEFAULT_KERNEL_1D);
             pb.add(kernel);
             BorderExtender extender = BorderExtender.createInstance(BorderExtender.BORDER_COPY);
-            RenderingHints hints = JAI.getDefaultInstance().getRenderingHints();
+            RenderingHints hints = ImageN.getDefaultInstance().getRenderingHints();
             if (hints == null) {
-                hints = new RenderingHints(JAI.KEY_BORDER_EXTENDER, extender);
+                hints = new RenderingHints(ImageN.KEY_BORDER_EXTENDER, extender);
             } else {
-                hints.put(JAI.KEY_BORDER_EXTENDER, extender);
+                hints.put(ImageN.KEY_BORDER_EXTENDER, extender);
             }
 
             RenderedOp filter = new RenderedOp("convolve", pb, hints);
@@ -215,11 +215,11 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
     /**
      * Produces a RenderableImage from a RenderedImage.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param downSampler The operation chain used to derive the lower resolution images. May be <code>null</code>.
@@ -239,7 +239,7 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
             Float minY,
             Float height,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Renderable", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Renderable", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -249,6 +249,6 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
         pb.setParameter("minY", minY);
         pb.setParameter("height", height);
 
-        return JAI.createRenderable("Renderable", pb, hints);
+        return ImageN.createRenderable("Renderable", pb, hints);
     }
 }

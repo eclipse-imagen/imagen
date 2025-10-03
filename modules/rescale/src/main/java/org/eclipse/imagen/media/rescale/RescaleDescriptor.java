@@ -22,9 +22,9 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -262,11 +262,11 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
     /**
      * Maps the pixels values of an image from one range to another range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param constants The per-band constants to multiply by. May be <code>null</code>.
@@ -276,21 +276,21 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, double[] constants, double[] offsets, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Rescale", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Rescale", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("constants", constants);
         pb.setParameter("offsets", offsets);
 
-        return JAI.create("Rescale", pb, hints);
+        return ImageN.create("Rescale", pb, hints);
     }
 
     /**
      * Maps the pixels values of an image from one range to another range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scales The per-band scale factors to multiply by.
@@ -313,7 +313,7 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
             double destNoData,
             RenderingHints hints) {
         // Creation of the parameterBlock object associated to the operation
-        ParameterBlockJAI pb = new ParameterBlockJAI("Rescale", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Rescale", RenderedRegistryMode.MODE_NAME);
         // Setting of the source
         pb.setSource("source0", source0);
         // Setting of the parameters
@@ -324,14 +324,14 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("useRoiAccessor", useRoiAccessor);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.create("Rescale", pb, hints);
+        return ImageN.create("Rescale", pb, hints);
     }
 
     /**
      * Maps the pixels values of an image from one range to another range.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String, ParameterBlock, RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String, ParameterBlock, RenderingHints)}.
      *
      * @param source0 <code>RenderedImage</code> source 0.
      * @param scales The per-band scale factors to multiply by.
@@ -354,7 +354,7 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
             double destNoData,
             RenderingHints hints) {
         // Creation of the parameterBlock object associated to the operation
-        ParameterBlockJAI pb = new ParameterBlockJAI("Rescale", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Rescale", RenderableRegistryMode.MODE_NAME);
         // Setting of the source
         pb.setSource("source0", source0);
         // Setting of the parameters
@@ -365,6 +365,6 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         pb.setParameter("useRoiAccessor", useRoiAccessor);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.createRenderable("Rescale", pb, hints);
+        return ImageN.createRenderable("Rescale", pb, hints);
     }
 }

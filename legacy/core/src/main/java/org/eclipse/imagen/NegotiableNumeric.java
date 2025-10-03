@@ -21,8 +21,6 @@ package org.eclipse.imagen;
  * A class that wraps a numeric primitive data type or a subclass of <code>Number</code> to implement the <code>
  * Negotiable</code> interface. <code>NegotiableNumeric</code> is a convenience class to specify a <code>Negotiable
  * </code> value for a parameter which has a single valid numeric value.
- *
- * @since JAI 1.1
  */
 public class NegotiableNumeric implements Negotiable {
 
@@ -101,7 +99,7 @@ public class NegotiableNumeric implements Negotiable {
     public NegotiableNumeric(Number n) {
 
         if (n == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("NegotiableNumeric0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableNumeric0"));
         }
 
         number = n;
@@ -166,7 +164,7 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public byte getNegotiatedValueAsByte() {
-        if (elementClass != Byte.class) throw new ClassCastException(JaiI18N.getString("NegotiableNumeric1"));
+        if (elementClass != Byte.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
         return number.byteValue();
     }
 
@@ -176,7 +174,7 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public short getNegotiatedValueAsShort() {
-        if (elementClass != Short.class) throw new ClassCastException(JaiI18N.getString("NegotiableNumeric1"));
+        if (elementClass != Short.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
         return number.shortValue();
     }
 
@@ -186,7 +184,8 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public int getNegotiatedValueAsInt() {
-        if (elementClass != Integer.class) throw new ClassCastException(JaiI18N.getString("NegotiableNumeric1"));
+        if (elementClass != Integer.class)
+            throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
         return number.intValue();
     }
 
@@ -196,7 +195,7 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public long getNegotiatedValueAsLong() {
-        if (elementClass != Long.class) throw new ClassCastException(JaiI18N.getString("NegotiableNumeric1"));
+        if (elementClass != Long.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
         return number.longValue();
     }
 
@@ -206,7 +205,7 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public float getNegotiatedValueAsFloat() {
-        if (elementClass != Float.class) throw new ClassCastException(JaiI18N.getString("NegotiableNumeric1"));
+        if (elementClass != Float.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
         return number.floatValue();
     }
 
@@ -216,7 +215,7 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public double getNegotiatedValueAsDouble() {
-        if (elementClass != Double.class) throw new ClassCastException(JaiI18N.getString("NegotiableNumeric1"));
+        if (elementClass != Double.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
         return number.doubleValue();
     }
 }

@@ -61,7 +61,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * </code>
  * </pre>
  *
- * or via the <code>createRenderable()</code> or <code>createRenderableNS()</code> methods defined in the <code>JAI
+ * or via the <code>createRenderable()</code> or <code>createRenderableNS()</code> methods defined in the <code>ImageN
  * </code> class. The difference between direct construction of a node and creation via a convenience method is that in
  * the latter case:
  *
@@ -69,7 +69,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  *   <li>It is verified that the operation supports the renderable mode.
  *   <li>Using the <code>validateArguments()</code> method of the associated <code>OperationDescriptor</code>, the
  *       arguments (sources and parameters) are validated as being compatible with the specified operation.
- *   <li>Global <code>RenderingHints</code> maintained by the <code>JAI</code> instance are set on the <code>
+ *   <li>Global <code>RenderingHints</code> maintained by the <code>ImageN</code> instance are set on the <code>
  *       RenderableOp</code> using <code>setRenderingHints()</code>.
  * </ol>
  *
@@ -98,7 +98,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * <p><code>RenderableOp</code> nodes may participate in Java Bean-style events. The <code>PropertyChangeEmitter</code>
  * methods may be used to register and unregister <code>PropertyChangeListener</code>s. Certain <code>
  * PropertyChangeEvent</code>s may be emitted by the <code>RenderableOp</code>. These include the <code>
- * PropertyChangeEventJAI</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
+ * PropertyChangeEventImageN</code>s and <code>PropertySourceChangeEvent</code>s required by virtue of implementing the
  * <code>OperationNode</code> interface.
  *
  * <p><code>RenderableOp</code> nodes are <code>WritablePropertySource</code>s and so manage a name-value database of
@@ -148,25 +148,13 @@ import org.eclipse.imagen.util.CaselessStringKey;
  */
 public class RenderableOp implements RenderableImage, OperationNode, WritablePropertySource, Serializable {
 
-    /**
-     * A helper object to manage firing events.
-     *
-     * @since JAI 1.1
-     */
-    protected PropertyChangeSupportJAI eventManager = null;
+    /** A helper object to manage firing events. */
+    protected PropertyChangeSupportImageN eventManager = null;
 
-    /**
-     * A helper object to manage the image properties.
-     *
-     * @since JAI 1.1
-     */
+    /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
 
-    /**
-     * An object to assist in implementing <code>OperationNode</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** An object to assist in implementing <code>OperationNode</code>. */
     protected OperationNodeSupport nodeSupport;
 
     /** The <code>PropertySource</code> containing the combined properties of all of the node's sources. */
@@ -192,7 +180,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @param hints The common node <code>RenderingHints</code> to be set; it may be <code>null</code>. This parameter
      *     is cloned.
      * @throws IllegalArgumentException if <code>opName</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public RenderableOp(OperationRegistry registry, String opName, ParameterBlock pb, RenderingHints hints) {
 
@@ -210,7 +197,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
         }
 
         // Initialize the various helper objects.
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
 
         properties = new WritablePropertySourceImpl(null, null, eventManager);
 
@@ -258,8 +245,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Returns the name of the <code>RegistryMode</code> corresponding to this <code>RenderableOp</code>. This method
      * always returns the <code>String</code> "renderable".
-     *
-     * @since JAI 1.1
      */
     public String getRegistryModeName() {
         return RegistryMode.getMode("renderable").getName();
@@ -279,7 +264,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * Sets the <code>OperationRegistry</code> that is used by this node. If the specified registry is <code>null</code>
      * , the default registry is used.
      *
-     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied registry does not equal the current registry, a <code>PropertyChangeEventImageN</code> named
      * "OperationRegistry" will be fired
      */
     public synchronized void setRegistry(OperationRegistry registry) {
@@ -294,7 +279,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Sets the name of the operation this node represents. The parameter is saved by reference.
      *
-     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventJAI</code> named
+     * <p>If the supplied name does not equal the current operation name, a <code>PropertyChangeEventImageN</code> named
      * "OperationName" will be fired.
      *
      * @param opName The new operation name to be set.
@@ -318,7 +303,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * node represents; otherwise some form of error or exception may occur at the time of rendering.
      *
      * <p>If the supplied <code>ParameterBlock</code> does not equal the current <code>ParameterBlock</code>, a <code>
-     * PropertyChangeEventJAI</code> named "ParameterBlock", "Sources", or "Parameters" will be fired.
+     * PropertyChangeEventImageN</code> named "ParameterBlock", "Sources", or "Parameters" will be fired.
      *
      * <p>The <code>ParameterBlock</code> may include <code>DeferredData</code> parameters. These will not be evaluated
      * until their values are actually required, i.e., when a rendering of the node is requested or the renderable
@@ -330,11 +315,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
         nodeSupport.setParameterBlock(pb == null ? new ParameterBlock() : (ParameterBlock) pb.clone());
     }
 
-    /**
-     * Returns a clone of the common <code>RenderingHints</code> of this node or <code>null</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** Returns a clone of the common <code>RenderingHints</code> of this node or <code>null</code>. */
     public RenderingHints getRenderingHints() {
         RenderingHints hints = nodeSupport.getRenderingHints();
         return hints == null ? null : (RenderingHints) hints.clone();
@@ -345,10 +326,9 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * </code>.
      *
      * <p>If the supplied <code>RenderingHints</code> does not equal the current <code>RenderingHints</code>, a <code>
-     * PropertyChangeEventJAI</code> named "RenderingHints" will be fired.
+     * PropertyChangeEventImageN</code> named "RenderingHints" will be fired.
      *
      * @param hints The new <code>RenderingHints</code> to be set; it may be <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized void setRenderingHints(RenderingHints hints) {
         if (hints != null) {
@@ -389,11 +369,11 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /** Use registry to find an appropriate CRIF */
     private synchronized ContextualRenderedImageFactory findCRIF() {
         if (crif == null) {
-            // find the CRIF(JAI) from the registry.
+            // find the CRIF(ImageN) from the registry.
             crif = CRIFRegistry.get(getRegistry(), getOperationName());
         }
         if (crif == null) {
-            throw new RuntimeException(JaiI18N.getString("RenderableOp2"));
+            throw new RuntimeException(ImageNI18N.getString("RenderableOp2"));
         }
 
         return crif;
@@ -446,14 +426,14 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * <p>The dimensions of the created <code>RenderedImage</code> are determined in the following order of precedence:
      *
      * <ol>
-     *   <li>If a <code>JAI.KEY_DEFAULT_RENDERING_SIZE</code> hint is set on the node it is used unless both its
+     *   <li>If a <code>ImageN.KEY_DEFAULT_RENDERING_SIZE</code> hint is set on the node it is used unless both its
      *       dimensions are non-positive.
-     *   <li>The value returned by <code>JAI.getDefaultRenderingSize()</code> is used unless it is <code>null</code>.
+     *   <li>The value returned by <code>ImageN.getDefaultRenderingSize()</code> is used unless it is <code>null</code>.
      *   <li>An identity transform from renderable to rendered coordinates is applied.
      * </ol>
      *
-     * Either dimension of the default rendering size set in the hints or on the default <code>JAI</code> instance may
-     * be non-positive in which case the other dimension and the renderable aspect ratio will be used to compute the
+     * Either dimension of the default rendering size set in the hints or on the default <code>ImageN</code> instance
+     * may be non-positive in which case the other dimension and the renderable aspect ratio will be used to compute the
      * rendered image size.
      *
      * <p>This method does not validate sources and parameters supplied in the <code>ParameterBlock</code> supplied at
@@ -468,11 +448,11 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
         // Get the default dimensions.
         Dimension defaultDimension = null;
         RenderingHints hints = nodeSupport.getRenderingHints();
-        if (hints != null && hints.containsKey(JAI.KEY_DEFAULT_RENDERING_SIZE)) {
-            defaultDimension = (Dimension) hints.get(JAI.KEY_DEFAULT_RENDERING_SIZE);
+        if (hints != null && hints.containsKey(ImageN.KEY_DEFAULT_RENDERING_SIZE)) {
+            defaultDimension = (Dimension) hints.get(ImageN.KEY_DEFAULT_RENDERING_SIZE);
         }
         if (defaultDimension == null || (defaultDimension.width <= 0 && defaultDimension.height <= 0)) {
-            defaultDimension = JAI.getDefaultRenderingSize();
+            defaultDimension = ImageN.getDefaultRenderingSize();
         }
 
         // Initialize scale factors to represent the identify transform.
@@ -522,7 +502,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      */
     public RenderedImage createScaledRendering(int w, int h, RenderingHints hints) {
         if ((w == 0) && (h == 0)) {
-            throw new IllegalArgumentException(JaiI18N.getString("RenderableOp3"));
+            throw new IllegalArgumentException(ImageNI18N.getString("RenderableOp3"));
         }
 
         if (w == 0) {
@@ -581,7 +561,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
             RenderingHints nodeHints = nodeSupport.getRenderingHints();
             if (nodeHints != null) {
                 RenderingHints hints = renderContext.getRenderingHints();
-                RenderingHints mergedHints = JAI.mergeRenderingHints(nodeHints, hints);
+                RenderingHints mergedHints = ImageN.mergeRenderingHints(nodeHints, hints);
                 if (mergedHints != hints) {
                     rcIn = new RenderContext(
                             renderContext.getTransform(), renderContext.getAreaOfInterest(), mergedHints);
@@ -701,7 +681,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
         createPropertySource();
@@ -742,7 +721,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * property environment.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void removeProperty(String name) {
         createPropertySource();
@@ -759,7 +737,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      *
      * @param name A <code>String</code> naming the property.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized Object getDynamicProperty(String name) {
         createPropertySource();
@@ -783,7 +760,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @param propertyName the name of the property to be copied.
      * @param sourceIndex the index of the from which to copy the property.
      * @throws IllegalArgumentException if <code>propertyName</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public synchronized void copyPropertyFromSource(String propertyName, int sourceIndex) {
         nodeSupport.copyPropertyFromSource(propertyName, sourceIndex);
@@ -806,11 +782,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
 
     /* ----- PropertyChangeEmitter methods. ----- */
 
-    /**
-     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
-     *
-     * @since JAI 1.1
-     */
+    /** Add a PropertyChangeListener to the listener list. The listener is registered for all properties. */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
     }
@@ -818,8 +790,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
@@ -828,18 +798,12 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
-     *
-     * @since JAI 1.1
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
-     */
+    /** Remove a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }
@@ -865,7 +829,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      */
     public void setSource(Object source, int index) {
-        if (source == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
         pb.setSource(source, index);
@@ -875,8 +839,6 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
     /**
      * Removes all the node's sources. This is a convenience method that invokes <code>setParameterBlock()</code> and so
      * adheres to the same event firing behavior.
-     *
-     * @since JAI 1.1
      */
     public void removeSources() {
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();

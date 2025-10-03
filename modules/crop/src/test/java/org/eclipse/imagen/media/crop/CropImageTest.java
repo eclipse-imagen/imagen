@@ -26,8 +26,8 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -47,7 +47,7 @@ import org.junit.Test;
  * This test class compares the old Crop operation implementation with the new one. The optional presence of No Data and
  * ROI is tested. Also the capability of the new Crop operator to maintain (if present) the hints related to the tile
  * cache is tested. This class can also show the result of the crop operation without No Data and Roi, with ROI only and
- * with ROI and NoData together by setting the JVM JAI.Ext interactive parameter to true, and setting the JVM integer
+ * with ROI and NoData together by setting the JVM ImageN.Ext interactive parameter to true, and setting the JVM integer
  * parameter respectively to 0,1 or 2.
  */
 public class CropImageTest extends TestBase {
@@ -74,8 +74,8 @@ public class CropImageTest extends TestBase {
         ParameterBlock pbNew = buildParameterBlock(source, true, false, false);
 
         // Images creation
-        RenderedOp cropped = JAI.create("crop", pb);
-        RenderedOp jaiextCropped = JAI.create("Crop", pbNew);
+        RenderedOp cropped = ImageN.create("crop", pb);
+        RenderedOp jaiextCropped = ImageN.create("Crop", pbNew);
         // Test on the selected image
         ImageComparator.assertEquals(cropped, jaiextCropped);
 
@@ -97,8 +97,8 @@ public class CropImageTest extends TestBase {
 
         ParameterBlock pbNew = buildParameterBlock(source, true, true, false);
         // Images creation
-        RenderedOp cropped = JAI.create("crop", pb);
-        RenderedOp jaiextCropped = JAI.create("Crop", pbNew);
+        RenderedOp cropped = ImageN.create("crop", pb);
+        RenderedOp jaiextCropped = ImageN.create("Crop", pbNew);
         // Check if the presence of the ROI reduces the image bounds
         Rectangle boundOld = cropped.getBounds();
 
@@ -128,8 +128,8 @@ public class CropImageTest extends TestBase {
 
         ParameterBlock pbNew = buildParameterBlock(source, true, true, true);
         // Images creation
-        RenderedOp cropped = JAI.create("crop", pb);
-        RenderedOp jaiextCropped = JAI.create("Crop", pbNew);
+        RenderedOp cropped = ImageN.create("crop", pb);
+        RenderedOp jaiextCropped = ImageN.create("Crop", pbNew);
 
         Rectangle boundOld = cropped.getBounds();
 
@@ -185,52 +185,52 @@ public class CropImageTest extends TestBase {
         // Creation of the Tile Cache
         TileCache tc = new SunTileCache();
         // Addition of the TileCache hints
-        RenderingHints hints = new RenderingHints(JAI.KEY_TILE_CACHE, tc);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_TILE_CACHE, tc);
         // Parameterblock creation
         ParameterBlock pb = buildParameterBlock(source, true, false, false);
         // Crop operation
-        RenderedOp jaiextCropped = JAI.create("Crop", pb, hints);
+        RenderedOp jaiextCropped = ImageN.create("Crop", pb, hints);
         // force to compute the image
         jaiextCropped.getColorModel();
         // Check if the Tile Cache used is the same
-        assertSame(tc, jaiextCropped.getRenderingHint(JAI.KEY_TILE_CACHE));
+        assertSame(tc, jaiextCropped.getRenderingHint(ImageN.KEY_TILE_CACHE));
     }
 
     @Test
     public void testNullTileCache() {
         // Addition of Null TileCache hints
-        RenderingHints hints = new RenderingHints(JAI.KEY_TILE_CACHE, null);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_TILE_CACHE, null);
         // Parameterblock creation
         ParameterBlock pb = buildParameterBlock(source, true, false, false);
         // Crop operation
-        RenderedOp jaiCropped = JAI.create("Crop", pb, hints);
+        RenderedOp jaiCropped = ImageN.create("Crop", pb, hints);
         // force to compute the image
         jaiCropped.getColorModel();
         // Check if the Tile Cache is not present
-        assertNull(jaiCropped.getRenderingHint(JAI.KEY_TILE_CACHE));
+        assertNull(jaiCropped.getRenderingHint(ImageN.KEY_TILE_CACHE));
     }
 
     @Test
     public void testNullTileCacheDescriptor() {
         // Addition of Null TileCache hints
-        RenderingHints hints = new RenderingHints(JAI.KEY_TILE_CACHE, null);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_TILE_CACHE, null);
         // Crop operation(with the descriptor)
         RenderedOp cropped = CropDescriptor.create(source, 10f, 10f, 20f, 20f, null, null, null, hints);
         // force to compute the image
         cropped.getColorModel();
         // Check if the Tile Cache is not present
-        assertNull(cropped.getRenderingHint(JAI.KEY_TILE_CACHE));
+        assertNull(cropped.getRenderingHint(ImageN.KEY_TILE_CACHE));
     }
 
     // Utility method for creating the image parameter blocks
     private ParameterBlock buildParameterBlock(
             RenderedImage source, boolean newDescriptor, boolean roiUsed, boolean noDataUsed) {
         // Creation of the parameterBlock associated with its operation
-        ParameterBlockJAI pb;
+        ParameterBlockImageN pb;
         if (newDescriptor) {
-            pb = new ParameterBlockJAI("Crop");
+            pb = new ParameterBlockImageN("Crop");
         } else {
-            pb = new ParameterBlockJAI("crop");
+            pb = new ParameterBlockImageN("crop");
         }
         // Setting of the source
         pb.setSource("source0", source);
@@ -258,7 +258,7 @@ public class CropImageTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Crop");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "Crop");
         assertNotNull(descriptor);
         assertEquals("Crop", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.Map;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.ROI;
@@ -235,10 +235,10 @@ public class OrderedDitherOpImage extends PointOpImage {
      * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param colorMap The color map to use which must have a number of bands equal to the number of bands in the source
      *     image. The offset of this <code>ColorCube</code> must be the same for all bands.
-     * @param ditherMask An an array of <code>KernelJAI</code> objects the dimension of which must equal the number of
-     *     bands in the source image. The <i>n</i>th element of the array contains a <code>KernelJAI</code> object which
-     *     represents the dither mask matrix for the corresponding band. All <code>KernelJAI</code> objects in the array
-     *     must have the same dimensions and contain floating point values between 0.0F and 1.0F.
+     * @param ditherMask An an array of <code>KernelImageN</code> objects the dimension of which must equal the number
+     *     of bands in the source image. The <i>n</i>th element of the array contains a <code>KernelImageN</code> object
+     *     which represents the dither mask matrix for the corresponding band. All <code>KernelImageN</code> objects in
+     *     the array must have the same dimensions and contain floating point values between 0.0F and 1.0F.
      * @param roi Optional {@link ROI} used for masking raster areas
      * @param nodata NoData {@link Range} used for masking unwanted pixel values
      * @param destNoData Value to set as background
@@ -248,7 +248,7 @@ public class OrderedDitherOpImage extends PointOpImage {
             Map config,
             ImageLayout layout,
             ColorCube colorMap,
-            KernelJAI[] ditherMask,
+            KernelImageN[] ditherMask,
             ROI roi,
             Range nodata,
             double destNoData) {
@@ -457,9 +457,9 @@ public class OrderedDitherOpImage extends PointOpImage {
      * dither lookup table object.
      *
      * @param dataType The data type as defined in <code>DataBuffer</code>.
-     * @param ditherMask The dither mask represented as an array of <code>KernelJAI</code> objects.
+     * @param ditherMask The dither mask represented as an array of <code>KernelImageN</code> objects.
      */
-    private void initializeDitherData(int dataType, KernelJAI[] ditherMask) {
+    private void initializeDitherData(int dataType, KernelImageN[] ditherMask) {
         switch (dataType) {
             case DataBuffer.TYPE_BYTE:
                 {

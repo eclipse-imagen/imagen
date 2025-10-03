@@ -23,8 +23,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.awt.Dimension;
 import java.awt.image.Raster;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.RegistryElementDescriptor;
 import org.eclipse.imagen.RenderedOp;
@@ -53,7 +53,7 @@ public class VectorBinarizeTest extends TestBase {
 
     @Before
     public void setupTileSize() {
-        JAI.setDefaultTileSize(new Dimension(TILE_WIDTH, TILE_WIDTH));
+        ImageN.setDefaultTileSize(new Dimension(TILE_WIDTH, TILE_WIDTH));
     }
 
     @Test
@@ -72,12 +72,12 @@ public class VectorBinarizeTest extends TestBase {
 
         Polygon poly = (Polygon) reader.read(wkt);
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("VectorBinarize");
+        ParameterBlockImageN pb = new ParameterBlockImageN("VectorBinarize");
         pb.setParameter("width", Ntiles * TILE_WIDTH);
         pb.setParameter("height", Ntiles * TILE_WIDTH);
         pb.setParameter("geometry", poly);
 
-        RenderedOp dest = JAI.create("VectorBinarize", pb);
+        RenderedOp dest = ImageN.create("VectorBinarize", pb);
 
         CoordinateSequence2D testPointCS = new CoordinateSequence2D(1);
         Point testPoint = gf.createPoint(testPointCS);
@@ -105,7 +105,7 @@ public class VectorBinarizeTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "VectorBinarize");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "VectorBinarize");
         assertNotNull(descriptor);
         assertEquals("VectorBinarize", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

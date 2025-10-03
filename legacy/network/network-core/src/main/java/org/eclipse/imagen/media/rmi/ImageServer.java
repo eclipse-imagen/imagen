@@ -52,9 +52,9 @@ import org.eclipse.imagen.media.serialize.SerializableState;
  * <p>The hostname and port will of course depend on the local setup. The host must be running an <code>rmiregistry
  * </code> process and have a RemoteImageServer listening at the desired port.
  *
- * <p>This call will result in the creation of a server-side JAIRMIImageServer object and a client-side stub object. The
- * client stub serializes its method arguments and transfers them to the server over a socket; the server serializes it
- * return values and returns them in the same manner.
+ * <p>This call will result in the creation of a server-side ImageNRMIImageServer object and a client-side stub object.
+ * The client stub serializes its method arguments and transfers them to the server over a socket; the server serializes
+ * it return values and returns them in the same manner.
  *
  * <p>This process implies that all arguments and return values must be serializable. In the case of a RenderedImage
  * source, serializability is not guaranteed and must be considered on a class-by-class basis. For RenderedOps, which

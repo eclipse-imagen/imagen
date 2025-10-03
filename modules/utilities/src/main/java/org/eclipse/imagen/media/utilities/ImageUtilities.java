@@ -38,12 +38,12 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.eclipse.imagen.ColorSpaceJAI;
+import org.eclipse.imagen.ColorSpaceImageN;
 import org.eclipse.imagen.FloatDoubleColorModel;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.NotAColorSpace;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
@@ -452,7 +452,7 @@ public class ImageUtilities {
      * @return a new TiledImage object
      */
     public static TiledImage createConstantImage(int minx, int miny, int width, int height, Number[] values) {
-        Dimension tileSize = JAI.getDefaultTileSize();
+        Dimension tileSize = ImageN.getDefaultTileSize();
         return createConstantImage(minx, miny, width, height, tileSize.width, tileSize.height, values);
     }
     /**
@@ -711,7 +711,7 @@ public class ImageUtilities {
             }
         }
 
-        ParameterBlockJAI pb = null;
+        ParameterBlockImageN pb = null;
         RenderedImage lookupImg = dataImg;
         byte[][] lookup = null;
         int offset = 0;
@@ -757,10 +757,10 @@ public class ImageUtilities {
             }
         }
 
-        pb = new ParameterBlockJAI("Lookup");
+        pb = new ParameterBlockImageN("Lookup");
         pb.setSource("source0", lookupImg);
-        pb.setParameter("table", new LookupTableJAI(lookup, offset));
-        RenderedOp displayImg = JAI.create("Lookup", pb);
+        pb.setParameter("table", new LookupTableImageN(lookup, offset));
+        RenderedOp displayImg = ImageN.create("Lookup", pb);
 
         return displayImg;
     }
@@ -778,10 +778,10 @@ public class ImageUtilities {
         if (img != null) {
             int numBands = img.getSampleModel().getNumBands();
             for (int band = 0; band < numBands; band++) {
-                ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+                ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
                 pb.setSource("source0", img);
                 pb.setParameter("bandindices", new int[] {band});
-                RenderedImage bandImg = JAI.create("BandSelect", pb);
+                RenderedImage bandImg = ImageN.create("BandSelect", pb);
                 images.add(bandImg);
             }
         }
@@ -810,10 +810,10 @@ public class ImageUtilities {
             }
 
             for (Integer band : sortedIndices) {
-                ParameterBlockJAI pb = new ParameterBlockJAI("BandSelect");
+                ParameterBlockImageN pb = new ParameterBlockImageN("BandSelect");
                 pb.setSource("source0", img);
                 pb.setParameter("bandindices", new int[] {band});
-                RenderedImage bandImg = JAI.create("BandSelect", pb);
+                RenderedImage bandImg = ImageN.create("BandSelect", pb);
                 images.add(bandImg);
             }
         }
@@ -845,8 +845,8 @@ public class ImageUtilities {
                 if (setAlpha) {
 
                     cs = numBands == 2
-                            ? ColorSpace.getInstance(ColorSpaceJAI.CS_GRAY)
-                            : ColorSpace.getInstance(ColorSpaceJAI.CS_sRGB);
+                            ? ColorSpace.getInstance(ColorSpaceImageN.CS_GRAY)
+                            : ColorSpace.getInstance(ColorSpaceImageN.CS_sRGB);
                 } else {
                     // For 2 and 4 bands a custom colorspace is created
                     cs = new ColorSpace(dataType, numBands) {

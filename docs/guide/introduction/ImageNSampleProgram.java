@@ -2,7 +2,7 @@ import java.awt.Frame;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.IOException;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.codec.FileSeekableStream;
 import org.eclipse.imagen.widget.ScrollingImagePanel;
@@ -34,7 +34,7 @@ public class ImageNSampleProgram {
             System.exit(0);
         }
         /* Create an operator to decode the image file. */
-        RenderedOp image1 = JAI.create("stream", stream);
+        RenderedOp image1 = ImageN.create("stream", stream);
         /*
          * Create a standard bilinear interpolation object to be
          * used with the "scale" operator.

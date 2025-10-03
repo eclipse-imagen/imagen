@@ -7,9 +7,7 @@
  */
 package org.eclipse.imagen.widgets;
 
-import java.awt.image.*;
 import java.awt.image.renderable.*;
-import java.io.*;
 import org.eclipse.imagen.*;
 
 public class TutorUtils {
@@ -28,7 +26,7 @@ public class TutorUtils {
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(src);
             pb.add(matrix);
-            dst = JAI.create("bandcombine", pb, null);
+            dst = ImageN.create("bandcombine", pb, null);
         }
 
         return dst;
@@ -52,7 +50,7 @@ public class TutorUtils {
                 ParameterBlock pb = new ParameterBlock();
                 pb.addSource(src);
                 pb.add(matrix);
-                dst = JAI.create("bandcombine", pb, null);
+                dst = ImageN.create("bandcombine", pb, null);
             } else {
                 dst = src;
             }

@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.text.MessageFormat;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.media.serialize.SerializableState;
 import org.eclipse.imagen.media.serialize.SerializerFactory;
 import org.eclipse.imagen.tilecodec.TileCodecDescriptor;
@@ -39,7 +39,7 @@ public class TileCodecUtils {
         // cache the class to keep TileCodecUtils.class in memory unless
         // the class RenderingKey is GC'ed.  In this case, the
         // WeakReferences in the map of RenderingHints.Key will release
-        // the instances of RenderingKey. So when JAI is loaded next
+        // the instances of RenderingKey. So when ImageN is loaded next
         // time, the keys can be recreated without any exception.
         // Fix bug: 4754807
         private static Class JAIclass = TileCodecUtils.class;
@@ -63,8 +63,6 @@ public class TileCodecUtils {
      * Key for specifying the default format to be used for tile serialization via <code>TileCodec</code>s. The
      * corresponding object must be a <code>String</code>. The common <code>RenderingHints</code> do not contain a
      * default hint corresponding to this key.
-     *
-     * @since JAI 1.1
      */
     public static RenderingHints.Key KEY_TILE_CODEC_FORMAT = new RenderingKey(HINT_TILE_CODEC_FORMAT, String.class);
 
@@ -72,8 +70,6 @@ public class TileCodecUtils {
      * Key for specifying the default encoding parameters to be used for tile serialization via <code>TileCodec</code>s.
      * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
      * not contain a default hint corresponding to this key.
-     *
-     * @since JAI 1.1
      */
     public static RenderingHints.Key KEY_TILE_ENCODING_PARAM =
             new RenderingKey(HINT_TILE_ENCODING_PARAM, TileCodecParameterList.class);
@@ -82,8 +78,6 @@ public class TileCodecUtils {
      * Key for specifying the default decoding parameters to be used for tile serialization via <code>TileCodec</code>s.
      * The corresponding object must be a <code>TileCodecParameterList</code>. The common <code>RenderingHints</code> do
      * not contain a default hint corresponding to this key.
-     *
-     * @since JAI 1.1
      */
     public static RenderingHints.Key KEY_TILE_DECODING_PARAM =
             new RenderingKey(HINT_TILE_DECODING_PARAM, TileCodecParameterList.class);
@@ -91,7 +85,7 @@ public class TileCodecUtils {
     /** Get the <code>TileCodecDescriptor</code> associated with the specified registry mode. */
     public static TileCodecDescriptor getTileCodecDescriptor(String registryMode, String formatName) {
         return (TileCodecDescriptor)
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor(registryMode, formatName);
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor(registryMode, formatName);
     }
 
     /** Deserialize a <code>Raster</code> from its serialized version */

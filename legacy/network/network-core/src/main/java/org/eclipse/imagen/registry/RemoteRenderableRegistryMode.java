@@ -18,16 +18,12 @@
 package org.eclipse.imagen.registry;
 
 import java.lang.reflect.Method;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.RegistryMode;
 import org.eclipse.imagen.remote.RemoteDescriptor;
 import org.eclipse.imagen.util.ImagingListener;
 
-/**
- * A class which provides information about the "remoteRenderable" registry mode.
- *
- * @since JAI 1.1
- */
+/** A class which provides information about the "remoteRenderable" registry mode. */
 public class RemoteRenderableRegistryMode extends RegistryMode {
 
     public static final String MODE_NAME = "remoteRenderable";
@@ -53,7 +49,7 @@ public class RemoteRenderableRegistryMode extends RegistryMode {
             factoryMethod = factoryClass.getMethod("create", paramTypes);
 
         } catch (NoSuchMethodException e) {
-            ImagingListener listener = JAI.getDefaultInstance().getImagingListener();
+            ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
             String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
             listener.errorOccurred(message, e, RemoteRenderableRegistryMode.class, false);
             //	    e.printStackTrace();

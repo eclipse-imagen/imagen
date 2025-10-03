@@ -20,11 +20,7 @@ package org.eclipse.imagen;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 
-/**
- * Public interface for cached tiles used to retrieve information about the tile.
- *
- * @since JAI 1.1
- */
+/** Public interface for cached tiles used to retrieve information about the tile. */
 public interface CachedTile {
 
     /**

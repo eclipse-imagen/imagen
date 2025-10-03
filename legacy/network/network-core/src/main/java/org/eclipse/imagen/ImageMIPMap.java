@@ -41,7 +41,7 @@ import java.util.Vector;
  *
  * @see ImagePyramid
  */
-public class ImageMIPMap implements ImageJAI {
+public class ImageMIPMap implements ImageImageN {
 
     /** The image with the highest resolution. */
     protected RenderedImage highestImage;
@@ -55,23 +55,15 @@ public class ImageMIPMap implements ImageJAI {
     /** The operation chain used to derive the lower resolution images. */
     protected RenderedOp downSampler;
 
-    /**
-     * A helper object to manage firing events.
-     *
-     * @since JAI 1.1
-     */
-    protected PropertyChangeSupportJAI eventManager = null;
+    /** A helper object to manage firing events. */
+    protected PropertyChangeSupportImageN eventManager = null;
 
-    /**
-     * A helper object to manage the image properties.
-     *
-     * @since JAI 1.1
-     */
+    /** A helper object to manage the image properties. */
     protected WritablePropertySourceImpl properties = null;
 
     /** The default constructor. */
     protected ImageMIPMap() {
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 
@@ -90,7 +82,7 @@ public class ImageMIPMap implements ImageJAI {
         this();
 
         if (image == null || transform == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         ParameterBlock pb = new ParameterBlock();
@@ -98,7 +90,7 @@ public class ImageMIPMap implements ImageJAI {
         pb.add(transform);
         pb.add(interpolation);
 
-        downSampler = JAI.create("affine", pb);
+        downSampler = ImageN.create("affine", pb);
         downSampler.removeSources();
 
         highestImage = image;
@@ -119,7 +111,7 @@ public class ImageMIPMap implements ImageJAI {
     public ImageMIPMap(RenderedImage image, RenderedOp downSampler) {
         this();
         if (image == null || downSampler == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         highestImage = image;
@@ -148,11 +140,11 @@ public class ImageMIPMap implements ImageJAI {
         this();
 
         if (downSampler == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         if (downSampler.getNumSources() == 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageMIPMap0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("ImageMIPMap0"));
         }
 
         // Find the highest resolution image from the chain.
@@ -175,7 +167,7 @@ public class ImageMIPMap implements ImageJAI {
                 op.removeSources();
                 break;
             } else {
-                throw new IllegalArgumentException(JaiI18N.getString("ImageMIPMap1"));
+                throw new IllegalArgumentException(ImageNLegacy18N.getString("ImageMIPMap1"));
             }
         }
 
@@ -215,7 +207,6 @@ public class ImageMIPMap implements ImageJAI {
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
         return properties.getPropertyClass(name);
@@ -238,7 +229,6 @@ public class ImageMIPMap implements ImageJAI {
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
      * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void setProperty(String name, Object value) {
         properties.setProperty(name, value);
@@ -248,17 +238,12 @@ public class ImageMIPMap implements ImageJAI {
      * Removes the named property from the <code>ImageMIPMap</code>.
      *
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
     }
 
-    /**
-     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
-     *
-     * @since JAI 1.1
-     */
+    /** Add a PropertyChangeListener to the listener list. The listener is registered for all properties. */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
     }
@@ -266,8 +251,6 @@ public class ImageMIPMap implements ImageJAI {
     /**
      * Add a PropertyChangeListener for a specific property. The listener will be invoked only when a call on
      * firePropertyChange names that specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
@@ -276,18 +259,12 @@ public class ImageMIPMap implements ImageJAI {
     /**
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
-     *
-     * @since JAI 1.1
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
-     */
+    /** Remove a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }
@@ -351,7 +328,7 @@ public class ImageMIPMap implements ImageJAI {
      */
     protected RenderedOp duplicate(RenderedOp op, Vector images) {
         if (images == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
         }
 
         //
@@ -435,8 +412,6 @@ public class ImageMIPMap implements ImageJAI {
     /**
      * Creates and returns a <code>Vector</code> containing a single element equal to the supplied <code>RenderedImage
      * </code>.
-     *
-     * @since JAI 1.1
      */
     protected final Vector vectorize(RenderedImage image) {
         Vector v = new Vector(1);
@@ -447,8 +422,6 @@ public class ImageMIPMap implements ImageJAI {
     /**
      * Creates and returns a <code>Vector</code> containing two elements equal to the supplied <code>RenderedImage
      * </code>s in the order given.
-     *
-     * @since JAI 1.1
      */
     protected final Vector vectorize(RenderedImage im1, RenderedImage im2) {
         Vector v = new Vector(2);

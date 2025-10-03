@@ -21,9 +21,9 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
@@ -131,11 +131,11 @@ public class MagnitudeDescriptor extends OperationDescriptorImpl {
     /**
      * Find the magnitude of each pixel of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -143,21 +143,21 @@ public class MagnitudeDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Magnitude", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Magnitude", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.create("Magnitude", pb, hints);
+        return ImageN.create("Magnitude", pb, hints);
     }
 
     /**
      * Find the magnitude of each pixel of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -165,10 +165,10 @@ public class MagnitudeDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Magnitude", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Magnitude", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.createRenderable("Magnitude", pb, hints);
+        return ImageN.createRenderable("Magnitude", pb, hints);
     }
 }

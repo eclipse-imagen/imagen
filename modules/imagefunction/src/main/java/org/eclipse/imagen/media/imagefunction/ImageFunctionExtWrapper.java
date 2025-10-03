@@ -23,27 +23,27 @@ import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.range.Range;
 
 /**
- * Wrapper function used for wrapping {@link ImageFunction} objects in order to implement {@link ImageFunctionJAIEXT}
+ * Wrapper function used for wrapping {@link ImageFunction} objects in order to implement {@link ImageFunctionExt}
  * interface.
  *
  * @author Nicola Lagomarsini GeoSolutions
  */
-public class ImageFunctionJAIEXTWrapper implements ImageFunctionJAIEXT {
+public class ImageFunctionExtWrapper implements ImageFunctionExt {
     /** {@link ImageFunction} object being wrapped */
     private ImageFunction f;
 
-    /** Boolean indicating if the input {@link ImageFunction} is an instance of {@link ImageFunctionJAIEXT} */
+    /** Boolean indicating if the input {@link ImageFunction} is an instance of {@link ImageFunctionExt} */
     private boolean isJAIExt;
 
-    public ImageFunctionJAIEXTWrapper(ImageFunction f) {
+    public ImageFunctionExtWrapper(ImageFunction f) {
         this.f = f;
-        isJAIExt = f instanceof ImageFunctionJAIEXT;
+        isJAIExt = f instanceof ImageFunctionExt;
     }
 
     public void getElements(
             float arg0, float arg1, float arg2, float arg3, int arg4, int arg5, int arg6, float[] arg7, float[] arg8) {
         if (isJAIExt) {
-            ((ImageFunctionJAIEXT) f)
+            ((ImageFunctionExt) f)
                     .getElements(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, null, null, null, 0f);
         } else {
             f.getElements(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
@@ -61,7 +61,7 @@ public class ImageFunctionJAIEXTWrapper implements ImageFunctionJAIEXT {
             double[] arg7,
             double[] arg8) {
         if (isJAIExt) {
-            ((ImageFunctionJAIEXT) f)
+            ((ImageFunctionExt) f)
                     .getElements(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, null, null, null, 0f);
         } else {
             f.getElements(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
@@ -93,7 +93,7 @@ public class ImageFunctionJAIEXTWrapper implements ImageFunctionJAIEXT {
         // If ImageFunctionJAIExt, take into account ROI and NoData, otherwise simply act as a normal ImageFunction
         // instance
         if (isJAIExt) {
-            ((ImageFunctionJAIEXT) f)
+            ((ImageFunctionExt) f)
                     .getElements(
                             startX,
                             startY,
@@ -130,7 +130,7 @@ public class ImageFunctionJAIEXTWrapper implements ImageFunctionJAIEXT {
         // If ImageFunctionJAIExt, take into account ROI and NoData, otherwise simply act as a normal ImageFunction
         // instance
         if (isJAIExt) {
-            ((ImageFunctionJAIEXT) f)
+            ((ImageFunctionExt) f)
                     .getElements(
                             startX,
                             startY,

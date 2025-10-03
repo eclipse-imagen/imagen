@@ -21,9 +21,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.range.Range;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
@@ -151,8 +151,8 @@ public class ArtifactsFilterDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Convenience method which constructs a {@link ParameterBlockJAI} and invokes {@code JAI.create("ArtifactsFilter",
-     * params) }
+     * Convenience method which constructs a {@link ParameterBlockImageN} and invokes
+     * {@code ImageN.create("ArtifactsFilter", params) }
      *
      * @param sourceImage the image to be restored
      * @param sourceRoi a {@link ROI} defining the working area
@@ -172,7 +172,7 @@ public class ArtifactsFilterDescriptor extends OperationDescriptorImpl {
             Range nodata,
             RenderingHints hints) {
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("ArtifactsFilter", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ArtifactsFilter", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource(srcImageNames[0], sourceImage);
         pb.setParameter(paramNames[ROI_ARG], sourceRoi);
@@ -181,7 +181,7 @@ public class ArtifactsFilterDescriptor extends OperationDescriptorImpl {
         pb.setParameter(paramNames[FILTERSIZE_ARG], filterSize);
         pb.setParameter(paramNames[NODATA_ARG], nodata);
 
-        return JAI.create("ArtifactsFilter", pb, hints);
+        return ImageN.create("ArtifactsFilter", pb, hints);
     }
 
     /** Returns true to indicate that properties are supported */

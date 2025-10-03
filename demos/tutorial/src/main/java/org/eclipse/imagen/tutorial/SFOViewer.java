@@ -33,7 +33,7 @@ public class SFOViewer extends JPanel implements ChangeListener, ActionListener 
         File f = new File(file);
 
         if (f.exists() && f.canRead()) {
-            src = JAI.create("fileload", file, null);
+            src = ImageN.create("fileload", file, null);
             createGUI(thumbnail);
         } else {
             System.out.println("File " + file + " not found.");
@@ -56,7 +56,7 @@ public class SFOViewer extends JPanel implements ChangeListener, ActionListener 
         add(dsp, BorderLayout.CENTER);
 
         // build the panner controller
-        PlanarImage thumb = JAI.create("fileload", thumbnail);
+        PlanarImage thumb = ImageN.create("fileload", thumbnail);
         panner = new Panner(dsp, src, thumb);
 
         panner.setBorder(new CompoundBorder(new EtchedBorder(3), new LineBorder(Color.gray, 3)));

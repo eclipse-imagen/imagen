@@ -22,9 +22,9 @@ import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -49,9 +49,9 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>One of the common uses of the format operator is to cast the pixel values of an image to a given data type. In
  * such a case, if the source image provided has an <code>IndexColorModel</code>, a <code>RenderingHints</code> object
- * for <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>Boolean.TRUE</code> will automatically be
- * added to the configuration <code>Map</code> for the operation. This addition will only take place if a value for the
- * <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already been provided by the user. Note that the <code>
+ * for <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> with the value of <code>Boolean.TRUE</code> will automatically
+ * be added to the configuration <code>Map</code> for the operation. This addition will only take place if a value for
+ * the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> has not already been provided by the user. Note that the <code>
  * configuration</code> Map is cloned before the new hint is added to it. Due to the addition of this new <code>
  * RenderingHint</code>, using the "format" operation with source(s) that have an <code>IndexColorModel</code> will
  * cause the destination to have an expanded non-<code>IndexColorModel</code> <code>ColorModel</code>. This expansion
@@ -200,11 +200,11 @@ public class FormatDescriptor extends OperationDescriptorImpl {
     /**
      * Reformats an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param dataType The output data type (from java.awt.image.DataBuffer). May be <code>null</code>.
@@ -213,23 +213,23 @@ public class FormatDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, Integer dataType, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Format", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Format", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("dataType", dataType);
 
-        return JAI.create("Format", pb, hints);
+        return ImageN.create("Format", pb, hints);
     }
 
     /**
      * Reformats an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param dataType The output data type (from java.awt.image.DataBuffer). May be <code>null</code>.
@@ -238,12 +238,12 @@ public class FormatDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, Integer dataType, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Format", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Format", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
         pb.setParameter("dataType", dataType);
 
-        return JAI.createRenderable("Format", pb, hints);
+        return ImageN.createRenderable("Format", pb, hints);
     }
 }

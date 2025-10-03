@@ -24,7 +24,7 @@ import javax.swing.JToggleButton;
 import javax.swing.ProgressMonitor;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.NullOpImage;
 import org.eclipse.imagen.OpImage;
 import org.eclipse.imagen.RenderedOp;
@@ -368,7 +368,7 @@ public class MedicalAppState implements ActionListener, ChangeListener, MedicalA
 
                 // create image buffers
                 images = new RenderedImage[files.length];
-                JAI.getDefaultInstance().getTileCache().setMemoryCapacity((long) files.length << 21);
+                ImageN.getDefaultInstance().getTileCache().setMemoryCapacity((long) files.length << 21);
                 wrapedImages = new RenderedImage[files.length];
 
                 // create the progress monitor
@@ -399,7 +399,7 @@ public class MedicalAppState implements ActionListener, ChangeListener, MedicalA
                     if (max == 0) {
                         ParameterBlock pb = new ParameterBlock();
                         pb.addSource(nullImage);
-                        RenderedOp ext = JAI.create("extrema", pb, null);
+                        RenderedOp ext = ImageN.create("extrema", pb, null);
                         max = (int) (((double[]) ext.getProperty("maximum"))[0]);
                     }
 
@@ -471,13 +471,13 @@ public class MedicalAppState implements ActionListener, ChangeListener, MedicalA
     }
 
     /**
-     * Wraps the provided image into a NullOpImage with a tile cache (the default tile cache of JAI) as a
+     * Wraps the provided image into a NullOpImage with a tile cache (the default tile cache of ImageN) as a
      * RenderingHints. So that the computed tiles of the provided image can be cached. This method is designed because
      * of DICOMImages loaded from a customized image reader.
      */
     private RenderedImage cacheIt(RenderedImage src) {
-        RenderingHints hints =
-                new RenderingHints(JAI.KEY_TILE_CACHE, JAI.getDefaultInstance().getTileCache());
+        RenderingHints hints = new RenderingHints(
+                ImageN.KEY_TILE_CACHE, ImageN.getDefaultInstance().getTileCache());
         return new NullOpImage(src, null, hints, OpImage.OP_IO_BOUND);
     }
 

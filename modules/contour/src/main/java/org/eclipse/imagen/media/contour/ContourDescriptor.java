@@ -75,7 +75,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <pre>{@code
  * RenderedImage src = ...
- * ParameterBlockJAI pb = new ParameterBlockJAI("Contour");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("Contour");
  * pb.setSource("source0", src);
  *
  * // For contours at specific levels set the levels parameter
@@ -85,7 +85,7 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * // Alternatively, set a constant interval between contours
  * pb.setParameter("interval", 10.0);
  *
- * RenderedOp dest = JAI.create("Contour", pb);
+ * RenderedOp dest = ImageN.create("Contour", pb);
  * Collection<LineString> contours = (Collection<LineString>)
  *         dest.getProperty(ContourDescriptor.CONTOUR_PROPERTY_NAME);
  *

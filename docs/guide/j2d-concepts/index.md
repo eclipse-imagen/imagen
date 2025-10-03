@@ -24,7 +24,7 @@ The Eclipse ImageN API supports three imaging models:
 
 -   The immediate mode model - an advanced AWT imaging model
 
--   The pipeline (pull) model - The ImageN model
+-   The pipeline (pull) model - The ImageN model for deferred execution 
 
 [Table 2-1](#table-2-1) lists the interfaces and
 classes for each of the three models.

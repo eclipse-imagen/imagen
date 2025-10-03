@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 import org.eclipse.imagen.CollectionImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 
 /**
  * An <code>OpImage</code> implementing the "AddConstToCollection" operation.
@@ -58,7 +58,7 @@ final class AddConstToCollectionOpImage extends CollectionImage {
             pb.addSource(iter.next());
             pb.add(constants);
 
-            imageCollection.add(JAI.create("AddConst", pb, hints));
+            imageCollection.add(ImageN.create("AddConst", pb, hints));
         }
     }
 }

@@ -23,7 +23,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.opimage.RIFUtil;
 import org.eclipse.imagen.media.range.Range;
@@ -42,7 +42,7 @@ public class OrderedDitherRIF implements RenderedImageFactory {
         RenderedImage source = paramBlock.getRenderedSource(0);
         // Getting the parameters
         ColorCube colorMap = (ColorCube) paramBlock.getObjectParameter(0);
-        KernelJAI[] ditherMask = (KernelJAI[]) paramBlock.getObjectParameter(1);
+        KernelImageN[] ditherMask = (KernelImageN[]) paramBlock.getObjectParameter(1);
         ROI roi = (ROI) paramBlock.getObjectParameter(2);
         Range nodata = (Range) paramBlock.getObjectParameter(3);
         double destNoData = paramBlock.getDoubleParameter(4);

@@ -34,7 +34,7 @@ import org.eclipse.imagen.util.CaselessStringKey;
  * setProperty()</code> and those defined on the source image with the local properties taking precedence. No <code>
  * PropertySourceChangeEvent</code> will be generated as a result of changes to the property set of the source image.
  *
- * <p>From JAI's point of view, this image is a <code>PlanarImage</code> of unknown type, with no sources. The source
+ * <p>From ImageN's point of view, this image is a <code>PlanarImage</code> of unknown type, with no sources. The source
  * image is assumed to be immutable. If the <code>RenderedImage</code> source implements <code>WritableRenderedImage
  * </code>, a <code>WritableRenderedImageAdapter</code> should be used.
  *
@@ -114,7 +114,7 @@ public class RenderedImageAdapter extends PlanarImage {
      */
     public RenderedImageAdapter(RenderedImage im) {
         super(im != null ? new ImageLayout(im) : null, null, null);
-        if (im == null) throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+        if (im == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
 
         theImage = im;
 
@@ -122,11 +122,7 @@ public class RenderedImageAdapter extends PlanarImage {
                 theImage.getMinTileX(), theImage.getMinTileY(), theImage.getNumXTiles(), theImage.getNumYTiles());
     }
 
-    /**
-     * Returns the reference to the external <code>RenderedImage</code> originally supplied to the constructor.
-     *
-     * @since JAI 1.1.2
-     */
+    /** Returns the reference to the external <code>RenderedImage</code> originally supplied to the constructor. */
     public final RenderedImage getWrappedImage() {
         return theImage;
     }
@@ -187,7 +183,6 @@ public class RenderedImageAdapter extends PlanarImage {
      * @exception IllegalArgumentException if <code>name</code> is <code>null</code>.
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
-     * @since JAI 1.1
      */
     public final Class getPropertyClass(String name) {
         // Get the class if the property is local.

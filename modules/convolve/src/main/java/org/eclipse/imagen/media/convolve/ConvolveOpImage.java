@@ -91,7 +91,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
 
     protected Rectangle destBounds;
 
-    protected KernelJAI kernel;
+    protected KernelImageN kernel;
 
     protected int kw;
 
@@ -106,7 +106,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
             BorderExtender extender,
             RenderingHints hints,
             ImageLayout l,
-            KernelJAI kernel,
+            KernelImageN kernel,
             ROI roi,
             Range noData,
             double destinationNoData,
@@ -191,7 +191,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
         }
 
         if (this.extender != null) {
-            // use parameter block to allow mixing JAI and JAI-EXT
+            // use parameter block to allow mixing ImageN and ImageN-EXT
             ParameterBlock pb = new ParameterBlock();
             pb.addSource(source);
             pb.add(leftPadding);
@@ -201,7 +201,7 @@ public abstract class ConvolveOpImage extends AreaOpImage {
             pb.add(extender);
             pb.add(noData);
             pb.add(destinationNoData);
-            extendedIMG = JAI.create("Border", pb, hints);
+            extendedIMG = ImageN.create("Border", pb, hints);
             this.destBounds = getBounds();
         } else {
             int x0 = getMinX() + leftPadding;

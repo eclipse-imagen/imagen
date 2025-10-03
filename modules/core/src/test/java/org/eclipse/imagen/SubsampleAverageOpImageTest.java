@@ -35,7 +35,7 @@ public class SubsampleAverageOpImageTest {
         pb.addSource(img);
         pb.add(scaleX);
         pb.add(scaleY);
-        RenderedOp op = JAI.create("SubsampleAverage", pb);
+        RenderedOp op = ImageN.create("SubsampleAverage", pb);
         assertNotNull("RenderedOp should not be null", op);
         return op;
     }

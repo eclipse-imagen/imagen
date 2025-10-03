@@ -52,8 +52,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
     public Long id;
 
     // The class of the serializable representation of a NULL property.
-    private static final Class NULL_PROPERTY_CLASS =
-            org.eclipse.imagen.media.rmi.JAIRMIImageServer.NULL_PROPERTY.getClass();
+    private static final Class NULL_PROPERTY_CLASS = ImageNRMIImageServer.NULL_PROPERTY.getClass();
 
     // Cache the imaging listener
     private ImagingListener listener;
@@ -99,7 +98,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
             }
             return property;
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("JAIRMICRIF7");
+            String message = JaiI18N.getString("ImageNRMICRIF7");
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -115,7 +114,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.getPropertyNames(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("JAIRMICRIF8");
+            String message = JaiI18N.getString("ImageNRMICRIF8");
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -134,7 +133,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.isDynamic(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("JAIRMICRIF9");
+            String message = JaiI18N.getString("ImageNRMICRIF9");
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }

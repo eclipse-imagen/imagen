@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.awt.*;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -62,7 +62,7 @@ public class ImageFunctionTest extends TestBase {
         int width = 128;
         int height = 128;
         // New dummy function for test
-        ImageFunctionJAIEXT function = new DummyFunction();
+        ImageFunctionExt function = new DummyFunction();
         // Performing operation
         RenderedOp transformed = ImageFunctionDescriptor.create(
                 function, width, height, xScale, yScale, xTrans, yTrans, roi, nodata, destNoData, null);
@@ -124,12 +124,12 @@ public class ImageFunctionTest extends TestBase {
     }
 
     /**
-     * Dummy implementation of the {@link ImageFunctionJAIEXT} interface used for testing the
-     * {@link ImageFunctionOpImage} class
+     * Dummy implementation of the {@link ImageFunctionExt} interface used for testing the {@link ImageFunctionOpImage}
+     * class
      *
      * @author Nicola Lagomarsini
      */
-    public static class DummyFunction implements ImageFunctionJAIEXT {
+    public static class DummyFunction implements ImageFunctionExt {
 
         public void getElements(
                 float arg0,
@@ -258,7 +258,7 @@ public class ImageFunctionTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ImageFunction");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "ImageFunction");
         assertNotNull(descriptor);
         assertEquals("ImageFunction", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

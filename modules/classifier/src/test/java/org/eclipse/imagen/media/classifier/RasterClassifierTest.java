@@ -39,8 +39,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.xml.crypto.dsig.TransformException;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RasterFactory;
@@ -98,10 +98,10 @@ public class RasterClassifierTest extends TestBase {
             LinearColorMap list = buildCategories();
 
             // Operation creation
-            final ParameterBlockJAI pbj = new ParameterBlockJAI(RasterClassifierOpImage.OPERATION_NAME);
+            final ParameterBlockImageN pbj = new ParameterBlockImageN(RasterClassifierOpImage.OPERATION_NAME);
             pbj.addSource(image);
             pbj.setParameter("Domain1D", list);
-            final RenderedOp finalimage = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+            final RenderedOp finalimage = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
 
             if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
             else finalimage.getTiles();
@@ -118,10 +118,10 @@ public class RasterClassifierTest extends TestBase {
         SampleModel sm = cm.createCompatibleSampleModel(512, 512);
         PlanarImage image = new TiledImage(0, 0, width, height, 0, 0, sm, cm);
         LinearColorMap list = buildCategories();
-        final ParameterBlockJAI pbj = new ParameterBlockJAI(RasterClassifierOpImage.OPERATION_NAME);
+        final ParameterBlockImageN pbj = new ParameterBlockImageN(RasterClassifierOpImage.OPERATION_NAME);
         pbj.addSource(image);
         pbj.setParameter("Domain1D", list);
-        final RenderedOp finalImage = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+        final RenderedOp finalImage = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
         boolean success = true;
         try {
 
@@ -191,10 +191,10 @@ public class RasterClassifierTest extends TestBase {
             // /////////////////////////////////////////////////////////////////////
             LinearColorMap list = buildCategories();
 
-            final ParameterBlockJAI pbj = new ParameterBlockJAI(RasterClassifierOpImage.OPERATION_NAME);
+            final ParameterBlockImageN pbj = new ParameterBlockImageN(RasterClassifierOpImage.OPERATION_NAME);
             pbj.addSource(image);
             pbj.setParameter("Domain1D", list);
-            final RenderedOp finalimage = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+            final RenderedOp finalimage = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
 
             if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
             else finalimage.getTiles();
@@ -340,10 +340,10 @@ public class RasterClassifierTest extends TestBase {
             final LinearColorMap list = new LinearColorMap(
                     "", new LinearColorMapElement[] {c0, c1, c3, c4, c5}, new LinearColorMapElement[] {c6});
 
-            final ParameterBlockJAI pbj = new ParameterBlockJAI(RasterClassifierOpImage.OPERATION_NAME);
+            final ParameterBlockImageN pbj = new ParameterBlockImageN(RasterClassifierOpImage.OPERATION_NAME);
             pbj.addSource(image);
             pbj.setParameter("Domain1D", list);
-            final RenderedOp finalimage = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+            final RenderedOp finalimage = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
 
             if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
             else finalimage.getTiles();
@@ -360,7 +360,7 @@ public class RasterClassifierTest extends TestBase {
      */
     private RenderedImage getSpearfhisDemo() throws IOException, FileNotFoundException {
         File spearfish = TestData.file(this, "spearfish.png");
-        RenderedOp image = JAI.create("ImageRead", spearfish);
+        RenderedOp image = ImageN.create("ImageRead", spearfish);
         return image;
     }
 
@@ -414,7 +414,7 @@ public class RasterClassifierTest extends TestBase {
             assertEquals(list.getName().toString(), "testSWAN");
             assertNotNull(c0.toString());
 
-            final ParameterBlockJAI pbj = new ParameterBlockJAI(RasterClassifierOpImage.OPERATION_NAME);
+            final ParameterBlockImageN pbj = new ParameterBlockImageN(RasterClassifierOpImage.OPERATION_NAME);
             pbj.addSource(image);
             pbj.setParameter("Domain1D", list);
 
@@ -424,7 +424,7 @@ public class RasterClassifierTest extends TestBase {
                 // forcing a bad band selection ...
                 // //
                 pbj.setParameter("bandIndex", new Integer(2));
-                final RenderedOp d = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+                final RenderedOp d = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
                 d.getTiles();
                 // we should not be here!
             } catch (Exception e) {
@@ -436,7 +436,7 @@ public class RasterClassifierTest extends TestBase {
             assertTrue(exceptionThrown);
 
             pbj.setParameter("bandIndex", new Integer(0));
-            final RenderedOp finalimage = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+            final RenderedOp finalimage = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
             if (INTERACTIVE) RenderedImageBrowser.showChain(finalimage, false, false, null);
             else finalimage.getTiles();
             finalimage.dispose();
@@ -495,7 +495,7 @@ public class RasterClassifierTest extends TestBase {
                     new LinearColorMapElement[] {nodata},
                     new Color(0, 0, 0, 0));
 
-            final ParameterBlockJAI pbj = new ParameterBlockJAI(RasterClassifierOpImage.OPERATION_NAME);
+            final ParameterBlockImageN pbj = new ParameterBlockImageN(RasterClassifierOpImage.OPERATION_NAME);
             pbj.addSource(image);
             pbj.setParameter("Domain1D", list);
 
@@ -504,7 +504,7 @@ public class RasterClassifierTest extends TestBase {
                 // forcing a bad band selection ...
                 // //
                 pbj.setParameter("bandIndex", new Integer(2));
-                final RenderedOp d = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+                final RenderedOp d = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
                 d.getTiles();
                 // we should not be here!
                 assertTrue(false);
@@ -515,7 +515,7 @@ public class RasterClassifierTest extends TestBase {
             }
 
             pbj.setParameter("bandIndex", new Integer(0));
-            final RenderedOp finalimage = JAI.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
+            final RenderedOp finalimage = ImageN.create(RasterClassifierOpImage.OPERATION_NAME, pbj);
             final IndexColorModel icm = (IndexColorModel) finalimage.getColorModel();
             assertEquals(icm.getRed(4), 255);
             assertEquals(icm.getRed(2), 255);
@@ -583,7 +583,7 @@ public class RasterClassifierTest extends TestBase {
     @Test
     public void testRegistration() {
         RegistryElementDescriptor descriptor =
-                JAI.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RasterClassifier");
+                ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("rendered", "RasterClassifier");
         assertNotNull(descriptor);
         assertEquals("RasterClassifier", descriptor.getName());
         ParameterListDescriptor parameters = descriptor.getParameterListDescriptor("rendered");

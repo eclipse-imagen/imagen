@@ -27,7 +27,8 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.KernelImageN;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PointOpImage;
 import org.eclipse.imagen.ROI;
@@ -44,8 +45,8 @@ import org.eclipse.imagen.UnpackedImageData;
  * <p>This <code>OpImage</code> contains the pixels of the result images from the nearest distance classification based
  * on the lookup table generated from this <code>OpImage</code>.
  *
- * @see org.eclipse.imagen.KernelJAI
- * @see org.eclipse.imagen.LookupTableJAI @JAI 1.1.2
+ * @see KernelImageN
+ * @see LookupTableImageN
  */
 abstract class ColorQuantizerOpImage extends PointOpImage {
     /**
@@ -68,7 +69,7 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     protected PixelAccessor destPA;
 
     /** The color map which maps the <code>ErrorDiffusionOpImage</code> to its source. */
-    protected LookupTableJAI colorMap;
+    protected LookupTableImageN colorMap;
 
     /** The expected maximum number of color, that is, the expected size of the lookup table. */
     protected int maxColorNum;
@@ -195,7 +196,7 @@ abstract class ColorQuantizerOpImage extends PointOpImage {
     public Object getProperty(String name) {
         int numBands = sampleModel.getNumBands();
 
-        if (name.equals("JAI.LookupTable") || name.equals("LUT")) {
+        if (name.equals("ImageN.LookupTable") || name.equals("LUT")) {
             if (colorMap == null) train();
             return colorMap;
         }

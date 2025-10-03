@@ -22,9 +22,9 @@ import java.awt.Transparency;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
@@ -223,8 +223,6 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * <tr><td>backgroundValues</td> <td>double[]</td>
  *                               <td>double[] {0.0}</td>
  * </table>
- *
- * @since JAI 1.1.2
  */
 public class MosaicDescriptor extends OperationDescriptorImpl {
 
@@ -288,11 +286,11 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
     /**
      * Creates a mosaic of two or more rendered images.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param sources <code>RenderedImage</code> sources.
      * @param mosaicType Mosaicking type. May be <code>null</code>.
@@ -313,7 +311,7 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
             double[][] sourceThreshold,
             double[] backgroundValues,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Mosaic", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Mosaic", RenderedRegistryMode.MODE_NAME);
 
         int numSources = sources.length;
         for (int i = 0; i < numSources; i++) {
@@ -326,6 +324,6 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
         pb.setParameter("sourceThreshold", sourceThreshold);
         pb.setParameter("backgroundValues", backgroundValues);
 
-        return JAI.create("Mosaic", pb, hints);
+        return ImageN.create("Mosaic", pb, hints);
     }
 }

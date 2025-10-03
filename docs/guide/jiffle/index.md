@@ -805,15 +805,60 @@ cover in a 1km block around each pixel. It defines a constant, RADIUS, which is 
 xres() and yres() functions are used to get the pixel width and height in metres, while the x() and y() functions return
 the location (map reference) of the current pixel being processed.
 
-.. literalinclude:: /../src/main/resources/it/geosolutions/jaiext/jiffle/docs/treechange.jfl
+Example ``treechange.jfl``:
+
+```
+images {
+    trees1990 = read;
+    trees2010 = read;
+    change = write;
+}
+
+init {
+    RADIUS = 1000;
+}
+
+diff = 0;
+base = 0;
+
+ynbr = y() - RADIUS;
+until (ynbr > y() + RADIUS) {
+    xnbr = x() - RADIUS;
+    until (xnbr > x() + RADIUS) {
+        base += trees1990;
+        diff += trees2010[ $xnbr, $ynbr ] - trees1990[ $xnbr, $ynbr ];
+        xnbr += xres();
+    }
+    ynbr += yres();
+}
+
+change = con( base > 0, diff / base, null );
+``` 
 
 
-If all three images have the same bounds and resolution, we can use a single CoordinateTransform to convert between world locations and image locations:
+If all three images have the same bounds and resolution, we can use a single CoordinateTransform to convert between world locations and image locations.
 
-.. literalinclude:: /../src/main/java/it/geosolutions/jaiext/jiffle/docs/TreeChange.java
-:language: java
-:start-after: // docs start
-:end-before: // docs end
+Example ``TreeChange.java``:
+
+```java
+        // World bounds
+        Rectangle2D worldBounds = new Rectangle2D.Double(750000, 6500000, 100000, 50000);
+
+        // Common image bounds
+        Rectangle imageBounds = new Rectangle(0, 0, 4000, 2000);
+
+        // Set the bounds (world units) and resolution of the
+        // processing area
+        runtimeObj.setWorldByNumPixels(worldBounds, 4000, 2000);
+
+        // Create a new transform that converts from world units to
+        // pixel positions using the CoordinateTransforms helper class
+        CoordinateTransform tr = CoordinateTransforms.getTransform(worldBounds, imageBounds);
+
+        // Set this coordinate transform object to be used with all images
+        runtimeObj.setDefaultTransform(tr);
+        // docs end
+```
 
 If the images had different bounds and/or resolutions, we would give each its own CoordinateTransform.
 
@@ -944,7 +989,7 @@ writing, a **JiffleDirectRuntime** object's **evaluateAll** method would have pr
 been executed by some application which instead called the **evaluate(x, y)** method directly and in some other order. 
 
 The second trap has to do with the number of image tiles in the destination image, especially if the script is being
-passed to a JAITools **JiffleOpImage**  for execution as part of an image rendering chain. In that case, the value of n
+passed to a **JiffleOpImage**  for execution as part of an image rendering chain. In that case, the value of n
 written to a pixel depends on which tile that pixel belongs to, and the order in which the tiles are processed.
 
 So, unless you have complete control over the execution of the script, it's safer to specify how the values will be

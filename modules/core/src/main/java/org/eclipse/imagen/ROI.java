@@ -80,7 +80,7 @@ public class ROI implements Serializable {
     protected static LinkedList mergeRunLengthList(LinkedList rectList) {
 
         if (rectList == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Merge the run length rectangles if more than one was detected.
@@ -153,13 +153,13 @@ public class ROI implements Serializable {
     public ROI(RenderedImage im, int threshold) {
 
         if (im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         SampleModel sm = im.getSampleModel();
 
         if (sm.getNumBands() != 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROI0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROI0"));
         }
 
         this.threshold = threshold;
@@ -172,12 +172,12 @@ public class ROI implements Serializable {
             // Otherwise binarize the image for efficiency.
         } else {
 
-            ParameterBlockJAI pbj = new ParameterBlockJAI("binarize");
+            ParameterBlockImageN pbj = new ParameterBlockImageN("binarize");
 
             pbj.setSource("source0", im);
             pbj.setParameter("threshold", (double) threshold);
 
-            theImage = JAI.create("binarize", pbj, null);
+            theImage = ImageN.create("binarize", pbj, null);
         }
     }
 
@@ -223,7 +223,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Point p) {
         if (p == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains(p.x, p.y);
@@ -238,7 +238,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Point2D p) {
         if (p == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return contains((int) p.getX(), (int) p.getY());
@@ -280,7 +280,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Rectangle rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (!rect.equals(rect.intersection(getBounds()))) {
@@ -325,7 +325,7 @@ public class ROI implements Serializable {
      */
     public boolean contains(Rectangle2D rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
         Rectangle r =
                 new Rectangle((int) rect.getX(), (int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
@@ -371,7 +371,7 @@ public class ROI implements Serializable {
      */
     public boolean intersects(Rectangle rect) {
         if (rect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         Rectangle r = rect.intersection(getBounds());
@@ -416,7 +416,7 @@ public class ROI implements Serializable {
      */
     public boolean intersects(Rectangle2D r) {
         if (r == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         Rectangle rect = new Rectangle((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
@@ -476,13 +476,13 @@ public class ROI implements Serializable {
      * specified ROI.
      *
      * @param ROI the ROI to merge with <code>this</code>
-     * @param op the JAI operator to use for merge.
+     * @param op the ImageN operator to use for merge.
      * @return the merged ROI
      */
     private ROI createOpROI(ROI roi, String op) {
 
         if (roi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         PlanarImage imThis = this.getAsImage();
@@ -494,24 +494,24 @@ public class ROI implements Serializable {
 
         // If the bounds of the two images do not match, then
         // expand as necessary to the union of the two bounds
-        // using the "overlay" operator and then perform the JAI
+        // using the "overlay" operator and then perform the ImageN
         // operation.
         if (op.equals("and") || boundsThis.equals(boundsROI)) {
-            imDest = JAI.create(op, imThis, imROI);
+            imDest = ImageN.create(op, imThis, imROI);
 
         } else if (op.equals("subtract") || boundsThis.contains(boundsROI)) {
 
             PlanarImage imBounds = createBinaryImage(boundsThis);
 
-            imBounds = JAI.create("overlay", imBounds, imROI);
-            imDest = JAI.create(op, imThis, imBounds);
+            imBounds = ImageN.create("overlay", imBounds, imROI);
+            imDest = ImageN.create(op, imThis, imBounds);
 
         } else if (boundsROI.contains(boundsThis)) {
 
             PlanarImage imBounds = createBinaryImage(boundsROI);
 
-            imBounds = JAI.create("overlay", imBounds, imThis);
-            imDest = JAI.create(op, imBounds, imROI);
+            imBounds = ImageN.create("overlay", imBounds, imThis);
+            imDest = ImageN.create(op, imBounds, imROI);
 
         } else {
 
@@ -520,9 +520,9 @@ public class ROI implements Serializable {
             PlanarImage imBoundsThis = createBinaryImage(merged);
             PlanarImage imBoundsROI = createBinaryImage(merged);
 
-            imBoundsThis = JAI.create("overlay", imBoundsThis, imThis);
-            imBoundsROI = JAI.create("overlay", imBoundsROI, imROI);
-            imDest = JAI.create(op, imBoundsThis, imBoundsROI);
+            imBoundsThis = ImageN.create("overlay", imBoundsThis, imThis);
+            imBoundsROI = ImageN.create("overlay", imBoundsROI, imROI);
+            imDest = ImageN.create(op, imBoundsThis, imBoundsROI);
         }
 
         return new ROI(imDest, threshold);
@@ -593,11 +593,11 @@ public class ROI implements Serializable {
     public ROI transform(AffineTransform at, Interpolation interp) {
 
         if (at == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROI5"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROI5"));
         }
 
         if (interp == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("ROI6"));
+            throw new IllegalArgumentException(ImageNI18N.getString("ROI6"));
         }
 
         ParameterBlock paramBlock = new ParameterBlock();
@@ -616,7 +616,7 @@ public class ROI implements Serializable {
      */
     public ROI transform(AffineTransform at) {
         if (at == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         return transform(at, Interpolation.getInstance(Interpolation.INTERP_NEAREST));
@@ -640,7 +640,7 @@ public class ROI implements Serializable {
             RenderedImageFactory RIF, ParameterBlock paramBlock, int sourceIndex, RenderingHints renderHints) {
 
         if (RIF == null || paramBlock == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Clone the ParameterBlock and insert a source
@@ -655,7 +655,7 @@ public class ROI implements Serializable {
     }
 
     /**
-     * Transforms an ROI using an imaging operation. The operation is specified by name; the default JAI registry is
+     * Transforms an ROI using an imaging operation. The operation is specified by name; the default ImageN registry is
      * used to resolve this into a RIF. The operation's <code>ParameterBlock</code>, minus the image source itself is
      * supplied, along with an index indicating where to insert the ROI image. The <code>renderHints</code> argument
      * allows rendering hints to be passed in.
@@ -671,7 +671,7 @@ public class ROI implements Serializable {
     public ROI performImageOp(String name, ParameterBlock paramBlock, int sourceIndex, RenderingHints renderHints) {
 
         if (name == null || paramBlock == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         // Clone the ParameterBlock and insert a source
@@ -681,7 +681,7 @@ public class ROI implements Serializable {
 
         // Create a new RenderedImage based on the operation name
         // and ParameterBlock using the default registry.
-        RenderedImage im = JAI.create(name, pb, renderHints);
+        RenderedImage im = ImageN.create(name, pb, renderHints);
         return new ROI(im, threshold);
     }
 
@@ -744,7 +744,7 @@ public class ROI implements Serializable {
         if (mask == null) {
             mask = new int[height][bitmaskIntWidth];
         } else if (mask.length < height || mask[0].length < bitmaskIntWidth) {
-            throw new RuntimeException(JaiI18N.getString("ROI3"));
+            throw new RuntimeException(ImageNI18N.getString("ROI3"));
         }
 
         byte[] data = ImageUtil.getPackedBinaryData(theImage.getData(), rect);
@@ -922,7 +922,7 @@ public class ROI implements Serializable {
         if (theImage != null) {
             out.writeBoolean(true);
             RenderingHints hints = new RenderingHints(null);
-            hints.put(JAI.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
+            hints.put(ImageN.KEY_SERIALIZE_DEEP_COPY, new Boolean(true));
             out.writeObject(SerializerFactory.getState(theImage, hints));
         } else {
             out.writeBoolean(false);

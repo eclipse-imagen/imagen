@@ -1,6 +1,5 @@
 package org.eclipse.imagen.media.jiffleop;
 
-import java.awt.*;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -9,8 +8,8 @@ import java.text.NumberFormat;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.imageread.ImageReadDescriptor;
 import org.eclipse.imagen.media.jiffle.JiffleException;
@@ -21,14 +20,14 @@ public class SentinelNDVI {
         String basePath =
                 "/opt/gisData/evo-odas/coverave-view-hetero/multires-s2/S2A_MSIL1C_20170410T103021_N0204_R108_T32UNU_20170410T103020.SAFE/20170410T103021026Z_fullres_CC2.4251_T32UNU_";
 
-        JAI jai = JAI.getDefaultInstance();
-        jai.getTileCache().setMemoryCapacity(1024l * 1024 * 1024);
+        ImageN imageN = ImageN.getDefaultInstance();
+        imageN.getTileCache().setMemoryCapacity(1024l * 1024 * 1024);
 
         // prepare inputs and outputs
         RenderedImage red = readImage(new File(basePath + "B04.tif"));
         RenderedImage nir = readImage(new File(basePath + "B08.tif"));
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("Jiffle");
+        ParameterBlockImageN pb = new ParameterBlockImageN("Jiffle");
         String script = "n = nir; r = red; res = (n - r) / (n + r);"; // HERE IS THE NDVI SCRIPT! 5.5 seconds!
         // String script = "res = (nir - red) / (nir + red);";
         pb.setParameter("script", script);
@@ -37,14 +36,14 @@ public class SentinelNDVI {
         pb.setParameter("destType", DataBuffer.TYPE_FLOAT);
         pb.addSource(red);
         pb.addSource(nir);
-        RenderedOp op = JAI.create("Jiffle", pb);
+        RenderedOp op = ImageN.create("Jiffle", pb);
 
         // actually running the calculation
         final double pixels = (double) red.getWidth() * (double) red.getHeight();
         System.out.println("Computing " + NumberFormat.getNumberInstance().format(pixels) + " pixels");
 
         for (int i = 0; i < 10; i++) {
-            jai.getTileCache().flush();
+            imageN.getTileCache().flush();
             long start = System.currentTimeMillis();
             ImageIO.write(op, "TIF", new File("/tmp/ndvi.tif"));
             long end = System.currentTimeMillis();

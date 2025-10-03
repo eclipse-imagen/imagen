@@ -53,7 +53,7 @@ public class SampleDescriptor extends OperationDescriptorImpl implements Rendere
      */
     private static final Class[] paramClasses = {java.lang.Integer.class, java.lang.Integer.class};
 
-    /** The default parameter values for the "Sample" operation when using a ParameterBlockJAI. */
+    /** The default parameter values for the "Sample" operation when using a ParameterBlockImageN. */
     private static final Object[] paramDefaults = {new Integer(0), new Integer(255)};
 
     /** The supported modes. */

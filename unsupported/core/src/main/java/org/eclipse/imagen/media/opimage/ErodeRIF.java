@@ -26,7 +26,7 @@ import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderedImageFactory;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 
 /** @see ErodeOpImage */
 public class ErodeRIF implements RenderedImageFactory {
@@ -46,8 +46,8 @@ public class ErodeRIF implements RenderedImageFactory {
         // Get BorderExtender from renderHints if any.
         BorderExtender extender = RIFUtil.getBorderExtenderHint(renderHints);
 
-        KernelJAI unRotatedKernel = (KernelJAI) paramBlock.getObjectParameter(0);
-        KernelJAI kJAI = unRotatedKernel.getRotatedKernel();
+        KernelImageN unRotatedKernel = (KernelImageN) paramBlock.getObjectParameter(0);
+        KernelImageN kJAI = unRotatedKernel.getRotatedKernel();
 
         RenderedImage source = paramBlock.getRenderedSource(0);
         SampleModel sm = source.getSampleModel();

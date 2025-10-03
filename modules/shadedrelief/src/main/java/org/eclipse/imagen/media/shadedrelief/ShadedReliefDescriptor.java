@@ -19,9 +19,9 @@ package org.eclipse.imagen.media.shadedrelief;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
@@ -140,7 +140,7 @@ public class ShadedReliefDescriptor extends OperationDescriptorImpl {
             double azimuth,
             ShadedReliefAlgorithm algorithm,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ShadedRelief", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ShadedRelief", RenderedRegistryMode.MODE_NAME);
 
         // Setting sources
         pb.setSource("source0", source0);
@@ -157,6 +157,6 @@ public class ShadedReliefDescriptor extends OperationDescriptorImpl {
         pb.setParameter("azimuth", azimuth);
         pb.setParameter("algorithm", algorithm);
 
-        return JAI.create("ShadedRelief", pb, hints);
+        return ImageN.create("ShadedRelief", pb, hints);
     }
 }

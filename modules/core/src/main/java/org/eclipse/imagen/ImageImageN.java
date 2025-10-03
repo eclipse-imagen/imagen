@@ -17,21 +17,5 @@
 
 package org.eclipse.imagen;
 
-import java.text.MessageFormat;
-import java.util.Locale;
-import org.eclipse.imagen.media.util.PropertyUtil;
-
-class JaiI18N {
-    static String packageName = "org.eclipse.imagen";
-
-    public static String getString(String key) {
-        return PropertyUtil.getString(packageName, key);
-    }
-
-    public static String formatMsg(String key, Object[] args) {
-        MessageFormat mf = new MessageFormat(getString(key));
-        mf.setLocale(Locale.getDefault());
-
-        return mf.format(args);
-    }
-}
+/** An interface implemented by all ImageN image classes. */
+public interface ImageImageN extends WritablePropertySource {}

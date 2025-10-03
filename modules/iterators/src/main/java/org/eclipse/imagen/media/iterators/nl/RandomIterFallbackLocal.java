@@ -25,7 +25,7 @@ import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.iterator.RandomIter;
 
 /**
- * Modified version of JAI {@link RandomIterFallbackNoCacheNoArray} that uses a ThreadLocal object for storing the
+ * Modified version of ImageN {@link RandomIterFallbackNoCacheNoArray} that uses a ThreadLocal object for storing the
  * current tile used in iterations.
  */
 public class RandomIterFallbackLocal implements RandomIter {

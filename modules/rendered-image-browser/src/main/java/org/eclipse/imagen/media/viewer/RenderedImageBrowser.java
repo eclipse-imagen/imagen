@@ -40,9 +40,9 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import org.eclipse.imagen.EnumeratedParameter;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.TileCache;
 import org.eclipse.imagen.TileScheduler;
@@ -129,9 +129,9 @@ public class RenderedImageBrowser extends JPanel {
                     logger.log(Level.WARNING, ignored.getMessage());
                 }
             }
-            name = "JAI op: " + operationName + '(' + renderingName + ')';
-            tcache = (TileCache) op.getRenderingHint(JAI.KEY_TILE_CACHE);
-            tscheduler = (TileScheduler) op.getRenderingHint(JAI.KEY_TILE_SCHEDULER);
+            name = "ImageN op: " + operationName + '(' + renderingName + ')';
+            tcache = (TileCache) op.getRenderingHint(ImageN.KEY_TILE_CACHE);
+            tscheduler = (TileScheduler) op.getRenderingHint(ImageN.KEY_TILE_SCHEDULER);
         } else {
             name = "Non op: " + image.getClass();
         }
@@ -151,8 +151,8 @@ public class RenderedImageBrowser extends JPanel {
             Vector<Object> paramValues = block.getParameters();
             for (int i = 0; i < paramValues.size(); i++) {
                 String pname = "Parameter " + (i + 1);
-                if (block instanceof ParameterBlockJAI) {
-                    pname = ((ParameterBlockJAI) block)
+                if (block instanceof ParameterBlockImageN) {
+                    pname = ((ParameterBlockImageN) block)
                             .getParameterListDescriptor()
                             .getParamNames()[i];
                 }
@@ -196,7 +196,7 @@ public class RenderedImageBrowser extends JPanel {
                 builder.append("null");
             } else {
                 builder.append(tscheduler
-                        + ((tscheduler == JAI.getDefaultInstance().getTileScheduler()) ? "<global>" : "<local>")
+                        + ((tscheduler == ImageN.getDefaultInstance().getTileScheduler()) ? "<global>" : "<local>")
                         + ", parallelism " + tscheduler.getParallelism() + ", priority "
                         + tscheduler.getPriority());
             }

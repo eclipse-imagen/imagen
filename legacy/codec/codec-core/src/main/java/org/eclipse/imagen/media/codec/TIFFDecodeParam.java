@@ -46,7 +46,8 @@ package org.eclipse.imagen.media.codec;
  * <p>If it is desired that the Palette be decoded such that the output image is of short data type and no dithering is
  * performed, the <code>setDecodePaletteAsShorts</code> method should be used.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  *
  * @see TIFFDirectory
  */

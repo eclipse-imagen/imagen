@@ -33,8 +33,6 @@ import java.util.Set;
  * one type of value. For example, if the attribute contained both position and time, then the parameter <code>attribute
  * </code> could be an instance of a class which compared only the position if it were desired to obtain or remove all
  * images at a given position irrespective of the time stamp.
- *
- * @since JAI 1.1
  */
 public class AttributedImageCollection extends CollectionImage {
 
@@ -51,7 +49,7 @@ public class AttributedImageCollection extends CollectionImage {
         super();
 
         if (images == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("AttributedImageCollection0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("AttributedImageCollection0"));
         }
 
         try {
@@ -202,7 +200,7 @@ public class AttributedImageCollection extends CollectionImage {
     public boolean add(Object o) {
 
         if (o == null || !(o instanceof AttributedImage)) {
-            throw new IllegalArgumentException(JaiI18N.getString("AttributedImageCollection1"));
+            throw new IllegalArgumentException(ImageNI18N.getString("AttributedImageCollection1"));
         }
 
         // don't add an object that's there already

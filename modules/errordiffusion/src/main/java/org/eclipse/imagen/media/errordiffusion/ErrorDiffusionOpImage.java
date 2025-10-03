@@ -29,8 +29,8 @@ import java.awt.image.WritableRaster;
 import java.util.Map;
 import org.eclipse.imagen.ColorCube;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.KernelImageN;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
@@ -86,10 +86,10 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
     private static final int ERR_SHIFT = 8;
 
     /** The color map which maps the <code>ErrorDiffusionOpImage</code> to its source. */
-    protected LookupTableJAI colorMap;
+    protected LookupTableImageN colorMap;
 
     /** The kernel associated with the selected error filter. */
-    protected KernelJAI errorKernel;
+    protected KernelImageN errorKernel;
 
     /** The number of bands in the source image. */
     private int numBandsSource;
@@ -139,10 +139,10 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
     /**
      * Determines whether a kernel is the Floyd-Steinberg kernel.
      *
-     * @param kernel The <code>KernelJAI</code> to examine.
+     * @param kernel The <code>KernelImageN</code> to examine.
      * @return Whether the kernel argument is the Floyd-Steinberg kernel.
      */
-    private static boolean isFloydSteinbergKernel(KernelJAI kernel) {
+    private static boolean isFloydSteinbergKernel(KernelImageN kernel) {
         int ky = kernel.getYOrigin();
 
         return (kernel.getWidth() == 3
@@ -274,7 +274,7 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
     }
 
     /** Force the destination image to be single-banded. */
-    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, LookupTableJAI colorMap) {
+    private static ImageLayout layoutHelper(ImageLayout layout, RenderedImage source, LookupTableImageN colorMap) {
         // Create or clone the layout.
         ImageLayout il = layout == null ? new ImageLayout() : (ImageLayout) layout.clone();
 
@@ -374,7 +374,7 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
      * @param source A RenderedImage.
      * @param layout An ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
      * @param colorMap The color map to use which must have a number of bands equal to the number of bands in the source
-     *     image. The offset of this <code>LookupTableJAI</code> must be the same for all bands.
+     *     image. The offset of this <code>LookupTableImageN</code> must be the same for all bands.
      * @param errorKernel The error filter kernel. This must have values between 0.0 and 1.0. Only the entries to the
      *     right of and on the same row as the key entry, and those entries below of the row of the key entry are used;
      *     all other values are ignored. The values used must sum to 1.0. Note that if a 1-by-1 error filter kernel is
@@ -385,8 +385,8 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
             RenderedImage source,
             Map config,
             ImageLayout layout,
-            LookupTableJAI colorMap,
-            KernelJAI errorKernel,
+            LookupTableImageN colorMap,
+            KernelImageN errorKernel,
             ROI roi,
             Range nodata,
             int destNoData) {
@@ -398,10 +398,10 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
         // Cache the number of bands in the source.
         numBandsSource = srcSampleModel.getNumBands();
 
-        // Set a reference to the LookupTableJAI.
+        // Set a reference to the LookupTableImageN.
         this.colorMap = colorMap;
 
-        // Set a reference to the KernelJAI.
+        // Set a reference to the KernelImageN.
         this.errorKernel = errorKernel;
 
         // Checking ROI

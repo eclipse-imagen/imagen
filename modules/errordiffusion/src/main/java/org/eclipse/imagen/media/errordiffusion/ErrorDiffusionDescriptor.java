@@ -20,11 +20,11 @@ package org.eclipse.imagen.media.errordiffusion;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
-import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.KernelImageN;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
@@ -103,12 +103,12 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * </tr>
  * <tr>
  * <td>colorMap</td>
- * <td>org.eclipse.imagen.LookupTableJAI</td>
+ * <td>org.eclipse.imagen.LookupTableImageN</td>
  * <td>NO_PARAMETER_DEFAULT</td>
  * <tr>
  * <td>errorKernel</td>
- * <td>org.eclipse.imagen.KernelJAI</td>
- * <td>org.eclipse.imagen.KernelJAI.ERROR_FILTER_FLOYD_STEINBERG</td>
+ * <td>org.eclipse.imagen.KernelImageN</td>
+ * <td>org.eclipse.imagen.KernelImageN.ERROR_FILTER_FLOYD_STEINBERG</td>
  * <tr>
  * <td>roi</td>
  * <td>org.eclipse.imagen.ROI</td>
@@ -148,8 +148,8 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
 
     /** The parameter class types for the "ErrorDiffusion" operation. */
     private static final Class[] paramClasses = {
-        org.eclipse.imagen.LookupTableJAI.class,
-        org.eclipse.imagen.KernelJAI.class,
+        LookupTableImageN.class,
+        KernelImageN.class,
         org.eclipse.imagen.ROI.class,
         org.eclipse.imagen.media.range.Range.class,
         Integer.class
@@ -159,7 +159,7 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     private static final Object[] paramDefaults = {
         NO_PARAMETER_DEFAULT,
         // Default error filter to Floyd-Steinberg.
-        KernelJAI.ERROR_FILTER_FLOYD_STEINBERG,
+        KernelImageN.ERROR_FILTER_FLOYD_STEINBERG,
         null,
         null,
         0
@@ -173,11 +173,11 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
     /**
      * Performs error diffusion color quantization using a specified color map and error filter.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param colorMap The color map.
@@ -193,13 +193,13 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0,
-            LookupTableJAI colorMap,
-            KernelJAI errorKernel,
+            LookupTableImageN colorMap,
+            KernelImageN errorKernel,
             ROI roi,
             Range nodata,
             double[] destNoData,
             RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("ErrorDiffusion", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("ErrorDiffusion", RenderedRegistryMode.MODE_NAME);
         // Setting source
         pb.setSource("source0", source0);
         // Setting parameters
@@ -209,6 +209,6 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
         pb.setParameter("nodata", nodata);
         pb.setParameter("destNoData", destNoData);
 
-        return JAI.create("ErrorDiffusion", pb, hints);
+        return ImageN.create("ErrorDiffusion", pb, hints);
     }
 }

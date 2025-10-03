@@ -51,7 +51,8 @@ package org.eclipse.imagen.media.codec;
  * <p><code>setExpandGrayAlpha()</code> causes 2-channel gray/alpha (GA) images to be output as full-color (GGGA)
  * images, which may simplify further processing and display.
  *
- * <p><b> This class is not a committed part of the JAI API. It may be removed or changed in future releases of JAI.</b>
+ * <p><b> This class is not a committed part of the ImageN API. It may be removed or changed in future releases of
+ * ImageN.</b>
  */
 public class PNGDecodeParam implements ImageDecodeParam {
 

@@ -8,14 +8,10 @@
 package org.eclipse.imagen.widgets;
 
 import java.awt.*;
-import java.awt.color.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.awt.image.renderable.*;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 /**
@@ -101,9 +97,9 @@ public class Magnifier extends JComponent {
             pb.add((float) y);
             pb.add((float) w);
             pb.add((float) h);
-            RenderedOp tmp = JAI.create("crop", pb, null);
+            RenderedOp tmp = ImageN.create("crop", pb, null);
 
-            RenderedOp dst = JAI.create(
+            RenderedOp dst = ImageN.create(
                     "scale",
                     tmp,
                     magnification,

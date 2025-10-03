@@ -27,7 +27,7 @@ import org.eclipse.imagen.media.util.PropertyUtil;
 
 /**
  * An adapter class for externally-generated RenderableImages. All methods are simply forwarded to the image being
- * adapted. The purpose of this class is simply to ensure that the PropertySource interface is available for all JAI
+ * adapted. The purpose of this class is simply to ensure that the PropertySource interface is available for all ImageN
  * RenderableImages.
  *
  * <p>The set of properties available on the image will be a combination of those defined locally via <code>
@@ -40,7 +40,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
     private RenderableImage im;
 
     /** A helper object to manage firing events. */
-    private PropertyChangeSupportJAI eventManager = null;
+    private PropertyChangeSupportImageN eventManager = null;
 
     /** A helper object to manage the image properties. */
     private WritablePropertySourceImpl properties = null;
@@ -55,7 +55,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      */
     public static RenderableImageAdapter wrapRenderableImage(RenderableImage im) {
         if (im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         } else if (im instanceof RenderableImageAdapter) {
             return (RenderableImageAdapter) im;
         } else {
@@ -70,19 +70,15 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      */
     public RenderableImageAdapter(RenderableImage im) {
         if (im == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         this.im = im;
-        eventManager = new PropertyChangeSupportJAI(this);
+        eventManager = new PropertyChangeSupportImageN(this);
         properties = new WritablePropertySourceImpl(null, null, eventManager);
     }
 
-    /**
-     * Returns the reference to the external <code>RenderableImage</code> originally supplied to the constructor.
-     *
-     * @since JAI 1.1.2
-     */
+    /** Returns the reference to the external <code>RenderableImage</code> originally supplied to the constructor. */
     public final RenderableImage getWrappedImage() {
         return im;
     }
@@ -126,7 +122,6 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      * @return The <code>Class</code> expected to be return by a request for the value of this property or <code>null
      *     </code>.
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public Class getPropertyClass(String name) {
         // Get the class if the property is local.
@@ -174,7 +169,6 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      * @param name a <code>String</code> containing the property's name.
      * @param value the property, as a general <code>Object</code>.
      * @throws IllegalArgumentException If <code>name</code> or <code>value</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void setProperty(String name, Object value) {
         properties.setProperty(name, value);
@@ -184,26 +178,17 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      * Removes the named property from the <code>RenderableImageAdapter</code>.
      *
      * @throws IllegalArgumentException if <code>name</code> is <code>null</code>.
-     * @since JAI 1.1
      */
     public void removeProperty(String name) {
         properties.removeProperty(name);
     }
 
-    /**
-     * Add a PropertyChangeListener to the listener list. The listener is registered for all properties.
-     *
-     * @since JAI 1.1
-     */
+    /** Add a PropertyChangeListener to the listener list. The listener is registered for all properties. */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(listener);
     }
 
-    /**
-     * Add a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
-     */
+    /** Add a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.addPropertyChangeListener(propertyName, listener);
     }
@@ -211,18 +196,12 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
     /**
      * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener that was registered
      * for all properties.
-     *
-     * @since JAI 1.1
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Remove a PropertyChangeListener for a specific property. The case of the name is ignored.
-     *
-     * @since JAI 1.1
-     */
+    /** Remove a PropertyChangeListener for a specific property. The case of the name is ignored. */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         eventManager.removePropertyChangeListener(propertyName, listener);
     }

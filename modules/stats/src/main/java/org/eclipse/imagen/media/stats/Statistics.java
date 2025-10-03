@@ -55,7 +55,7 @@ public abstract class Statistics {
     }
 
     /** Statistics property name */
-    public static final String STATS_PROPERTY = "JAI-EXT.stats";
+    public static final String STATS_PROPERTY = "ImageN-EXT.stats";
 
     /** Variable indicating the statistic used */
     protected StatsType type;

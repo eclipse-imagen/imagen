@@ -20,9 +20,9 @@ package org.eclipse.imagen.media.piecewise;
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
@@ -82,8 +82,8 @@ public class GenericPiecewiseDescriptor extends OperationDescriptorImpl {
             ROI roi,
             Range nodata,
             RenderingHints hints) {
-        ParameterBlockJAI pb =
-                new ParameterBlockJAI(GenericPiecewiseOpImage.OPERATION_NAME, RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb =
+                new ParameterBlockImageN(GenericPiecewiseOpImage.OPERATION_NAME, RenderedRegistryMode.MODE_NAME);
         // Setting source
         pb.setSource(source0, 0);
         // Setting parameters
@@ -92,7 +92,7 @@ public class GenericPiecewiseDescriptor extends OperationDescriptorImpl {
         pb.setParameter("roi", roi);
         pb.setParameter("nodata", nodata);
 
-        return JAI.create(GenericPiecewiseOpImage.OPERATION_NAME, pb, hints);
+        return ImageN.create(GenericPiecewiseOpImage.OPERATION_NAME, pb, hints);
     }
 
     /**

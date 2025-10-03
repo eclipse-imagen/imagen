@@ -18,8 +18,8 @@
 package org.eclipse.imagen.media.errordiffusion;
 
 import java.awt.image.RenderedImage;
-import org.eclipse.imagen.KernelJAI;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.KernelImageN;
+import org.eclipse.imagen.LookupTableImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.media.range.Range;
@@ -33,23 +33,23 @@ public class ComparisonTest extends ComparisonTestBase {
     private static final int NUM_BANDS = 1;
 
     /** Test LookupTable */
-    private static LookupTableJAI lut;
+    private static LookupTableImageN lut;
 
     /** Test kernel */
-    private static KernelJAI kernel;
+    private static KernelImageN kernel;
 
     @BeforeClass
     public static void init() {
 
         // Diffusion Kernel
-        kernel = KernelJAI.GRADIENT_MASK_SOBEL_VERTICAL;
+        kernel = KernelImageN.GRADIENT_MASK_SOBEL_VERTICAL;
         // Create simple lookuptable
         float[] data = new float[256];
         for (int i = 0; i < 256; i++) {
             data[i] = i;
         }
         // LUT
-        lut = new LookupTableJAI(data);
+        lut = new LookupTableImageN(data);
     }
 
     @Test

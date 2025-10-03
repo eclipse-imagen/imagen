@@ -52,63 +52,37 @@ import java.awt.image.WritableRaster;
  *
  * <p>Methods that use a single int pixel representation throw an <code>IllegalArgumentException</code>.
  *
- * <p>A <code>FloatDoubleColorModel</code> can be used in conjunction with a <code>ComponentSampleModelJAI</code>.
+ * <p>A <code>FloatDoubleColorModel</code> can be used in conjunction with a <code>ComponentSampleModelImageN</code>.
  *
  * @see java.awt.image.ColorModel
  * @see java.awt.color.ColorSpace
  * @see java.awt.image.ComponentSampleModel
- * @see ComponentSampleModelJAI
+ * @see ComponentSampleModelImageN
  */
 public class FloatDoubleColorModel extends ComponentColorModel {
 
-    /**
-     * The associated <code>ColorSpace</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** The associated <code>ColorSpace</code>. */
     protected ColorSpace colorSpace;
 
-    /**
-     * The type or family of the associated <code>ColorSpace</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** The type or family of the associated <code>ColorSpace</code>. */
     protected int colorSpaceType;
 
-    /**
-     * The number of components of the associated <code>ColorSpace</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** The number of components of the associated <code>ColorSpace</code>. */
     protected int numColorComponents;
 
     /**
      * The number of components represented by this <code>ColorModel</code>. This will differ from the number of
      * components of the associated <code>ColorSpace</code> if there is an alpha channel.
-     *
-     * @since JAI 1.1
      */
     protected int numComponents;
 
-    /**
-     * Specifies what alpha values can be represented by this <code>ColorModel</code>.
-     *
-     * @since JAI 1.1
-     */
+    /** Specifies what alpha values can be represented by this <code>ColorModel</code>. */
     protected int transparency;
 
-    /**
-     * Whether this <code>ColorModel</code> supports alpha.
-     *
-     * @since JAI 1.1
-     */
+    /** Whether this <code>ColorModel</code> supports alpha. */
     protected boolean hasAlpha;
 
-    /**
-     * Whether alpha is premultiplied.
-     *
-     * @since JAI 1.1
-     */
+    /** Whether alpha is premultiplied. */
     protected boolean isAlphaPremultiplied;
 
     private static int[] bitsHelper(int transferType, ColorSpace colorSpace, boolean hasAlpha) {
@@ -154,7 +128,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                 transferType);
 
         if (transferType != DataBuffer.TYPE_FLOAT && transferType != DataBuffer.TYPE_DOUBLE) {
-            throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel0"));
         }
 
         this.colorSpace = colorSpace;
@@ -173,7 +147,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getRed(int pixel) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel1"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel1"));
     }
 
     /**
@@ -181,7 +155,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getGreen(int pixel) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel2"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel2"));
     }
 
     /**
@@ -189,7 +163,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getBlue(int pixel) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel3"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel3"));
     }
 
     /**
@@ -197,7 +171,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getAlpha(int pixel) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel4"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel4"));
     }
 
     /**
@@ -205,7 +179,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getRGB(int pixel) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel5"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel5"));
     }
 
     private final int clamp(float value) {
@@ -361,7 +335,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      */
     public int getAlpha(Object inData) {
         if (inData == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
         }
 
         if (hasAlpha == false) {
@@ -517,11 +491,11 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                 floatPixel = new float[numComponents];
             } else {
                 if (!(pixel instanceof float[])) {
-                    throw new ClassCastException(JaiI18N.getString("FloatDoubleColorModel7"));
+                    throw new ClassCastException(ImageNI18N.getString("FloatDoubleColorModel7"));
                 }
                 floatPixel = (float[]) pixel;
                 if (floatPixel.length < numComponents) {
-                    throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("FloatDoubleColorModel8"));
+                    throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("FloatDoubleColorModel8"));
                 }
             }
 
@@ -577,11 +551,11 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                 doublePixel = new double[numComponents];
             } else {
                 if (!(pixel instanceof double[])) {
-                    throw new ClassCastException(JaiI18N.getString("FloatDoubleColorModel7"));
+                    throw new ClassCastException(ImageNI18N.getString("FloatDoubleColorModel7"));
                 }
                 doublePixel = (double[]) pixel;
                 if (doublePixel.length < numComponents) {
-                    throw new ArrayIndexOutOfBoundsException(JaiI18N.getString("FloatDoubleColorModel8"));
+                    throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("FloatDoubleColorModel8"));
                 }
             }
 
@@ -640,7 +614,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int[] getComponents(int pixel, int[] components, int offset) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel9"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel9"));
     }
 
     /**
@@ -648,7 +622,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * array.
      */
     public int[] getComponents(Object pixel, int[] components, int offset) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel9"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel9"));
     }
 
     /**
@@ -656,7 +630,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getDataElement(int[] components, int offset) {
-        throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel9"));
+        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel9"));
     }
 
     /**
@@ -680,7 +654,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      */
     public Object getDataElements(int[] components, int offset, Object obj) {
         if ((components.length - offset) < numComponents) {
-            throw new IllegalArgumentException(numComponents + " " + JaiI18N.getString("FloatDoubleColorModel10"));
+            throw new IllegalArgumentException(numComponents + " " + ImageNI18N.getString("FloatDoubleColorModel10"));
         }
         if (transferType == DataBuffer.TYPE_FLOAT) {
             float[] pixel;
@@ -733,7 +707,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
         int rX;
 
         if (raster.getTransferType() != transferType) {
-            throw new IllegalArgumentException(JaiI18N.getString("FloatDoubleColorModel6"));
+            throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel6"));
         }
 
         if (isAlphaPremultiplied) {
@@ -777,7 +751,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                     break;
 
                 default:
-                    throw new RuntimeException(JaiI18N.getString("FloatDoubleColorModel0"));
+                    throw new RuntimeException(ImageNI18N.getString("FloatDoubleColorModel0"));
             }
 
             if (isAlphaPremultiplied) {}
@@ -825,7 +799,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                     break;
 
                 default:
-                    throw new RuntimeException(JaiI18N.getString("FloatDoubleColorModel0"));
+                    throw new RuntimeException(ImageNI18N.getString("FloatDoubleColorModel0"));
             }
         }
 
@@ -876,7 +850,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
         for (int i = 0; i < numComponents; i++) {
             bandOffsets[i] = i;
         }
-        return new ComponentSampleModelJAI(transferType, w, h, numComponents, w * numComponents, bandOffsets);
+        return new ComponentSampleModelImageN(transferType, w, h, numComponents, w * numComponents, bandOffsets);
     }
 
     /**

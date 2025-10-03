@@ -126,11 +126,11 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
     /**
      * Computes the phase angle of each pixel of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -138,21 +138,21 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderedOp create(RenderedImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Phase", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Phase", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.create("Phase", pb, hints);
+        return ImageN.create("Phase", pb, hints);
     }
 
     /**
      * Computes the phase angle of each pixel of an image.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
@@ -160,10 +160,10 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
      */
     public static RenderableOp createRenderable(RenderableImage source0, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Phase", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Phase", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
-        return JAI.createRenderable("Phase", pb, hints);
+        return ImageN.createRenderable("Phase", pb, hints);
     }
 }

@@ -1324,7 +1324,7 @@ two-dimensional DCT on the corresponding band of the source image.
 The `DCT` operation does not take any parameters.
 
 
-|                                   | **API:** `org.eclipse.imagen.JAI`    |
+|                                   | **API:** `org.eclipse.imagen.ImageN`    |
 
     static RenderedOp create("dct", RenderedImage im)
 
@@ -1350,7 +1350,7 @@ of the source image.
 The `IDCT` operation does not take any parameters.
 
 
-|                                   | **API:** `org.eclipse.imagen.JAI`    |
+|                                   | **API:** `org.eclipse.imagen.ImageN`    |
 
     static RenderedOp create("idct", RenderedImage im)
 

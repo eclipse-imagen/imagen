@@ -72,7 +72,7 @@ pb.add(1);          // check every pixel horizontally
 pb.add(1);          // check every pixel vertically
 
 // Perform the mean operation on the source image.
-RenderedImage meanImage = JAI.create("mean", pb, null);
+RenderedImage meanImage = ImageN.create("mean", pb, null);
 
 // Retrieve and report the mean pixel value.
 double[] mean = (double[])meanImage.getProperty("mean");
@@ -135,7 +135,7 @@ pb.add(50);         // The horizontal sampling rate
 pb.add(50);         // The vertical sampling rate
 
 // Perform the extrema operation on the source image
-RenderedOp op = JAI.create("extrema", pb);
+RenderedOp op = ImageN.create("extrema", pb);
 
 // Retrieve both the maximum and minimum pixel value
 double[][] extrema = (double[][]) op.getProperty("extrema");
@@ -308,7 +308,7 @@ pb.add(1);                         // Sampling
 pb.add(1);                         // periods
 
 // Perform the histogram operation.
-dst = (PlanarImage)JAI.create("histogram", pb, null);
+dst = (PlanarImage)ImageN.create("histogram", pb, null);
 
 // Retrieve the histogram data.
 hist = (Histogram) dst.getProperty("histogram");
@@ -364,13 +364,13 @@ operation takes one rendered source image and two parameters.
 
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
-| mask1 | KernelJAI | A gradient mask. |
-| mask2 | KernelJAI | A gradient mask orthogonal to the first one. |
+| mask1 | KernelImageN | A gradient mask. |
+| mask2 | KernelImageN | A gradient mask orthogonal to the first one. |
 
 The default masks for the `GradientMagnitude` operation are:
 
-- `KernelJAI.GRADIENT_MASK_SOBEL_HORIZONTAL`
-- `KernelJAI.GRADIENT_MASK_SOBEL_VERTICAL`
+- `KernelImageN.GRADIENT_MASK_SOBEL_HORIZONTAL`
+- `KernelImageN.GRADIENT_MASK_SOBEL_VERTICAL`
 
 These masks, shown in [Figure 9-2](#figure-9-2) perform
 the Sobel edge enhancement operation. The Sobel operation extracts all
@@ -407,8 +407,8 @@ float[] roberts_v_data        = {-1.0F,  0.0F,  0.0F,
                                   0.0F,  0.0F,  0.0F
 };
 
-KernelJAI kern_h = new KernelJAI(3,3,roberts_h_data);
-KernelJAI kern_v = new KernelJAI(3,3,roberts_v_data);
+KernelImageN kern_h = new KernelImageN(3,3,roberts_h_data);
+KernelImageN kern_v = new KernelImageN(3,3,roberts_v_data);
 ```
 
 <a name="figure-9-3"></a>
@@ -440,8 +440,8 @@ float[] prewitt_v_data        = {-1.0F, -1.0F, -1.0F,
                                   1.0F,  1.0F,  1.0F
 };
 
-KernelJAI kern_h = new KernelJAI(3,3,prewitt_h_data);
-KernelJAI kern_v = new KernelJAI(3,3,prewitt_v_data);
+KernelImageN kern_h = new KernelImageN(3,3,prewitt_h_data);
+KernelImageN kern_v = new KernelImageN(3,3,prewitt_v_data);
 ```
 
 <a name="figure-9-4"></a>
@@ -471,8 +471,8 @@ float[] freichen_v_data        = {-1.0F,  -1.414F, -1.0F,
                                    1.0F,   1.414F,  1.0F
 };
 
-KernelJAI kern_h = new KernelJAI(3,3,freichen_h_data);
-KernelJAI kern_v = new KernelJAI(3,3,freichen_v_data);
+KernelImageN kern_h = new KernelImageN(3,3,freichen_h_data);
+KernelImageN kern_v = new KernelImageN(3,3,freichen_v_data);
 ```
 
 <a name="figure-9-5"></a>
@@ -496,7 +496,7 @@ kernel.
 
 ```java
 // Load the image.
-PlanarImage im0 = (PlanarImage)JAI.create("fileload",
+PlanarImage im0 = (PlanarImage)ImageN.create("fileload",
                                           filename);
 
 // Create the two kernels.
@@ -507,12 +507,12 @@ float data_v[] = new float[] {-1.0F,  -1.414F, -1.0F,
                                0.0F,   0.0F,    0.0F,
                                1.0F,   1.414F,  1.0F};
 
-KernelJAI kern_h = new KernelJAI(3,3,data_h);
-KernelJAI kern_v = new KernelJAI(3,3,data_v);
+KernelImageN kern_h = new KernelImageN(3,3,data_h);
+KernelImageN kern_v = new KernelImageN(3,3,data_v);
 
 // Create the Gradient operation.
 PlanarImage im1 =
-        (PlanarImage)JAI.create("gradientmagnitude", im0,
+        (PlanarImage)ImageN.create("gradientmagnitude", im0,
                                  kern_h, kern_v);
 
 // Display the image.

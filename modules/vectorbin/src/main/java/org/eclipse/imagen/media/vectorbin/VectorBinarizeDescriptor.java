@@ -28,8 +28,8 @@ import org.locationtech.jts.geom.prep.PreparedGeometry;
  * {@code Geometry} object. No source image is used. The reference polygon must be one of the following JTS classes:
  * {@code Polygon}, {@code MultiPolygon} or {@code PreparedGeometry}.
  *
- * <p>Pixels are tested for inclusion using either their corner coordinates (equivalent to standard JAI pixel indexing)
- * or center coordinates (0.5 added to each ordinate) depending on the "coordtype" parameter.
+ * <p>Pixels are tested for inclusion using either their corner coordinates (equivalent to standard ImageN pixel
+ * indexing) or center coordinates (0.5 added to each ordinate) depending on the "coordtype" parameter.
  *
  * <p>Example of use:
  *
@@ -38,7 +38,7 @@ import org.locationtech.jts.geom.prep.PreparedGeometry;
  * // Using a JTS polygon object as the reference geometry
  * Polygon triangle = WKTReader.read("POLYGON((100 100, 4900 4900, 4900 100, 100 100))");
  *
- * ParameterBlockJAI pb = new ParameterBlockJAI("VectorBinarize");
+ * ParameterBlockImageN pb = new ParameterBlockImageN("VectorBinarize");
  * pb.setParameter("minx", 0);
  * pb.setParameter("miny", 0);
  * pb.setParameter("width", 5000);
@@ -48,21 +48,21 @@ import org.locationtech.jts.geom.prep.PreparedGeometry;
  * // specify that we want to use center coordinates of pixels
  * pb.setParameter("coordtype", PixelCoordType.CENTER);
  *
- * RenderedOp dest = JAI.create("VectorBinarize", pb);
+ * RenderedOp dest = ImageN.create("VectorBinarize", pb);
  * </code>
  * </pre>
  *
- * By default, the destination image is type BYTE, with a {@link java.awt.image.MultiPixelPackedSampleModel} and JAI's
- * default tile size. If an alternative image type is desired this can be specified via rendering hints as in this
- * example:
+ * By default, the destination image is type BYTE, with a {@link java.awt.image.MultiPixelPackedSampleModel} and
+ * ImageN's default tile size. If an alternative image type is desired this can be specified via rendering hints as in
+ * this example:
  *
  * <pre>
  * <code>
  * SampleModel sm = ...
  * ImageLayout il = new ImageLayout();
  * il.setSampleModel(sm);
- * RenderingHints hints = new RenderingHints(JAI.KEY_IMAGE_LAYOUT, il);
- * RenderedOp dest = JAI.create("VectorBinarize", pb, hints);
+ * RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
+ * RenderedOp dest = ImageN.create("VectorBinarize", pb, hints);
  * </code>
  * </pre>
  *

@@ -7,12 +7,10 @@
  */
 package org.eclipse.imagen.demo;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.renderable.*;
 import java.util.Vector;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.eclipse.imagen.*;
 
 public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
@@ -21,8 +19,8 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
 
     JComboBox kernelBox;
 
-    KernelJAI[] kernels;
-    KernelJAI kern_h, kern_v;
+    KernelImageN[] kernels;
+    KernelImageN kern_h, kern_v;
 
     public JAIGradientPanel(Vector sourceVec) {
         super(sourceVec);
@@ -44,7 +42,7 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
     }
 
     private void initKernels() {
-        kernels = new KernelJAI[kernelLabels.length * 2];
+        kernels = new KernelImageN[kernelLabels.length * 2];
 
         float[] normal_h_data = {1.0F};
         float[] normal_v_data = {0.0F};
@@ -77,16 +75,16 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
         };
         float[] freichen_v_data = {-1.0F, -1.414F, -1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.414F, 1.0F};
 
-        kernels[0] = new KernelJAI(1, 1, normal_h_data);
-        kernels[1] = new KernelJAI(1, 1, normal_v_data);
-        kernels[2] = new KernelJAI(3, 3, sobel_h_data);
-        kernels[3] = new KernelJAI(3, 3, sobel_v_data);
-        kernels[4] = new KernelJAI(3, 3, roberts_h_data);
-        kernels[5] = new KernelJAI(3, 3, roberts_v_data);
-        kernels[6] = new KernelJAI(3, 3, prewitt_h_data);
-        kernels[7] = new KernelJAI(3, 3, prewitt_v_data);
-        kernels[8] = new KernelJAI(3, 3, freichen_h_data);
-        kernels[9] = new KernelJAI(3, 3, freichen_v_data);
+        kernels[0] = new KernelImageN(1, 1, normal_h_data);
+        kernels[1] = new KernelImageN(1, 1, normal_v_data);
+        kernels[2] = new KernelImageN(3, 3, sobel_h_data);
+        kernels[3] = new KernelImageN(3, 3, sobel_v_data);
+        kernels[4] = new KernelImageN(3, 3, roberts_h_data);
+        kernels[5] = new KernelImageN(3, 3, roberts_v_data);
+        kernels[6] = new KernelImageN(3, 3, prewitt_h_data);
+        kernels[7] = new KernelImageN(3, 3, prewitt_v_data);
+        kernels[8] = new KernelImageN(3, 3, freichen_h_data);
+        kernels[9] = new KernelImageN(3, 3, freichen_v_data);
         kern_h = kernels[0];
         kern_v = kernels[1];
     }
@@ -106,7 +104,7 @@ public class JAIGradientPanel extends JAIDemoPanel implements ItemListener {
         paramBlock.addSource(im);
         paramBlock.add(kern_h);
         paramBlock.add(kern_v);
-        return JAI.create("gradientmagnitude", paramBlock, renderHints);
+        return ImageN.create("gradientmagnitude", paramBlock, renderHints);
     }
 
     public void startAnimation() {}

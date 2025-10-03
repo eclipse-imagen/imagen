@@ -10,9 +10,9 @@ package org.eclipse.imagen.media.algebra;
 import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderableOp;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -66,12 +66,12 @@ public class AddDescriptor extends OperationDescriptorImpl {
      * @throws IllegalArgumentException if source0 or source1 is null.
      */
     public static RenderedOp create(RenderedImage source0, RenderedImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("add", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("add", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.create("add", pb, hints);
+        return ImageN.create("add", pb, hints);
     }
 
     /**
@@ -85,11 +85,11 @@ public class AddDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, RenderableImage source1, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("add", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("add", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
         pb.setSource("source1", source1);
 
-        return JAI.createRenderable("add", pb, hints);
+        return ImageN.createRenderable("add", pb, hints);
     }
 }

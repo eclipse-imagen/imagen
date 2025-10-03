@@ -33,8 +33,6 @@ import java.awt.image.renderable.RenderableImage;
  * <code>RemoteCRIF</code>.
  *
  * <p>Classes that implement this interface must provide a constructor with no arguments.
- *
- * @since JAI 1.1
  */
 public interface RemoteCRIF extends RemoteRIF {
 

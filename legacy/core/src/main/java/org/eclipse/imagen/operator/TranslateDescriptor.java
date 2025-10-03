@@ -24,10 +24,10 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import org.eclipse.imagen.GeometricOpImage;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.JAI;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.PropertyGenerator;
 import org.eclipse.imagen.ROI;
@@ -123,17 +123,19 @@ class TranslatePropertyGenerator extends PropertyGeneratorImpl {
  * yTrans) is constructed by means of an Interpolation object and written to the destination. If both xTrans and yTrans
  * are integral, the operation simply "wraps" its source image to change the image's position in the coordinate plane.
  *
- * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>JAI.KEY_IMAGE_LAYOUT
+ * <p>It may be noted that the minX, minY, width and height hints as specified through the <code>ImageN.KEY_IMAGE_LAYOUT
  * </code> hint in the <code>RenderingHints</code> object are not honored, as this operator calculates the destination
  * image bounds itself. The other <code>ImageLayout</code> hints, like tileWidth and tileHeight, however are honored.
  *
  * <p>It should be noted that this operation automatically adds a value of <code>Boolean.TRUE</code> for the <code>
- * JAI.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is performed
- * on the pixel values instead of being performed on the indices into the color map if the source(s) have an <code>
- * IndexColorModel</code>. This addition will take place only if a value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL</code> to the given <code>configuration</code> so that the operation is
+ * performed on the pixel values instead of being performed on the indices into the color map if the source(s) have an
+ * <code>
+ * IndexColorModel</code>. This addition will take place only if a value for the <code>
+ * ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> has not already been provided by the user. Note that the <code>configuration</code> Map is cloned before the
- * new hint is added to it. The operation can be smart about the value of the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
- * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>JAI.KEY_REPLACE_INDEX_COLOR_MODEL
+ * new hint is added to it. The operation can be smart about the value of the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
+ * </code> <code>RenderingHints</code>, i.e. while the default value for the <code>ImageN.KEY_REPLACE_INDEX_COLOR_MODEL
  * </code> is <code>Boolean.TRUE</code>, in some cases the operator could set the default.
  *
  * <p>"Translate" defines a PropertyGenerator that performs an identical transformation on the "ROI" property of the
@@ -231,11 +233,11 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
     /**
      * Moves an image to a new location.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
      * @param xTrans The displacement in X direction. May be <code>null</code>.
@@ -247,7 +249,7 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
      */
     public static RenderedOp create(
             RenderedImage source0, Float xTrans, Float yTrans, Interpolation interpolation, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Translate", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Translate", RenderedRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -255,17 +257,17 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
         pb.setParameter("yTrans", yTrans);
         pb.setParameter("interpolation", interpolation);
 
-        return JAI.create("Translate", pb, hints);
+        return ImageN.create("Translate", pb, hints);
     }
 
     /**
      * Moves an image to a new location.
      *
-     * <p>Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#createRenderable(String,ParameterBlock,RenderingHints)}.
+     * <p>Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#createRenderable(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
      * @param xTrans The displacement in X direction. May be <code>null</code>.
@@ -277,7 +279,7 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
      */
     public static RenderableOp createRenderable(
             RenderableImage source0, Float xTrans, Float yTrans, Interpolation interpolation, RenderingHints hints) {
-        ParameterBlockJAI pb = new ParameterBlockJAI("Translate", RenderableRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Translate", RenderableRegistryMode.MODE_NAME);
 
         pb.setSource("source0", source0);
 
@@ -285,6 +287,6 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
         pb.setParameter("yTrans", yTrans);
         pb.setParameter("interpolation", interpolation);
 
-        return JAI.createRenderable("Translate", pb, hints);
+        return ImageN.createRenderable("Translate", pb, hints);
     }
 }

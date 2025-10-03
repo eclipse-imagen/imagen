@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.imagen.AreaOpImage;
 import org.eclipse.imagen.BorderExtender;
 import org.eclipse.imagen.ImageLayout;
-import org.eclipse.imagen.KernelJAI;
+import org.eclipse.imagen.KernelImageN;
 import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFormatTag;
 
@@ -48,11 +48,11 @@ import org.eclipse.imagen.RasterFormatTag;
  *
  * <p>The Kernel cannot be bigger in any dimension than the image data.
  *
- * @see KernelJAI
+ * @see KernelImageN
  */
 final class Convolve3x3OpImage extends AreaOpImage {
     /** The 3x3 kernel with which to do the convolve operation. */
-    protected KernelJAI kernel;
+    protected KernelImageN kernel;
 
     float tables[][] = new float[9][256];
 
@@ -64,11 +64,11 @@ final class Convolve3x3OpImage extends AreaOpImage {
      * @param source a RenderedImage.
      * @param extender a BorderExtender, or null.
      * @param layout an ImageLayout optionally containing the tile grid layout, SampleModel, and ColorModel, or null.
-     * @param kernel the pre-rotated convolution KernelJAI.
+     * @param kernel the pre-rotated convolution KernelImageN.
      * @param cobbleSources a boolean indicating whether computeRect() expects contiguous sources.
      */
     public Convolve3x3OpImage(
-            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelJAI kernel) {
+            RenderedImage source, BorderExtender extender, Map config, ImageLayout layout, KernelImageN kernel) {
         super(
                 source,
                 layout,
@@ -361,7 +361,7 @@ final class Convolve3x3OpImage extends AreaOpImage {
     //         float data[] = {0.05f,0.10f,0.05f,
     //                         0.10f,0.40f,0.10f,
     //                         0.05f,0.10f,0.05f};
-    //         KernelJAI kJAI = new KernelJAI(3,3,1,1,data);
+    //         KernelImageN kJAI = new KernelImageN(3,3,1,1,data);
     //         return new Convolve3x3OpImage(oit.getSource(), null, null,
     //                                       new ImageLayout(oit.getSource()),
     //                                       kJAI);

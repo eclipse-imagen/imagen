@@ -19,7 +19,7 @@ package org.eclipse.imagen.media.bandmerge;
 
 import java.awt.image.RenderedImage;
 import java.util.Vector;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.TiledImage;
 import org.eclipse.imagen.media.range.Range;
@@ -62,7 +62,7 @@ public class ComparisonTest extends ComparisonTestBase {
             vec.add(img);
         }
 
-        ParameterBlockJAI pbj = new ParameterBlockJAI("bandmerge");
+        ParameterBlockImageN pbj = new ParameterBlockImageN("bandmerge");
         pbj.setSources(vec);
 
         // New descriptor calculations

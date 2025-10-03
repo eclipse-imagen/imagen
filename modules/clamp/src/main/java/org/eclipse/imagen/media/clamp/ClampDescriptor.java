@@ -21,9 +21,9 @@ import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.logging.Logger;
-import org.eclipse.imagen.JAI;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptorImpl;
-import org.eclipse.imagen.ParameterBlockJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.media.range.Range;
@@ -106,11 +106,11 @@ public class ClampDescriptor extends OperationDescriptorImpl {
     }
 
     /**
-     * Creates a <code>ParameterBlockJAI</code> from all supplied arguments except <code>hints</code> and invokes
-     * {@link JAI#create(String,ParameterBlock,RenderingHints)}.
+     * Creates a <code>ParameterBlockImageN</code> from all supplied arguments except <code>hints</code> and invokes
+     * {@link ImageN#create(String,ParameterBlock,RenderingHints)}.
      *
-     * @see JAI
-     * @see ParameterBlockJAI
+     * @see ImageN
+     * @see ParameterBlockImageN
      * @see RenderedOp
      * @param noData Array of input No Data Ranges.
      * @param destinationNoData value used by the RenderedOp for setting the output no data value.
@@ -133,7 +133,7 @@ public class ClampDescriptor extends OperationDescriptorImpl {
             RenderedImage sources) {
         // register();
 
-        ParameterBlockJAI pb = new ParameterBlockJAI("Clamp", RenderedRegistryMode.MODE_NAME);
+        ParameterBlockImageN pb = new ParameterBlockImageN("Clamp", RenderedRegistryMode.MODE_NAME);
         if (sources == null) throw new IllegalArgumentException("This resource is null");
 
         // Setting of sources
@@ -148,6 +148,6 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         pb.setParameter("high", high);
 
         // Creation of the RenderedOp
-        return JAI.create("Clamp", pb, hints);
+        return ImageN.create("Clamp", pb, hints);
     }
 }
