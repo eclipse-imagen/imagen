@@ -71,15 +71,6 @@ jobs:
           echo "Checking out GeoServer"
           mkdir geoserver
           git clone --quiet --filter=tree:0 https://github.com/geoserver/geoserver.git geoserver
-      - name: Update ImageN dependency versions in downstream projects
-        run: |
-          cd ~
-          export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
-          echo "Detected ImageN version: ${IMAGEN_VERSION}"
-          # echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
-          # sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" imageio-ext/pom.xml
-          # echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
-          # sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" geotools/platform-dependencies/pom.xml
       - name: Build ImageIO-Ext with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
@@ -88,10 +79,9 @@ jobs:
           cd imageio-ext
           git checkout jai-rename
           echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
-          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" pom.xml
           ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          # git diff # show the dependency changes
           ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
-          git diff # show the dependency changes
           mvn -B clean install -T1C -fae -Dall
       - name: Build GeoTools v2 with tests
         continue-on-error: ${{ matrix.experimental }}
@@ -101,8 +91,6 @@ jobs:
           cd geotools
           git checkout jai-rename
           echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
-          sed -i -E "s#(<imagen\.version>)[^<]+(</imagen\.version>)#\1${IMAGEN_VERSION}\2#g" platform-dependencies/pom.xml
-          git diff # show the dependency changes
           ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
           ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B clean install -T1C -Dall -fae -nsu -Dspotless.apply.skip=true
