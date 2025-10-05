@@ -510,10 +510,6 @@
                 <replacetoken>ImageMosaicFormat.USE_JAI_IMAGEREAD</replacetoken>
                 <replacevalue>ImageMosaicFormat.USE_IMAGEN_IMAGEREAD</replacevalue>
             </replacefilter>
-            <replacefilter>
-                <replacetoken>ComponentColorModelJAI</replacetoken>
-                <replacevalue>ComponentColorModelImageN</replacevalue>
-            </replacefilter>
         </replace>
     </target>
 
