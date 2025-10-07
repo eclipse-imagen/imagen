@@ -106,7 +106,7 @@ On main:
 2. Update version number in Maven POMs (run the Maven versions plugin at project root):
 
    ```
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.4.0
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.0
    ```
 
 3. Commit this change.
