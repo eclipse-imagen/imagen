@@ -162,10 +162,16 @@ On main:
 
    Reference: [Publishing By Using the Maven Plugin](https://central.sonatype.org/publish/publish-portal-maven/)
 
-2. Deploy to Maven Central with the release property and profile
+2. Deploy to repo.osgeo.org:
 
    ```
-   mvn deploy -Drelease
+   mvn deploy -DskipTests -DskipTests
+   ```
+   
+   Outdated: Deploy to Maven Central with the release property and profile
+
+   ```
+   mvn deploy -Drelease -DskipTests
    ```
    
    A successful deploy will verify, and then wait for you to publish:
@@ -184,6 +190,8 @@ On main:
   2. Copy the release notes:
 
      Example: [0.4.0](tps://github.com/eclipse-imagen/imagen/releases/tag/0.4.0]
+     
+     You may also wish to hit "generate release notes".
 
   3. Add release artifacts (from the `target` folders):
 
@@ -196,13 +204,13 @@ On main:
 
 Update main to the next release version:
 
-1Update version number in Maven POMs (run the Maven release plugin at project root:
+1. Update version number in Maven POMs (run the Maven release plugin at project root):
 
    ```
    mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.0-SNAPSHOT
    ```
 
-3. Compile to test, and commit this change.
+2. Compile to test, and commit this change.
 
    ```
    mvn clean install

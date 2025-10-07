@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.imagen</groupId>
     <artifactId>imagen-modules</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>format</artifactId>
