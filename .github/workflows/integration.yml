@@ -77,11 +77,11 @@ jobs:
           cd ~
           export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
           cd imageio-ext
-          git checkout jai-rename
+          git checkout master
           echo "Updating ImageN version to ${IMAGEN_VERSION} in ImageIO-Ext"
-          ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
           # git diff # show the dependency changes
-          ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B clean install -T1C -fae -Dall
       - name: Build GeoTools v2 with tests
         continue-on-error: ${{ matrix.experimental }}
@@ -89,10 +89,10 @@ jobs:
           cd ~
           export IMAGEN_VERSION=$(mvn -f ${GITHUB_WORKSPACE}/imagen/pom.xml -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
           cd geotools
-          git checkout jai-rename
+          git checkout main
           echo "Updating ImageN version to ${IMAGEN_VERSION} in GeoTools"
-          ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
-          ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B clean install -T1C -Dall -fae -nsu -Dspotless.apply.skip=true
       - name: Build GeoWebCache with tests
         continue-on-error: ${{ matrix.experimental }}
@@ -101,18 +101,18 @@ jobs:
           export MAVEN_OPTS="-Xmx1024m $TEST_OPTS"
           cd ~
           cd geowebcache/geowebcache
-          git checkout jai-rename
-          ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
-          ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
+          git checkout main
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B install -nsu -Dspotless.apply.skip=true -T1C -fae
       - name: Build Mapfish-print v2 with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
           cd ~
           cd mapfish-print-v2
-          git checkout jai-rename
-          ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
-          ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
+          git checkout main
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B install -nsu -T1C -fae
       - name: Build GeoServer with tests
         continue-on-error: ${{ matrix.experimental }}
@@ -122,11 +122,10 @@ jobs:
           export MAVEN_OPTS="-Xmx512m $TEST_OPTS"
           cd ~
           cd geoserver/src
-          git checkout jai-rename
           sed -i "s/<mf.version>2.2.0<\/mf.version>/<mf.version>2.3-SNAPSHOT<\/mf.version>/g" pom.xml
           sed -i "s/<gf.version>3.6.0<\/gf.version>/<gf.version>3.6-SNAPSHOT<\/gf.version>/g" pom.xml
-          ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
-          ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/pom-update.xml -Dproject.dir=`pwd` pom2
+          # ant -f ${{ github.workspace }}/imagen/docs/migration/code-update.xml -Dproject.dir=`pwd` update2
           mvn -B -f pom.xml install -nsu -Prelease -Dspotless.apply.skip=true -T1C -fae
           echo "Building GeoServer Community Modules"
           mvn -B -f community/pom.xml install -nsu -DcommunityRelease -Dspotless.apply.skip=true -DskipTests -T1C -fae
