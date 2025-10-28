@@ -9,21 +9,18 @@
   <artifactId>imagen-unsupported-all</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>ImageN combined jar including core, operator modules, and unsupported functionality.</description>
+  <description>ImageN combined jar of unsupported functionality.</description>
   <dependencies>
-
-    <!-- Complete ImageN library -->
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imagen-all</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
     <!-- unsupported modules provided "as is" without testing or QA -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-unsupported-core</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>square-root</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
