@@ -11,11 +11,26 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <description>ImageN combined jar including core library and operator modules.</description>
   <dependencies>
-    <!-- no need to inline jts -->
+    <!-- have these as clear dependencies, do not include in jar -->
     <dependency>
       <groupId>org.locationtech.jts</groupId>
       <artifactId>jts-core</artifactId>
-      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.huldra.math</groupId>
+      <artifactId>bigint</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4-runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.janino</groupId>
+      <artifactId>janino</artifactId>
     </dependency>
     
     <!-- library modules -->
@@ -299,12 +314,43 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <filters>
+                <filter>
+                  <artifact>*.*</artifact>
+                  <excludes>
+                    <exclude>module-info.class</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer" />
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                   <resource>META-INF/org.eclipse.imagen.registryFile.jai</resource>
                 </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/registryFile.jai</resource>
+                </transformer>
               </transformers>
+              <artifactSet>
+                <excludes>
+                  <exclude>com.google.code.findbugs:*</exclude>
+                  <exclude>com.google.errorprone:*</exclude>
+                  <exclude>com.google.guava:*</exclude>
+                  <exclude>com.google.j2objc:*</exclude>
+                  <exclude>com:*</exclude>
+                  <exclude>javax:*</exclude>
+                  <exclude>org.antlr:*</exclude>
+                  <exclude>org.checkerframework:*</exclude>
+                  <exclude>org.codehaus.janino:*</exclude>
+                  <exclude>org.codehaus.janino:*</exclude>
+                  <exclude>org.hamcrest:hamcrest:*</exclude>
+                  <exclude>org.huldra.math:*</exclude>
+                  <exclude>org.locationtech.jts:*:</exclude>
+                </excludes>
+              </artifactSet>
             </configuration>
           </execution>
         </executions>
