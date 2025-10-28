@@ -11,7 +11,13 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <description>ImageN combined jar including core library and operator modules.</description>
   <dependencies>
-
+    <!-- no need to inline jts -->
+    <dependency>
+      <groupId>org.locationtech.jts</groupId>
+      <artifactId>jts-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
     <!-- library modules -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
