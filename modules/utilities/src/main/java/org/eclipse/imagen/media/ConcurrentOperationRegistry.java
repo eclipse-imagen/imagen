@@ -53,11 +53,11 @@ import org.eclipse.imagen.util.ImagingListener;
  * @author Nicola Lagomarsini - GeoSolutions
  */
 public final class ConcurrentOperationRegistry extends OperationRegistry {
-    /** Path to the ImageN default registryfile.jai */
-    static String JAI_REGISTRY_FILE = "META-INF/org.eclipse.imagen.registryFile.jai";
+    /** Path to the ImageN default registryFile.imagen */
+    static String JAI_REGISTRY_FILE = "META-INF/org.eclipse.imagen.registryFile.imagen";
 
-    /** Name of the other registryfile.jai */
-    static String USR_REGISTRY_FILE = "META-INF/registryFile.jaiext";
+    /** Name of the other registryFile.imagen */
+    static String USR_REGISTRY_FILE = "META-INF/registryFile.imagen";
 
     /** String associated to the vendor key */
     static final String VENDOR_NAME = "Vendor";
@@ -83,7 +83,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
 
     public static OperationRegistry initializeRegistry() {
         try {
-            // URL associated to the default ImageN registryfile.jai
+            // URL associated to the default ImageN registryFile.imagen
             InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
 
             if (url == null) {
@@ -95,7 +95,7 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
             if (url != null) {
                 registry.updateFromStream(url);
             }
-            // Registration of the operation defined in any registryFile.jai file
+            // Registration of the operation defined in any registryFile.imagen file
             registry.registerServices(null);
             // Listing of all the registered operations
             List<OperationDescriptor> descriptors = registry.getDescriptors(RenderedRegistryMode.MODE_NAME);

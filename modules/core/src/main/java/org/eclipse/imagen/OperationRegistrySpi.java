@@ -41,8 +41,8 @@ package org.eclipse.imagen;
  * <p>All such concrete classes must have a zero-argument constructor so that they may be instantiated during lookup.
  * The <code>updateRegistry()</code> method of all such registered classes will be called with the default instance of
  * the ImageN <code>OperationRegistry</code> after it has been initialized with the default ImageN registry file
- * (META-INF/org.eclipse.imagen.registryFile.jai) and once all "META-INF/registryFile.jai"s found in the classpath are
- * loaded. There is no guarantee of the order in which the <code>updateRegistry()</code> method of each <code>
+ * (META-INF/org.eclipse.imagen.registryFile.imagen) and once all "META-INF/registryFile.imagen"s found in the classpath
+ * are loaded. There is no guarantee of the order in which the <code>updateRegistry()</code> method of each <code>
  * OperationRegistrySpi</code> instance will be invoked.
  *
  * <p>The <code>OperationRegistrySpi</code> could also be used to for the registration of other ImageN related objects
