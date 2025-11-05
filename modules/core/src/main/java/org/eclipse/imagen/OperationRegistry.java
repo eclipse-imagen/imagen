@@ -141,8 +141,8 @@ import org.eclipse.imagen.util.ImagingListener;
  * <p>The user has two options for automatic loading of registry objects.
  *
  * <ul>
- *   <li>For most normal situations the user can create a "<code>registryFile.jai</code>" with entries for operators and
- *       preferences specific to their packages. This registry file must be put it in the META-INF directory of the
+ *   <li>For most normal situations the user can create a "<code>registryFile.imagen</code>" with entries for operators
+ *       and preferences specific to their packages. This registry file must be put it in the META-INF directory of the
  *       jarfile or classpath.
  *   <li>For situations where more control over the operation registry is needed, (for example remove an operator
  *       registered by ImageN etc.) the user can implement a concrete sub-class of the <code>
@@ -156,9 +156,9 @@ import org.eclipse.imagen.util.ImagingListener;
  * follows
  *
  * <ol>
- *   <li>Load the ImageN distributed registry file "<code>META-INF/org.eclipse.imagen.registryFile.jai</code>" (from
+ *   <li>Load the ImageN distributed registry file "<code>META-INF/org.eclipse.imagen.registryFile.imagen</code>" (from
  *       jai_core.jar)
- *   <li>Find and load all "<code>META-INF/registryFile.jai</code>" files found in the classpath in some arbitrary
+ *   <li>Find and load all "<code>META-INF/registryFile.imagen</code>" files found in the classpath in some arbitrary
  *       order.
  *   <li>Look for registered service providers of <code>OperationRegistrySpi</code> listed in all "<code>
  *       META-INF/services/org.eclipse.imagen.OperationRegistrySpi</code>" files found in the classpath and call their
@@ -167,15 +167,15 @@ import org.eclipse.imagen.util.ImagingListener;
  * </ol>
  *
  * Note that the user should not make any assumption about the order of loading WITHIN step 2 or 3. If there is a need
- * for the <code>updateRegistry</code> method to be called right after the associated registryFile.jai is read in, the
- * following could be done.
+ * for the <code>updateRegistry</code> method to be called right after the associated registryFile.imagen is read in,
+ * the following could be done.
  *
- * <p>The user could give the registry file a package qualified name for e.g xxx.yyy.registryFile.jai and put this in
+ * <p>The user could give the registry file a package qualified name for e.g xxx.yyy.registryFile.imagen and put this in
  * the META-INF directory of the jar file. Then in the concrete class that implements <code>OperationRegistrySpi</code>
  *
  * <pre>
  *  void updateRegistry(OperationRegistry or) {
- *      String registryFile = "META-INF/xxx.yyy.registryFile.jai";
+ *      String registryFile = "META-INF/xxx.yyy.registryFile.imagen";
  *      InputStream is = ClassLoader.getResourceAsStream(registryFile);
  *
  *      or.updateFromStream(is);
@@ -195,10 +195,10 @@ import org.eclipse.imagen.util.ImagingListener;
 public class OperationRegistry implements Externalizable {
 
     /** The ImageN packaged registry file */
-    static String JAI_REGISTRY_FILE = "META-INF/org.eclipse.imagen.registryFile.jai";
+    static String JAI_REGISTRY_FILE = "META-INF/org.eclipse.imagen.registryFile.imagen";
 
     /** The user defined registry files that are automatically loaded */
-    static String USR_REGISTRY_FILE = "META-INF/registryFile.jai";
+    static String USR_REGISTRY_FILE = "META-INF/registryFile.imagen";
 
     /** A <code>Hashtable</code> of <code>DescritptorCache</code>s for each registry mode. */
     private Hashtable descriptors;
@@ -1516,7 +1516,7 @@ public class OperationRegistry implements Externalizable {
     }
 
     /**
-     * Load all the "META-INF/registryFile.jai" files and then called the <code>updateRegistry()</code> of the
+     * Load all the "META-INF/registryFile.imagen" files and then called the <code>updateRegistry()</code> of the
      * registered service provider of <code>OperationRegistrySpi</code> found in the classpath corresponding to this
      * class loader. All non-IO exceptions encountered while parsing the registry files are caught and their error
      * messages are redirected to <code>System.err</code>. If <code>System.err</code> is null the error messages will

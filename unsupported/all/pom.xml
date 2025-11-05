@@ -44,7 +44,7 @@
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/org.eclipse.imagen.registryFile.jai</resource>
+                  <resource>META-INF/org.eclipse.imagen.registryFile.imagen</resource>
                 </transformer>
               </transformers>
             </configuration>
