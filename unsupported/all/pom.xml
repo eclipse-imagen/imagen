@@ -9,21 +9,31 @@
   <artifactId>imagen-unsupported-all</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>ImageN combined jar including core, operator modules, and unsupported functionality.</description>
+  <description>ImageN combined jar of unsupported functionality.</description>
   <dependencies>
-
-    <!-- Complete ImageN library -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imagen-all</artifactId>
+      <artifactId>imagen-core</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>translate</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
     <!-- unsupported modules provided "as is" without testing or QA -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-unsupported-core</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>square-root</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
@@ -34,19 +44,39 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.6.0</version>
         <executions>
           <execution>
             <goals>
               <goal>shade</goal>
             </goals>
             <configuration>
+              <filters>
+                <filter>
+                  <artifact>*.*</artifact>
+                  <excludes>
+                    <exclude>module-info.class</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer" />
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                   <resource>META-INF/org.eclipse.imagen.registryFile.imagen</resource>
                 </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/registryFile.jai</resource>
+                </transformer>
               </transformers>
+              <artifactSet>
+                <excludes>
+                  <exclude>junit:*</exclude>
+                  <exclude>org.hamcrest:hamcrest:*</exclude>
+                  <exclude>org.locationtech.jts:*:</exclude>
+                </excludes>
+              </artifactSet>
             </configuration>
           </execution>
         </executions>
