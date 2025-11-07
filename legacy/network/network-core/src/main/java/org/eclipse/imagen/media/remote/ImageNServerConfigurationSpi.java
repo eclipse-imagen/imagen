@@ -44,8 +44,9 @@ import org.eclipse.imagen.ImageN;
  * <p>All such concrete classes must have a zero-argument constructor so that they may be instantiated during lookup.
  * The <code>updateServer()</code> method of all such registered classes will be called with the default instance of the
  * <code>ImageN</code> class. Note that this will take place after the ImageN <code>OperationRegistry</code> has been
- * initialized with the default ImageN registry file (META-INF/registryFile.jai), once all "META-INF/registryFile.jai"s
- * found in the classpath are loaded and the <code>updateRegistry</code> method of each <code>OperationRegistrySpi
+ * initialized with the default ImageN registry file (META-INF/registryFile.imagen), once all
+ * "META-INF/registryFile.imagen"s found in the classpath are loaded and the <code>updateRegistry</code> method of each
+ * <code>OperationRegistrySpi
  * </code> instance has been executed. There is no guarantee of the order in which the <code>
  * updateServer()</code> method of each <code>ImageNServerConfigurationSpi</code> instance will be invoked.
  *
