@@ -33,9 +33,9 @@ Eclipse ImageN offers a migration path for developers migrating from the Java Ad
 ## Automatic Update
 
 1. Download ant migration scripts:
-   
-   * [pom-updates.xml](https://raw.githubusercontent.com/eclipse-imagen/imagen/refs/heads/master/docs/migration/pom-update.xml)
-   * [code-updates.xml](https://raw.githubusercontent.com/eclipse-imagen/imagen/refs/heads/master/docs/migration/code-update.xml)
+
+    * [pom-updates.xml](https://github.com/eclipse-imagen/imagen/blob/main/docs/migration/pom-update.xml)
+    * [code-updates.xml](https://github.com/eclipse-imagen/imagen/blob/main/docs/migration/code-update.xml)
 
 2. Ant refactoring script for ``pom.xml``:
 
@@ -144,7 +144,7 @@ To upgrade:
    }
    ``` 
 
-6. Recommended: Once your application compiles change to ``org.eclipse.imagen:imagen-all` dependency
+6. Recommended: Once your application compiles change to `org.eclipse.imagen:imagen-all` dependency
    (for core library and supported operators) and add additional unsupported or legacy dependencies as needed.
    
    * Legacy functionality has been identified for removal and will not be available in future releases of ImageN.
@@ -155,26 +155,26 @@ To upgrade:
 
 The following classes have been renamed:
 
-| JAI or JAI-Ext Class       | ImageN Class                 |
-|----------------------------|------------------------------|
-| ColorSpaceJAI              | ColorSpaceImageN             | 
-| ColorSpaceJAIExt           | ColorSpaceImageNExt          |
-| ColorSpaceJAIExtWrapper    | ColorSpaceImageNExtWrapper   |
-| IHSColorSpaceJAIExt        | IHSColorSpaceImageNExt       |
-| JAI                        | ImageN                       |
-| JAIRMIImageServer          | ImageNRMIImageServer         |
-| JAIServerConfigurationSpi  | ImageNServerConfigurationSpi |
-| ParameterBlockJAI          | ParameterBlockImageN         |
-| PropertyChangeEventJAI     | PropertyChangeEventImageN    | 
-| LookupTableJAI             | LookupTableImageN            |
-| ComponentSampleModelJAI    | ComponentSampleModelImageN   |
-| PropertyChangeSupportJAI   | PropertyChangeSupportImageN  |
-| KernelJAI                  | KernelImageN                 |
-| ImageJAI                   | ImageImageN                  | 
-| ImageFunctionJAIEXT        | ImageFunctionExt             |
-| ImageFunctionJAIEXTWrapper | ImageFunctionExtWrapper      |
+| JAI or JAI-Ext Class          | ImageN Class                    |
+|-------------------------------|---------------------------------|
+| `ColorSpaceJAI`               | `ColorSpaceImageN`              | 
+| `ColorSpaceJAIExt`            | `ColorSpaceImageNExt`           |
+| `ColorSpaceJAIExtWrapper`     | `ColorSpaceImageNExtWrapper`    |
+| `IHSColorSpaceJAIExt`         | `IHSColorSpaceImageNExt`        |
+| `JAI`                         | `ImageN`                        |
+| `JAIRMIImageServer`           | `ImageNRMIImageServer`          |
+| `JAIServerConfigurationSpi`   | `ImageNServerConfigurationSpi`  |
+| `ParameterBlockJAI`           | `ParameterBlockImageN`          |
+| `PropertyChangeEventJAI`      | `PropertyChangeEventImageN`     | 
+| `LookupTableJAI`              | `LookupTableImageN`             |
+| `ComponentSampleModelJAI`     | `ComponentSampleModelImageN`    |
+| `PropertyChangeSupportJAI`    | `PropertyChangeSupportImageN`   |
+| `KernelJAI`                   | `KernelImageN`                  |
+| `ImageJAI`                    | `ImageImageN`                   | 
+| `ImageFunctionJAIEXT`         | `ImageFunctionExt`              |
+| `ImageFunctionJAIEXTWrapper`  | `ImageFunctionExtWrapper`       |
 
-The following ImageReadDescriptors have been renamed:
+The following `ImageReadDescriptors` have been renamed:
 
 | JAI Descriptor        | ImageN Descriptor        |
 |-----------------------|--------------------------|
@@ -183,7 +183,14 @@ The following ImageReadDescriptors have been renamed:
 | `JAI.ImageMetadata`   | `ImageN.ImageMetadata`   |
 | `JAI.StreamMetadata`  | `ImageN.StreamMetadata`  |
 | `JAI.Thumbnails`      | `ImageN.Thumbnails`      |
-| `JAI.RenderableInput` | `ImageN.RenderableInput` | 
+| `JAI.RenderableInput` | `ImageN.RenderableInput` |
+
+The registry files have been renamed
+
+| JAI or JAI-Ext              | ImageN                         |
+|-----------------------------|--------------------------------|
+| `META-INF/registryFile.jai` | `META-INF/registryFile.imagen` | 
+
 
 # Java Image Formats
 
@@ -199,6 +206,7 @@ Both the Java platform and ImageN include encoding/decoding codecs for image for
 | PNM      |                 | read/write   |                 |
 | TIFF     |                 | read/write   | read/write      | 
 |  WBMP    | read/write      | read         | read/write      |
+
 
 Oracle JDK 8 includes the internal `com.sun.image.codec.jpeg` packages used by `imagen-codec` JPEG read/write support listed above. These packages are not available in OpenJDK 8 or Java 11.
 
@@ -226,15 +234,15 @@ The key format missing from Java 8 is TIFF, which is included in `ImageIO` from 
 
 Finalizers have been deprecated in Java 18, as they are unpredictable, slow, error-prone, and pose security and resource management risks, making them fundamentally unsafe for modern applications. A number of legacy classes have been updated to no longer implement the `finalize` method. In some cases, it has been replaced with a more appropriate cleanup method; in others, a suitable method already existed. The table below summarizes these changes:
 
-Class                       | Removed Method | Replaced by New Method  | Existing Method
-----------------------------|----------------|-------------------------|----------------
-RMIServerProxy              | finalize       | dispose                 |
-RemoteImage                 | finalize       | dispose                 |
-PlanarImageServerProxy      | finalize       | dispose                 |
-FlieLoadRIF                 | finalize       | close                   |
-SeekableStream              | finalize       |                         | close
-SerializableRenderableImage | finalize       |                         | dispose
-SerializableRenderedImage   | finalize       |                         | dispose
+| Class                         | Removed Method | Replaced by New Method  | Existing Method |
+|-------------------------------|----------------|-------------------------|-----------------|
+| `RMIServerProxy`              | finalize       | dispose                 |                 |
+| `RemoteImage`                 | finalize       | dispose                 |                 |
+| `PlanarImageServerProxy`      | finalize       | dispose                 |                 |
+| `FlieLoadRIF`                 | finalize       | close                   |                 |
+| `SeekableStream`              | finalize       |                         | close           |
+| `SerializableRenderableImage` | finalize       |                         | dispose         |
+| `SerializableRenderedImage`   | finalize       |                         | dispose         |
 
 
 If your code relies on the classes mentioned above, consider updating it to ensure proper resource cleanup is performed.
@@ -243,8 +251,8 @@ The following core classes have been updated:
 
 1. `TileScheduler`: it now extends `AutoCloseable`
 2. `SunTileScheduler`: it now implements `close` replacing the `finalize` method.
-3. `PlanarImage`: the `finalize` method has been removed. `dispose` method already exists to cleanup resources.
-4. `JAI`: it now implements `AutoCloseable`, implementing a `close` method that will cleanup the tileScheduler.
+3. `PlanarImage`: the `finalize` method has been removed. `dispose` method already exists to clean up resources.
+4. `JAI`: it now implements `AutoCloseable`, implementing a `close` method that will clean up the tileScheduler.
 
 If your code relies on the classes mentioned above, consider updating it to ensure proper resource cleanup is performed.
  
