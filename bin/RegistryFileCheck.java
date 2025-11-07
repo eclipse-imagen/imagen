@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Quick QA check of registryFile.jai contents
+ * Quick QA check of registryFile.imagen contents
  */
 public class RegistryFileCheck {
     static int missing = 0;
@@ -34,9 +34,9 @@ public class RegistryFileCheck {
         "TileCodecDescriptor.java"
     );
     public static void main(String[] args) throws IOException {
-        checkRegistryFile("../modules/core","org.eclipse.imagen.registryFile.jai");
-        checkRegistryFile("../legacy/core","registryFile.jai");
-        checkRegistryFile("../unsupported/core","registryFile.jai");
+        checkRegistryFile("../modules/core","org.eclipse.imagen.registryFile.imagen");
+        checkRegistryFile("../legacy/core","registryFile.imagen");
+        checkRegistryFile("../unsupported/core","registryFile.imagen");
 
         if (missing > 0) {
             throw new IOException("registryFile descriptor missing: " + missing + " files");
