@@ -107,6 +107,7 @@ public abstract class ColorSpaceImageNExt extends ColorSpaceImageN {
             Raster src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] dstComponentSize,
             ROI roi,
             Range nodata,
@@ -149,6 +150,7 @@ public abstract class ColorSpaceImageNExt extends ColorSpaceImageN {
             Raster src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] dstComponentSize,
             ROI roi,
             Range nodata,
@@ -161,7 +163,7 @@ public abstract class ColorSpaceImageNExt extends ColorSpaceImageN {
 
     @Override
     public WritableRaster fromRGB(Raster src, int[] srcComponentSize, WritableRaster dest, int[] dstComponentSize) {
-        return fromRGB(src, srcComponentSize, dest, dstComponentSize, null, null, null);
+        return fromRGB(src, srcComponentSize, dest, null, dstComponentSize, null, null, null);
     }
 
     @Override
@@ -171,7 +173,7 @@ public abstract class ColorSpaceImageNExt extends ColorSpaceImageN {
 
     @Override
     public WritableRaster toRGB(Raster src, int[] srcComponentSize, WritableRaster dest, int[] dstComponentSize) {
-        return toRGB(src, srcComponentSize, dest, dstComponentSize, null, null, null);
+        return toRGB(src, srcComponentSize, dest, null, dstComponentSize, null, null, null);
     }
 
     /**

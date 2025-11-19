@@ -25,11 +25,15 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.lang.ref.SoftReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.eclipse.imagen.PixelAccessor;
 import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
+import org.eclipse.imagen.RasterAccessor;
 import org.eclipse.imagen.RasterFactory;
+import org.eclipse.imagen.RasterFormatTag;
 import org.eclipse.imagen.UnpackedImageData;
 import org.eclipse.imagen.iterator.RandomIter;
 import org.eclipse.imagen.media.iterators.RandomIterFactory;
@@ -85,6 +89,8 @@ import org.eclipse.imagen.media.util.ImageUtil;
  * <p>Methods defined in the superclasses are not commented extensively.
  */
 public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
+
+    private static final Logger LOGGER = Logger.getLogger(IHSColorSpaceImageNExt.class.toString());
 
     /** Constant indicating that the inner random iterators must pre-calculate an array of the image positions */
     public static final boolean ARRAY_CALC = true;
@@ -350,9 +356,20 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ROI roi,
             Range nodata,
             float[] destNodata) {
+        if (LOGGER.isLoggable(Level.WARNING)) {
+            LOGGER.warning(
+                    "CIEXYZ to IHS conversion can be affected by https://github.com/eclipse-imagen/imagen/issues/123");
+        }
         WritableRaster tempRas = CIEXYZToRGB(src, srcComponentSize, null, null, roi, nodata, destNodata);
         return fromRGB(
-                tempRas, tempRas.getSampleModel().getSampleSize(), dest, destComponentSize, roi, nodata, destNodata);
+                tempRas,
+                tempRas.getSampleModel().getSampleSize(),
+                dest,
+                null,
+                destComponentSize,
+                roi,
+                nodata,
+                destNodata);
     }
 
     /** Converts a <code>Raster</code> of colors represented as pixels from sRGB to IHS. */
@@ -360,6 +377,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             Raster src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             ROI roi,
             Range nodata,
@@ -427,6 +445,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -441,6 +460,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -454,6 +474,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -467,6 +488,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -480,6 +502,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -497,6 +520,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -533,6 +557,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = null;
         int[] dstIntPixels = null;
@@ -545,9 +570,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int bStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
-
         if (destNodata == null) {
             destNodata = new float[3];
         }
@@ -565,13 +587,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ImageUtil.fillBackground(dest, dest.getBounds(), destNoDataFinal);
             return;
         }
-
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     short R = (short) ((rBuf[rIndex] & 0xFF) << normr);
                     short G = (short) ((gBuf[gIndex] & 0xFF) << normg);
@@ -620,18 +642,18 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasROI && !hasNodata) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
-
                     if (!(roiBounds.contains(x0, y0) && roiIter.getSample(x0, y0, 0) > 0)) {
                         if (isByte) {
                             dstIntPixels[dIndex++] = (int) destNoDataFinal[0];
@@ -692,14 +714,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
 
                     byte r = rBuf[rIndex];
@@ -768,18 +791,18 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
-
                     byte r = rBuf[rIndex];
                     byte g = gBuf[gIndex];
                     byte b = bBuf[bIndex];
@@ -847,6 +870,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         }
@@ -862,6 +886,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -901,6 +926,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = null;
         int[] dstIntPixels = null;
@@ -913,8 +939,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int bStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -930,12 +954,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             return;
         }
 
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int R = (rBuf[rIndex] & 0xFFFF) << normr;
                     int G = (gBuf[gIndex] & 0xFFFF) << normg;
@@ -985,15 +1010,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasROI && !hasNodata) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -1058,14 +1084,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
 
                     short r = rBuf[rIndex];
@@ -1135,15 +1162,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -1214,6 +1242,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         }
@@ -1230,6 +1259,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -1267,6 +1297,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = null;
         int[] dstIntPixels = null;
@@ -1279,8 +1310,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int bStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -1295,13 +1324,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ImageUtil.fillBackground(dest, dest.getBounds(), destNoDataFinal);
             return;
         }
-
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || (hasROI && roiContainsTile))) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     long R = (rBuf[rIndex] & 0xFFFFFFFFl) << normr;
                     long G = (gBuf[gIndex] & 0xFFFFFFFFl) << normg;
@@ -1350,15 +1379,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasROI && !hasNodata) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -1422,14 +1452,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasNodata && (!hasROI || (hasROI && roiContainsTile))) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
 
                     int r = rBuf[rIndex];
@@ -1498,15 +1529,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -1576,6 +1608,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         }
@@ -1592,6 +1625,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -1624,6 +1658,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = null;
         int[] dstIntPixels = null;
@@ -1636,8 +1671,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int bStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -1652,13 +1685,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ImageUtil.fillBackground(dest, dest.getBounds(), destNoDataFinal);
             return;
         }
-
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || (hasROI && roiContainsTile))) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     float R = rBuf[rIndex];
                     float G = gBuf[gIndex];
@@ -1707,15 +1740,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasROI && !hasNodata) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -1779,14 +1813,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasNodata && (!hasROI || (hasROI && roiContainsTile))) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
 
                     float R = rBuf[rIndex];
@@ -1851,15 +1886,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -1925,6 +1961,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         }
@@ -1941,6 +1978,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -1973,6 +2011,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = null;
         int[] dstIntPixels = null;
@@ -1985,8 +2024,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int bStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -2002,12 +2039,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             return;
         }
 
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || (hasROI && roiContainsTile))) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
                     double R = rBuf[rIndex];
                     double G = gBuf[gIndex];
@@ -2056,17 +2094,17 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (!hasNodata && hasROI) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
-
                     int x0 = i + destX;
 
                     if (!(roiBounds.contains(x0, y0) && roiIter.getSample(x0, y0, 0) > 0)) {
@@ -2129,14 +2167,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasNodata && (!hasROI || (hasROI && roiContainsTile))) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
 
                     double R = rBuf[rIndex];
@@ -2201,17 +2240,17 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, rStart += srcLineStride, gStart += srcLineStride, bStart += srcLineStride) {
                 int y0 = j + destY;
-                for (int i = 0, rIndex = rStart, gIndex = gStart, bIndex = bStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), rIndex = rStart, gIndex = gStart, bIndex = bStart;
+                        i < dbr.getMaxX();
                         i++, rIndex += srcPixelStride, gIndex += srcPixelStride, bIndex += srcPixelStride) {
-
                     int x0 = i + destX;
 
                     double R = rBuf[rIndex];
@@ -2276,6 +2315,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         min = (R > min) ? min : R;
                         dstPixels[dIndex++] = norms * (1 - min / intensity);
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         }
@@ -2296,7 +2336,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ROI roi,
             Range nodata,
             float[] destNodata) {
-        WritableRaster tempRas = toRGB(src, srcComponentSize, null, null, roi, nodata, destNodata);
+        WritableRaster tempRas = toRGB(src, srcComponentSize, null, null, null, roi, nodata, destNodata);
         return RGBToCIEXYZ(
                 tempRas, tempRas.getSampleModel().getSampleSize(), dest, destComponentSize, roi, nodata, destNodata);
     }
@@ -2306,6 +2346,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             Raster src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             ROI roi,
             Range nodata,
@@ -2370,6 +2411,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -2384,6 +2426,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -2397,6 +2440,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -2410,6 +2454,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -2423,6 +2468,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         srcUid,
                         srcComponentSize,
                         dest,
+                        destRect,
                         destComponentSize,
                         roiContainsTile,
                         roiDisjointTile,
@@ -2440,6 +2486,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -2471,6 +2518,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = null;
         int[] dstIntPixels = null;
@@ -2483,8 +2531,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int sStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -2500,12 +2546,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             return;
         }
 
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
 
                     double I = (iBuf[iIndex] & 0xFF) * normi;
@@ -2571,18 +2618,17 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
                         dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (!hasNodata && hasROI) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
-
                     int x0 = i + destX;
 
                     if (!(roiBounds.contains(x0, y0) && roiIter.getSample(x0, y0, 0) > 0)) {
@@ -2661,14 +2707,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
                         dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
 
                     byte iB = iBuf[iIndex];
@@ -2753,18 +2800,17 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
                         dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
-
                     int x0 = i + destX;
 
                     byte iB = iBuf[iIndex];
@@ -2849,6 +2895,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                         dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
                         dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
                     }
+                    dIndex = updateDestIndex(dIndex, destRect, width, dbr);
                 }
             }
         }
@@ -2860,11 +2907,12 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         }
     }
 
-    // convert a short type ratser from IHS to RGB
+    // convert a short type raster from IHS to RGB
     private void toRGBShort(
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -2892,6 +2940,8 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
+        Rectangle dbr = getDestBounds(dest, destRect);
 
         double[] dstPixels = new double[3 * height * width];
 
@@ -2900,8 +2950,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int sStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -2918,11 +2966,11 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         }
 
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     double I = (iBuf[iIndex] & 0xFFFF) * normi;
                     double H = (hBuf[hIndex] & 0xFFFF) * normh;
@@ -2951,20 +2999,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (!hasNodata && hasROI) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3002,18 +3046,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
 
                     short iB = iBuf[iIndex];
@@ -3056,20 +3097,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3113,10 +3150,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         }
@@ -3129,6 +3163,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -3156,6 +3191,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = new double[3 * height * width];
 
@@ -3164,8 +3200,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int sStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -3180,13 +3214,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ImageUtil.fillBackground(dest, dest.getBounds(), destNoDataFinal);
             return;
         }
-
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     double I = (iBuf[iIndex] & 0xFFFFFFFFl) * normi;
                     double H = (hBuf[hIndex] & 0xFFFFFFFFl) * normh;
@@ -3215,20 +3249,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (!hasNodata && hasROI) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3266,18 +3296,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
 
                     int iB = iBuf[iIndex];
@@ -3320,20 +3347,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3377,10 +3400,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         }
@@ -3393,6 +3413,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -3416,6 +3437,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = new double[3 * height * width];
 
@@ -3424,8 +3446,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int sStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -3444,12 +3464,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             return;
         }
 
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     double I = iBuf[iIndex];
                     double H = hBuf[hIndex];
@@ -3478,20 +3499,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (!hasNodata && hasROI) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3529,18 +3546,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
 
                     double I = iBuf[iIndex];
@@ -3580,20 +3594,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3634,10 +3644,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         }
@@ -3650,6 +3657,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             UnpackedImageData src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] destComponentSize,
             boolean roiContainsTile,
             boolean roiDisjointTile,
@@ -3673,6 +3681,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
 
         int height = dest.getHeight();
         int width = dest.getWidth();
+        int dIndex = getDestIndex(dest, destRect);
 
         double[] dstPixels = new double[3 * height * width];
 
@@ -3681,8 +3690,6 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         int sStart = src.bandOffsets[2];
         int srcPixelStride = src.pixelStride;
         int srcLineStride = src.lineStride;
-
-        int dIndex = 0;
 
         boolean hasROI = roiIter != null && roiBounds != null;
         boolean hasNodata = nodata != null;
@@ -3697,13 +3704,13 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
             ImageUtil.fillBackground(dest, dest.getBounds(), destNoDataFinal);
             return;
         }
-
+        Rectangle dbr = getDestBounds(dest, destRect);
         if (!hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     double I = iBuf[iIndex];
                     double H = hBuf[hIndex];
@@ -3732,20 +3739,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (!hasNodata && hasROI) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3783,18 +3786,15 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else if (hasNodata && (!hasROI || hasROI && roiContainsTile)) {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
 
                     double I = iBuf[iIndex];
@@ -3834,20 +3834,16 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         } else {
-            for (int j = 0;
-                    j < height;
+            for (int j = (int) dbr.getMinY();
+                    j < dbr.getMaxY();
                     j++, iStart += srcLineStride, hStart += srcLineStride, sStart += srcLineStride) {
-
                 int y0 = j + destY;
-                for (int i = 0, iIndex = iStart, hIndex = hStart, sIndex = sStart;
-                        i < width;
+                for (int i = (int) dbr.getMinX(), iIndex = iStart, hIndex = hStart, sIndex = sStart;
+                        i < dbr.getMaxX();
                         i++, iIndex += srcPixelStride, hIndex += srcPixelStride, sIndex += srcPixelStride) {
                     int x0 = i + destX;
 
@@ -3888,10 +3884,7 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
                             G = (c1 - c2) / 2;
                         }
                     }
-
-                    dstPixels[dIndex++] = ((R < 0) ? 0 : ((R > 1.0) ? 1.0 : R)) * normr;
-                    dstPixels[dIndex++] = ((G < 0) ? 0 : ((G > 1.0) ? 1.0 : G)) * normg;
-                    dstPixels[dIndex++] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
+                    dIndex = updateDestPixels(dstPixels, dIndex, R, G, B, normr, normg, normb, dbr, destRect, width);
                 }
             }
         }
@@ -4242,5 +4235,51 @@ public class IHSColorSpaceImageNExt extends ColorSpaceImageNExt {
         result[2] = ((B < 0) ? 0 : ((B > 1.0) ? 1.0 : B)) * normb;
 
         return result;
+    }
+
+    private int updateDestPixels(
+            double[] dstPixels,
+            int dIndex,
+            double r,
+            double g,
+            double b,
+            double normr,
+            double normg,
+            double normb,
+            Rectangle dbr,
+            Rectangle destRect,
+            int width) {
+        dstPixels[dIndex++] = ((r < 0) ? 0 : (Math.min(r, 1.0))) * normr;
+        dstPixels[dIndex++] = ((g < 0) ? 0 : (Math.min(g, 1.0))) * normg;
+        dstPixels[dIndex++] = ((b < 0) ? 0 : (Math.min(b, 1.0))) * normb;
+        return updateDestIndex(dIndex, destRect, width, dbr);
+    }
+
+    private int updateDestIndex(int dIndex, Rectangle destRect, int width, Rectangle dbr) {
+        if (destRect != null) {
+            // skip the pixels outside the destination rectangle
+            dIndex += (int) ((width - (dbr.getMaxX() - dbr.getMinX())) * 3);
+        }
+        return dIndex;
+    }
+
+    private Rectangle getDestBounds(WritableRaster dest, Rectangle destRect) {
+        // set legacy values if destRect is null
+        int destMinX = destRect == null ? dest.getMinX() : destRect.x;
+        int destMinY = destRect == null ? dest.getMinY() : destRect.y;
+        final int destMaxX = destRect == null ? dest.getWidth() : destRect.x + destRect.width;
+        final int destMaxY = destRect == null ? dest.getHeight() : destRect.y + destRect.height;
+        return new Rectangle(destMinX, destMinY, destMaxX - destMinX, destMaxY - destMinY);
+    }
+
+    private int getDestIndex(WritableRaster dest, Rectangle destRect) {
+        if (destRect != null) {
+            SampleModel dstSampleModel = dest.getSampleModel();
+            int dTagID = RasterAccessor.findCompatibleTag(null, dstSampleModel);
+            RasterFormatTag dTag = new RasterFormatTag(dstSampleModel, dTagID);
+            RasterAccessor d = new RasterAccessor(dest, destRect, dTag, null);
+            return d.getBandOffset(0);
+        }
+        return 0;
     }
 }
