@@ -25,17 +25,24 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
+import java.awt.image.SampleModel;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.imagen.IHSColorSpace;
 import org.eclipse.imagen.ImageLayout;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.ParameterListDescriptor;
+import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.ROI;
 import org.eclipse.imagen.ROIShape;
 import org.eclipse.imagen.RegistryElementDescriptor;
@@ -820,6 +827,30 @@ public class BandMergeTest extends TestBase {
                 ((TiledImage) image).dispose();
             }
         }
+    }
+
+    @Test
+    public void testColorModelPreserved() {
+        final ColorSpace ihs = IHSColorSpace.getInstance();
+        final ColorModel cm = new ComponentColorModel(
+                ihs, new int[] {8, 8, 8}, false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+        SampleModel sm = cm.createCompatibleSampleModel(IMAGE_WIDTH, IMAGE_HEIGHT);
+        TiledImage ti = new TiledImage(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, 0, 0, sm, cm);
+
+        RenderedImage ri = PlanarImage.wrapRenderedImage(ti);
+        ImageLayout il = new ImageLayout();
+        il.setColorModel(cm);
+        il.setSampleModel(sm);
+
+        RenderedImage band1 = BandSelectDescriptor.create(ri, new int[] {0}, null);
+        RenderedImage band2 = BandSelectDescriptor.create(ri, new int[] {1}, null);
+        RenderedImage band3 = BandSelectDescriptor.create(ri, new int[] {2}, null);
+        RenderingHints hints = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, il);
+
+        // Let's recompose an IHS image
+        RenderedOp bandMerged = BandMergeDescriptor.create(null, 0d, false, hints, band1, band2, band3);
+        ColorModel bmcm = bandMerged.getColorModel();
+        assert (bmcm.getColorSpace() instanceof IHSColorSpace);
     }
 
     @Test

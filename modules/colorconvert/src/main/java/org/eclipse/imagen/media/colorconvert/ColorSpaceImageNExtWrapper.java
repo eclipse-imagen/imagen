@@ -17,6 +17,7 @@
 */
 package org.eclipse.imagen.media.colorconvert;
 
+import java.awt.Rectangle;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import org.eclipse.imagen.ColorSpaceImageN;
@@ -68,12 +69,14 @@ public class ColorSpaceImageNExtWrapper extends ColorSpaceImageNExt {
             Raster src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] dstComponentSize,
             ROI roi,
             Range nodata,
             float[] destNodata) {
         if (isJAIExt) {
-            return csImageNExt.fromRGB(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
+            return csImageNExt.fromRGB(
+                    src, srcComponentSize, dest, destRect, dstComponentSize, roi, nodata, destNodata);
         }
         return csImageN.fromRGB(src, srcComponentSize, dest, dstComponentSize);
     }
@@ -98,12 +101,13 @@ public class ColorSpaceImageNExtWrapper extends ColorSpaceImageNExt {
             Raster src,
             int[] srcComponentSize,
             WritableRaster dest,
+            Rectangle destRect,
             int[] dstComponentSize,
             ROI roi,
             Range nodata,
             float[] destNodata) {
         if (isJAIExt) {
-            return csImageNExt.toRGB(src, srcComponentSize, dest, dstComponentSize, roi, nodata, destNodata);
+            return csImageNExt.toRGB(src, srcComponentSize, dest, destRect, dstComponentSize, roi, nodata, destNodata);
         }
         return csImageN.toRGB(src, srcComponentSize, dest, dstComponentSize);
     }

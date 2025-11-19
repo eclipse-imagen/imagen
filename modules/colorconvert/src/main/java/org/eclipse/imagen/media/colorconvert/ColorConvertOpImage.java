@@ -409,20 +409,20 @@ public class ColorConvertOpImage extends PointOpImage {
             // 1. When source and destination color spaces are all ColorSpaceJAI,
             // convert via RGB color space
             case 1:
-                tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam);
-                computeRectColorSpaceJAIFromRGB(tempRas, tempParam, dest, dstParam);
+                tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam, destRect);
+                computeRectColorSpaceJAIFromRGB(tempRas, tempParam, dest, dstParam, destRect);
                 break;
             // when only the source color space is ColorSpaceJAI,
             // 2. if the destination is not RGB, convert to RGB using
             // ColorSpaceJAI; then convert RGB to the destination
             // 3. if the destination is RGB, convert using ColorSpaceJAI
             case 2:
-                tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam);
+                tempRas = computeRectColorSpaceJAIToRGB(source, srcParam, null, tempParam, destRect);
                 computeRectNonColorSpaceJAI(
                         tempRas, tempParam, dest, dstParam, destRect, roiDisjointTile, roiContainsTile, roiIter);
                 break;
             case 3:
-                computeRectColorSpaceJAIToRGB(source, srcParam, dest, dstParam);
+                computeRectColorSpaceJAIToRGB(source, srcParam, dest, dstParam, destRect);
                 break;
             // 4, 5. When only the destination color space is ColorSpaceJAI,
             // similar to the case above.
@@ -430,10 +430,10 @@ public class ColorConvertOpImage extends PointOpImage {
                 tempRas = createTempWritableRaster(source);
                 computeRectNonColorSpaceJAI(
                         source, srcParam, tempRas, tempParam, destRect, roiDisjointTile, roiContainsTile, roiIter);
-                computeRectColorSpaceJAIFromRGB(tempRas, tempParam, dest, dstParam);
+                computeRectColorSpaceJAIFromRGB(tempRas, tempParam, dest, dstParam, destRect);
                 break;
             case 5:
-                computeRectColorSpaceJAIFromRGB(source, srcParam, dest, dstParam);
+                computeRectColorSpaceJAIFromRGB(source, srcParam, dest, dstParam, destRect);
                 break;
             // 6. If all the color space are not ColorSpaceJAI
             case 6:
@@ -450,7 +450,7 @@ public class ColorConvertOpImage extends PointOpImage {
     // 2. Convert to RGB.
     // 3. Shift back to [MIN, MAX]
     private WritableRaster computeRectColorSpaceJAIToRGB(
-            Raster src, ImageParameters srcParam, WritableRaster dest, ImageParameters dstParam) {
+            Raster src, ImageParameters srcParam, WritableRaster dest, ImageParameters dstParam, Rectangle destRect) {
         src = convertRasterToUnsigned(src);
 
         ColorSpaceImageN colorSpaceJAI =
@@ -470,7 +470,14 @@ public class ColorConvertOpImage extends PointOpImage {
             }
         }
         dest = colorSpaceJAIExt.toRGB(
-                src, srcParam.getComponentSize(), dest, dstParam.getComponentSize(), roi, nodata, destinationNoData);
+                src,
+                srcParam.getComponentSize(),
+                dest,
+                destRect,
+                dstParam.getComponentSize(),
+                roi,
+                nodata,
+                destinationNoData);
 
         dest = convertRasterToSigned(dest);
         return dest;
@@ -482,7 +489,7 @@ public class ColorConvertOpImage extends PointOpImage {
     // 2. Convert from RGB.
     // 3. Shift back to [MIN, MAX]
     private WritableRaster computeRectColorSpaceJAIFromRGB(
-            Raster src, ImageParameters srcParam, WritableRaster dest, ImageParameters dstParam) {
+            Raster src, ImageParameters srcParam, WritableRaster dest, ImageParameters dstParam, Rectangle destRect) {
         src = convertRasterToUnsigned(src);
         ColorSpaceImageN colorSpaceJAI =
                 (ColorSpaceImageN) dstParam.getColorModel().getColorSpace();
@@ -501,7 +508,14 @@ public class ColorConvertOpImage extends PointOpImage {
             }
         }
         dest = colorSpaceJAIExt.fromRGB(
-                src, srcParam.getComponentSize(), dest, dstParam.getComponentSize(), roi, nodata, destinationNoData);
+                src,
+                srcParam.getComponentSize(),
+                dest,
+                destRect,
+                dstParam.getComponentSize(),
+                roi,
+                nodata,
+                destinationNoData);
 
         dest = convertRasterToSigned(dest);
         return dest;
