@@ -48,7 +48,7 @@ Building with Jacoco aggregate code coverage:
 
 ## Supported Java Environment
 
-The *ImageN* codebase has been migrated from the original Java Plugin to a jar compatible with Java "jigsaw" module system. It no longer uses the namespace `javax` and is able to be used as a normal Java library.
+The *ImageN* codebase has been migrated from the original Java Plugin to a jar compatible with Java jigsaw module system. It no longer uses the namespace `javax` and is able to be used as a normal Java library.
 
 | module       | OpenJDK 17 | OpenJDK 21 | OpenJDK 25 |
 |--------------|------------|------------|------------|
