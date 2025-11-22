@@ -48,14 +48,14 @@ Building with Jacoco aggregate code coverage:
 
 ## Supported Java Environment
 
-The *ImageN* codebase is in the process of being migrated from a Java Extension to a jar compatible with Java "jigsaw" module system.
+The *ImageN* codebase has been migrated from the original Java Plugin to a jar compatible with Java "jigsaw" module system. It no longer uses the namespace `javax` and is able to be used as a normal Java library.
 
-| module       | OpenJDK 11 | OpenJDK 17 | OpenJDK 21 |
+| module       | OpenJDK 17 | OpenJDK 21 | OpenJDK 25 |
 |--------------|------------|------------|------------|
-| modules      | compiles   | compiles   | compiles   | 
-| unsupported  | compiles   | compiles   | compiles   | 
-| legacy       | compiles   | compiles   | compiles   | 
-| legacy/codec | compiles   | compiles   | compiles   | 
+| modules      | compiles   | compiles   | compiles   |
+| unsupported  | compiles   | compiles   | compiles   |
+| legacy       | compiles   | compiles   | compiles   |
+| legacy/codec | compiles   | compiles   | compiles   |
 
 If using an unsupported environment:
 
@@ -100,27 +100,27 @@ On main:
 1. Before you start check that the Maven build executes with no errors using JDK 11:
 
    ```
-   sdk use java 11.0.27-tem
+   sdk use java 17.0.17-tem
    ```
 
 2. Update version number in Maven POMs (run the Maven versions plugin at project root):
 
    ```
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.0
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.1
    ```
 
 3. Commit this change.
 
    ```
    git add .
-   git commit -m "Release version 0.4.0"
+   git commit -m "Release version 0.9.1"
    git push
    ```
 
 4. Tag this commit, and push the tag to GitHub.
 
    ```
-   git tag -a 0.4.0 -m "Release version 0.4.0"
+   git tag -a 0.4.0 -m "Release version 0.9.1"
    git push --tags
    ```
 
@@ -189,14 +189,14 @@ On main:
 
   2. Copy the release notes:
 
-     Example: [0.4.0](tps://github.com/eclipse-imagen/imagen/releases/tag/0.4.0]
+     Example: [0.9.1](tps://github.com/eclipse-imagen/imagen/releases/tag/0.9.1]
      
      You may also wish to hit "generate release notes".
 
   3. Add release artifacts (from the `target` folders):
 
-    * modules/all/target/imagen-all-0.4.0.jar
-    * legacy/all/target/imagen-legacy-all-0.4.0.jar
+    * modules/all/target/imagen-all-0.9.1.jar
+    * legacy/all/target/imagen-legacy-all-0.9.1.jar
 
   4. Tip: Mark as a draft release (until Eclipse review process completes)
 
@@ -207,7 +207,7 @@ Update main to the next release version:
 1. Update version number in Maven POMs (run the Maven release plugin at project root):
 
    ```
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.0-SNAPSHOT
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.2-SNAPSHOT
    ```
 
 2. Compile to test, and commit this change.
@@ -215,7 +215,7 @@ Update main to the next release version:
    ```
    mvn clean install
    git add .
-   git commit -m "Version 0.9.0-SNAPSHOT"
+   git commit -m "Version 0.9.2-SNAPSHOT"
    git push
    ```  
 
