@@ -29,6 +29,7 @@ import org.eclipse.imagen.RenderedOp;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
 import org.eclipse.imagen.registry.RenderedRegistryMode;
 
+/** Descriptor for a square root stretch operation contrast enhancement. */
 public class SquareRootStretchDescriptor extends OperationDescriptorImpl {
 
     /**
@@ -70,6 +71,10 @@ public class SquareRootStretchDescriptor extends OperationDescriptorImpl {
      * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
+     * @param inputMin The minimum input value.
+     * @param inputMax The maximum input value.
+     * @param outputMin The minimum output value (usually zero).
+     * @param outputMax The maximum output value (usually 255).
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
@@ -102,7 +107,11 @@ public class SquareRootStretchDescriptor extends OperationDescriptorImpl {
      * @see ImageN
      * @see ParameterBlockImageN
      * @see RenderableOp
-     * @param source0 <code>RenderableImage</code> source 0.
+     * @param source0 <code>RenderableImage</code> source 0
+     * @param inputMin The minimum input value.
+     * @param inputMax The maximum input value.
+     * @param outputMin The minimum output value (usually zero).
+     * @param outputMax The maximum output value (usually 255).
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderableOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.

@@ -29,11 +29,25 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+/**
+ * Utility class for working with property file resources.
+ *
+ * <p>Scans for {@code it/geosolutions/jaiext/contrastenhancement} bundle.
+ */
 public class PropertyUtil {
 
     private static Map<String, ResourceBundle> BUNDLES = new HashMap<String, ResourceBundle>();
+    /** Properties directory to scan for property bundle */
     private static String propertiesDir = "it/geosolutions/jaiext/contrastenhancement";
 
+    /**
+     * Look up file from classpath, includes {@code java.home} location due to previous life as javax plugin.
+     *
+     * @param path
+     * @return
+     * @throws IOException
+     * @throws FileNotFoundException
+     */
     public static InputStream getFileFromClasspath(String path) throws IOException, FileNotFoundException {
         InputStream is;
 
@@ -77,7 +91,7 @@ public class PropertyUtil {
         return null;
     }
 
-    /** Get bundle from .properties files in javax/media/jai dir. */
+    /** Get bundle from .properties files in {@code javax/media/jai} dir. */
     private static ResourceBundle getBundle(String packageName) {
         ResourceBundle bundle = null;
 
@@ -97,6 +111,13 @@ public class PropertyUtil {
         return null;
     }
 
+    /**
+     * Lookup property string in the package.
+     *
+     * @param packageName Name of package to locate property bundle.
+     * @param key Property key
+     * @return Property string located.
+     */
     public static String getString(String packageName, String key) {
         ResourceBundle b = (ResourceBundle) BUNDLES.get(packageName);
         if (b == null) {
@@ -110,8 +131,11 @@ public class PropertyUtil {
      * Utility method to search the full list of property names for matches. If <code>propertyNames</code> is <code>null
      * </code> then <code>null</code> is returned.
      *
-     * @exception IllegalArgumentException if <code>prefix</code> is <code>null</code> and <code>propertyNames</code> is
-     *     non-<code>null</code>.
+     * @param propertyNames List of property names to search
+     * @param prefix Prefix used to match
+     * @return Matching property names, or or {@code null} if propertyNames were {@code null}
+     * @exception IllegalArgumentException if <code>prefix</code> is {@code null} and {@code propertyNames} is non-
+     *     <code>null</code>.
      */
     public static String[] getPropertyNames(String[] propertyNames, String prefix) {
         if (propertyNames == null) {
