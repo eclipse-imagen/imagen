@@ -43,13 +43,13 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  *
  * <p>The destination pixel values are defined by the pseudocode:
  *
- * <pre>
- * if (constants.length < dstNumBands) {
+ * <pre>{@code
+ * if (constants.length &lt; dstNumBands) {
  *     dst[x][y][b] = constants[0] - src[x][y][b];
  * } else {
  *     dst[x][y][b] = constants[b] - src[x][y][b];
  * }
- * </pre>
+ * }</pre>
  *
  * <p>
  *

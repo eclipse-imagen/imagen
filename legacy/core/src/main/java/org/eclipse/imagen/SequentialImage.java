@@ -23,7 +23,7 @@ package org.eclipse.imagen;
  *
  * <p>This class is equivalent to an <code>AttributedImage</code> with an attribute defined as:
  *
- * <pre>
+ * <pre>{@code
  * public class SequentialAttribute {
  *     protected Object position;
  *     protected Float timeStamp;
@@ -42,7 +42,7 @@ package org.eclipse.imagen;
  *         return false;
  *     }
  * }
- * </pre>
+ * }</pre>
  *
  * @see ImageSequence
  * @deprecated Use <code>AttributedImage</code> instead.
