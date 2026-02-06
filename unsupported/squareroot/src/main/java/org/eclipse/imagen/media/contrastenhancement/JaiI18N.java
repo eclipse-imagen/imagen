@@ -17,7 +17,8 @@
 */
 package org.eclipse.imagen.media.contrastenhancement;
 
-public class JaiI18N {
+/** Internationalization support */
+class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.contrastenhancement";
 
     public static String getString(String key) {

@@ -17,6 +17,7 @@
 
 package org.eclipse.imagen.media.util;
 
+/** Internationalization support */
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.util";
 
