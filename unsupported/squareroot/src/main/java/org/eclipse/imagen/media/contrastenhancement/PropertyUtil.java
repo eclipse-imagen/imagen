@@ -133,7 +133,7 @@ public class PropertyUtil {
      *
      * @param propertyNames List of property names to search
      * @param prefix Prefix used to match
-     * @return Matching property names, or or {@code null} if propertyNames were {@code null}
+     * @return Matching property names, or {@code null} if propertyNames were {@code null}
      * @exception IllegalArgumentException if <code>prefix</code> is {@code null} and {@code propertyNames} is non-
      *     <code>null</code>.
      */
