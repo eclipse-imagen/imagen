@@ -10,7 +10,7 @@ package org.eclipse.imagen.demo.medical;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-/** The class for inetrnationalization. */
+/** The class for internationalization. */
 class JaiI18N {
     static String packageName = "";
     private static ResourceBundle resources = ResourceBundle.getBundle("MedicalApp", Locale.getDefault());

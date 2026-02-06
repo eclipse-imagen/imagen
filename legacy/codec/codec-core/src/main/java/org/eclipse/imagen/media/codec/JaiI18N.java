@@ -19,6 +19,7 @@ package org.eclipse.imagen.media.codec;
 
 import org.eclipse.imagen.media.codecimpl.util.PropertyUtil;
 
+/** The class for internationalization. */
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.codec";
 

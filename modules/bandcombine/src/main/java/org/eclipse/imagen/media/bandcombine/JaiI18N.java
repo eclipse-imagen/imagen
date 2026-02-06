@@ -19,7 +19,7 @@ package org.eclipse.imagen.media.bandcombine;
 
 import org.eclipse.imagen.media.util.PropertyUtil;
 
-/** Internationalization Class */
+/** The class for internationalization. */
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.bandcombine";
 

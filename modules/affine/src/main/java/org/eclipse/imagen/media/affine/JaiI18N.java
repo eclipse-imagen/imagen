@@ -19,6 +19,7 @@ package org.eclipse.imagen.media.affine;
 
 import org.eclipse.imagen.media.util.PropertyUtil;
 
+/** The class for internationalization. */
 class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.affine";
 
