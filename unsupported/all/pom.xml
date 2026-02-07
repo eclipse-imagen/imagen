@@ -17,6 +17,7 @@
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>translate</artifactId>
@@ -25,6 +26,13 @@
     </dependency>
     
     <!-- unsupported modules provided "as is" without testing or QA -->
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-builder</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-unsupported-core</artifactId>

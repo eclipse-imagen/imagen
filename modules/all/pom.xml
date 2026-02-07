@@ -99,12 +99,6 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imagen-builder</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
       <artifactId>clamp</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
@@ -250,12 +244,6 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>shadedrelief</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.imagen</groupId>
-      <artifactId>square-root</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
