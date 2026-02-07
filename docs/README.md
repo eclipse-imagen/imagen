@@ -65,6 +65,10 @@ Content:
 * [index.md](index.md) - main page
 * [guide](guide) - Programming Guide
 
+Generated:
+
+* [javadocs](javadocs) - refresh using `bin/apidocs.sh`
+
 ## Pages
 
 Each page of content starts with a YAML front matter snippet located between two ``---`` lines.

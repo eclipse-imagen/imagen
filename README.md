@@ -109,6 +109,14 @@ On main:
    mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.1
    ```
 
+4. Update the javadocs:
+   
+   ```bash
+   bin/apidocs.sh
+   ```
+   
+   Review `docs/javadocs/index.html` and commit.
+
 3. Commit this change.
 
    ```
@@ -182,23 +190,23 @@ On main:
    
    Check the artifacts work as expected before manually publishing.
  
-4. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases)
+3. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases)
 
-  1. Navigate to https://github.com/eclipse-imagen/imagen/releases and use "Draft new Release"
-     based on your tag.
-
-  2. Copy the release notes:
-
-     Example: [0.9.1](tps://github.com/eclipse-imagen/imagen/releases/tag/0.9.1]
-     
-     You may also wish to hit "generate release notes".
-
-  3. Add release artifacts (from the `target` folders):
-
-    * modules/all/target/imagen-all-0.9.1.jar
-    * legacy/all/target/imagen-legacy-all-0.9.1.jar
-
-  4. Tip: Mark as a draft release (until Eclipse review process completes)
+   1. Navigate to https://github.com/eclipse-imagen/imagen/releases and use "Draft new Release"
+      based on your tag.
+ 
+   2. Copy the release notes:
+ 
+      Example: [0.9.1](https://github.com/eclipse-imagen/imagen/releases/tag/0.9.1)
+      
+      You may also wish to hit "generate release notes".
+ 
+   3. Add release artifacts (from the `target` folders):
+ 
+     * modules/all/target/imagen-all-0.9.1.jar
+     * legacy/all/target/imagen-legacy-all-0.9.1.jar
+ 
+   4. Tip: Mark as a draft release (until Eclipse review process completes)
 
 ### Post release
 
@@ -210,7 +218,13 @@ Update main to the next release version:
    mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.2-SNAPSHOT
    ```
 
-2. Compile to test, and commit this change.
+2. Update version number in `docs/_config.yml`:
+   
+   ```
+   imagen_version: "0.9.2-SNAPSHOT"
+   ```
+   
+3. Compile to test, and commit this change.
 
    ```
    mvn clean install
