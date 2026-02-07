@@ -84,14 +84,23 @@
 
       <!-- javadoc configuration -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
-          <show>public</show>
-          <header>${project.name} ${project.version}</header>
-          <footer>${project.name} ${project.version}</footer>
+          <release>17</release>
+          <!-- Force non-modular mode for projects without module-info.java -->
+          <breakiterator>true</breakiterator>
+          <doclint>none</doclint>
+          <encoding>UTF-8</encoding>
+          <excludePackageNames>javax:it.geosolutions</excludePackageNames>
           <failOnError>false</failOnError>
+          <footer>${project.name} ${project.version}</footer>
+          <header>${project.name} ${project.version}</header>
+          <legacyMode>true</legacyMode>
+          <noqualifier>all</noqualifier>
+          <quiet>true</quiet>
+          <show>public</show>
+          <skip>${javadoc.skip}</skip>
+          <version>false</version>
           <groups>
             <group>
               <title>Core</title>
@@ -102,6 +111,10 @@
               <packages>org.eclipse.imagen.media.*</packages>
             </group>
           </groups>
+          <links>
+            <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
+            <link>https://locationtech.github.io/jts/javadoc/</link>
+          </links>
         </configuration>
         <executions>
           <execution>
