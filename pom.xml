@@ -88,6 +88,7 @@
     <commons.io.version>2.14.0</commons.io.version>
     <guava.version>33.5.0-jre</guava.version>
     <jts.version>1.20.0</jts.version>
+    <javadoc.skip>true</javadoc.skip>
     <spotless.action>apply</spotless.action>
     <spotless.apply.skip>false</spotless.apply.skip>
     <pom.fmt.action>sort</pom.fmt.action>
@@ -312,13 +313,26 @@
 
   <profiles>
     <profile>
+      <id>javadoc</id>
+      <activation>
+        <property>
+          <name>release</name>
+        </property>
+      </activation>
+      <properties>
+        <javadoc.skip>false</javadoc.skip>
+      </properties>
+    </profile>
+    <profile>
       <id>release</id>
       <activation>
         <property>
           <name>release</name>
         </property>
       </activation>
-
+      <properties>
+        <javadoc.skip>false</javadoc.skip>
+      </properties>
       <build>
         <plugins>
           <!--
