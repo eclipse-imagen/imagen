@@ -11,8 +11,8 @@ search_enabled: true
 aux_links:
     "API":
      - "/javadocs/index.html"
-    "Version 0.9.2":
-     - "https://github.com/eclipse-imagen/imagen/tags"
+    "Releases":
+     - "https://github.com/eclipse-imagen/imagen/releases"
     "Eclipse Project":
       - "https://projects.eclipse.org/projects/technology.imagen"
     "GitHub":
