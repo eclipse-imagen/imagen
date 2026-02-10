@@ -44,8 +44,8 @@ Contents:
 
 Appendix:
 
-* [Programming Examples](examples)
+A. [Programming Examples](examples)
 
-* [API Summary](api-summary)
+B. [API Summary](api-summary)
 
-* [Image Data Codecs](codecs)
+C. [Image Data Codecs](codecs)

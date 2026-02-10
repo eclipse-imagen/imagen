@@ -74,7 +74,7 @@ Summary\"](../api-summary),** summarizes the imaging interfaces, and classes, in
 
 The **[Glossary](../glossary)** contains descriptions of significant terms that appear in this book.
 
-Related Documentation
+Related Documentation <a name="related"></a>
 ---------------------
 
 For more information on digital imaging, we suggest you refer to the
