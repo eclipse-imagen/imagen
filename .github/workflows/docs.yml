@@ -11,17 +11,26 @@ on:
   push:
     branches:
       - main
+    paths:
+      - docs/**
+      - modules/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - modules/**
 
 jobs:
-  build:
+  docs:
     runs-on: [ubuntu-24.04]
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 17
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 17
     - name: Maven repository caching
       uses: actions/cache@v4
       with:
@@ -33,21 +42,23 @@ jobs:
       # See: https://github.com/actions/virtual-environments/issues/1187#issuecomment-686735760
       run: sudo ethtool -K eth0 tx off rx off
     - name: Build with Maven
+      working-directory: modules
       run: |
-        mvn -B -fae clean install -Dspotless.action=check -Dpom.fmt.action=verify -Dqa=true -DskipTests=true
+        mvn -B -ntp -T1C -Dspotless.apply.skip=true -Dpom.fmt.skip=true -fae clean install
     - name: Build Javadocs
       working-directory: modules
       run: |
         mvn -B -fae javadoc:aggregate -Pjavadoc
     - name: Stage to docs/javadocs
       run: |
-        rm -r docs/javadocs/*
-        mv modules/target/reports/apidocs/* docs/javadocs
+        rm -r docs/javadocs
+        mv modules/target/reports/apidocs docs/javadocs
     - name: Remove SNAPSHOT jars from repository
       run: |
         find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
     - name: Deploy to gh-pages branch
       uses: peaceiris/actions-gh-pages@v4
+      if: github.event_name != 'pull_request'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs
