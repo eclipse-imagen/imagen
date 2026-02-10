@@ -9,37 +9,46 @@ nav_order: 19
 
 This appendix describes the ImageN image data compression coders and decoders (codecs).
 
+These are the original JAI Codecs which have been superseded by the Java and ImageIO implementations.
 
-11.1 Introduction
+These are provided as a legacy-codec-core dependency for applications wishing to maintain backwards compatibility.
+
+```xml
+   <dependency>
+     <groupId>org.eclipse.imagen</groupId>
+     <artifactId>imagen-legacy-codec-core</artifactId>
+     <version>0.9.2-SNAPSHOT</version>
+   </dependency>
+```
+
+C.1 Introduction
 --------------------------------------
 
 The `org.eclipse.imagen.codec` package provides a set of interfaces and
-classes for encoding and decoding compressed image data files. Java
-Advanced Imaging currently supports the following codecs:
+classes for encoding and decoding compressed image data files. ImageN
+supports the following codecs:
 
-  [Codec]{#51903}   [Description]{#51905}
-  ----------------- ----------------------------------------------------------
-  [BMP]{#51907}     [Microsoft Windows bitmap image file format]{#51909}
-  [FPX]{#56606}     [FlashPix by the Digital Imaging Group (DIG)]{#56608}
-  [JPEG]{#51911}    [Joint Photographic Experts Group (JPEG) format]{#51913}
-  [PNG]{#55152}     [Portable Network Graphics file format]{#55154}
-  [PNM]{#51915}     [Portable aNy Map file format]{#51917}
-
-  : 
+| Codec | Description |
+| ----- | ------------|
+| BMP   | Microsoft Windows bitmap image file format |
+| FPX   | FlashPix by the Digital Imaging Group (DIG) |
+| JPEG  |    [Joint Photographic Experts Group (JPEG) format |
+| PNG   |   Portable Network Graphics file format |
+| PNM   | Portable aNy Map file format |
 
 The `org.eclipse.imagen.codec` package also enables you to create your
 own additional codecs if those listed above are not sufficient. See
 [Chapter 12, \"Extending the API](../extension),\" for
 more information.
 
-The Java Advanced Imaging codecs are used to both read (decode) and
+The ImageN codecs are used to both read (decode) and
 write (encode) compressed images. Decode operations convert compressed
 image data back into the uncompressed form. Encode operations convert
 original image data into a compressed data form. These are often
 called *image coding* operations, because they use data coding methods
 to make the conversion to and from the compressed form.
 
-As shown in [Figure 11-1](../Compression), the image
+As shown in [Figure C-1](Compression.doc.anc.gif), the image
 decode operations transform an `InputStream` into a `BufferedImage` or
 `Raster` object. The image encode operations transform a
 `BufferedImage` or `Raster` into an `OutputStream`. Various parameters
@@ -48,44 +57,40 @@ different for each codec, but include such things as the bit depth,
 choice of conversion tables, and factors that affect image quality and
 compression ratio.
 
-![](../Compression.doc.anc.gif)
-
+![](Compression.doc.anc.gif)
 
 If you need to know more about image data compression than is
-presented here, see [\"Related
-Documentation](Preface)\" in the Preface.
+presented here, see "[Related Documentation](../preface/#related)" in the Preface.
 
 
-11.2 Interfaces and Classes
+C.2 Interfaces and Classes
 ------------------------------------------------
 
 The following tables list the interfaces and classes used for image
 data compression and decompression. These interfaces and classes are
 all part of the `org.eclipse.imagen.codec` package.
 
-  [Interface]{#52066}          [Description]{#52068}
-  ---------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------
-  [ImageDecoder]{#52074}       [Describes objects that transform an InputStream into a BufferedImage or Raster.]{#52098}
-  [ImageEncoder]{#52150}       [Describes objects that transform a BufferedImage or Raster into an OutputStream.]{#52152}
-  [ImageDecodeParam]{#52141}   [Extends: java.lang.Cloneable]{#52143} [An empty (marker) interface to be implemented by all image decoder parameter classes.]{#52144}
-  [ImageEncodeParam]{#52078}   [Extends: ImageDecodeParam, java.lang.Cloneable]{#52080} [An empty (marker) interface to be implemented by all image encoder parameter classes.]{#52113}
+**Table C-1 Codec Interfaces** <a name="table-C-1"></a>
 
-  :  **[*Table 11-1*  Codec
-  Interfaces]{#52062}**
+| Interface | Description |
+| ----- | ------------|
+| ImageDecoder  | Describes objects that transform an InputStream into a BufferedImage or Raster. |
+| ImageEncoder  | Describes objects that transform a BufferedImage or Raster into an OutputStream. |
+| ImageDecodeParam  | Extends: `java.lang.Cloneable`  <br/> An empty (marker) interface to be implemented by all image decoder parameter classes. |
+| ImageEncodeParam  | Extends: `ImageDecodeParam`, `java.lang.Cloneable` <br/> An empty (marker) interface to be implemented by all image encoder parameter classes. |
 
-  [Class]{#52159}              [Description]{#52161}
-  ---------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  [ImageCodec]{#52163}         [Extends: java.lang.Object]{#52190} [Allows the creation of image decoders and encoders. Instances of ImageCodec may be registered by name. Once a codec has been registered, the name associated with it may be used as the name parameter in the createImageEncoder and createImageDecoder methods.]{#52192}
-  [ImageDecoderImpl]{#52167}   [Extends: java.lang.Object]{#52228} [Implements: ImageDecoder]{#52169} [An implementation of the ImageDecoder interface useful for subclassing.]{#52238}
-  [ImageEncoderImpl]{#52171}   [Extends: java.lang.Object]{#52248} [Implements: ImageEncoder]{#52249} [An implementation of the ImageEncoder interface useful for subclassing.]{#52173}
-  [BMPEncodeParam]{#52175}     [Extends: java.lang.Object]{#52259} [Implements: ImageEncodeParam]{#52177} [Specifies parameters for encoding BMP format image files.]{#52269}
-  [JPEGEncodeParam]{#52179}    [Extends: java.lang.Object]{#52276} [Implements: ImageEncodeParam, com.sun.image.codec.jpeg.JPEGEncodeParam]{#52181} [Specifies parameters for encoding JPEG format image files.]{#52284}
-  [PNMEncodeParam]{#52183}     [Extends: java.lang.Object]{#52288} [Implements: ImageEncodeParam]{#52185} [Specifies parameters for encoding PNM format image files.]{#52296}
+**Table C-2 Codec Classes** <a name="table-C-2"></a>
 
-  :  **[*Table 11-2*  Codec Classes]{#52155}**
+| Class  | Description  |
+| ------ | ------------ |
+| ImageCodec  | Extends: `java.lang.Object`  <br/> Allows the creation of image decoders and encoders. Instances of ImageCodec may be registered by name. Once a codec has been registered, the name associated with it may be used as the name parameter in the createImageEncoder and createImageDecoder methods. |
+| ImageDecoderImpl  | Extends: `java.lang.Object`  <br/> Implements: `ImageDecoder`  <br/> An implementation of the ImageDecoder interface useful for subclassing. |
+| ImageEncoderImpl  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncoder`  <br/> An implementation of the ImageEncoder interface useful for subclassing. |
+| BMPEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`  <br/> Specifies parameters for encoding BMP format image files. |
+| JPEGEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`, `com.sun.image.codec.jpeg.JPEGEncodeParam`  <br/> Specifies parameters for encoding JPEG format image files. |
+| PNMEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`  <br/> Specifies parameters for encoding PNM format image files. |
 
-
-11.3 Encoding a Compressed Image File
+C.3 Encoding a Compressed Image File
 ----------------------------------------------------------
 
 The encoding operation is usually performed at the sink end of a
@@ -98,92 +103,61 @@ The encoding of an image file into a supported image format is done
 with one of the `ImageCodec.createImageEncoder` methods. To encode a
 compressed image file, you:
 
+```java
+RenderedImage im;
+String filename;
 
-                 RenderedImage im;
-                 String filename;
+FileOutputStream dst = new FileOutputStream(filename)
 
+ImageEncoder enc =
+    ImageCodec.createImageEncoder("codec", dst, null);
+```
 
-                 FileOutputStream dst = new FileOutputStream(filename)
+The "codec" parameter specifies the name of the codec to be used ("BMP", "JPEG", "PNG", or "PNM"). The dst parameter specifies the OutputStream to write to.
 
-
-                 ImageEncoder enc =
-                     ImageCodec.createImageEncoder("codec", dst, null);
-
-
-     The "codec" parameter specifies the name of the codec to be used ("BMP", "JPEG", "PNG", or "PNM"). The dst parameter specifies the OutputStream to write to.
-
-
-                 enc.encode(im);
-
-
-                 dst.close();
+```java
+enc.encode(im);
+dst.close();
+```
 
 The following sample code is an example of encoding a BMP file.
 
 
 ------------------------------------------------------------------------
 
-         RenderedImage im;
+```java
+RenderedImage im;
+String filename;
 
-         String filename;
-
-         
-
-         FileOutputStream dst = new FileOutputStream(filename)
-
-         ImageEncoder enc =
-
-             ImageCodec.createImageEncoder("BMP", dst, null);
-
-         enc.encode(im);
-
-         dst.close();
+FileOutputStream dst = new FileOutputStream(filename)
+ImageEncoder enc =
+    ImageCodec.createImageEncoder("BMP", dst, null);
+enc.encode(im);
+dst.close();
+```
 
 ------------------------------------------------------------------------
 
-**API:** `org.eclipse.imagen.codec.ImageCodec |
-|                                   | `
+**API:** `org.eclipse.imagen.codec.ImageCodec`  
 
+Returns an `ImageEncoder` object suitable for encoding to the supplied `OutputStream`, using the supplied `ImageEncodeParam` object.
+
+```
     static ImageEncoder createImageEncoder(java.lang.String name, 
-    java.io.OutputStream dst, ImageEncodeParam param)
-
-:   returns an `ImageEncoder` object suitable for encoding to the
-    supplied `OutputStream`, using the supplied `ImageEncodeParam`
-    object.
-    *Parameters*:
-    `name`
-    The name associated with the codec (`"BMP"`, `"JPEG"`, or
-    `"PNM"`).
-    `dst`
-    The `OutputStream` to write to.
-    `param`
-    An instance of `ImageEncodeParam` suitable for use with the named
-    codec, or null.
+                                           java.io.OutputStream dst,
+                                           ImageEncodeParam param)
+```
 
 
-    static ImageEncoder createImageEncoder(java.lang.String name, 
-    java.io.OutputStream dst)
+**API:** `org.eclipse.imagen.codec.ImageEncoder`
 
-:   Returns an `ImageEncoder` object suitable for encoding to the
-    supplied `OutputStream` object. A null `ImageEncoderParam` is
-    used.
-
-**API:** `org.eclipse.imagen.codec.ImageEncod |
-|                                   | er`
-
+```
     void encode(java.awt.image.Raster ras)
-
-:   encodes a `Raster` and writes the output to the `OutputStream`
-    associated with this `ImageEncoder`.
-
-
     void encode(java.awt.image.RenderedImage im)
-
-:   encodes a `RenderedImage` and writes the output to the
-    `OutputStream` associated with this `ImageEncoder`.
+```
 
 
-11.4 Decoding a Compressed Image File
+C.4 Decoding a Compressed Image File
 ----------------------------------------------------------
 
 The decoding operation is usually performed at the source end of a
@@ -198,67 +172,36 @@ The following sample code is an example of decoding a JPEG file.
 
 
 ------------------------------------------------------------------------
+```java
+RenderedImage im;
+String filename;
 
-         RenderedImage im;
-
-         String filename;
-
-         
-
-         FileInputStream dst = new FileInputStream(filename)
-
-         ImageDecoder dec =
-
-             ImageCodec.createImageDecoder("JPEG", dst, null);
-
-         enc.decode(im);
-
-         dst.close();
-
+FileInputStream dst = new FileInputStream(filename)
+ImageDecoder dec =
+    ImageCodec.createImageDecoder("JPEG", dst, null);
+enc.decode(im);
+dst.close();
+```
 ------------------------------------------------------------------------
 
-**API:** `org.eclipse.imagen.codec.ImageCodec |
-|                                   | `
+**API:** `org.eclipse.imagen.codec.ImageCodec`
 
-    static ImageDecoder createImageDecoder(java.lang.String name, 
-    java.io.InputStream src, ImageDecodeParam param)
+```
+    static ImageEncoder createImageEncoder(java.lang.String name, 
+                                           java.io.OutputStream dst,
+                                           ImageEncodeParam param)
+    static ImageEncoder createImageEncoder(java.lang.String name, 
+                                           java.io.OutputStream dst)
+```
 
-:   returns an `ImageDecoder` object suitable for decoding from the
-    supplied `InputStream`, using the supplied `ImageDecodeParam`
-    object.
-    *Parameters*:
-    `name`
-    The name associated with the codec (`"BMP"`, `"JPEG"`, or
-    `"PNM"`).
-    `src`
-    The `InputStream` to read from.
-    `param`
-    An instance of `ImageEncodeParam` suitable for use with the named
-    codec, or null.
+**API:** `org.eclipse.imagen.codec.ImageEncoder`
 
+```
+    void encode(java.awt.image.Raster ras)
+    void encode(java.awt.image.RenderedImage im)
+```
 
-    static ImageDecoder createImageDecoder(java.lang.String name, 
-    java.io.InputStream src)
-
-:   returns an `ImageDecoder` object suitable for decoding from the
-    supplied `InputStream`. A null `ImageDecodeParam` is used.
-
-**API:** `org.eclipse.imagen.codec.ImageDecod |
-|                                   | er`
-
-    java.awt.image.Raster decodeAsRaster()
-
-:   returns a `Raster` that contains the decoded contents of the
-    `InputStream` associated with this `ImageDecoder`.
-
-
-    java.awt.image.RenderedImage decodeAsRenderedImage()
-
-:   returns a `RenderedImage` that contains the decoded contents of
-    the `InputStream` associated with this `ImageDecoder`.
-
-
-11.5 Standard Image Compression Schemes
+C.5 Standard Image Compression Schemes
 ------------------------------------------------------------
 
 Several standardized image compression techniques have evolved to
@@ -271,7 +214,7 @@ and decoders to support special needs. See [Chapter 12, \"Extending
 the API](../extension),\" for more information.
 
 
-### 11.5.1 BMP Coding
+### C.5.1 BMP Coding
 
 The BMP (Microsoft Windows bitmap image file) file format is a
 commonly-used file format on IBM PC-compatible computers. BMP files
@@ -327,85 +270,66 @@ the number of bits that define each pixel and the maximum number of
 colors in the bitmap. The bit count information can have any of the
 following values:
 
-  [Value]{#51720}   [Description]{#51722}
-  ----------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  [1]{#51724}       [Bitmap is monochrome and the color table contains two entries. Each bit in the bitmap array represents a pixel.]{#51748}
-  [4]{#51728}       [Bitmap has a maximum of 16 colors. Each pixel in the bitmap is represented by a four-bit index into the color table.]{#51755}
-  [8]{#51732}       [Bitmap has a maximum of 256 colors. Each pixel in the bitmap is represented by a one-byte index into the color table.]{#51766}
-  [24]{#51736}      [Bitmap has a maximum of 2^24^ colors - each three-byte sequence in the bitmap array represents the relative intensities of red, green, and blue, respectively, for a pixel.]{#51779}
-
-  : 
+| Value  | Description |
+| ------ | ----------- 
+| 1  | Bitmap is monochrome and the color table contains two entries. Each bit in the bitmap array represents a pixel. |
+| 4  | Bitmap has a maximum of 16 colors. Each pixel in the bitmap is represented by a four-bit index into the color table. |
+| 8  | Bitmap has a maximum of 256 colors. Each pixel in the bitmap is represented by a one-byte index into the color table. |
+| 24  | Bitmap has a maximum of 2^24^ colors - each three-byte sequence in the bitmap array represents the relative intensities of red, green, and blue, respectively, for a pixel. |
 
 
-#### 11.5.1.1 BMP Coding Parameters
+#### C.5.1.1 BMP Coding Parameters
 
 Java Advanced Imaging provides four parameters for defining BMP
 coding: version, compression type, data layout, and the number of bits
 per pixel.
 
 
-#### 11.5.1.2 BMP Version
+#### C.5.1.2 BMP Version
 
 Java Advanced Imaging currently reads and writes Version2, Version3,
 and some of the Version 4 images. The BMP version number is read and
 specified with `getVersion` and `setVersion` methods in the
 `BMPEncodeParam` class. The BMP version parameters are as follows:
 
-  [Parameter]{#51346}    [Description]{#51348}
-  ---------------------- -----------------------------------
-  [VERSION\_2]{#51354}   [Specifies BMP Version 2]{#51356}
-  [VERSION\_3]{#51358}   [Specifies BMP Version 3]{#51360}
-  [VERSION\_4]{#51362}   [Specifies BMP Version 4]{#51364}
-
-  : 
+| Parameter  | Description  |
+| ---------- | ------------ |
+| VERSION_2  | Specifies BMP Version 2 |
+| VERSION_3  | Specifies BMP Version 3 |
+| VERSION_4  | Specifies BMP Version 4 |
 
 If not specifically set, `VERSION_3` is the default version.
 
-**API:** `org.eclipse.imagen.codec.BMPEncodeP |
-|                                   | aram`
+**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
 
+```
     int getVersion()
-
-:   returns the BMP version to be used.
-
-
     void setVersion(int versionNumber)
+```
 
-:   sets the BMP version to be used.
-
-
-#### 11.5.1.3 BMP Compression Type
+#### C.5.1.3 BMP Compression Type
 
 The BMP compression type is read and specified with `getCompression`
 and `setCompression` methods in the `BMPEncodeParam` class. Java
 Advanced Imaging currently supports four compression types:
 
-  [Parameter]{#51404}       [Description]{#51406}
-  ------------------------- ----------------------------------------------------------------------------------------
-  [BI\_RGB]{#51427}         [Specifies that the bitmap is not compressed.]{#51429}
-  [BI\_RLE8]{#51431}        [Specifies a run-length encoded format for bitmaps with eight bits per pixel.]{#51433}
-  [BI\_RLE4]{#51435}        [Specifies a run-length encoded format for bitmaps with four bits per pixel.]{#51437}
-  [BI\_BITFIELDS]{#51453}   [Specifies bitfield compression]{#51455}
+| Parameter  | Description |
+| ---------- | ----------- |
+| BI_RGB  | Specifies that the bitmap is not compressed. |
+| BI_RLE8  | Specifies a run-length encoded format for bitmaps with eight bits per pixel. |
+| BI_RLE4  | Specifies a run-length encoded format for bitmaps with four bits per pixel. |
+| BI_BITFIELDS  | Specifies bitfield compression |
 
-  : 
+If not specifically set, `BI_RGB` is the default type (no compression).
 
-If not specifically set, `BI_RGB` is the default type (no
-compression).
+**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
 
-**API:** `org.eclipse.imagen.codec.BMPEncodeP |
-|                                   | aram`
-
+```
     int getCompression()
-
-:   returns the compression type to be used.
-
-
     void setCompression(int compressionType)
+```
 
-:   sets the compression type to be used.
-
-
-#### 11.5.1.4 BMP Data Layout
+#### C.5.1.4 BMP Data Layout
 
 The scan lines in the BPM bitmap are stored from the bottom up. This
 means that the first byte in the array represents the pixels in the
@@ -416,27 +340,19 @@ The BMP bitmap data layout is read and specified with `getDataLayout`
 and `setDataLayout` methods in the `BMPEncodeParam` class. The data
 layout is one of the following:
 
-  [Parameter]{#51542}    [Description]{#51544}
-  ---------------------- ---------------------------------------------
-  [TOP\_DOWN]{#51546}    [The constant for top-down layout]{#51548}
-  [BOTTOM\_UP]{#51550}   [The constant for bottom-up layout]{#51552}
+| Parameter  | Description  |
+| ---------- | ------------ |
+| TOP_DOWN  | The constant for top-down layout |
+| BOTTOM_UP  | The constant for bottom-up layout |
 
-  : 
+**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
 
-**API:** `org.eclipse.imagen.codec.BMPEncodeP |
-|                                   | aram`
-
+```
     int getDataLayout()
-
-:   returns the data layout to be used.
-
-
     void setDataLayout(int dataLayout)
+```
 
-:   sets the data layout to be used.
-
-
-#### 11.5.1.5 BMP Bits Per Pixel
+#### C.5.1.5 BMP Bits Per Pixel
 
 The number of bits per pixel is specified with `getBitsPerPixel` and
 `setBitsPerPixel` methods in the `BMPEncodeParam` class. Valid values
@@ -444,20 +360,14 @@ are 1, 4, 8, and 24. Support for 16- and 32-bit images has also been
 implemented in Java Advanced imaging, though such BMP images are not
 very common.
 
-**API:** `org.eclipse.imagen.codec.BMPEncodeP |
-|                                   | aram`
+**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
 
+```
     int getBitsPerPixel()
-
-:   returns the bit depth to be used.
-
-
     void setBitsPerPixel(int bitsPerPixel)
+```
 
-:   sets the bit depth to be used.
-
-
-### 11.5.2 FPX (FlashPix) Coding
+### C.5.2 FPX (FlashPix) Coding
 
 The FlashPix standard was developed by the Digital Imaging Group
 (DIG), a not-for-profit consortium of several companies whose purpose
@@ -497,7 +407,7 @@ and IIP does the rest. If a problem should occur, IIP returns an error
 message.
 
 
-### 11.5.3 JPEG Coding
+### C.5.3 JPEG Coding
 
 The JPEG standard was developed by a working group, known as the Joint
 Photographic Experts Group (JPEG). The JPEG image data compression
@@ -549,7 +459,7 @@ pixel aspect ratio (derived from *x* and *y* pixel density), and
 thumbnail.
 
 
-#### 11.5.3.1 JPEG Encoding Overview
+#### C.5.3.1 JPEG Encoding Overview
 
 Java Advanced Imaging uses the JPEG baseline DCT coding process, shown
 in [Figure 11-2](../Compression).
@@ -590,7 +500,7 @@ with the quantizer table values. Finally, an inverse DCT is performed
 and the reconstructed image array is produced.
 
 
-#### 11.5.3.2 JPEG Coding Parameters
+#### C.5.3.2 JPEG Coding Parameters
 
 The following are the parameters that may be specified for JPEG DCT
 compression.
@@ -603,12 +513,10 @@ retrieve the quantization table that will be used in encoding a
 particular band of the image. There are, by default, two quantizer
 tables:
 
-  [Table]{#53022}   [Band]{#53024}
-  ----------------- ---------------------------
-  [0]{#53026}       [Band 0]{#53028}
-  [1]{#53030}       [All other bands]{#53032}
-
-  : 
+| Table  | Band |
+| ------ | ---- |
+| 0  | Band 0
+| 1  | All other bands
 
 The parameter `tableNum` is usually a value between 0 and 3. This
 value indicates which of four quantization tables you are specifying.
@@ -616,125 +524,84 @@ Table 0 is designed to be used with the luminance band of eight-bit
 YCC images. Table 1 is designed to be used with the chrominance bands
 of eight-bit YCC images. Tables 2 and 3 are not normally used.
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
 
+```java
     void setQTable(int tableNum, 
-    com.sun.image.codec.jpeg.JPEGQTable qTable)
-
-:   
-
+                   com.sun.image.codec.jpeg.JPEGQTable qTable)
 
     com.sun.image.codec.jpeg.JPEGQTable getQTable(int tableNum)
 
-:   
-
-
     void setQTableComponentMapping(int component, int table)
 
-:   
-
-
-    com.sun.image.codec.jpeg.JPEGQTable getQTableForComponent(int 
-    component)
-
-:   
-
+    com.sun.image.codec.jpeg.JPEGQTable getQTableForComponent(int component)
 
     int getQTableComponentMapping(int component)
-
-:   
-
+```
 
 ##### AC Huffman Table
 
 Parameters enable you to associate a particular AC Huffman table with
 a particular band of the image. The JPEG compressor supports four
 tables for the AC discrete cosine transform coefficients, as listed in
-[Table 11-3](../Compression).
+Table C-3.
 
-  [Table]{#53179}   [Band]{#53181}
-  ----------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  [0]{#53183}       [Encodes AC coefficients in band 0 (luminance band of eight-bit YCC images). This table contains the values specified in Table K.5 of the ISO JPEG specification.]{#53185}
-  [1]{#53187}       [Encodes AC coefficients of all other bands (chrominance band of eight-bit YCC images). This table contains the values specified in Table K.6 of the ISO JPEG specification.]{#53189}
-  [2]{#53191}       [Not used.]{#53193}
-  [3]{#53195}       [Not used.]{#53197}
+**Table C-3*  AC Huffman Tables** <a name="table-C-3"></a>
 
-  :  **[*Table 11-3*  AC Huffman
-  Tables]{#53175}**
+| Table  | Band |
+| ------ | ---- |
+| 0  | Encodes AC coefficients in band 0 (luminance band of eight-bit YCC images). This table contains the values specified in Table K.5 of the ISO JPEG specification.
+| 1  | Encodes AC coefficients of all other bands (chrominance band of eight-bit YCC images). This table contains the values specified in Table K.6 of the ISO JPEG specification.
+| 2  | Not used.
+| 3  | Not used.
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
 
+
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
+
+```java
     void setACHuffmanTable(int tableNum, 
-    com.sun.image.codec.jpeg.JPEGHuffmanTable huffTable)
+                           com.sun.image.codec.jpeg.JPEGHuffmanTable huffTable)
 
-:   
-
-
-    com.sun.image.codec.jpeg.JPEGHuffmanTable 
-    getACHuffmanTable(int tableNum)
-
-:   
-
+    com.sun.image.codec.jpeg.JPEGHuffmanTable getACHuffmanTable(int tableNum)
 
     void setACHuffmanComponentMapping(int component, int table)
 
-:   
-
-
     int getACHuffmanComponentMapping(int component)
-
-:   
-
+```
 
 ##### DC Huffman Table
 
 Parameters enable you to associate a particular DC Huffman table with
 a particular band of the image. The JPEG compressor supports four
 tables for the DC discrete cosine transform coefficients, as listed in
-[Table 11-4](../Compression).
+Table C-4.
 
-  [Table]{#53260}   [Band]{#53262}
-  ----------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  [0]{#53240}       [Encodes DC coefficients in band 0 (luminance band of eight-bit YCC images). This table contains the values specified in Table K.3 of the ISO JPEG specification.]{#53242}
-  [1]{#53244}       [Encodes DC coefficients of all other bands (chrominance band of eight-bit YCC images). This table contains the values specified in Table K.4 of the ISO JPEG specification.]{#53246}
-  [2]{#53248}       [Not used.]{#53250}
-  [3]{#53252}       [Not used.]{#53254}
+**Table C-4*  DC Huffman Tables** <a name="table-C-4"></a>
 
-  :  **[*Table 11-4*  DC Huffman
-  Tables]{#53232}**
+| Table  | Band |
+| ------ | ---- |
+| 0  | Encodes DC coefficients in band 0 (luminance band of eight-bit YCC images). This table contains the values specified in Table K.3 of the ISO JPEG specification.
+| 1  | Encodes DC coefficients of all other bands (chrominance band of eight-bit YCC images). This table contains the values specified in Table K.4 of the ISO JPEG specification.
+| 2  | Not used.
+| 3  | Not used.
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
 
+
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
+
+```java
     void setDCHuffmanTable(int tableNum, 
-    com.sun.image.codec.jpeg.JPEGHuffmanTable huffTable)
-
-:   
-
-
+                           com.sun.image.codec.jpeg.JPEGHuffmanTable huffTable)
+ 
     void setDCHuffmanComponentMapping(int component, int table)
 
-:   
+    com.sun.image.codec.jpeg.JPEGHuffmanTable getDCHuffmanTable(int tableNum)
 
-
-    com.sun.image.codec.jpeg.JPEGHuffmanTable 
-    getDCHuffmanTable(int tableNum)
-
-:   
-
-
-    com.sun.image.codec.jpeg.JPEGHuffmanTable 
-    getDCHuffmanTableForComponent(int component)
-
-:   
-
+    com.sun.image.codec.jpeg.JPEGHuffmanTable getDCHuffmanTableForComponent(int component)
 
     int getDCHuffmanComponentMapping(int component)
-
-:   
-
+```
 
 ##### Horizontal and Vertical Subsampling
 
@@ -755,17 +622,16 @@ The horizontal and vertical offsets of the first sample in a
 subsampled component, Xoffseti\[0,0\] and Yoffseti\[0,0\], is defined
 to be:
 
-:   Xoffset*i*\[0,0\] = (Nsamples*ref* / Nsamples*i*) / 2 - 0.5\
-    Yoffset*i*\[0,0\] = (Nlines*ref* / Nlinesi) / 2 - 0.5
-    
-:   where
+```
+    Xoffset*i*[0,0] = (Nsamples*ref* / Nsamples*i*) / 2 - 0.5
+    Yoffset*i*[0,0] = (Nlines*ref* / Nlinesi) / 2 - 0.5
+``` 
 
-    :   Nsamples*ref* is the number of samples per line in the largest
-        component\
-        Nsamples*i* is the number of samples per line in the *i*th
-        component\
-        Nlines*ref* is the number of lines in the largest component\
-        Nlines*i* is the number of lines in the *i*th component
+Where
+:   Nsamples*ref* is the number of samples per line in the largest component  
+    Nsamples*i* is the number of samples per line in the *i*th component  
+    Nlines*ref* is the number of lines in the largest component  
+    Nlines*i* is the number of lines in the *i*th component
 
 Proper subsampling of components incorporates an antialiasing filter
 that reduces the spectral bandwidth of the full resolution components.
@@ -773,29 +639,17 @@ Subsampling can easily be accomplished using a symmetrical digital
 filter with an even number of taps (coefficients). A commonly used
 filter for 2:1 subsampling uses two taps (1/2, 1/2).
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
 
+```java
     void setHorizontalSubsampling(int component, int subsample)
-
-:   sets the horizontal subsampling value (number of samples per
-    line).
-
 
     void setVerticalSubsampling(int component, int subsample)
 
-:   sets the vertical subsampling value (number of lines).
-
-
     int getHorizontalSubsampling(int component)
 
-:   returns the horizontal subsampling value.
-
-
     int getVerticalSubsampling(int component)
-
-:   returns the vertical subsampling value.
-
+```
 
 ##### Marker Data
 
@@ -806,51 +660,41 @@ marker syntax is defined in Annex B of ISO DIS 10918-1. In addition, a
 JFIF file uses APP0 marker segments and constrains certain parameters
 in the frame header as defined below.
 
+```
          X'FF', SOI
-
               X'FF', APP0, length, identifier, version, units, XDensity,
-
          YDensity, Xthumbnail, Ythumbnail, (RGB)n
+```
 
-[Table 11-5](../Compression) describes the marker
-parameters.
+Table 11-5 describes the marker parameters.
 
-  [Parameter]{#53470}     [Size]{#53472}       [Description]{#53474}
-  ----------------------- -------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  [length]{#53476}        [2 bytes]{#53478}    [Total APP0 field byte count, including the byte count value (2 bytes), but excluding the APP0 marker itself]{#53530}
-  [identifier]{#53482}    [5 bytes]{#53484}    [X\'4A\', X\'46\', X\'49\', X\'46\', X\'00\']{#53486} [A zero terminated string (\"JFIF\") that uniquely identifies this APP0 marker.]{#53558}
-  [version]{#53488}       [2 bytes]{#53490}    [X\'0102\']{#53492} [The most significant byte is used for major revisions, the least significant byte for minor revisions. Version 1.02 is the current released revision.]{#53574}
-  [DensityUnit]{#53494}   [1 byte]{#53496}     [Units for the *x* and *y* densities:]{#53498} [0 = no units, *x* and *y* specify the pixel aspect ratio]{#53604} [1 = *x* and *y* are dots per inch]{#53606} [2 = *x* and *y* are dots per cm.]{#53602}
-  [XDensity]{#53500}      [2 bytes]{#53502}    [The horizontal pixel density (bytes per pixel).]{#53504}
-  [YDensity]{#53506}      [2 bytes]{#53508}    [The vertical pixel density (bytes per pixel).]{#53510}
-  [Xthumbnail]{#53512}    [1 byte]{#53514}     [The thumbnail horizontal pixel count.]{#53516}
-  [Ythumbnail]{#53518}    [1 byte]{#53520}     [The thumbnail vertical pixel count.]{#53522}
-  [(RGB)n]{#53524}        [3n bytes]{#53526}   [Packed (24-bit) RGB values for thumbnail pixels, n = Xthumbnail \* Ythumbnail.]{#53649}
+**Table C-5*  Marker Data** <a name="table-C-5"></a>
 
-  :  **[*Table 11-5*  Marker Data]{#53464}**
+| Parameter  | Size  | Description  |
+| ---------- | ----- | ------------ |
+| length     | 2 bytes  | Total APP0 field byte count, including the byte count value (2 bytes), but excluding the APP0 marker itself
+| identifier  | 5 bytes  | `4A`, `46`, `49`, `46`, `00` <br/> A zero terminated string (\"JFIF\") that uniquely identifies this APP0 marker.
+| version  | 2 bytes  | '0102   <br/> The most significant byte is used for major revisions, the least significant byte for minor revisions. Version 1.02 is the current released revision.
+| DensityUnit  | 1 byte  | Units for the *x* and *y* densities:  <br/>  0 = no units, *x* and *y* specify the pixel aspect ratio   <br/> 1 = *x* and *y* are dots per inch   <br/> 2 = *x* and *y* are dots per cm.
+| XDensity  | 2 bytes  | The horizontal pixel density (bytes per pixel).
+| YDensity  | 2 bytes  | The vertical pixel density (bytes per pixel).
+| Xthumbnail  | 1 byte  | The thumbnail horizontal pixel count.
+| Ythumbnail  | 1 byte  | The thumbnail vertical pixel count.
+| (RGB)n  | 3n bytes  | Packed (24-bit) RGB values for thumbnail pixels, n = Xthumbnail \* Ythumbnail.
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
 
+
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
+
+```java
     void setMarkerData(int marker, byte[][] data)
-
-:   sets the marker data.
-
 
     void addMarkerData(int marker, byte[] data)
 
-:   adds data to the marker.
-
-
     boolean getMarker(int marker)
 
-:   returns a marker.
-
-
     byte[][] getMarkerData(int marker)
-
-:   returns marker data.
-
+```
 
 ##### Density
 
@@ -862,13 +706,11 @@ The `setDensityUnit` method sets the unit of measure for the *x* and
 *y* values. The following values are legal for the `setDensityUnit`
 method:
 
-  [Value]{#53772}   [Meaning]{#53774}
-  ----------------- ----------------------------------------------------------------
-  [0]{#53776}       [No units. *x* and *y* specify the pixel aspect ratio]{#53778}
-  [1]{#53780}       [*x* and *y* are dots per inch]{#53782}
-  [2]{#53784}       [*x* and *y* are dots per cm.]{#53786}
-
-  : 
+| Value  | Meaning |
+| ------ | ------- |
+| 0  | No units. *x* and *y* specify the pixel aspect ratio
+| 1  | *x* and *y* are dots per inch
+| 2  | *x* and *y* are dots per cm.
 
 The `setXDensity` and `setYDensity` methods set the horizontal and
 vertical pixel density, respectively.
@@ -879,38 +721,21 @@ desired aspect ratio. For example, set `XDensity` = 1 and `YDensity` =
 1 to specify a 1:1 aspect ratio. The values for `XDensity` and
 `YDensity` should always be non-zero.
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
 
+```java
     void setDensityUnit(int unit)
-
-:   sets the unit of measure for the *x* and *y* values.
-
 
     void setXDensity(int density)
 
-:   sets the horizontal pixel density.
-
-
     void setYDensity(int density)
-
-:   sets the vertical pixel density.
-
 
     int getDensityUnit()
 
-:   returns the unit-of-measure setting.
-
-
     int getXDensity()
 
-:   returns the horizontal pixel density.
-
-
     int getYDensity()
-
-:   returns the vertical pixel density.
-
+```
 
 ##### Compression Quality
 
@@ -932,80 +757,46 @@ quality value greater than 1 produces a scaling factor less than 1.
 ------------------------------------------------------------------------
 
 **Note:** The values stored in the quantization table also affect
-image quality and compression ratio. See also [\"Quantization
-Table](../Compression).\"
+image quality and compression ratio. See also [Quantization
+Table](#quantization-table).\"
 
 ------------------------------------------------------------------------
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
 
+```java
     void setQuality(float quality, boolean forceBaseline)
-
-:   sets the compression quality factor.
-
-What does forceBaseline do - set to the baseline process?
-
+```
 
 ##### Miscellaneous
 
-These methods don\'t currently have a home. I\'m not sure what to do
-with them.
+These methods don't currently have a home. I'm not sure what to do with them.
 
-**API:** `org.eclipse.imagen.codec.JPEGEncode |
-|                                   | Param`
+**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
 
+```java
     void setImageInfoValid(boolean flag)
-
-:   
-
 
     void setTableInfoValid(boolean flag)
 
-:   
-
-
     void setRestartInterval(int restartInterval)
-
-:   
-
 
     int getWidth()
 
-:   
-
-
     int getHeight()
-
-:   
-
 
     boolean isImageInfoValid()
 
-:   
-
-
     boolean isTableInfoValid()
-
-:   
-
 
     int getEncodedColorID()
 
-:   
-
-
     int getNumComponents()
 
-:   
-
-
     int getRestartInterval()
+```
 
-:   
-
-
-### 11.5.4 PNG Coding
+### C.5.4 PNG Coding
 
 The PNG (Portable Network Graphics) is an extensible file format for
 the lossless, portable, compressed storage of raster images. PNG was
@@ -1015,17 +806,17 @@ images are supported, plus an optional alpha channel. Sample depths
 range from 1 to 16 bits.
 
 
-#### 11.5.4.1 PNG Hints
+#### C.5.4.1 PNG Hints
 
-[Table 11-6](../Compression) lists the PNG hints.
+Table 11-6 lists the PNG hints.
 
-  [Hint Key]{#56565}                         [Class]{#56567}     [Default Value]{#56569}
-  ------------------------------------------ ------------------- -------------------------
-  [KEY\_PNG\_EMIT\_ALPHA]{#56571}            [Boolean]{#56573}   [Boolean.FALSE]{#56575}
-  [KEY\_PNG\_EMIT\_16BITS]{#56577}           [Boolean]{#56579}   [Boolean.FALSE]{#56581}
-  [KEY\_PNG\_EMIT\_SQUARE\_PIXELS]{#56583}   [Boolean]{#56585}   [Boolean.FALSE]{#56587}
+**Table C-6*  PNG Hints** <a name="table-C-6"></a>
 
-  :  **[*Table 11-6*  PNG Hints]{#56559}**
+| Hint Key  | Class  | Default Value |
+| --------- | ------ | ------------- |
+| KEY_PNG_EMIT_ALPHA  | Boolean  | Boolean.FALSE
+| KEY_PNG_EMIT_16BITS  | Boolean  | Boolean.FALSE
+| KEY_PNG_EMIT_SQUARE_PIXELS  | Boolean  | Boolean.FALSE
 
 PNG images stored with a bit depth of 16 are truncated to eight bits
 of output unless the `KEY_PNG_EMIT_16BITS` hint is set to
@@ -1040,7 +831,7 @@ may be retrieved by means of the `pixel_aspect_ratio` property.
 Will there be a PNGEncodeParam class?
 
 
-### 11.5.5 PNM Coding
+### C.5.5 PNM Coding
 
 The PNM format is one of the extensions of the PBM file format (PBM,
 PGM, and PPM). The portable bitmap format is a
@@ -1068,20 +859,14 @@ The PNM fotmat comes in six variants:
 
 -   PPM raw - single-banded images
 
-**API:** `org.eclipse.imagen.codec.PNMEncodeP |
-|                                   | aram`
+**API:** `org.eclipse.imagen.codec.PNMEncodeParam`
 
+```java
     void setRaw(boolean raw)
-
-:   sets the RAWBITS option flag.
-
-
     boolean getRaw()
+```
 
-:   retrieves the RAWBITS option flag.
-
-
-### 11.5.6 TIFF Coding
+### C.5.6 TIFF Coding
 
 Note: TIFF image compression and decompression is not yet implemented.
 
@@ -1090,7 +875,7 @@ and some associated data. The tag indicates the purpose of the
 associated data. The tags and data define the image\'s format, size,
 and other parameters, including the image data itself.
 
-As shown in [Figure 11-3](../Compression), a TIFF image
+As shown in Figure C-3, a TIFF image
 file is divided into a header, one or more Image File Directories
 (IFD), IFD entries, and data.
 
@@ -1115,8 +900,9 @@ following information:
     relative to the beginning of the file. A TIFF image file generally
     includes a single IFD, but may contain more.
 
-![](../Compression.doc.anc2.gif)
+**Figure C-3* TIFF Header** <a name="figure-C-3"></a>
 
+![](Compression.doc.anc2.gif)
 
 The Image file directory contains the following:
 
@@ -1130,12 +916,12 @@ The Image file directory contains the following:
 
 -   Tag number - a tag that indicates the meaning of the following
     data. The Java Advanced Imaging TIFF reader reads all the tags
-    listed in [Table 11-7](Compression).
+    listed in Table C-7.
 
 
 -   Field type - defines the type of data. Java Advanced Imaging
     supports all 12 of the TIFF 6.0 standard data types listed in
-    [Table 11-8](../Compression).
+    Table C-8.
 
 
 -   Field length - four bytes that indicate the number of data items
@@ -1146,9 +932,9 @@ The Image file directory contains the following:
     field data, relative to the start of the file.
 
 
-#### 11.5.6.1 Image Tags
+#### C.5.6.1 Image Tags
 
-The tags listed in [Table 11-7](../Compression) define the
+The tags listed in Table C-7 define the
 parameters and data of the image stored in the TIFF file. The
 `TIFF_ImageWidth`, `TIFF_ImageLength`, and `TIFF_BitsPerSample` tags
 define the number of pixels in the image, the number of lines, and the
@@ -1156,91 +942,91 @@ pixel depth, respectively. The `TIFF_Compression` tag defines the data
 compression algorithm used to store the image, such as run-length
 coding, Lempel-Ziv-Welch (LZW), or JPEG.
 
-  [Tag Name]{#56008}                           [Tag Number]{#56010}
-  -------------------------------------------- ----------------------
-  [TIFF\_NewSubfileType]{#56012}               [254]{#56014}
-  [TIFF\_SubfileType]{#56016}                  [255]{#56018}
-  [TIFF\_ImageWidth]{#56020}                   [256]{#56022}
-  [TIFF\_ImageLength]{#56024}                  [257]{#56026}
-  [TIFF\_BitsPerSample]{#56028}                [258]{#56030}
-  [TIFF\_Compression]{#56032}                  [259]{#56034}
-  [TIFF\_PhotometricInterpretation]{#56036}    [262]{#56038}
-  [TIFF\_Thresholding]{#56040}                 [263]{#56042}
-  [TIFF\_CellWidth]{#56044}                    [264]{#56046}
-  [TIFF\_CellLength]{#56048}                   [265]{#56050}
-  [TIFF\_FillOrder]{#56052}                    [266]{#56054}
-  [TIFF\_DocumentName]{#56056}                 [269]{#56058}
-  [TIFF\_ImageDescription]{#56060}             [270]{#56062}
-  [TIFF\_Make]{#56064}                         [271]{#56066}
-  [TIFF\_Model]{#56068}                        [272]{#56070}
-  [TIFF\_StripOffsets]{#56072}                 [273]{#56074}
-  [TIFF\_Orientation]{#56076}                  [274]{#56078}
-  [TIFF\_SamplesPerPixel]{#56080}              [277]{#56082}
-  [TIFF\_RowsPerStrip]{#56084}                 [278]{#56086}
-  [TIFF\_StripByteCounts]{#56088}              [279]{#56090}
-  [TIFF\_MinSampleValue]{#56092}               [280]{#56094}
-  [TIFF\_MaxSampleValue]{#56096}               [281]{#56098}
-  [TIFF\_XResolution]{#56100}                  [282]{#56102}
-  [TIFF\_YResolution]{#56104}                  [283]{#56106}
-  [TIFF\_PlanarConfiguration]{#56108}          [284]{#56110}
-  [TIFF\_PageName]{#56112}                     [285]{#56114}
-  [IFF\_XPosition]{#56116}                     [286]{#56118}
-  [TIFF\_YPosition]{#56120}                    [287]{#56122}
-  [TIFF\_FreeOffsets]{#56124}                  [288]{#56126}
-  [TIFF\_FreeByteCounts]{#56128}               [289]{#56130}
-  [TIFF\_GrayResponseUnit]{#56132}             [290]{#56134}
-  [TIFF\_GrayResponseCurve]{#56136}            [291]{#56138}
-  [TIFF\_T4Options]{#56140}                    [291]{#56142}
-  [TIFF\_T6Options]{#56144}                    [293]{#56146}
-  [TIFF\_ResolutionUnit]{#56148}               [296]{#56150}
-  [TIFF\_PageNumber]{#56152}                   [297]{#56154}
-  [TIFF\_Software]{#56156}                     [301]{#56158}
-  [TIFF\_Software]{#56160}                     [305]{#56162}
-  [TIFF\_DateTime]{#56164}                     [306]{#56166}
-  [TIFF\_Artist]{#56168}                       [315]{#56170}
-  [TIFF\_HostComputer]{#56172}                 [316]{#56174}
-  [TIFF\_Predictor]{#56176}                    [317]{#56178}
-  [TIFF\_WhitePoint]{#56180}                   [318]{#56182}
-  [TIFF\_PrimaryChromaticities]{#56184}        [319]{#56186}
-  [TIFF\_ColorMap]{#56188}                     [320]{#56190}
-  [TIFF\_HalftoneHints]{#56192}                [321]{#56194}
-  [TIFF\_TileWidth]{#56196}                    [322]{#56198}
-  [TIFF\_TileLength]{#56200}                   [323]{#56202}
-  [TIFF\_TileOffsets]{#56204}                  [324]{#56206}
-  [TIFF\_TileByteCounts]{#56208}               [325]{#56210}
-  [TIFF\_InkSet]{#56212}                       [332]{#56214}
-  [TIFF\_InkNames]{#56216}                     [333]{#56218}
-  [TIFF\_NumberOfInks]{#56220}                 [334]{#56222}
-  [TIFF\_DotRange]{#56224}                     [336]{#56226}
-  [TIFF\_TargetPrinter]{#56228}                [337]{#56230}
-  [TIFF\_ExtraSamples]{#56232}                 [338]{#56234}
-  [TIFF\_SampleFormat]{#56236}                 [339]{#56238}
-  [TIFF\_SMinSampleValue]{#56240}              [340]{#56242}
-  [TIFF\_SMaxSampleValue]{#56244}              [341]{#56246}
-  [TIFF\_TransferRange]{#56248}                [342]{#56250}
-  [TIFF\_JPEGProc]{#56252}                     [512]{#56254}
-  [TIFF\_JPEGInterchangeFormat]{#56256}        [513]{#56258}
-  [TIFF\_JPEGInterchangeFormatLngth]{#56260}   [514]{#56262}
-  [TIFF\_JPEGRestartInterval]{#56264}          [515]{#56266}
-  [TIFF\_JPEGLosslessPredictors]{#56268}       [517]{#56270}
-  [TIFF\_JPEGPointTransforms]{#56272}          [518]{#56274}
-  [TIFF\_QTables]{#56276}                      [519]{#56278}
-  [TIFF\_DCTables]{#56280}                     [520]{#56282}
-  [TIFF\_ACTables]{#56284}                     [521]{#56286}
-  [TIFF\_ACTables]{#56288}                     [529]{#56290}
-  [TIFF\_YCbCrSubSampling]{#56292}             [530]{#56294}
-  [TIFF\_YCbCrPositioning]{#56296}             [531]{#56298}
-  [TIFF\_ReferenceBlackWhite]{#56300}          [532]{#56302}
-  [TIFF\_Copyright]{#56304}                    [33432]{#56306}
-  [TIFF\_ModelPixelScaleTag]{#56308}           [33550]{#56310}
-  [TIFF\_ModelTransformationTag]{#56312}       [33920]{#56314}
-  [TIFF\_ModelTiepointTag]{#56316}             [33922]{#56318}
-  [TIFF\_GeoKeyDirectoryTag]{#56320}           [34735]{#56322}
-  [TIFF\_GeoDoubleParamsTag]{#56324}           [34736]{#56326}
-  [TIFF\_GeoAsciiParamsTag]{#56328}            [34737]{#56330}
+**Table C-7*  Standard TIFF Image Tags** <a name="table-C-7"></a>
 
-  :  **[*Table 11-7*  Standard TIFF Image
-  Tags]{#56004}**
+| Tag Name  | Tag Number |
+| --------- | ---------- |
+| TIFF_NewSubfileType  | 254
+| TIFF_SubfileType  | 255
+| TIFF_ImageWidth  | 256
+| TIFF_ImageLength  | 257
+| TIFF_BitsPerSample  | 258
+| TIFF_Compression  | 259
+| TIFF_PhotometricInterpretation  | 262
+| TIFF_Thresholding  | 263
+| TIFF_CellWidth  | 264
+| TIFF_CellLength  | 265
+| TIFF_FillOrder  | 266
+| TIFF_DocumentName  | 269
+| TIFF_ImageDescription  | 270
+| TIFF_Make  | 271
+| TIFF_Model  | 272
+| TIFF_StripOffsets  | 273
+| TIFF_Orientation  | 274
+| TIFF_SamplesPerPixel  | 277
+| TIFF_RowsPerStrip  | 278
+| TIFF_StripByteCounts  | 279
+| TIFF_MinSampleValue  | 280
+| TIFF_MaxSampleValue  | 281
+| TIFF_XResolution  | 282
+| TIFF_YResolution  | 283
+| TIFF_PlanarConfiguration  | 284
+| TIFF_PageName  | 285
+| IFF_XPosition  | 286
+| TIFF_YPosition  | 287
+| TIFF_FreeOffsets  | 288
+| TIFF_FreeByteCounts  | 289
+| TIFF_GrayResponseUnit  | 290
+| TIFF_GrayResponseCurve  | 291
+| TIFF_T4Options  | 291
+| TIFF_T6Options  | 293
+| TIFF_ResolutionUnit  | 296
+| TIFF_PageNumber  | 297
+| TIFF_Software  | 301
+| TIFF_Software  | 305
+| TIFF_DateTime  | 306
+| TIFF_Artist  | 315
+| TIFF_HostComputer  | 316
+| TIFF_Predictor  | 317
+| TIFF_WhitePoint  | 318
+| TIFF_PrimaryChromaticities  | 319
+| TIFF_ColorMap  | 320
+| TIFF_HalftoneHints  | 321
+| TIFF_TileWidth  | 322
+| TIFF_TileLength  | 323
+| TIFF_TileOffsets  | 324
+| TIFF_TileByteCounts  | 325
+| TIFF_InkSet  | 332
+| TIFF_InkNames  | 333
+| TIFF_NumberOfInks  | 334
+| TIFF_DotRange  | 336
+| TIFF_TargetPrinter  | 337
+| TIFF_ExtraSamples  | 338
+| TIFF_SampleFormat  | 339
+| TIFF_SMinSampleValue  | 340
+| TIFF_SMaxSampleValue  | 341
+| TIFF_TransferRange  | 342
+| TIFF_JPEGProc  | 512
+| TIFF_JPEGInterchangeFormat  | 513
+| TIFF_JPEGInterchangeFormatLngth  | 514
+| TIFF_JPEGRestartInterval  | 515
+| TIFF_JPEGLosslessPredictors  | 517
+| TIFF_JPEGPointTransforms  | 518
+| TIFF_QTables  | 519
+| TIFF_DCTables  | 520
+| TIFF_ACTables  | 521
+| TIFF_ACTables  | 529
+| TIFF_YCbCrSubSampling  | 530
+| TIFF_YCbCrPositioning  | 531
+| TIFF_ReferenceBlackWhite  | 532
+| TIFF_Copyright  | 33432
+| TIFF_ModelPixelScaleTag  | 33550
+| TIFF_ModelTransformationTag  | 33920
+| TIFF_ModelTiepointTag  | 33922
+| TIFF_GeoKeyDirectoryTag  | 34735
+| TIFF_GeoDoubleParamsTag  | 34736
+| TIFF_GeoAsciiParamsTag  | 34737
+
 
 The `TIFF_PhotometricInterpretation` tag defines the image type. For
 example, for a bilevel or grayscale image, whether the image is
@@ -1256,31 +1042,30 @@ tags to be decoded into first-class tags by adding suitable
 `PropertyGenerator` objects.
 
 
-#### 11.5.6.2 Data Types
+#### C.5.6.2 Data Types
 
 Java Advanced Imaging supports all of the TIFF 6.0 standard data types
-listed in [Table 11-8](../Compression).
+listed in Table C-8.
 
-  [TIFF Data Type]{#56446}    [Java Data Type]{#56448}   [Description]{#56450}
-  --------------------------- -------------------------- -------------------------------------------------------------
-  [TIFF\_ASCII]{#56452}       [byte]{#56454}             [Null-terminated ASCII strings]{#56456}
-  [TIFF\_BYTE]{#56458}        [byte]{#56460}             [8-bit unsigned integers]{#56462}
-  [TIFF\_SBYTE]{#56464}       [byte]{#56466}             [8-bit signed integers]{#56468}
-  [TIFF\_SHORT]{#56470}       [char]{#56472}             [16-bit unsigned integers]{#56474}
-  [TIFF\_SSHORT]{#56476}      [short]{#56478}            [16-bit signed integers]{#56480}
-  [TIFF\_LONG]{#56482}        [long]{#56484}             [32-bit unsigned integer]{#56486}
-  [TIFF\_SLONG]{#56488}       [int]{#56490}              [32-bit signed integers]{#56492}
-  [TIFF\_FLOAT]{#56494}       [float]{#56496}            [Pairs of 32-bit IEEE floating-point values]{#56498}
-  [TIFF\_DOUBLE]{#56500}      [double]{#56502}           [Pairs of 32-bit IEEE double floating-point values]{#56504}
-  [TIFF\_RATIONAL]{#56506}    [long\[2\]]{#56508}        [Pairs of 32-bit unsigned integers]{#56510}
-  [TIFF\_SRATIONAL]{#56512}   [int\[2\]]{#56514}         [Pairs of 32-bit signed integers]{#56516}
-  [TIFF\_UNDEFINED]{#56518}   [byte]{#56520}             [8-bit uninterpreted bytes]{#56522}
+**Table C-8 TIFF Data Types** <a name="table-C-8"></a>
 
-  :  **[*Table 11-8*  TIFF Data
-  Types]{#56440}**
+| TIFF Data Type  | Java Data Type  | Description   |
+| --------------- | --------------- | ------------- |
+| TIFF_ASCII  | byte  | Null-terminated ASCII strings |
+| TIFF_BYTE  | byte  | 8-bit unsigned integers |
+| TIFF_SBYTE  | byte  | 8-bit signed integers |
+| TIFF_SHORT  | char  | 16-bit unsigned integers |
+| TIFF_SSHORT  | short  | 16-bit signed integers |
+| TIFF_LONG  | long  | 32-bit unsigned integer |
+| TIFF_SLONG  | int  | 32-bit signed integers |
+| TIFF_FLOAT  | float  | Pairs of 32-bit IEEE floating-point values |
+| TIFF_DOUBLE  | double  | Pairs of 32-bit IEEE double floating-point values |
+| TIFF_RATIONAL  | long\[2\]  | Pairs of 32-bit unsigned integers |
+| TIFF_SRATIONAL  | int\[2\]  | Pairs of 32-bit signed integers |
+| TIFF_UNDEFINED  | byte  | 8-bit uninterpreted bytes |
 
 
-11.6 Transform Coding
+C.6 Transform Coding
 ------------------------------------------
 
 Transform coding is a form of lossy block coding that transforms
@@ -1315,7 +1100,7 @@ Like the discrete Fourier transform (DFT), the DCT also has an inverse
 operation, the *inverse discrete cosine transform* (IDCT).
 
 
-### 11.6.1 Discrete Cosine Transform (DCT)
+### C.6.1 Discrete Cosine Transform (DCT)
 
 The `DCT` operation computes the even discrete cosine transform of an
 image. Each band of the destination image is derived by performing a
@@ -1324,23 +1109,18 @@ two-dimensional DCT on the corresponding band of the source image.
 The `DCT` operation does not take any parameters.
 
 
-|                                   | **API:** `org.eclipse.imagen.ImageN`    |
+**API:** `org.eclipse.imagen.ImageN`
 
-    static RenderedOp create("dct", RenderedImage im)
-
-:   creates a `RenderedOp` as a result of performing a `DCT` operation
-    on the specified image.
-
+```java
+    static RenderedOp create("dct",
+                             RenderedImage im)
 
     static RenderableOp createRenderable("dct", 
+                                          ParameterBlock paramBlock,
+                                          RenderingHints hints)
+```
 
-    ParameterBlock paramBlock, RenderingHints hints)
-
-:   creates a `RenderableImage` as the result of applying the `DCT`
-    operation to a tuple (source, parameters, hints).
-
-
-### 11.6.2 Inverse Discrete Cosine Transform (IDCT)
+### C.6.2 Inverse Discrete Cosine Transform (IDCT)
 
 The `IDCT` operation computes the inverse even discrete cosine
 transform of an image. Each band of the destination image is derived
@@ -1350,19 +1130,14 @@ of the source image.
 The `IDCT` operation does not take any parameters.
 
 
-|                                   | **API:** `org.eclipse.imagen.ImageN`    |
+**API:** `org.eclipse.imagen.ImageN`
 
-    static RenderedOp create("idct", RenderedImage im)
+```java
 
-:   creates a `RenderedOp` as a result of performing a `IDCT`
-    operation on the specified image.
-
+    static RenderedOp create("idct",
+                             RenderedImage im)
 
     static RenderableOp createRenderable("idct", 
-
-    ParameterBlock paramBlock, RenderingHints hints)
-
-:   creates a `RenderableImage` as the result of applying the `IDCT`
-    operation to a tuple (source, parameters, hints).
-
-------------------------------------------------------------------------
+                                         ParameterBlock paramBlock,
+                                         RenderingHints hints)
+```
