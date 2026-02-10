@@ -109,14 +109,6 @@ On main:
    mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.1
    ```
 
-4. Update the javadocs:
-   
-   ```bash
-   bin/apidocs.sh
-   ```
-   
-   Review `docs/javadocs/index.html` and commit.
-
 3. Commit this change.
 
    ```
