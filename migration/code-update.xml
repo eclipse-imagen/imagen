@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Script to migrate java files to use imagen instead of jai and jai-ext -->
+<project name="imagen-code-update" default="update">
+    <!-- Use this property to run script on your project location -->
+    <property name="project.dir" location="."/>
+
+    <target name="update1" description="Update common import patterns from jai and jai-ext to imagen 0.4.0">
+        <echo level="info"/>
+        <echo level="info" message="Update jai/jai-ext imports and classes to imagen 0.4.0 in java files"/>
+        <replace dir="${project.dir}" includes="**/*.java" summary="yes">
+            <replacefilter>
+                <replacetoken>com.sun.media.imageioimpl.common.BogusColorSpace</replacetoken>
+                <replacevalue>org.eclipse.imagen.NotAColorSpace</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>BogusColorSpace</replacetoken>
+                <replacevalue>NotAColorSpace</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AffineDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.affine.AffineDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.OperationConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.operationconst.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ArtifactsFilterDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.artifactsfilter.ArtifactsFilterDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.BandCombineDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.bandcombine.BandCombineDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.BandMergeDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.bandmerge.BandMergeDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.BandSelectDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.bandselect.BandSelectDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.BinarizeDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.binarize.BinarizeDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.BinarizeDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.binarize.BinarizeDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.BorderDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.border.BorderDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ClampDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.clamp.ClampDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ColorConvertDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.colorconvert.ColorConvertDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ConvolveDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.convolve.ConvolveDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ConvolveDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.convolve.ConvolveDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.CropDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.crop.CropDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ErrorDiffusionDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.errordiffusion.ErrorDiffusionDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.FormatDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.format.FormatDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ImageFunctionDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.imagefunction.ImageFunctionDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.operator.ImageReadDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.imageread.ImageReadDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.LookupDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.lookup.LookupDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.MosaicDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.mosaic.MosaicDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.MosaicType</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.mosaic.MosaicType</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.NullDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.nullop.NullDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.OrderedDitherDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.orderdither.OrderedDitherDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.RescaleDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.rescale.RescaleDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ScaleDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.scale.ScaleDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ThresholdDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.threshold.ThresholdDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.TranslateDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.translate.TranslateDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.WarpDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.warp.WarpDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ZonalStatsDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.zonalstats.ZonalStatsDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AddDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.DivideDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.MultiplyDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.SubtractDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AbsoluteDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AndDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.OrDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.XorDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.ExpDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.LogDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.InvertDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.SubtractFromDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.DivideIntoDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.AlgebraDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AddConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.DivideByConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.MultiplyConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.SubtractConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.SubtractConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.SubtractFromConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AndConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.OrConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.XorConstDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.AffineDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.affine.AffineDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.operator.WarpDescriptor</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.Warp.WarpDescriptor</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.codecimpl.util.RasterFactory</replacetoken>
+                <replacevalue>org.eclipse.imagen.RasterFactory</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai.codecimpl.util.ImagingException</replacetoken>
+                <replacevalue>org.eclipse.imagen.util.ImagingException</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.remote.SerializableState</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.serialize.SerializableState</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai.remote.SerializerFactory</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.serialize.SerializerFactory</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>com.sun.media.jai</replacetoken>
+                <replacevalue>org.eclipse.imagen.media</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>javax.media.jai</replacetoken>
+                <replacevalue>org.eclipse.imagen</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>it.geosolutions.jaiext</replacetoken>
+                <replacevalue>org.eclipse.imagen.media</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>it.geosolutions.rendered.viewer</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.viewer</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.imageutils.ImageUtils</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.utilities.ImageUtilities</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageUtils.</replacetoken>
+                <replacevalue>ImageUtilities.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.numeric.Range</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.range.Range</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.media.jai.kernel.KernelFactory</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.kernel.KernelFactory</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.media.jai.contour</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.contour</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.jaitools.swing.ImageFrame</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.swing.ImageFrame</replacevalue>
+            </replacefilter>
+        </replace>
+    </target>
+
+    <target name="update2" description="Update classes and constants from jai and jai-ext to imagen 0.9.0">
+        <echo level="info"/>
+        <echo level="info" message="Update jai/jai-ext classes and constants to imagen 0.9.0 in java files"/>
+        <replace dir="${user.dir}" includes="**/*.java" summary="yes">
+            <!-- Refactor JAI import and full class references -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.JAI</replacetoken>
+                <replacevalue>org.eclipse.imagen.ImageN</replacevalue>
+            </replacefilter>
+
+            <!-- Refactor JAI class use, using a bunch of special cases to avoid a slow regex -->
+            <replacefilter>
+                <replacetoken> JAI.class</replacetoken>
+                <replacevalue> ImageN.class </replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> JAI.</replacetoken>
+                <replacevalue> ImageN.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(JAI.</replacetoken>
+                <replacevalue>(ImageN.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> JAI </replacetoken>
+                <replacevalue> ImageN </replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- parameter -->
+                <replacetoken>(JAI </replacetoken>
+                <replacevalue>(ImageN </replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- occurs at the end of a line so we are stuck with it -->
+                <replacetoken>= JAI</replacetoken>
+                <replacevalue>= ImageN</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- revert JAIInfo-->
+                <replacetoken>= ImageNInfo.</replacetoken>
+                <replacevalue>= JAIInfo.</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- revert JAI Image I/O -->
+                <replacetoken>ImageN Image I/O</replacetoken>
+                <replacevalue>Image I/O</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- revert JAI Image I/O -->
+                <replacetoken>ImageN ImageIO</replacetoken>
+                <replacevalue>ImageIO</replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- Not useful citing JAI version number -->
+                <replacetoken>@since ImageN 1.1.2</replacetoken>
+                <replacevalue></replacevalue>
+            </replacefilter>
+            <replacefilter> <!-- Not useful citing JAI version number -->
+                <replacetoken>ImageN 1.1.2</replacetoken>
+                <replacevalue>ImageN</replacevalue>
+            </replacefilter>
+
+            <!-- Refactor jai variable names -->
+            <replacefilter>
+                <replacetoken>ImageN jai,</replacetoken>
+                <replacevalue>ImageN imagen,</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageN jai)</replacetoken>
+                <replacevalue>ImageN imagen)</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai.</replacetoken>
+                <replacevalue> imagen.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(jai)</replacetoken>
+                <replacevalue>(imagen)</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(jai,</replacetoken>
+                <replacevalue>(imagen,</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai)</replacetoken>
+                <replacevalue> imagen)</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai =</replacetoken>
+                <replacevalue> imagen =</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>{jai}</replacetoken>
+                <replacevalue>{imagen}</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>{jai,</replacetoken>
+                <replacevalue>{imagen,</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken> jai;</replacetoken>
+                <replacevalue> imagen;</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>(jai.</replacetoken>
+                <replacevalue>(imagen.</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>panel:imagen.</replacetoken>
+                <replacevalue>panel:image.</replacevalue>
+            </replacefilter>
+            <!-- Refactor ImageReadDescriptor Constants -->
+            <replacefilter>
+                <replacetoken>"JAI.ImageReadParam"</replacetoken>
+                <replacevalue>"ImageN.ImageReadParam"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.ImageReader"</replacetoken>
+                <replacevalue>"ImageN.ImageReader"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.ImageMetadata"</replacetoken>
+                <replacevalue>"ImageN.ImageMetadata"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.StreamMetadata"</replacetoken>
+                <replacevalue>"ImageN.StreamMetadata"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.Thumbnails"</replacetoken>
+                <replacevalue>"ImageN.Thumbnails"</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>"JAI.RenderableInput"</replacetoken>
+                <replacevalue>"ImageN.RenderableInput"</replacevalue>
+            </replacefilter>
+
+            <!-- Refactor org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.media.remote.JAIServerConfigurationSpi</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>JAIServerConfigurationSpi</replacetoken>
+                <replacevalue>ImageNServerConfigurationSpi</replacevalue>
+            </replacefilter>
+            <!-- Refactor org.eclipse.imagen.media.remote.ImageNServerConfigurationSpi -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.media.rmi.JAIRMIImageServer</replacetoken>
+                <replacevalue>org.eclipse.imagen.media.rmi.ImageNRMIImageServer</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>JAIRMIImageServer</replacetoken>
+                <replacevalue>ImageNRMIImageServer</replacevalue>
+            </replacefilter>
+            <!-- refactor ParameterBlockJAI -->
+            <replacefilter>
+                <replacetoken>ParameterBlockJAI</replacetoken>
+                <replacevalue>ParameterBlockImageN</replacevalue>
+            </replacefilter>
+            <!-- refactor color space classes -->
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.ColorSpaceJAI</replacetoken>
+                <replacevalue>org.eclipse.imagen.ColorSpaceImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ColorSpaceJAI</replacetoken>
+                <replacevalue>ColorSpaceImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.ColorSpaceJAIExt</replacetoken>
+                <replacevalue>org.eclipse.imagen.ColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ColorSpaceJAIExt</replacetoken>
+                <replacevalue>ColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ColorSpaceJAIExtWrapper</replacetoken>
+                <replacevalue>ColorSpaceImageNExtWrapper</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>org.eclipse.imagen.IHSColorSpaceJAIExt</replacetoken>
+                <replacevalue>org.eclipse.imagen.IHSColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>IHSColorSpaceJAIExt</replacetoken>
+                <replacevalue>IHSColorSpaceImageNExt</replacevalue>
+            </replacefilter>
+            <!-- reactor others -->
+            <replacefilter>
+                <replacetoken>PropertyChangeEventJAI</replacetoken>
+                <replacevalue>PropertyChangeEventImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>LookupTableJAI</replacetoken>
+                <replacevalue>LookupTableImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ComponentSampleModelJAI</replacetoken>
+                <replacevalue>ComponentSampleModelImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>PropertyChangeSupportJAI</replacetoken>
+                <replacevalue>PropertyChangeSupportImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>KernelJAI</replacetoken>
+                <replacevalue>KernelImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageJAI</replacetoken>
+                <replacevalue>ImageImageN</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageFunctionJAIEXT</replacetoken>
+                <replacevalue>ImageFunctionExt</replacevalue>
+            </replacefilter>
+            <replacefilter>
+                <replacetoken>ImageFunctionJAIEXTWrapper</replacetoken>
+                <replacevalue>ImageFunctionExtWrapper</replacevalue>
+            </replacefilter>
+            <!--                        -->
+            <!-- Downstream API Changes -->
+            <!--                        -->
+            <replacefilter>
+                <replacetoken>ImageMosaicFormat.USE_JAI_IMAGEREAD</replacetoken>
+                <replacevalue>ImageMosaicFormat.USE_IMAGEN_IMAGEREAD</replacevalue>
+            </replacefilter>
+        </replace>
+    </target>
+
+    <target name="update" depends="update1,update2" description="Update project in current directory from jai to imagen">
+        <echo level="warning">UPDATE COMPLETED: ${user.dir}</echo>
+        <echo level="info">The update is partial, you might have to fix version numbers and the like.</echo>
+    </target>
+</project>

@@ -1,0 +1,33 @@
+# ImageN Jekyll Configuration
+exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json", "README.md", "Rakefile"]
+
+# Theme
+remote_theme: pmarsceill/just-the-docs
+
+# Theme configuration
+title: Eclipse ImageN
+description: Java Image Processing API
+search_enabled: true
+aux_links:
+    "API":
+     - "/javadocs/index.html"
+    "Releases":
+     - "https://github.com/eclipse-imagen/imagen/releases"
+    "Eclipse Project":
+      - "https://projects.eclipse.org/projects/technology.imagen"
+    "GitHub":
+      - "https://github.com/eclipse-imagen/imagen"
+heading_anchors: false
+footer_content: Copyright (c) 2026, Oracle, GeoSolutions, and Others. All rights reserved. <br/> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+# site configuration
+
+imagen_version: "0.9.2-SNAPSHOT"
+
+exclude: [javadocs/legal/jquery.md,javadocs/legal/jqueryUI.md]
+
+defaults:
+ - scope:
+     path: "assets/images"
+   values:
+     image: true
