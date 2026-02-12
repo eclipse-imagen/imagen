@@ -38,6 +38,8 @@
  * use in the design, construction, operation or maintenance of any
  * nuclear facility.
  *
+ * SPDX-License-Identifier: BSD-3-Clause-No-Nuclear-License
+ *
  * $Revision: 1.2 $
  * $Date: 2006/07/14 21:43:57 $
  * $State: Exp $
