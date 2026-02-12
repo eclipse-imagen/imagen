@@ -13,6 +13,8 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
+*
+* SPDX-License-Identifier: Apache-2.0
 */
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
@@ -29,6 +31,8 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
+ *
+ * SPDX-License-Identifier: LGPL-2.1
  */
 package org.eclipse.imagen.media.classbreaks;
 

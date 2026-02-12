@@ -15,7 +15,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package org.eclipse.imagen.operator;
 
 import java.awt.RenderingHints;

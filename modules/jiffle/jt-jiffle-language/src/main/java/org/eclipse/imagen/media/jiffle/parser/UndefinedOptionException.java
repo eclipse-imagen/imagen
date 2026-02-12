@@ -13,8 +13,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 /*
  *  Copyright (c) 2011-2013, Michael Bedward. All rights reserved.
  *
@@ -38,8 +39,9 @@
  *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *  SPDX-License-Identifier: BSD-2-Clause
  */
-
 package org.eclipse.imagen.media.jiffle.parser;
 
 /**
