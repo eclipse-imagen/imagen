@@ -61,12 +61,13 @@ jobs:
       run: |
         rm -rf docs/javadocs
         mv modules/target/reports/apidocs docs/javadocs
-    - name: Remove SNAPSHOT jars from repository
-      run: |
-        find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
     - name: Deploy to gh-pages branch
       uses: peaceiris/actions-gh-pages@v4
       if: github.event_name != 'pull_request'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs
+        enable_jekyll: true
+    - name: Remove SNAPSHOT jars from repository
+      run: |
+        find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
