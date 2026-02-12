@@ -11,7 +11,7 @@ mvn javadoc:aggregate -Pjavadoc
 
 # publish to docs folder
 cd target/reports
-rm ../../../docs/javadocs
+rm -rf ../../../docs/javadocs
 
 mv apidocs ../../../docs/javadocs
 
