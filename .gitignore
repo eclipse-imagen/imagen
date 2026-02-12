@@ -16,3 +16,9 @@ workspace
 .DS_Store
 *.spotless-index
 out
+
+# Ignore generated content
+docs/javadocs/*
+
+# Keep javadocs folder
+docs/javadocs/!.gitignore

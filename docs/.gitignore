@@ -11,9 +11,3 @@ _site/
 .ruby-version
 *.gem
 Gemfile.lock
-
-# Ignore generated content
-javadocs/*
-
-# Keep javadocs folder
-javadocs/!.gitignore

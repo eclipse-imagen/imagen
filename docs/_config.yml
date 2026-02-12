@@ -10,7 +10,7 @@ description: Java Image Processing API
 search_enabled: true
 aux_links:
     "API":
-     - "/javadocs/index.html"
+     - "/imagen/javadocs/index.html"
     "Releases":
      - "https://github.com/eclipse-imagen/imagen/releases"
     "Eclipse Project":
@@ -21,6 +21,7 @@ heading_anchors: false
 footer_content: Copyright (c) 2026, Oracle, GeoSolutions, and Others. All rights reserved. <br/> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
 
 # site configuration
+baseurl: "/imagen"
 
 imagen_version: "0.9.2-SNAPSHOT"
 
