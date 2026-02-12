@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 package org.eclipse.imagen.media.remote;
 
 import org.eclipse.imagen.ImageN;
