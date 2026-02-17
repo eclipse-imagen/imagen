@@ -26,6 +26,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -34,8 +35,8 @@ import java.util.jar.JarFile;
 
 public class PropertyUtil {
 
-    private static Hashtable bundles = new Hashtable();
-    private static String propertiesDir = "org.eclipse.imagen";
+    private static final Hashtable<String, ResourceBundle> bundles = new Hashtable<>();
+    private static final String propertiesDir = "org.eclipse.imagen";
 
     public static InputStream getFileFromClasspath(String path) throws IOException, FileNotFoundException {
         InputStream is;
@@ -134,25 +135,68 @@ public class PropertyUtil {
 
     /** Get bundle from .properties files in org.eclipse.imagen dir. */
     private static ResourceBundle getBundle(String packageName) {
-        ResourceBundle bundle = null;
+        final String legacyPath = propertiesDir + "/" + packageName + ".properties";
 
         InputStream in = null;
         try {
-            in = getFileFromClasspath(propertiesDir + "/" + packageName + ".properties");
+            in = getFileFromClasspath(legacyPath);
             if (in != null) {
-                bundle = new PropertyResourceBundle(in);
+                ResourceBundle bundle = new PropertyResourceBundle(in);
                 bundles.put(packageName, bundle);
                 return bundle;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
+        }
+
+        // Try the calling class' module
+        Class<?> caller = findFirstExternalCaller();
+        if (caller != null) {
+            Module mod = caller.getModule();
+            try (InputStream mod_in = mod.getResourceAsStream(legacyPath)) {
+                if (mod_in != null) {
+                    ResourceBundle bundle = new PropertyResourceBundle(mod_in);
+                    bundles.put(packageName, bundle);
+                    return bundle;
+                }
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+            }
+        }
+
+        // Try the thread context classloader
+        ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+        ResourceBundle b = loadBundleFromPath(legacyPath, tccl);
+        if (b != null) {
+            bundles.put(packageName, b);
+            return b;
         }
 
         return null;
     }
 
+    private static ResourceBundle loadBundleFromPath(String path, ClassLoader cl) {
+        if (cl == null) return null;
+        try (InputStream in = cl.getResourceAsStream(path)) {
+            if (in != null) {
+                return new PropertyResourceBundle(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+        return null;
+    }
+
+    private static Class<?> findFirstExternalCaller() {
+        StackWalker walker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+        return walker.walk(stream -> Objects.requireNonNull(stream.map(StackWalker.StackFrame::getDeclaringClass)
+                .filter(c -> c != PropertyUtil.class)
+                .findFirst()
+                .orElse(null)));
+    }
+
     public static String getString(String packageName, String key) {
-        ResourceBundle b = (ResourceBundle) bundles.get(packageName);
+        ResourceBundle b = bundles.get(packageName);
         if (b == null) {
             b = getBundle(packageName);
         }
