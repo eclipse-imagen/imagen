@@ -157,7 +157,8 @@ public class BandMergeOpImage extends PointOpImage {
                 this.destNoDataInt = ImageUtil.clampRoundInt(destinationNoData);
                 break;
             case DataBuffer.TYPE_FLOAT:
-                this.destNoDataFloat = ImageUtil.clampFloat(destinationNoData);
+                this.destNoDataFloat =
+                        Double.isNaN(destinationNoData) ? Float.NaN : ImageUtil.clampFloat(destinationNoData);
                 break;
             case DataBuffer.TYPE_DOUBLE:
                 this.destNoDataDouble = destinationNoData;
