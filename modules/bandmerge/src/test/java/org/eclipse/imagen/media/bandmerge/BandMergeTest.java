@@ -855,6 +855,21 @@ public class BandMergeTest extends TestBase {
     }
 
     @Test
+    public void testFloatNoData() {
+        RenderedImage testImage =
+                createTestImage(DataBuffer.TYPE_FLOAT, IMAGE_WIDTH, IMAGE_HEIGHT, Double.NaN, false, 1);
+        RenderedImage ri = PlanarImage.wrapRenderedImage(testImage);
+
+        Range[] noData = new Range[] {RangeFactory.create(Float.NaN, Float.NaN)};
+        RenderedOp bandMerged = BandMergeDescriptor.create(noData, Double.NaN, false, null, ri, ri);
+        Raster data = bandMerged.getData();
+
+        // Assert that the no data value is preserved in the output image.
+        // A pixel along the diagonal should be NoData (NaN) in the output image.
+        assertTrue(Float.isNaN(data.getSampleFloat(5, 5, 0)));
+    }
+
+    @Test
     public void testExtendedWithIdentityTransform() {
         assertBandMergeImplementation(AffineTransform.getScaleInstance(1 + 1e-12, 1 + 1e-12), BandMergeOpImage.class);
         assertBandMergeImplementation(
