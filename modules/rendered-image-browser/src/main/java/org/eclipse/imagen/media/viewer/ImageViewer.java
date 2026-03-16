@@ -339,12 +339,12 @@ public class ImageViewer extends JPanel {
 
     private JButton createDecoratedButton(String alternativeText, String toolTipText, String iconResourceName) {
         JButton button = new JButton();
-        Image icon = null;
-        try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(iconResourceName);
-            icon = ImageIO.read(inputStream);
-            button.setIcon(new ImageIcon(icon));
-            inputStream.close();
+        Image icon;
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(iconResourceName)) {
+            if (inputStream != null) {
+                icon = ImageIO.read(inputStream);
+                button.setIcon(new ImageIcon(icon));
+            }
 
         } catch (IOException e) {
             // Set text

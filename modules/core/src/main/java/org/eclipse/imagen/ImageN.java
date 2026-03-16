@@ -23,10 +23,9 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
@@ -376,32 +375,27 @@ public class ImageN implements AutoCloseable {
     }
 
     /** Returns ImageN version information as a <code>String</code> */
-    public static final String getBuildVersion() {
-        try {
-            InputStream is = ImageN.class.getResourceAsStream("buildVersion");
-            if (is == null) is = PropertyUtil.getFileFromClasspath("org/eclipse/imagen/buildVersion");
+    public static String getBuildVersion() {
+        try (InputStream is = getBuildVersionStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-
-            StringWriter sw = new StringWriter();
-            BufferedWriter writer = new BufferedWriter(sw);
-
-            String str;
-            boolean append = false;
-
-            while ((str = reader.readLine()) != null) {
-                if (append) writer.newLine();
-
-                writer.write(str);
-                append = true;
+            if (is == null) {
+                return ImageNI18N.getString("ImageN13");
             }
 
-            writer.close();
-            return sw.getBuffer().toString();
+            return reader.lines().collect(java.util.stream.Collectors.joining("\n"));
 
         } catch (Exception e) {
             return ImageNI18N.getString("ImageN13");
         }
+    }
+
+    private static InputStream getBuildVersionStream() throws IOException {
+        InputStream is = ImageN.class.getResourceAsStream("buildVersion");
+        if (is == null) {
+            is = PropertyUtil.getFileFromClasspath("org/eclipse/imagen/buildVersion");
+        }
+        return is;
     }
 
     /** Disable use of default tile cache. Tiles are not stored. */
