@@ -52,6 +52,7 @@ import java.awt.image.renderable.ContextualRenderedImageFactory;
 import java.awt.image.renderable.ParameterBlock;
 import java.awt.image.renderable.RenderableImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.Collection;
@@ -821,10 +822,13 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
                         // Check if the file is accessible as an InputStream
                         // resource. This would be the case if the application
                         // and the image file are packaged in a JAR file
-                        InputStream is = getClass().getClassLoader().getResourceAsStream((String) input);
-                        if (is == null) {
-                            msg.append("\"" + path + "\": " + I18N.getString("ImageReadDescriptor11"));
-                            return false;
+                        try (InputStream is = getClass().getClassLoader().getResourceAsStream((String) input)) {
+                            if (is == null) {
+                                msg.append("\"" + path + "\": " + I18N.getString("ImageReadDescriptor11"));
+                                return false;
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
                     } else if (!file.canRead()) {
                         msg.append("\"" + path + "\": " + I18N.getString("ImageReadDescriptor12"));
