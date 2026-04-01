@@ -19,7 +19,7 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.imagen.spi.ServiceProviderAllowListProvider;
+import org.eclipse.imagen.spi.ServiceAllowListProvider;
 import org.eclipse.imagen.util.ExactClassAllowList;
 import org.eclipse.imagen.util.ExactClassAllowList.Snapshot;
 
@@ -28,8 +28,8 @@ import org.eclipse.imagen.util.ExactClassAllowList.Snapshot;
  *
  * <p>Built-in defaults track the {@code OperationRegistrySpi} implementations shipped by ImageN modules. Runtime
  * configuration extends, but never replaces, those defaults. Additional trusted classes may be contributed by
- * downstream libraries through {@link ServiceProviderAllowListProvider}. The effective allow-list is resolved once per
- * JVM and cached as an immutable snapshot, so runtime configuration changes are not observed after the first access.
+ * downstream libraries through {@link ServiceAllowListProvider}. The effective allow-list is resolved once per JVM and
+ * cached as an immutable snapshot, so runtime configuration changes are not observed after the first access.
  */
 final class AllowedServiceProviderClasses {
 
@@ -115,12 +115,11 @@ final class AllowedServiceProviderClasses {
 
     private static Set<String> loadContributedDefaults() {
         LinkedHashSet<String> contributed = new LinkedHashSet<String>();
-        ServiceLoader<ServiceProviderAllowListProvider> loader =
-                ServiceLoader.load(ServiceProviderAllowListProvider.class);
-        Iterator<ServiceProviderAllowListProvider> iterator = loader.iterator();
+        ServiceLoader<ServiceAllowListProvider> loader = ServiceLoader.load(ServiceAllowListProvider.class);
+        Iterator<ServiceAllowListProvider> iterator = loader.iterator();
 
         while (true) {
-            ServiceProviderAllowListProvider provider;
+            ServiceAllowListProvider provider;
             try {
                 if (!iterator.hasNext()) {
                     break;

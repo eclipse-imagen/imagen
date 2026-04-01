@@ -88,7 +88,7 @@ Automatic downstream integration:
 
 * Downstream libraries can auto-contribute trusted classes by implementing:
   * `org.eclipse.imagen.spi.RegistryAllowListProvider`
-  * `org.eclipse.imagen.spi.ServiceProviderAllowListProvider`
+  * `org.eclipse.imagen.spi.ServiceAllowListProvider`
 * Implementations are discovered through standard Java `ServiceLoader` registration in `META-INF/services`.
 * Contributed classes are discovered once per JVM together with the built-in defaults.
 * Contributed classes are merged with ImageN built-in defaults before property/env additions are applied.

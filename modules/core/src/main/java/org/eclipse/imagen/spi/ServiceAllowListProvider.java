@@ -18,7 +18,7 @@ import java.util.Set;
  * <p>Implementations are discovered through Java {@code ServiceLoader}. Returned values must be exact fully qualified
  * class names. Blank entries are ignored by ImageN.
  */
-public interface ServiceProviderAllowListProvider {
+public interface ServiceAllowListProvider {
 
     /**
      * Returns exact service-provider class names that should be trusted in addition to ImageN built-in defaults.

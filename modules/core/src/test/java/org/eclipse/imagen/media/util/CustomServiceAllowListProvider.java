@@ -11,9 +11,9 @@ package org.eclipse.imagen.media.util;
 
 import java.util.Collections;
 import java.util.Set;
-import org.eclipse.imagen.spi.ServiceProviderAllowListProvider;
+import org.eclipse.imagen.spi.ServiceAllowListProvider;
 
-public class CustomServiceProviderAllowListProvider implements ServiceProviderAllowListProvider {
+public class CustomServiceAllowListProvider implements ServiceAllowListProvider {
     @Override
     public Set<String> getAllowedServiceProviderClasses() {
         return Collections.singleton(CustomOperationRegistrySpi.class.getName());
