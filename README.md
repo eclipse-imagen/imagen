@@ -64,6 +64,45 @@ COMPILATION ERROR :
 TIFFImage.java:[59,31] error: package com.sun.image.codec.jpeg does not exist
 ```
 
+## Allow-List Configuration
+
+ImageN hardens reflective loading in two places:
+
+* SPI providers loaded by `org.eclipse.imagen.media.util.Service`
+* registry classes loaded by `org.eclipse.imagen.RegistryFileParser`
+
+Configuration:
+
+* SPI providers
+  * Property: `org.eclipse.imagen.allowedServiceProviderClasses`
+  * Env: `ORG_ECLIPSE_IMAGEN_ALLOWED_SERVICE_PROVIDER_CLASSES`
+* Registry classes
+  * Property: `org.eclipse.imagen.allowedRegistryClasses`
+  * Env: `ORG_ECLIPSE_IMAGEN_ALLOWED_REGISTRY_CLASSES`
+
+Both settings accept comma-separated exact fully qualified class names. Configured values extend the built-in ImageN
+defaults; they do not replace them. The effective allow-lists are resolved once per JVM, so property and environment
+changes after first use are not observed until restart.
+
+Automatic downstream integration:
+
+* Downstream libraries can auto-contribute trusted classes by implementing:
+  * `org.eclipse.imagen.spi.RegistryAllowListProvider`
+  * `org.eclipse.imagen.spi.ServiceAllowListProvider`
+* Implementations are discovered through standard Java `ServiceLoader` registration in `META-INF/services`.
+* Contributed classes are discovered once per JVM together with the built-in defaults.
+* Contributed classes are merged with ImageN built-in defaults before property/env additions are applied.
+
+Manual compatibility fallback:
+
+If a downstream integration needs GeoTools palette registry classes and does not provide a SPI contributor, append the
+following values to `org.eclipse.imagen.allowedRegistryClasses`:
+
+* `org.geotools.image.palette.ColorReductionDescriptor`
+* `org.geotools.image.palette.ColorInversionDescriptor`
+* `org.geotools.image.palette.ColorReductionCRIF`
+* `org.geotools.image.palette.ColorInversionCRIF`
+
 ## Release
 
 Prep:

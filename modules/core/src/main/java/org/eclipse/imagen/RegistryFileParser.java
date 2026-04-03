@@ -31,11 +31,16 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.eclipse.imagen.util.CaselessStringKey;
 
 /** A class to parse the ImageN registry file. */
 class RegistryFileParser {
+
+    private static final Logger LOGGER = Logger.getLogger(RegistryFileParser.class.getName());
 
     /**
      * Load the <code>OperationRegistry</code> with the descriptors, factories and their preferences from the input
@@ -163,6 +168,15 @@ class RegistryFileParser {
 
     /** Create an instance given the class name. */
     private Object getInstance(String className) {
+        Set<String> allowedRegistryClasses = AllowedRegistryClasses.allowedClasses();
+
+        if (!allowedRegistryClasses.contains(className)) {
+            LOGGER.log(Level.WARNING, "Rejected registry class {0} from source {1}", new Object[] {
+                className, url != null ? url.getPath() : "input stream"
+            });
+            registryFileError(MessageFormat.format("Class {0} is not in the allow-list", className));
+            return null;
+        }
 
         try {
             Class descriptorClass = null;

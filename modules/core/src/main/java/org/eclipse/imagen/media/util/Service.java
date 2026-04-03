@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -34,6 +35,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A simple service-provider lookup mechanism. A <i>service</i> is a well-known set of interfaces and (usually abstract)
@@ -105,6 +108,7 @@ import java.util.TreeSet;
 public final class Service {
 
     private static final String prefix = "META-INF/services/";
+    private static final Logger LOGGER = Logger.getLogger(Service.class.getName());
 
     private Service() {}
 
@@ -227,8 +231,15 @@ public final class Service {
             }
             String cn = nextName;
             nextName = null;
+            Set<String> allowedServiceProviderClasses = AllowedServiceProviderClasses.allowedClasses();
+            if (!allowedServiceProviderClasses.contains(cn)) {
+                LOGGER.log(Level.WARNING, "Rejected service provider {0} for service {1}", new Object[] {
+                    cn, service.getName()
+                });
+                fail(service, MessageFormat.format("Provider {0} is not in the allow-list", cn));
+            }
             try {
-                return Class.forName(cn, true, loader).newInstance();
+                return Class.forName(cn, true, loader).getDeclaredConstructor().newInstance();
             } catch (ClassNotFoundException x) {
                 fail(service, "Provider " + cn + " not found");
             } catch (Exception x) {
