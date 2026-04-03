@@ -65,5 +65,6 @@ org.eclipse.imagen.media.warp
 org.eclipse.imagen.media.zonal
 org.eclipse.imagen.operator
 org.eclipse.imagen.registry
+org.eclipse.imagen.spi
 org.eclipse.imagen.util
 org.jaitools.media.jai.vectorize
