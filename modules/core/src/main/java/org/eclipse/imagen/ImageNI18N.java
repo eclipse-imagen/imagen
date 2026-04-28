@@ -25,7 +25,7 @@ class ImageNI18N {
     static String packageName = "org.eclipse.imagen";
 
     public static String getString(String key) {
-        return PropertyUtil.getString(packageName, key);
+        return PropertyUtil.getString(path -> ImageNI18N.class.getResourceAsStream(path), packageName, key);
     }
 
     public static String formatMsg(String key, Object[] args) {

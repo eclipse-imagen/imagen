@@ -23,6 +23,6 @@ class ImageNLegacy18N {
     static String packageName = "org.eclipse.imagen";
 
     public static String getString(String key) {
-        return PropertyUtil.getString(packageName, key);
+        return PropertyUtil.getString(path -> ImageNLegacy18N.class.getResourceAsStream(path), packageName, key);
     }
 }

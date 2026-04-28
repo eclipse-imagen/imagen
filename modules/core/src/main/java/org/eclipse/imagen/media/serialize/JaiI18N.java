@@ -24,6 +24,6 @@ class JaiI18N {
     static String packageName = JaiI18N.class.getPackageName();
 
     public static String getString(String key) {
-        return PropertyUtil.getString(packageName, key);
+        return PropertyUtil.getString(path -> JaiI18N.class.getResourceAsStream(path), packageName, key);
     }
 }

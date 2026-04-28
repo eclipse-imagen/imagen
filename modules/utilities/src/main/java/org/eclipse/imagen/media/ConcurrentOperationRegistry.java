@@ -85,7 +85,8 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
     public static OperationRegistry initializeRegistry() {
         try {
             // URL associated to the default ImageN registryFile.imagen
-            InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
+            InputStream url = PropertyUtil.getFileFromClasspath(
+                    path -> ConcurrentOperationRegistry.class.getResourceAsStream(path), JAI_REGISTRY_FILE);
 
             if (url == null) {
                 throw new RuntimeException("Could not find the main registry file");

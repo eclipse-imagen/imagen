@@ -50,6 +50,7 @@ import org.eclipse.imagen.media.util.PropertyUtil;
 
 final class I18N {
     static String getString(String key) {
-        return PropertyUtil.getString("org.eclipse.imagen.media.imageread", key);
+        return PropertyUtil.getString(
+                path -> I18N.class.getResourceAsStream(path), "org.eclipse.imagen.media.imageread", key);
     }
 }

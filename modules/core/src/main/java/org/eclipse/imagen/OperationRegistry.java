@@ -298,7 +298,8 @@ public class OperationRegistry implements Externalizable {
      */
     static OperationRegistry initializeRegistry() {
         try {
-            InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
+            InputStream url = PropertyUtil.getFileFromClasspath(
+                    path -> OperationRegistry.class.getResourceAsStream(path), JAI_REGISTRY_FILE);
 
             if (url == null) {
                 throw new RuntimeException(ImageNI18N.getString("OperationRegistry1"));

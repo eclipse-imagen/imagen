@@ -25,6 +25,6 @@ class JaiI18N {
     static String packageName = "org.eclipse.imagen.media.ordereddither";
 
     public static String getString(String key) {
-        return PropertyUtil.getString(packageName, key);
+        return PropertyUtil.getString(path -> JaiI18N.class.getResourceAsStream(path), packageName, key);
     }
 }
