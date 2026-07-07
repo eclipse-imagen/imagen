@@ -24,6 +24,6 @@ class Scale2I18N {
     static String packageName = "org.eclipse.imagen.media.scale2";
 
     public static String getString(String key) {
-        return PropertyUtil.getString(path -> Scale2I18N.class.getResourceAsStream(path), packageName, key);
+        return PropertyUtil.getString(packageName, key);
     }
 }

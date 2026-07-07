@@ -393,8 +393,7 @@ public class ImageN implements AutoCloseable {
     private static InputStream getBuildVersionStream() throws IOException {
         InputStream is = ImageN.class.getResourceAsStream("buildVersion");
         if (is == null) {
-            is = PropertyUtil.getFileFromClasspath(
-                    path -> ImageN.class.getResourceAsStream(path), "org/eclipse/imagen/buildVersion");
+            is = PropertyUtil.getFileFromClasspath("org/eclipse/imagen/buildVersion");
         }
         return is;
     }
