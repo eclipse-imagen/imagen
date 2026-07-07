@@ -34,6 +34,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationNode;
@@ -86,7 +87,8 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
         try {
             // URL associated to the default ImageN registryFile.imagen
             InputStream url = PropertyUtil.getFileFromClasspath(
-                    path -> ConcurrentOperationRegistry.class.getResourceAsStream(path), JAI_REGISTRY_FILE);
+                    path -> OperationRegistry.class.getResourceAsStream(path), 
+                    JAI_REGISTRY_FILE);
 
             if (url == null) {
                 throw new RuntimeException("Could not find the main registry file");
