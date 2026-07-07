@@ -21,15 +21,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.stream.Stream;
 
 public class PropertyUtil {
 
-    private static Hashtable bundles = new Hashtable();
-    private static String propertiesDir = "org.eclipse.imagen";
+    private static final Hashtable<String, ResourceBundle> bundles = new Hashtable<>();
+    private static final String propertiesFile = "org.eclipse.imagen/%s.properties";
 
     public static InputStream getFileFromClasspath(Connector connector, String path)
             throws IOException, FileNotFoundException {
@@ -49,13 +48,10 @@ public class PropertyUtil {
 
     /** Get bundle from .properties files in org.eclipse.imagen dir. */
     private static ResourceBundle getBundle(Connector connector, String packageName) {
-        ResourceBundle bundle = null;
 
-        InputStream in = null;
-        try {
-            in = getFileFromClasspath(connector, propertiesDir + "/" + packageName + ".properties");
+        try (InputStream in = getFileFromClasspath(connector, propertiesFile.formatted(packageName))) {
             if (in != null) {
-                bundle = new PropertyResourceBundle(in);
+                ResourceBundle bundle = new PropertyResourceBundle(in);
                 bundles.put(packageName, bundle);
                 return bundle;
             }
@@ -67,7 +63,7 @@ public class PropertyUtil {
     }
 
     public static String getString(Connector connector, String packageName, String key) {
-        ResourceBundle b = (ResourceBundle) bundles.get(packageName);
+        ResourceBundle b = bundles.get(packageName);
         if (b == null) {
             b = getBundle(connector, packageName);
         }
@@ -84,30 +80,13 @@ public class PropertyUtil {
     public static String[] getPropertyNames(String[] propertyNames, String prefix) {
         if (propertyNames == null) {
             return null;
-        } else if (prefix == null) {
+        }
+        if (prefix == null) {
             throw new IllegalArgumentException(JaiI18N.getString("PropertyUtil0"));
         }
-
-        prefix = prefix.toLowerCase();
-
-        Vector names = new Vector();
-        for (int i = 0; i < propertyNames.length; i++) {
-            if (propertyNames[i].toLowerCase().startsWith(prefix)) {
-                names.addElement(propertyNames[i]);
-            }
-        }
-
-        if (names.size() == 0) {
-            return null;
-        }
-
-        // Copy the strings from the Vector over to a String array.
-        String prefixNames[] = new String[names.size()];
-        int count = 0;
-        for (Iterator it = names.iterator(); it.hasNext(); ) {
-            prefixNames[count++] = (String) it.next();
-        }
-
-        return prefixNames;
+        String lowerCasePrefix = prefix.toLowerCase();
+        return Stream.of(propertyNames)
+                .filter(name -> name.toLowerCase().startsWith(lowerCasePrefix))
+                .toArray(String[]::new);
     }
 }
