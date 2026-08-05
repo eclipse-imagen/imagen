@@ -137,9 +137,7 @@ public class PropertyUtil {
     private static ResourceBundle getBundle(String packageName) {
         final String legacyPath = propertiesDir + "/" + packageName + ".properties";
 
-        InputStream in = null;
-        try {
-            in = getFileFromClasspath(legacyPath);
+        try (InputStream in = getFileFromClasspath(legacyPath)) {
             if (in != null) {
                 ResourceBundle bundle = new PropertyResourceBundle(in);
                 bundles.put(packageName, bundle);
@@ -165,19 +163,19 @@ public class PropertyUtil {
         }
 
         // Try the thread context classloader
-        ClassLoader tccl = Thread.currentThread().getContextClassLoader();
-        ResourceBundle b = loadBundleFromPath(legacyPath, tccl);
-        if (b != null) {
-            bundles.put(packageName, b);
-            return b;
+        ClassLoader currentThreadClassLoader = Thread.currentThread().getContextClassLoader();
+        ResourceBundle bundle = loadBundleFromPath(legacyPath, currentThreadClassLoader);
+        if (bundle != null) {
+            bundles.put(packageName, bundle);
+            return bundle;
         }
 
         return null;
     }
 
-    private static ResourceBundle loadBundleFromPath(String path, ClassLoader cl) {
-        if (cl == null) return null;
-        try (InputStream in = cl.getResourceAsStream(path)) {
+    private static ResourceBundle loadBundleFromPath(String path, ClassLoader classLoader) {
+        if (classLoader == null) return null;
+        try (InputStream in = classLoader.getResourceAsStream(path)) {
             if (in != null) {
                 return new PropertyResourceBundle(in);
             }
