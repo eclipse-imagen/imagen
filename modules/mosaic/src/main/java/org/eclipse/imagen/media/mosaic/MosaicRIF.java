@@ -40,7 +40,7 @@ public class MosaicRIF implements RenderedImageFactory {
      * defined by the parameterBlock
      */
     public RenderedImage create(ParameterBlock paramBlock, RenderingHints hints) {
-        return new MosaicOpImage(
+        return MosaicOpImage.create(
                 paramBlock.getSources(),
                 RIFUtil.getImageLayoutHint(hints),
                 hints,
