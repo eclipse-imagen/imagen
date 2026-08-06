@@ -44,6 +44,11 @@ public class RandomIterFactory {
      * set to true, the current tile used by the iterator is cached. If arrayCalculation is set to true an initial array
      * containing the tile position for every pixel is calculated.
      *
+     * <p>A byte {@link java.awt.image.ComponentSampleModel} source with cachedTiles set gets
+     * {@link RandomIterComponentByte}, which builds no per pixel tile table. It uses bounds only to find the image: a
+     * read outside the image fails, one outside bounds but inside the image works. See its javadoc for the access
+     * patterns it suits.
+     *
      * @param im a read-only RenderedImage source.
      * @param bounds the bounding Rectangle for the iterator, or null.
      * @param cachedTiles flag indicating if tiles must be cached during iteration.
@@ -55,6 +60,9 @@ public class RandomIterFactory {
             bounds = new Rectangle(im.getMinX(), im.getMinY(), im.getWidth(), im.getHeight());
         }
         if (arrayCalculation) {
+            if (cachedTiles && RandomIterComponentByte.applies(im)) {
+                return new RandomIterComponentByte(im);
+            }
             if (im.getMinTileX() >= Byte.MIN_VALUE
                     && (im.getMinTileX() + im.getNumXTiles() - 1) <= Byte.MAX_VALUE
                     && im.getMinTileY() >= Byte.MIN_VALUE
