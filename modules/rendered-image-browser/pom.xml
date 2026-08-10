@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>rendered-image-browser</artifactId>
+  <artifactId>imagen-rendered-image-browser</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <properties>
@@ -22,37 +21,37 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-utilities</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>bandselect</artifactId>
+      <artifactId>imagen-bandselect</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>binarize</artifactId>
+      <artifactId>imagen-binarize</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>format</artifactId>
+      <artifactId>imagen-format</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>rescale</artifactId>
+      <artifactId>imagen-rescale</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>stats</artifactId>
+      <artifactId>imagen-stats</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>

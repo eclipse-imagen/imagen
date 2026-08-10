@@ -4,10 +4,10 @@
 
   <parent>
     <groupId>org.eclipse.imagen</groupId>
-    <artifactId>jiffle</artifactId>
+    <artifactId>imagen-jiffle</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-  <artifactId>jiffle-op</artifactId>
+  <artifactId>imagen-jiffle-op</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Runs a Jiffle script as an image operator with deferred execution.</description>
@@ -15,20 +15,20 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>jiffle-language</artifactId>
+      <artifactId>imagen-jiffle-language</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <!-- test dependencies -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>test-support</artifactId>
+      <artifactId>imagen-test-support</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imageread</artifactId>
+      <artifactId>imagen-imageread</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

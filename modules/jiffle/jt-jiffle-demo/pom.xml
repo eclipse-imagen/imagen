@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.eclipse.imagen</groupId>
-    <artifactId>jiffle</artifactId>
+    <artifactId>imagen-jiffle</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-  <artifactId>jiffle-demo</artifactId>
+  <artifactId>imagen-jiffle-demo</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>A collection of program which demonstrate using the Jiffle language</description>
@@ -14,12 +14,12 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>jiffle-language</artifactId>
+      <artifactId>imagen-jiffle-language</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imageread</artifactId>
+      <artifactId>imagen-imageread</artifactId>
       <version>${project.version}</version>
     </dependency>
 

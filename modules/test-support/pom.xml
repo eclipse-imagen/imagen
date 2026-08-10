@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>test-support</artifactId>
+  <artifactId>imagen-test-support</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Use as a test-dependency, supplying TestBase and TestData support classes</description>
   <properties>
@@ -16,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>iterators</artifactId>
+      <artifactId>imagen-iterators</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -51,7 +50,7 @@
 
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -59,12 +58,12 @@
     <!--
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>warp</artifactId>
+      <artifactId>imagen-warp</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>stats</artifactId>
+      <artifactId>imagen-stats</artifactId>
       <version>${project.version}</version>
     </dependency>
     -->

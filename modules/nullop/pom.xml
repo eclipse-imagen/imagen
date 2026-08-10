@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>nullop</artifactId>
+  <artifactId>imagen-nullop</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <properties>
@@ -16,14 +15,14 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <!-- test dependencies -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>test-support</artifactId>
+      <artifactId>imagen-test-support</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

@@ -6,8 +6,7 @@
     <artifactId>imagen-unsupported</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>square-root</artifactId>
+  <artifactId>imagen-square-root</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
 

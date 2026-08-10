@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>classifier</artifactId>
+  <artifactId>imagen-classifier</artifactId>
 
   <name>${project.groupId}:${project.artifactId}</name>
 
@@ -17,39 +16,39 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>imageread</artifactId>
+      <artifactId>imagen-imageread</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>piecewise</artifactId>
+      <artifactId>imagen-piecewise</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>algebra</artifactId>
+      <artifactId>imagen-algebra</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>binarize</artifactId>
+      <artifactId>imagen-binarize</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>test-support</artifactId>
+      <artifactId>imagen-test-support</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>rendered-image-browser</artifactId>
+      <artifactId>imagen-rendered-image-browser</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

@@ -7,8 +7,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>contour</artifactId>
+  <artifactId>imagen-contour</artifactId>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Generates smooth contours at specified intervals</description>
@@ -16,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

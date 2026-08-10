@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>utilities</artifactId>
+  <artifactId>imagen-utilities</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <properties>
@@ -16,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>iterators</artifactId>
+      <artifactId>imagen-iterators</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -43,7 +42,7 @@
     <!--
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>warp</artifactId>
+      <artifactId>imagen-warp</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -51,7 +50,7 @@
     <!--
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>binarize</artifactId>
+      <artifactId>imagen-binarize</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

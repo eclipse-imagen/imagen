@@ -20,7 +20,7 @@
 
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>translate</artifactId>
+      <artifactId>imagen-translate</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -41,7 +41,7 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>square-root</artifactId>
+      <artifactId>imagen-square-root</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>

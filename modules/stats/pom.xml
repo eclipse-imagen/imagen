@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>stats</artifactId>
+  <artifactId>imagen-stats</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>iterators</artifactId>
+      <artifactId>imagen-iterators</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!--    <dependency>-->
@@ -26,17 +25,17 @@
     <!--    </dependency>-->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>border</artifactId>
+      <artifactId>imagen-border</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>algebra</artifactId>
+      <artifactId>imagen-algebra</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>binarize</artifactId>
+      <artifactId>imagen-binarize</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -48,7 +47,7 @@
     <!-- test dependencies -->
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>test-support</artifactId>
+      <artifactId>imagen-test-support</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
