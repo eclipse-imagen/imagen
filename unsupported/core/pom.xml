@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>translate</artifactId>
+      <artifactId>imagen-translate</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>

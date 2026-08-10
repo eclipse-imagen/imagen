@@ -6,8 +6,7 @@
     <artifactId>imagen-modules</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-
-  <artifactId>iterators</artifactId>
+  <artifactId>imagen-iterators</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <properties>

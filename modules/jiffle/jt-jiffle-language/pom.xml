@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.eclipse.imagen</groupId>
-    <artifactId>jiffle</artifactId>
+    <artifactId>imagen-jiffle</artifactId>
     <version>0.9.3-SNAPSHOT</version>
   </parent>
-  <artifactId>jiffle-language</artifactId>
+  <artifactId>imagen-jiffle-language</artifactId>
   <packaging>jar</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Jiffle raster algebra scripting language</description>
@@ -14,17 +14,17 @@
   <dependencies>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>utilities</artifactId>
+      <artifactId>imagen-utilities</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>algebra</artifactId>
+      <artifactId>imagen-algebra</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
-      <artifactId>binarize</artifactId>
+      <artifactId>imagen-binarize</artifactId>
       <version>${project.version}</version>
     </dependency>
 
