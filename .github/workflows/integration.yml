@@ -52,25 +52,47 @@ jobs:
           cd imagen
           mvn -B clean install -T1C -DskipTests
       - name: Checkout GeoTools, GeoWebCache, GeoServer and more
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
           cd ~
           echo "Preparing git ssh checkouts"
           mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          
+          # check downstream clone for matching this PR's branch name to switch to for integration testing
+          resolve_downstream() {
+            local label="$1"
+            if git ls-remote --heads origin "refs/heads/$BRANCH_NAME" | grep -q .; then
+              echo "Integration branch found matching $label : $BRANCH_NAME, switching"
+              git switch "$BRANCH_NAME"
+            fi
+          }
+          
           echo "Checkout out ImageIO-Ext"
           mkdir imageio-ext
           git clone --quiet --filter=tree:0 https://github.com/geosolutions-it/imageio-ext.git imageio-ext
+          ( cd imageio-ext && resolve_downstream "imageio-ext" )
+          
           echo "Checking out GeoTools"
           mkdir geotools
           git clone --quiet --filter=tree:0 https://github.com/geotools/geotools.git geotools
+          ( cd geotools && resolve_downstream "geotools" )
+          
           echo "Checking out mapfish-print-v2"
           mkdir mapfish-print-v2
           git clone --quiet --filter=tree:0 https://github.com/mapfish/mapfish-print-v2.git mapfish-print-v2
+          ( cd mapfish-print-v2 && resolve_downstream "mapfish-print-v2" )
+          
           echo "Checking out GeoWebCache"
           mkdir geowebcache
           git clone --quiet --filter=tree:0 https://github.com/GeoWebCache/geowebcache.git geowebcache
+          ( cd geowebcache && resolve_downstream "geowebcache" )
+          
           echo "Checking out GeoServer"
           mkdir geoserver
           git clone --quiet --filter=tree:0 https://github.com/geoserver/geoserver.git geoserver
+          ( cd geoserver && resolve_downstream "geoserver" )
+          
       - name: Build ImageIO-Ext with tests
         continue-on-error: ${{ matrix.experimental }}
         run: |
