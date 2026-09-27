@@ -129,7 +129,8 @@ public class CropDescriptor extends OperationDescriptorImpl {
      * @param y The y origin of the cropping operation.
      * @param width The width of the cropping operation.
      * @param height The height of the cropping operation.
-     * @param roi Eventual ROI object used for performing the crop operation.
+     * @param roi Optional ROI. The crop is reduced to the intersection with the ROI bounds, the ROI shape is not used.
+     *     Throws IllegalArgumentException when the ROI bounds do not intersect the crop rectangle.
      * @param noData Eventual No Data Range object used for checking if the No Data are present.
      * @param hints The <code>RenderingHints</code> to use, may be null
      */

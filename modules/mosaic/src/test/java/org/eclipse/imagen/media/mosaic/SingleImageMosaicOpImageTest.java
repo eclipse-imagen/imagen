@@ -18,11 +18,16 @@
  */
 package org.eclipse.imagen.media.mosaic;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Rectangle;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
 import java.awt.image.BandedSampleModel;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.IndexColorModel;
 import java.awt.image.PixelInterleavedSampleModel;
@@ -43,7 +48,7 @@ import org.junit.Test;
 
 /**
  * Verifies that {@link SingleImageMosaicOpImage} produces exactly the same output as the generic {@link MosaicOpImage}
- * for the single byte OVERLAY source case, with and without ROI and nodata.
+ * for the single byte source case, in both mosaic modes, with and without alpha, ROI and nodata.
  */
 public class SingleImageMosaicOpImageTest {
 
@@ -143,6 +148,56 @@ public class SingleImageMosaicOpImageTest {
         assertSamePixels(cropBounds, render(new ROI[] {boundsRoi}, null, layout), render(null, null, layout));
     }
 
+    /** The factory picks the fast path for one byte source only. */
+    @Test
+    public void testCreatePicksImplementation() {
+        RenderedImage ushort = new TiledImage(
+                0,
+                0,
+                W,
+                H,
+                0,
+                0,
+                new PixelInterleavedSampleModel(DataBuffer.TYPE_USHORT, W, H, 1, W, new int[] {0}),
+                null);
+        Vector<RenderedImage> twoSources = asList(threeBandSource());
+        twoSources.add(threeBandSource());
+
+        assertEquals(
+                SingleImageMosaicOpImage.class,
+                create(asList(threeBandSource())).getClass());
+        assertEquals(MosaicOpImage.class, create(asList(ushort)).getClass());
+        assertEquals(MosaicOpImage.class, create(twoSources).getClass());
+    }
+
+    private static MosaicOpImage create(List<RenderedImage> sources) {
+        return MosaicOpImage.create(
+                sources, null, null, MosaicDescriptor.MOSAIC_TYPE_OVERLAY, null, null, null, new double[] {0}, null);
+    }
+
+    /** Hand computed values, so a bug shared with the generic mosaic does not pass unseen. */
+    @Test
+    public void testExactPixels() {
+        ROI roi = new ROIShape(new Rectangle(20, 15, 50, 40));
+        Range black = RangeFactory.create((byte) 0, true, (byte) 0, true);
+        Raster out = render(new ROI[] {roi}, new Range[] {black}, largerLayout());
+        assertPixel(out, -10, -10, 200, 128, 255); // outside the source
+        assertPixel(out, 5, 5, 200, 128, 255); // outside the ROI
+        assertPixel(out, 65, 20, 200, 128, 255); // nodata block
+        assertPixel(out, 30, 20, 50, 80, 110); // source value, (x + y) per band plus 30 * band
+
+        RenderedImage source = threeBandSource();
+        PlanarImage[] alphas = {alphaFor(source)};
+        Raster blended = fast(source, layout(), MosaicDescriptor.MOSAIC_TYPE_BLEND, alphas, null, null)
+                .getData();
+        assertPixel(blended, 10, 10, 20, 50, 80); // alpha 128 keeps the source value
+        assertPixel(blended, 10, 35, 200, 128, 255); // alpha 0
+    }
+
+    private static void assertPixel(Raster raster, int x, int y, int... expected) {
+        assertArrayEquals("pixel " + x + "," + y, expected, raster.getPixel(x, y, (int[]) null));
+    }
+
     /**
      * A destination larger than the source on every side: the pixels the source does not cover must get the destination
      * nodata band by band, the same values the generic mosaic writes there.
@@ -190,13 +245,67 @@ public class SingleImageMosaicOpImageTest {
         };
     }
 
+    @Test
+    public void testBlendSameAsGeneric() {
+        Range black = RangeFactory.create((byte) 0, true, (byte) 0, true);
+        ROI roi = new ROIShape(new Rectangle(20, 15, 50, 40));
+        assertSameAsGeneric(layout(), MosaicDescriptor.MOSAIC_TYPE_BLEND, false, null, null);
+        assertSameAsGeneric(layout(), MosaicDescriptor.MOSAIC_TYPE_BLEND, false, new ROI[] {roi}, new Range[] {black});
+        assertSameAsGeneric(largerLayout(), MosaicDescriptor.MOSAIC_TYPE_BLEND, false, null, new Range[] {black});
+    }
+
+    /** The case of a RGBA raster made transparent outside the map: zero alpha is background, partial alpha is kept. */
+    @Test
+    public void testAlphaSameAsGeneric() {
+        for (MosaicType type : List.of(MosaicDescriptor.MOSAIC_TYPE_BLEND, MosaicDescriptor.MOSAIC_TYPE_OVERLAY)) {
+            assertSameAsGeneric(layout(), type, true, null, null);
+            assertSameAsGeneric(largerLayout(), type, true, null, null);
+        }
+    }
+
+    /** The generic mosaic weights by alpha and ignores the ROI when both are given, so must the fast path. */
+    @Test
+    public void testAlphaOverridesRoi() {
+        ROI roi = new ROIShape(new Rectangle(20, 15, 50, 40));
+        Range black = RangeFactory.create((byte) 0, true, (byte) 0, true);
+        assertSameAsGeneric(layout(), MosaicDescriptor.MOSAIC_TYPE_BLEND, true, new ROI[] {roi}, null);
+        assertSameAsGeneric(layout(), MosaicDescriptor.MOSAIC_TYPE_BLEND, true, new ROI[] {roi}, new Range[] {black});
+    }
+
+    /** Alpha split out of a four band image as a band select view, the way ImageWorker.retainLastBand makes it. */
+    @Test
+    public void testInterleavedAlphaBand() {
+        BufferedImage bi = new BufferedImage(W, H, BufferedImage.TYPE_4BYTE_ABGR);
+        fill(bi, 3);
+        WritableRaster raster = bi.getRaster();
+        for (int y = 0; y < H; y++) {
+            for (int x = 0; x < W; x++) {
+                raster.setSample(x, y, 3, alphaAt(x, y));
+            }
+        }
+        RenderedImage source = PlanarImage.wrapRenderedImage(bi);
+        PlanarImage[] alphas = {PlanarImage.wrapRenderedImage(alphaBandOf(bi))};
+        MosaicType blend = MosaicDescriptor.MOSAIC_TYPE_BLEND;
+        assertSamePixels(
+                generic(source, layout(), blend, alphas, null, null).getData(),
+                fast(source, layout(), blend, alphas, null, null).getData());
+    }
+
     private void assertSameAsGeneric(ROI[] rois, Range[] noDatas) {
-        assertSameAsGeneric(layout(), rois, noDatas);
+        assertSameAsGeneric(layout(), MosaicDescriptor.MOSAIC_TYPE_OVERLAY, false, rois, noDatas);
+    }
+
+    private void assertSameAsGeneric(ImageLayout layout, ROI[] rois, Range[] noDatas) {
+        assertSameAsGeneric(layout, MosaicDescriptor.MOSAIC_TYPE_OVERLAY, false, rois, noDatas);
     }
 
     /** Runs the comparison over every source layout, the tile loop indexes each one differently. */
-    private void assertSameAsGeneric(ImageLayout layout, ROI[] rois, Range[] noDatas) {
+    private void assertSameAsGeneric(
+            ImageLayout layout, MosaicType type, boolean withAlpha, ROI[] rois, Range[] noDatas) {
         for (RenderedImage source : sources()) {
+            // MosaicOpImage wants an alpha of the source sample size, never packed below a byte
+            if (withAlpha && source.getSampleModel().getSampleSize(0) != 8) continue;
+            PlanarImage[] alphas = withAlpha ? new PlanarImage[] {alphaFor(source)} : null;
             String kind = source.getSampleModel().getClass().getSimpleName() + " "
                     + source.getSampleModel().getNumBands() + " bands at " + source.getMinX() + ","
                     + source.getMinY();
@@ -205,8 +314,8 @@ public class SingleImageMosaicOpImageTest {
             assertSamePixels(
                     kind,
                     area,
-                    generic(source, layout, rois, noDatas).getData(),
-                    fast(source, layout, rois, noDatas).getData());
+                    generic(source, layout, type, alphas, rois, noDatas).getData(),
+                    fast(source, layout, type, alphas, rois, noDatas).getData());
         }
     }
 
@@ -216,29 +325,32 @@ public class SingleImageMosaicOpImageTest {
     }
 
     private MosaicOpImage generic(RenderedImage source, ImageLayout layout, ROI[] rois, Range[] noDatas) {
-        return new MosaicOpImage(
-                asList(source),
-                layout,
-                null,
-                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
-                null,
-                rois,
-                null,
-                destNoData(),
-                noDatas);
+        return generic(source, layout, MosaicDescriptor.MOSAIC_TYPE_OVERLAY, null, rois, noDatas);
+    }
+
+    private MosaicOpImage generic(
+            RenderedImage source,
+            ImageLayout layout,
+            MosaicType type,
+            PlanarImage[] alphas,
+            ROI[] rois,
+            Range[] noDatas) {
+        return new MosaicOpImage(asList(source), layout, null, type, alphas, rois, null, destNoData(), noDatas);
     }
 
     private MosaicOpImage fast(RenderedImage source, ImageLayout layout, ROI[] rois, Range[] noDatas) {
+        return fast(source, layout, MosaicDescriptor.MOSAIC_TYPE_OVERLAY, null, rois, noDatas);
+    }
+
+    private MosaicOpImage fast(
+            RenderedImage source,
+            ImageLayout layout,
+            MosaicType type,
+            PlanarImage[] alphas,
+            ROI[] rois,
+            Range[] noDatas) {
         return new SingleImageMosaicOpImage(
-                asList(source),
-                layout,
-                null,
-                MosaicDescriptor.MOSAIC_TYPE_OVERLAY,
-                null,
-                rois,
-                null,
-                destNoData(),
-                noDatas);
+                asList(source), layout, null, type, alphas, rois, null, destNoData(), noDatas);
     }
 
     /** MosaicOpImage casts the source list to Vector, no other List will do. */
@@ -372,6 +484,38 @@ public class SingleImageMosaicOpImageTest {
             }
         }
         return image;
+    }
+
+    /** Alpha over the source bounds: zero on a stripe that crosses the nodata block, partial and opaque elsewhere. */
+    private PlanarImage alphaFor(RenderedImage source) {
+        TiledImage alpha = new TiledImage(
+                source.getMinX(),
+                source.getMinY(),
+                W,
+                H,
+                source.getMinX(),
+                source.getMinY(),
+                new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, W, H, 1, W, new int[] {0}),
+                null);
+        for (int y = 0; y < H; y++) {
+            for (int x = 0; x < W; x++) {
+                alpha.setSample(source.getMinX() + x, source.getMinY() + y, 0, alphaAt(x, y));
+            }
+        }
+        return alpha;
+    }
+
+    /** The alpha band as a view over the four band pixels: pixel stride four, band offset away from zero. */
+    private static BufferedImage alphaBandOf(BufferedImage rgba) {
+        WritableRaster alpha = rgba.getRaster().createWritableChild(0, 0, W, H, 0, 0, new int[] {3});
+        ColorModel gray = new ComponentColorModel(
+                ColorSpace.getInstance(ColorSpace.CS_GRAY), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+        return new BufferedImage(gray, alpha, false, null);
+    }
+
+    private static int alphaAt(int x, int y) {
+        if (y >= 30 && y < 45) return 0;
+        return x < 50 ? 128 : 255;
     }
 
     /** Gradient with a zero block that the nodata range catches, on every band. */

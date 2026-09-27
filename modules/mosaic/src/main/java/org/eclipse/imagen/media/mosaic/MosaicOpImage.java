@@ -417,8 +417,8 @@ public class MosaicOpImage extends OpImage {
     }
 
     /**
-     * Builds a mosaic over the given sources, picking the fastest implementation that can handle them: same output
-     * whichever one is returned.
+     * Builds a mosaic over the given sources. A single byte source gets {@link SingleImageMosaicOpImage}, same output,
+     * faster.
      */
     public static MosaicOpImage create(
             List sources,
@@ -430,7 +430,7 @@ public class MosaicOpImage extends OpImage {
             double[][] thresholds,
             double[] destinationNoData,
             Range[] noDatas) {
-        if (SingleImageMosaicOpImage.applies(sources, mosaicTypeSelected, alphaImgs)) {
+        if (SingleImageMosaicOpImage.applies(sources)) {
             return new SingleImageMosaicOpImage(
                     sources,
                     layout,

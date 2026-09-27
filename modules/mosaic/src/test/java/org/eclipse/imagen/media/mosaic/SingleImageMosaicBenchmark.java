@@ -57,22 +57,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  * {@link Ignore}; the six combinations take about 50 seconds. The printed JMH table is the output, there is nothing to
  * assert. Run it before and after a change to the tile loop to see what the change cost or gained.
  *
- * <p>Last measured on JDK 8, ms/op with the JMH 99.9% error, two runs:
- *
- * <pre>
- * roi              generic                       fast                    speedup
- * NONE           12.98 +- 1.08  12.80 +- 1.28   8.15 +- 0.46  8.59 +- 1.28  1.5x
- * PACKED         15.08 +- 2.92  14.66 +- 1.76   9.82 +- 2.06  9.29 +- 1.10  1.6x
- * BYTE_COMPONENT 12.97 +- 0.68  12.58 +- 0.40   7.40 +- 2.21  7.60 +- 1.21  1.7x
- * </pre>
- *
- * <p>A variant splitting the tile loop per case, the way the rest of the mosaic splits its loops, was measured against
- * the single loop and landed inside the noise (a few percent either way depending on the ROI), so the single loop
- * stays.
- *
  * <p>Absolute values track the machine and the error stays around 5%, so only differences well over 10% mean anything.
- * One tried variant measured slower and was dropped: normalizing both ROI layouts to one byte per pixel before the loop
- * cost 15% on the fast path, the extra pass and allocation being worse than the per-pixel branch they removed.
  */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
