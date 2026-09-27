@@ -112,11 +112,7 @@ public class CropCRIF implements RenderedImageFactory {
             layout.setMinX(finalBounds.x);
             layout.setMinY(finalBounds.y);
 
-            // No ROI is passed. The code used to build one here, new ROIShape(finalBounds), so a
-            // rectangle covering the crop bounds, not a mask: the caller ROI shape was already
-            // reduced to its bounds above. Since the layout is those same bounds, every destination
-            // pixel fell inside it, so it could not exclude anything, it only made the mosaic
-            // rasterize the shape and take the slower per-pixel ROI branch on every tile.
+            // No ROI: the layout already equals the final bounds, so a ROI could not mask anything
             return MosaicOpImage.create(
                     listSrc,
                     layout,
