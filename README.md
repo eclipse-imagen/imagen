@@ -130,139 +130,126 @@ Prep:
     
    This takes about 2 weeks, schuedled for 1st and 15th each month.
 
-Update artifacts:
+Release artifacts are published to two repositories:
 
-### Update Artifacts
+* **repo.osgeo.org** - deployed by a release manager from their own machine (see [Deploy to OSGeo](#deploy-to-osgeo)).
+* **Maven Central** - built, signed and published by the [Publish release to Maven Central](.github/workflows/central.yml)
+  workflow from a release tag, using the Eclipse Foundation managed signing key and Central credentials
+  (see [Publish to Maven Central](#publish-to-maven-central)). This cannot be done locally.
 
-On main:
+### Update Version
 
-1. Before you start check that the Maven build executes with no errors using JDK 11:
+1. Check the Maven build executes with no errors using JDK 17:
 
    ```
    sdk use java 17.0.17-tem
+   mvn clean install
    ```
 
-2. Update version number in Maven POMs (run the Maven versions plugin at project root):
+2. On a release branch update version number in Maven POMs:
 
    ```
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.1
+   git fetch upstream
+   git checkout -b release-0.9.3 upstream/main
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.3
    ```
 
-3. Commit this change.
+3. Commit this change and open a pull request, merge once the build passes.
+
+4. Tag the merged commit on `main`, and push the tag to `eclipse-imagen/imagen`:
 
    ```
-   git add .
-   git commit -m "Release version 0.9.1"
-   git push
+   git fetch upstream
+   git tag -a 0.9.3 -m "Release version 0.9.3" upstream/main
+   git push upstream 0.9.3
    ```
 
-4. Tag this commit, and push the tag to GitHub.
+   The tag must match the POM version exactly, the Maven Central workflow checks this before publishing.
+
+### Deploy to OSGeo
+
+1. Checkout the tag:
 
    ```
-   git tag -a 0.4.0 -m "Release version 0.9.1"
-   git push --tags
+   git checkout 0.9.3
    ```
 
-   This is the commit that will form the GitHub release below.
-
-### Create Release Artifacts
-
-1. Before you start double check that you have `gpg` installed and configured, with your public key distributed.
-
-   References: [Working with PGP Signatures](https://central.sonatype.org/pages/working-with-pgp-signatures.html)
-
-2. The `gpg-agent` will remember a passphrase for a short duration.
-
-   To interact with the agent (so it asks you the passphrase):
-
-   ```
-   gpg --use-agent --armor --detach-sign --output - pom.xml
-   ```
-
-   Reference: [Configuring GPG/PGP for Maven Releases to Sonatype on Mac OS X](https://nblair.github.io/2015/10/29/maven-gpg-sonatype/)
-
-2. Execute the final Maven release build which will sign jars:
-
-   ```
-   mvn clean install -Drelease
-   ```
-
-### Deploy the Release
-
-1. Deploy to Maven Central, using credentials in your `~/.m2/settings.xml`:
+2. Deploy to repo.osgeo.org, using your OSGeo credentials in `~/.m2/settings.xml`:
 
    ```
    <server>
-      <id>central</id>
-      <username>generated_user</username>
-      <password>generated_password</password>
+     <id>nexus</id>
+     <username>osgeo_user</username>
+     <password>osgeo_password</password>
    </server>
    ```
 
-   Reference: [Publishing By Using the Maven Plugin](https://central.sonatype.org/publish/publish-portal-maven/)
+   Then deploy using one of:
 
-2. Deploy to repo.osgeo.org:
+   * Signed release, with sources, javadocs and signatures using your own `gpg` key (matches what is published to Maven Central):
 
-   ```
-   mvn deploy -DskipTests -DskipTests
-   ```
-   
-   Outdated: Deploy to Maven Central with the release property and profile
+     ```
+     mvn clean deploy -Drelease -DskipTests
+     ```
 
-   ```
-   mvn deploy -Drelease -DskipTests
-   ```
-   
-   A successful deploy will verify, and then wait for you to publish:
-   
-   ```
-   Deployment 9590fb21-a026-4451-9722-a7216b258f4d has been validated. To finish publishing visit https://central.sonatype.com/publishing/deployments
-   ```
-   
-   Check the artifacts work as expected before manually publishing.
- 
-3. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases)
+     Reference: [Working with PGP Signatures](https://central.sonatype.org/publish/requirements/gpg/)
 
-   1. Navigate to https://github.com/eclipse-imagen/imagen/releases and use "Draft new Release"
-      based on your tag.
- 
-   2. Copy the release notes:
- 
-      Example: [0.9.1](https://github.com/eclipse-imagen/imagen/releases/tag/0.9.1)
-      
-      You may also wish to hit "generate release notes".
- 
-   3. Add release artifacts (from the `target` folders):
- 
-     * modules/all/target/imagen-all-0.9.1.jar
-     * legacy/all/target/imagen-legacy-all-0.9.1.jar
- 
-   4. Tip: Mark as a draft release (until Eclipse review process completes)
+   * Unsigned, with sources but no javadocs (no `gpg` setup required):
+
+     ```
+     mvn clean deploy -DskipTests
+     ```
+
+### Publish to Maven Central
+
+1. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases):
+
+   1. Use "Draft a new release" and choose your tag.
+   2. Copy the release notes (example: [0.9.3](https://github.com/eclipse-imagen/imagen/releases/tag/0.9.3),
+      you may also wish to hit "Generate release notes".
+   3. Add release artifacts (from the `target` folders of the OSGeo deploy above):
+
+      * `modules/all/target/imagen-all-0.9.3.jar`
+      * `legacy/all/target/imagen-legacy-all-0.9.3.jar`
+
+2. Publish the release, this starts the
+   [Publish release to Maven Central](https://github.com/eclipse-imagen/imagen/actions/workflows/central.yml) workflow.
+
+   To keep the GitHub release as a draft (while an Eclipse release review completes), run the workflow manually
+   with "Run workflow" and enter the tag instead.
+
+3. Check the workflow completes, and the artifacts appear on
+   [Maven Central](https://central.sonatype.com/namespace/org.eclipse.imagen) (this may take a while).
+   If Maven Central rejects the deployment, the validation errors are shown in the workflow log.
+
+References:
+
+* [Eclipse CBI: Publishing to Maven Central with GitHub Actions](https://eclipse.dev/cbi/best-practices/github-actions/central-portal/) - Eclipse Foundation guidance followed by the workflow
+* [Eclipse Project Handbook: Releases](https://www.eclipse.org/projects/handbook/#release) - release reviews and process
+* [Eclipse Foundation Helpdesk](https://gitlab.eclipse.org/eclipsefdn/helpdesk) - ask for help with Maven Central credentials or signing keys
 
 ### Post release
 
 Update main to the next release version:
 
-1. Update version number in Maven POMs (run the Maven release plugin at project root):
+1. On a branch update version number in Maven POMs:
 
    ```
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.2-SNAPSHOT
+   git checkout -b version-0.9.4-SNAPSHOT upstream/main
+   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.4-SNAPSHOT
    ```
 
 2. Update version number in `docs/_config.yml`:
-   
+
    ```
-   imagen_version: "0.9.2-SNAPSHOT"
+   imagen_version: "0.9.4-SNAPSHOT"
    ```
-   
-3. Compile to test, and commit this change.
+
+3. Compile to test, commit this change and open a pull request:
 
    ```
    mvn clean install
-   git add .
-   git commit -m "Version 0.9.2-SNAPSHOT"
-   git push
-   ```  
+   ```
 
 ### Announcing
 

@@ -1,0 +1,63 @@
+name: Publish release to Maven Central
+
+# Publishes signed release artifacts to Maven Central using the Eclipse Foundation
+# provided organization secrets (see https://eclipse.dev/cbi/best-practices/github-actions/central-portal/)
+#
+# Triggered by publishing a GitHub release, the release tag must match the pom.xml version.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to publish (must match pom.xml version)'
+        required: true
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  MAVEN_OPTS: -Dmaven.wagon.httpconnectionManager.ttlSeconds=25 -Dmaven.wagon.http.retryHandler.count=3
+  RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+
+jobs:
+  publish:
+    if: github.repository == 'eclipse-imagen/imagen'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v7
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+      - name: Set up JDK 17 and Maven Central credentials
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Check release version
+        run: |
+          VERSION=$(mvn -B -N -q -ntp -DforceStdout help:evaluate -Dexpression=project.version)
+          echo "pom.xml version: $VERSION, release tag: $RELEASE_TAG"
+          if [[ "$VERSION" == *-SNAPSHOT ]] || [[ "$VERSION" != "$RELEASE_TAG" ]]; then
+            echo "::error::Release tag $RELEASE_TAG does not match pom.xml version $VERSION"
+            exit 1
+          fi
+      - name: Publish to Maven Central
+        run: |
+          mvn -B -ntp deploy -Drelease -Pcentral -DskipTests \
+            -Dspotless.apply.skip=true -Dpom.fmt.skip=true \
+            -Dcentral.autoPublish=true -Dcentral.waitUntil=published
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_SONATYPE_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_SONATYPE_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
