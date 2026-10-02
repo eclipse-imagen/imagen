@@ -9,7 +9,7 @@
         <echo level="info"/>
         <echo level="info" message="Update jai to imagen 0.4.0 in pom.xml files"/>
         <!-- Replace jai_core dependency with imagen-core -->
-        <fileset id="pom.files" dir="${user.dir}" includes="**/pom.xml"/>
+        <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
         <replaceregexp byline="false" flags="s">
             <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*javax\.media\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jai_codec\s*&lt;/artifactId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;/dependency&gt;\s*"/>
             <substitution expression=""/>
@@ -56,7 +56,7 @@
     <target name="pom2" description="Update pom.xml to upgrade imagen from 0.4.0 to 0.9">
         <echo level="info"/>
         <echo level="info" message="Update imagen 0.9.0 in pom.xml files"/>
-        <fileset id="pom.files" dir="${user.dir}" includes="**/pom.xml"/>
+        <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
         <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;imagen\.version&gt;.*&lt;/imagen\.version&gt;"/>
             <substitution
