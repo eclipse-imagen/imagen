@@ -10,7 +10,7 @@
   <name>ImageN</name>
   <description>ImageN provides an extensible, on-demand image processing library with no artificial
         restrictions on raster size or number of bands</description>
-  <url>https://projects.eclipse.org/projects/locationtech.rasterprocessingengine</url>
+  <url>https://projects.eclipse.org/projects/technology.imagen</url>
 
   <!-- PROJECT INFORMATION -->
   <licenses>
@@ -44,10 +44,10 @@
   </modules>
 
   <scm>
-    <connection>git@github.com:locationtech/rasterprocessingengine.git</connection>
-    <developerConnection>git@github.com:locationtech/rasterprocessingengine.git</developerConnection>
+    <connection>scm:git:https://github.com/eclipse-imagen/imagen.git</connection>
+    <developerConnection>scm:git:git@github.com:eclipse-imagen/imagen.git</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/locationtech/rasterprocessingengine</url>
+    <url>https://github.com/eclipse-imagen/imagen</url>
   </scm>
 
   <distributionManagement>
@@ -76,8 +76,14 @@
     Setup for eclipse development:
        mvn eclipse:eclipse
        
-    To build the release (for Maven Central; committers only)
+    Deploy to OSGeo repository (snapshot or release):
+       mvn deploy -DskipTests
+
+    Build signed release artifacts (sources, javadocs, gpg signatures):
        mvn install -Drelease
+
+    Publish to Maven Central (normally run by GitHub Actions with Eclipse Foundation credentials):
+       mvn deploy -Drelease -Pcentral -DskipTests
     -->
 
   <properties>
@@ -95,6 +101,9 @@
     <pom.fmt.skip>${spotless.apply.skip}</pom.fmt.skip>
     <hamcrest.version>3.0</hamcrest.version>
     <jmh.version>1.37</jmh.version>
+    <!-- Maven Central: false to upload and validate only, then publish (or drop) manually in the portal -->
+    <central.autoPublish>false</central.autoPublish>
+    <central.waitUntil>validated</central.waitUntil>
   </properties>
 
   <dependencyManagement>
@@ -263,6 +272,21 @@
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>0.8.10</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.2.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>0.9.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -327,6 +351,34 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- sources and javadocs jars (required by Maven Central) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>${javadoc.skip}</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -354,20 +406,10 @@
       </properties>
       <build>
         <plugins>
-          <!--
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.8.0</version>
-            <extensions>true</extensions>
-            <configuration>
-              <publishingServerId>central</publishingServerId>
-            </configuration>
-          </plugin>
+          <!-- sign artifacts, passphrase from MAVEN_GPG_PASSPHRASE or gpg-agent -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.5</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -378,7 +420,33 @@
               </execution>
             </executions>
           </plugin>
-          -->
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- publish to Maven Central Portal, use together with -Drelease for signed artifacts -->
+      <id>central</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <deploymentName>Eclipse ImageN ${project.version}</deploymentName>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>${central.autoPublish}</autoPublish>
+              <waitUntil>${central.waitUntil}</waitUntil>
+              <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</centralSnapshotsUrl>
+              <excludeArtifacts>
+                <artifact>imagen-demos</artifact>
+                <artifact>imagen-demo</artifact>
+                <artifact>imagen-tutorial</artifact>
+                <artifact>imagen-demo-medical</artifact>
+                <artifact>imagen-demo-mpv</artifact>
+              </excludeArtifacts>
+            </configuration>
+          </plugin>
         </plugins>
       </build>
     </profile>

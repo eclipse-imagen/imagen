@@ -51,6 +51,23 @@
 
   <build>
     <plugins>
+      <!-- uber jar has no sources: generate sources and javadocs from the included modules -->
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <includeDependencySources>true</includeDependencySources>
+          <dependencySourceIncludes>
+            <dependencySourceInclude>org.eclipse.imagen:*</dependencySourceInclude>
+          </dependencySourceIncludes>
+          <additionalDependencies>
+            <additionalDependency>
+              <groupId>org.locationtech.jts</groupId>
+              <artifactId>jts-core</artifactId>
+              <version>${jts.version}</version>
+            </additionalDependency>
+          </additionalDependencies>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -60,6 +77,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <createSourcesJar>true</createSourcesJar>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
