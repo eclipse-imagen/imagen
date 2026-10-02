@@ -112,6 +112,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
+          <!-- rebuild preventing shade from re-processing previously shaded jar -->
+          <forceCreation>true</forceCreation>
           <archive>
             <manifestEntries>
               <Automatic-Module-Name>org.eclipse.imagen.legacy.all</Automatic-Module-Name>
