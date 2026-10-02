@@ -318,6 +318,7 @@
                   <artifact>*.*</artifact>
                   <excludes>
                     <exclude>module-info.class</exclude>
+                    <exclude>META-INF/versions/*/module-info.class</exclude>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                   </excludes>
                 </filter>
@@ -334,21 +335,9 @@
                 </transformer>
               </transformers>
               <artifactSet>
-                <excludes>
-                  <exclude>com.google.code.findbugs:*</exclude>
-                  <exclude>com.google.errorprone:*</exclude>
-                  <exclude>com.google.guava:*</exclude>
-                  <exclude>com.google.j2objc:*</exclude>
-                  <exclude>com:*</exclude>
-                  <exclude>javax:*</exclude>
-                  <exclude>org.antlr:*</exclude>
-                  <exclude>org.checkerframework:*</exclude>
-                  <exclude>org.codehaus.janino:*</exclude>
-                  <exclude>org.codehaus.janino:*</exclude>
-                  <exclude>org.hamcrest:hamcrest:*</exclude>
-                  <exclude>org.huldra.math:*</exclude>
-                  <exclude>org.locationtech.jts:*:</exclude>
-                </excludes>
+                <includes>
+                  <include>org.eclipse.imagen:*</include>
+                </includes>
               </artifactSet>
             </configuration>
           </execution>
