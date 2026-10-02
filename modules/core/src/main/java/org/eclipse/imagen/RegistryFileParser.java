@@ -30,7 +30,6 @@ import java.text.MessageFormat;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -465,25 +464,15 @@ class RegistryFileParser {
         if (!headerLinePrinted) {
 
             if (url != null) {
-                errorMsg(ImageNI18N.getString("RegistryFileParser11"), new Object[] {url.getPath()});
+                LOGGER.log(Level.WARNING, ImageNI18N.getString("RegistryFileParser11"), url.getPath());
             }
 
             headerLinePrinted = true;
         }
 
-        errorMsg(ImageNI18N.getString("RegistryFileParser0"), new Object[] {new Integer(lineno)});
+        LOGGER.log(Level.WARNING, ImageNI18N.getString("RegistryFileParser0"), lineno);
 
-        if (msg != null) errorMsg(msg, null);
-    }
-
-    /**
-     * Creates a <code>MessageFormat</code> object and set the <code>Locale</code> to default and formats the message
-     */
-    private void errorMsg(String key, Object[] args) {
-        MessageFormat mf = new MessageFormat(key);
-        mf.setLocale(Locale.getDefault());
-
-        if (System.err != null) System.err.println(mf.format(args));
+        if (msg != null) LOGGER.warning(msg);
     }
 
     /** Write the OperationRegistry out to the output stream. */

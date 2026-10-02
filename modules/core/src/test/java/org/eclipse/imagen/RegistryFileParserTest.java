@@ -23,13 +23,14 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import org.eclipse.imagen.operator.ConstantDescriptor;
 import org.eclipse.imagen.test.BlockedRegistryDescriptor;
 import org.eclipse.imagen.test.CustomRegistryDescriptor;
 import org.junit.After;
 import org.junit.Test;
 
-public class RegistryFileParserAllowListTest {
+public class RegistryFileParserTest {
 
     @After
     public void clearProperties() {
@@ -71,33 +72,9 @@ public class RegistryFileParserAllowListTest {
     @Test
     public void rejectsBlockedRegistryDescriptorClass() throws Exception {
         OperationRegistry registry = new OperationRegistry();
-        Logger logger = Logger.getLogger(RegistryFileParser.class.getName());
-        List<LogRecord> records = new ArrayList<LogRecord>();
-        Handler handler = new Handler() {
-            @Override
-            public void publish(LogRecord record) {
-                records.add(record);
-            }
 
-            @Override
-            public void flush() {}
-
-            @Override
-            public void close() {}
-        };
-        handler.setLevel(Level.ALL);
-        Level previousLevel = logger.getLevel();
-        boolean previousUseParentHandlers = logger.getUseParentHandlers();
-        logger.addHandler(handler);
-        logger.setLevel(Level.ALL);
-        logger.setUseParentHandlers(false);
-        try {
-            loadRegistry(registry, "descriptor " + BlockedRegistryDescriptor.class.getName() + "\n");
-        } finally {
-            logger.removeHandler(handler);
-            logger.setLevel(previousLevel);
-            logger.setUseParentHandlers(previousUseParentHandlers);
-        }
+        List<LogRecord> records = captureLog(
+                () -> loadRegistry(registry, "descriptor " + BlockedRegistryDescriptor.class.getName() + "\n"));
 
         assertNull(registry.getDescriptor("rendered", "BlockedRegistry"));
         assertTrue(records.stream()
@@ -106,6 +83,22 @@ public class RegistryFileParserAllowListTest {
                         && record.getParameters() != null
                         && record.getParameters().length > 0
                         && BlockedRegistryDescriptor.class.getName().equals(record.getParameters()[0])));
+    }
+
+    @Test
+    public void duplicateDescriptorLogsWarning() throws Exception {
+        OperationRegistry registry = new OperationRegistry();
+        String descriptor = "descriptor " + ConstantDescriptor.class.getName() + "\n";
+
+        List<LogRecord> records = captureLog(() -> loadRegistry(registry, descriptor + descriptor));
+
+        assertNotNull(registry.getDescriptor("rendered", "Constant"));
+        assertTrue(records.stream()
+                .anyMatch(record -> record.getLevel() == Level.WARNING
+                        && new SimpleFormatter().formatMessage(record).contains("line number #2")));
+        assertTrue(records.stream()
+                .anyMatch(record -> record.getLevel() == Level.WARNING
+                        && record.getMessage().contains("already registered against the name \"Constant\"")));
     }
 
     @Test
@@ -132,6 +125,42 @@ public class RegistryFileParserAllowListTest {
         Set<String> cached = AllowedRegistryClasses.allowedClasses();
         assertTrue(cached.contains(BlockedRegistryDescriptor.class.getName()));
         assertTrue(!cached.contains("org.example.UnusedRegistryClass"));
+    }
+
+    private interface RegistryAction {
+        void run() throws Exception;
+    }
+
+    /** Captures the RegistryFileParser log records produced by the action. */
+    private List<LogRecord> captureLog(RegistryAction action) throws Exception {
+        Logger logger = Logger.getLogger(RegistryFileParser.class.getName());
+        List<LogRecord> records = new ArrayList<LogRecord>();
+        Handler handler = new Handler() {
+            @Override
+            public void publish(LogRecord record) {
+                records.add(record);
+            }
+
+            @Override
+            public void flush() {}
+
+            @Override
+            public void close() {}
+        };
+        handler.setLevel(Level.ALL);
+        Level previousLevel = logger.getLevel();
+        boolean previousUseParentHandlers = logger.getUseParentHandlers();
+        logger.addHandler(handler);
+        logger.setLevel(Level.ALL);
+        logger.setUseParentHandlers(false);
+        try {
+            action.run();
+        } finally {
+            logger.removeHandler(handler);
+            logger.setLevel(previousLevel);
+            logger.setUseParentHandlers(previousUseParentHandlers);
+        }
+        return records;
     }
 
     private void loadRegistry(OperationRegistry registry, String content) throws Exception {
