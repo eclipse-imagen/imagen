@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package org.eclipse.imagen.media.scale;
+package org.eclipse.imagen.media.scale2;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
