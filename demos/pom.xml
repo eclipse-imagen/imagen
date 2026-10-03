@@ -15,6 +15,7 @@
     <module>demo</module>
     <module>mpv</module>
     <module>medical</module>
+    <module>guide</module>
   </modules>
 
   <!-- =========================================================== -->

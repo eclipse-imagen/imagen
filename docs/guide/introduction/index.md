@@ -261,6 +261,56 @@ interpolation, then displays the result.
 
 Before proceeding any further, let's take a look at an example ImageN program to get an idea of what it looks like. The Listing below shows a simple example of a complete ImageN program. This example reads an image, passed to the program as a command line argument, scales the image by 2x with bilinear interpolation, then displays the result.
 
+### Adding ImageN to your project
+
+ImageN is published as a set of modules: `imagen-core` extended with additional modules. Use maven `dependencyManagement` to import `imagen-bom` to establish version.
+
+The example program below uses the "ImageRead" and "Scale" operations:
+
+```xml
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-bom</artifactId>
+      <version>{{site.imagen_version}}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<dependencies>
+  <dependency>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen-core</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen-imageread</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen-scale</artifactId>
+  </dependency>
+</dependencies>
+```
+
+The `imagen-bom` covers the supported modules only. Legacy and unsupported modules, such as `imagen-legacy-codec-core`, require an explicit version.
+
+Alternatively use `imagen-all`, a single jar combining the core library and all operation modules. Use either `imagen-all` or the individual modules, not both.
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>org.eclipse.imagen</groupId>
+    <artifactId>imagen-all</artifactId>
+    <version>{{site.imagen_version}}</version>
+  </dependency>
+  </dependency>
+</dependencies>
+```
+
 ***Listing 1-1 Simple Example ImageN Program***
 
 <a name="listing-1-1"></a>
