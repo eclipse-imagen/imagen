@@ -10,6 +10,7 @@
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
 
+  <!-- new modules: add to bom/pom.xml and integration/src/it/jpms-modules -->
   <modules>
     <!-- library base -->
     <module>core</module>
