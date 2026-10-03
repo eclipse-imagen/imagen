@@ -11,7 +11,6 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <description>ImageN Bill of Materials, manages versions of the supported ImageN modules for downstream projects.</description>
 
-  <!-- Supported modules only: legacy and unsupported modules are not managed here -->
   <dependencyManagement>
     <dependencies>
       <!-- core library -->
@@ -248,7 +247,7 @@
         <artifactId>imagen-rendered-image-browser</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <!-- combined jar, use instead of the individual modules above -->
+      <!-- combined jar -->
       <dependency>
         <groupId>org.eclipse.imagen</groupId>
         <artifactId>imagen-all</artifactId>
@@ -259,7 +258,6 @@
 
   <build>
     <plugins>
-      <!-- publish only the dependencyManagement above, not the third-party and test versions inherited from the parent -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
