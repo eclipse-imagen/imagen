@@ -36,6 +36,9 @@ jobs:
       working-directory: bin
       run: |
         java RegistryFileCheck.java 
+    - name: Check JPMS module path integration
+      run: |
+        mvn -B install -pl integration
     - name: Remove SNAPSHOT jars from repository
       run: |
         find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
