@@ -1,0 +1,20 @@
+import java.io.*;
+
+File buildLog = new File( basedir, "build.log" );
+if (!buildLog.isFile()) {
+    throw new FileNotFoundException( "Could locate build.log: " + buildLog );
+}
+String log = org.apache.commons.io.FileUtils.readFileToString(buildLog);
+
+String[] expected = new String[] {
+    "JPMS jpms-all: module org.eclipse.imagen.it.all",
+    "JPMS jpms-all: imagen module org.eclipse.imagen.all",
+    "JPMS jpms-all: Scale2 width 32",
+    "JPMS jpms-all: Jiffle sample 17.0",
+    "JPMS jpms-all: all checks passed"
+};
+for (String line : expected) {
+    if (!log.contains(line)) {
+        throw new IllegalStateException("Expected: " + line);
+    }
+}

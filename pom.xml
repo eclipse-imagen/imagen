@@ -41,6 +41,7 @@
     <module>legacy</module>
     <module>unsupported</module>
     <module>demos</module>
+    <module>integration</module>
   </modules>
 
   <scm>
@@ -444,6 +445,7 @@
                 <artifact>imagen-tutorial</artifact>
                 <artifact>imagen-demo-medical</artifact>
                 <artifact>imagen-demo-mpv</artifact>
+                <artifact>imagen-integration</artifact>
               </excludeArtifacts>
             </configuration>
           </plugin>
