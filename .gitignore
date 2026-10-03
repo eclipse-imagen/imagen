@@ -15,6 +15,7 @@ hs_err_pid*
 workspace
 .DS_Store
 *.spotless-index
+.flattened-pom.xml
 out
 
 # Ignore generated content
