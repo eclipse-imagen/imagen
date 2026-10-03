@@ -34,30 +34,42 @@ Eclipse ImageN offers a migration path for developers migrating from the Java Ad
 
 1. Download ant migration scripts:
 
-    * [pom-updates.xml](https://github.com/eclipse-imagen/imagen/blob/main/docs/migration/pom-update.xml)
-    * [code-updates.xml](https://github.com/eclipse-imagen/imagen/blob/main/docs/migration/code-update.xml)
+    * [pom-update.xml](https://github.com/eclipse-imagen/imagen/blob/main/docs/migration/pom-update.xml)
+    * [code-update.xml](https://github.com/eclipse-imagen/imagen/blob/main/docs/migration/code-update.xml)
 
 2. Ant refactoring script for ``pom.xml``:
 
    ```bash
-   ant -f pom-updates.xml -Dproject.dir=(absolute path to your project directory)
+   ant -f pom-update.xml -Dproject.dir=(absolute path to your project directory)
    ```
    
    This is a best-effort script recognizing ``jai_core``, ``jai_codec`` dependencies used with ``jai.version``.
    
 3. And refactoring script for ``java`` files.
    
-   ```
-   ant -f code-updates.xml -Dproject.dir=(absolute path to your project directory)
+   ```bash
+   ant -f code-update.xml -Dproject.dir=(absolute path to your project directory)
    ```
    
-4. This is a simple refactoring script to fix:
+   The default ``update`` target runs each step in order:
+   
+   * ``update1``: JAI and JAI-Ext imports to ImageN 0.4.0
+   * ``update2``: JAI class names and constants to ImageN 0.9.0
+   * ``update3``: scale2 package changes in ImageN 0.9.3.3
+   
+   ImageN projects can run only the steps needed for their upgrade.
+   To update a project using ImageN 0.9.2 to ImageN 0.9.3:
+   
+   ```bash
+   ant -f code-update.xml -Dproject.dir=/home/user/dev/myproject update3
+   ```
+   
+4. This is a simple search and replace refactoring script to fix:
    
    * imports and class references
    * class name changes made during transition to ImageN library
    * ParameterBlock constants, like "ImageN.ImageReadParam".
-   
-   
+
 ## Manual Update
 
 To upgrade:
@@ -191,6 +203,11 @@ The registry files have been renamed
 |-----------------------------|--------------------------------|
 | `META-INF/registryFile.jai` | `META-INF/registryFile.imagen` | 
 
+Scale2 has been moved to a new package in ImageN 0.9.3:
+
+| ImageN 0.9.2                              | ImageN 0.9.3                                   |
+|------------------------------------------------|-------------------------------------------------|
+| `org.eclipse.imagen.media.scale.Scale2*`       | `org.eclipse.imagen.media.scale2.Scale2*`       |
 
 # Java Image Formats
 

@@ -49,6 +49,7 @@ org.eclipse.imagen.media.range
 org.eclipse.imagen.media.rescale
 org.eclipse.imagen.media.rlookup
 org.eclipse.imagen.media.scale
+org.eclipse.imagen.media.scale2
 org.eclipse.imagen.media.serialize
 org.eclipse.imagen.media.shadedrelief
 org.eclipse.imagen.media.stats
