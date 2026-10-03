@@ -135,6 +135,12 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-contour</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-convolve</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
@@ -160,6 +166,12 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-imagefunction</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-imageread</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
@@ -274,6 +286,12 @@
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-vectorbin</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-vectorize</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>

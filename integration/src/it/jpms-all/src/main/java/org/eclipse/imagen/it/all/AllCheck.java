@@ -28,7 +28,7 @@ public class AllCheck {
         check("imagen module", ImageN.class.getModule().getName(), "org.eclipse.imagen.all");
 
         OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
-        for (String name : new String[] {"Affine", "Scale", "Scale2", "Add", "Stats", "Jiffle"}) {
+        for (String name : new String[] {"Affine", "Scale", "Scale2", "Add", "Stats", "Jiffle", "Contour", "Vectorize", "ImageRead"}) {
             check("registered " + name, registry.getDescriptor(OperationDescriptor.class, name) != null, true);
         }
 
