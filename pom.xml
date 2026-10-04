@@ -348,6 +348,7 @@
         <artifactId>sortpom-maven-plugin</artifactId>
         <configuration>
           <skip>${pom.fmt.skip}</skip>
+          <pomFile>pom.xml</pomFile>
           <keepBlankLines>true</keepBlankLines>
           <spaceBeforeCloseEmptyElement>false</spaceBeforeCloseEmptyElement>
           <createBackupFile>false</createBackupFile>
