@@ -324,7 +324,7 @@ appropriate \"to\" and \"from\" conversion methods are implemented.
 However, most developers can simply use the default `sRGB` color space
 or color spaces that are represented by commonly-available ICC
 profiles, such as profiles for monitors and printers or profiles
-embedded in image data.``
+embedded in image data.
 
 The `ICC_ColorSpace` class is based on ICC profile data as represented
 by the `ICC_Profile` class. The `ICC_Profile` class is a

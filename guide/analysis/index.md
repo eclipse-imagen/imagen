@@ -258,7 +258,7 @@ will be of type `Histogram`.
 Several get methods allow you to check on the four histogram
 parameters:
 
--   The bin data for all bands (`getBins`)``
+-   The bin data for all bands (`getBins`)
 
 -   The bin data for a specified band (`getBins`)
 
@@ -540,7 +540,7 @@ subsampling of the region of interest according to `xPeriod` and
 gathering to be traded off against one another.
 
 The `accumulateStatistics` method is used to accumulate statistics on
-a specified region into the previously-created statistics object.``
+a specified region into the previously-created statistics object.
 
 **API:** `org.eclipse.imagen.StatisticsOpImage`
 

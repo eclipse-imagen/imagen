@@ -180,7 +180,7 @@ The following methods in the `ROIShape` class read the bounds of the
 The `ROIShape.contains` method is used to determine if a given pixel
 lies within the region of interest. The `ROIShape.intersects` method
 is used to determine if a rectangular region of the image intersects
-the ROI.``
+the ROI.
 
 **API:** `org.eclipse.imagen.ROIShape`
 
@@ -1428,7 +1428,7 @@ desired speed and image quality, as shown in [Table
 
 ### 6.6.1 Ordered Dither
 
-``The ordered dithering operation is somewhat faster than the
+The ordered dithering operation is somewhat faster than the
 error-diffusion dither and produces a somewhat better destination
 image quality than the error-diffusion dither. The `OrderedDither`
 operation also differs from error-diffusion dither in that it
