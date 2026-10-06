@@ -101,7 +101,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    private ParameterList setParameter0(String paramName, Object obj) {
+    private ParameterListImpl setParameter0(String paramName, Object obj) {
 
         int index = paramIndices.indexOf(paramName);
 
@@ -130,7 +130,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, byte b) {
+    public ParameterListImpl setParameter(String paramName, byte b) {
         return setParameter0(paramName, new Byte(b));
     }
 
@@ -146,7 +146,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     Boolean</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, boolean b) {
+    public ParameterListImpl setParameter(String paramName, boolean b) {
         return setParameter0(paramName, new Boolean(b));
     }
 
@@ -162,7 +162,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     Character</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, char c) {
+    public ParameterListImpl setParameter(String paramName, char c) {
         return setParameter0(paramName, new Character(c));
     }
 
@@ -181,7 +181,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *		pointed to by the paramName is not a <code>Short</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, short s) {
+    public ParameterListImpl setParameter(String paramName, short s) {
         return setParameter0(paramName, new Short(s));
     }
 
@@ -197,7 +197,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     Integer</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, int i) {
+    public ParameterListImpl setParameter(String paramName, int i) {
         return setParameter0(paramName, new Integer(i));
     }
 
@@ -213,7 +213,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, long l) {
+    public ParameterListImpl setParameter(String paramName, long l) {
         return setParameter0(paramName, new Long(l));
     }
 
@@ -229,7 +229,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, float f) {
+    public ParameterListImpl setParameter(String paramName, float f) {
         return setParameter0(paramName, new Float(f));
     }
 
@@ -245,7 +245,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, double d) {
+    public ParameterListImpl setParameter(String paramName, double d) {
         return setParameter0(paramName, new Double(d));
     }
 
@@ -259,7 +259,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, Object obj) {
+    public ParameterListImpl setParameter(String paramName, Object obj) {
         return setParameter0(paramName, obj);
     }
 
