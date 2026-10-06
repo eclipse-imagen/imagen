@@ -1,3 +1,4 @@
+import java.awt.Frame;
 import java.awt.image.*;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.*;
@@ -8,7 +9,7 @@ import org.eclipse.imagen.widget.*;
  * nodes and displays the result locally.
  */
 
-public class MultiNodeTest extends WindowContainer {
+public class MultiNodeTest extends Frame {
     public static void main(String[] args) {
         if(args.length != 3) {
           throw new RuntimeException("Usage: java MultiNodeTest "+
@@ -40,6 +41,6 @@ setTitle(getClass().getName()+" "+fileName);
 add(new ScrollingImagePanel(rmt2, rmt2.getWidth(),
                             rmt2.getHeight()));
         pack();
-        show();
+        setVisible(true);
     }
 }

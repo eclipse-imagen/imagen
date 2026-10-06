@@ -1,5 +1,5 @@
 # ImageN Jekyll Configuration
-exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json", "README.md", "Rakefile"]
+exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json", "README.md", "Rakefile", "javadocs/legal/jquery.md", "javadocs/legal/jqueryUI.md"]
 
 # Theme
 remote_theme: pmarsceill/just-the-docs
@@ -25,7 +25,6 @@ baseurl: "/imagen"
 
 imagen_version: "0.9.3-SNAPSHOT"
 
-exclude: [javadocs/legal/jquery.md,javadocs/legal/jqueryUI.md]
 
 defaults:
  - scope:

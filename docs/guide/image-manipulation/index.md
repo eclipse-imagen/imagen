@@ -260,7 +260,7 @@ data type of the source images.
 The pixel values of the destination image are defined by the following
 pseudocode:
 
-         if (srcs[0][x][y][b] srcs[1][x][y][b]) {
+         if (srcs[0][x][y][b] > srcs[1][x][y][b]) {
              dst[x][y][b] = srcs[0][x][y][b];
          } else {
              dst[x][y][b] = srcs[1][x][y][b];
@@ -317,10 +317,10 @@ images in the renderable mode.
 ```java
 // Set up the parameter block and add the two source images to it
 ParameterBlock pb = new ParameterBlock();
-pb.add(im0);
-pb.add(im1);
+pb.addSource(im0);
+pb.addSource(im1);
 
-// Find the maximum value of the two images
+// Find the minimum value of the two images
 RenderableOp im2 = ImageN.createRenderable("min", pb, hints);
 ```
 
@@ -464,7 +464,7 @@ and one parameter:
 
 [Listing 6-4](../image-manipulation) shows a partial code
 sample of using the `AndConst` operation to AND a source image with a
-defined constant of value 1.2.
+defined constant of value 0xF0.
 
 ***Listing 6-4*  ANDing an Image with a Constant** <a name="listing6-4"></a>
 
@@ -473,7 +473,7 @@ defined constant of value 1.2.
 // value.
 ParameterBlock pb = new ParameterBlock();
 pb.addSource(im);       // im as the source image
-pb.add(1.2f);     // The constant
+pb.add(new int[] {0xF0});     // The constant
 
 // AND the image with the constant.
 RenderableOp op = ImageN.createRenderable("andconst", pb, hints);
@@ -522,12 +522,12 @@ sample of using the `or` operation to OR two images.
 ```java
 // Read the first image.
 pb = new ParameterBlock();
-pb.addSource(file1);
+pb.add(file1);
 RenderedOp src1 = ImageN.create("stream", pb);
 
 // Read the second image.
 pb = new ParameterBlock();
-pb.addSource(file2);
+pb.add(file2);
 RenderedImage src2 = ImageN.create("stream", pb);
 
 // OR the two images.
@@ -604,7 +604,7 @@ The following matrix defines the `Xor` operation:
 The destination pixel values are defined by the following pseudocode:
 
 ```
-         dst[x][y][b] = srcs[0][x][y][b] ^ srcs[0][x][y][b];
+         dst[x][y][b] = srcs[0][x][y][b] ^ srcs[1][x][y][b];
 ```
 
 The `Xor` operation takes one rendered or renderable source image and
@@ -693,7 +693,7 @@ sample of using the `Not` operation.
 ```java
 // Read the source image.
 pb = new ParameterBlock();
-pb.addSource(file);
+pb.add(file);
 RenderedOp src = ImageN.create("stream", pb);
 
 // Create the Not operation.
@@ -828,11 +828,11 @@ sample of using the `Add` operation to add two images.
 ```java
 // Read the two images.
 pb = new ParameterBlock();
-pb.addSource(s1);
+pb.add(s1);
 RenderedImage src1 = (RenderedImage)ImageN.create("stream", pb);
 
 pb = new ParameterBlock();
-pb.addSource(s2);
+pb.add(s2);
 RenderedImage src2 = (RenderedImage)ImageN.create("stream", pb);
 
 // Create the ParameterBlock for the operation
@@ -852,8 +852,9 @@ pixel value of a source image on a per-band basis:
 ```
 if (constants.length < dstNumBands) {
     dst[x][y][b] = src[x][y][b] + constants[0];
-else {
-    dst[x][y][b] = src[x][y][b] + constants[b]
+} else {
+    dst[x][y][b] = src[x][y][b] + constants[b];
+}
 ```
 
 The `AddConst` operation takes one rendered or renderable source image
@@ -1201,8 +1202,8 @@ same interpretation and with contents defined by:
          c = src1[x][y][2k];
          d = src1[x][y][2k + 1];
          
-         dst[x][y][2k] = (a*c + b*d)/(c2 + d2)
-         dst[x][y][2k + 1] = (b*c - a*d)/(c2 + d2)
+         dst[x][y][2k] = (a*c + b*d)/(c*c + d*d)
+         dst[x][y][2k + 1] = (b*c - a*d)/(c*c + d*d)
 
 ```
 
@@ -1379,7 +1380,7 @@ image. The pixel values of the destination image are defined by the
 following pseudocode:
 
 ```java
-dst[x][y][b] = java.lang.Math.exp(src[x][y][b])
+dst[x][y][b] = java.lang.Math.exp(src[x][y][b]);
 ```
 
 For integral image datatypes, the result will be rounded and clamped
@@ -1635,7 +1636,7 @@ sample of using the `ErrorDiffusion` operation.
 ```java
 // Create a color map with the 4-9-6 color cube and the 
 // Floyd-Steinberg error kernel.
-ParameterBlock pb;
+ParameterBlock pb = new ParameterBlock();
 pb.addSource(src);
 pb.add(ColorCube.BYTE_496);
 pb.add(KernelImageN.ERROR_FILTER_FLOYD_STEINBERG);
@@ -1673,7 +1674,7 @@ highVal = (high.length < dstNumBands) ?
 
 if (src[x][y][b] < lowVal) {
     dst[x][y][b] = lowVal;
-} else if (src[x][y][b] highVal) {
+} else if (src[x][y][b] > highVal) {
     dst[x][y][b] = highVal;
 } else {
     dst[x][y][b] = src[x][y][b];
@@ -1717,10 +1718,10 @@ for (int i=0; i<b; i++) {
 }
 
 // Create the ParameterBlock with the source and parameters.
-pb = new ParameterBlock();
-pb.addSource(src);
-pb.add(low);
-pb.add(high);
+ParameterBlockImageN pb = new ParameterBlockImageN("Clamp")
+        .addSource(src)
+        .setParameter("low", low)
+        .setParameter("high", high);
 
 // Perform the operation.
 RenderedImage dst = ImageN.create("clamp", pb);
@@ -1843,13 +1844,12 @@ at coordinates 1,1, as shown in [Figure
 ***Listing 6-14*  Constructing a KernelImageN** <a name="listing6-14"></a>
 
 ```java
-kernel = new KernelImageN;
 float[] kernelData = {
     0.0F,        1.0F,        0.0F,
     1.0F,        1.0F,        1.0F,
     0.0F,        1.0F,        0.0F
 };
-kernel = new KernelImageN(3, 3, 1, 1, kernelData);
+KernelImageN kernel = new KernelImageN(3, 3, 1, 1, kernelData);
 ```
 
 <a name="figure-6-4"></a>

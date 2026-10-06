@@ -256,10 +256,10 @@ public class ClampDescriptor extends OperationDescriptorImpl {
 private static final String[][] resources = {
     {"GlobalName",  "Clamp"},
     {"LocalName",   "Clamp"},
-    {"Vendor",      "com.sun.org.eclipse.imagen"},
+    {"Vendor",      "org.eclipse.imagen.media"},
     {"Description", "Clamps the pixel values of a rendered image"},
     {"DocURL",      "https://projects.eclipse.org/projects/technology.imagen/jaiapi/org.eclipse.imagen.operator.ClampDescriptor.html"},
-    {"Version",     "Beta")},
+    {"Version",     "Beta"},
     {"arg0Desc",    "The lower boundary for each band."},
     {"arg1Desc",    "The upper boundary for each band."}
 };
@@ -506,8 +506,8 @@ construction of a new `RectIter`.
 
 ***Listing 14-3*  Example RectIter** <a name="listing-14-3"></a>
 
-```java`
-% relative-include RectIterTest.java %}
+```java
+{% include_relative RectIterTest.java %}
 ```
 
 14.5 Writing New Image Decoders and Encoders

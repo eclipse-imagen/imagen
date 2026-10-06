@@ -7,7 +7,7 @@ import java.util.*;
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.operator.*;
 import org.eclipse.imagen.widget.*;
-public class RemoteImagingTest extends WindowContainer {
+public class RemoteImagingTest extends Frame {
 
 /** Default remote server. */
 private static final String DEFAULT_SERVER =
@@ -119,7 +119,7 @@ pb = (new
         // Dither the sum of the rescaled images.
         pb = (new ParameterBlock()).addSource(sum);
         
-pb.add(ColorCube.BYTE_496).add(KernelJAI.DITHER_MASK_443);
+pb.add(ColorCube.BYTE_496).add(KernelImageN.DITHER_MASK_443);
         RenderedOp dithered = ImageN.create("ordereddither", pb, rh);
 
 // Construct a RemoteImage from the RenderedOp chain.
@@ -150,21 +150,18 @@ add(new ScrollingImagePanel(remoteImage,
 pb = new ParameterBlock();
 pb.addSource(dithered);
 RenderableOp absImage = ImageN.createRenderable("absolute", pb);
-pb = new ParameterBlock();
-pb.addSource(absImage).add(ColorCube.BYTE_496);
-RenderableOp lutImage = ImageN.createRenderable("lookup", pb);
 AffineTransform tf =
-       AffineTransform.getScaleInstance(384/dithered.getWidth(),
-                                        256/dithered.getHeight());
+       AffineTransform.getScaleInstance(384.0/dithered.getWidth(),
+                                        256.0/dithered.getHeight());
 Rectangle aoi = new Rectangle(128, 128, 384, 256);
 RenderContext rc = new RenderContext(tf, aoi, rh);
-remoteImage = new RemoteImage(serverName, lutImage, rc);
+remoteImage = new RemoteImage(serverName, absImage, rc);
 add(new ScrollingImagePanel(remoteImage,
                             remoteImage.getWidth(),
                             remoteImage.getHeight()));
 
 // Finally display everything
         pack();
-        show();
+        setVisible(true);
     }
 }

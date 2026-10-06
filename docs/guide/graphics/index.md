@@ -135,7 +135,7 @@ desired width and call `setStroke`. The following example sets the
 stroke width to 12 points.
 
 ```java
-wideStroke = new BasicStroke(12.0);
+wideStroke = new BasicStroke(12.0f);
 g2.setStroke(wideStroke);
 ```
 
@@ -157,7 +157,8 @@ desired attribute. The following example sets the stroke width to 12
 points and endcap style is set to `CAP_ROUND`.
 
 ```java
-wideStroke = new BasicStroke(12.0, BasicStroke.CAP_ROUND);
+roundStroke = new BasicStroke(12.0f, BasicStroke.CAP_ROUND,
+                              BasicStroke.JOIN_MITER);
 g2.setStroke(roundStroke);
 ```
 
@@ -179,8 +180,8 @@ attribute. The following example sets the stroke width to 12 points,
 an endcap style of `CAP_ROUND`, and a join style of `JOIN_ROUND`.
 
 ```java
-wideStroke = new BasicStroke(12.0, BasicStroke.CAP_ROUND,
-                             BasicStroke.JOIN_ROUND);
+roundStroke = new BasicStroke(12.0f, BasicStroke.CAP_ROUND,
+                              BasicStroke.JOIN_ROUND);
 g2.setStroke(roundStroke);
 ```
 
@@ -299,7 +300,7 @@ shape is filled with texture.
 // Create a buffered image texture patch of size 5 X 5.
 BufferedImage bi = new BufferedImage(5, 5,
                        BufferedImage.TYPE_INT_RGB);
-Graphics2D big bi.createGraphics();
+Graphics2D big = bi.createGraphics();
 
 // Render into the BufferedImage graphics to create the texture.
 big.setColor(Color.green);
@@ -368,7 +369,7 @@ public void paint(Graphics g) {
    g2.setStroke(new BasicStroke(4.0f));
 
    // Create a star using a general path object.
-   GeneralPath p new GeneralPath(GeneralPath.NON_ZERO);
+   GeneralPath p = new GeneralPath(GeneralPath.NON_ZERO);
    p.moveTo(- 100.0f, - 25.0f);
    p.lineTo(+ 100.0f, - 25.0f);
    p.lineTo(- 50.0f, + 100.0f);
@@ -404,11 +405,11 @@ the `setColor` method is called to define a green fill for a
 ***Listing 10-5*  Example Filling a Shape** <a name="listing-10-5"></a>
 
 ```java
-Public void paint(Graphics g) {
+public void paint(Graphics g) {
    Graphics2D g2 = (Graphics2D) g;
 
-   g2.setpaint(Color.green);
-   Rectangle2D r2 = new Rectangle2D.float(25, 25, 150, 150);
+   g2.setPaint(Color.green);
+   Rectangle2D r2 = new Rectangle2D.Float(25, 25, 150, 150);
 
    g2.fill(r2);
 }
@@ -454,7 +455,7 @@ imagePath = new String("./images/sample.jpg");
 Image ai = loadAWTImage(imagePath, this);
 RenderedImage ri = ImageN.create("awtimage", ai);
 BufferedImage bi = getBufferedImage(ri);
-RenderedImage targetImage = null;
+BufferedImage targetImage = null;
 targetImage = new BufferedImage(bi.getWidth(),
                                 bi.getHeight(),
                                 bi.getType());

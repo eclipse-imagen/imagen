@@ -17,26 +17,28 @@ These are provided as a legacy-codec-core dependency for applications wishing to
    <dependency>
      <groupId>org.eclipse.imagen</groupId>
      <artifactId>imagen-legacy-codec-core</artifactId>
-     <version>0.9.2-SNAPSHOT</version>
+     <version>{{site.imagen_version}}</version>
    </dependency>
 ```
 
 C.1 Introduction
 --------------------------------------
 
-The `org.eclipse.imagen.codec` package provides a set of interfaces and
+The `org.eclipse.imagen.media.codec` package provides a set of interfaces and
 classes for encoding and decoding compressed image data files. ImageN
 supports the following codecs:
 
 | Codec | Description |
 | ----- | ------------|
 | BMP   | Microsoft Windows bitmap image file format |
-| FPX   | FlashPix by the Digital Imaging Group (DIG) |
-| JPEG  |    [Joint Photographic Experts Group (JPEG) format |
-| PNG   |   Portable Network Graphics file format |
+| GIF   | Graphics Interchange Format (decode only) |
+| PNG   | Portable Network Graphics file format |
 | PNM   | Portable aNy Map file format |
+| WBMP  | Wireless bitmap file format |
 
-The `org.eclipse.imagen.codec` package also enables you to create your
+The FPX, JPEG and TIFF codecs are not provided; use the `ImageRead` operation or `javax.imageio` for these formats.
+
+The `org.eclipse.imagen.media.codec` package also enables you to create your
 own additional codecs if those listed above are not sufficient. See
 [Chapter 12, \"Extending the API](../extension),\" for
 more information.
@@ -68,7 +70,7 @@ C.2 Interfaces and Classes
 
 The following tables list the interfaces and classes used for image
 data compression and decompression. These interfaces and classes are
-all part of the `org.eclipse.imagen.codec` package.
+all part of the `org.eclipse.imagen.media.codec` package.
 
 **Table C-1 Codec Interfaces** <a name="table-C-1"></a>
 
@@ -87,7 +89,7 @@ all part of the `org.eclipse.imagen.codec` package.
 | ImageDecoderImpl  | Extends: `java.lang.Object`  <br/> Implements: `ImageDecoder`  <br/> An implementation of the ImageDecoder interface useful for subclassing. |
 | ImageEncoderImpl  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncoder`  <br/> An implementation of the ImageEncoder interface useful for subclassing. |
 | BMPEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`  <br/> Specifies parameters for encoding BMP format image files. |
-| JPEGEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`, `com.sun.image.codec.jpeg.JPEGEncodeParam`  <br/> Specifies parameters for encoding JPEG format image files. |
+| JPEGEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`  <br/> Specifies parameters for encoding JPEG format image files. |
 | PNMEncodeParam  | Extends: `java.lang.Object`  <br/> Implements: `ImageEncodeParam`  <br/> Specifies parameters for encoding PNM format image files. |
 
 C.3 Encoding a Compressed Image File
@@ -107,13 +109,13 @@ compressed image file, you:
 RenderedImage im;
 String filename;
 
-FileOutputStream dst = new FileOutputStream(filename)
+FileOutputStream dst = new FileOutputStream(filename);
 
 ImageEncoder enc =
     ImageCodec.createImageEncoder("codec", dst, null);
 ```
 
-The "codec" parameter specifies the name of the codec to be used ("BMP", "JPEG", "PNG", or "PNM"). The dst parameter specifies the OutputStream to write to.
+The "codec" parameter specifies the name of the codec to be used ("BMP", "PNG", "PNM" or "WBMP"). The dst parameter specifies the OutputStream to write to.
 
 ```java
 enc.encode(im);
@@ -129,7 +131,7 @@ The following sample code is an example of encoding a BMP file.
 RenderedImage im;
 String filename;
 
-FileOutputStream dst = new FileOutputStream(filename)
+FileOutputStream dst = new FileOutputStream(filename);
 ImageEncoder enc =
     ImageCodec.createImageEncoder("BMP", dst, null);
 enc.encode(im);
@@ -138,7 +140,7 @@ dst.close();
 
 ------------------------------------------------------------------------
 
-**API:** `org.eclipse.imagen.codec.ImageCodec`  
+**API:** `org.eclipse.imagen.media.codec.ImageCodec`  
 
 Returns an `ImageEncoder` object suitable for encoding to the supplied `OutputStream`, using the supplied `ImageEncodeParam` object.
 
@@ -149,10 +151,10 @@ Returns an `ImageEncoder` object suitable for encoding to the supplied `OutputSt
 ```
 
 
-**API:** `org.eclipse.imagen.codec.ImageEncoder`
+**API:** `org.eclipse.imagen.media.codec.ImageEncoder`
 
 ```
-    void encode(java.awt.image.Raster ras)
+    void encode(java.awt.image.Raster ras, java.awt.image.ColorModel cm)
     void encode(java.awt.image.RenderedImage im)
 ```
 
@@ -168,37 +170,42 @@ The decoding of any of the supported image formats is done with one of
 the `ImageCodec.createImageDecoder` methods. To decode a compressed
 image file, you:
 
-The following sample code is an example of decoding a JPEG file.
+The following sample code is an example of decoding a PNG file.
 
 
 ------------------------------------------------------------------------
 ```java
-RenderedImage im;
 String filename;
 
-FileInputStream dst = new FileInputStream(filename)
+FileInputStream src = new FileInputStream(filename);
 ImageDecoder dec =
-    ImageCodec.createImageDecoder("JPEG", dst, null);
-enc.decode(im);
-dst.close();
+    ImageCodec.createImageDecoder("PNG", src, null);
+RenderedImage im = dec.decodeAsRenderedImage();
 ```
 ------------------------------------------------------------------------
 
-**API:** `org.eclipse.imagen.codec.ImageCodec`
+**API:** `org.eclipse.imagen.media.codec.ImageCodec`
 
 ```
-    static ImageEncoder createImageEncoder(java.lang.String name, 
-                                           java.io.OutputStream dst,
-                                           ImageEncodeParam param)
-    static ImageEncoder createImageEncoder(java.lang.String name, 
-                                           java.io.OutputStream dst)
+    static ImageDecoder createImageDecoder(java.lang.String name,
+                                           java.io.InputStream src,
+                                           ImageDecodeParam param)
+    static ImageDecoder createImageDecoder(java.lang.String name,
+                                           java.io.File src,
+                                           ImageDecodeParam param)
+    static ImageDecoder createImageDecoder(java.lang.String name,
+                                           SeekableStream src,
+                                           ImageDecodeParam param)
 ```
 
-**API:** `org.eclipse.imagen.codec.ImageEncoder`
+**API:** `org.eclipse.imagen.media.codec.ImageDecoder`
 
 ```
-    void encode(java.awt.image.Raster ras)
-    void encode(java.awt.image.RenderedImage im)
+    int getNumPages()
+    java.awt.image.Raster decodeAsRaster()
+    java.awt.image.Raster decodeAsRaster(int page)
+    java.awt.image.RenderedImage decodeAsRenderedImage()
+    java.awt.image.RenderedImage decodeAsRenderedImage(int page)
 ```
 
 C.5 Standard Image Compression Schemes
@@ -280,9 +287,8 @@ following values:
 
 #### C.5.1.1 BMP Coding Parameters
 
-Java Advanced Imaging provides four parameters for defining BMP
-coding: version, compression type, data layout, and the number of bits
-per pixel.
+`BMPEncodeParam` provides three parameters for defining BMP
+coding: version, compression, and data layout.
 
 
 #### C.5.1.2 BMP Version
@@ -300,7 +306,7 @@ specified with `getVersion` and `setVersion` methods in the
 
 If not specifically set, `VERSION_3` is the default version.
 
-**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
+**API:** `org.eclipse.imagen.media.codec.BMPEncodeParam`
 
 ```
     int getVersion()
@@ -309,9 +315,9 @@ If not specifically set, `VERSION_3` is the default version.
 
 #### C.5.1.3 BMP Compression Type
 
-The BMP compression type is read and specified with `getCompression`
-and `setCompression` methods in the `BMPEncodeParam` class. Java
-Advanced Imaging currently supports four compression types:
+Run-length compression is read and specified with the `isCompressed`
+and `setCompressed` methods in the `BMPEncodeParam` class. The BMP
+format defines the following compression types:
 
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -322,11 +328,11 @@ Advanced Imaging currently supports four compression types:
 
 If not specifically set, `BI_RGB` is the default type (no compression).
 
-**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
+**API:** `org.eclipse.imagen.media.codec.BMPEncodeParam`
 
 ```
-    int getCompression()
-    void setCompression(int compressionType)
+    boolean isCompressed()
+    void setCompressed(boolean compressed)
 ```
 
 #### C.5.1.4 BMP Data Layout
@@ -336,38 +342,20 @@ means that the first byte in the array represents the pixels in the
 lower-left corner of the bitmap, and the last byte represents the
 pixels in the upper-right corner.
 
-The BMP bitmap data layout is read and specified with `getDataLayout`
-and `setDataLayout` methods in the `BMPEncodeParam` class. The data
-layout is one of the following:
+The BMP bitmap data layout is read and specified with the `isTopDown`
+and `setTopDown` methods in the `BMPEncodeParam` class. The default
+layout is bottom-up.
 
-| Parameter  | Description  |
-| ---------- | ------------ |
-| TOP_DOWN  | The constant for top-down layout |
-| BOTTOM_UP  | The constant for bottom-up layout |
-
-**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
+**API:** `org.eclipse.imagen.media.codec.BMPEncodeParam`
 
 ```
-    int getDataLayout()
-    void setDataLayout(int dataLayout)
-```
-
-#### C.5.1.5 BMP Bits Per Pixel
-
-The number of bits per pixel is specified with `getBitsPerPixel` and
-`setBitsPerPixel` methods in the `BMPEncodeParam` class. Valid values
-are 1, 4, 8, and 24. Support for 16- and 32-bit images has also been
-implemented in Java Advanced imaging, though such BMP images are not
-very common.
-
-**API:** `org.eclipse.imagen.codec.BMPEncodeParam`
-
-```
-    int getBitsPerPixel()
-    void setBitsPerPixel(int bitsPerPixel)
+    boolean isTopDown()
+    void setTopDown(boolean topDown)
 ```
 
 ### C.5.2 FPX (FlashPix) Coding
+
+Note: The FPX codec is not provided.
 
 The FlashPix standard was developed by the Digital Imaging Group
 (DIG), a not-for-profit consortium of several companies whose purpose
@@ -408,6 +396,8 @@ message.
 
 
 ### C.5.3 JPEG Coding
+
+Note: The JPEG codec is not registered with `ImageCodec`; use the `ImageRead` operation or `javax.imageio` to read and write JPEG images.
 
 The JPEG standard was developed by a working group, known as the Joint
 Photographic Experts Group (JPEG). The JPEG image data compression
@@ -502,298 +492,38 @@ and the reconstructed image array is produced.
 
 #### C.5.3.2 JPEG Coding Parameters
 
-The following are the parameters that may be specified for JPEG DCT
-compression.
+The `JPEGEncodeParam` class records the quality, quantization tables,
+subsampling and restart interval used when encoding JPEG data.
+Quality is a float between 0.0 and 1.0, with 0.75 a typical setting.
 
-
-##### Quantization Table
-
-The `setQTable` and `getQTable` methods are used to specify and
-retrieve the quantization table that will be used in encoding a
-particular band of the image. There are, by default, two quantizer
-tables:
-
-| Table  | Band |
-| ------ | ---- |
-| 0  | Band 0
-| 1  | All other bands
-
-The parameter `tableNum` is usually a value between 0 and 3. This
-value indicates which of four quantization tables you are specifying.
-Table 0 is designed to be used with the luminance band of eight-bit
-YCC images. Table 1 is designed to be used with the chrominance bands
-of eight-bit YCC images. Tables 2 and 3 are not normally used.
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
+**API:** `org.eclipse.imagen.media.codec.JPEGEncodeParam`
 
 ```java
-    void setQTable(int tableNum, 
-                   com.sun.image.codec.jpeg.JPEGQTable qTable)
+    void setQuality(float quality)
+    float getQuality()
+    boolean isQualitySet()
 
-    com.sun.image.codec.jpeg.JPEGQTable getQTable(int tableNum)
+    void setLumaQTable(int[] qTable)
+    void setChromaQTable(int[] qTable)
+    void setQTable(int component, int tableSlot, int[] qTable)
+    int[] getQTable(int component)
+    int getQTableSlot(int component)
+    boolean isQTableSet(int component)
 
-    void setQTableComponentMapping(int component, int table)
-
-    com.sun.image.codec.jpeg.JPEGQTable getQTableForComponent(int component)
-
-    int getQTableComponentMapping(int component)
-```
-
-##### AC Huffman Table
-
-Parameters enable you to associate a particular AC Huffman table with
-a particular band of the image. The JPEG compressor supports four
-tables for the AC discrete cosine transform coefficients, as listed in
-Table C-3.
-
-**Table C-3*  AC Huffman Tables** <a name="table-C-3"></a>
-
-| Table  | Band |
-| ------ | ---- |
-| 0  | Encodes AC coefficients in band 0 (luminance band of eight-bit YCC images). This table contains the values specified in Table K.5 of the ISO JPEG specification.
-| 1  | Encodes AC coefficients of all other bands (chrominance band of eight-bit YCC images). This table contains the values specified in Table K.6 of the ISO JPEG specification.
-| 2  | Not used.
-| 3  | Not used.
-
-
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
-    void setACHuffmanTable(int tableNum, 
-                           com.sun.image.codec.jpeg.JPEGHuffmanTable huffTable)
-
-    com.sun.image.codec.jpeg.JPEGHuffmanTable getACHuffmanTable(int tableNum)
-
-    void setACHuffmanComponentMapping(int component, int table)
-
-    int getACHuffmanComponentMapping(int component)
-```
-
-##### DC Huffman Table
-
-Parameters enable you to associate a particular DC Huffman table with
-a particular band of the image. The JPEG compressor supports four
-tables for the DC discrete cosine transform coefficients, as listed in
-Table C-4.
-
-**Table C-4*  DC Huffman Tables** <a name="table-C-4"></a>
-
-| Table  | Band |
-| ------ | ---- |
-| 0  | Encodes DC coefficients in band 0 (luminance band of eight-bit YCC images). This table contains the values specified in Table K.3 of the ISO JPEG specification.
-| 1  | Encodes DC coefficients of all other bands (chrominance band of eight-bit YCC images). This table contains the values specified in Table K.4 of the ISO JPEG specification.
-| 2  | Not used.
-| 3  | Not used.
-
-
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
-    void setDCHuffmanTable(int tableNum, 
-                           com.sun.image.codec.jpeg.JPEGHuffmanTable huffTable)
- 
-    void setDCHuffmanComponentMapping(int component, int table)
-
-    com.sun.image.codec.jpeg.JPEGHuffmanTable getDCHuffmanTable(int tableNum)
-
-    com.sun.image.codec.jpeg.JPEGHuffmanTable getDCHuffmanTableForComponent(int component)
-
-    int getDCHuffmanComponentMapping(int component)
-```
-
-##### Horizontal and Vertical Subsampling
-
-To ensure proper image post-processing and accurate image presentation
-of JFIF files requires the specification of the spatial positioning of
-pixel samples within components relative to the samples of other
-components. This is known as *subsampling*.
-
-In JFIF files, the position of the pixels in subsampled components are
-defined with respect to the highest resolution component. Since
-components must be sampled orthogonally (along rows and columns), the
-spatial position of the samples in a given subsampled component may be
-determined by specifying the horizontal and vertical offsets of the
-first sample, i.e., the sample in the upper left corner, with respect
-to the highest resolution component.
-
-The horizontal and vertical offsets of the first sample in a
-subsampled component, Xoffseti\[0,0\] and Yoffseti\[0,0\], is defined
-to be:
-
-```
-    Xoffset*i*[0,0] = (Nsamples*ref* / Nsamples*i*) / 2 - 0.5
-    Yoffset*i*[0,0] = (Nlines*ref* / Nlinesi) / 2 - 0.5
-``` 
-
-Where
-:   Nsamples*ref* is the number of samples per line in the largest component  
-    Nsamples*i* is the number of samples per line in the *i*th component  
-    Nlines*ref* is the number of lines in the largest component  
-    Nlines*i* is the number of lines in the *i*th component
-
-Proper subsampling of components incorporates an antialiasing filter
-that reduces the spectral bandwidth of the full resolution components.
-Subsampling can easily be accomplished using a symmetrical digital
-filter with an even number of taps (coefficients). A commonly used
-filter for 2:1 subsampling uses two taps (1/2, 1/2).
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
     void setHorizontalSubsampling(int component, int subsample)
-
     void setVerticalSubsampling(int component, int subsample)
-
     int getHorizontalSubsampling(int component)
-
     int getVerticalSubsampling(int component)
-```
-
-##### Marker Data
-
-The JPEG APP0 marker is used to specify units, *x* pixel density, *y*
-pixel density, and thumbnail. The APP0 marker may also be used to
-specify JFIF extensions and application-specific information. The APP0
-marker syntax is defined in Annex B of ISO DIS 10918-1. In addition, a
-JFIF file uses APP0 marker segments and constrains certain parameters
-in the frame header as defined below.
-
-```
-         X'FF', SOI
-              X'FF', APP0, length, identifier, version, units, XDensity,
-         YDensity, Xthumbnail, Ythumbnail, (RGB)n
-```
-
-Table 11-5 describes the marker parameters.
-
-**Table C-5*  Marker Data** <a name="table-C-5"></a>
-
-| Parameter  | Size  | Description  |
-| ---------- | ----- | ------------ |
-| length     | 2 bytes  | Total APP0 field byte count, including the byte count value (2 bytes), but excluding the APP0 marker itself
-| identifier  | 5 bytes  | `4A`, `46`, `49`, `46`, `00` <br/> A zero terminated string (\"JFIF\") that uniquely identifies this APP0 marker.
-| version  | 2 bytes  | '0102   <br/> The most significant byte is used for major revisions, the least significant byte for minor revisions. Version 1.02 is the current released revision.
-| DensityUnit  | 1 byte  | Units for the *x* and *y* densities:  <br/>  0 = no units, *x* and *y* specify the pixel aspect ratio   <br/> 1 = *x* and *y* are dots per inch   <br/> 2 = *x* and *y* are dots per cm.
-| XDensity  | 2 bytes  | The horizontal pixel density (bytes per pixel).
-| YDensity  | 2 bytes  | The vertical pixel density (bytes per pixel).
-| Xthumbnail  | 1 byte  | The thumbnail horizontal pixel count.
-| Ythumbnail  | 1 byte  | The thumbnail vertical pixel count.
-| (RGB)n  | 3n bytes  | Packed (24-bit) RGB values for thumbnail pixels, n = Xthumbnail \* Ythumbnail.
-
-
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
-    void setMarkerData(int marker, byte[][] data)
-
-    void addMarkerData(int marker, byte[] data)
-
-    boolean getMarker(int marker)
-
-    byte[][] getMarkerData(int marker)
-```
-
-##### Density
-
-You can set density parameters, such as the units (inches or
-centimeters) for the pixel densities and the number of bytes per pixel
-for both the horizontal and vertical dimensions.
-
-The `setDensityUnit` method sets the unit of measure for the *x* and
-*y* values. The following values are legal for the `setDensityUnit`
-method:
-
-| Value  | Meaning |
-| ------ | ------- |
-| 0  | No units. *x* and *y* specify the pixel aspect ratio
-| 1  | *x* and *y* are dots per inch
-| 2  | *x* and *y* are dots per cm.
-
-The `setXDensity` and `setYDensity` methods set the horizontal and
-vertical pixel density, respectively.
-
-To specify a pixel aspect ratio, use the `setDensityUnit` method with
-a value of 0 (no units) and set `XDensity` and `YDensity` for the
-desired aspect ratio. For example, set `XDensity` = 1 and `YDensity` =
-1 to specify a 1:1 aspect ratio. The values for `XDensity` and
-`YDensity` should always be non-zero.
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
-    void setDensityUnit(int unit)
-
-    void setXDensity(int density)
-
-    void setYDensity(int density)
-
-    int getDensityUnit()
-
-    int getXDensity()
-
-    int getYDensity()
-```
-
-##### Compression Quality
-
-Compression quality specifies a factor that relates to the desired
-tradeoff between image quality and the image data compression ratio.
-The quality value is a float between 1 and 100. A setting of 100
-produces the highest quality image at a lower compression ratio. A
-setting of 1 produces the highest compression ratio, with a sacrifice
-to image quality. The quality value is typically set to 50.
-
-The compression quality value controls image quality and compression
-ratio by determining a scale factor the encoder will use in creating
-scaled versions of the quantization tables. A quality value of 50
-defines a scaling factor of 1, which means that the scaled
-quantization tables are identical to the original tables. A quality
-value of less than 1 produces a scaling factor greater than 1 and a
-quality value greater than 1 produces a scaling factor less than 1.
-
-------------------------------------------------------------------------
-
-**Note:** The values stored in the quantization table also affect
-image quality and compression ratio. See also [Quantization
-Table](#quantization-table).\"
-
-------------------------------------------------------------------------
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
-    void setQuality(float quality, boolean forceBaseline)
-```
-
-##### Miscellaneous
-
-These methods don't currently have a home. I'm not sure what to do with them.
-
-**API:** `org.eclipse.imagen.codec.JPEGEncodeParam`
-
-```java
-    void setImageInfoValid(boolean flag)
-
-    void setTableInfoValid(boolean flag)
 
     void setRestartInterval(int restartInterval)
-
-    int getWidth()
-
-    int getHeight()
-
-    boolean isImageInfoValid()
-
-    boolean isTableInfoValid()
-
-    int getEncodedColorID()
-
-    int getNumComponents()
-
     int getRestartInterval()
+
+    void setWriteJFIFHeader(boolean writeJFIF)
+    boolean getWriteJFIFHeader()
+    void setWriteTablesOnly(boolean tablesOnly)
+    boolean getWriteTablesOnly()
+    void setWriteImageOnly(boolean imageOnly)
+    boolean getWriteImageOnly()
 ```
 
 ### C.5.4 PNG Coding
@@ -859,7 +589,7 @@ The PNM fotmat comes in six variants:
 
 -   PPM raw - single-banded images
 
-**API:** `org.eclipse.imagen.codec.PNMEncodeParam`
+**API:** `org.eclipse.imagen.media.codec.PNMEncodeParam`
 
 ```java
     void setRaw(boolean raw)
@@ -1098,6 +828,8 @@ degradation.
 
 Like the discrete Fourier transform (DFT), the DCT also has an inverse
 operation, the *inverse discrete cosine transform* (IDCT).
+
+The `dct` and `idct` operations are provided by the `imagen-unsupported-core` module, not the codec module.
 
 
 ### C.6.1 Discrete Cosine Transform (DCT)

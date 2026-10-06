@@ -34,8 +34,8 @@ Take for example, the sample code in [Listing
 a simple application called `FileTest`, which takes a single argument;
 the path and name of the file to read. `FileTest` reads the named file
 and displays it in a `ScrollingImagePanel`. The operator that reads
-the image file, `FileLoad`, is described in [Section 4.4.1.2, \"The
-FileLoad Operation](../acquisition).\" The
+the image file, `ImageRead`, is described in [Section 4.4, \"Reading
+Image Files](#44-reading-image-files).\" The
 `ScrollingImagePanel` is described in [Section 4.8, \"Image
 Display](../acquisition).\"
 
@@ -430,13 +430,13 @@ layout parameters are optional, and when not specified are set to
 default values. Each tile of the destination image will be defined by
 a reference to a shared instance of the pattern.
 
-The `pattern` operation takes three parameters:
+The `pattern` operation takes one source image, the pattern to repeat,
+and two parameters:
 
 | Parameter  | Type             | Description                |
 | ---------- | ---------------- | -------------------------- |
 | width      | Integer | The width of the image in pixels. |
 | height     | Integer | The height of the image in pixels. |
-| pattern    | Raster  | The Pattern pixel band values. |
 
 [Listing 4-2](#listing-4-2) shows a code sample for a `pattern` operation.
 
@@ -450,7 +450,7 @@ bandOffsets[0] = 2;
 bandOffsets[1] = 1;
 bandOffsets[2] = 0;
 
-// width, height=64.
+// width, height=100.
 PixelInterleavedSampleModel sm;
 sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, 100,
                                    100, 3, 3*100, bandOffsets);
@@ -461,7 +461,7 @@ WritableRaster pattern = Raster.createWritableRaster(sm,
 int[] bandValues = new int[3];
 bandValues[0] = 90;
 bandValues[1] = 45;
-bandValues[2] = 45
+bandValues[2] = 45;
 
 // Set values for the pattern raster.
 for (int y = 0; y < pattern.getHeight(); y++) {
@@ -472,10 +472,16 @@ for (int x = 0; x < pattern.getWidth(); x++) {
     }
 }
 
-// Create a 100x100 image with the given raster.
-PlanarImage im0 = (PlanarImage)ImageN.create("pattern",
-                                           100, 100,
-                                           pattern);
+// Wrap the raster in an image to use as the pattern.
+TiledImage tile = new TiledImage(sm, 100, 100);
+tile.setData(pattern);
+
+// Create a 100x100 image with the given pattern.
+RenderedOp im0 = ImageN.create("pattern",
+        new ParameterBlockImageN("pattern")
+                .addSource(tile)
+                .setParameter("width", 100)
+                .setParameter("height", 100));
 ```
 
 ### 4.2.3 Snapshot Image
@@ -803,7 +809,7 @@ parameter.
 
 [Listing 4-4](#listing-4-4) shows a complete code example of the use of `ImagePyramid`.
 
-***Listing 4-4*  Example use of ImagePyramid** <a name="listing-4-3"></a>
+***Listing 4-4*  Example use of ImagePyramid** <a name="listing-4-4"></a>
 
 ```java
 {% include_relative ImagePyramidTest.java %}
@@ -1084,6 +1090,17 @@ listed in [Table 4-6](#table-4-6).
 | Stream | Reads java.io.InputStream files. |
 | TIFF | Reads TIFF 6.0 data from an input stream. |
 | URL | Creates an image the source of which is specified by a Uniform Resource Locator (URL). |
+
+The legacy codec module only provides decoders for BMP, GIF, PNG, PNM
+and WBMP. The FPX, JPEG and TIFF operations have no decoder; use the
+`ImageRead` operation, which reads any format supported by Java Image
+I/O:
+
+```java
+  ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+          .setParameter("Input", new File(fileName));
+  RenderedOp image = ImageN.create("ImageRead", pb);
+```
 
 ### 4.4.1 Standard File Readers for Most Data Types
 
@@ -1492,12 +1509,12 @@ The `PNG` operation takes a single parameter:
 
 ```java
 // Create the ParameterBlock.
-InputStream image = new FileInputStream(filename);
+SeekableStream image = new FileSeekableStream(filename);
 ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the PNG operation.
-op = ImageN.create("PNG", pb);
+RenderedOp op = ImageN.create("PNG", pb);
 ```
 
 Several aspects of the PNG image decoding may be controlled. By
@@ -1669,12 +1686,12 @@ then stores the image data into an appropriate `SampleModel`. The
 
 ```java
 // Create the ParameterBlock.
-InputStream image = new FileInputStream(filename);
+SeekableStream image = new FileSeekableStream(filename);
 ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the PNM operation.
-op = ImageN.create("PNM", pb);
+RenderedOp op = ImageN.create("PNM", pb);
 ```
 
 ### 4.4.9 Reading Standard AWT Images
@@ -1808,7 +1825,7 @@ The `clamp` function may be defined as:
 
 ```java
 int clamp(int x, int low, int high) {
-    return (x < low) ? low : ((x high) ? high : x);
+    return (x < low) ? low : ((x > high) ? high : x);
 }
 ```
 

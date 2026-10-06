@@ -1,12 +1,8 @@
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.Interpolation;
-import org.eclipse.imagen.ImageMIPMap;
 import org.eclipse.imagen.ImagePyramid;
-import org.eclipse.imagen.PlanarImage;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.codec.FileSeekableStream;
 
 public class ImagePyramidTest extends ImageMIPMapTest {
 
@@ -89,7 +85,7 @@ public class ImagePyramidTest extends ImageMIPMapTest {
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(src1);
         pb.addSource(src2);
-        return JAI.create("subtract", pb);
+        return ImageN.create("subtract", pb);
     }
 
     protected RenderedOp createAddOp(RenderedImage src1,
@@ -97,7 +93,7 @@ public class ImagePyramidTest extends ImageMIPMapTest {
         ParameterBlock pb = new ParameterBlock();
         pb.addSource(src1);
         pb.addSource(src2);
-        return JAI.create("add", pb);
+        return ImageN.create("add", pb);
     }
 
     public ImagePyramidTest(String name) {

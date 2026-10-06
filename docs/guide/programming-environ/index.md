@@ -163,7 +163,7 @@ constant images and then adds them together.
 {% include src/AddExample.java %}
 ```
 
-The first three lines of the example code specify which classes to
+The first four lines of the example code specify which classes to
 import. The classes prefixed with `org.eclipse.imagen` are the Eclipse ImageN classes. The `java.awt` prefix specifies the core Java API
 classes.
 
@@ -171,6 +171,7 @@ classes.
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widget.*;
 import java.awt.Frame;
+import java.awt.image.renderable.ParameterBlock;
 ```
 
 The next line declares the name of the program and that it runs in a
@@ -269,12 +270,12 @@ entire class definition.
 
 ```java
   // Get rendered source object from a TIFF source.
-  // The ParameterBlock `pb0' contains the name
-  // of the source (file, URL, etc.). The objects `hints0',
+  // The ParameterBlockImageN `pb0' contains the
+  // source (file, URL, etc.). The objects `hints0',
   // `hints1', and `hints2' contain rendering hints and are
   // assumed to be created outside of this code fragment.
   RenderedOp sourceImg = 
-            ImageN.create("TIFF", pb0);
+            ImageN.create("ImageRead", pb0);
 
   // Derive the RenderableImage from the source RenderedImage.
   ParameterBlock pb = new ParameterBlock();
@@ -312,12 +313,12 @@ entire class definition.
   imagePanel1 = new ScrollingImagePanel(rndImg1, 100, 100);
 ```
 
-In this example, the image source is a TIFF image. A TIFF `RenderedOp`
-is created as a source for the subsequent operations:
+In this example, the image source is a TIFF image. An `ImageRead`
+`RenderedOp` is created as a source for the subsequent operations:
 
 ```java
   RenderedOp sourceImg = 
-            ImageN.create("TIFF", pb0);
+            ImageN.create("ImageRead", pb0);
 ```
 
 The rendered source image is then converted to a renderable image:
@@ -335,7 +336,7 @@ other objects that the operator may require.
 
 ```java
   ParameterBlock pb1 = new ParameterBlock();
-  pb1.addSource(sourceImage);
+  pb1.addSource(ren);
 ```
 
 An \"invert\" `RenderableOp` is then created with the TIFF image as
@@ -1245,7 +1246,7 @@ numbers of sources and parameters directly.
 
 Two versions of the `create` method are non-static and are identified
 as `createNS`. These methods may be used with a specific instance of
-the `JAI` class and should only be used when the final result returned
+the `ImageN` class and should only be used when the final result returned
 is a single `RenderedImage`. However, the source (or sources) supplied
 may be a collection of images or a collection of collections.
 
@@ -1259,11 +1260,11 @@ These call the non-static methods:
 The following is an example of one of these methods:
 
 ```java
-  RenderedOp im = ImageN.createNS("operationName", source, param1,
-                             param2)
+  RenderedOp im = ImageN.getDefaultInstance().createNS("operationName",
+                             parameterBlock, hints);
 ```
 
-The rendering hints associated with this instance of `JAI` are
+The rendering hints associated with this instance of `ImageN` are
 overlaid with the hints passed to this method. That is, the set of
 keys will be the union of the keys from the instance\'s hints and the
 hints parameter. If the same key exists in both places, the value from
