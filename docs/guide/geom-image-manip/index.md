@@ -145,7 +145,7 @@ created with the specified parameter block.
 
 ```java
 // Specify the interpolation method to be used
-interp = Interpolation.create(Interpolation.INTERP_NEAREST);
+Interpolation interp = Interpolation.getInstance(Interpolation.INTERP_NEAREST);
 
 // Create the parameter block and add the interpolation to it
 ParameterBlock pb = new ParameterBlock();
@@ -157,7 +157,7 @@ pb.add(interp);           // The interpolation method
 
 // Create the rotation operation and include the parameter
 // block
-RenderedOp op ImageN.create("rotate", pb, null);
+RenderedOp op = ImageN.create("rotate", pb, null);
 ```
 
 The `Interpolation` class provides methods for the most common cases

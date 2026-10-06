@@ -105,7 +105,7 @@ the following subclasses, each representing a different data type:
     values)
 
 -   `DataBufferUShort` - stores data internally as unsigned shorts
-    (16-bit values)``
+    (16-bit values)
 
 -   `DataBufferInt` - stores data internally as integers (32-bit
     values)
@@ -645,7 +645,7 @@ There are three `ImageMIPMap` constructors:
 
 * `ImageMIPMap(RenderedOp downSampler)`
 
-  This constructor specifies only the `downSampler`.``
+  This constructor specifies only the `downSampler`.
 
 The `downSampler` is a chain of operations used to derive the image at
 the next lower resolution level from the image at the current
@@ -710,7 +710,7 @@ image at a lower resolution level we use the `downSampler`. But, at
 the same time we also use the `upSampler` to retrieve the image at the
 higher resolution level, then use the `differencer` to find the
 difference image between the original image and the derived image from
-the `upSampler`. We save this difference image for later use.``
+the `upSampler`. We save this difference image for later use.
 
 To find an image at a higher resolution, we use the `upSampler`, then
 combine the earlier saved difference image with the resulting image
@@ -1890,7 +1890,7 @@ The default values for these parameters are:
 
 -   `minY` - 0.0F
 
--   `height` - 1.0F``
+-   `height` - 1.0F
 
 [Listing 4-13](#listing-4013) shows a code sample for a
 `Renderable` operation. The default parameters are used for all five

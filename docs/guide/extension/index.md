@@ -549,7 +549,7 @@ registry.
 
 The `getCodec` method returns the `ImageCodec` associated with a given
 name. If no codec is registered with the given name, `null` is
-returned.``
+returned.
 
 **API:** `org.eclipse.imagen.media.codec.ImageCodec`
 
