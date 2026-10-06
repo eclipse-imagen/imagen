@@ -22,11 +22,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -137,6 +141,12 @@ public class PropertyUtil {
     private static ResourceBundle getBundle(String packageName) {
         final String legacyPath = propertiesDir + "/" + packageName + ".properties";
 
+        ResourceBundle merged = loadMergedBundle(legacyPath, PropertyUtil.class.getClassLoader());
+        if (merged != null) {
+            bundles.put(packageName, merged);
+            return merged;
+        }
+
         try (InputStream in = getFileFromClasspath(legacyPath)) {
             if (in != null) {
                 ResourceBundle bundle = new PropertyResourceBundle(in);
@@ -171,6 +181,36 @@ public class PropertyUtil {
         }
 
         return null;
+    }
+
+    /** Merge every copy of {@code path} visible to the class loader. */
+    private static ResourceBundle loadMergedBundle(String path, ClassLoader classLoader) {
+        if (classLoader == null) return null;
+        Properties merged = new Properties();
+        try {
+            Enumeration<URL> urls = classLoader.getResources(path);
+            while (urls.hasMoreElements()) {
+                Properties properties = new Properties();
+                try (InputStream in = urls.nextElement().openStream()) {
+                    properties.load(in);
+                }
+                properties.forEach(merged::putIfAbsent);
+            }
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
+        if (merged.isEmpty()) return null;
+        return new ResourceBundle() {
+            @Override
+            protected Object handleGetObject(String key) {
+                return merged.getProperty(key);
+            }
+
+            @Override
+            public Enumeration<String> getKeys() {
+                return Collections.enumeration(merged.stringPropertyNames());
+            }
+        };
     }
 
     private static ResourceBundle loadBundleFromPath(String path, ClassLoader classLoader) {

@@ -160,7 +160,7 @@ final class BorderOpImage extends OpImage {
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("BorderOpImage2"));
+            throw new IllegalArgumentException(JaiI18N.getString("BorderOpImage0"));
         }
 
         Rectangle srcBounds = getSourceImage(0).getBounds();
