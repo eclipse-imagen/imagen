@@ -84,12 +84,12 @@ method to be used in calculating destination pixel values. [Table
 8-1](#table-8-1) lists the names used to call the
 interpolation methods.
 
-***Table 8-1* Interpolation Types** <a name="table 8-1"></a>
+***Table 8-1* Interpolation Types** <a name="table-8-1"></a>
 
 | Name | Description |
 |------|-------------|
-| INTERP\_NEAREST    | Nearest-neighbor interpolation. Assigns to point D in the destination image the value of the pixel nearest S in the source image. See [Section 8.2.1](#821-nearest-neighbor-interpolation) |
-| INTERP\_BILINEAR   | Bilinear interpolation. Assigns to Point D in the destination a value that is a bilinear function of the four pixels nearest S in the source image. See [Section 8.2.2](#822-bilinear-interpolation) |
+| INTERP\_NEAREST    | Nearest-neighbor interpolation. Assigns to point D in the destination image the value of the pixel nearest S in the source image. See [Section 8.2.1](#NearestNeighbor) |
+| INTERP\_BILINEAR   | Bilinear interpolation. Assigns to Point D in the destination a value that is a bilinear function of the four pixels nearest S in the source image. See [Section 8.2.2](#BilinearInterpolation) |
 | INTERP\_BICUBIC    | Bicubic interpolation. Assigns to point D in the destination image a value that is a bicubic function of the 16 pixels nearest S in the source image. See [Section 8.2.3](823-bicubic-interpolation) |
 | INTERP\_BICUBIC2   | Bicubic2 interpolation. Similar to Bicubic, but uses a different polynomial function. See [Section 8.2.4](824-bicubic2-interpolation) |
 
@@ -98,7 +98,7 @@ a specific operation and a more general form of interpolation is
 called for. The more general form of interpolation, called *table
 interpolation* uses tables to store the interpolation kernels. See
 [Section 8.2.5, \"Table
-Interpolation](#822-table-interpolation).\"
+Interpolation](#825-table-interpolation-).\"
 
 Other interpolation functions may be required to solve problems other
 than the resampling of band-limited image data. When shrinking an
@@ -742,7 +742,7 @@ destination. The rest of the destination will not be written.
 a `Scale` operation using a scale factor of 1.2 and nearest-neighbor
 interpolation.
 
-***Listing 8-3*  Example Scale Operation** <a name="listing-831"></a>
+***Listing 8-3*  Example Scale Operation** <a name="listing-8-3"></a>
 
 ```java
 // Create a ParameterBlock and specify the source and
@@ -1377,11 +1377,11 @@ To create a warp operation:
 
    | Object | Description |
    | ------ | ----------- |
-   | WarpAffine | An affine-based image warp. See [Affine Waap](#AffineWaap). |
+   | WarpAffine | An affine-based image warp. See [Affine Warp](#WarpAffine). |
    | WarpCubic | A cubic-based image warp. See [Cubic Warp](#CubicWarp). |
    | WarpGeneralPolynomial | A polynomial-based image warp for polynomials of a higher degree. See [General  Polynomial Warp](#GeneralPolynomialWarp. |
    | WarpGrid | A grid-based image warp where the image may be warped in pieces. See [Gridl Warp](#GridlWarp). |
-   | WarpPerspective | A perspective or projective image warp. See [Perspective Warp](#PerspectiveWarp). |
+   | WarpPerspective | A perspective or projective image warp. See [Perspective Warp](#WarpPerspective). |
    | WarpPolynomial | A polynomial-based description of an image warp. See [Polynomial Warp](#PolynomialWarp) |
    | WarpQuadratic | A quadratic-based description of an image warp. See [Quadratic Warp)(#QuadraticWarp). |
 
@@ -1409,7 +1409,7 @@ necessary parameters to it. The `Warp` operation takes two parameters:
    [Listing 8-8](#listing-8-8) shows a sample code for
 a simple second-order warp operation.
 
-***Listing 8-8*  Example of a Second-order Warp** <a name="listing-8-7"></a>
+***Listing 8-8*  Example of a Second-order Warp** <a name="listing-8-8"></a>
 
 ```java
 // Create WarpGeneralPolynomial object for a polynomial warp
@@ -1619,7 +1619,7 @@ following cubic polynomial:
 * `WarpCubic(float[] xCoeffs, float[] yCoeffs)`
 * `float[] warpSparseRect(int x, int y, int width, int height, int  periodX, int periodY, float[] destRect)`
 
-### 8.7.7 Perspective Warp <a name="#WarpPerspective"></a>
+### 8.7.7 Perspective Warp <a name="WarpPerspective"></a>
 
 Perspective distortions in images caused by camera-to-target viewing
 angle can be restored through perspective warping. Perspective

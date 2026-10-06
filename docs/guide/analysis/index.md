@@ -212,7 +212,7 @@ The `Histogram` object takes three parameters:
 | lowValue | float\[\] | Each element specifies the lowest gray or color level that will be checked for in one band of the image. The number of elements in the array must match the number of bands in the image.
 | highValue |float\[\] | Each element specifies the highest gray or color level that will be checked for in one band of the image. The number of elements in the array must match the number of bands in the image.
 
-For an example histogram, see [Listing 9-3](#lsiting-9-3).
+For an example histogram, see [Listing 9-3](#listing-9-3).
 
 **API:** `org.eclipse.imagen.Histogram`
 
