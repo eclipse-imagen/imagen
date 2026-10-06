@@ -272,7 +272,7 @@ rectangle is filled with a blue-green gradient.
 
 <a name="listing-10-3"></a>
 
-***Listing 10-2*  Example Filling a Rectangle with a Gradient**
+***Listing 10-2*  Example Filling a Rectangle with a Gradient** <a name="listing-10-2"></a>
 
 
 ```java

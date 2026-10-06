@@ -355,7 +355,8 @@ layout is bottom-up.
 
 ### C.5.2 FPX (FlashPix) Coding
 
-Note: The FPX codec is not provided.
+**Note:** The FPX codec is no longer supported. Neither the legacy codec
+nor Java Image I/O can read FlashPix images.
 
 The FlashPix standard was developed by the Digital Imaging Group
 (DIG), a not-for-profit consortium of several companies whose purpose
@@ -397,7 +398,9 @@ message.
 
 ### C.5.3 JPEG Coding
 
-Note: The JPEG codec is not registered with `ImageCodec`; use the `ImageRead` operation or `javax.imageio` to read and write JPEG images.
+**Note:** The JPEG codec is no longer supported. Use the `ImageRead`
+operation to read JPEG images (see [Section 4.4.4](../acquisition/#444-reading-jpeg-images))
+and Java Image I/O to write them (see [Section 13.5](../encode/#135-writing-jpeg-image-files)).
 
 The JPEG standard was developed by a working group, known as the Joint
 Photographic Experts Group (JPEG). The JPEG image data compression
@@ -598,7 +601,9 @@ The PNM fotmat comes in six variants:
 
 ### C.5.6 TIFF Coding
 
-Note: TIFF image compression and decompression is not yet implemented.
+**Note:** The TIFF codec is no longer supported. Use the `ImageRead`
+operation to read TIFF images (see [Section 4.4.2](../acquisition/#442-reading-tiff-images))
+and Java Image I/O to write them (see [Section 13.8](../encode/#138-writing-tiff-image-files)).
 
 A TIFF image file consists of several entries, each of which has a tag
 and some associated data. The tag indicates the purpose of the

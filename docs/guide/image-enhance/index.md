@@ -1396,7 +1396,7 @@ parameter is `REAL_TO_COMPLEX` or `COMPLEX_TO_COMPLEX`. The value of
 this property may be retrieved by calling the getProperty() method
 with `COMPLEX` as the property name.
 
-[Listing 7-7](#listing-707) shows a code sample for a
+[Listing 7-7](#listing-7-7) shows a code sample for a
 `DFT` operation.
 
 ***Listing 7-7*  Example DFT Operation**  <a name="listing-7-7"></a>

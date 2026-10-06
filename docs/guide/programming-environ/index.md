@@ -124,7 +124,7 @@ ImageN introduces two different types of graphs: rendered and renderable.
 
 > **Note:** The following two sections, \"[Rendered
 Graphs](#331-rendered-graphs)\" and \"[Renderable
-Graphs](#332=renderable-graphs),\" are for advanced ImageN
+Graphs](#332-renderable-graphs),\" are for advanced ImageN
 users. Most programmers will use ImageN\'s Rendered mode and don\'t
 really need to know about the Renderable mode.
 
@@ -768,7 +768,7 @@ include:
 
 -   [Statistical Operators](#367-statistical-operators)
 
--   [Edge Extraction Operators](#368-edge-extraction-operations)
+-   [Edge Extraction Operators](#368-edge-extraction-operators)
 
 -   [Miscellaneous Operators](#369-miscellaneous-operators)
 
@@ -1204,10 +1204,10 @@ For example:
 The `ImageN.createRenderable` method creates a renderable node operation
 that takes two parameters:
 
--   An operation name (see [Section 3.7.1, \"Operation Name\"](#section-3.7.1-operation-name) )
+-   An operation name (see [Section 3.7.1, \"Operation Name\"](#371-operation-name) )
 
 -   A source and a set of parameters for the operation contained in a
-    parameter block (see [Section 3.7.2, \"Parameter Blocks\"](#section-3.7.2-parameter-blocks) )
+    parameter block (see [Section 3.7.2, \"Parameter Blocks\"](#372-parameter-blocks) )
 
 
 ##### For a rendered graph:

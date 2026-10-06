@@ -1076,25 +1076,25 @@ listed in [Table 4-6](#table-4-6).
 
 ***Table 4-6* Image File Operators**
 
-| Operator | Description |
-|----------|-------------|
-| AWTImage | Imports a standard AWT image into ImageN. |
-| BMP | Reads BMP data from an input stream. |
-| FileLoad | Reads an image from a file. |
-| FPX | Reads FlashPix data from an input stream. |
-| FPXFile | Reads a standard FlashPix file. |
-| GIF | Reads GIF data from an input stream. |
-| JPEG | Reads a standard JPEG (JFIF) file. |
-| PNG | Reads a PNG input stream. |
-| PNM | Reads a standard PNM file, including PBM, PGM, and PPM images of both ASCII and raw formats. |
-| Stream | Reads java.io.InputStream files. |
-| TIFF | Reads TIFF 6.0 data from an input stream. |
-| URL | Creates an image the source of which is specified by a Uniform Resource Locator (URL). |
+| Operator | Description | Decoder |
+|----------|-------------|---------|
+| AWTImage | Imports a standard AWT image into ImageN. | Not needed |
+| BMP | Reads BMP data from an input stream. | Legacy codec |
+| FileLoad | Reads an image from a file. | Legacy codec |
+| FPX | Reads FlashPix data from an input stream. | Not available |
+| FPXFile | Reads a standard FlashPix file. | Not available |
+| GIF | Reads GIF data from an input stream. | Legacy codec |
+| ImageRead | Reads any format supported by Java Image I/O. | Java Image I/O |
+| JPEG | Reads a standard JPEG (JFIF) file. | Use ImageRead |
+| PNG | Reads a PNG input stream. | Legacy codec |
+| PNM | Reads a standard PNM file, including PBM, PGM, and PPM images of both ASCII and raw formats. | Legacy codec |
+| Stream | Reads java.io.InputStream files. | Legacy codec |
+| TIFF | Reads TIFF 6.0 data from an input stream. | Use ImageRead |
+| URL | Creates an image the source of which is specified by a Uniform Resource Locator (URL). | Legacy codec |
 
 The legacy codec module only provides decoders for BMP, GIF, PNG, PNM
-and WBMP. The FPX, JPEG and TIFF operations have no decoder; use the
-`ImageRead` operation, which reads any format supported by Java Image
-I/O:
+and WBMP. FlashPix is not supported. Use the `ImageRead` operation to
+read JPEG, TIFF and any other format supported by Java Image I/O:
 
 ```java
   ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
@@ -1105,7 +1105,7 @@ I/O:
 ### 4.4.1 Standard File Readers for Most Data Types
 
 You can read a file type directly with one of the available operation
-descriptors (such as the `tiff` operation to read TIFF files), by the
+descriptors (such as the `png` operation to read PNG files), by the
 stream file reader to read `InputStream` files, or the `FileLoad`
 operator to read from a disk file. The `Stream` and `FileLoad`
 operations are generic file readers in the sense that the image file
@@ -1176,6 +1176,15 @@ The `FileLoad` operation takes a single parameter:
 ```
 
 ### 4.4.2 Reading TIFF Images
+
+**Note:** The `TIFF` operation is no longer supported; the legacy codec
+has no TIFF decoder. Use the `ImageRead` operation instead (use the `ImageChoice` parameter to select an image from a multi-image file):
+
+```java
+  ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+          .setParameter("Input", new File("image.tif"));
+  RenderedOp image = ImageN.create("ImageRead", pb);
+```
 
 The Tag Image File Format (TIFF) is one of the most common digital
 image file formats. This file format was specifically designed for
@@ -1277,7 +1286,7 @@ identified as a sequence of values of identical data type. The TIFF
 into the Java data types, as described in [Table
 4-7](#table-4-7).
 
-***Table 4-7* TIFF Data Types**
+***Table 4-7* TIFF Data Types** <a name="table-4-7"></a>
   
 
 | TIFF Field Type | Java Data Type | Description |
@@ -1361,6 +1370,9 @@ first image, index 1 to the second, and so on. The index defaults to
 
 ### 4.4.3 Reading FlashPix Images
 
+**Note:** The `FPX` operation is no longer supported. Neither the
+legacy codec nor Java Image I/O can read FlashPix images.
+
 FlashPix is a multi-resolution, tiled file format that allows images
 to be stored at different resolutions for different purposes, such as
 editing or printing. Each resolution is divided into 64 x 64 blocks,
@@ -1398,6 +1410,15 @@ ScrollingImagePanel p =
 ```
 
 ### 4.4.4 Reading JPEG Images
+
+**Note:** The `JPEG` operation is no longer supported; the legacy codec
+has no JPEG decoder. Use the `ImageRead` operation instead:
+
+```java
+  ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+          .setParameter("Input", new File("image.jpg"));
+  RenderedOp image = ImageN.create("ImageRead", pb);
+```
 
 The JPEG standard was developed by a working group, known as the Joint
 Photographic Experts Group (JPEG). The JPEG image data compression
@@ -1735,9 +1756,9 @@ parameter.
 |-----------|------|-------------|
 | URL       | java.net.URL |  The path of the file to read from. |
 
-[Listing 4-12](#listing-412) shows a code sample for a `URL` operation.
+[Listing 4-12](#listing-4-12) shows a code sample for a `URL` operation.
 
-***Listing 4-12*  Example of Reading a URL Image** <a name="listing-4-11"></a>
+***Listing 4-12*  Example of Reading a URL Image** <a name="listing-4-12"></a>
 
 ```java
 // Define the URL to the image.
@@ -1909,7 +1930,7 @@ The default values for these parameters are:
 
 -   `height` - 1.0F
 
-[Listing 4-13](#listing-4013) shows a code sample for a
+[Listing 4-13](#listing-4-13) shows a code sample for a
 `Renderable` operation. The default parameters are used for all five
 parameters. The output of the `Renderable` operation (`ren`) can be
 passed to the next renderable operation in the graph.
