@@ -112,8 +112,8 @@ addition. The panels display the following specific results:
 -   lower left: result of remote loading of a RenderedImage
 -   lower right: result of remote rendering of a RenderableOp graph
 
-The lower right image is a dithered version of the sum image passed
-through a color cube lookup table and may appear slightly different
+The lower right image is the absolute value of a dithered version of
+the sum image and may appear slightly different
 from the other three images, which should be identical.
 
 
@@ -257,7 +257,8 @@ There are two operations that support Internet Imaging Protocol
 (IIP) operations. Two separate operations provide client-side support
 of the Internet Imaging Protocol. These operations, `IIP` and
 `IIPResolution`, request an image from an IIP server then create
-either a RenderedImage or a RenderableImage.
+either a RenderedImage or a RenderableImage. They are provided by the
+`imagen-unsupported-core` dependency.
 
 ### 12.6.1 IIP Operation
 

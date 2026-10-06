@@ -47,7 +47,8 @@ parameters:
 The `filename` parameter must be supplied or the operation will not be
 performed. Also, the specified file path must be writable.
 
-The `format` parameter defaults to `tiff` if no value is provided.
+The `format` parameter defaults to `tiff` if no value is provided;
+as no TIFF encoder is registered, always supply a format.
 [Table 13-1](#table-13-1) lists the recognized file
 formats.
 
@@ -56,10 +57,9 @@ formats.
 | File Format | Description |
 | ----------- | ----------- |
 | BMP         | Microsoft Windows bitmap image file |
-| JPEG        | A file format developed by the Joint Photographic Experts Group |
 | PNG         | Portable Network Graphics |
 | PNM         | Portable aNy Map file format. Includes PBM, PGM, and PPM |
-| TIFF        | Tag Image File Format |
+| WBMP        | Wireless bitmap file format |
 
 The `param` parameter must either be null or an instance of an
 `ImageEncodeParam` subclass appropriate to the format.
@@ -94,7 +94,7 @@ format requires two parameter values, as described in the
 -   Version number - One of three values: `VERSION_2`, `VERSION_3`, or
     `VERSION_4`.
 
--   Data layout - One of two values: `TOP_DOWN` or `BOTTOM_UP`.
+-   Data layout - top-down or bottom-up, set with `setTopDown`.
 
 These parameters are described in detail in [Section 13.4, \"Writing
 BMP Image Files](#132-writing-bmp-image-files).\"
@@ -106,8 +106,8 @@ demonstrating the use of both the `Encode` and `FileStore` operations.
 
 ```java
 // Define the source and destination file names.
-String inputFile = /images/FarmHouse.tif
-String outputFile = /images/FarmHouse.bmp
+String inputFile = "images/FarmHouse.png";
+String outputFile = "images/FarmHouse.bmp";
 
 // Load the input image.
 RenderedOp src = ImageN.create("fileload", inputFile);
@@ -115,10 +115,10 @@ RenderedOp src = ImageN.create("fileload", inputFile);
 // Encode the file as a BMP image.
 FileOutputStream stream =
     new FileOutputStream(outputFile);
-ImageN.create("encode", src, stream, BMP, null);
+ImageN.create("encode", src, stream, "BMP", null);
 
 // Store the image in the BMP format.
-ImageN.create("filestore", src, outputFile, BMP, null);
+ImageN.create("filestore", src, outputFile, "BMP", null);
 ```
 
 13.4 Writing BMP Image Files
@@ -164,7 +164,7 @@ lower-left corner of the bitmap, and the last byte represents the
 pixels in the upper-right corner.
 
 The in-memory layout of the image data to be encoded is specified with
-`getDataLayout` and `setDataLayout` methods in the `BMPEncodeParam`
+`isTopDown` and `setTopDown` methods in the `BMPEncodeParam`
 class.
 
 **API:** `org.eclipse.imagen.media.codec.BMPEncodeParam`
@@ -189,6 +189,8 @@ os.close();
 ```
 
 ## 13.5 Writing JPEG Image Files
+
+Note: The JPEG codec is not registered with `ImageCodec`; use `javax.imageio` to write JPEG images.
 
 The JPEG standard was developed by a working group, known as the Joint
 Photographic Experts Group (JPEG). The JPEG image data compression
@@ -423,7 +425,7 @@ output stream.
 ### 13.5.8 Example Code
 
 [Listing 13-3](#listing-13-3) shows a code sample for encoding
-a JPEG image.
+a JPEG image at two quality settings using `javax.imageio`.
 
 ***Listing 13-3*  Encoding a JPEG Image** <a name="listing-13-3"></a>
 
@@ -518,7 +520,7 @@ for (int i = bytesPerPixel; i < bytesPerRow + bytesPerPixel; i++)
 {
      int curr = currRow[i] & 0xff;
      int left = currRow[i - bytesPerPixel] & 0xff;
-     scratchRow[PNG_FILTER_SUB][i] = (byte)(curr - left);
+     scratchRows[PNG_FILTER_SUB][i] = (byte)(curr - left);
 }
 return PNG_FILTER_SUB;
 ```
@@ -1006,7 +1008,7 @@ OutputStream out = new FileOutputStream(fileToWriteTo);
 
 // Create the ParameterBlock.
 PNMEncodeParam param = new PNMEncodeParam();
-param.setRaw(true.equals("raw"));
+param.setRaw(true);
 
 //Create the PNM image encoder.
 ImageEncoder encoder = ImageCodec.createImageEncoder("PNM",
@@ -1022,6 +1024,8 @@ ImageEncoder encoder = ImageCodec.createImageEncoder("PNM",
 
 
 ## 13.8 Writing TIFF Image Files
+
+Note: The TIFF codec is not registered with `ImageCodec`; use `javax.imageio` to write TIFF images.
 
 The TIFF file format is a tag-based file format for storing and
 interchanging raster images. TIFF files typically come from scanners,

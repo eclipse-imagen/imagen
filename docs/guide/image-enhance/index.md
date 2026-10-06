@@ -432,10 +432,10 @@ monotonically increasing.
 The pixel values of the destination image are defined by the following
 pseudocode:
 ```
-if(src[x][y][b] < breakPoints[b][0][0])
-    dst[x][y][b] = breakPoints[b][1][0]);
-} else if(src[x][y][b] breakPoints[b][0][numBreakPoints-1]) {
-    dst[x][y][b] = breakPoints[b][1][numBreakPoints-1]);
+if(src[x][y][b] < breakPoints[b][0][0]) {
+    dst[x][y][b] = breakPoints[b][1][0];
+} else if(src[x][y][b] > breakPoints[b][0][numBreakPoints-1]) {
+    dst[x][y][b] = breakPoints[b][1][numBreakPoints-1];
 } else {
     int i = 0;
     while(breakPoints[b][0][i+1] < src[x][y][b]) {
@@ -445,6 +445,7 @@ if(src[x][y][b] < breakPoints[b][0][0])
                     (src[x][y][b] - breakPoints[b][0][i])*
                     (breakPoints[b][1][i+1] - breakPoints[b][1][i])/
                     (breakPoints[b][0][i+1] - breakPoints[b][0][i]);
+}
 ```
 
 The `Piecewise` operation takes one rendered or renderable source
@@ -530,19 +531,22 @@ private static Histogram getHistogram(RenderedOp img,
         highValue[i] = 255.0;
     }
 
-    // Create the Histogram object.
-    Histogram hist = new Histogram(numBins, lowValue, highValue);
-
     // Set the ROI to the entire image.
     ROIShape roi = new ROIShape(img.getBounds());
 
     // Create the histogram op.
-    RenderedOp histImage =
-        ImageN.create("histogram", img,
-                    hist, roi, new Integer(1), new Integer(1));
+    ParameterBlockImageN pb = new ParameterBlockImageN("Histogram")
+        .addSource(img)
+        .setParameter("roi", roi)
+        .setParameter("xPeriod", 1)
+        .setParameter("yPeriod", 1)
+        .setParameter("numBins", numBins)
+        .setParameter("lowValue", lowValue)
+        .setParameter("highValue", highValue);
+    RenderedOp histImage = ImageN.create("Histogram", pb);
 
     // Retrieve the histogram.
-    hist = (Histogram)histImage.getProperty("histogram");
+    Histogram hist = (Histogram)histImage.getProperty("histogram");
 
     return hist;
 }
@@ -691,7 +695,7 @@ construction of a single-band byte lookup table.
 ```java
 byte[] tableData = new byte[0x10000];
 for (int i = 0; i < 0x10000; i++) {
-tableData[i] = (byte)(i >8);
+tableData[i] = (byte)(i >> 8);
 }
 
 // Create a LookupTableImageN object to be used with the
@@ -742,9 +746,9 @@ construction of a multi-banded byte lookup table.
 // Create the table data.
 byte[][] tableData = new byte[3][0x10000];
 for (int i = 0; i < 0x10000; i++) {
-tableData[0][i] = (byte)(i >8); // this may be different
-tableData[1][i] = (byte)(i >8); // for each band
-tableData[2][i] = (byte)(i >8);
+tableData[0][i] = (byte)(i >> 8); // this may be different
+tableData[1][i] = (byte)(i >> 8); // for each band
+tableData[2][i] = (byte)(i >> 8);
 }
 
 // Create a LookupTableImageN object to be used with the
@@ -1126,10 +1130,10 @@ The default `kernel` is `null`.
 
 ```java
 // Create the kernel.
-kernel = new KernelImageN
-float[] = {  0.0F, -1.0F,  0.0F,
-            -1.0F,  5.0F, -1.0F,
-             0.0F, -1.0F,  0.0F };
+float[] data = {  0.0F, -1.0F,  0.0F,
+                 -1.0F,  5.0F, -1.0F,
+                  0.0F, -1.0F,  0.0F };
+KernelImageN kernel = new KernelImageN(3, 3, data);
 
 // Create the convolve operation.
 im1 = ImageN.create("convolve", im, kernel);
@@ -1197,25 +1201,26 @@ The `width` parameter is required. The remaining parameters may be
 ***Listing 7-6*  Example BoxFilter Operation**  <a name="listing-7-6"></a>
 
 ```java
-// Read the arguments.
-String fileName = args.length 0 ? args[0] : DEFAULT_FILE;
-int width = args.length 1 ?
-    Integer.decode(args[1]).intValue() : DEFAULT_SIZE;
-int height = args.length 2 ?
-    Integer.decode(args[2]).intValue() : width;
+public static void main(String[] args) {
+    // Read the arguments.
+    String fileName = args.length > 0 ? args[0] : DEFAULT_FILE;
+    int width = args.length > 1 ?
+        Integer.decode(args[1]).intValue() : DEFAULT_SIZE;
+    int height = args.length > 2 ?
+        Integer.decode(args[2]).intValue() : width;
 
-new BoxFilterExample(fileName, width, height);
+    new BoxFilterExample(fileName, width, height);
 }
 
-public BoxFilterExample(String fileName, int width, int height)
+public BoxFilterExample(String fileName, int width, int height) {
+    // Load the image.
+    RenderedOp src =  ImageN.create("fileload", fileName);
 
-// Load the image.
-RenderedOp src =  ImageN.create("fileload", fileName);
-
-// Create the BoxFilter operation.
-RenderedOp dst = ImageN.create("boxfilter", src,
-                            width, height,
-                            width/2, height/2);
+    // Create the BoxFilter operation.
+    RenderedOp dst = ImageN.create("boxfilter", src,
+                                width, height,
+                                width/2, height/2);
+}
 ```
 
 7.8 Median Filtering
@@ -1399,7 +1404,7 @@ with `COMPLEX` as the property name.
 ```java
 // Create the ParameterBlock.
 ParameterBlock pb = new ParameterBlock();
-pb.addSource(src)
+pb.addSource(src);
 pb.add(DFTDescriptor.SCALING_NONE);
 pb.add(DFTDescriptor.REAL_TO_COMPLEX);
 
@@ -1584,7 +1589,7 @@ corresponding complex source sample.
 The magnitude values of the destination image are defined by the
 following pseudocode:
 
-         dstPixel[x][y][b] = sqrt(src[x][y][2b]2 + src[x][y][2b + 1]2)
+         dstPixel[x][y][b] = sqrt(src[x][y][2*b]*src[x][y][2*b] + src[x][y][2*b + 1]*src[x][y][2*b + 1])
 
 :   where the number of bands *b* varies from zero to one less than
     the number of bands in the destination image.
@@ -1627,7 +1632,7 @@ The squared magnitude values of the destination image are defined by
 the following pseudocode:
 
 ```
-dstPixel[x][y][b] = src[x][y][2b]2 + src[x][y][2b + 1]2
+dstPixel[x][y][b] = src[x][y][2*b]*src[x][y][2*b] + src[x][y][2*b + 1]*src[x][y][2*b + 1]
 ```
 Where the number of bands *b* varies from zero to one less than the number of bands in the destination image.
 
@@ -1651,7 +1656,7 @@ corresponding complex source sample.
 The angle values of the destination image are defined by the following
 pseudocode:
 
-         dst[x][y][b] = atan2(src[x][y][2b + 1], src[x][y][2b])
+         dst[x][y][b] = atan2(src[x][y][2*b + 1], src[x][y][2*b])
 
 :   where the number of bands *b* varies from zero to one less than
     the number of bands in the destination image.
@@ -2025,10 +2030,10 @@ images and four parameters:
 
 | Parameter      | Type | Description |
 |----------------|------|-------------|
-| source1Alpha        | PlanarImage | An alpha image to override the alpha for the first source.
-| source2Alpha        | PlanarImage | An alpha image to override the alpha for the second source.
+| source1Alpha        | RenderedImage | An alpha image to override the alpha for the first source.
+| source2Alpha        | RenderedImage | An alpha image to override the alpha for the second source.
 | alphaPremultiplied  | Boolean     | True if alpha has been premultiplied to both sources and the destination.
-| destAlpha           | Integer     | Indicates if the destination image should include an extra alpha channel, and if so, whether it should be the first or last band. One of: CompositeDescriptor.DESTINATION\_ALPHA\_FIRST CompositeDescriptor.DESTINATION\_ALPHA\_LAST CompositeDescriptor.NO\_DESTINATION\_ALPHA |
+| destAlpha           | CompositeDestAlpha | Indicates if the destination image should include an extra alpha channel, and if so, whether it should be the first or last band. One of: CompositeDescriptor.DESTINATION\_ALPHA\_FIRST CompositeDescriptor.DESTINATION\_ALPHA\_LAST CompositeDescriptor.NO\_DESTINATION\_ALPHA |
 
 The alpha channel of the first source images must be supplied via the
 `source1Alpha` parameter. This parameter may not be null. The alpha
@@ -2067,8 +2072,10 @@ RenderedImage src2 = (RenderedImage)ImageN.create("jpeg", pb);
 pb = new ParameterBlock();
 pb.addSource(src1);
 pb.addSource(src2);
-pb.add(new Boolean(false));
-pb.add(new Boolean(false));
+pb.add(alpha1);                                  // source1Alpha
+pb.add(null);                                    // source2Alpha
+pb.add(Boolean.FALSE);                           // alphaPremultiplied
+pb.add(CompositeDescriptor.NO_DESTINATION_ALPHA); // destAlpha
 
 // Create the composite operation.
 RenderedImage dst = (RenderedImage)ImageN.create("composite", pb);
@@ -2109,10 +2116,10 @@ image and three parameters:
 |----------------|------|-------------|
 | low            | double\[\] | The low value. |
 | high           | double\[\] | The high value |
-| constants      | double\[\] | The constant the pixels are mapped to. |
+| constant       | double\[\] | The constant the pixels are mapped to. |
 
 If the number of elements supplied via the `high`, `low`, and
-`constants` arrays are less than the number of bands of the source
+`constant` arrays are less than the number of bands of the source
 image, the element from entry 0 is applied to all the bands.
 Otherwise, the element from a different entry is applied to its
 corresponding band.
@@ -2137,25 +2144,22 @@ arguments to the operation.
 
 ```java
 // Set up the operation parameters.
-PlanarImage src, dst;
-Integer [] low, high, map;
-int bands;
-
-low  = new Integer[bands];
-high = new Integer[bands];
-map  = new Integer[bands];
+int bands = src.getSampleModel().getNumBands();
+double[] low  = new double[bands];
+double[] high = new double[bands];
+double[] map  = new double[bands];
 
 for (int i = 0; i < bands; i++) {
-   low[i]  = new Integer(args[1]);
-   high[i] = new Integer(args[2]);
-   map[i]  = new Integer(args[3]);
+   low[i]  = Double.parseDouble(args[1]);
+   high[i] = Double.parseDouble(args[2]);
+   map[i]  = Double.parseDouble(args[3]);
 }
 
 // Create the threshold operation.
-pb = new ParameterBlock();
-pb.addSource(src);
-pb.add(low);
-pb.add(high);
-pb.add(map);
-RenderedImage dst = ImageN.create("threshold", pb);
+ParameterBlockImageN pb = new ParameterBlockImageN("Threshold")
+    .addSource(src)
+    .setParameter("low", low)
+    .setParameter("high", high)
+    .setParameter("constant", map);
+RenderedImage dst = ImageN.create("Threshold", pb);
 ```

@@ -87,7 +87,7 @@ To upgrade:
      <version>1.1.3</version>
    </dependency>
    <dependency>
-     <groupId>org.eclipse.imagen</groupId>
+     <groupId>javax.media</groupId>
      <artifactId>jai_codec</artifactId>
      <version>${jai.version}</version>
    </dependency>
@@ -99,7 +99,7 @@ To upgrade:
    
    ```xml
    <properties>
-      <imagen.version>0.4-SNAPSHOT</imagen.version>
+      <imagen.version>{{site.imagen_version}}</imagen.version>
    </properties>
    ...
    <dependency>
@@ -216,36 +216,16 @@ Both the Java platform and ImageN include encoding/decoding codecs for image for
 | Format   | Java 8 ImageIO  | ImageN Codec | Java 11 ImageIO |
 |----------|-----------------|--------------|-----------------| 
 | BMP      | read/write      | read/write   | read/write      |
-| FlashPix |                 | read         |                 |
+| FlashPix |                 |              |                 |
 | GIF      | read/write      | read         | read/write      |
-| JPEG     | read/write      | read/write   | read/write      |
+| JPEG     | read/write      |              | read/write      |
 | PNG      | read/write      | read/write   | read/write      |
 | PNM      |                 | read/write   |                 |
-| TIFF     |                 | read/write   | read/write      | 
+| TIFF     |                 |              | read/write      | 
 |  WBMP    | read/write      | read         | read/write      |
 
 
-Oracle JDK 8 includes the internal `com.sun.image.codec.jpeg` packages used by `imagen-codec` JPEG read/write support listed above. These packages are not available in OpenJDK 8 or Java 11.
-
-The key format missing from Java 8 is TIFF, which is included in `ImageIO` from Java 9 onward. You may wish to continue to use `imagen-codec` to provide TIFF support when operating in a Java 8 environment:
-
-```xml
-<profiles>
- <profile>
-   <id>java8</id>
-   <activation>
-     <jdk>1.8</jdk>
-   </activation>
-   <dependencies>
-     <dependency>
-       <groupId>org.eclipse.imagen</groupId>
-       <artifactId>jai-codec</artifactId>
-       <version>${jai.version}</version>
-     </dependency>
-   </dependencies>
- </profile>
-</profiles>
-```
+The ImageN codec module no longer provides FlashPix, JPEG or TIFF support. ImageN requires Java 17, so use `ImageIO`, or the `ImageRead` operation, for JPEG and TIFF.
 
 # Finalize() removed
 

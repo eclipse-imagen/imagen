@@ -135,7 +135,7 @@ Hints](../programming-environ).\"
 
 [Listing 8-1](#listing-8-1) shows a code sample for
 a `rotate` operation. First, the type of interpolation is specified
-(`INTERP_NEAREST` in this example) using the `Interpolation.create`
+(`INTERP_NEAREST` in this example) using the `Interpolation.getInstance`
 method. Next, a parameter block is created and the interpolation
 method is added to the parameter block, as are all the other
 parameters required by the operation. Finally, a `rotate` operation is
@@ -749,8 +749,8 @@ interpolation.
 // parameters
 ParameterBlock pb = new ParameterBlock();
      pb.addSource(im);                   // The source image
-     pb.add(1.2);                        // The xScale
-     pb.add(1.2);                        // The yScale
+     pb.add(1.2F);                       // The xScale
+     pb.add(1.2F);                       // The yScale
      pb.add(0.0F);                       // The x translation
      pb.add(0.0F);                       // The y translation
      pb.add(new InterpolationNearest()); // The interpolation
@@ -1029,29 +1029,29 @@ quadrilateral onto another arbitrary quadrilateral. The
 quadrilateral:
 
 ```
-    (0, 0) → (*x*0, *y*0)\
-    (1, 0) → (*x*1, *y*1)\
-    (1, 1) → (*x*2, *y*2)\
-    (0, 1) → (*x*3, *y*3)
+    (0, 0) → (x0, y0)
+    (1, 0) → (x1, y1)
+    (1, 1) → (x2, y2)
+    (0, 1) → (x3, y3)
 ```
 
 The `getQuadToSquare` methods map an arbitrary quadrilateral onto the unit square:
 
 ```
-    (*x*0, *y*0) → (0, 0)\
-    (*x*1, *y*1) → (1, 0)\
-    (*x*2, *y*2) → (1, 1)\
-    (x3, *y*3) → (0, 1)
+    (x0, y0) → (0, 0)
+    (x1, y1) → (1, 0)
+    (x2, y2) → (1, 1)
+    (x3, y3) → (0, 1)
 ```
 
 The `getQuadToQuad` methods map an arbitrary quadrilateral onto
 another arbitrary quadrilateral:
 
 ```
-    (*x*0, *y*0) → (*x*0p, *y*0p)\
-    (*x*1, *y*1) → (*x*1p, *y*1p)\
-    (*x*2, *y*2) → (*x*2p, *y*2p)\
-    (*x*3, *y*3) → (*x*3p, *y*3p)
+    (x0, y0) → (x0p, y0p)
+    (x1, y1) → (x1p, y1p)
+    (x2, y2) → (x2p, y2p)
+    (x3, y3) → (x3p, y3p)
 ```
 
 **API:** `org.eclipse.imagen.PerspectiveTransform`
@@ -1182,7 +1182,7 @@ PlanarImage im0 = (PlanarImage)ImageN.create("awtImage", pb);
 //                : 4=ROTATE_90
 //                : 5=ROTATE_180
 //                : 6=ROTATE_270
-int type = 1;
+TransposeType type = TransposeDescriptor.FLIP_HORIZONTAL;
 
 // Create the Transpose operation.
 PlanarImage im2 = (PlanarImage)ImageN.create("transpose", im0,
@@ -1260,7 +1260,7 @@ Interpolation interp = new InterpolationNearest();
 // Set the shear direction:
 //     0 = SHEAR_HORIZONTAL
 //     1 = SHEAR_VERTICAL
-int shear_dir = 1;
+ShearDir shear_dir = ShearDescriptor.SHEAR_VERTICAL;
 
 // Set the shear value and the x and y translation values.
 float shear_amt = 0.7F;
@@ -1412,10 +1412,11 @@ a simple second-order warp operation.
 ***Listing 8-8*  Example of a Second-order Warp** <a name="listing-8-7"></a>
 
 ```java
-// Create WarpPolynomial object for a polynomial warp
+// Create WarpGeneralPolynomial object for a polynomial warp
 // operation.
-WarpPolynomial warp;
-     float[] coeffs = { 1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F };
+float[] xCoeffs = { 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F };
+float[] yCoeffs = { 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F };
+Warp warp = new WarpGeneralPolynomial(xCoeffs, yCoeffs);
 
 // Create the ParameterBlock and add the parameters to it.
 ParameterBlock pb = new ParameterBlock();
@@ -1669,7 +1670,7 @@ AffineTransform transform = new AffineTransform(m00, m10,
 Warp warp = new WarpAffine(transform);
 
 // Create the interpolation parameter.
-Interpolation interp = new InterpolationNearest(8);
+Interpolation interp = new InterpolationNearest();
 
 // Create the ParameterBlock.
 ParameterBlock pb = new ParameterBlock();

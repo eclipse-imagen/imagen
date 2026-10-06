@@ -307,7 +307,6 @@ Alternatively use `imagen-all`, a single jar combining the core library and all 
     <artifactId>imagen-all</artifactId>
     <version>{{site.imagen_version}}</version>
   </dependency>
-  </dependency>
 </dependencies>
 ```
 

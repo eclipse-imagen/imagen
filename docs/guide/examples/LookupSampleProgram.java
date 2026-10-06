@@ -1,13 +1,11 @@
 import java.awt.Frame;
-import java.awt.RenderingHints;
 import java.awt.image.DataBuffer;
-import java.awt.image.renderable.ParameterBlock;
-import java.io.IOException;
+import java.io.File;
 import org.eclipse.imagen.ImageN;
-import org.eclipse.imagen.LookupTableJAI;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.codec.FileSeekableStream;
-import org.eclipse.imagen.media.codec.TIFFDecodeParam;
+import org.eclipse.imagen.media.lookup.LookupTable;
+import org.eclipse.imagen.media.lookup.LookupTableFactory;
 import org.eclipse.imagen.widget.ScrollingImagePanel;
 
 public class LookupSampleProgram {
@@ -22,29 +20,14 @@ public class LookupSampleProgram {
         System.exit(-1);
     }
 
-    // Create an input stream from the specified file name to be
-    // used with the TIFF decoder.
-    FileSeekableStream stream = null;
-    try {
-        stream = new FileSeekableStream(args[0]);
-    } catch (IOException e) {
-        e.printStackTrace();
-        System.exit(0);
-    }
-
-    // Store the input stream in a ParameterBlock to be sent to
+    // Store the file in a ParameterBlock to be sent to
     // the operation registry, and eventually to the TIFF
-    // decoder.
-    ParameterBlock params = new ParameterBlock();
-    params.add(stream);
-
-    // Specify to TIFF decoder to decode images as they are and
-    // not to convert unsigned short images to byte images.
-    TIFFDecodeParam decodeParam = new TIFFDecodeParam();
-    decodeParam.setDecodePaletteAsShorts(true);
+    // reader.
+    ParameterBlockImageN params = new ParameterBlockImageN("ImageRead")
+            .setParameter("Input", new File(args[0]));
 
     // Create an operator to decode the TIFF file.
-    RenderedOp image1 = ImageN.create("tiff", params);
+    RenderedOp image1 = ImageN.create("ImageRead", params);
 
     // Find out the first image's data type.
     int dataType = image1.getSampleModel().getDataType();
@@ -60,12 +43,12 @@ public class LookupSampleProgram {
        // Setup a standard window-level lookup table. */
        byte[] tableData = new byte[0x10000];
        for (int i = 0; i < 0x10000; i++) {
-           tableData[i] = (byte)(i >8);
+           tableData[i] = (byte)(i >> 8);
        }
 
-       // Create a LookupTableJAI object to be used with the
+       // Create a LookupTable object to be used with the
        // "lookup" operator.
-       LookupTableJAI table = new LookupTableJAI(tableData);
+       LookupTable table = LookupTableFactory.create(tableData);
 
        // Create an operator to lookup image1.
        image2 = ImageN.create("lookup", image1, table);
@@ -87,6 +70,6 @@ public class LookupSampleProgram {
      Frame window = new Frame("Lookup Sample Program");
      window.add(panel);
      window.pack();
-     window.show();
+     window.setVisible(true);
   }
 }

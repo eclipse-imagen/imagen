@@ -169,14 +169,11 @@ image.
 The primary tasks needed to perform a histogram operation are as
 follows:
 
-1. Create a `Histogram` object, which specifies the type of histogram to
-be generated.
+1. Create a `Histogram` operation with the required parameters, which
+specify the type of histogram to be generated.
 
-2. Create a `Histogram` operation with the required parameters or create
-a `ParameterBlock` with the parameters and pass it to the `Histogram`
-operation.
-
-3. Read the histogram data stored in the object. The data consists of:
+2. Read the `Histogram` object from the operation's `"histogram"`
+property. The data consists of:
 
    - Number of bands in the histogram
    - Number of bins for each band of the image
@@ -219,7 +216,7 @@ For an example histogram, see [Listing 9-3](#lsiting-9-3).
 
 **API:** `org.eclipse.imagen.Histogram`
 
-* `Histogram(int[] numBins, float[] lowValue, float[] highValue)`
+* `Histogram(int[] numBins, double[] lowValue, double[] highValue)`
 
 ### 9.4.2 Performing the Histogram Operation
 
@@ -232,15 +229,17 @@ to be a rectangle. If no region is specified (null), the entire image
 is scanned to generate the histogram. The image data passes through
 the operation unchanged.
 
-The `histogram` operation takes one rendered source image and four
+The `histogram` operation takes one rendered source image and six
 parameters:
 
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
-| specification | Histogram | The specification for the type of histogram to be generated. See [Section 9.4.1](#941-specifying-the-histogram) |
 | roi | ROI | The region of the image to scan. See [Section 6.2](../image-manipulation/#62-region-of-interest-control). |
 | xPeriod | Integer | The horizontal sampling rate. May not be less than 1. |
 | yPeriod | Integer | The vertical sampling rate. May not be less than 1. |
+| numBins | int[] | The number of bins for each band. See [Section 9.4.1](#941-specifying-the-histogram) |
+| lowValue | double[] | The lowest inclusive pixel value checked for each band. |
+| highValue | double[] | The highest exclusive pixel value checked for each band. |
 
 The set of pixels scanned may be further reduced by specifying the
 `xPeriod` and `yPeriod` parameters that represent the sampling rate
@@ -291,33 +290,29 @@ to be traded for speed of computation.
 ***Listing 9-3*  Example Histogram Operation** <a name="listing-9-3"></a>
 
 ```java
-// Set up the parameters for the Histogram object.
+// Set up the histogram parameters.
 int[] bins = {256, 256, 256};             // The number of bins.
 double[] low = {0.0D, 0.0D, 0.0D};        // The low value.
 double[] high = {256.0D, 256.0D, 256.0D}; // The high value.
 
-// Construct the Histogram object.
-Histogram hist = new Histogram(bins, low, high);
-
 // Create the parameter block.
-ParameterBlock pb = new ParameterBlock();
-pb.addSource(image);               // Specify the source image
-pb.add(hist);                      // Specify the histogram
-pb.add(null);                      // No ROI
-pb.add(1);                         // Sampling
-pb.add(1);                         // periods
+ParameterBlockImageN pb = new ParameterBlockImageN("histogram")
+        .addSource(image)                 // Specify the source image
+        .setParameter("numBins", bins)
+        .setParameter("lowValue", low)
+        .setParameter("highValue", high);
 
 // Perform the histogram operation.
-dst = (PlanarImage)ImageN.create("histogram", pb, null);
+RenderedOp dst = ImageN.create("histogram", pb, null);
 
 // Retrieve the histogram data.
-hist = (Histogram) dst.getProperty("histogram");
+Histogram hist = (Histogram) dst.getProperty("histogram");
 
 // Print 3-band histogram.
-for (int i=0; i< histogram.getNumBins(); i++) {
+for (int i = 0; i < hist.getNumBins(0); i++) {
    System.out.println(hist.getBinSize(0, i) + " " +
                       hist.getBinSize(1, i) + " " +
-                      hist.getBinSize(2, i) + " " +
+                      hist.getBinSize(2, i));
 }
 ```
 
