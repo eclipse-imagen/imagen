@@ -796,7 +796,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param b a <code>byte</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, byte b) {
+    public NegotiableCapability setParameter(String paramName, byte b) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -808,7 +808,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param b a <code>boolean</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, boolean b) {
+    public NegotiableCapability setParameter(String paramName, boolean b) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -820,7 +820,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param c a <code>char</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, char c) {
+    public NegotiableCapability setParameter(String paramName, char c) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -832,7 +832,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param s a short value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, short s) {
+    public NegotiableCapability setParameter(String paramName, short s) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -844,7 +844,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param i an <code>int</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, int i) {
+    public NegotiableCapability setParameter(String paramName, int i) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -856,7 +856,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param l a <code>long</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, long l) {
+    public NegotiableCapability setParameter(String paramName, long l) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -868,7 +868,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param f a <code>float</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, float f) {
+    public NegotiableCapability setParameter(String paramName, float f) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -880,7 +880,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param d a <code>double</code> value for the parameter.
      * @throws IllegalArgumentException since the value being set is not a <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, double d) {
+    public NegotiableCapability setParameter(String paramName, double d) {
         throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));
     }
 
@@ -892,7 +892,7 @@ public class NegotiableCapability extends ParameterListImpl implements Serializa
      * @param obj An Object value for the parameter.
      * @throws IllegalArgumentException if obj is not an instance of <code>Negotiable</code>.
      */
-    public ParameterList setParameter(String paramName, Object obj) {
+    public NegotiableCapability setParameter(String paramName, Object obj) {
 
         if (obj != null && !(obj instanceof Negotiable)) {
             throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapability2"));

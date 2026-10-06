@@ -415,7 +415,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, byte b) {
+    public ParameterBlockImageN setParameter(String paramName, byte b) {
         return setParameter0(paramName, new Byte(b));
     }
 
@@ -431,7 +431,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     Boolean</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, boolean b) {
+    public ParameterBlockImageN setParameter(String paramName, boolean b) {
         return setParameter0(paramName, new Boolean(b));
     }
 
@@ -447,7 +447,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     Character</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, char c) {
+    public ParameterBlockImageN setParameter(String paramName, char c) {
         return setParameter0(paramName, new Character(c));
     }
 
@@ -463,7 +463,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, short s) {
+    public ParameterBlockImageN setParameter(String paramName, short s) {
         return setParameter0(paramName, new Short(s));
     }
 
@@ -479,7 +479,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     Integer</code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, int i) {
+    public ParameterBlockImageN setParameter(String paramName, int i) {
         return setParameter0(paramName, new Integer(i));
     }
 
@@ -495,7 +495,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, long l) {
+    public ParameterBlockImageN setParameter(String paramName, long l) {
         return setParameter0(paramName, new Long(l));
     }
 
@@ -511,7 +511,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, float f) {
+    public ParameterBlockImageN setParameter(String paramName, float f) {
         return setParameter0(paramName, new Float(f));
     }
 
@@ -527,7 +527,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *     </code>
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, double d) {
+    public ParameterBlockImageN setParameter(String paramName, double d) {
         return setParameter0(paramName, new Double(d));
     }
 
@@ -544,7 +544,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if there is no parameter with the specified name.
      * @throws IllegalArgumentException if the parameter value is invalid.
      */
-    public ParameterList setParameter(String paramName, Object obj) {
+    public ParameterBlockImageN setParameter(String paramName, Object obj) {
         return setParameter0(paramName, obj);
     }
 
@@ -605,7 +605,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if <code>obj</code> is non-<code>null</code> and not an instance of the class
      *     expected for the indicated parameter or if <code>obj</code> is an invalid value for the indicated parameter.
      */
-    private ParameterList setParameter0(String paramName, Object obj) {
+    private ParameterBlockImageN setParameter0(String paramName, Object obj) {
 
         int index = checkParameter(paramName, obj);
 
@@ -622,8 +622,11 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * constructor initializes all parameters with their default values.
      *
      * @throws IllegalStateException if parameters are added to an already initialized ParameterBlockImageN
+     * @deprecated use {@link #setParameter(String, Object)} or {@link #set(Object, int)}
      */
-    public ParameterBlock add(Object obj) {
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(Object obj) {
         throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
     }
 
@@ -637,7 +640,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @throws IllegalArgumentException if <code>obj</code> is non-<code>null</code> and not an instance of the class
      *     expected for the indicated parameter or if <code>obj</code> is an invalid value for the indicated parameter.
      */
-    public ParameterBlock set(Object obj, int index) {
+    public ParameterBlockImageN set(Object obj, int index) {
         if (index < 0 || index >= pld.getNumParameters()) {
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -673,6 +676,144 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
         this.parameters = parameters;
     }
 
+    @Override
+    public ParameterBlockImageN addSource(Object source) {
+        super.addSource(source);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN setSource(Object source, int index) {
+        super.setSource(source, index);
+        return this;
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, byte)} or {@link #set(byte, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(byte b) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, char)} or {@link #set(char, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(char c) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, short)} or {@link #set(short, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(short s) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, int)} or {@link #set(int, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(int i) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, long)} or {@link #set(long, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(long l) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, float)} or {@link #set(float, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(float f) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    /**
+     * Not supported, all parameters are initialized with their default values.
+     *
+     * @throws IllegalStateException always
+     * @deprecated use {@link #setParameter(String, double)} or {@link #set(double, int)}
+     */
+    @Deprecated
+    @Override
+    public ParameterBlockImageN add(double d) {
+        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+    }
+
+    @Override
+    public ParameterBlockImageN set(byte b, int index) {
+        super.set(b, index);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN set(char c, int index) {
+        super.set(c, index);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN set(short s, int index) {
+        super.set(s, index);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN set(int i, int index) {
+        super.set(i, index);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN set(long l, int index) {
+        super.set(l, index);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN set(float f, int index) {
+        super.set(f, index);
+        return this;
+    }
+
+    @Override
+    public ParameterBlockImageN set(double d, int index) {
+        super.set(d, index);
+        return this;
+    }
+
     /** ******************** DEPRECATED METHODS ************************ */
 
     /**
@@ -697,7 +838,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, byte)
      */
-    public ParameterBlock set(byte b, String paramName) {
+    public ParameterBlockImageN set(byte b, String paramName) {
         return set(new Byte(b), paramName);
     }
 
@@ -711,7 +852,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, char)
      */
-    public ParameterBlock set(char c, String paramName) {
+    public ParameterBlockImageN set(char c, String paramName) {
         return set(new Character(c), paramName);
     }
 
@@ -725,7 +866,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, short)
      */
-    public ParameterBlock set(short s, String paramName) {
+    public ParameterBlockImageN set(short s, String paramName) {
         return set(new Short(s), paramName);
     }
 
@@ -739,7 +880,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, int)
      */
-    public ParameterBlock set(int i, String paramName) {
+    public ParameterBlockImageN set(int i, String paramName) {
         return set(new Integer(i), paramName);
     }
 
@@ -753,7 +894,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, long)
      */
-    public ParameterBlock set(long l, String paramName) {
+    public ParameterBlockImageN set(long l, String paramName) {
         return set(new Long(l), paramName);
     }
 
@@ -767,7 +908,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, float)
      */
-    public ParameterBlock set(float f, String paramName) {
+    public ParameterBlockImageN set(float f, String paramName) {
         return set(new Float(f), paramName);
     }
 
@@ -781,7 +922,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, double)
      */
-    public ParameterBlock set(double d, String paramName) {
+    public ParameterBlockImageN set(double d, String paramName) {
         return set(new Double(d), paramName);
     }
 
@@ -797,7 +938,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      * @deprecated as of ImageN 0.4.0 - use <code>setParameter</code> instead.
      * @see #setParameter(String, Object)
      */
-    public ParameterBlock set(Object obj, String paramName) {
+    public ParameterBlockImageN set(Object obj, String paramName) {
         setParameter0(paramName, obj);
         return this;
     }
@@ -849,7 +990,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      *
      * @return an Object clone of the <code>ParameterBlockImageN</code>.
      */
-    public Object clone() {
+    public ParameterBlockImageN clone() {
         ParameterBlockImageN theClone = (ParameterBlockImageN) shallowClone();
 
         if (sources != null) {
@@ -861,6 +1002,6 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
             // validity checks.
             theClone.parameters = (Vector) parameters.clone();
         }
-        return (Object) theClone;
+        return theClone;
     }
 }
