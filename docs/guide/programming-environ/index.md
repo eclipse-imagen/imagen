@@ -665,7 +665,7 @@ as:
 
 -   `ScaleOpImage` - for extension operators that perform image
     scaling requiring rectilinear backwards mapping and padding by the
-    resampling filter dimensions``
+    resampling filter dimensions
 
 The `OpImage` is able to determine what source areas are sufficient
 for the computation of a given area of the destination by means of a
@@ -1124,7 +1124,7 @@ image. [Table 3-7](#table-3-7) lists the statistical operators.
 
 <a name="table-3-7"></a> **Table 3-7 Statistical Operators**
 
-------------------------------------------------------------------------- 
+-------------------------------------------------------------------------
 
 Extrema
 : Takes one rendered source image, scans a specific region of the image, and finds the maximum and minimum pixel values for each band within that region of the image. The image data pass through this operation unchanged.                                                                                                                                                                                                                                                            
@@ -1376,7 +1376,7 @@ As described before, there are two separate classes for specifying
 parameter blocks: `ParameterBlock` and `ParameterBlockImageN`. Both
 classes work very much alike, except for two differences:
 `ParameterBlockImageN` automatically provides default parameter values
-and allows setting parameters by name; `ParameterBlock` does not.``
+and allows setting parameters by name; `ParameterBlock` does not.
 
 
 ##### ParameterBlock
@@ -1394,7 +1394,7 @@ created in the previous example.
 The `add()` method can be used with all of the supported data types:
 byte, short, integer, long, float, and double. When using the
 `ParameterBlock` object, all parameters that an operation requires
-must be added, else the operation will fail.``
+must be added, else the operation will fail.
 
 **API:** `java.awt.image.renderable.ParameterBlock`
 
@@ -1416,19 +1416,17 @@ must be added, else the operation will fail.``
 
 Since the `ParameterBlockImageN` object already contains default values
 for the parameters at the time of construction, the parameters must be
-changed (or set) with the `ParameterBlockImageN.set(value, index)`
-methods rather than the `add()` method. The `add()` methods should not
-be used since the parameter list is already long enough to hold all of
-the parameters required by the `OperationDescriptor`.
+changed (or set) with the `setParameter(paramName, value)` or
+`set(value, index)` methods. The `add()` methods are deprecated and
+throw an `IllegalStateException`, since the parameter list already
+holds all of the parameters required by the `OperationDescriptor`.
 
-[Listing 3-3](../programming-environ) shows the creation
-of a `ParameterBlockImageN` intended to be passed to a rotate operation.
-The rotate operation takes four parameters: `xOrigin`, `yOrigin`,
-`angle`, and `interpolation`. The default values for `xOrigin` and
-`yOrigin` are 0.0F (for both). In this example, these two values are
-not set, as the default values are sufficient for the operation. The
-other two parameters (`angle` and `interpolation`) have default values
-of `null` and must therefore be set. The source image must also be
+[Listing 3-3](#listing-3-3) shows the creation
+of a `ParameterBlockImageN` intended to be passed to a scale operation.
+The scale operation takes parameters including `xScale`, `yScale`,
+`xTrans`, `yTrans`, and `interpolation`. In this example only
+`xScale`, `yScale` and `interpolation` are set, as the default values
+are sufficient for the other parameters. The source image must also be
 specified.
 
 <a name="listing-3-3"></a>
@@ -1437,33 +1435,53 @@ specified.
 
 ```java
   // Specify the interpolation method to be used
-  interp = Interpolation.create(Interpolation.INTERP_NEAREST);
+  Interpolation interp = Interpolation.getInstance(Interpolation.INTERP_BILINEAR);
 
   // Create the ParameterBlockImageN and add the interpolation to it
-  ParameterBlockImageN pb = new ParameterBlockImageN();
-  pb.addSource(im);                 // The source image
-  pb.set(1.2F, "angle");            // The rotation angle in radians
-  pb.set(interp, "interpolation");  // The interpolation method
+  ParameterBlockImageN pb = new ParameterBlockImageN("Scale");
+  pb.addSource(im);                          // The source image
+  pb.setParameter("xScale", 2.0F);           // The x scale factor
+  pb.setParameter("yScale", 2.0F);           // The y scale factor
+  pb.setParameter("interpolation", interp);  // The interpolation method
+```
+
+The `ParameterBlockImageN` methods return the parameter block, allowing
+method calls to be chained:
+
+```java
+  RenderedOp scaled = ImageN.create("Scale",
+          new ParameterBlockImageN("Scale")
+                  .addSource(im)
+                  .setParameter("xScale", 2.0F)
+                  .setParameter("yScale", 2.0F)
+                  .setParameter("interpolation", interp));
 ```
 
 **API:** `org.eclipse.imagen.ParameterBlockImageN`
 
+* `ParameterBlockImageN addSource(Object source)`
 
-* `ParameterBlock set(byte b, String paramName)`
+* `ParameterBlockImageN setSource(String sourceName, Object source)`
 
-* `ParameterBlock set(char c, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, byte b)`
 
-* `ParameterBlock set(int i, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, boolean b)`
 
-* `ParameterBlock set(short s, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, char c)`
 
-* `ParameterBlock set(long l, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, short s)`
 
-* `ParameterBlock set(float f, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, int i)`
 
-* `ParameterBlock set(double d, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, long l)`
 
-* `ParameterBlock set(java.lang.Object obj, String paramName)`
+* `ParameterBlockImageN setParameter(String paramName, float f)`
+
+* `ParameterBlockImageN setParameter(String paramName, double d)`
+
+* `ParameterBlockImageN setParameter(String paramName, Object obj)`
+
+* `ParameterBlockImageN set(Object obj, int index)`
 
 ### 3.7.3 Rendering Hints
 
@@ -1698,19 +1716,16 @@ destination opimage is set to 200 x 200.
 
 ```java
   // Create the parameter block for the scale operation.
-  ParameterBlock pb = new ParameterBlock();
-      pb.addSource(im0);      // The source image
-      pb.add(4.0F);           // The x scale factor
-      pb.add(4.0F);           // The y scale factor
-      pb.add(interp);         // The interpolation method
+  ParameterBlockImageN pb = new ParameterBlockImageN("Scale")
+          .addSource(im0)                          // The source image
+          .setParameter("xScale", 4.0F)            // The x scale factor
+          .setParameter("yScale", 4.0F)            // The y scale factor
+          .setParameter("interpolation", interp);  // The interpolation method
 
   // Specify the rendering hints.
-      layout = new ImageLayout();
-      layout.setMinX(200);
-      layout.setMinY(200);
-      RenderingHints rh =
-              new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout);
+  ImageLayout layout = new ImageLayout().setMinX(200).setMinY(200);
+  RenderingHints rh = new RenderingHints(ImageN.KEY_IMAGE_LAYOUT, layout);
 
   // Create the scale operation.
-  PlanarImage im2 = (PlanarImage)ImageN.create("scale", pb, layout)
+  RenderedOp im2 = ImageN.create("Scale", pb, rh);
 ```
