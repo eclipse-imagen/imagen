@@ -84,12 +84,12 @@ method to be used in calculating destination pixel values. [Table
 8-1](#table-8-1) lists the names used to call the
 interpolation methods.
 
-***Table 8-1* Interpolation Types** <a name="table 8-1"></a>
+***Table 8-1* Interpolation Types** <a name="table-8-1"></a>
 
 | Name | Description |
 |------|-------------|
-| INTERP\_NEAREST    | Nearest-neighbor interpolation. Assigns to point D in the destination image the value of the pixel nearest S in the source image. See [Section 8.2.1](#821-nearest-neighbor-interpolation) |
-| INTERP\_BILINEAR   | Bilinear interpolation. Assigns to Point D in the destination a value that is a bilinear function of the four pixels nearest S in the source image. See [Section 8.2.2](#822-bilinear-interpolation) |
+| INTERP\_NEAREST    | Nearest-neighbor interpolation. Assigns to point D in the destination image the value of the pixel nearest S in the source image. See [Section 8.2.1](#NearestNeighbor) |
+| INTERP\_BILINEAR   | Bilinear interpolation. Assigns to Point D in the destination a value that is a bilinear function of the four pixels nearest S in the source image. See [Section 8.2.2](#BilinearInterpolation) |
 | INTERP\_BICUBIC    | Bicubic interpolation. Assigns to point D in the destination image a value that is a bicubic function of the 16 pixels nearest S in the source image. See [Section 8.2.3](823-bicubic-interpolation) |
 | INTERP\_BICUBIC2   | Bicubic2 interpolation. Similar to Bicubic, but uses a different polynomial function. See [Section 8.2.4](824-bicubic2-interpolation) |
 
@@ -98,7 +98,7 @@ a specific operation and a more general form of interpolation is
 called for. The more general form of interpolation, called *table
 interpolation* uses tables to store the interpolation kernels. See
 [Section 8.2.5, \"Table
-Interpolation](#822-table-interpolation).\"
+Interpolation](#825-table-interpolation-).\"
 
 Other interpolation functions may be required to solve problems other
 than the resampling of band-limited image data. When shrinking an
@@ -135,7 +135,7 @@ Hints](../programming-environ).\"
 
 [Listing 8-1](#listing-8-1) shows a code sample for
 a `rotate` operation. First, the type of interpolation is specified
-(`INTERP_NEAREST` in this example) using the `Interpolation.create`
+(`INTERP_NEAREST` in this example) using the `Interpolation.getInstance`
 method. Next, a parameter block is created and the interpolation
 method is added to the parameter block, as are all the other
 parameters required by the operation. Finally, a `rotate` operation is
@@ -742,15 +742,15 @@ destination. The rest of the destination will not be written.
 a `Scale` operation using a scale factor of 1.2 and nearest-neighbor
 interpolation.
 
-***Listing 8-3*  Example Scale Operation** <a name="listing-831"></a>
+***Listing 8-3*  Example Scale Operation** <a name="listing-8-3"></a>
 
 ```java
 // Create a ParameterBlock and specify the source and
 // parameters
 ParameterBlock pb = new ParameterBlock();
      pb.addSource(im);                   // The source image
-     pb.add(1.2);                        // The xScale
-     pb.add(1.2);                        // The yScale
+     pb.add(1.2F);                       // The xScale
+     pb.add(1.2F);                       // The yScale
      pb.add(0.0F);                       // The x translation
      pb.add(0.0F);                       // The y translation
      pb.add(new InterpolationNearest()); // The interpolation
@@ -1029,29 +1029,29 @@ quadrilateral onto another arbitrary quadrilateral. The
 quadrilateral:
 
 ```
-    (0, 0) → (*x*0, *y*0)\
-    (1, 0) → (*x*1, *y*1)\
-    (1, 1) → (*x*2, *y*2)\
-    (0, 1) → (*x*3, *y*3)
+    (0, 0) → (x0, y0)
+    (1, 0) → (x1, y1)
+    (1, 1) → (x2, y2)
+    (0, 1) → (x3, y3)
 ```
 
 The `getQuadToSquare` methods map an arbitrary quadrilateral onto the unit square:
 
 ```
-    (*x*0, *y*0) → (0, 0)\
-    (*x*1, *y*1) → (1, 0)\
-    (*x*2, *y*2) → (1, 1)\
-    (x3, *y*3) → (0, 1)
+    (x0, y0) → (0, 0)
+    (x1, y1) → (1, 0)
+    (x2, y2) → (1, 1)
+    (x3, y3) → (0, 1)
 ```
 
 The `getQuadToQuad` methods map an arbitrary quadrilateral onto
 another arbitrary quadrilateral:
 
 ```
-    (*x*0, *y*0) → (*x*0p, *y*0p)\
-    (*x*1, *y*1) → (*x*1p, *y*1p)\
-    (*x*2, *y*2) → (*x*2p, *y*2p)\
-    (*x*3, *y*3) → (*x*3p, *y*3p)
+    (x0, y0) → (x0p, y0p)
+    (x1, y1) → (x1p, y1p)
+    (x2, y2) → (x2p, y2p)
+    (x3, y3) → (x3p, y3p)
 ```
 
 **API:** `org.eclipse.imagen.PerspectiveTransform`
@@ -1182,7 +1182,7 @@ PlanarImage im0 = (PlanarImage)ImageN.create("awtImage", pb);
 //                : 4=ROTATE_90
 //                : 5=ROTATE_180
 //                : 6=ROTATE_270
-int type = 1;
+TransposeType type = TransposeDescriptor.FLIP_HORIZONTAL;
 
 // Create the Transpose operation.
 PlanarImage im2 = (PlanarImage)ImageN.create("transpose", im0,
@@ -1260,7 +1260,7 @@ Interpolation interp = new InterpolationNearest();
 // Set the shear direction:
 //     0 = SHEAR_HORIZONTAL
 //     1 = SHEAR_VERTICAL
-int shear_dir = 1;
+ShearDir shear_dir = ShearDescriptor.SHEAR_VERTICAL;
 
 // Set the shear value and the x and y translation values.
 float shear_amt = 0.7F;
@@ -1377,11 +1377,11 @@ To create a warp operation:
 
    | Object | Description |
    | ------ | ----------- |
-   | WarpAffine | An affine-based image warp. See [Affine Waap](#AffineWaap). |
+   | WarpAffine | An affine-based image warp. See [Affine Warp](#WarpAffine). |
    | WarpCubic | A cubic-based image warp. See [Cubic Warp](#CubicWarp). |
    | WarpGeneralPolynomial | A polynomial-based image warp for polynomials of a higher degree. See [General  Polynomial Warp](#GeneralPolynomialWarp. |
    | WarpGrid | A grid-based image warp where the image may be warped in pieces. See [Gridl Warp](#GridlWarp). |
-   | WarpPerspective | A perspective or projective image warp. See [Perspective Warp](#PerspectiveWarp). |
+   | WarpPerspective | A perspective or projective image warp. See [Perspective Warp](#WarpPerspective). |
    | WarpPolynomial | A polynomial-based description of an image warp. See [Polynomial Warp](#PolynomialWarp) |
    | WarpQuadratic | A quadratic-based description of an image warp. See [Quadratic Warp)(#QuadraticWarp). |
 
@@ -1409,13 +1409,14 @@ necessary parameters to it. The `Warp` operation takes two parameters:
    [Listing 8-8](#listing-8-8) shows a sample code for
 a simple second-order warp operation.
 
-***Listing 8-8*  Example of a Second-order Warp** <a name="listing-8-7"></a>
+***Listing 8-8*  Example of a Second-order Warp** <a name="listing-8-8"></a>
 
 ```java
-// Create WarpPolynomial object for a polynomial warp
+// Create WarpGeneralPolynomial object for a polynomial warp
 // operation.
-WarpPolynomial warp;
-     float[] coeffs = { 1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F };
+float[] xCoeffs = { 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F };
+float[] yCoeffs = { 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F };
+Warp warp = new WarpGeneralPolynomial(xCoeffs, yCoeffs);
 
 // Create the ParameterBlock and add the parameters to it.
 ParameterBlock pb = new ParameterBlock();
@@ -1618,7 +1619,7 @@ following cubic polynomial:
 * `WarpCubic(float[] xCoeffs, float[] yCoeffs)`
 * `float[] warpSparseRect(int x, int y, int width, int height, int  periodX, int periodY, float[] destRect)`
 
-### 8.7.7 Perspective Warp <a name="#WarpPerspective"></a>
+### 8.7.7 Perspective Warp <a name="WarpPerspective"></a>
 
 Perspective distortions in images caused by camera-to-target viewing
 angle can be restored through perspective warping. Perspective
@@ -1669,7 +1670,7 @@ AffineTransform transform = new AffineTransform(m00, m10,
 Warp warp = new WarpAffine(transform);
 
 // Create the interpolation parameter.
-Interpolation interp = new InterpolationNearest(8);
+Interpolation interp = new InterpolationNearest();
 
 // Create the ParameterBlock.
 ParameterBlock pb = new ParameterBlock();

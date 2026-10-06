@@ -34,8 +34,8 @@ Take for example, the sample code in [Listing
 a simple application called `FileTest`, which takes a single argument;
 the path and name of the file to read. `FileTest` reads the named file
 and displays it in a `ScrollingImagePanel`. The operator that reads
-the image file, `FileLoad`, is described in [Section 4.4.1.2, \"The
-FileLoad Operation](../acquisition).\" The
+the image file, `ImageRead`, is described in [Section 4.4, \"Reading
+Image Files](#44-reading-image-files).\" The
 `ScrollingImagePanel` is described in [Section 4.8, \"Image
 Display](../acquisition).\"
 
@@ -430,13 +430,13 @@ layout parameters are optional, and when not specified are set to
 default values. Each tile of the destination image will be defined by
 a reference to a shared instance of the pattern.
 
-The `pattern` operation takes three parameters:
+The `pattern` operation takes one source image, the pattern to repeat,
+and two parameters:
 
 | Parameter  | Type             | Description                |
 | ---------- | ---------------- | -------------------------- |
 | width      | Integer | The width of the image in pixels. |
 | height     | Integer | The height of the image in pixels. |
-| pattern    | Raster  | The Pattern pixel band values. |
 
 [Listing 4-2](#listing-4-2) shows a code sample for a `pattern` operation.
 
@@ -450,7 +450,7 @@ bandOffsets[0] = 2;
 bandOffsets[1] = 1;
 bandOffsets[2] = 0;
 
-// width, height=64.
+// width, height=100.
 PixelInterleavedSampleModel sm;
 sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, 100,
                                    100, 3, 3*100, bandOffsets);
@@ -461,7 +461,7 @@ WritableRaster pattern = Raster.createWritableRaster(sm,
 int[] bandValues = new int[3];
 bandValues[0] = 90;
 bandValues[1] = 45;
-bandValues[2] = 45
+bandValues[2] = 45;
 
 // Set values for the pattern raster.
 for (int y = 0; y < pattern.getHeight(); y++) {
@@ -472,10 +472,16 @@ for (int x = 0; x < pattern.getWidth(); x++) {
     }
 }
 
-// Create a 100x100 image with the given raster.
-PlanarImage im0 = (PlanarImage)ImageN.create("pattern",
-                                           100, 100,
-                                           pattern);
+// Wrap the raster in an image to use as the pattern.
+TiledImage tile = new TiledImage(sm, 100, 100);
+tile.setData(pattern);
+
+// Create a 100x100 image with the given pattern.
+RenderedOp im0 = ImageN.create("pattern",
+        new ParameterBlockImageN("pattern")
+                .addSource(tile)
+                .setParameter("width", 100)
+                .setParameter("height", 100));
 ```
 
 ### 4.2.3 Snapshot Image
@@ -803,7 +809,7 @@ parameter.
 
 [Listing 4-4](#listing-4-4) shows a complete code example of the use of `ImagePyramid`.
 
-***Listing 4-4*  Example use of ImagePyramid** <a name="listing-4-3"></a>
+***Listing 4-4*  Example use of ImagePyramid** <a name="listing-4-4"></a>
 
 ```java
 {% include_relative ImagePyramidTest.java %}
@@ -1070,25 +1076,36 @@ listed in [Table 4-6](#table-4-6).
 
 ***Table 4-6* Image File Operators**
 
-| Operator | Description |
-|----------|-------------|
-| AWTImage | Imports a standard AWT image into ImageN. |
-| BMP | Reads BMP data from an input stream. |
-| FileLoad | Reads an image from a file. |
-| FPX | Reads FlashPix data from an input stream. |
-| FPXFile | Reads a standard FlashPix file. |
-| GIF | Reads GIF data from an input stream. |
-| JPEG | Reads a standard JPEG (JFIF) file. |
-| PNG | Reads a PNG input stream. |
-| PNM | Reads a standard PNM file, including PBM, PGM, and PPM images of both ASCII and raw formats. |
-| Stream | Reads java.io.InputStream files. |
-| TIFF | Reads TIFF 6.0 data from an input stream. |
-| URL | Creates an image the source of which is specified by a Uniform Resource Locator (URL). |
+| Operator | Description | Decoder |
+|----------|-------------|---------|
+| AWTImage | Imports a standard AWT image into ImageN. | Not needed |
+| BMP | Reads BMP data from an input stream. | Legacy codec |
+| FileLoad | Reads an image from a file. | Legacy codec |
+| FPX | Reads FlashPix data from an input stream. | Not available |
+| FPXFile | Reads a standard FlashPix file. | Not available |
+| GIF | Reads GIF data from an input stream. | Legacy codec |
+| ImageRead | Reads any format supported by Java Image I/O. | Java Image I/O |
+| JPEG | Reads a standard JPEG (JFIF) file. | Use ImageRead |
+| PNG | Reads a PNG input stream. | Legacy codec |
+| PNM | Reads a standard PNM file, including PBM, PGM, and PPM images of both ASCII and raw formats. | Legacy codec |
+| Stream | Reads java.io.InputStream files. | Legacy codec |
+| TIFF | Reads TIFF 6.0 data from an input stream. | Use ImageRead |
+| URL | Creates an image the source of which is specified by a Uniform Resource Locator (URL). | Legacy codec |
+
+The legacy codec module only provides decoders for BMP, GIF, PNG, PNM
+and WBMP. FlashPix is not supported. Use the `ImageRead` operation to
+read JPEG, TIFF and any other format supported by Java Image I/O:
+
+```java
+  ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+          .setParameter("Input", new File(fileName));
+  RenderedOp image = ImageN.create("ImageRead", pb);
+```
 
 ### 4.4.1 Standard File Readers for Most Data Types
 
 You can read a file type directly with one of the available operation
-descriptors (such as the `tiff` operation to read TIFF files), by the
+descriptors (such as the `png` operation to read PNG files), by the
 stream file reader to read `InputStream` files, or the `FileLoad`
 operator to read from a disk file. The `Stream` and `FileLoad`
 operations are generic file readers in the sense that the image file
@@ -1159,6 +1176,15 @@ The `FileLoad` operation takes a single parameter:
 ```
 
 ### 4.4.2 Reading TIFF Images
+
+**Note:** The `TIFF` operation is no longer supported; the legacy codec
+has no TIFF decoder. Use the `ImageRead` operation instead (use the `ImageChoice` parameter to select an image from a multi-image file):
+
+```java
+  ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+          .setParameter("Input", new File("image.tif"));
+  RenderedOp image = ImageN.create("ImageRead", pb);
+```
 
 The Tag Image File Format (TIFF) is one of the most common digital
 image file formats. This file format was specifically designed for
@@ -1260,7 +1286,7 @@ identified as a sequence of values of identical data type. The TIFF
 into the Java data types, as described in [Table
 4-7](#table-4-7).
 
-***Table 4-7* TIFF Data Types**
+***Table 4-7* TIFF Data Types** <a name="table-4-7"></a>
   
 
 | TIFF Field Type | Java Data Type | Description |
@@ -1344,6 +1370,9 @@ first image, index 1 to the second, and so on. The index defaults to
 
 ### 4.4.3 Reading FlashPix Images
 
+**Note:** The `FPX` operation is no longer supported. Neither the
+legacy codec nor Java Image I/O can read FlashPix images.
+
 FlashPix is a multi-resolution, tiled file format that allows images
 to be stored at different resolutions for different purposes, such as
 editing or printing. Each resolution is divided into 64 x 64 blocks,
@@ -1381,6 +1410,15 @@ ScrollingImagePanel p =
 ```
 
 ### 4.4.4 Reading JPEG Images
+
+**Note:** The `JPEG` operation is no longer supported; the legacy codec
+has no JPEG decoder. Use the `ImageRead` operation instead:
+
+```java
+  ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+          .setParameter("Input", new File("image.jpg"));
+  RenderedOp image = ImageN.create("ImageRead", pb);
+```
 
 The JPEG standard was developed by a working group, known as the Joint
 Photographic Experts Group (JPEG). The JPEG image data compression
@@ -1492,12 +1530,12 @@ The `PNG` operation takes a single parameter:
 
 ```java
 // Create the ParameterBlock.
-InputStream image = new FileInputStream(filename);
+SeekableStream image = new FileSeekableStream(filename);
 ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the PNG operation.
-op = ImageN.create("PNG", pb);
+RenderedOp op = ImageN.create("PNG", pb);
 ```
 
 Several aspects of the PNG image decoding may be controlled. By
@@ -1669,12 +1707,12 @@ then stores the image data into an appropriate `SampleModel`. The
 
 ```java
 // Create the ParameterBlock.
-InputStream image = new FileInputStream(filename);
+SeekableStream image = new FileSeekableStream(filename);
 ParameterBlock pb = new ParameterBlock();
 pb.add(image);
 
 // Create the PNM operation.
-op = ImageN.create("PNM", pb);
+RenderedOp op = ImageN.create("PNM", pb);
 ```
 
 ### 4.4.9 Reading Standard AWT Images
@@ -1718,9 +1756,9 @@ parameter.
 |-----------|------|-------------|
 | URL       | java.net.URL |  The path of the file to read from. |
 
-[Listing 4-12](#listing-412) shows a code sample for a `URL` operation.
+[Listing 4-12](#listing-4-12) shows a code sample for a `URL` operation.
 
-***Listing 4-12*  Example of Reading a URL Image** <a name="listing-4-11"></a>
+***Listing 4-12*  Example of Reading a URL Image** <a name="listing-4-12"></a>
 
 ```java
 // Define the URL to the image.
@@ -1808,7 +1846,7 @@ The `clamp` function may be defined as:
 
 ```java
 int clamp(int x, int low, int high) {
-    return (x < low) ? low : ((x high) ? high : x);
+    return (x < low) ? low : ((x > high) ? high : x);
 }
 ```
 
@@ -1892,7 +1930,7 @@ The default values for these parameters are:
 
 -   `height` - 1.0F
 
-[Listing 4-13](#listing-4013) shows a code sample for a
+[Listing 4-13](#listing-4-13) shows a code sample for a
 `Renderable` operation. The default parameters are used for all five
 parameters. The output of the `Renderable` operation (`ren`) can be
 passed to the next renderable operation in the graph.

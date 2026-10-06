@@ -1,6 +1,7 @@
 import org.eclipse.imagen.*;
 import org.eclipse.imagen.widget.*;
 import java.awt.Frame;
+import java.awt.image.renderable.ParameterBlock;
 
 public class AddExample extends Frame {
 
@@ -14,13 +15,13 @@ public class AddExample extends Frame {
                       ParameterBlock param2) {
 
          // Create a constant image
-         RenderedOp im0 = JAI.create("constant", param1);
+         RenderedOp im0 = ImageN.create("constant", param1);
 
          // Create another constant image.
-         RenderedOp im1 = JAI.create("constant", param2);
+         RenderedOp im1 = ImageN.create("constant", param2);
          // Add the two images together.
 
-         RenderedOp im2 = JAI.create("add", im0, im1);
+         RenderedOp im2 = ImageN.create("add", im0, im1);
 
          // Display the original in a scrolling window
          imagePanel1 = new ScrollingImagePanel(im2, 100, 100);

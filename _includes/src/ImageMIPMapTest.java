@@ -1,18 +1,19 @@
+import java.awt.Frame;
 import java.awt.geom.AffineTransform;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
-import org.eclipse.imagen.JAI;
+import java.io.File;
+import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.Interpolation;
 import org.eclipse.imagen.InterpolationNearest;
 import org.eclipse.imagen.ImageMIPMap;
-import org.eclipse.imagen.PlanarImage;
+import org.eclipse.imagen.ParameterBlockImageN;
 import org.eclipse.imagen.RenderedOp;
-import org.eclipse.imagen.media.codec.FileSeekableStream;
+import org.eclipse.imagen.widget.ScrollingImagePanel;
 
-public class ImageMIPMapTest extends Test {
+public class ImageMIPMapTest {
 
-   protected static String
-      file = "/import/jai/JAI_RP/src/share/sample/images/pond.jpg";
+   protected static String file = "./images/pond.jpg";
 
    protected Interpolation interp = new InterpolationNearest();
 
@@ -68,18 +69,21 @@ public class ImageMIPMapTest extends Test {
       pb.add(1.0F);
       pb.add(1.0F);
       pb.add(interp);
-      return JAI.create("scale", pb);
+      return ImageN.create("scale", pb);
+   }
+
+   protected void display(RenderedImage img) {
+      Frame frame = new Frame(getClass().getName());
+      frame.add(new ScrollingImagePanel(img, img.getWidth(),
+                                        img.getHeight()));
+      frame.pack();
+      frame.setVisible(true);
    }
 
    public ImageMIPMapTest(String name) {
-          super(name);
-
-      try {
-          FileSeekableStream stream = new FileSeekableStream(file);
-          image = JAI.create("stream", stream);
-      } catch (Exception e) {
-          System.exit(0);
-      }
+      ParameterBlockImageN pb = new ParameterBlockImageN("ImageRead")
+              .setParameter("Input", new File(file));
+      image = ImageN.create("ImageRead", pb);
    }
 
    public static void main(String args[]) {

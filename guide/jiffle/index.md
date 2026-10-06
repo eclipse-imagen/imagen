@@ -186,7 +186,7 @@ script body. In this snippet:
   val = max(0, image1 - image2);
 ```
 
-In contrast, array variables must be declared before use so that Jiffle can distinguish them from scalars::
+In contrast, array variables must be declared before use so that Jiffle can distinguish them from scalars:
 
 ```java
   // declares an empty array 
@@ -196,7 +196,7 @@ In contrast, array variables must be declared before use so that Jiffle can dist
   bar = [1, 2, 42];
 ```
 
-Unlike languages such as Ruby, it is invalid to change the type of a variable within a script::
+Unlike languages such as Ruby, it is invalid to change the type of a variable within a script:
 
 ```java
   // Create an array variable
@@ -222,7 +222,7 @@ See also [reserved words](#reserved-words).
 
 All scalar and list variables which first appear in the body of the script have *pixel-scope*: their values are
 discarded after each destination pixel is processed. Variables declared in the init block, when present, have
-*image-scope*: their values persist between pixels::
+*image-scope*: their values persist between pixels:
 
 ```java
   init {
@@ -261,13 +261,13 @@ discarded after each destination pixel is processed. Variables declared in the i
 |:-------:| ---------------|
 | ``&&``  |  logical AND |
 |   ``||`` |  logical OR |
-|  ``^``  |  logical XOR |
+|  ``^|``  |  logical XOR |
 | ``==``  |  equality test |
 | ``!=``  |  inequality test |
 |  ``>``  |  greater than |
 | ``>=``  |  greater than or equal to | 
-| ``<=``  |  less than |
-|  ``<``  |  less than or equal to | 
+| ``<=``  |  less than or equal to |
+|  ``<``  |  less than | 
 |  ``!``  |  logical complement |
 
 #### Ternary expression
@@ -285,7 +285,7 @@ See also [logical functions](#logical-functions).
 
 #### If-else statements
 
-You can use the familiar if-else statement in a Jiffle script::
+You can use the familiar if-else statement in a Jiffle script:
 
 ```java
   if (foo > 0) n++ ;
@@ -310,7 +310,7 @@ Probably most of the times when you need to use a loop in a Jiffle script it wil
 is:
 
 ```java
-    foreach (*var* in *elements*) *target*
+    foreach (var in elements) target
 ```
 
 where:
@@ -390,9 +390,10 @@ A conditional loop which executes the target statement or block until its condit
 Jiffle provides the **break** statement to unconditionally exit a loop:
 
 ```java
+  // count positive values to the right of the current pixel
   n = 0;
-  foreach (i in 1:10) {
-      if (foo[i] != null) {
+  foreach (dx in 1:10) {
+      if (src[dx, 0] > 0) {
           n++ ;
       } else {
           break;
@@ -404,8 +405,8 @@ There is also a **breakif** statement:
 
 ```java
   n = 0;
-  foreach (i in 1:10) {
-      breakif(foo[i] == null);
+  foreach (dx in 1:10) {
+      breakif(src[dx, 0] <= 0);
       n++ ;
   }
 ```
@@ -478,7 +479,7 @@ Setting this property to a negative value will disable this limit.
 | ``sum(ar)``      | Sum                  | array                  | sum of array values |
 | ``variance(ar)`` | Variance             | array                  | sample variance of array values |
 
-##### Processin|g area functions
+##### Processing area functions
 
 | Name          | Returns                                                     |             
 |---------------|-------------------------------------------------------------|
@@ -520,6 +521,7 @@ which will be ignored by the *max* function:
 // area as null values
 options { outside = null; }
 
+values = [];
 foreach (dy in -1:1) {
     foreach (dx in -1:1) {
         values << src[dx, dy];
@@ -546,32 +548,30 @@ Used to associate variables with source (read-only) and destination (write-only)
 As shown in the above snippet, the block contains declarations of the form *name = (read | write)*. If this block is
 provided, the Jiffle compiler expects that it contains declarations for all image variables used in the script. It not
 provided, variable names can be defined as representing source or destination images using methods provided by the
-Jiffle and JiffleBuilder classes. These methods are described further in :doc:`runtime`.
+Jiffle and JiffleBuilder classes. These methods are described further in [the Jiffle run-time system](#153-the-jiffle-run-time-system).
 
 ##### The init block
 
 
-This block declares variables that will have *image scope* during processing (as discussed in :ref:`scope`).
+This block declares variables that will have *image scope* during processing (as discussed in [variable scope](#scope)).
 
-Each variable can optionally be assigned an intial value as ``foo`` is here:
+Each variable is assigned an initial value:
 
 ```java
   init {
       foo = 42;
-      bar;
+      bar = 0;
   }
 ```
 
-If an initial value is not provided, one must be *injected* at run-time. See XXXX for more details.
+The initial value can be replaced by *injecting* a value at run-time. See [modifying behaviour at run-time](#modifying-behaviour-at-run-time) for more details.
 
 
-Specifying source image position
---------------------------------
+### Specifying source image position
 
 Pixel position and image band are specified using square bracket notation.
 
-Absolute pixel position <a name="absolute-pixel-position"></a>
-~~~~~~~~~~~~~~~~~~~~~~~
+#### Absolute pixel position <a name="absolute-pixel-position"></a>
 
 Absolute positions are specified using a ``$`` prefix (similar to the syntax used in some spreadsheet programs):
 ```java
@@ -585,8 +585,7 @@ Variables and expressions can also appear in the brackets:
   value = srcimage[ $xpos, $(min(width() - 1, y() + 10)) ];
 ```
 
-Relative pixel position
-~~~~~~~~~~~~~~~~~~~~~~~
+#### Relative pixel position <a name="relative-pixel-position"></a>
 
 When values are not prefixed they are treated as offsets, relative to the current processing position:
 
@@ -601,8 +600,7 @@ As with absolute positions, variables and expressions can also be used:
   value = srcimage[ dx, dy ];
 ```
 
-Specifying the band 
-~~~~~~~~~~~~~~~~~~~
+#### Specifying the band
 
 The image band is specified as a single value, variable or expression in square brackets. It is always treated as an
 absolute specifier:
@@ -614,21 +612,19 @@ absolute specifier:
 
 As with pixel position, the band can be specified using a variable or an expression.
 
-Specifying both pixel and band
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Specifying both pixel and band
 
 When specifying both band and pixel position, the band comes first:
 
 ```java
 // Get the value for band 1, pixel position x=50, y=42
-value = srcimage[ 1 ][ $50, $42 ]
+value = srcimage[ 1 ][ $50, $42 ];
 
 // Get the value for band 1 at offset dx=-1, dy=3
-value = srcimage[ 1 ][ -1, 3 ]
+value = srcimage[ 1 ][ -1, 3 ];
 ```
 
-Reserved words <a name="reserved-words"></a>
---------------
+### Reserved words <a name="reserved-words"></a>
 
 The following are reserved words in Jiffle and may not be used as variable names:
 
@@ -679,6 +675,7 @@ Using JiffleBuilder is the easiest way to get started with Jiffle. Let's look at
 
 // Set option to treat locations outside the source image area as null values
 options { outside = null; }
+values = [];
 foreach (dy in -1:1) {
     foreach (dx in -1:1) {
         values << src[dx, dy];
@@ -713,7 +710,7 @@ chapter introduces the concept of the *processing area*, also referred to as the
 scripts in terms of other coordinate systems such as proportional or geographic distance. You can also use it to deal
 with source and destination images that have non-overlapping bounds or different resolutions.
 
-To get the flavour of this, let's look again at the *ripples* script which we saw in the :doc:`introduction`:
+To get the flavour of this, let's look again at the *ripples* script which we saw in the [introduction](#151-introduction):
 
 ```java
 init {
@@ -763,7 +760,7 @@ script both simpler and more general.
 
 <a name="figure-15-2"></a>
 
-------------------------------------------------------------------------`
+------------------------------------------------------------------------
 
 ![](coordsystem.png)
 
@@ -793,9 +790,15 @@ area for you based on the first destination image that was associated with the r
 destination images, the first source image. In this case, processing area is simply the image area, and world units will
 be equivalent to pixel coordinates.
 
-You can define your own processing area using one of two methods::
+You can define your own processing area using one of two methods:
 
+```java
 // Define bounds and pixel dimensions in world units
+runtimeObj.setWorldByResolution(worldBounds, xres, yres);
+
+// Define bounds in world units and the number of pixels in X and Y
+runtimeObj.setWorldByNumPixels(worldBounds, numX, numY);
+```
 
 
 ### Creating coordinate transforms
@@ -857,7 +860,6 @@ Example ``TreeChange.java``:
 
         // Set this coordinate transform object to be used with all images
         runtimeObj.setDefaultTransform(tr);
-        // docs end
 ```
 
 If the images had different bounds and/or resolutions, we would give each its own CoordinateTransform.
@@ -931,7 +933,7 @@ Now at run-time, we can do this in the calling Java code:
 
 ```java
 // Specify a 5x5 kernel by setting maxd to 2
-runtimeObj.setVar("maxd", 2);
+runtimeObj.setVar("maxd", 2.0);
 ```
 
 ### Saving the Java run-time source
@@ -973,7 +975,7 @@ When working with Jiffle, here are some things to avoid:
 
 ### Don't depend on pixel processing order
 
-Say you want to create an image with sequential pixel values. Here's one approach::
+Say you want to create an image with sequential pixel values. Here's one approach:
 
 ```java
   // image scope variable
@@ -1019,14 +1021,14 @@ within the [init block](#init-block).
 rotation.
 
 **init block** <a name="init-block"></a>
-:   A script element used to declare non-image variables that will have :ref:`image scope <#image-scope>`. It takes the
+:   A script element used to declare non-image variables that will have [image scope](#image-scope). It takes the
 following form:
 
     ```java
         init {
             foo = 0;
             bar = 2 * M_PI + sqrt(42);
-            baz;
+            baz = 1;
         }
     ```
     
