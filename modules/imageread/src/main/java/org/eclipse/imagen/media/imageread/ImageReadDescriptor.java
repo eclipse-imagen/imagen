@@ -492,21 +492,21 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
         {"GlobalName", OPERATION_NAME},
         {"LocalName", OPERATION_NAME},
         {"Vendor", "com.sun.media.jai"},
-        {"Description", I18N.getString("ImageReadDescriptor0")},
+        {"Description", "Reads an image using the Java Image I/O Framework."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ImageReadDescriptor.html"
         },
-        {"Version", I18N.getString("DescriptorVersion")},
-        {"arg0Desc", I18N.getString("ImageReadDescriptor1")},
-        {"arg1Desc", I18N.getString("ImageReadDescriptor2")},
-        {"arg2Desc", I18N.getString("ImageReadDescriptor3")},
-        {"arg3Desc", I18N.getString("ImageReadDescriptor4")},
-        {"arg4Desc", I18N.getString("ImageReadDescriptor5")},
-        {"arg5Desc", I18N.getString("ImageReadDescriptor6")},
-        {"arg6Desc", I18N.getString("ImageReadDescriptor7")},
-        {"arg7Desc", I18N.getString("ImageReadDescriptor8")},
-        {"arg8Desc", I18N.getString("ImageReadDescriptor9")}
+        {"Version", "1.0"},
+        {"arg0Desc", "The input source."},
+        {"arg1Desc", "The index or indices of the image(s) to read."},
+        {"arg2Desc", "Whether metadata should be read if available."},
+        {"arg3Desc", "Whether thumbnails should be read if available."},
+        {"arg4Desc", "Whether to verify the validity of the input source."},
+        {"arg5Desc", "EventListeners to be registered with the ImageReader."},
+        {"arg6Desc", "The Locale for the ImageReader to use."},
+        {"arg7Desc", "Java Image I/O read parameter instance."},
+        {"arg8Desc", "Java Image I/O reader instance."}
     };
 
     /** The parameter names for the "ImageRead" operation. */
@@ -783,7 +783,7 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
         // Check "ImageChoice" for negative value(s).
         if (modeName.equalsIgnoreCase(RenderedRegistryMode.MODE_NAME)) {
             if (args.getIntParameter(1) < 0) {
-                msg.append(I18N.getString("ImageReadDescriptor10"));
+                msg.append("Image index parameter must be non-negative.");
                 return false;
             }
         } else { // Non-rendered modes.
@@ -791,7 +791,7 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
             if (imageIndices != null) {
                 for (int i = 0; i < imageIndices.length; i++) {
                     if (imageIndices[i] < 0) {
-                        msg.append(I18N.getString("ImageReadDescriptor10"));
+                        msg.append("Image index parameter must be non-negative.");
                         return false;
                     }
                 }
@@ -824,14 +824,14 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
                         // and the image file are packaged in a JAR file
                         try (InputStream is = getClass().getClassLoader().getResourceAsStream((String) input)) {
                             if (is == null) {
-                                msg.append("\"" + path + "\": " + I18N.getString("ImageReadDescriptor11"));
+                                msg.append("\"" + path + "\": " + "does not exist.");
                                 return false;
                             }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     } else if (!file.canRead()) {
-                        msg.append("\"" + path + "\": " + I18N.getString("ImageReadDescriptor12"));
+                        msg.append("\"" + path + "\": " + "is not readable.");
                         return false;
                     }
                 }
@@ -839,16 +839,16 @@ public class ImageReadDescriptor extends OperationDescriptorImpl {
                 Socket socket = (Socket) input;
 
                 if (socket.isInputShutdown()) {
-                    msg.append("\"" + socket + "\": " + I18N.getString("ImageReadDescriptor13"));
+                    msg.append("\"" + socket + "\": " + "has its read-half shut down.");
                     return false;
                 } else if (socket.isClosed()) {
-                    msg.append("\"" + socket + "\": " + I18N.getString("ImageReadDescriptor14"));
+                    msg.append("\"" + socket + "\": " + "is closed.");
                     return false;
                 } else if (!socket.isBound()) {
-                    msg.append("\"" + socket + "\": " + I18N.getString("ImageReadDescriptor15"));
+                    msg.append("\"" + socket + "\": " + "is not bound to an address.");
                     return false;
                 } else if (!socket.isConnected()) {
-                    msg.append("\"" + socket + "\": " + I18N.getString("ImageReadDescriptor16"));
+                    msg.append("\"" + socket + "\": " + "is not connected.");
                     return false;
                 }
             }

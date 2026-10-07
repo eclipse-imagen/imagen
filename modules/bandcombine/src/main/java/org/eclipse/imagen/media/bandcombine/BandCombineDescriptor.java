@@ -149,16 +149,16 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "BandCombine"},
         {"LocalName", "BandCombine"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BandCombineDescriptor0")},
+        {"Description", "Combine source bands using an input matrix. It supports ROI and NoData"},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BandCombineDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BandCombineDescriptor2")},
-        {"arg1Desc", JaiI18N.getString("BandCombineDescriptor3")},
-        {"arg2Desc", JaiI18N.getString("BandCombineDescriptor4")},
-        {"arg3Desc", JaiI18N.getString("BandCombineDescriptor5")}
+        {"Version", "1.0"},
+        {"arg0Desc", "Matrix used in computation"},
+        {"arg1Desc", "Optional ROI object to use in computation"},
+        {"arg2Desc", "Optional Range of NoData values to use in computation"},
+        {"arg3Desc", "Destination no data value used when all the pixel band values are NoData"}
     };
 
     /** The parameter class list */
@@ -201,13 +201,13 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
         int rowLength = sm.getNumBands() + 1;
 
         if (matrix.length < 1) {
-            message.append(getName() + ": " + JaiI18N.getString("BandCombineDescriptor1"));
+            message.append(getName() + ": " + "Input matrix has wrong dimensions");
             return false;
         }
 
         for (int i = 0; i < matrix.length; i++) {
             if (matrix[i].length != rowLength) {
-                message.append(getName() + ": " + JaiI18N.getString("BandCombineDescriptor1"));
+                message.append(getName() + ": " + "Input matrix has wrong dimensions");
                 return false;
             }
         }

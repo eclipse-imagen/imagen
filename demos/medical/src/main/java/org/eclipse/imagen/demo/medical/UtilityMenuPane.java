@@ -126,7 +126,7 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
         allViewsButton.setSelected(false);
         currentViewButton.setSelected(true);
         updateSliders(nozoom * 10, 0, defaultWindow, defaultLevel);
-        speedInput.setText(JaiI18N.getString("DefaultCineSpeed"));
+        speedInput.setText(MedicalAppMessages.getString("DefaultCineSpeed"));
         cineStartButton.setSelected(false);
         cineStopButton.setSelected(true);
         annotateButton.setSelected(false);
@@ -183,65 +183,68 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
         GridBagLayout gridBag = (GridBagLayout) utilityPane.getLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
-        int leftMargin = new Integer(JaiI18N.getString("LeftMargin")).intValue();
-        int topMargin = new Integer(JaiI18N.getString("TopMargin")).intValue();
-        int rightMargin = new Integer(JaiI18N.getString("RightMargin")).intValue();
-        int bottomMargin = new Integer(JaiI18N.getString("BottomMargin")).intValue();
+        int leftMargin = new Integer(MedicalAppMessages.getString("LeftMargin")).intValue();
+        int topMargin = new Integer(MedicalAppMessages.getString("TopMargin")).intValue();
+        int rightMargin = new Integer(MedicalAppMessages.getString("RightMargin")).intValue();
+        int bottomMargin = new Integer(MedicalAppMessages.getString("BottomMargin")).intValue();
 
         constraints.insets = new Insets(leftMargin, topMargin, rightMargin, bottomMargin);
-        constraints.ipadx = new Integer(JaiI18N.getString("MenuTitlePadX")).intValue();
-        constraints.ipady = new Integer(JaiI18N.getString("MenuTitlePadY")).intValue();
+        constraints.ipadx = new Integer(MedicalAppMessages.getString("MenuTitlePadX")).intValue();
+        constraints.ipady = new Integer(MedicalAppMessages.getString("MenuTitlePadY")).intValue();
 
         // add the title
         MenuTitle menuTitle = new MenuTitle();
-        constraints.gridx = new Integer(JaiI18N.getString("ItemXPosition")).intValue();
-        constraints.gridy = new Integer(JaiI18N.getString("MenuTitleYPosition")).intValue();
+        constraints.gridx = new Integer(MedicalAppMessages.getString("ItemXPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("MenuTitleYPosition")).intValue();
         gridBag.setConstraints(menuTitle, constraints);
         utilityPane.add(menuTitle);
 
-        constraints.ipadx = new Integer(JaiI18N.getString("OthersPadX")).intValue();
-        constraints.ipady = new Integer(JaiI18N.getString("OthersPadY")).intValue();
+        constraints.ipadx = new Integer(MedicalAppMessages.getString("OthersPadX")).intValue();
+        constraints.ipady = new Integer(MedicalAppMessages.getString("OthersPadY")).intValue();
 
         // add the general command panel
-        JPanel layoutPanel = createBorderedPanel(BoxLayout.Y_AXIS, JaiI18N.getString("GeneralBorderTitle"));
+        JPanel layoutPanel = createBorderedPanel(BoxLayout.Y_AXIS, MedicalAppMessages.getString("GeneralBorderTitle"));
         buildGeneralPanel(layoutPanel);
-        constraints.gridy = new Integer(JaiI18N.getString("GeneralPaneYPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("GeneralPaneYPosition")).intValue();
         gridBag.setConstraints(layoutPanel, constraints);
         utilityPane.add(layoutPanel);
 
         // add the transform panel.
-        JPanel transformPanel = createBorderedPanel(BoxLayout.Y_AXIS, JaiI18N.getString("TransformBorderTitle"));
+        JPanel transformPanel =
+                createBorderedPanel(BoxLayout.Y_AXIS, MedicalAppMessages.getString("TransformBorderTitle"));
 
         buildTransformPanel(transformPanel);
-        constraints.gridy = new Integer(JaiI18N.getString("TransformPaneYPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("TransformPaneYPosition")).intValue();
         gridBag.setConstraints(transformPanel, constraints);
         utilityPane.add(transformPanel);
 
         // add the cining panel.
-        JPanel cinePanel = createBorderedPanel(BoxLayout.X_AXIS, JaiI18N.getString("CineBorderTitle"));
+        JPanel cinePanel = createBorderedPanel(BoxLayout.X_AXIS, MedicalAppMessages.getString("CineBorderTitle"));
         buildCinePanel(cinePanel);
-        constraints.gridy = new Integer(JaiI18N.getString("CinePaneYPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("CinePaneYPosition")).intValue();
         gridBag.setConstraints(cinePanel, constraints);
         utilityPane.add(cinePanel);
 
         // add the window/level panel.
-        JPanel winlevelPanel = createBorderedPanel(BoxLayout.Y_AXIS, JaiI18N.getString("WindowLevelBorderTitle"));
+        JPanel winlevelPanel =
+                createBorderedPanel(BoxLayout.Y_AXIS, MedicalAppMessages.getString("WindowLevelBorderTitle"));
         buildWinlevelPanel(winlevelPanel);
-        constraints.gridy = new Integer(JaiI18N.getString("WindowLevelPaneYPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("WindowLevelPaneYPosition")).intValue();
         gridBag.setConstraints(winlevelPanel, constraints);
         utilityPane.add(winlevelPanel);
 
         // add the measurement panel.
-        JPanel measurePanel = createBorderedPanel(BoxLayout.X_AXIS, JaiI18N.getString("MeasurementBorderTitle"));
+        JPanel measurePanel =
+                createBorderedPanel(BoxLayout.X_AXIS, MedicalAppMessages.getString("MeasurementBorderTitle"));
         buildMeasurePanel(measurePanel);
-        constraints.gridy = new Integer(JaiI18N.getString("MeasurementPaneYPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("MeasurementPaneYPosition")).intValue();
         gridBag.setConstraints(measurePanel, constraints);
         utilityPane.add(measurePanel);
 
         // add the roi panel.
-        JPanel roiPanel = createBorderedPanel(BoxLayout.X_AXIS, JaiI18N.getString("ROIBorderTitle"));
+        JPanel roiPanel = createBorderedPanel(BoxLayout.X_AXIS, MedicalAppMessages.getString("ROIBorderTitle"));
         buildROIPanel(roiPanel);
-        constraints.gridy = new Integer(JaiI18N.getString("ROIPaneYPosition")).intValue();
+        constraints.gridy = new Integer(MedicalAppMessages.getString("ROIPaneYPosition")).intValue();
         gridBag.setConstraints(roiPanel, constraints);
         utilityPane.add(roiPanel);
     }
@@ -251,9 +254,9 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
 
         // create, add layout label.
         Box box = Box.createHorizontalBox();
-        JLabel layout = new JLabel(JaiI18N.getString("LayoutLabel"));
+        JLabel layout = new JLabel(MedicalAppMessages.getString("LayoutLabel"));
         layout.setAlignmentX(Component.CENTER_ALIGNMENT);
-        int gap = new Integer(JaiI18N.getString("GapAfterLayoutLabel")).intValue();
+        int gap = new Integer(MedicalAppMessages.getString("GapAfterLayoutLabel")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         box.add(layout);
 
@@ -261,7 +264,7 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
         layoutList = createJComboBox(panel, getSupportedLayouts(), setLayoutCommand, medicalAppState);
         box.add(layoutList);
 
-        gap = new Integer(JaiI18N.getString("GapAfterComboBox")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapAfterComboBox")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         panel.add(box);
 
@@ -269,13 +272,13 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
         JPanel viewPanel = createBoxLayoutJPanel(BoxLayout.X_AXIS);
         ButtonGroup group = new ButtonGroup();
 
-        allViewsButton =
-                createJRadioButton(group, JaiI18N.getString("AllViewsButton"), allViewsCommand, false, medicalAppState);
+        allViewsButton = createJRadioButton(
+                group, MedicalAppMessages.getString("AllViewsButton"), allViewsCommand, false, medicalAppState);
 
         viewPanel.add(allViewsButton);
 
         currentViewButton = createJRadioButton(
-                group, JaiI18N.getString("CurrentViewButton"), currentViewCommand, true, medicalAppState);
+                group, MedicalAppMessages.getString("CurrentViewButton"), currentViewCommand, true, medicalAppState);
 
         viewPanel.add(currentViewButton);
         panel.add(viewPanel);
@@ -285,22 +288,22 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
     private void buildTransformPanel(JPanel panel) {
 
         // create, add zoom slider
-        JLabel zoom = new JLabel(JaiI18N.getString("ZoomLabel"), JLabel.CENTER);
+        JLabel zoom = new JLabel(MedicalAppMessages.getString("ZoomLabel"), JLabel.CENTER);
         zoom.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(zoom);
 
         String[] labels = new String[12];
-        for (int i = 1; i <= 12; i++) labels[i - 1] = JaiI18N.getString("ZoomTickMark" + i);
+        for (int i = 1; i <= 12; i++) labels[i - 1] = MedicalAppMessages.getString("ZoomTickMark" + i);
 
         zoomSlider = createJSlider(0, 110, nozoom * 10, labels, zoomCommand, medicalAppState);
         panel.add(zoomSlider);
 
         // create, add rotation slider
         JPanel rotationPanel = createBoxLayoutJPanel(BoxLayout.X_AXIS);
-        JLabel rotation = new JLabel(JaiI18N.getString("RotationLabel"), JLabel.CENTER);
+        JLabel rotation = new JLabel(MedicalAppMessages.getString("RotationLabel"), JLabel.CENTER);
         rotation.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        int majorTick = (new Integer(JaiI18N.getString("MajorRotationTick"))).intValue();
+        int majorTick = (new Integer(MedicalAppMessages.getString("MajorRotationTick"))).intValue();
         rotationSlider = createJSlider(0, 360, 0, majorTick, rotationCommand, medicalAppState);
         panel.add(rotation);
         panel.add(rotationSlider);
@@ -311,36 +314,37 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
 
         // create, add speed label and text field
         Box box = Box.createHorizontalBox();
-        JLabel speedLabel = new JLabel(JaiI18N.getString("CineSpeedLabel"));
-        int gap = new Integer(JaiI18N.getString("GapBeforeSpeedLabel")).intValue();
+        JLabel speedLabel = new JLabel(MedicalAppMessages.getString("CineSpeedLabel"));
+        int gap = new Integer(MedicalAppMessages.getString("GapBeforeSpeedLabel")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         box.add(speedLabel);
-        gap = new Integer(JaiI18N.getString("GapBeforeTextField")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapBeforeTextField")).intValue();
         box.add(Box.createHorizontalStrut(gap));
 
-        speedInput = createJTextField(panel, JaiI18N.getString("DefaultCineSpeed"), 3, speedCommand, medicalAppState);
+        speedInput = createJTextField(
+                panel, MedicalAppMessages.getString("DefaultCineSpeed"), 3, speedCommand, medicalAppState);
 
         box.add(speedInput);
-        gap = new Integer(JaiI18N.getString("GapBeforeStartButton")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapBeforeStartButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
 
         // create and add cine start/stop button group
         ButtonGroup group = new ButtonGroup();
 
-        cineStartButton =
-                createJRadioButton(group, JaiI18N.getString("CineStartButton"), startCommand, false, medicalAppState);
+        cineStartButton = createJRadioButton(
+                group, MedicalAppMessages.getString("CineStartButton"), startCommand, false, medicalAppState);
 
         cineStartButton.addActionListener(this);
         box.add(cineStartButton);
-        gap = new Integer(JaiI18N.getString("GapBeforeStopButton")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapBeforeStopButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
 
-        cineStopButton =
-                createJRadioButton(group, JaiI18N.getString("CineStopButton"), stopCommand, true, medicalAppState);
+        cineStopButton = createJRadioButton(
+                group, MedicalAppMessages.getString("CineStopButton"), stopCommand, true, medicalAppState);
 
         cineStopButton.addActionListener(this);
         box.add(cineStopButton);
-        gap = new Integer(JaiI18N.getString("GapAfterStopButton")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapAfterStopButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         panel.add(box);
     }
@@ -349,7 +353,7 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
     private void buildWinlevelPanel(JPanel panel) {
 
         // create, add window slider.
-        JLabel windowLabel = new JLabel(JaiI18N.getString("WindowLabel"));
+        JLabel windowLabel = new JLabel(MedicalAppMessages.getString("WindowLabel"));
         windowLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(windowLabel);
 
@@ -363,7 +367,7 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
         panel.add(windowSlider);
 
         // create, add level slider.
-        JLabel levelLabel = new JLabel(JaiI18N.getString("LevelLabel"));
+        JLabel levelLabel = new JLabel(MedicalAppMessages.getString("LevelLabel"));
         levelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(levelLabel);
         levelSlider = createJSlider(
@@ -382,19 +386,19 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
         // create, add annotation button
         Box box = Box.createHorizontalBox();
         ButtonGroup group = new ButtonGroup();
-        int gap = new Integer(JaiI18N.getString("GapBeforeAnnoButton")).intValue();
+        int gap = new Integer(MedicalAppMessages.getString("GapBeforeAnnoButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         annotateButton = createJToggleButton(
-                JaiI18N.getString("AnnotationToggleButton"), annotationCommand, false, medicalAppState);
+                MedicalAppMessages.getString("AnnotationToggleButton"), annotationCommand, false, medicalAppState);
         box.add(annotateButton);
-        gap = new Integer(JaiI18N.getString("GapBeforeMeasButton")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapBeforeMeasButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
 
         // create add measurement button
         measurementButton = createJToggleButton(
-                JaiI18N.getString("MeasurementToggleButton"), measurementCommand, false, medicalAppState);
+                MedicalAppMessages.getString("MeasurementToggleButton"), measurementCommand, false, medicalAppState);
         box.add(measurementButton);
-        gap = new Integer(JaiI18N.getString("GapAfterMeasButton")).intValue();
+        gap = new Integer(MedicalAppMessages.getString("GapAfterMeasButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         panel.add(box);
     }
@@ -403,18 +407,18 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
     private void buildROIPanel(JPanel panel) {
         Box box = Box.createHorizontalBox();
         ButtonGroup group = new ButtonGroup();
-        int gap = new Integer(JaiI18N.getString("GapBeforeStatButton")).intValue();
+        int gap = new Integer(MedicalAppMessages.getString("GapBeforeStatButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
 
         // create, add statistics button
         statisticsButton = createJToggleButton(
-                JaiI18N.getString("StatisticsToggleButton"), statisticsCommand, false, medicalAppState);
+                MedicalAppMessages.getString("StatisticsToggleButton"), statisticsCommand, false, medicalAppState);
         box.add(statisticsButton);
 
         // create, add histogram button
         histogramButton = createJToggleButton(
-                JaiI18N.getString("HistogramToggleButton"), histogramCommand, false, medicalAppState);
-        gap = new Integer(JaiI18N.getString("GapBeforeHistButton")).intValue();
+                MedicalAppMessages.getString("HistogramToggleButton"), histogramCommand, false, medicalAppState);
+        gap = new Integer(MedicalAppMessages.getString("GapBeforeHistButton")).intValue();
         box.add(Box.createHorizontalStrut(gap));
         box.add(histogramButton);
         panel.add(box);
@@ -509,10 +513,11 @@ public class UtilityMenuPane extends JPanel implements MedicalAppConstants, Acti
 
     /** Create the list of supported layouts based on the information read from the property file. */
     private String[] getSupportedLayouts() {
-        int supportedNumLayout = (new Integer(JaiI18N.getString("SupportedNumLayout"))).intValue();
+        int supportedNumLayout = (new Integer(MedicalAppMessages.getString("SupportedNumLayout"))).intValue();
 
         String[] layouts = new String[supportedNumLayout];
-        for (int i = 1; i <= supportedNumLayout; i++) layouts[i - 1] = JaiI18N.getString("Layout" + i + "Label");
+        for (int i = 1; i <= supportedNumLayout; i++)
+            layouts[i - 1] = MedicalAppMessages.getString("Layout" + i + "Label");
 
         return layouts;
     }

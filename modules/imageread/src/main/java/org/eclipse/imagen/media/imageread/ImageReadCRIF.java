@@ -117,14 +117,15 @@ public final class ImageReadCRIF extends CRIFImpl {
                     // would happen when the application and image file are
                     // packaged in a JAR file
                     input = ImageReadCRIF.class.getClassLoader().getResourceAsStream((String) input);
-                    if (input == null) throw new RuntimeException(I18N.getString("ImageReadCRIF0") + " " + input);
+                    if (input == null)
+                        throw new RuntimeException("Cannot create read-only RandomAccessFile for path" + " " + input);
                 }
             } else if (input instanceof URL) {
                 // If the input is a URL replace it with an InputStream.
                 try {
                     input = ((URL) input).openStream();
                 } catch (Exception e) {
-                    throw new RuntimeException(I18N.getString("ImageReadCRIF1") + " " + input);
+                    throw new RuntimeException("Cannot create InputStream for URL" + " " + input);
                 }
             } else if (input instanceof Socket) {
                 // If output is a Socket replace it with an InputStream.
@@ -134,7 +135,7 @@ public final class ImageReadCRIF extends CRIFImpl {
                     // as these could have changed.
                     input = socket.getInputStream();
                 } catch (Exception e) {
-                    throw new RuntimeException(I18N.getString("ImageReadCRIF2") + " " + input);
+                    throw new RuntimeException("Cannot create InputStream for Socket" + " " + input);
                 }
             }
         }

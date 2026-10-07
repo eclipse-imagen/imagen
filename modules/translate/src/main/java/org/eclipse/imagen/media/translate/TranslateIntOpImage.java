@@ -138,11 +138,11 @@ public final class TranslateIntOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("TranslateIntOpImage0"));
+            throw new IllegalArgumentException("sourceIndex must be positive and less than the number of sources.");
         }
 
         Rectangle r = new Rectangle(sourceRect);
@@ -163,11 +163,11 @@ public final class TranslateIntOpImage extends OpImage {
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("TranslateIntOpImage0"));
+            throw new IllegalArgumentException("sourceIndex must be positive and less than the number of sources.");
         }
 
         Rectangle r = new Rectangle(destRect);

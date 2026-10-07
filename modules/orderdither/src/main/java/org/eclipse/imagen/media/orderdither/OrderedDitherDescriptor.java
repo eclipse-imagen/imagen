@@ -144,14 +144,14 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
                     {"GlobalName", "OrderedDither"},
                     {"LocalName", "OrderedDither"},
                     {"Vendor", "org.eclipse.imagen.media"},
-                    {"Description", JaiI18N.getString("OrderedDitherDescriptor0")},
+                    {"Description", "Performs ordered dither color quantization taking into account ROI and NoData."},
                     {"DocURL", ""},
-                    {"Version", JaiI18N.getString("DescriptorVersion")},
-                    {"arg0Desc", JaiI18N.getString("OrderedDitherDescriptor1")},
-                    {"arg1Desc", JaiI18N.getString("OrderedDitherDescriptor2")},
-                    {"arg2Desc", JaiI18N.getString("OrderedDitherDescriptor3")},
-                    {"arg3Desc", JaiI18N.getString("OrderedDitherDescriptor4")},
-                    {"arg4Desc", JaiI18N.getString("OrderedDitherDescriptor5")}
+                    {"Version", "1.0"},
+                    {"arg0Desc", "Input color cube."},
+                    {"arg1Desc", "Input dither mask."},
+                    {"arg2Desc", "The ROI to be used for reducing calculation area."},
+                    {"arg3Desc", "The Nodata parameter to check."},
+                    {"arg4Desc", "The destination nodata parameter used to substitute the old nodata one."}
                 },
                 new String[] {"rendered"},
                 1,
@@ -180,10 +180,10 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
         SampleModel srcSampleModel = sourceImage.getSampleModel();
 
         if (colorMap.getDataType() != srcSampleModel.getTransferType()) {
-            msg.append(JaiI18N.getString("OrderedDitherDescriptor6"));
+            msg.append("Source dataType and ColorMap dataType must be equals.");
             return false;
         } else if (colorMap.getNumBands() != srcSampleModel.getNumBands()) {
-            msg.append(JaiI18N.getString("OrderedDitherDescriptor7"));
+            msg.append("Source num bands and ColorMap num bands must be equals.");
             return false;
         }
 
@@ -203,7 +203,7 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
      */
     private static boolean isValidDitherMask(RenderedImage sourceImage, KernelImageN[] ditherMask, StringBuffer msg) {
         if (ditherMask.length != sourceImage.getSampleModel().getNumBands()) {
-            msg.append(JaiI18N.getString("OrderedDitherDescriptor8"));
+            msg.append("Source image bands and dither masks size must be equals.");
             return false;
         }
 
@@ -211,13 +211,13 @@ public class OrderedDitherDescriptor extends OperationDescriptorImpl {
         int maskHeight = ditherMask[0].getHeight();
         for (int band = 0; band < ditherMask.length; band++) {
             if (ditherMask[band].getWidth() != maskWidth || ditherMask[band].getHeight() != maskHeight) {
-                msg.append(JaiI18N.getString("OrderedDitherDescriptor9"));
+                msg.append("Kernel size must be the same for all the kernel elements.");
                 return false;
             }
             float[] kernelData = ditherMask[band].getKernelData();
             for (int i = 0; i < kernelData.length; i++) {
                 if (kernelData[i] < 0.0F || kernelData[i] > 1.0) {
-                    msg.append(JaiI18N.getString("OrderedDitherDescriptor10"));
+                    msg.append("Kernel elements must have a value between 0 and 1.");
                     return false;
                 }
             }

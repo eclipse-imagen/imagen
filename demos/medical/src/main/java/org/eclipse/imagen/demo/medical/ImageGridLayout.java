@@ -47,17 +47,17 @@ public class ImageGridLayout {
      * the property file.
      */
     public ImageGridLayout(String name) {
-        String s = JaiI18N.getString(name + "ImageNum");
+        String s = MedicalAppMessages.getString(name + "ImageNum");
         imageNum = (new Integer(s)).intValue();
 
-        s = JaiI18N.getString(name + "ImageNumInARow");
+        s = MedicalAppMessages.getString(name + "ImageNumInARow");
         imageNumInARow = (new Integer(s)).intValue();
 
-        s = JaiI18N.getString(name + "ImageNumInAColumn");
+        s = MedicalAppMessages.getString(name + "ImageNumInAColumn");
         imageNumInAColumn = (new Integer(s)).intValue();
 
         this.name = name;
-        label = JaiI18N.getString(name + "Label");
+        label = MedicalAppMessages.getString(name + "Label");
     }
 
     /** Return the capacity of this layout. */

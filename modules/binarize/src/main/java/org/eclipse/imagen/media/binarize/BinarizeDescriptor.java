@@ -86,15 +86,15 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Binarize"},
         {"LocalName", "Binarize"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BinarizeDescriptor0")},
+        {"Description", "Thresholds a single banded image into a bilevel image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BinarizeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BinarizeDescriptor2")},
-        {"arg1Desc", JaiI18N.getString("BinarizeDescriptor3")},
-        {"arg2Desc", JaiI18N.getString("BinarizeDescriptor4")}
+        {"Version", "1.0"},
+        {"arg0Desc", "Threshold used in computation"},
+        {"arg1Desc", "Optional ROI object to use in computation"},
+        {"arg2Desc", "Optional Range of NoData values to use in computation"}
     };
 
     /** The parameter name list */
@@ -130,7 +130,7 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         RenderedImage source = (RenderedImage) (args.getSource(0));
         int numBands = source.getSampleModel().getNumBands();
         if (numBands != 1) {
-            msg.append(getName() + " " + JaiI18N.getString("BinarizeDescriptor1"));
+            msg.append(getName() + " " + "Source Bands are more than 1");
             return false;
         }
 

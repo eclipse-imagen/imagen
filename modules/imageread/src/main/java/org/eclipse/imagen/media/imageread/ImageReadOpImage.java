@@ -174,7 +174,8 @@ final class ImageReadOpImage extends OpImage {
             Rectangle destBounds = new Rectangle(
                     layout.getMinX(null), layout.getMinY(null), layout.getWidth(null), layout.getHeight(null));
             if (destRegion.intersection(destBounds).isEmpty()) {
-                throw new IllegalArgumentException(I18N.getString("ImageReadOpImage0"));
+                throw new IllegalArgumentException(
+                        "Destination bounds do not intersect available destination data region.");
             }
         }
 
@@ -327,7 +328,7 @@ final class ImageReadOpImage extends OpImage {
         destRegion.height = subsampledHeight;
 
         if (srcRegion.isEmpty() || destRegion.isEmpty()) {
-            throw new IllegalArgumentException(I18N.getString("ImageReadOpImage1"));
+            throw new IllegalArgumentException("Source or destination region is empty.");
         }
     }
 
@@ -606,7 +607,8 @@ final class ImageReadOpImage extends OpImage {
      * @throws IllegalArgumentException since the image has no sources.
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
-        throw new IllegalArgumentException(I18N.getString("ImageReadOpImage2"));
+        throw new IllegalArgumentException(
+                "Cannot perform rectangle mapping between source and destination because the image has no sources.");
     }
 
     /**
@@ -617,7 +619,8 @@ final class ImageReadOpImage extends OpImage {
      * @throws IllegalArgumentException since the image has no sources.
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
-        throw new IllegalArgumentException(I18N.getString("ImageReadOpImage2"));
+        throw new IllegalArgumentException(
+                "Cannot perform rectangle mapping between source and destination because the image has no sources.");
     }
 
     /**

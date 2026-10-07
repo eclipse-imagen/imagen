@@ -303,9 +303,9 @@ public class FormatDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Format"},
         {"LocalName", "Format"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("FormatDescriptor0")},
+        {"Description", "COnverts the input image to the defined format"},
         {"DocURL", ""},
-        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"Version", "1.0"},
         {"arg0Desc", "The output data type (from java.awt.image.DataBuffer)."}
     };
 

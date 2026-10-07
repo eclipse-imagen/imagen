@@ -51,7 +51,7 @@ public class Convolve3x3OpImage extends ConvolveOpImage {
                 || (kernel.getHeight() != 3)
                 || (kernel.getXOrigin() != 1)
                 || (kernel.getYOrigin() != 1)) {
-            throw new RuntimeException(JaiI18N.getString("Convolve3x3OpImage0"));
+            throw new RuntimeException("Kernel dimension is not suitable for this kind of operation. ");
         }
 
         if (sampleModel.getDataType() == DataBuffer.TYPE_BYTE) {
@@ -771,16 +771,16 @@ public class Convolve3x3OpImage extends ConvolveOpImage {
 
     @Override
     protected void ushortLoop(RasterAccessor src, RasterAccessor dst, RandomIter roiIter, boolean roiContainsTile) {
-        throw new UnsupportedOperationException(JaiI18N.getString("Convolve3x3OpImage1"));
+        throw new UnsupportedOperationException("Unable to support float or double datatype. ");
     }
 
     @Override
     protected void floatLoop(RasterAccessor src, RasterAccessor dst, RandomIter roiIter, boolean roiContainsTile) {
-        throw new UnsupportedOperationException(JaiI18N.getString("Convolve3x3OpImage1"));
+        throw new UnsupportedOperationException("Unable to support float or double datatype. ");
     }
 
     @Override
     protected void doubleLoop(RasterAccessor src, RasterAccessor dst, RandomIter roiIter, boolean roiContainsTile) {
-        throw new UnsupportedOperationException(JaiI18N.getString("Convolve3x3OpImage1"));
+        throw new UnsupportedOperationException("Unable to support float or double datatype. ");
     }
 }

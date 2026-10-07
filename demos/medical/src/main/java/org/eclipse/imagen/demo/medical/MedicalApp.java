@@ -77,7 +77,7 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
 
     /** The constructor. Define as private to guarantee it is singleton. */
     private MedicalApp() {
-        super(JaiI18N.getString("AppTitle"));
+        super(MedicalAppMessages.getString("AppTitle"));
 
         // define the original size as half of the screen and locate it
         // at the center.
@@ -91,7 +91,7 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
                 new FileAction("Exit", KeyStroke.getKeyStroke('X', Event.CTRL_MASK), "Exit Medical Image Application");
 
         // Create the file menu.
-        JMenu fileMenu = new JMenu(JaiI18N.getString("File"));
+        JMenu fileMenu = new JMenu(MedicalAppMessages.getString("File"));
         addMenuItem(fileMenu, openAction);
         fileMenu.addSeparator();
         addMenuItem(fileMenu, exitAction);
@@ -106,11 +106,11 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
         addWindowListener(new WindowHandler()); // Add window listener
 
         // get the layout number before loading any data set.
-        int layout = new Integer(JaiI18N.getString("LayoutBeforeLoad")).intValue();
+        int layout = new Integer(MedicalAppMessages.getString("LayoutBeforeLoad")).intValue();
 
         // create an image view pane containing only one image.
         multipleImagePane = new MultipleImagePane(
-                layout, new RenderedImage[] {ImageN.create("fileload", JaiI18N.getString("TitleImage"))});
+                layout, new RenderedImage[] {ImageN.create("fileload", MedicalAppMessages.getString("TitleImage"))});
 
         this.getContentPane().add(multipleImagePane, BorderLayout.CENTER);
 
@@ -163,9 +163,9 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
 
         // define the utility pane size
         Dimension utilitySize = utilityPane.getPreferredSize();
-        int utilityWidth = (new Integer(JaiI18N.getString("UtilityMenuWidth"))).intValue();
+        int utilityWidth = (new Integer(MedicalAppMessages.getString("UtilityMenuWidth"))).intValue();
         utilityWidth = Math.max(utilityWidth, utilitySize.width);
-        int utilityHeight = (new Integer(JaiI18N.getString("UtilityMenuHeight"))).intValue();
+        int utilityHeight = (new Integer(MedicalAppMessages.getString("UtilityMenuHeight"))).intValue();
         utilityHeight = Math.max(utilityHeight, utilitySize.height);
 
         // define the width/ height of the frame.
@@ -196,7 +196,7 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
 
         // Constructor
         FileAction(String name) {
-            super(JaiI18N.getString(name));
+            super(MedicalAppMessages.getString(name));
             String iconFileName = "images/" + name.toLowerCase() + ".gif";
             if (new File(iconFileName).exists()) putValue(SMALL_ICON, new ImageIcon(iconFileName));
         }
@@ -225,7 +225,7 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
         public void actionPerformed(ActionEvent e) {
             // process the action events.
             String name = (String) getValue("Name");
-            if (name.equals(JaiI18N.getString("Open"))) {
+            if (name.equals(MedicalAppMessages.getString("Open"))) {
                 int returnVal = inputFileChooser.showOpenDialog(MedicalApp.this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     // after the file chosen, load it.
@@ -233,7 +233,7 @@ public class MedicalApp extends JFrame implements MedicalAppConstants {
                     MedicalAppState medicalAppState = MedicalAppState.getInstance();
                     medicalAppState.loadDataSet(file);
                 }
-            } else if (name.equals(JaiI18N.getString("Exit"))) {
+            } else if (name.equals(MedicalAppMessages.getString("Exit"))) {
                 // exit the application.
                 System.exit(0);
             }

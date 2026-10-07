@@ -176,17 +176,17 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Convolve"},
         {"LocalName", "Convolve"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ConvolveDescriptor0")},
+        {"Description", "Convolves the source image with the input kernel."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ConvolveDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ConvolveDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ConvolveDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ConvolveDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ConvolveDescriptor4")},
-        {"arg5Desc", JaiI18N.getString("ConvolveDescriptor5")}
+        {"Version", "1.0"},
+        {"arg0Desc", "Input convolution kernel"},
+        {"arg1Desc", "Optional ROI object to use in computation"},
+        {"arg2Desc", "Optional Range of NoData values to use in computation"},
+        {"arg3Desc", "Destination No Data value used when the computation cannot be performed"},
+        {"arg5Desc", "Boolean indicating if kernels with NoData must be skipped from computation"}
     };
 
     /** The parameter names for the Convolve operation. */

@@ -134,14 +134,14 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "ErrorDiffusion"},
         {"LocalName", "ErrorDiffusion"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ErrorDiffusionDescriptor0")},
+        {"Description", "Performs color quantization using a defined error diffusion kernel and a specific colormap"},
         {"DocURL", ""},
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ErrorDiffusionDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ErrorDiffusionDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ErrorDiffusionDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ErrorDiffusionDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("ErrorDiffusionDescriptor5")},
+        {"Version", "1.0"},
+        {"arg0Desc", "Input colormap"},
+        {"arg1Desc", "Input errordiffusion kernel"},
+        {"arg2Desc", "Optional ROI object to use in computation"},
+        {"arg3Desc", "Optional Range of NoData values to use in computation"},
+        {"arg4Desc", "Destination No Data value used when the computation cannot be performed"},
     };
 
     /** The parameter names for the "ErrorDiffusion" operation. */
