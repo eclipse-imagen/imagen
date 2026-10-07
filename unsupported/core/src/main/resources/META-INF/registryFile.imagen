@@ -159,6 +159,7 @@ renderable	org.eclipse.imagen.media.opimage.SubsampleBinaryToGrayCRIF	subsampleb
 #
 # "collection" factory objects
 #
+collection	org.eclipse.imagen.media.opimage.AddConstToCollectionCIF	org.eclipse.imagen.media	addconsttocollection	sunaddconsttocollectioncif
 
 #
 # tile decoder factory objects
