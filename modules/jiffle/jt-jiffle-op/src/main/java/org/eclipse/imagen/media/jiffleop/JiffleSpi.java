@@ -56,7 +56,9 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * @author Michael Bedward
  * @since 0.1
  * @version $Id$
+ * @deprecated Jiffle is registered by {@code META-INF/registryFile.imagen}, so this class is not used
  */
+@Deprecated
 public class JiffleSpi implements OperationRegistrySpi {
 
     /** The name of the product to which these operations belong. */

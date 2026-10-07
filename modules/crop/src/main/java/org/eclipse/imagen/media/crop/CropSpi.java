@@ -18,6 +18,8 @@
  */
 package org.eclipse.imagen.media.crop;
 
+import java.awt.image.renderable.RenderedImageFactory;
+import java.util.logging.Logger;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.OperationRegistrySpi;
@@ -27,11 +29,19 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * OperationRegistrySpi implementation to register the "Crop" operation and its associated image factories.
  *
  * @author Andrea Aime
+ * @deprecated Crop is registered by {@code META-INF/registryFile.imagen}, so this class is not used
  */
+@Deprecated
 public class CropSpi implements OperationRegistrySpi {
+
+    /** Logger class used for Log any exception thrown */
+    private static final Logger LOGGER = Logger.getLogger(CropSpi.class.toString());
 
     /** The name of the product to which these operations belong. */
     private String productName = "org.eclipse.imagen.media";
+
+    /** Default constructor. */
+    public CropSpi() {}
 
     /**
      * Registers the Crop operation and its associated image factories across all supported operation modes.
@@ -40,9 +50,21 @@ public class CropSpi implements OperationRegistrySpi {
      */
     public void updateRegistry(OperationRegistry registry) {
         OperationDescriptor op = new CropDescriptor();
-        if (registry.getDescriptor(OperationDescriptor.class, op.getName()) == null) {
+        RenderedImageFactory rif = new CropCRIF();
+        // Check if the operation has already been registered
+        String[] desc = registry.getOperationNames();
+        boolean found = false;
+        for (int i = 0; i < desc.length; i++) {
+            if (desc[i].equalsIgnoreCase(op.getName())) {
+                found = true;
+                break;
+            }
+        }
+        // Operation not registered
+        if (!found) {
             registry.registerDescriptor(op);
-            registry.registerFactory(RenderedRegistryMode.MODE_NAME, op.getName(), productName, new CropCRIF());
+            String descName = op.getName();
+            registry.registerFactory(RenderedRegistryMode.MODE_NAME, descName, productName, rif);
         }
     }
 }
