@@ -77,7 +77,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
             SerializableState rcpOut =
                     rmisp.getImageServer(serverName).mapRenderContext(i, rmisp.getRMIID(), operationName, rcs);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("ImageNRMICRIF5");
+            String message = "RemoteException occurs in mapRenderContext()";
             sendExceptionToListener(renderContext, message, re);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -110,7 +110,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
         try {
             bounds = rmisp.getImageServer(serverName).getBounds2D(rmisp.getRMIID(), operationName);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("ImageNRMICRIF6");
+            String message = "RemoteException occurs in getBounds() ";
             sendExceptionToListener(null, message, e);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -146,7 +146,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
         try {
             return rmisp.getProperty(name);
         } catch (Exception e) {
-            String message = JaiI18N.getString("ImageNRMICRIF7");
+            String message = "RemoteException occurs in getProperty()";
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -161,7 +161,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
             return remoteImage.getPropertyNames(operationName);
         } catch (RemoteException e) {
             // Should we be catching Exception or RemoteException
-            String message = JaiI18N.getString("ImageNRMICRIF8");
+            String message = "RemoteException occurs in getPropertyNames()";
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -174,7 +174,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
             try {
                 serverName = InetAddress.getLocalHost().getHostAddress();
             } catch (java.net.UnknownHostException e) {
-                String message = JaiI18N.getString("RMIServerProxy11");
+                String message = "Cannot get the server host address.";
                 sendExceptionToListener(null, message, new RemoteImagingException(message, e));
                 //		throw new RuntimeException(e.getMessage());
             }
@@ -187,14 +187,14 @@ public class ImageNRMICRIF implements RemoteCRIF {
         try {
             return (ImageServer) Naming.lookup(serviceName);
         } catch (java.rmi.NotBoundException e) {
-            String message = JaiI18N.getString("RMIServerProxy12");
+            String message = "Cannot look up the remote object.";
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         } catch (java.net.MalformedURLException e) {
-            String message = JaiI18N.getString("RMIServerProxy12");
+            String message = "Cannot look up the remote object.";
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
         } catch (java.rmi.RemoteException e) {
-            String message = JaiI18N.getString("RMIServerProxy12");
+            String message = "Cannot look up the remote object.";
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
         }
 
@@ -212,7 +212,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
         try {
             return remoteImage.isDynamic(operationName);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("ImageNRMICRIF9");
+            String message = "RemoteException occurs in isDynamic()";
             sendExceptionToListener(null, message, new RemoteImagingException(message, e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -392,7 +392,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
             opID = remoteImage.getRemoteID();
             remoteImage.createRenderableOp(opID, rop.getOperationName(), newPB);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("RMIServerProxy8");
+            String message = "RemoteException occurs when creating renderable node.";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -426,7 +426,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
                             newPB.setSource(rmisp, i);
                         }
                     } catch (RemoteException e) {
-                        String message = JaiI18N.getString("RMIServerProxy6");
+                        String message = "RemoteException occurs when setting the sources.";
                         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                         //			throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                     }
@@ -443,7 +443,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
                         remoteImage.setRenderedSource(opID, sri, i);
                         newPB.setSource(sri, i);
                     } catch (RemoteException e) {
-                        String message = JaiI18N.getString("RMIServerProxy6");
+                        String message = "RemoteException occurs when setting the sources.";
                         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                         //			throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                     }
@@ -460,7 +460,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
                         remoteImage.setRenderedSource(opID, sri, i);
                         newPB.setSource(sri, i);
                     } catch (RemoteException e) {
-                        String message = JaiI18N.getString("RMIServerProxy6");
+                        String message = "RemoteException occurs when setting the sources.";
                         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                         //			throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                     }
@@ -488,7 +488,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
                             newPB.setSource(rrmisp, i);
                         }
                     } catch (RemoteException e) {
-                        String message = JaiI18N.getString("RMIServerProxy6");
+                        String message = "RemoteException occurs when setting the sources.";
                         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                         //			throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                     }
@@ -505,7 +505,7 @@ public class ImageNRMICRIF implements RemoteCRIF {
                         remoteImage.setRenderableSource(opID, sri, i);
                         newPB.setSource(sri, i);
                     } catch (RemoteException e) {
-                        String message = JaiI18N.getString("RMIServerProxy6");
+                        String message = "RemoteException occurs when setting the sources.";
                         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                         //			throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                     }

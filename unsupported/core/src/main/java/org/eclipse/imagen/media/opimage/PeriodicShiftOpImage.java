@@ -127,11 +127,11 @@ final class PeriodicShiftOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("PeriodicShiftOpImage0"));
+            throw new IllegalArgumentException("sourceIndex must be positive and less than the number of sources.");
         }
 
         Rectangle destRect = null;
@@ -160,11 +160,11 @@ final class PeriodicShiftOpImage extends OpImage {
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("PeriodicShiftOpImage0"));
+            throw new IllegalArgumentException("sourceIndex must be positive and less than the number of sources.");
         }
 
         Rectangle sourceRect = null;

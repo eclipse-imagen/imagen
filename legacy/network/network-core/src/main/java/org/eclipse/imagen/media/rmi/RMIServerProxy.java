@@ -84,7 +84,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
 
         if (!remoteChaining) {
             // Don't throw the IllegalArgumentException if it's the hack.
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException("Incorrect server name string.");
         }
 
         if (remoteChaining) {
@@ -107,7 +107,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             // Increment the reference count for this id on the server
             remoteImage.incrementRefCount(id);
         } catch (RemoteException re) {
-            System.err.println(JaiI18N.getString("RMIServerProxy2"));
+            System.err.println("Error encountered while disposing the corresponding node on the server.");
         }
     }
 
@@ -127,7 +127,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
 
         if (!remoteChaining) {
             // Don't throw the IllegalArgumentException if it's the hack.
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException("Incorrect server name string.");
         }
 
         if (remoteChaining) {
@@ -150,7 +150,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             // Increment the reference count for this id on the server
             remoteImage.incrementRefCount(id);
         } catch (RemoteException re) {
-            System.err.println(JaiI18N.getString("RMIServerProxy2"));
+            System.err.println("Error encountered while disposing the corresponding node on the server.");
         }
     }
 
@@ -185,7 +185,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             SerializableState rhs = SerializerFactory.getState(hints, null);
             remoteImage.createRenderedOp(id, operationName, newPB, rhs);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("RMIServerProxy5");
+            String message = "RemoteException occurs when creating the node.";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -207,7 +207,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                         remoteImage.setRenderedSource(id, rop.getRMIID(), rop.serverName, rop.operationName, i);
                     }
                 } catch (RemoteException e) {
-                    String message = JaiI18N.getString("RMIServerProxy6");
+                    String message = "RemoteException occurs when setting the sources.";
                     listener.errorOccurred(message, new RemoteImagingException(e), this, false);
                     //		    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                 }
@@ -225,7 +225,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 try {
                     remoteImage.setRenderedSource(id, rendering, i);
                 } catch (RemoteException e) {
-                    String message = JaiI18N.getString("RMIServerProxy6");
+                    String message = "RemoteException occurs when setting the sources.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
 
                     /*
@@ -242,7 +242,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                     }
 
                 } catch (RemoteException e) {
-                    String message = JaiI18N.getString("RMIServerProxy6");
+                    String message = "RemoteException occurs when setting the sources.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                     /*
                     		    throw new RemoteImagingException(
@@ -256,7 +256,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             // Increment the reference count for this id on the server
             remoteImage.incrementRefCount(id);
         } catch (RemoteException re) {
-            System.err.println(JaiI18N.getString("RMIServerProxy2"));
+            System.err.println("Error encountered while disposing the corresponding node on the server.");
         }
     }
 
@@ -289,7 +289,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         if (oldRendering instanceof RMIServerProxy) {
             oldRMISP = (RMIServerProxy) oldRendering;
         } else {
-            System.err.println(JaiI18N.getString("RMIServerProxy3"));
+            System.err.println("The old rendering provided is not an instance of RMIServerProxy.");
         }
 
         Long opID = oldRMISP.getRMIID();
@@ -329,7 +329,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             try {
                 oldRenderingID = remoteImage.handleEvent(opID, idx, shapeState, oldSrc);
             } catch (RemoteException re) {
-                String message = JaiI18N.getString("RMIServerProxy7");
+                String message = "RemoteException occurs when handling the event.";
                 listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
 
                 //		throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
@@ -402,7 +402,8 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 oldValue = SerializerFactory.getState(oldRH, null);
                 newValue = SerializerFactory.getState(newRH, null);
             } else {
-                throw new RemoteImagingException(JaiI18N.getString("RMIServerProxy4"));
+                throw new RemoteImagingException(
+                        "The property name of the supplied PropertyChangeEventJAI is not supported.");
             }
 
             Long oldRenderingID = null;
@@ -412,7 +413,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 // Increment the reference count for this id on the server
                 remoteImage.incrementRefCount(oldRenderingID);
             } catch (RemoteException re) {
-                String message = JaiI18N.getString("RMIServerProxy7");
+                String message = "RemoteException occurs when handling the event.";
                 listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
                 //		throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
             }
@@ -473,7 +474,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         try {
             remoteImage.createRenderableOp(id, operationName, newPB);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("RMIServerProxy8");
+            String message = "RemoteException occurs when creating renderable node.";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -496,7 +497,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                         remoteImage.setRenderableSource(id, rop.getRMIID(), rop.serverName, rop.operationName, i);
                     }
                 } catch (RemoteException e) {
-                    String message = JaiI18N.getString("RMIServerProxy6");
+                    String message = "RemoteException occurs when setting the sources.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                     /*
                     		    throw new RemoteImagingException(
@@ -507,7 +508,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 try {
                     remoteImage.setRenderableSource(id, (RenderableOp) source, i);
                 } catch (RemoteException e) {
-                    String message = JaiI18N.getString("RMIServerProxy6");
+                    String message = "RemoteException occurs when setting the sources.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                     /*
                     			throw new RemoteImagingException(
@@ -519,7 +520,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                     remoteImage.setRenderableSource(id, new SerializableRenderedImage((RenderedImage) source), i);
 
                 } catch (RemoteException e) {
-                    String message = JaiI18N.getString("RMIServerProxy6");
+                    String message = "RemoteException occurs when setting the sources.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                     /*
                     			throw new RemoteImagingException(
@@ -533,7 +534,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             // Increment the reference count for this id on the server
             remoteImage.incrementRefCount(id);
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("RMIServerProxy9");
+            String message = "RemoteException occurs when incrementing the reference count. ";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -551,7 +552,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 // Increment the reference count for this id on the server
                 remoteImage.incrementRefCount(renderingID);
             } catch (RemoteException e) {
-                String message = JaiI18N.getString("RMIServerProxy10");
+                String message = "RemoteException occurs when rendering the node.";
                 listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                 //		throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
             }
@@ -583,7 +584,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 try {
                     serverName = InetAddress.getLocalHost().getHostAddress();
                 } catch (Exception e) {
-                    String message = JaiI18N.getString("RMIServerProxy11");
+                    String message = "Cannot get the server host address.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                     //		    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                 }
@@ -597,7 +598,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             try {
                 remoteImage = (ImageServer) Naming.lookup(serviceName);
             } catch (Exception e) {
-                String message = JaiI18N.getString("RMIServerProxy12");
+                String message = "Cannot look up the remote object.";
                 listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                 //		throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
             }
@@ -620,7 +621,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             id = remoteImage.getRemoteID();
             return id;
         } catch (Exception e) {
-            String message = JaiI18N.getString("RMIServerProxy13");
+            String message = "Cannot get the remote id.";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -639,7 +640,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         try {
             cbr = remoteImage.getRendering(getRMIID());
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy10");
+            String message = "RemoteException occurs when rendering the node.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -684,7 +685,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             layout.setColorModel((ColorModel) (cmState.getObject()));
             return layout;
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy14");
+            String message = "RemoteException occurs when getting the image layout.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             return null;
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
@@ -732,13 +733,15 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             }
 
             if (tdf == null) {
-                throw new RemoteImagingException(JaiI18N.getString("RMIServerProxy0"));
+                throw new RemoteImagingException(
+                        "No suitable TileDecoder could be found to encode the tile before transmission.");
             }
 
             TileCodecDescriptor tcd = (TileCodecDescriptor) registry.getDescriptor("tileDecoder", capabilityName);
 
             if (tcd.includesSampleModelInfo() == false || tcd.includesLocationInfo() == false) {
-                throw new RemoteImagingException(JaiI18N.getString("RMIServerProxy1"));
+                throw new RemoteImagingException(
+                        "Cannot decode according to the specified tile codec scheme which does not include SampleModel or location info in the encoded stream.");
             }
 
             ParameterListDescriptor pld = tcd.getParameterListDescriptor("tileDecoder");
@@ -786,7 +789,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
                 return (Raster) (rp.getObject());
             }
         } catch (RemoteException e) {
-            String message = JaiI18N.getString("RMIServerProxy15");
+            String message = "RemoteException occurs when getting a tile.";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
@@ -802,7 +805,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
             }
             return property;
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy16");
+            String message = "RemoteException occurs when getting the properties.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -820,7 +823,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         try {
             return remoteImage.getPropertyNames(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy17");
+            String message = "RemoteException occurs when getting the property names.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -848,7 +851,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         try {
             dstRect = remoteImage.mapSourceRect(id, sourceRect, sourceIndex);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy18");
+            String message = "RemoteException occurs when mapping the source/dest rectangle.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -875,7 +878,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         try {
             srcRect = remoteImage.mapDestRect(id, destRect, sourceIndex);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy18");
+            String message = "RemoteException occurs when mapping the source/dest rectangle.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -902,7 +905,7 @@ public class RMIServerProxy extends PlanarImageServerProxy {
         try {
             remoteImage.setServerNegotiatedValues(id, negotiatedValues);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy19");
+            String message = "RemoteException occurs when setting the server negotiation values.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }

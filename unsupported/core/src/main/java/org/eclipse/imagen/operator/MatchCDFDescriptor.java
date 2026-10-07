@@ -87,12 +87,12 @@ public class MatchCDFDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "MatchCDF"},
         {"LocalName", "MatchCDF"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MatchCDFDescriptor0")},
+        {"Description", "Matches pixel values to a supplied CDF."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MatchCDFDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"Version", "1.1"},
         {"arg0Desc", "The desired Cumulative Distribution Function."},
     };
 
@@ -135,11 +135,11 @@ public class MatchCDFDescriptor extends OperationDescriptorImpl {
         Object prop = src.getProperty("histogram");
         if (prop == null || prop.equals(Image.UndefinedProperty)) {
             // Property is null or undefined.
-            msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor1"));
+            msg.append(getName() + " " + "The source histogram property is undefined.");
             return false;
         } else if (!(prop instanceof Histogram)) {
             // Property is not a Histogram.
-            msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor2"));
+            msg.append(getName() + " " + "The source histogram property returns an object which is not a Histogram.");
             return false;
         } else {
             Histogram hist = (Histogram) prop;
@@ -157,14 +157,17 @@ public class MatchCDFDescriptor extends OperationDescriptorImpl {
 
             if (CDF.length != numBands) {
                 // CDF length does not match Histogram.
-                msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor3"));
+                msg.append(getName() + " "
+                        + "The length of the CDF array must equal the number of bands in the source Histogram.");
                 return false;
             }
 
             for (int b = 0; b < numBands; b++) {
                 if (CDF[b].length != hist.getNumBins(b)) {
                     // Check that CDF length for this band matches Histogram.
-                    msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor4"));
+                    msg.append(
+                            getName() + " "
+                                    + "The length of each component array of the CDF must equal the number of bins in the corresponding band of the source Histogram.");
                     return false;
                 }
             }
@@ -175,19 +178,19 @@ public class MatchCDFDescriptor extends OperationDescriptorImpl {
 
                 if (CDFband[length - 1] != 1.0) {
                     // Last CDF array element value is not 1.0.
-                    msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor7"));
+                    msg.append(getName() + " " + "The ultimate CDF array value in each band must be 1.");
                     return false;
                 }
 
                 for (int i = 0; i < length; i++) {
                     if (CDFband[i] < 0.0F) {
                         // Negative CDF value.
-                        msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor5"));
+                        msg.append(getName() + " " + "All CDF values must be non-negative.");
                         return false;
                     } else if (i != 0) {
                         if (CDFband[i] < CDFband[i - 1]) {
                             // Decreasing sequence.
-                            msg.append(getName() + " " + JaiI18N.getString("MatchCDFDescriptor6"));
+                            msg.append(getName() + " " + "The CDF array must represent a non-decreasing sequence.");
                             return false;
                         }
                     }

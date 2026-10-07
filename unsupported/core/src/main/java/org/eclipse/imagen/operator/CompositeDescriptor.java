@@ -158,16 +158,19 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Composite"},
         {"LocalName", "Composite"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("CompositeDescriptor0")},
+        {"Description", "Composites two images based on an alpha mask."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/CompositeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("CompositeDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("CompositeDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("CompositeDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("CompositeDescriptor4")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The alpha image for the first source."},
+        {"arg1Desc", "The alpha image for the second source."},
+        {"arg2Desc", "True if alpha has been premultiplied to both sources and the destination."},
+        {
+            "arg3Desc",
+            "Indicates if the destination image should include an extra alpha channel, and if so, should it be the first or last band."
+        }
     };
 
     private static final Class[][] sourceClasses = {
@@ -230,7 +233,7 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
         SampleModel s1sm = src1.getSampleModel();
         SampleModel s2sm = src2.getSampleModel();
         if (s1sm.getNumBands() != s2sm.getNumBands() || s1sm.getTransferType() != s2sm.getTransferType()) {
-            msg.append(getName() + " " + JaiI18N.getString("CompositeDescriptor8"));
+            msg.append(getName() + " " + "operation requires the 2 sources to match in number of bands and data type.");
             return false;
         }
 
@@ -240,13 +243,13 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
                 || src1.getMinY() != afa1.getMinY()
                 || src1.getWidth() != afa1.getWidth()
                 || src1.getHeight() != afa1.getHeight()) {
-            msg.append(getName() + " " + JaiI18N.getString("CompositeDescriptor12"));
+            msg.append(getName() + " " + "operation requires its first source and alpha image to match in dimensions.");
             return false;
         }
 
         SampleModel a1sm = afa1.getSampleModel();
         if (s1sm.getTransferType() != a1sm.getTransferType()) {
-            msg.append(getName() + " " + JaiI18N.getString("CompositeDescriptor13"));
+            msg.append(getName() + " " + "operation requires its first source and alpha image to match in data type.");
             return false;
         }
 
@@ -256,13 +259,15 @@ public class CompositeDescriptor extends OperationDescriptorImpl {
                     || src2.getMinY() != afa2.getMinY()
                     || src2.getWidth() != afa2.getWidth()
                     || src2.getHeight() != afa2.getHeight()) {
-                msg.append(getName() + " " + JaiI18N.getString("CompositeDescriptor15"));
+                msg.append(getName() + " "
+                        + "operation requires its second source and alpha image to match in dimensions.");
                 return false;
             }
 
             SampleModel a2sm = afa2.getSampleModel();
             if (s2sm.getTransferType() != a2sm.getTransferType()) {
-                msg.append(getName() + " " + JaiI18N.getString("CompositeDescriptor16"));
+                msg.append(getName() + " "
+                        + "operation requires its second source and alpha image to match in data type.");
                 return false;
             }
         }

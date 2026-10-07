@@ -144,11 +144,11 @@ final class WBMPImageEncoder extends ImageEncoderImpl {
         // Check the data type, band count, and sample size.
         int dataType = sm.getTransferType();
         if (dataType == DataBuffer.TYPE_FLOAT || dataType == DataBuffer.TYPE_DOUBLE) {
-            throw new IllegalArgumentException(JaiI18N.getString("WBMPImageEncoder0"));
+            throw new IllegalArgumentException("WBMP encoder does not support FLOAT or DOUBLE buffers.");
         } else if (sm.getNumBands() != 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("WBMPImageEncoder1"));
+            throw new IllegalArgumentException("WBMP encoder can write only 1-band images.");
         } else if (sm.getSampleSize(0) != 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("WBMPImageEncoder2"));
+            throw new IllegalArgumentException("WBMP encoder can write only bilevel (1 bit per pixel) images.");
         }
 
         // Save image dimensions.
@@ -227,7 +227,7 @@ final class WBMPImageDecoder extends ImageDecoderImpl {
 
     public RenderedImage decodeAsRenderedImage(int page) throws IOException {
         if (page != 0) {
-            throw new IOException(JaiI18N.getString(JaiI18N.getString("WBMPImageDecoder0")));
+            throw new IOException("Illegal page requested from a WBMP file.");
         }
 
         input.read(); // TypeField

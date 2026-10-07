@@ -254,21 +254,23 @@ public final class SerializableRenderableImage implements RenderableImage, Seria
         this.decodingParam = decodingParam;
 
         if (formatName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializableRenderableImage2"));
+            throw new IllegalArgumentException("The format name is null.");
         }
 
         if (!formatName.equals(encodingParam.getFormatName())) {
-            throw new IllegalArgumentException(JaiI18N.getString("UseTileCodec0"));
+            throw new IllegalArgumentException(
+                    "The format name in the encoding parameter should be the same as the provided one.");
         }
 
         if (!formatName.equals(decodingParam.getFormatName())) {
-            throw new IllegalArgumentException(JaiI18N.getString("UseTileCodec1"));
+            throw new IllegalArgumentException(
+                    "The format name in the decoding parameter should be the same as the provided one.");
         }
 
         TileEncoderFactory tileEncoderFactory = (TileEncoderFactory) registry.getFactory("tileEncoder", formatName);
         TileDecoderFactory tileDecoderFactory = (TileDecoderFactory) registry.getFactory("tileDecoder", formatName);
         if (tileEncoderFactory == null || tileDecoderFactory == null)
-            throw new RuntimeException(JaiI18N.getString("UseTileCodec2"));
+            throw new RuntimeException("The encoder or decoder factory is not registered for the provided format.");
 
         useTileCodec = true;
     }
@@ -284,7 +286,7 @@ public final class SerializableRenderableImage implements RenderableImage, Seria
      */
     public SerializableRenderableImage(RenderableImage source) {
 
-        if (source == null) throw new IllegalArgumentException(JaiI18N.getString("SerializableRenderableImage1"));
+        if (source == null) throw new IllegalArgumentException("The source RenderableImage is null.");
 
         // Set server flag.
         isServer = true;
@@ -455,7 +457,7 @@ public final class SerializableRenderableImage implements RenderableImage, Seria
                         }
                     }
                 } else {
-                    throw new RuntimeException(JaiI18N.getString("SerializableRenderableImage0"));
+                    throw new RuntimeException("Incorrect object received as server request.");
                 }
 
                 // XXX Concerning serialization of properties, perhaps the

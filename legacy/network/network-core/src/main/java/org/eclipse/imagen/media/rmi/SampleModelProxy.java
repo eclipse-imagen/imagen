@@ -135,7 +135,7 @@ public class SampleModelProxy implements Serializable {
             out.writeInt(sm.getScanlineStride());
             out.writeInt(sm.getDataBitOffset());
         } else {
-            throw new RuntimeException(JaiI18N.getString("SampleModelProxy0"));
+            throw new RuntimeException("Unknown SampleModel type.");
         }
     }
 
@@ -185,7 +185,7 @@ public class SampleModelProxy implements Serializable {
                         in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt());
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("SampleModelProxy0"));
+                throw new RuntimeException("Unknown SampleModel type.");
         }
     }
 }

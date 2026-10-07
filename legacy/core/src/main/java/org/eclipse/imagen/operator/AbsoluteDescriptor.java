@@ -72,12 +72,12 @@ public class AbsoluteDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Absolute"},
         {"LocalName", "Absolute"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AbsoluteDescriptor0")},
+        {"Description", "Replaces the pixel values of an image by their absolute values."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AbsoluteDescriptor.html"
         },
-        {"Version", JaiI18N.getString("")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

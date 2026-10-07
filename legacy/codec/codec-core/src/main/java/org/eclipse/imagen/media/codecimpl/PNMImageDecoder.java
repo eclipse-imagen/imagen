@@ -44,7 +44,7 @@ public class PNMImageDecoder extends ImageDecoderImpl {
 
     public RenderedImage decodeAsRenderedImage(int page) throws IOException {
         if (page != 0) {
-            throw new IOException(JaiI18N.getString("PNMImageDecoder5"));
+            throw new IOException("Illegal page requested from a PNM file.");
         }
         try {
             return new PNMImage(input);
@@ -98,12 +98,12 @@ class PNMImage extends SimpleRenderedImage {
         // Read file header.
         try {
             if (this.input.read() != 'P') { // magic number
-                throw new RuntimeException(JaiI18N.getString("PNMImageDecoder0"));
+                throw new RuntimeException("Invalid magic value for PBM/PGM/PPM file.");
             }
 
             variant = this.input.read(); // file variant
             if ((variant < PBM_ASCII) || (variant > PPM_RAW)) {
-                throw new RuntimeException(JaiI18N.getString("PNMImageDecoder1"));
+                throw new RuntimeException("Unrecognized file variant.");
             }
 
             width = readInteger(this.input); // width
@@ -115,10 +115,10 @@ class PNMImage extends SimpleRenderedImage {
                 maxValue = readInteger(this.input); // maximum value
             }
         } catch (IOException e) {
-            String message = JaiI18N.getString("PNMImageDecoder6");
+            String message = "IOException occurs when read the image header.";
             sendExceptionToListener(message, e);
             //            e.printStackTrace();
-            //            throw new RuntimeException(JaiI18N.getString("PNMImageDecoder2"));
+            //            throw new RuntimeException("IOException occured while reading PNM file header.");
         }
 
         // The RAWBITS format can only support byte image data, which means
@@ -284,10 +284,10 @@ class PNMImage extends SimpleRenderedImage {
             // Close the PNM stream and release system resources.
             input.close();
         } catch (IOException e) {
-            String message = JaiI18N.getString("PNMImageDecoder7");
+            String message = "IOException occurs when read the image data.";
             sendExceptionToListener(message, e);
             //            e.printStackTrace();
-            //            throw new RuntimeException(JaiI18N.getString("PNMImageDecoder3"));
+            //            throw new RuntimeException("IOException occured while processing PNM file.");
         }
 
         return tile;
@@ -295,7 +295,7 @@ class PNMImage extends SimpleRenderedImage {
 
     public synchronized Raster getTile(int tileX, int tileY) {
         if ((tileX != 0) || (tileY != 0)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PNMImageDecoder4"));
+            throw new IllegalArgumentException("Illegal tile requested from a PNMImage.");
         }
 
         if (theTile == null) {

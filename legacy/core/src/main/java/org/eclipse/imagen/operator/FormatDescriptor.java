@@ -151,12 +151,12 @@ public class FormatDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Format"},
         {"LocalName", "Format"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("FormatDescriptor0")},
+        {"Description", "Reformats an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/FormatDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"Version", "1.1"},
         {"arg0Desc", "The output data type (from java.awt.image.DataBuffer)."}
     };
 

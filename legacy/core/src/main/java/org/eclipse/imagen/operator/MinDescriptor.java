@@ -76,12 +76,12 @@ public class MinDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Min"},
         {"LocalName", "Min"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MinDescriptor0")},
+        {"Description", "Computes the pixel-wise minimum of two images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MinDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

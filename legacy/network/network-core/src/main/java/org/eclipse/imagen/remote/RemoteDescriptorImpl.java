@@ -55,7 +55,7 @@ public abstract class RemoteDescriptorImpl implements RemoteDescriptor {
     public RemoteDescriptorImpl(String protocolName, URL serverNameDocURL) {
 
         if (protocolName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException("protocolName argument is null.");
         }
 
         this.protocolName = protocolName;
@@ -92,7 +92,7 @@ public abstract class RemoteDescriptorImpl implements RemoteDescriptor {
     public boolean isModeSupported(String modeName) {
 
         if (modeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteDescriptorImpl1"));
+            throw new IllegalArgumentException("modeName argument is null.");
         }
 
         if (modeName.equalsIgnoreCase("remoteRendered") || modeName.equalsIgnoreCase("remoteRenderable")) {
@@ -128,10 +128,10 @@ public abstract class RemoteDescriptorImpl implements RemoteDescriptor {
     public PropertyGenerator[] getPropertyGenerators(String modeName) {
 
         if (modeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteDescriptorImpl1"));
+            throw new IllegalArgumentException("modeName argument is null.");
         }
 
-        throw new UnsupportedOperationException(JaiI18N.getString("RemoteDescriptorImpl2"));
+        throw new UnsupportedOperationException("Properties are not supported by this descriptor.");
     }
 
     /**
@@ -200,7 +200,7 @@ public abstract class RemoteDescriptorImpl implements RemoteDescriptor {
      */
     public ParameterListDescriptor getParameterListDescriptor(String modeName) {
         if (modeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteDescriptorImpl1"));
+            throw new IllegalArgumentException("modeName argument is null.");
         }
 
         return null;

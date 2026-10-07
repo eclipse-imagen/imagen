@@ -210,7 +210,7 @@ final class ComplexArithmeticOpImage extends PointOpImage {
                 break;
             default:
                 // NB: This statement should be unreachable.
-                throw new RuntimeException(JaiI18N.getString("ComplexArithmeticOpImage0"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         if (dstAccessor.needsClamping()) {

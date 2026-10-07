@@ -64,15 +64,15 @@ public class TileCodecParameterList extends ParameterListImpl {
         // Cause IllegalArgumentException to be thrown if any of the
         // arguments is null.
         if (formatName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl0"));
+            throw new IllegalArgumentException("formatName is null.");
         }
 
         if (validModes == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecParameterList0"));
+            throw new IllegalArgumentException("validModes cannot be null.");
         }
 
         if (descriptor == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecParameterList1"));
+            throw new IllegalArgumentException("descriptor cannot be null.");
         }
 
         this.formatName = formatName;

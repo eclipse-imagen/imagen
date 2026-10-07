@@ -171,14 +171,14 @@ public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "SubsampleBinaryToGray"},
         {"LocalName", "SubsampleBinaryToGray"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("SubsampleBinaryToGray0")},
+        {"Description", "To subsamples binary image to gray; reverse of dithering."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/SubsampleBinaryToGrayDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("SubsampleBinaryToGray1")},
-        {"arg1Desc", JaiI18N.getString("SubsampleBinaryToGray2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "scaleX must be between 0 and 1, excluding 0."},
+        {"arg1Desc", "scaleY must be between 0 and 1, excluding 0."}
     };
 
     /** The parameter class list for this operation. */
@@ -233,15 +233,15 @@ public class SubsampleBinaryToGrayDescriptor extends OperationDescriptorImpl {
 
         PixelAccessor srcPA = new PixelAccessor(src);
         if (!srcPA.isPacked || !srcPA.isMultiPixelPackedSM) {
-            msg.append(getName() + " " + JaiI18N.getString("SubsampleBinaryToGray3"));
+            msg.append(getName() + " " + "src image must have MultiPixelPackedSampleModel.");
             return false;
         }
 
         float xScale = args.getFloatParameter(0);
         float yScale = args.getFloatParameter(1);
         if (xScale <= 0.0F || yScale <= 0.0F || xScale > 1.0F || yScale > 1.0F) {
-            msg.append(getName() + " " + JaiI18N.getString("SubsampleBinaryToGray1") + " or "
-                    + JaiI18N.getString("SubsampleBinaryToGray2"));
+            msg.append(getName() + " " + "scaleX must be between 0 and 1, excluding 0." + " or "
+                    + "scaleY must be between 0 and 1, excluding 0.");
             return false;
         }
 

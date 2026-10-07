@@ -80,14 +80,14 @@ public class StreamDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Stream"},
         {"LocalName", "Stream"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("StreamDescriptor0")},
+        {"Description", "Reads an image from a SeekableStream."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/StreamDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("StreamDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("StreamDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The SeekableStream to read from."},
+        {"arg1Desc", "The ImageDecodeParam to use."}
     };
 
     /** The parameter names for the "Stream" operation. */

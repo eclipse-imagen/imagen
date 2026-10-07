@@ -76,12 +76,12 @@ public class MaxDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Max"},
         {"LocalName", "Max"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MaxDescriptor0")},
+        {"Description", "Computes the pixel-wise maximum of two images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MaxDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

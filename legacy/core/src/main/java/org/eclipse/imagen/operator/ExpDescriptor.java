@@ -65,12 +65,12 @@ public class ExpDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Exp"},
         {"LocalName", "Exp"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ExpDescriptor0")},
+        {"Description", "Computes the exponential of the pixel values of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ExpDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

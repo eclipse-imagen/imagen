@@ -114,7 +114,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public PerspectiveTransform(float[] flatmatrix) {
         if (flatmatrix == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = flatmatrix[0];
@@ -137,7 +137,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public PerspectiveTransform(float[][] matrix) {
         if (matrix == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = matrix[0][0];
@@ -161,7 +161,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public PerspectiveTransform(double[] flatmatrix) {
         if (flatmatrix == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = flatmatrix[0];
@@ -183,7 +183,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public PerspectiveTransform(double[][] matrix) {
         if (matrix == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = matrix[0][0];
@@ -204,7 +204,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public PerspectiveTransform(AffineTransform transform) {
         if (transform == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = transform.getScaleX();
@@ -749,7 +749,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void setTransform(AffineTransform Tx) {
         if (Tx == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = Tx.getScaleX();
@@ -770,7 +770,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void setTransform(PerspectiveTransform Tx) {
         if (Tx == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = Tx.m00;
@@ -814,7 +814,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void setTransform(double[][] matrix) {
         if (matrix == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         m00 = matrix[0][0];
@@ -835,7 +835,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void concatenate(AffineTransform Tx) {
         if (Tx == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Extend Tx: Tx.m20 = 0, Tx.m21 = 0, Tx.m22 = 1
@@ -875,7 +875,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void concatenate(PerspectiveTransform Tx) {
         if (Tx == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         double m00p = m00 * Tx.m00 + m10 * Tx.m01 + m20 * Tx.m02;
@@ -906,7 +906,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void preConcatenate(AffineTransform Tx) {
         if (Tx == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Extend Tx: Tx.m20 = 0, Tx.m21 = 0, Tx.m22 = 1
@@ -946,7 +946,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public void preConcatenate(PerspectiveTransform Tx) {
         if (Tx == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         double m00p = Tx.m00 * m00 + Tx.m10 * m01 + Tx.m20 * m02;
@@ -980,7 +980,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
         PerspectiveTransform tx = (PerspectiveTransform) clone();
         tx.makeAdjoint();
         if (Math.abs(tx.m22) < PERSPECTIVE_DIVIDE_EPSILON) {
-            throw new NoninvertibleTransformException(ImageNI18N.getString("PerspectiveTransform0"));
+            throw new NoninvertibleTransformException("PerspectiveTransform.createInverse");
         }
         tx.normalize();
         return tx;
@@ -1015,7 +1015,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public Point2D transform(Point2D ptSrc, Point2D ptDst) {
         if (ptSrc == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (ptDst == null) {
@@ -1050,7 +1050,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     public void transform(Point2D[] ptSrc, int srcOff, Point2D[] ptDst, int dstOff, int numPts) {
 
         if (ptSrc == null || ptDst == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         while (numPts-- > 0) {
@@ -1094,7 +1094,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     public void transform(float[] srcPts, int srcOff, float[] dstPts, int dstOff, int numPts) {
 
         if (srcPts == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (dstPts == null) {
@@ -1132,7 +1132,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     public void transform(double[] srcPts, int srcOff, double[] dstPts, int dstOff, int numPts) {
 
         if (srcPts == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (dstPts == null) {
@@ -1171,7 +1171,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     public void transform(float[] srcPts, int srcOff, double[] dstPts, int dstOff, int numPts) {
 
         if (srcPts == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (dstPts == null) {
@@ -1210,7 +1210,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     public void transform(double[] srcPts, int srcOff, float[] dstPts, int dstOff, int numPts) {
 
         if (srcPts == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (dstPts == null) {
@@ -1245,7 +1245,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
      */
     public Point2D inverseTransform(Point2D ptSrc, Point2D ptDst) throws NoninvertibleTransformException {
         if (ptSrc == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (ptDst == null) {
@@ -1268,7 +1268,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
             wabs = -w;
         }
         if (wabs < PERSPECTIVE_DIVIDE_EPSILON) {
-            throw new NoninvertibleTransformException(ImageNI18N.getString("PerspectiveTransform1"));
+            throw new NoninvertibleTransformException("Divide by zero error.");
         }
 
         ptDst.setLocation(tmp_x / w, tmp_y / w);
@@ -1294,7 +1294,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
     public void inverseTransform(double[] srcPts, int srcOff, double[] dstPts, int dstOff, int numPts)
             throws NoninvertibleTransformException {
         if (srcPts == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (dstPts == null) {
@@ -1314,7 +1314,7 @@ public final class PerspectiveTransform implements Cloneable, Serializable {
                 wabs = -w;
             }
             if (wabs < PERSPECTIVE_DIVIDE_EPSILON) {
-                throw new NoninvertibleTransformException(ImageNI18N.getString("PerspectiveTransform1"));
+                throw new NoninvertibleTransformException("Divide by zero error.");
             }
 
             dstPts[dstOff++] = tmp_x / w;

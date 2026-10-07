@@ -207,7 +207,7 @@ public abstract class ImageCodec {
      */
     public static String[] getDecoderNames(SeekableStream src) {
         if (!src.canSeekBackwards() && !src.markSupported()) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageCodec2"));
+            throw new IllegalArgumentException("src must support seeking backwards or marking.");
         }
 
         Enumeration enumeration = codecs.elements();
@@ -241,7 +241,8 @@ public abstract class ImageCodec {
                     src.seek(pointer);
                 }
             } catch (IOException e) {
-                ImagingListenerProxy.errorOccurred(JaiI18N.getString("ImageCodec3"), e, ImageCodec.class, false);
+                ImagingListenerProxy.errorOccurred(
+                        "IOException occurs when search for propriate codecs.", e, ImageCodec.class, false);
                 //                e.printStackTrace();
             }
         }
@@ -305,7 +306,7 @@ public abstract class ImageCodec {
      * @return <code>true</code> if the format is recognized.
      */
     public boolean isFormatRecognized(byte[] header) {
-        throw new RuntimeException(JaiI18N.getString("ImageCodec0"));
+        throw new RuntimeException("Method unimplemented, should be implemented by subclass.");
     }
 
     /**
@@ -321,7 +322,7 @@ public abstract class ImageCodec {
      * @return <code>true</code> if the format is recognized.
      */
     public boolean isFormatRecognized(SeekableStream src) throws IOException {
-        throw new RuntimeException(JaiI18N.getString("ImageCodec1"));
+        throw new RuntimeException("Method unimplemented, should be implemented by subclass.");
     }
 
     /**

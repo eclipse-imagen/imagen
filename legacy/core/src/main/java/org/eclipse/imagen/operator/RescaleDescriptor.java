@@ -92,14 +92,14 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Rescale"},
         {"LocalName", "Rescale"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("RescaleDescriptor0")},
+        {"Description", "Maps the pixels values of an image from one range to another range."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/RescaleDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("RescaleDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("RescaleDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The per-band constants to multiply by."},
+        {"arg1Desc", "The per-band offsets to be added."}
     };
 
     /** The parameter class list for this operation. */
@@ -136,12 +136,12 @@ public class RescaleDescriptor extends OperationDescriptorImpl {
         int offsetsLength = ((double[]) args.getObjectParameter(1)).length;
 
         if (constantsLength < 1) {
-            msg.append(getName() + " " + JaiI18N.getString("RescaleDescriptor3"));
+            msg.append(getName() + " " + "constants.length must be at least 1.");
             return false;
         }
 
         if (offsetsLength < 1) {
-            msg.append(getName() + ": " + JaiI18N.getString("RescaleDescriptor4"));
+            msg.append(getName() + ": " + "offsets.length must be at least 1.");
             return false;
         }
 

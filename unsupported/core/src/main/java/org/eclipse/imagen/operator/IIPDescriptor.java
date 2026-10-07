@@ -205,26 +205,27 @@ public class IIPDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "IIP"},
         {"LocalName", "IIP"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("IIPDescriptor0")},
+        {"Description", "Provides client support of the Internet Imaging Protocol in the rendered and renderable mode."
+        },
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/IIPDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("IIPDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("IIPDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("IIPDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("IIPDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("IIPDescriptor5")},
-        {"arg5Desc", JaiI18N.getString("IIPDescriptor6")},
-        {"arg6Desc", JaiI18N.getString("IIPDescriptor7")},
-        {"arg7Desc", JaiI18N.getString("IIPDescriptor8")},
-        {"arg8Desc", JaiI18N.getString("IIPDescriptor9")},
-        {"arg9Desc", JaiI18N.getString("IIPDescriptor10")},
-        {"arg10Desc", JaiI18N.getString("IIPDescriptor11")},
-        {"arg11Desc", JaiI18N.getString("IIPDescriptor12")},
-        {"arg12Desc", JaiI18N.getString("IIPDescriptor13")},
-        {"arg13Desc", JaiI18N.getString("IIPDescriptor14")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The URL of the IIP image."},
+        {"arg1Desc", "The sub-images to be used by the server for images at each resolution level."},
+        {"arg2Desc", "The filtering value."},
+        {"arg3Desc", "The color twist matrix."},
+        {"arg4Desc", "The contrast value."},
+        {"arg5Desc", "The source rectangle of interest in rendering-independent coordinates."},
+        {"arg6Desc", "The rendering-independent spatial orientation transform."},
+        {"arg7Desc", "The aspect ratio of the destination image."},
+        {"arg8Desc", "The destination rectangle of interest in rendering-independent coordinates."},
+        {"arg9Desc", "The counterclockwise rotation angle to be applied to the destination."},
+        {"arg10Desc", "The mirror axis."},
+        {"arg11Desc", "The ICC profile used to represent the color space of the source image."},
+        {"arg12Desc", "The JPEG quality factor."},
+        {"arg13Desc", "The JPEG compression group index number."}
     };
 
     /** The parameter class types for this operation. */
@@ -379,7 +380,7 @@ public class IIPDescriptor extends OperationDescriptorImpl {
         try {
             new URL((String) args.getObjectParameter(0));
         } catch (Exception e) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor15"));
+            msg.append(getName() + " " + "requires the URL string to specify a valid protocol.");
             return false;
         }
 
@@ -391,7 +392,7 @@ public class IIPDescriptor extends OperationDescriptorImpl {
         float[] colorTwist = (float[]) args.getObjectParameter(3);
         if (colorTwist != null) {
             if (colorTwist.length < 16) {
-                msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor16"));
+                msg.append(getName() + " " + "requires the colorTwist array to have at least 16 elements.");
                 return false;
             }
 
@@ -404,52 +405,57 @@ public class IIPDescriptor extends OperationDescriptorImpl {
 
         float contrast = args.getFloatParameter(4);
         if (contrast < 1.0F) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor20"));
+            msg.append(getName() + " " + "requires the contrast value to be greater than or equal to 1.0F.");
             return false;
         }
 
         java.awt.geom.Rectangle2D.Float sourceROI = (java.awt.geom.Rectangle2D.Float) args.getObjectParameter(5);
         if (sourceROI != null && (sourceROI.getWidth() < 0.0 || sourceROI.getHeight() < 0.0)) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor17"));
+            msg.append(
+                    getName() + " "
+                            + "requires both the width and height of the rectangle that marks the region of interest to be greater than 0.");
             return false;
         }
 
         AffineTransform tf = (AffineTransform) args.getObjectParameter(6);
         if (tf.getDeterminant() == 0.0) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor24"));
+            msg.append(getName() + " " + "requires the transform parameter to be invertible.");
             return false;
         }
 
         if (args.getObjectParameter(7) != null) {
             float aspectRatio = args.getFloatParameter(7);
             if (aspectRatio < 0.0F) {
-                msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor21"));
+                msg.append(getName() + " " + "requires the aspect ratio to be positive.");
                 return false;
             }
         }
 
         java.awt.geom.Rectangle2D.Float destROI = (java.awt.geom.Rectangle2D.Float) args.getObjectParameter(8);
         if (destROI != null && (destROI.getWidth() < 0.0 || destROI.getHeight() < 0.0)) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor17"));
+            msg.append(
+                    getName() + " "
+                            + "requires both the width and height of the rectangle that marks the region of interest to be greater than 0.");
             return false;
         }
 
         int rotation = args.getIntParameter(9);
         if (rotation != 0 && rotation != 90 && rotation != 180 && rotation != 270) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor18"));
+            msg.append(getName() + " "
+                    + "requires the rotation angle for the destination image to be one of 0, 90, 180, or 270 degrees.");
             return false;
         }
 
         String mirrorAxis = (String) args.getObjectParameter(10);
         if (mirrorAxis != null && !mirrorAxis.equalsIgnoreCase("x") && !mirrorAxis.equalsIgnoreCase("y")) {
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor19"));
+            msg.append(getName() + " " + "requires the mirror axis to be either X or Y.");
             return false;
         }
 
         if (args.getObjectParameter(12) != null) {
             int JPEGQuality = args.getIntParameter(12);
             if (JPEGQuality < 0 || JPEGQuality > 100) {
-                msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor22"));
+                msg.append(getName() + " " + "requires the JPEG quality factor to be in the range [0,100].");
                 return false;
             }
         }
@@ -457,7 +463,7 @@ public class IIPDescriptor extends OperationDescriptorImpl {
         if (args.getObjectParameter(13) != null) {
             int JPEGIndex = args.getIntParameter(13);
             if (JPEGIndex < 1 || JPEGIndex > 255) {
-                msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor23"));
+                msg.append(getName() + " " + "requires the JPEG table index to be in the range [1,255].");
                 return false;
             }
         }

@@ -84,12 +84,12 @@ public class SubtractDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Subtract"},
         {"LocalName", "Subtract"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("SubtractDescriptor0")},
+        {"Description", "Subtracts one image from another image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/SubtractDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

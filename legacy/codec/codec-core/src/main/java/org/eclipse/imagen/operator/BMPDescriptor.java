@@ -74,13 +74,13 @@ public class BMPDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "BMP"},
         {"LocalName", "BMP"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BMPDescriptor0")},
+        {"Description", "Reads an image from a BMP stream."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BMPDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BMPDescriptor1")},
+        {"Version", "1.1"},
+        {"arg0Desc", "The SeekableStream to read from."},
     };
 
     /** The parameter names for the "BMP" operation. */

@@ -93,14 +93,14 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Clamp"},
         {"LocalName", "Clamp"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ClampDescriptor0")},
+        {"Description", "Clamps the pixel values of an image to a specified range."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ClampDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ClampDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ClampDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The lower boundary for each band."},
+        {"arg1Desc", "The upper boundary for each band."}
     };
 
     /** The parameter class list for this operation. */
@@ -137,14 +137,16 @@ public class ClampDescriptor extends OperationDescriptorImpl {
         double[] high = (double[]) args.getObjectParameter(1);
 
         if (low.length < 1 || high.length < 1) {
-            msg.append(getName() + " " + JaiI18N.getString("ClampDescriptor3"));
+            msg.append(getName() + " " + "operation requires each parameter to have at least 1 array element.");
             return false;
         }
 
         int length = Math.min(low.length, high.length);
         for (int i = 0; i < length; i++) {
             if (low[i] > high[i]) {
-                msg.append(getName() + " " + JaiI18N.getString("ClampDescriptor4"));
+                msg.append(
+                        getName() + " "
+                                + "operation requires each lower boundary to be less than or equal to its corresponding upper boundary.");
                 return false;
             }
         }

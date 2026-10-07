@@ -291,16 +291,17 @@ public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
      */
     public TileCodecParameterList getCompatibleParameters(String modeName, TileCodecParameterList otherParamList) {
         if (modeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl1"));
+            throw new IllegalArgumentException("modeName is null.");
         }
 
         if (otherParamList == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl3"));
+            throw new IllegalArgumentException("otherParamList is null.");
         }
 
         String name = getName();
         if (!otherParamList.getFormatName().equals(name)) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodec2"));
+            throw new IllegalArgumentException(
+                    "The supplied format name of the parameter list is not the same as the descriptor.");
         }
 
         if (otherParamList.isValidForMode(modeName)) return otherParamList;
@@ -312,7 +313,7 @@ public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
             return new TileCodecParameterList(
                     name, new String[] {"tileEncoder"}, otherParamList.getParameterListDescriptor());
         } else {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodec1"));
+            throw new IllegalArgumentException("The supplied modeName is not valid.");
         }
     }
 
@@ -327,7 +328,7 @@ public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
      *     those returned from the getSupportedNames() method.
      */
     public TileCodecParameterList getDefaultParameters(String modeName) {
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl1"));
+        if (modeName == null) throw new IllegalArgumentException("modeName is null.");
 
         String validNames[] = getSupportedModes();
         boolean valid = false;
@@ -340,7 +341,7 @@ public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
         }
 
         if (valid == false) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodec1"));
+            throw new IllegalArgumentException("The supplied modeName is not valid.");
         }
 
         return new TileCodecParameterList("jpeg", new String[] {"tileDecoder", "tileEncoder"}, paramListDescriptor);
@@ -379,7 +380,7 @@ public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
      *     those returned from the getSupportedNames() method.
      */
     public ParameterListDescriptor getParameterListDescriptor(String modeName) {
-        if (modeName == null) throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl1"));
+        if (modeName == null) throw new IllegalArgumentException("modeName is null.");
 
         String validNames[] = getSupportedModes();
         boolean valid = false;
@@ -392,7 +393,7 @@ public class JPEGTileCodecDescriptor extends TileCodecDescriptorImpl {
         }
 
         if (valid == false) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodec1"));
+            throw new IllegalArgumentException("The supplied modeName is not valid.");
         }
 
         return paramListDescriptor;

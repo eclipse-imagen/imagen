@@ -98,12 +98,12 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "GradientMagnitude"},
         {"LocalName", "GradientMagnitude"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("GradientMagnitudeDescriptor0")},
+        {"Description", "Computes the gradient of an image"},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/org.eclipse.imagen.operator.GradientMagnitudeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"Version", "1.1"},
         {"arg0Desc", "A gradient mask."},
         {"arg1Desc", "A gradient mask orthogonal to the first one."}
     };
@@ -140,7 +140,7 @@ public class GradientMagnitudeDescriptor extends OperationDescriptorImpl {
 
         /* Check if both kernels are equivalent in terms of dimensions. */
         if ((h_kernel.getWidth() != v_kernel.getWidth()) || (h_kernel.getHeight() != v_kernel.getHeight())) {
-            msg.append(getName() + " " + JaiI18N.getString("GradientMagnitudeDescriptor1"));
+            msg.append(getName() + " " + "kernels not of same dimensions");
             return false;
         }
 

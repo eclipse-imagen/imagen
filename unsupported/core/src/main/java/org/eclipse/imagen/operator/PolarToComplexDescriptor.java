@@ -81,12 +81,12 @@ public class PolarToComplexDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "PolarToComplex"},
         {"LocalName", "PolarToComplex"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("PolarToComplexDescriptor0")},
+        {"Description", "Computes a complex image from a magnitude and a phase image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PolarToComplexDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -113,7 +113,7 @@ public class PolarToComplexDescriptor extends OperationDescriptorImpl {
         RenderedImage src2 = args.getRenderedSource(1);
 
         if (src1.getSampleModel().getNumBands() != src2.getSampleModel().getNumBands()) {
-            msg.append(getName() + " " + JaiI18N.getString("PolarToComplexDescriptor1"));
+            msg.append(getName() + " " + "operation requires its sources to have an equal number of bands.");
             return false;
         }
 

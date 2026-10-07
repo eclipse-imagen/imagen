@@ -85,7 +85,7 @@ public class DataBufferProxy implements Serializable {
                 dataArray = ((DataBufferDouble) dataBuffer).getBankData();
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
+                throw new RuntimeException("Unsupported data type.");
         }
         out.writeObject(dataArray);
     }
@@ -127,7 +127,7 @@ public class DataBufferProxy implements Serializable {
                 dataBuffer = new DataBufferDouble((double[][]) dataArray, size, offsets);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("DataBufferProxy0"));
+                throw new RuntimeException("Unsupported data type.");
         }
     }
 }

@@ -197,15 +197,15 @@ public class AffineDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Affine"},
         {"LocalName", "Affine"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AffineDescriptor0")},
+        {"Description", "Performs interpolated affine transform on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AffineDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("AffineDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("AffineDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("AffineDescriptor3")},
+        {"Version", "1.1"},
+        {"arg0Desc", "The affine transform matrix."},
+        {"arg1Desc", "The interpolation method."},
+        {"arg2Desc", "The user-specified background values."},
     };
 
     /** The parameter class list for this operation. */
@@ -255,7 +255,7 @@ public class AffineDescriptor extends OperationDescriptorImpl {
         try {
             AffineTransform itransform = transform.createInverse();
         } catch (java.awt.geom.NoninvertibleTransformException e) {
-            message.append(getName() + " " + JaiI18N.getString("AffineDescriptor4"));
+            message.append(getName() + " " + "operation can not invert the supplied transform parameter.");
             return false;
         }
 

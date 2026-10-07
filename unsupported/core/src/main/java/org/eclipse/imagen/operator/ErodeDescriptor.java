@@ -171,13 +171,13 @@ public class ErodeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Erode"},
         {"LocalName", "Erode"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ErodeDescriptor0")},
+        {"Description", "Performs binary kernel based Erode operation on the image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/<br>org.eclipse.imagen.operator.ErodeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ErodeDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The binary convolution kernel."}
     };
 
     /** The parameter names for the Erode operation. */

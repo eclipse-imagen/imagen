@@ -76,12 +76,12 @@ public class MagnitudeSquaredDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "MagnitudeSquared"},
         {"LocalName", "MagnitudeSquared"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MagnitudeSquaredDescriptor0")},
+        {"Description", "Computes the squared magnitude of each pixel of a complex image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MagnitudeSquaredDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -121,7 +121,7 @@ public class MagnitudeSquaredDescriptor extends OperationDescriptorImpl {
         int bands = src.getSampleModel().getNumBands();
 
         if (bands % 2 != 0) {
-            msg.append(getName() + " " + JaiI18N.getString("MagnitudeSquaredDescriptor1"));
+            msg.append(getName() + " " + "operation requires its source to have an even number of bands.");
             return false;
         }
 

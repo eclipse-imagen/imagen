@@ -47,7 +47,7 @@ public abstract class TileCodecDescriptorImpl implements TileCodecDescriptor {
 
         // Cause IllegalArgumentException if formatName is null
         if (formatName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl0"));
+            throw new IllegalArgumentException("formatName is null.");
         }
 
         this.formatName = formatName;
@@ -83,7 +83,7 @@ public abstract class TileCodecDescriptorImpl implements TileCodecDescriptor {
     public boolean isModeSupported(String registryModeName) {
 
         if (registryModeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl1"));
+            throw new IllegalArgumentException("modeName is null.");
         }
 
         if (registryModeName.equalsIgnoreCase("tileDecoder") == true
@@ -117,10 +117,10 @@ public abstract class TileCodecDescriptorImpl implements TileCodecDescriptor {
     public PropertyGenerator[] getPropertyGenerators(String modeName) {
 
         if (modeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl1"));
+            throw new IllegalArgumentException("modeName is null.");
         }
 
-        throw new UnsupportedOperationException(JaiI18N.getString("TileCodecDescriptorImpl2"));
+        throw new UnsupportedOperationException("Properties are not supported by tile codecs.");
     }
 
     /**

@@ -101,13 +101,13 @@ public class XorConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "XorConst"},
         {"LocalName", "XorConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("XorConstDescriptor0")},
+        {"Description", "Logically \"xors\" an image with constants."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/XorConstDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("XorConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to logically \"xor\" with."}
     };
 
     /**
@@ -151,13 +151,13 @@ public class XorConstDescriptor extends OperationDescriptorImpl {
                 && dtype != DataBuffer.TYPE_USHORT
                 && dtype != DataBuffer.TYPE_SHORT
                 && dtype != DataBuffer.TYPE_INT) {
-            message.append(getName() + " " + JaiI18N.getString("XorConstDescriptor2"));
+            message.append(getName() + " " + "Operation requires its source to have an integral data type.");
             return false;
         }
 
         int length = ((int[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("XorConstDescriptor3"));
+            message.append(getName() + " " + "Operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

@@ -41,7 +41,7 @@ public final class WarpPerspective extends Warp {
      */
     public WarpPerspective(PerspectiveTransform transform) {
         if (transform == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("WarpPerspective0"));
+            throw new IllegalArgumentException("WarpPerspective constructor requires a valid input; null is supplied.");
         }
 
         this.transform = transform;
@@ -158,7 +158,7 @@ public final class WarpPerspective extends Warp {
      */
     public Rectangle mapDestRect(Rectangle destRect) {
         if (destRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int x0 = destRect.x;
@@ -203,7 +203,7 @@ public final class WarpPerspective extends Warp {
      */
     public Rectangle mapSourceRect(Rectangle srcRect) {
         if (srcRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Return null if no forward mapping could be derived
@@ -253,7 +253,7 @@ public final class WarpPerspective extends Warp {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return transform.transform(destPt, null);
@@ -280,7 +280,7 @@ public final class WarpPerspective extends Warp {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return invTransform != null ? invTransform.transform(sourcePt, null) : null;

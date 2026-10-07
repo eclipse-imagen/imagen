@@ -72,13 +72,13 @@ public class PNMDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "PNM"},
         {"LocalName", "PNM"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("PNMDescriptor0")},
+        {"Description", "Reads a standard PNM file."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PNMDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("PNMDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "A SeekableStream representing the PNM file."}
     };
 
     /** The parameter names for the "PNM" operation. */

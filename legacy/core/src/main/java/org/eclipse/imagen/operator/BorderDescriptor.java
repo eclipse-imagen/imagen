@@ -97,17 +97,17 @@ public class BorderDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Border"},
         {"LocalName", "Border"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BorderDescriptor0")},
+        {"Description", "Adds a border around an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BorderDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("BorderDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("BorderDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("BorderDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("BorderDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("BorderDescriptor5")},
+        {"Version", "1.2"},
+        {"arg0Desc", "The image's left padding."},
+        {"arg1Desc", "The image's right padding."},
+        {"arg2Desc", "The image's top padding."},
+        {"arg3Desc", "The image's bottom padding."},
+        {"arg4Desc", "The border type."},
     };
 
     /** The parameter name list for this operation. */
@@ -167,7 +167,7 @@ public class BorderDescriptor extends OperationDescriptorImpl {
                 || ((getNumSources() > 0 || getNumParameters() > 0)
                         && (oldParamBlock == null || newParamBlock == null))) {
 
-            throw new IllegalArgumentException(JaiI18N.getString("BorderDescriptor6"));
+            throw new IllegalArgumentException("The mode name and ParameterBlocks may not be null.");
         }
 
         int numSources = getNumSources();
@@ -175,7 +175,7 @@ public class BorderDescriptor extends OperationDescriptorImpl {
         if ((numSources > 0)
                 && (oldParamBlock.getNumSources() != numSources || newParamBlock.getNumSources() != numSources)) {
 
-            throw new IllegalArgumentException(JaiI18N.getString("BorderDescriptor7"));
+            throw new IllegalArgumentException("Insufficient number of sources in old or new ParameterBlock.");
         }
 
         int numParams = getParameterListDescriptor(modeName).getNumParameters();
@@ -183,7 +183,7 @@ public class BorderDescriptor extends OperationDescriptorImpl {
         if ((numParams > 0)
                 && (oldParamBlock.getNumParameters() != numParams || newParamBlock.getNumParameters() != numParams)) {
 
-            throw new IllegalArgumentException(JaiI18N.getString("BorderDescriptor8"));
+            throw new IllegalArgumentException("Insufficient number of parameters in old or new ParameterBlock.");
         }
 
         // Return null if the RenderingHints, source, left padding, or

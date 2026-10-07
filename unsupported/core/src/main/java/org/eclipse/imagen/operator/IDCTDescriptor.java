@@ -63,12 +63,12 @@ public class IDCTDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "IDCT"},
         {"LocalName", "IDCT"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("IDCTDescriptor0")},
+        {"Description", "Computes the inverse discrete cosine transform of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/IDCTDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

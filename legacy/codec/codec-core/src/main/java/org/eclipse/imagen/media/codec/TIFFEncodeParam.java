@@ -122,7 +122,7 @@ public class TIFFEncodeParam implements ImageEncodeParam {
                 // Do nothing.
                 break;
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("TIFFEncodeParam0"));
+                throw new IllegalArgumentException("Unsupported compression scheme specified.");
         }
 
         this.compression = compression;
@@ -271,7 +271,7 @@ public class TIFFEncodeParam implements ImageEncodeParam {
      */
     public void setDeflateLevel(int deflateLevel) {
         if (deflateLevel < 1 && deflateLevel > 9 && deflateLevel != Deflater.DEFAULT_COMPRESSION) {
-            throw new IllegalArgumentException(JaiI18N.getString("TIFFEncodeParam1"));
+            throw new IllegalArgumentException("Illegal DEFLATE compression level specified.");
         }
 
         this.deflateLevel = deflateLevel;

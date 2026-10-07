@@ -67,7 +67,7 @@ public class GZIPTileDecoder extends TileDecoderImpl {
             return TileCodecUtils.deserializeRaster(object);
         } catch (ClassNotFoundException e) {
             ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
-            listener.errorOccurred(JaiI18N.getString("ClassNotFound"), e, this, false);
+            listener.errorOccurred("Cannot find the class of the read object.", e, this, false);
 
             //            e.printStackTrace();
             return null;

@@ -81,7 +81,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
 
         // Check the height
         if (height <= 0.0F) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("MultiResolutionRenderableImage0"));
+            throw new IllegalArgumentException("The rendering-independent height must be positive.");
         }
 
         numSources = renderedSources.size();
@@ -131,7 +131,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      */
     public String[] getPropertyNames(String prefix) {
         if (prefix == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         return properties.getPropertyNames(prefix);
     }
@@ -261,7 +261,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      */
     public RenderedImage createScaledRendering(int width, int height, RenderingHints hints) {
         if (width <= 0 && height <= 0) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("MultiResolutionRenderableImage1"));
+            throw new IllegalArgumentException("Non-positive width and height specified.");
         }
 
         int res = numSources - 1;
@@ -331,7 +331,7 @@ public class MultiResolutionRenderableImage implements WritablePropertySource, R
      */
     public RenderedImage createRendering(RenderContext renderContext) {
         if (renderContext == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Get a clone of the context's transform

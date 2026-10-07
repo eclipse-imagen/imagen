@@ -233,17 +233,17 @@ public class ScaleDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Scale"},
         {"LocalName", "Scale"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ScaleDescriptor0")},
+        {"Description", "Resizes an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ScaleDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ScaleDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ScaleDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ScaleDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ScaleDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("ScaleDescriptor5")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The X scale factor."},
+        {"arg1Desc", "The Y scale factor."},
+        {"arg2Desc", "The X translation."},
+        {"arg3Desc", "The Y translation."},
+        {"arg4Desc", "The interpolation method for resampling."}
     };
 
     /** The parameter class list for this operation. */
@@ -300,7 +300,7 @@ public class ScaleDescriptor extends OperationDescriptorImpl {
         float xScale = args.getFloatParameter(0);
         float yScale = args.getFloatParameter(1);
         if (xScale <= 0 || yScale <= 0) {
-            msg.append(getName() + " " + JaiI18N.getString("ScaleDescriptor6"));
+            msg.append(getName() + " " + "operation requires both scale factors be greater than 0.");
             return false;
         }
 

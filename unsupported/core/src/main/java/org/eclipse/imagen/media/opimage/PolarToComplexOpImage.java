@@ -154,7 +154,7 @@ final class PolarToComplexOpImage extends PointOpImage {
                 break;
             default:
                 // NB: This statement should be unreachable.
-                throw new RuntimeException(JaiI18N.getString("PolarToComplexOpImage0"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         if (dstAccessor.needsClamping()) {

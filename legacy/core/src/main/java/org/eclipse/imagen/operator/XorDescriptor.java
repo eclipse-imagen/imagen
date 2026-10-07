@@ -88,12 +88,12 @@ public class XorDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Xor"},
         {"LocalName", "Xor"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("XorDescriptor0")},
+        {"Description", "Logically \"xors\" two images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/XorDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -125,7 +125,7 @@ public class XorDescriptor extends OperationDescriptorImpl {
                     && dtype != DataBuffer.TYPE_USHORT
                     && dtype != DataBuffer.TYPE_SHORT
                     && dtype != DataBuffer.TYPE_INT) {
-                msg.append(getName() + " " + JaiI18N.getString("XorDescriptor1"));
+                msg.append(getName() + " " + "operation requires 2 sources.");
                 return false;
             }
         }

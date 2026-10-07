@@ -160,8 +160,8 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
             odList = getImageServer(serverName).getOperationDescriptors();
         } catch (Exception e) {
             sendExceptionToListener(
-                    JaiI18N.getString("JAIRMIDescriptor12"),
-                    new RemoteImagingException(JaiI18N.getString("JAIRMIDescriptor12"), e));
+                    "Fail to get the operation description list from the server.",
+                    new RemoteImagingException("Fail to get the operation description list from the server.", e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
 
@@ -181,8 +181,8 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
                 serverName = InetAddress.getLocalHost().getHostAddress();
             } catch (Exception e) {
                 sendExceptionToListener(
-                        JaiI18N.getString("JAIRMIDescriptor13"),
-                        new ImagingException(JaiI18N.getString("JAIRMIDescriptor13"), e));
+                        "Fail to get the host address of the server.",
+                        new ImagingException("Fail to get the host address of the server.", e));
                 //		throw new RuntimeException(e.getMessage());
             }
         }
@@ -196,8 +196,8 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
             imageServer = (ImageServer) Naming.lookup(serviceName);
         } catch (Exception e) {
             sendExceptionToListener(
-                    JaiI18N.getString("JAIRMIDescriptor14"),
-                    new RemoteImagingException(JaiI18N.getString("JAIRMIDescriptor14"), e));
+                    "Fail to look up the image server object.",
+                    new RemoteImagingException("Fail to look up the image server object.", e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
 
@@ -220,8 +220,8 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
             serverCapabilities = getImageServer(serverName).getServerCapabilities();
         } catch (Exception e) {
             sendExceptionToListener(
-                    JaiI18N.getString("JAIRMIDescriptor15"),
-                    new RemoteImagingException(JaiI18N.getString("JAIRMIDescriptor15"), e));
+                    "Fail to get the server capabilities.",
+                    new RemoteImagingException("Fail to get the server capabilities.", e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
 
@@ -270,13 +270,15 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
             OperationNode node)
             throws RemoteImagingException {
 
-        if (registryModeName == null) throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor11"));
+        if (registryModeName == null) throw new IllegalArgumentException("registryModeName argument is null.");
 
         String operationName = node.getOperationName();
         OperationDescriptor oldDescs[] = getServerSupportedOperationList(oldServerName);
         OperationDescriptor oldOD = getOperationDescriptor(oldDescs, operationName);
 
-        if (oldOD == null) throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor1"));
+        if (oldOD == null)
+            throw new IllegalArgumentException(
+                    "There is no OperationDescriptor available on the old server for the specified operationName.");
 
         int numSources = oldOD.getNumSources();
 
@@ -304,19 +306,22 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
             OperationDescriptor newOD;
 
             if ((newOD = getOperationDescriptor(newDescs, operationName)) == null)
-                throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor2"));
+                throw new IllegalArgumentException(
+                        "There is no OperationDescriptor available on the server for the specified operationName.");
 
             // Check the OperationDescriptor equivalence
 
             // Sources
             if (numSources != newOD.getNumSources())
-                throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor3"));
+                throw new IllegalArgumentException(
+                        "The OperationDescriptors from the old and new servers require different number of sources.");
 
             // Parameters
             ParameterListDescriptor newPLD = newOD.getParameterListDescriptor(registryModeName);
 
             if (numParams != newPLD.getNumParameters())
-                throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor4"));
+                throw new IllegalArgumentException(
+                        "The OperationDescriptors from the old and new servers require different number of parameters.");
 
             // Param names
             String oldParamNames[] = oldPLD.getParamNames();
@@ -329,14 +334,16 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
 
             // The same names should be present in both in the same order.
             if (containsAll(oldHash, newHash) == false)
-                throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor8"));
+                throw new IllegalArgumentException(
+                        "The parameter names are not the same for the OperationDescriptors on the old and new server.");
 
             // Param class types
             Class thisParamClasses[] = oldPLD.getParamClasses();
             Class otherParamClasses[] = newPLD.getParamClasses();
             for (int i = 0; i < oldParamNames.length; i++) {
                 if (thisParamClasses[i] != otherParamClasses[getIndex(newHash, oldParamNames[i])])
-                    throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor9"));
+                    throw new IllegalArgumentException(
+                            "The Class types for parameter(s) is not the same for the OperationDescriptors on the old and new server.");
             }
 
             // XXX Could be made more efficient by returning the area that
@@ -351,7 +358,7 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
         // the operation requires some sources or some parameters.
         if ((registryModeName == null)
                 || ((numSources > 0 || numParams > 0) && (oldParamBlock == null || newParamBlock == null))) {
-            throw new IllegalArgumentException(JaiI18N.getString("JAIRMIDescriptor5"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Both the old and new ParameterBlock should contain the
@@ -359,7 +366,7 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
         if ((numSources > 0)
                 && (oldParamBlock.getNumSources() != numSources || newParamBlock.getNumSources() != numSources)) {
             Object[] msgArg0 = {operationName, new Integer(numParams)};
-            formatter.applyPattern(JaiI18N.getString("JAIRMIDescriptor6"));
+            formatter.applyPattern("operation \"{0}\" requires {1,number,integer} source object(s).");
             throw new IllegalArgumentException(formatter.format(msgArg0));
         }
 
@@ -368,7 +375,7 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
         if ((numParams > 0)
                 && (oldParamBlock.getNumParameters() != numParams || newParamBlock.getNumParameters() != numParams)) {
             Object[] msgArg0 = {operationName, new Integer(numParams)};
-            formatter.applyPattern(JaiI18N.getString("JAIRMIDescriptor7"));
+            formatter.applyPattern("operation \"{0}\" requires {1,number,integer} parameter object(s).");
             throw new IllegalArgumentException(formatter.format(msgArg0));
         }
 
@@ -380,7 +387,7 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
         if (rendering instanceof RMIServerProxy) {
             id = ((RMIServerProxy) rendering).getRMIID();
         } else {
-            throw new RuntimeException(JaiI18N.getString("JAIRMIDescriptor10"));
+            throw new RuntimeException("Cannot compute invalid region; node's protocol is not jairmi.");
         }
 
         // Check whether any of the sources of this operation are on
@@ -418,8 +425,8 @@ public class JAIRMIDescriptor extends RemoteDescriptorImpl {
                     getImageServer(oldServerName).getInvalidRegion(id, oldParamBlock, oldRHS, newParamBlock, newRHS);
         } catch (Exception e) {
             sendExceptionToListener(
-                    JaiI18N.getString("JAIRMIDescriptor16"),
-                    new RemoteImagingException(JaiI18N.getString("JAIRMIDescriptor16"), e));
+                    "Fail to get the invalid region.",
+                    new RemoteImagingException("Fail to get the invalid region.", e));
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
         }
 

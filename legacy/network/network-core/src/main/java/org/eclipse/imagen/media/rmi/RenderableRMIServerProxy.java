@@ -98,7 +98,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
             }
             return property;
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("ImageNRMICRIF7");
+            String message = "RemoteException occurs in getProperty()";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -114,7 +114,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.getPropertyNames(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("ImageNRMICRIF8");
+            String message = "RemoteException occurs in getPropertyNames()";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -133,7 +133,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.isDynamic(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("ImageNRMICRIF9");
+            String message = "RemoteException occurs in isDynamic()";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -150,7 +150,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.getRenderableWidth(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RenderableRMIServerProxy0");
+            String message = "RemoteException occurs in getting the image width/height.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -166,7 +166,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.getRenderableHeight(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RenderableRMIServerProxy0");
+            String message = "RemoteException occurs in getting the image width/height.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -182,7 +182,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.getRenderableMinX(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RenderableRMIServerProxy1");
+            String message = "RemoteException occurs in getting the image position.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -198,7 +198,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.getRenderableMinY(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RenderableRMIServerProxy1");
+            String message = "RemoteException occurs in getting the image position.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -245,7 +245,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.createScaledRendering(id, w, h, ss);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy10");
+            String message = "RemoteException occurs when rendering the node.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -263,7 +263,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.createDefaultRendering(id);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy10");
+            String message = "RemoteException occurs when rendering the node.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -287,7 +287,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
         try {
             return imageServer.createRendering(id, ss);
         } catch (RemoteException re) {
-            String message = JaiI18N.getString("RMIServerProxy10");
+            String message = "RemoteException occurs when rendering the node.";
             listener.errorOccurred(message, new RemoteImagingException(message, re), this, false);
             //	    throw new RemoteImagingException(ImageUtil.getStackTraceString(re));
         }
@@ -319,7 +319,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
                 try {
                     serverName = InetAddress.getLocalHost().getHostAddress();
                 } catch (Exception e) {
-                    String message = JaiI18N.getString("RMIServerProxy11");
+                    String message = "Cannot get the server host address.";
                     listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                     //		    throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
                 }
@@ -333,7 +333,7 @@ public class RenderableRMIServerProxy implements RenderableImage {
             try {
                 imageServer = (ImageServer) Naming.lookup(serviceName);
             } catch (Exception e) {
-                String message = JaiI18N.getString("RMIServerProxy12");
+                String message = "Cannot look up the remote object.";
                 listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
                 //		throw new RemoteImagingException(ImageUtil.getStackTraceString(e));
             }

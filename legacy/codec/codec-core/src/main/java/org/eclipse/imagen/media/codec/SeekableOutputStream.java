@@ -36,7 +36,7 @@ public class SeekableOutputStream extends OutputStream {
      */
     public SeekableOutputStream(RandomAccessFile file) {
         if (file == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SeekableOutputStream0"));
+            throw new IllegalArgumentException("The constructor RandomAccessFile parameter cannot be null.");
         }
         this.file = file;
     }

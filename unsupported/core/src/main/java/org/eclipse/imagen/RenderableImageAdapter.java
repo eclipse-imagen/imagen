@@ -55,7 +55,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      */
     public static RenderableImageAdapter wrapRenderableImage(RenderableImage im) {
         if (im == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (im instanceof RenderableImageAdapter) {
             return (RenderableImageAdapter) im;
         } else {
@@ -70,7 +70,7 @@ public final class RenderableImageAdapter implements RenderableImage, WritablePr
      */
     public RenderableImageAdapter(RenderableImage im) {
         if (im == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.im = im;

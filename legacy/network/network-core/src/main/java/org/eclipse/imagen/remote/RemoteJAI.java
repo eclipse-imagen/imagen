@@ -256,7 +256,7 @@ public class RemoteJAI {
     public RemoteJAI(String protocolName, String serverName, OperationRegistry registry, TileCache tileCache) {
 
         if (protocolName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException("protocolName argument is null.");
         }
 
         // For formatting error strings.
@@ -305,7 +305,7 @@ public class RemoteJAI {
     public void setRetryInterval(int retryInterval) {
 
         if (retryInterval < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic3"));
+            throw new IllegalArgumentException("The retryInterval argument is negative.");
         }
 
         this.retryInterval = retryInterval;
@@ -326,7 +326,7 @@ public class RemoteJAI {
      */
     public void setNumRetries(int numRetries) {
         if (numRetries < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic4"));
+            throw new IllegalArgumentException("The numRetries argument is negative.");
         }
 
         this.numRetries = numRetries;
@@ -352,7 +352,7 @@ public class RemoteJAI {
      */
     public void setOperationRegistry(OperationRegistry operationRegistry) {
         if (operationRegistry == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI4"));
+            throw new IllegalArgumentException("The OperationRegistry to set is null.");
         }
         this.operationRegistry = operationRegistry;
         this.renderingHints.put(ImageN.KEY_OPERATION_REGISTRY, operationRegistry);
@@ -366,7 +366,7 @@ public class RemoteJAI {
      */
     public void setTileCache(TileCache tileCache) {
         if (tileCache == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI5"));
+            throw new IllegalArgumentException("The TileCache to set is null.");
         }
         this.cache = tileCache;
         renderingHints.put(ImageN.KEY_TILE_CACHE, cache);
@@ -393,7 +393,7 @@ public class RemoteJAI {
      */
     public void setRenderingHints(RenderingHints hints) {
         if (hints == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI6"));
+            throw new IllegalArgumentException("The RenderingHints to set is null.");
         }
         this.renderingHints = hints;
     }
@@ -411,7 +411,7 @@ public class RemoteJAI {
      */
     public Object getRenderingHint(RenderingHints.Key key) {
         if (key == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI7"));
+            throw new IllegalArgumentException("The key argument is null.");
         }
         return renderingHints.get(key);
     }
@@ -425,10 +425,10 @@ public class RemoteJAI {
      */
     public void setRenderingHint(RenderingHints.Key key, Object value) {
         if (key == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI7"));
+            throw new IllegalArgumentException("The key argument is null.");
         }
         if (value == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI8"));
+            throw new IllegalArgumentException("The value argument is null.");
         }
 
         try {
@@ -488,11 +488,11 @@ public class RemoteJAI {
     public RemoteRenderedOp create(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI9"));
+            throw new IllegalArgumentException("The opName argument is null.");
         }
 
         if (args == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI10"));
+            throw new IllegalArgumentException("The args argument is null.");
         }
 
         // Initialize the odHash hashtable
@@ -502,17 +502,19 @@ public class RemoteJAI {
         OperationDescriptor odesc = (OperationDescriptor) odHash.get(new CaselessStringKey(opName));
 
         if (odesc == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI11"));
+            throw new IllegalArgumentException(
+                    "There is no OperationDescriptor available from the server for the specified operation name.");
         }
 
         // Does this operation support rendered mode?
         if (!odesc.isModeSupported("rendered")) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI12"));
+            throw new IllegalArgumentException("The specified operation name does not support the rendered mode.");
         }
 
         // Does the operation produce a RenderedImage?
         if (!RenderedImage.class.isAssignableFrom(odesc.getDestClass("rendered"))) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI13"));
+            throw new IllegalArgumentException(
+                    "The specified operation does not produce a RenderedImage as its result.");
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -590,11 +592,11 @@ public class RemoteJAI {
     public RemoteRenderableOp createRenderable(String opName, ParameterBlock args) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI9"));
+            throw new IllegalArgumentException("The opName argument is null.");
         }
 
         if (args == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI10"));
+            throw new IllegalArgumentException("The args argument is null.");
         }
 
         // Initialize the odHash hashtable
@@ -604,17 +606,19 @@ public class RemoteJAI {
         OperationDescriptor odesc = (OperationDescriptor) odHash.get(new CaselessStringKey(opName));
 
         if (odesc == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI11"));
+            throw new IllegalArgumentException(
+                    "There is no OperationDescriptor available from the server for the specified operation name.");
         }
 
         // Does this operation support rendered mode?
         if (!odesc.isModeSupported("renderable")) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI14"));
+            throw new IllegalArgumentException("The specified operation name does not support the renderable mode.");
         }
 
         // Does the operation produce a RenderedImage?
         if (!RenderableImage.class.isAssignableFrom(odesc.getDestClass("renderable"))) {
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI15"));
+            throw new IllegalArgumentException(
+                    "The specified operation does not produce a RenderableImage as its result.");
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -775,16 +779,19 @@ public class RemoteJAI {
         if (serverCapabilities == null || clientCapabilities == null) return null;
 
         if (serverCapabilities != null && serverCapabilities.isPreference() == true)
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI20"));
+            throw new IllegalArgumentException(
+                    "The serverCapabilities argument must return false from its isPreference() method.");
 
         if (clientCapabilities != null && clientCapabilities.isPreference() == true)
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI21"));
+            throw new IllegalArgumentException(
+                    "The clientCapabilities argument must return false from its isPreference() method.");
 
         if (preferences == null) {
             return serverCapabilities.negotiate(clientCapabilities);
         } else {
             if (preferences.isPreference() == false)
-                throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI19"));
+                throw new IllegalArgumentException(
+                        "The preferences argument must return true from its isPreference() method.");
 
             NegotiableCapabilitySet clientServerCap = serverCapabilities.negotiate(clientCapabilities);
             if (clientServerCap == null) return null;
@@ -828,15 +835,18 @@ public class RemoteJAI {
         if (serverCapabilities == null || clientCapabilities == null) return null;
 
         if (serverCapabilities != null && serverCapabilities.isPreference() == true)
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI20"));
+            throw new IllegalArgumentException(
+                    "The serverCapabilities argument must return false from its isPreference() method.");
 
         if (clientCapabilities != null && clientCapabilities.isPreference() == true)
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI21"));
+            throw new IllegalArgumentException(
+                    "The clientCapabilities argument must return false from its isPreference() method.");
 
         if (preferences != null && preferences.isPreference() == false)
-            throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI19"));
+            throw new IllegalArgumentException(
+                    "The preferences argument must return true from its isPreference() method.");
 
-        if (category == null) throw new IllegalArgumentException(JaiI18N.getString("RemoteJAI26"));
+        if (category == null) throw new IllegalArgumentException("The category argument is null.");
 
         if (preferences == null || preferences.isEmpty()) {
             return serverCapabilities.getNegotiatedValue(clientCapabilities, category);
@@ -913,7 +923,7 @@ public class RemoteJAI {
 
             if (descriptor == null) {
                 Object[] msgArg0 = {new String(protocolName)};
-                formatter.applyPattern(JaiI18N.getString("RemoteJAI16"));
+                formatter.applyPattern("There is no RemoteDescriptor registered for the protocol - {0}.");
                 throw new RuntimeException(formatter.format(msgArg0));
             }
             Exception rieSave = null;
@@ -924,23 +934,24 @@ public class RemoteJAI {
                     break;
                 } catch (RemoteImagingException rie) {
                     // Print that an Exception occured
-                    System.err.println(JaiI18N.getString("RemoteJAI24"));
+                    System.err.println("Error occurred during getServerCapabilities()...Retrying");
                     rieSave = rie;
                     // Sleep for retryInterval milliseconds
                     try {
                         Thread.sleep(retryInterval);
                     } catch (InterruptedException ie) {
                         sendExceptionToListener(
-                                JaiI18N.getString("Generic5"), new ImagingException(JaiI18N.getString("Generic5"), ie));
+                                "The retry to get the server capabilities is interrupted.",
+                                new ImagingException("The retry to get the server capabilities is interrupted.", ie));
                         //			throw new RuntimeException(ie.toString());
                     }
                 }
             }
 
             if (serverCapabilities == null && count > numRetries) {
-                sendExceptionToListener(JaiI18N.getString("RemoteJAI18"), rieSave);
+                sendExceptionToListener("Limit of retries reached when calling getServerCapabilities().", rieSave);
                 //		throw new RemoteImagingException(
-                //					   JaiI18N.getString("RemoteJAI18")+"\n"+rieSave.getMessage());
+                //					   "Limit of retries reached when calling getServerCapabilities()."+"\n"+rieSave.getMessage());
             }
         }
 
@@ -959,7 +970,7 @@ public class RemoteJAI {
 
             if (rrif == null) {
                 Object[] msgArg0 = {new String(protocolName)};
-                formatter.applyPattern(JaiI18N.getString("RemoteJAI17"));
+                formatter.applyPattern("There is no factory object registered for the protocol - {0}.");
                 throw new RuntimeException(formatter.format(msgArg0));
             }
 
@@ -984,7 +995,7 @@ public class RemoteJAI {
 
             if (descriptor == null) {
                 Object[] msgArg0 = {new String(protocolName)};
-                formatter.applyPattern(JaiI18N.getString("RemoteJAI16"));
+                formatter.applyPattern("There is no RemoteDescriptor registered for the protocol - {0}.");
                 throw new RuntimeException(formatter.format(msgArg0));
             }
             Exception rieSave = null;
@@ -995,7 +1006,7 @@ public class RemoteJAI {
                     break;
                 } catch (RemoteImagingException rie) {
                     // Print that an Exception occured
-                    System.err.println(JaiI18N.getString("RemoteJAI25"));
+                    System.err.println("Error occurred during getServerSupportedOperationList()...Retrying");
                     rieSave = rie;
                     // Sleep for retryInterval milliseconds
                     try {
@@ -1003,15 +1014,18 @@ public class RemoteJAI {
                     } catch (InterruptedException ie) {
                         //			throw new ImagingException(ie);
                         sendExceptionToListener(
-                                JaiI18N.getString("Generic5"), new ImagingException(JaiI18N.getString("Generic5"), ie));
+                                "The retry to get the server capabilities is interrupted.",
+                                new ImagingException("The retry to get the server capabilities is interrupted.", ie));
                     }
                 }
             }
 
             if (descriptors == null && count > numRetries) {
-                sendExceptionToListener(JaiI18N.getString("RemoteJAI23"), rieSave);
+                sendExceptionToListener(
+                        "Limit of retries reached when calling getServerSupportedOperationList().", rieSave);
                 //		throw new RemoteImagingException(
-                //					   JaiI18N.getString("RemoteJAI23")+"\n"+rieSave.getMessage());
+                //					   "Limit of retries reached when calling
+                // getServerSupportedOperationList()."+"\n"+rieSave.getMessage());
             }
 
             // Store the descriptors into a Hashtable hashed by

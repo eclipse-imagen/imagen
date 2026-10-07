@@ -108,13 +108,13 @@ public class ConvolveDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Convolve"},
         {"LocalName", "Convolve"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ConvolveDescriptor0")},
+        {"Description", "Performs kernel-based convolution on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ConvolveDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ConvolveDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The convolution kernel."}
     };
 
     /** The parameter names for the Convolve operation. */

@@ -256,7 +256,7 @@ final class ScaleNearestOpImage extends ScaleOpImage {
                 break;
 
             default:
-                throw new RuntimeException(JaiI18N.getString("OrderedDitherOpImage0"));
+                throw new RuntimeException("Unsupported output data type.");
         }
 
         // If the RasterAccessor object set up a temporary buffer for the

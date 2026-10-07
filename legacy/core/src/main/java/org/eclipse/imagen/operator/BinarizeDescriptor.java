@@ -79,13 +79,13 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Binarize"},
         {"LocalName", "Binarize"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BinarizeDescriptor0")},
+        {"Description", "Binarize an image from a threshold value."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BinarizeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BinarizeDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "Argment must be of type java.lang.Double."}
     };
 
     /** The parameter name list for this operation. */
@@ -120,7 +120,7 @@ public class BinarizeDescriptor extends OperationDescriptorImpl {
         RenderedImage source = (RenderedImage) (args.getSource(0));
         int numBands = source.getSampleModel().getNumBands();
         if (numBands != 1) {
-            msg.append(getName() + " " + JaiI18N.getString("BinarizeDescriptor2"));
+            msg.append(getName() + " " + "source image must be single-banded.");
             return false;
         }
 

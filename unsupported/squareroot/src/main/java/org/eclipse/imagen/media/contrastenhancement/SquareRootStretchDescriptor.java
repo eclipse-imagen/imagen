@@ -40,13 +40,13 @@ public class SquareRootStretchDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "SquareRootStretch"},
         {"LocalName", "SquareRootStretch"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("SquareRootStretchDescriptor0")},
+        {"Description", "Apply a square root stretch."},
         {"DocURL", ""},
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("SquareRootStretchDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("SquareRootStretchDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("SquareRootStretchDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("SquareRootStretchDescriptor4")}
+        {"Version", "1.0"},
+        {"arg0Desc", "The minimum input value."},
+        {"arg1Desc", "The maximum input value."},
+        {"arg2Desc", "The minimum output value (usually zero)."},
+        {"arg3Desc", "The maximum output value (usually 255)."}
     };
 
     /**
@@ -159,28 +159,28 @@ public class SquareRootStretchDescriptor extends OperationDescriptorImpl {
 
         int length = ((int[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + "SquareRootStretchDescriptor5");
+            message.append(getName() + " operation requires its parameter to have at least 1 array element.");
 
             return false;
         }
 
         length = ((int[]) args.getObjectParameter(1)).length;
         if (length < 1) {
-            message.append(getName() + " " + "SquareRootStretchDescriptor5");
+            message.append(getName() + " operation requires its parameter to have at least 1 array element.");
 
             return false;
         }
 
         length = ((int[]) args.getObjectParameter(2)).length;
         if (length < 1) {
-            message.append(getName() + " " + "SquareRootStretchDescriptor5");
+            message.append(getName() + " operation requires its parameter to have at least 1 array element.");
 
             return false;
         }
 
         length = ((int[]) args.getObjectParameter(3)).length;
         if (length < 1) {
-            message.append(getName() + " " + "SquareRootStretchDescriptor5");
+            message.append(getName() + " operation requires its parameter to have at least 1 array element.");
 
             return false;
         }

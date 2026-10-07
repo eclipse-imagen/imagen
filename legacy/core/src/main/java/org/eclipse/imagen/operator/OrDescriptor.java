@@ -88,12 +88,12 @@ public class OrDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Or"},
         {"LocalName", "Or"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("OrDescriptor0")},
+        {"Description", "Logically \"ors\" two images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/OrDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -125,7 +125,7 @@ public class OrDescriptor extends OperationDescriptorImpl {
                     && dtype != DataBuffer.TYPE_USHORT
                     && dtype != DataBuffer.TYPE_SHORT
                     && dtype != DataBuffer.TYPE_INT) {
-                msg.append(getName() + " " + JaiI18N.getString("OrDescriptor1"));
+                msg.append(getName() + " " + "operation requires 2 sources.");
                 return false;
             }
         }

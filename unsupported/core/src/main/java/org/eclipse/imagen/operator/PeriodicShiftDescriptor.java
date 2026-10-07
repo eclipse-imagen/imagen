@@ -94,14 +94,14 @@ public class PeriodicShiftDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "PeriodicShift"},
         {"LocalName", "PeriodicShift"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("PeriodicShiftDescriptor0")},
+        {"Description", "Computes the periodic translation of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PeriodicShiftDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("PeriodicShiftDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("PeriodicShiftDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The displacement in the X direction."},
+        {"arg1Desc", "The displacement in the Y direction."}
     };
 
     /** The parameter class list for this operation. */
@@ -146,7 +146,8 @@ public class PeriodicShiftDescriptor extends OperationDescriptorImpl {
         int shiftX = args.getIntParameter(0);
         int shiftY = args.getIntParameter(1);
         if (shiftX < 0 || shiftX >= src.getWidth() || shiftY < 0 || shiftY >= src.getHeight()) {
-            msg.append(getName() + " " + JaiI18N.getString("PeriodicShiftDescriptor3"));
+            msg.append(getName() + " "
+                    + "Shift values must be non-negative and less than the corresponding image dimension.");
             return false;
         }
 

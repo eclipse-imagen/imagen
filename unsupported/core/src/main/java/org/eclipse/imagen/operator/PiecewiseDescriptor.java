@@ -97,12 +97,12 @@ public class PiecewiseDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Piecewise"},
         {"LocalName", "Piecewise"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("PiecewiseDescriptor0")},
+        {"Description", "Applies a piecewise pixel value mapping."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PiecewiseDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"Version", "1.1"},
         {"arg0Desc", "The breakpoint array."}
     };
 
@@ -150,18 +150,21 @@ public class PiecewiseDescriptor extends OperationDescriptorImpl {
         if (breakPoints.length != 1
                 && breakPoints.length != src.getSampleModel().getNumBands()) {
             // Number of breakpoints not 1 nor numBands.
-            msg.append(getName() + " " + JaiI18N.getString("PiecewiseDescriptor1"));
+            msg.append(getName() + " "
+                    + "The breakpoint array must represent 1 band or the number of bands in the source image.");
             return false;
         } else {
             int numBands = breakPoints.length;
             for (int b = 0; b < numBands; b++) {
                 if (breakPoints[b].length != 2) {
                     // Second breakpoint dimension not 2.
-                    msg.append(getName() + " " + JaiI18N.getString("PiecewiseDescriptor2"));
+                    msg.append(getName() + " " + "The second dimension of the breakpoint array must be of length 2.");
                     return false;
                 } else if (breakPoints[b][0].length != breakPoints[b][1].length) {
                     // Differing numbers of abscissas and ordinates.
-                    msg.append(getName() + " " + JaiI18N.getString("PiecewiseDescriptor3"));
+                    msg.append(
+                            getName() + " "
+                                    + "The number of breakpoint abscissas must equal the number of breakpoint ordinates in each band.");
                     return false;
                 }
             }
@@ -171,7 +174,7 @@ public class PiecewiseDescriptor extends OperationDescriptorImpl {
                 for (int i = 0; i < count; i++) {
                     if (x[i] >= x[i + 1]) {
                         // Abscissas not monotonically increasing.
-                        msg.append(getName() + " " + JaiI18N.getString("PiecewiseDescriptor4"));
+                        msg.append(getName() + " " + "The breakpoint abscissas must be monotonically increasing.");
                         return false;
                     }
                 }

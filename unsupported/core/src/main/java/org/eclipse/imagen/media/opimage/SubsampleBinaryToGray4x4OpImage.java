@@ -151,7 +151,7 @@ class SubsampleBinaryToGray4x4OpImage extends GeometricOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Point2D pt = (Point2D) destPt.clone();
@@ -170,7 +170,7 @@ class SubsampleBinaryToGray4x4OpImage extends GeometricOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Point2D pt = (Point2D) sourcePt.clone();
@@ -195,11 +195,12 @@ class SubsampleBinaryToGray4x4OpImage extends GeometricOpImage {
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Get the source dimensions
@@ -233,11 +234,12 @@ class SubsampleBinaryToGray4x4OpImage extends GeometricOpImage {
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Get the destination rectangle coordinates and dimensions
@@ -268,7 +270,7 @@ class SubsampleBinaryToGray4x4OpImage extends GeometricOpImage {
                 byteLoop4x4(source, dest, destRect);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("SubsampleBinaryToGrayOpImage0"));
+                throw new RuntimeException("Unsupported output data type.");
         }
     }
 

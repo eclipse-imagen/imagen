@@ -78,14 +78,14 @@ public class ErrorDiffusionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "ErrorDiffusion"},
         {"LocalName", "ErrorDiffusion"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ErrorDiffusionDescriptor0")},
+        {"Description", "Performs error diffusion color quantization using a specified color map and error filter."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ErrorDiffusionDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ErrorDiffusionDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ErrorDiffusionDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The color map."},
+        {"arg1Desc", "The error filter kernel."}
     };
 
     /** The parameter names for the "ErrorDiffusion" operation. */

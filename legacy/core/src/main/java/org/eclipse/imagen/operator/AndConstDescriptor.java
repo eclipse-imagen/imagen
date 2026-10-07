@@ -100,13 +100,13 @@ public class AndConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "AndConst"},
         {"LocalName", "AndConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AndConstDescriptor0")},
+        {"Description", "Logically \"ands\" an image with constants."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AndConstDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("AndConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to logically \"and\" with."}
     };
 
     /**
@@ -150,14 +150,14 @@ public class AndConstDescriptor extends OperationDescriptorImpl {
                 && (dtype != DataBuffer.TYPE_USHORT)
                 && (dtype != DataBuffer.TYPE_SHORT)
                 && (dtype != DataBuffer.TYPE_INT)) {
-            message.append(getName() + " " + JaiI18N.getString("AndConstDescriptor1"));
+            message.append(getName() + " " + "The constants to logically \"and\" with.");
             return false;
         }
 
         int length = ((int[]) args.getObjectParameter(0)).length;
 
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("AndConstDescriptor2"));
+            message.append(getName() + " " + "operation requires its source to have an integral data type.");
             return false;
         }
 

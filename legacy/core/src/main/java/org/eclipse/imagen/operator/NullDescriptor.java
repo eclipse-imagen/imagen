@@ -71,12 +71,12 @@ public class NullDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Null"},
         {"LocalName", "Null"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("NullDescriptor0")},
+        {"Description", "An operation which does no processing."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/NullDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
+        {"Version", "1.1"},
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -110,7 +110,7 @@ public class NullDescriptor extends OperationDescriptorImpl {
     protected boolean validateSources(String modeName, ParameterBlock args, StringBuffer msg) {
 
         if (args == null || msg == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return super.validateSources(modeName, foolSourceValidation(args), msg);
@@ -145,12 +145,13 @@ public class NullDescriptor extends OperationDescriptorImpl {
             RenderingHints newHints,
             OperationNode node) {
         if (modeName == null || oldParamBlock == null || newParamBlock == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("NullDescriptor1"));
+            throw new IllegalArgumentException("The mode name and ParameterBlocks may not be null.");
         }
 
         if (oldParamBlock.getNumSources() < 1 || newParamBlock.getNumSources() < 1) {
 
-            throw new IllegalArgumentException(JaiI18N.getString("NullDescriptor2"));
+            throw new IllegalArgumentException(
+                    "The old and new ParameterBlocks must each contain at least one source.");
         }
 
         return oldParamBlock.getSource(0).equals(newParamBlock.getSource(0)) ? new Rectangle() : null;

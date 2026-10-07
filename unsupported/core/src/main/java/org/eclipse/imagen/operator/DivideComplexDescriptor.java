@@ -91,12 +91,12 @@ public class DivideComplexDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "DivideComplex"},
         {"LocalName", "DivideComplex"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("DivideComplexDescriptor0")},
+        {"Description", "Compute the complex quotient of two images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/DivideComplexDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -124,7 +124,7 @@ public class DivideComplexDescriptor extends OperationDescriptorImpl {
 
         if (src1.getSampleModel().getNumBands() % 2 != 0
                 || src2.getSampleModel().getNumBands() % 2 != 0) {
-            msg.append(getName() + " " + JaiI18N.getString("DivideComplexDescriptor1"));
+            msg.append(getName() + " " + "operation requires its sources to have an even number of bands.");
             return false;
         }
 

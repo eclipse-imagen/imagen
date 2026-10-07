@@ -77,13 +77,13 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "AddConstToCollection"},
         {"LocalName", "AddConstToCollection"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor0")},
+        {"Description", "Adds constants to a collection of rendered images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AddConstToCollectionDescriptor.html"
         },
-        {"Version", org.eclipse.imagen.operator.JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to be added."}
     };
 
     /** The parameter name list for this operation. */
@@ -111,8 +111,7 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
         Collection col = (Collection) args.getSource(0);
 
         if (col.size() < 1) {
-            msg.append(
-                    getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor2"));
+            msg.append(getName() + " " + "operation requires the source collection to have at least 1 element.");
             return false;
         }
 
@@ -120,16 +119,16 @@ public class AddConstToCollectionDescriptor extends OperationDescriptorImpl {
         while (iter.hasNext()) {
             Object o = iter.next();
             if (!(o instanceof RenderedImage)) {
-                msg.append(getName() + " "
-                        + org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor3"));
+                msg.append(
+                        getName() + " "
+                                + "operation requires all elements in the source collection to be of class java.awt.image.RenderedImage.");
                 return false;
             }
         }
 
         int length = ((double[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            msg.append(
-                    getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("AddConstToCollectionDescriptor4"));
+            msg.append(getName() + " " + "operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

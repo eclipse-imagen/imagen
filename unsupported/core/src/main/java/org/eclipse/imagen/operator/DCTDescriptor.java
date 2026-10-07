@@ -62,12 +62,12 @@ public class DCTDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "DCT"},
         {"LocalName", "DCT"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("DCTDescriptor0")},
+        {"Description", "Computes the discrete cosine transform of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/DCTDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

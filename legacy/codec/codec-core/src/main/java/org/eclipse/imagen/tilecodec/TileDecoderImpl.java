@@ -64,11 +64,11 @@ public abstract class TileDecoderImpl implements TileDecoder {
         // Cause IllegalArgumentException to be thrown if formatName,
         // input is null
         if (formatName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl0"));
+            throw new IllegalArgumentException("formatName is null.");
         }
 
         if (input == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl0"));
+            throw new IllegalArgumentException("The supplied InputStream cannot be null.");
         }
 
         TileCodecDescriptor tcd = TileCodecUtils.getTileCodecDescriptor("tileDecoder", formatName);
@@ -81,18 +81,21 @@ public abstract class TileDecoderImpl implements TileDecoder {
             // Check whether the formatName from the param is the same as the
             // one supplied to this method.
             if (param.getFormatName().equalsIgnoreCase(formatName) == false) {
-                throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl1"));
+                throw new IllegalArgumentException(
+                        "The supplied parameter list must be for the same formatName as that of this TileDecoder.");
             }
 
             // Check whether the supplied parameterList supports the
             // "tileDecoder" mode.
             if (param.isValidForMode("tileDecoder") == false) {
-                throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl2"));
+                throw new IllegalArgumentException(
+                        "The supplied parameter list does not support the \"tileDecoder\" mode.");
             }
 
             // Check whether the ParameterListDescriptors are the same.
             if (param.getParameterListDescriptor().equals(tcd.getParameterListDescriptor("tileDecoder")) == false)
-                throw new IllegalArgumentException(JaiI18N.getString("TileCodec0"));
+                throw new IllegalArgumentException(
+                        "ParameterListDescriptor for the supplied parameter list must be the same as the one associated with the TileCodecDescriptor for this format.");
 
             SampleModel sm = null;
 
@@ -103,7 +106,8 @@ public abstract class TileDecoderImpl implements TileDecoder {
                 } catch (IllegalArgumentException iae) {
                     // There is no parameter named sampleModel defined on the
                     // supplied parameter list
-                    throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl3"));
+                    throw new IllegalArgumentException(
+                            "There is no parameter named \"sampleModel\" defined on the parameter list.");
                 }
 
                 if (sm == null || sm == ParameterListDescriptor.NO_PARAMETER_DEFAULT) {
@@ -111,7 +115,8 @@ public abstract class TileDecoderImpl implements TileDecoder {
                     if (tcd.getParameterListDescriptor("tileDecoder").getParamDefaultValue("sampleModel") == null) {
                         // If a non-null value was not set on the parameter list
                         // and wasn't available thru the descriptor either
-                        throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl4"));
+                        throw new IllegalArgumentException(
+                                "A non-null value for the \"sampleModel\" parameter must be specified in the parameter list.");
                     }
                 }
             }
@@ -125,14 +130,15 @@ public abstract class TileDecoderImpl implements TileDecoder {
             // Check whether a non-null samplemodel value is needed
             if (tcd.includesSampleModelInfo() == false) {
                 // SampleModel must be specified via the parameter list
-                throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl5"));
+                throw new IllegalArgumentException(
+                        "The parameter list should not be null, as samplemodel needs to be specified through it.");
             }
 
             // If the PLD is not null and says that there are supposed to
             // be some parameters (numParameters returns non-zero value)
             // throw an IllegalArgumentException
             if (pld != null && pld.getNumParameters() != 0) {
-                throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl6"));
+                throw new IllegalArgumentException("A non-null parameter list must be specified for this format.");
             }
         }
 

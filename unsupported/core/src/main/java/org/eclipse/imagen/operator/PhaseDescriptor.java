@@ -72,12 +72,12 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Phase"},
         {"LocalName", "Phase"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", org.eclipse.imagen.operator.JaiI18N.getString("PhaseDescriptor0")},
+        {"Description", "Computes the phase angle of each pixel of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PhaseDescriptor.html"
         },
-        {"Version", org.eclipse.imagen.operator.JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -105,7 +105,7 @@ public class PhaseDescriptor extends OperationDescriptorImpl {
         int bands = src.getSampleModel().getNumBands();
 
         if (bands % 2 != 0) {
-            msg.append(getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("PhaseDescriptor1"));
+            msg.append(getName() + " " + "operation requires its source to have an even number of bands.");
             return false;
         }
 

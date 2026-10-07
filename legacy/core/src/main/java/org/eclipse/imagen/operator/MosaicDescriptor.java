@@ -239,17 +239,17 @@ public class MosaicDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Mosaic"},
         {"LocalName", "Mosaic"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MosaicDescriptor0")},
+        {"Description", "Creates a mosaic of two or more rendered images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MosaicDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("MosaicDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("MosaicDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("MosaicDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("MosaicDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("MosaicDescriptor5")}
+        {"Version", "1.1"},
+        {"arg0Desc", "Mosaicking type."},
+        {"arg1Desc", "Source alpha masks."},
+        {"arg2Desc", "Source region of interest masks."},
+        {"arg3Desc", "Source threshold values."},
+        {"arg4Desc", "Destination background value."}
     };
 
     /** The parameter class list for this operation. */

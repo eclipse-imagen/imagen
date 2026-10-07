@@ -229,7 +229,7 @@ public class ColorModelProxy implements Serializable {
                 out.writeInt(sm.getTransferType());
             }
         } else {
-            throw new RuntimeException(JaiI18N.getString("ColorModelProxy0"));
+            throw new RuntimeException("Unknown ColorModel class.");
         }
     }
 
@@ -295,7 +295,7 @@ public class ColorModelProxy implements Serializable {
                 break;
             default:
                 // NB: Should never get here.
-                throw new RuntimeException(JaiI18N.getString("ColorModelProxy1"));
+                throw new RuntimeException("Unknown ColorModel type.");
         }
     }
 }

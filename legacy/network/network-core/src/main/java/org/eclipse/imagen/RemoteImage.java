@@ -147,7 +147,7 @@ public class RemoteImage extends PlanarImage {
 
         if (!remoteChainingHack && source == null) {
             // Don't throw the NullPointerException if it's the hack.
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException("Source parameter may not be null.");
         }
 
         if (remoteChainingHack) {
@@ -212,7 +212,7 @@ public class RemoteImage extends PlanarImage {
         if (serverName == null) serverName = getLocalHostAddress();
 
         if (source == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException("Source parameter may not be null.");
         }
 
         // Construct the remote RMI image.
@@ -260,7 +260,7 @@ public class RemoteImage extends PlanarImage {
         if (serverName == null) serverName = getLocalHostAddress();
 
         if (source == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage1"));
+            throw new IllegalArgumentException("Source parameter may not be null.");
         }
 
         if (renderContext == null) {
@@ -409,9 +409,9 @@ public class RemoteImage extends PlanarImage {
      */
     protected void requestField(int fieldIndex, int retries, int timeout) {
         if (retries < 0) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage3"));
+            throw new IllegalArgumentException("Retries parameter must be positive.");
         } else if (timeout < 0) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage4"));
+            throw new IllegalArgumentException("Timeout parameter must be positive.");
         }
 
         int count = 0;
@@ -467,7 +467,7 @@ public class RemoteImage extends PlanarImage {
                 fieldValid[fieldIndex] = true;
                 return;
             } catch (RemoteException e) {
-                System.err.println(ImageNLegacy18N.getString("RemoteImage0"));
+                System.err.println("Caught RemoteException, going to sleep.");
                 try {
                     java.lang.Thread.sleep(timeout);
                 } catch (java.lang.InterruptedException f) {
@@ -715,7 +715,7 @@ public class RemoteImage extends PlanarImage {
         if (rect == null) {
             rect = imageBounds;
         } else if (!rect.intersects(imageBounds)) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("RemoteImage2"));
+            throw new IllegalArgumentException("Rect must be null or must intersect the image bounds.");
         }
 
         int count = 0;

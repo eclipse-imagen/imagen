@@ -83,13 +83,13 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "SubtractConst"},
         {"LocalName", "SubtractConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("SubtractConstDescriptor0")},
+        {"Description", "Subtracts constants from an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/SubtractConstDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("SubtractConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to be subtracted."}
     };
 
     /**
@@ -128,7 +128,7 @@ public class SubtractConstDescriptor extends OperationDescriptorImpl {
 
         int length = ((double[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("SubtractConstDescriptor2"));
+            message.append(getName() + " " + "operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

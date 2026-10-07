@@ -98,16 +98,16 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "FileStore"},
         {"LocalName", "FileStore"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("FileStoreDescriptor0")},
+        {"Description", "Stores an image to a file."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/FileStoreDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("FileStoreDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("FileStoreDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("FileStoreDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("FileStoreDescriptor11")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The path of the file to write to."},
+        {"arg1Desc", "The format of the file."},
+        {"arg2Desc", "The encoding parameters."},
+        {"arg3Desc", "Boolean specifying whether check for file creation / writing locally should be done."}
     };
 
     /** The parameter names for the "FileStore" operation. */
@@ -153,7 +153,7 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
 
         // Check for null codec.
         if (codec == null) {
-            msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor4"));
+            msg.append(getName() + " " + "The specified format has no associated registered ImageCodec.");
             return false;
         }
 
@@ -164,14 +164,16 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
 
         // Verify that the image can be encoded with null parameters.
         if (!codec.canEncodeImage(src, param)) {
-            msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor5"));
+            msg.append(
+                    getName() + " "
+                            + "No ImageEncoder is available for this format or this image cannot be encoded with the given encoding parameters.");
             return false;
         }
 
         // Retrieve the file path.
         String pathName = (String) args.getObjectParameter(0);
         if (pathName == null) {
-            msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor6"));
+            msg.append(getName() + " " + "The file name parameter is null.");
             return false;
         }
 
@@ -184,25 +186,27 @@ public class FileStoreDescriptor extends OperationDescriptorImpl {
                 if (f.exists()) {
                     if (!f.canWrite()) {
                         // Cannot write to existing file.
-                        msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor7"));
+                        msg.append(getName() + " "
+                                + "The specified file already exists with permissions that disallow overwriting.");
                         return false;
                     }
                 } else {
                     if (!f.createNewFile()) {
                         // Cannot create file.
-                        msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor8"));
+                        msg.append(getName() + " " + "Cannot create image file.");
                         return false;
                     }
                     f.delete();
                 }
             } catch (IOException ioe) {
                 // I/O exception during createNewFile().
-                msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor9") + " " + ioe.getMessage());
+                msg.append(getName() + " " + "IOException encountered in file creation test:" + " " + ioe.getMessage());
                 return false;
             } catch (SecurityException se) {
                 // Security exception during exists(), canWrite(),
                 // createNewFile(), or delete().
-                msg.append(getName() + " " + JaiI18N.getString("FileStoreDescriptor10") + " " + se.getMessage());
+                msg.append(getName() + " " + "SecurityException encountered in file creation test:" + " "
+                        + se.getMessage());
                 return false;
             }
         }

@@ -60,7 +60,7 @@ public class EncodeRIF implements RenderedImageFactory {
 
         // Check the ImageEncoder.
         if (encoder == null) {
-            throw new RuntimeException(JaiI18N.getString("EncodeRIF0"));
+            throw new RuntimeException("Null ImageEncoder encountered.");
         }
 
         // Store the data.
@@ -72,7 +72,7 @@ public class EncodeRIF implements RenderedImageFactory {
             // User may put more into the stream
             // stream.close();
         } catch (IOException e) {
-            String message = JaiI18N.getString("EncodeRIF1") + " " + format;
+            String message = "Cannot encode the provided image into the format :" + " " + format;
             listener.errorOccurred(message, e, this, false);
             //            e.printStackTrace();
             return null;

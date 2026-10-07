@@ -86,13 +86,13 @@ public class AddConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "AddConst"},
         {"LocalName", "AddConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", org.eclipse.imagen.operator.JaiI18N.getString("AddConstDescriptor0")},
+        {"Description", "Adds constants to an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AddConstDescriptor.html"
         },
-        {"Version", org.eclipse.imagen.operator.JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", org.eclipse.imagen.operator.JaiI18N.getString("AddConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to be added."}
     };
 
     /** The parameter name list for this operation. */
@@ -131,7 +131,7 @@ public class AddConstDescriptor extends OperationDescriptorImpl {
 
         int length = ((double[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + org.eclipse.imagen.operator.JaiI18N.getString("AddConstDescriptor2"));
+            message.append(getName() + " " + "operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

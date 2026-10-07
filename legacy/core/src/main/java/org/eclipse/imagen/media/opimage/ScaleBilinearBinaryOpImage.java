@@ -282,7 +282,7 @@ public final class ScaleBilinearBinaryOpImage extends ScaleOpImage {
                 break;
 
             default:
-                throw new RuntimeException(JaiI18N.getString("OrderedDitherOpImage0"));
+                throw new RuntimeException("Unsupported output data type.");
         }
     }
 

@@ -109,7 +109,7 @@ public class ImagePyramid extends ImageMIPMap {
         super(image, downSampler);
 
         if (upSampler == null || differencer == null || combiner == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.upSampler = upSampler;
@@ -139,7 +139,7 @@ public class ImagePyramid extends ImageMIPMap {
         super(downSampler);
 
         if (upSampler == null || differencer == null || combiner == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.upSampler = upSampler;

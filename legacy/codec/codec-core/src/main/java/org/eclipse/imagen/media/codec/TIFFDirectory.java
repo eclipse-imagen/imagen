@@ -85,13 +85,13 @@ public class TIFFDirectory extends Object implements Serializable {
         stream.seek(0L);
         int endian = stream.readUnsignedShort();
         if (!isValidEndianTag(endian)) {
-            throw new IllegalArgumentException(JaiI18N.getString("TIFFDirectory1"));
+            throw new IllegalArgumentException("Bad endianness tag (not 0x4949 or 0x4d4d).");
         }
         isBigEndian = (endian == 0x4d4d);
 
         int magic = readUnsignedShort(stream);
         if (magic != 42) {
-            throw new IllegalArgumentException(JaiI18N.getString("TIFFDirectory2"));
+            throw new IllegalArgumentException("Bad magic number, should be 42.");
         }
 
         // Get the initial ifd offset as an unsigned int (using a long)
@@ -99,7 +99,7 @@ public class TIFFDirectory extends Object implements Serializable {
 
         for (int i = 0; i < directory; i++) {
             if (ifd_offset == 0L) {
-                throw new IllegalArgumentException(JaiI18N.getString("TIFFDirectory3"));
+                throw new IllegalArgumentException("Directory number too large.");
             }
 
             stream.seek(ifd_offset);
@@ -130,7 +130,7 @@ public class TIFFDirectory extends Object implements Serializable {
         stream.seek(0L);
         int endian = stream.readUnsignedShort();
         if (!isValidEndianTag(endian)) {
-            throw new IllegalArgumentException(JaiI18N.getString("TIFFDirectory1"));
+            throw new IllegalArgumentException("Bad endianness tag (not 0x4949 or 0x4d4d).");
         }
         isBigEndian = (endian == 0x4d4d);
 
@@ -203,7 +203,7 @@ public class TIFFDirectory extends Object implements Serializable {
                 }
             } catch (ArrayIndexOutOfBoundsException ae) {
 
-                System.err.println(tag + " " + JaiI18N.getString("TIFFDirectory4"));
+                System.err.println(tag + " " + "- Ignoring this tag due to invalid data type.");
                 // if the data type is unknown we should skip this TIFF Field
                 stream.seek(nextTagOffset);
                 continue;
@@ -317,7 +317,7 @@ public class TIFFDirectory extends Object implements Serializable {
                         break;
 
                     default:
-                        System.err.println(JaiI18N.getString("TIFFDirectory0"));
+                        System.err.println("Unsupported TIFFField tag.");
                         break;
                 }
 
@@ -545,12 +545,12 @@ public class TIFFDirectory extends Object implements Serializable {
         stream.seek(0L);
         int endian = stream.readUnsignedShort();
         if (!isValidEndianTag(endian)) {
-            throw new IllegalArgumentException(JaiI18N.getString("TIFFDirectory1"));
+            throw new IllegalArgumentException("Bad endianness tag (not 0x4949 or 0x4d4d).");
         }
         boolean isBigEndian = (endian == 0x4d4d);
         int magic = readUnsignedShort(stream, isBigEndian);
         if (magic != 42) {
-            throw new IllegalArgumentException(JaiI18N.getString("TIFFDirectory2"));
+            throw new IllegalArgumentException("Bad magic number, should be 42.");
         }
 
         stream.seek(4L);

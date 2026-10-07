@@ -71,13 +71,13 @@ public class GIFDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "GIF"},
         {"LocalName", "GIF"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("GIFDescriptor0")},
+        {"Description", "Reads an image from a GIF stream."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/GIFDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("GIFDescriptor1")},
+        {"Version", "1.1"},
+        {"arg0Desc", "The SeekableStream to read from."},
     };
 
     /** The parameter names for the "GIF" operation. */

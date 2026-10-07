@@ -55,7 +55,7 @@ public class PNGImageDecoder extends ImageDecoderImpl {
 
     public RenderedImage decodeAsRenderedImage(int page) throws IOException {
         if (page != 0) {
-            throw new IOException(JaiI18N.getString("PNGImageDecoder19"));
+            throw new IOException("Illegal page requested from a PNG file.");
         }
         try {
             return new PNGImage(input, (PNGDecodeParam) param);
@@ -392,15 +392,15 @@ class PNGImage extends SimpleRenderedImage {
         try {
             long magic = distream.readLong();
             if (magic != 0x89504e470d0a1a0aL) {
-                String msg = JaiI18N.getString("PNGImageDecoder0");
+                String msg = "PNG magic number not found.";
                 throw new RuntimeException(msg);
             }
         } catch (Exception e) {
-            String message = JaiI18N.getString("PNGImageDecoder1");
+            String message = "Error reading PNG header.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
             /*
                         e.printStackTrace();
-                        String msg = JaiI18N.getString("PNGImageDecoder1");
+                        String msg = "Error reading PNG header.";
                         throw new RuntimeException(msg);
             */
         }
@@ -474,10 +474,10 @@ class PNGImage extends SimpleRenderedImage {
                     }
                 }
             } catch (Exception e) {
-                String message = JaiI18N.getString("PNGImageDecoder2");
+                String message = "I/O error reading PNG file.";
                 ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
                 /*                e.printStackTrace();
-                                String msg = JaiI18N.getString("PNGImageDecoder2");
+                                String msg = "I/O error reading PNG file.";
                                 throw new RuntimeException(msg);
                 */
             }
@@ -511,7 +511,8 @@ class PNGImage extends SimpleRenderedImage {
             typeString += (char) (type & 0xff);
             return typeString;
         } catch (Exception e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder20"), e, PNGImageDecoder.class, false);
+            ImagingListenerProxy.errorOccurred(
+                    "IOException occurs when get the chunk type.", e, PNGImageDecoder.class, false);
             //            e.printStackTrace();
             return null;
         }
@@ -527,7 +528,7 @@ class PNGImage extends SimpleRenderedImage {
 
             return new PNGChunk(length, type, data, crc);
         } catch (Exception e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder21"), e, PNGImageDecoder.class, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get a chunk.", e, PNGImageDecoder.class, false);
             //            e.printStackTrace();
             return null;
         }
@@ -541,7 +542,7 @@ class PNGImage extends SimpleRenderedImage {
 
         if ((bitDepth != 1) && (bitDepth != 2) && (bitDepth != 4) && (bitDepth != 8) && (bitDepth != 16)) {
             // Error -- bad bit depth
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder3"));
+            throw new RuntimeException("Illegal bit depth for a PNG image.");
         }
         maxOpacity = (1 << bitDepth) - 1;
 
@@ -551,27 +552,27 @@ class PNGImage extends SimpleRenderedImage {
                 && (colorType != PNG_COLOR_PALETTE)
                 && (colorType != PNG_COLOR_GRAY_ALPHA)
                 && (colorType != PNG_COLOR_RGB_ALPHA)) {
-            System.out.println(JaiI18N.getString("PNGImageDecoder4"));
+            System.out.println("Bad color type for a PNG image.");
         }
 
         if ((colorType == PNG_COLOR_RGB) && (bitDepth < 8)) {
             // Error -- RGB images must have 8 or 16 bits
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder5"));
+            throw new RuntimeException("An RGB PNG image can't have a bit depth less than 8.");
         }
 
         if ((colorType == PNG_COLOR_PALETTE) && (bitDepth == 16)) {
             // Error -- palette images must have < 16 bits
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder6"));
+            throw new RuntimeException("A palette-color PNG image can't have a bit depth of 16.");
         }
 
         if ((colorType == PNG_COLOR_GRAY_ALPHA) && (bitDepth < 8)) {
             // Error -- gray/alpha images must have >= 8 bits
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder7"));
+            throw new RuntimeException("A PNG Gray+Alpha image can't have a bit depth less than 8.");
         }
 
         if ((colorType == PNG_COLOR_RGB_ALPHA) && (bitDepth < 8)) {
             // Error -- RGB/alpha images must have >= 8 bits
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder8"));
+            throw new RuntimeException("A PNG RGB+Alpha image can't have a bit depth less than 8.");
         }
 
         if (emitProperties) {
@@ -610,13 +611,13 @@ class PNGImage extends SimpleRenderedImage {
         compressionMethod = chunk.getInt1(10);
         if (compressionMethod != 0) {
             // Error -- only know about compression method 0
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder9"));
+            throw new RuntimeException("Unsupported PNG compression method (not 0).");
         }
 
         filterMethod = chunk.getInt1(11);
         if (filterMethod != 0) {
             // Error -- only know about filter method 0
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder10"));
+            throw new RuntimeException("Unsupported PNG filter method (not 0).");
         }
 
         interlaceMethod = chunk.getInt1(12);
@@ -636,7 +637,7 @@ class PNGImage extends SimpleRenderedImage {
             }
         } else {
             // Error -- only know about Adam7 interlacing
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder11"));
+            throw new RuntimeException("Unsupported PNG interlace method (not 0 or 1).");
         }
 
         bytesPerPixel = (bitDepth == 16) ? 2 : 1;
@@ -960,7 +961,7 @@ class PNGImage extends SimpleRenderedImage {
 
     private void parse_hIST_chunk(PNGChunk chunk) {
         if (redPalette == null) {
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder18"));
+            throw new RuntimeException("PNG can't have hIST chunk without a PLTE chunk.");
         }
 
         int length = redPalette.length;
@@ -1012,7 +1013,7 @@ class PNGImage extends SimpleRenderedImage {
                 properties.put("pixel_units", "Meters");
             } else if (unitSpecifier != 0) {
                 // Error -- unit specifier must be 0 or 1
-                throw new RuntimeException(JaiI18N.getString("PNGImageDecoder12"));
+                throw new RuntimeException("Unknown PNG pHYs unit specifier (not 0 or 1).");
             }
         }
     }
@@ -1029,7 +1030,7 @@ class PNGImage extends SimpleRenderedImage {
             if (bits <= 0 || bits > depth) {
                 // Error -- significant bits must be between 0 and
                 // image bit depth.
-                throw new RuntimeException(JaiI18N.getString("PNGImageDecoder13"));
+                throw new RuntimeException("Illegal PNG sBit value (< 0 or > bit depth).");
             }
             significantBits[i] = bits;
         }
@@ -1125,7 +1126,7 @@ class PNGImage extends SimpleRenderedImage {
             int entries = chunk.getLength();
             if (entries > paletteEntries) {
                 // Error -- mustn't have more alpha than RGB palette entries
-                throw new RuntimeException(JaiI18N.getString("PNGImageDecoder14"));
+                throw new RuntimeException("Too many PNG alpha palette entries.");
             }
 
             // Load beginning of palette from the chunk
@@ -1189,7 +1190,7 @@ class PNGImage extends SimpleRenderedImage {
             }
         } else if (colorType == PNG_COLOR_GRAY_ALPHA || colorType == PNG_COLOR_RGB_ALPHA) {
             // Error -- GA or RGBA image can't have a tRNS chunk.
-            throw new RuntimeException(JaiI18N.getString("PNGImageDecoder15"));
+            throw new RuntimeException("PNG image already has alpha, can't have tRNS chunk.");
         }
     }
 
@@ -1218,7 +1219,7 @@ class PNGImage extends SimpleRenderedImage {
             ztextKeys.add(key);
             ztextStrings.add(value);
         } catch (Exception e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder21"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get a chunk.", e, this, false);
             //            e.printStackTrace();
         }
     }
@@ -1603,7 +1604,7 @@ class PNGImage extends SimpleRenderedImage {
                 filter = dataStream.read();
                 dataStream.readFully(curr, 0, bytesPerRow);
             } catch (Exception e) {
-                ImagingListenerProxy.errorOccurred(JaiI18N.getString("PNGImageDecoder2"), e, this, false);
+                ImagingListenerProxy.errorOccurred("I/O error reading PNG file.", e, this, false);
                 //                e.printStackTrace();
             }
 
@@ -1624,7 +1625,7 @@ class PNGImage extends SimpleRenderedImage {
                     break;
                 default:
                     // Error -- uknown filter type
-                    throw new RuntimeException(JaiI18N.getString("PNGImageDecoder16"));
+                    throw new RuntimeException("Unknown PNG filter type (not 0-4).");
             }
 
             // Copy data into passRow byte by byte
@@ -1666,7 +1667,7 @@ class PNGImage extends SimpleRenderedImage {
     public Raster getTile(int tileX, int tileY) {
         if (tileX != 0 || tileY != 0) {
             // Error -- bad tile requested
-            throw new IllegalArgumentException(JaiI18N.getString("PNGImageDecoder17"));
+            throw new IllegalArgumentException("Illegal tile requested from a PNG image.");
         }
         return theTile;
     }

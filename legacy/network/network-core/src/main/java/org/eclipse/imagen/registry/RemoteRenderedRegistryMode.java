@@ -49,7 +49,8 @@ public class RemoteRenderedRegistryMode extends RegistryMode {
             factoryMethod = factoryClass.getMethod("create", paramTypes);
         } catch (NoSuchMethodException e) {
             ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
-            String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
+            String message = "The method create(ParamterBlock, RenderingHints) is not found in the class" + " "
+                    + factoryClass.getName() + ".";
             listener.errorOccurred(message, e, RemoteRenderedRegistryMode.class, false);
             //	    e.printStackTrace();
         }

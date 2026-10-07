@@ -184,17 +184,17 @@ public class RotateDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Rotate"},
         {"LocalName", "Rotate"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("RotateDescriptor0")},
+        {"Description", "Rotates an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/RotateDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("RotateDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("RotateDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("RotateDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("RotateDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("RotateDescriptor5")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The X origin to rotate about."},
+        {"arg1Desc", "The Y origin to rotate about."},
+        {"arg2Desc", "The rotation angle in radians."},
+        {"arg3Desc", "The interpolation method."},
+        {"arg4Desc", "The user-specified background values."}
     };
 
     /** The parameter names for the "Rotate" operation. */

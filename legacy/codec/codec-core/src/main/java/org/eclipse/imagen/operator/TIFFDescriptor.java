@@ -140,15 +140,15 @@ public class TIFFDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "TIFF"},
         {"LocalName", "TIFF"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("TIFFDescriptor0")},
+        {"Description", "Reads TIFF 6.0 data from an SeekableStream."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/TIFFDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("TIFFDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("TIFFDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("TIFFDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The SeekableStream to read from."},
+        {"arg1Desc", "The TIFFDecodeParam to use."},
+        {"arg2Desc", "The page to be decoded."}
     };
 
     /** The parameter names for the "TIFF" operation. */

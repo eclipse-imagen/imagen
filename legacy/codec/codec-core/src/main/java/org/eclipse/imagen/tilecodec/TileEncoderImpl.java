@@ -61,11 +61,11 @@ public abstract class TileEncoderImpl implements TileEncoder {
         // Cause a IllegalArgumentException to be thrown if formatName, output
         // is null
         if (formatName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileCodecDescriptorImpl0"));
+            throw new IllegalArgumentException("formatName is null.");
         }
 
         if (output == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("TileEncoderImpl0"));
+            throw new IllegalArgumentException("The supplied OutputStream cannot be null.");
         }
 
         TileCodecDescriptor tcd = TileCodecUtils.getTileCodecDescriptor("tileEncoder", formatName);
@@ -78,18 +78,21 @@ public abstract class TileEncoderImpl implements TileEncoder {
             // Check whether the formatName from the param is the same as the
             // one supplied to this method.
             if (param.getFormatName().equalsIgnoreCase(formatName) == false) {
-                throw new IllegalArgumentException(JaiI18N.getString("TileEncoderImpl1"));
+                throw new IllegalArgumentException(
+                        "The supplied parameter list must be for the same formatName as that of this TileEnDecoder.");
             }
 
             // Check whether the supplied parameterList supports the
             // "tileDecoder" mode.
             if (param.isValidForMode("tileEncoder") == false) {
-                throw new IllegalArgumentException(JaiI18N.getString("TileEncoderImpl2"));
+                throw new IllegalArgumentException(
+                        "The supplied parameter list does not support the \"tileEncoder\" mode.");
             }
 
             // Check whether the ParameterListDescriptors are the same.
             if (param.getParameterListDescriptor().equals(tcd.getParameterListDescriptor("tileEncoder")) == false)
-                throw new IllegalArgumentException(JaiI18N.getString("TileCodec0"));
+                throw new IllegalArgumentException(
+                        "ParameterListDescriptor for the supplied parameter list must be the same as the one associated with the TileCodecDescriptor for this format.");
 
         } else {
 
@@ -101,7 +104,7 @@ public abstract class TileEncoderImpl implements TileEncoder {
             // be some parameters (numParameters returns non-zero value)
             // throw an IllegalArgumentException
             if (pld != null && pld.getNumParameters() != 0) {
-                throw new IllegalArgumentException(JaiI18N.getString("TileDecoderImpl6"));
+                throw new IllegalArgumentException("A non-null parameter list must be specified for this format.");
             }
         }
 

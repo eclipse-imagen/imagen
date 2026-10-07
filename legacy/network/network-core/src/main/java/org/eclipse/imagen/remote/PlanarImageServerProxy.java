@@ -130,7 +130,7 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
         }
 
         if (layout.getValidMask() != 0x3ff) {
-            throw new Error(JaiI18N.getString("PlanarImageServerProxy3"));
+            throw new Error("All the fields of the ImageLayout object must be initialized.");
         }
     }
 
@@ -164,7 +164,7 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
         super(null, null, null);
 
         if (operationName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PlanarImageServerProxy1"));
+            throw new IllegalArgumentException("The operationName argument is null.");
         }
 
         this.serverName = serverName;
@@ -366,7 +366,7 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
      */
     public void setRetryInterval(int retryInterval) {
         if (retryInterval < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic3"));
+            throw new IllegalArgumentException("The retryInterval argument is negative.");
         }
         this.retryInterval = retryInterval;
     }
@@ -384,7 +384,7 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
      */
     public void setNumRetries(int numRetries) {
         if (numRetries < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic4"));
+            throw new IllegalArgumentException("The numRetries argument is negative.");
         }
         this.numRetries = numRetries;
     }
@@ -512,7 +512,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
                 colorModel = layout.getColorModel(null);
                 break;
             } catch (RemoteImagingException e) {
-                System.err.println(JaiI18N.getString("PlanarImageServerProxy0"));
+                System.err.println(
+                        "Encountered RemoteImagingException, sleeping for retryInterval milliseconds before retrying operation.");
                 rieSave = e;
                 // Sleep for retryInterval milliseconds before retrying.
                 try {
@@ -558,7 +559,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
                     }
                     return property;
                 } catch (RemoteImagingException rie) {
-                    System.err.println(JaiI18N.getString("PlanarImageServerProxy0"));
+                    System.err.println(
+                            "Encountered RemoteImagingException, sleeping for retryInterval milliseconds before retrying operation.");
                     rieSave = rie;
                     try {
                         Thread.sleep(retryInterval);
@@ -606,7 +608,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
                 remotePropertyNames = getRemotePropertyNames();
                 break;
             } catch (RemoteImagingException rie) {
-                System.err.println(JaiI18N.getString("PlanarImageServerProxy0"));
+                System.err.println(
+                        "Encountered RemoteImagingException, sleeping for retryInterval milliseconds before retrying operation.");
                 rieSave = rie;
                 try {
                     Thread.sleep(retryInterval);
@@ -663,7 +666,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
                         tile = computeTile(tileX, tileY);
                         break;
                     } catch (RemoteImagingException rie) {
-                        System.err.println(JaiI18N.getString("PlanarImageServerProxy0"));
+                        System.err.println(
+                                "Encountered RemoteImagingException, sleeping for retryInterval milliseconds before retrying operation.");
                         rieSave = rie;
                         try {
                             Thread.sleep(retryInterval);
@@ -796,7 +800,8 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
                     serverCapabilities = desc.getServerCapabilities(serverName);
                     break;
                 } catch (RemoteImagingException rie) {
-                    System.err.println(JaiI18N.getString("PlanarImageServerProxy0"));
+                    System.err.println(
+                            "Encountered RemoteImagingException, sleeping for retryInterval milliseconds before retrying operation.");
                     rieSave = rie;
                     try {
                         Thread.sleep(retryInterval);
@@ -821,7 +826,7 @@ public abstract class PlanarImageServerProxy extends PlanarImage implements Remo
         ImagingListener listener = null;
         if (hints != null) listener = (ImagingListener) hints.get(ImageN.KEY_IMAGING_LISTENER);
         else listener = ImageN.getDefaultInstance().getImagingListener();
-        String message = JaiI18N.getString("PlanarImageServerProxy2");
+        String message = "Limit of retries exceeded.";
         listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
     }
 }

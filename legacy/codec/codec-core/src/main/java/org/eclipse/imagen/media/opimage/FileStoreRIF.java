@@ -112,12 +112,12 @@ public class FileStoreRIF implements RenderedImageFactory {
                 stream = new SeekableOutputStream(new RandomAccessFile(fileName, "rw"));
             }
         } catch (FileNotFoundException e) {
-            String message = JaiI18N.getString("FileLoadRIF0") + fileName;
+            String message = "Cannot find the file :" + fileName;
             listener.errorOccurred(message, e, this, false);
             //            e.printStackTrace();
             return null;
         } catch (SecurityException e) {
-            String message = JaiI18N.getString("FileStoreRIF0");
+            String message = "Cannot create the rendering of the FileStore operation. ";
             listener.errorOccurred(message, e, this, false);
             //            e.printStackTrace();
             return null;
