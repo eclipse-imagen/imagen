@@ -47,7 +47,7 @@ import org.eclipse.imagen.ROIShape;
 public class MedicalAppOpImage extends Observable
         implements RenderedImage, PropertyChangeListener, MedicalAppConstants, Focusable {
     /** Cache the default tile size defined in the property file. */
-    private static int tileSize = new Integer(JaiI18N.getString("TileSize")).intValue();
+    private static int tileSize = new Integer(MedicalAppMessages.getString("TileSize")).intValue();
 
     /** The source image. */
     private RenderedImage source;

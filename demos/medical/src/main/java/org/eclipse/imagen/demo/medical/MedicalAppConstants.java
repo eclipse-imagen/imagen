@@ -13,7 +13,7 @@ package org.eclipse.imagen.demo.medical;
 interface MedicalAppConstants {
     // Currently the zoom slider is not linear, so the position for
     // zoom factor 1.0 is defined in the property file.
-    int nozoom = (new Integer(JaiI18N.getString("NoZoomTickPosition")).intValue() - 1);
+    int nozoom = (new Integer(MedicalAppMessages.getString("NoZoomTickPosition")).intValue() - 1);
 
     // The command name and/or message names
     String setLayoutCommand = "SetLayout";

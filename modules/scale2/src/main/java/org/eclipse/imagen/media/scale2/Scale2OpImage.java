@@ -1160,9 +1160,10 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(Scale2I18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex != 0) {
-            throw new IndexOutOfBoundsException(Scale2I18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         Point2D pt = (Point2D) destPt.clone();
@@ -1193,9 +1194,10 @@ public abstract class Scale2OpImage extends GeometricOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(Scale2I18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex != 0) {
-            throw new IndexOutOfBoundsException(Scale2I18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         Point2D pt = (Point2D) sourcePt.clone();
@@ -1221,11 +1223,12 @@ public abstract class Scale2OpImage extends GeometricOpImage {
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(Scale2I18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) {
-            throw new IllegalArgumentException(Scale2I18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Get the source dimensions
@@ -1373,11 +1376,12 @@ public abstract class Scale2OpImage extends GeometricOpImage {
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(Scale2I18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) {
-            throw new IllegalArgumentException(Scale2I18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Get the destination rectangle coordinates and dimensions

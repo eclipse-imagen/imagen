@@ -102,14 +102,14 @@ public class UnsharpMaskDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "UnsharpMask"},
         {"LocalName", "UnsharpMask"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("UnsharpMaskDescriptor0")},
+        {"Description", "Performs UnsharpMask operation on the image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/UnsharpMaskDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("UnsharpMaskDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("UnsharpMaskDescriptor2")}
+        {"Version", "1.0"},
+        {"arg0Desc", "The low-pass convolution kernel."},
+        {"arg1Desc", "The sharpening value."}
     };
 
     /** The parameter names for the UnsharpMask operation. */

@@ -83,7 +83,7 @@ public class ImageFunctionOpImage extends SourcelessOpImage {
             sampleModel = layout.getSampleModel(null);
 
             if (sampleModel.getNumBands() != numBands) {
-                throw new RuntimeException(JaiI18N.getString("ImageFunctionRIF0"));
+                throw new RuntimeException("Wrong Band number defined");
             }
         } else { // Create a SampleModel.
             // Use a dummy width and height, OpImage will fix them

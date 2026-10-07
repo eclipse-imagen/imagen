@@ -47,18 +47,18 @@ public class BufferDescriptor extends OperationDescriptorImpl {
         {"Vendor", "org.eclipse.imagen.media"},
         {"Description", "Calculates sum on a buffer for each pixels."},
         {"DocURL", "Not Defined"},
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BufferDescriptor0")},
-        {"arg1Desc", JaiI18N.getString("BufferDescriptor1")},
-        {"arg2Desc", JaiI18N.getString("BufferDescriptor2")},
-        {"arg3Desc", JaiI18N.getString("BufferDescriptor3")},
-        {"arg4Desc", JaiI18N.getString("BufferDescriptor4")},
-        {"arg5Desc", JaiI18N.getString("BufferDescriptor5")},
-        {"arg6Desc", JaiI18N.getString("BufferDescriptor6")},
-        {"arg7Desc", JaiI18N.getString("BufferDescriptor7")},
-        {"arg8Desc", JaiI18N.getString("BufferDescriptor8")},
-        {"arg9Desc", JaiI18N.getString("BufferDescriptor9")},
-        {"arg10Desc", JaiI18N.getString("BufferDescriptor10")}
+        {"Version", "1.0"},
+        {"arg0Desc", "BorderExtender object to use."},
+        {"arg1Desc", "Left Padding."},
+        {"arg2Desc", "Right Padding."},
+        {"arg3Desc", "Top Padding."},
+        {"arg4Desc", "Bottom Padding."},
+        {"arg5Desc", "List of the input rois to evaluate."},
+        {"arg6Desc", "NoData Range object to use."},
+        {"arg7Desc", "Value for destination NoData."},
+        {"arg8Desc", "Value to count, used for counting the occurrences of the selected value into the buffer."},
+        {"arg9Desc", "Final image data type(not mandatory)."},
+        {"arg10Desc", "Pixel area in square meters."}
     };
 
     /** The parameter names for the "Warp" operation. */

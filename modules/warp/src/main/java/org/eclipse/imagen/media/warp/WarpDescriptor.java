@@ -328,12 +328,12 @@ public class WarpDescriptor extends OperationDescriptorImpl {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ROIAwareWarpDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("WarpDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("WarpDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("WarpDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("WarpDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("WarpDescriptor5")}
+        {"Version", "1.0"},
+        {"arg0Desc", "The warp object."},
+        {"arg1Desc", "The interpolation method."},
+        {"arg2Desc", "Source region of interest masks."},
+        {"arg3Desc", "Background values to use if not set in the interpolator."},
+        {"arg4Desc", "No Data Range provided."}
     };
 
     /** The parameter names for the "Warp" operation. */

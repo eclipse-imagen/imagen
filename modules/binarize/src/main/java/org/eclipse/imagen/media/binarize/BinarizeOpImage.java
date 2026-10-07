@@ -102,7 +102,7 @@ public class BinarizeOpImage extends PointOpImage {
         super(source, layoutHelper(source, layout, config), config, true);
 
         if (source.getSampleModel().getNumBands() != 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("BinarizeOpImage0"));
+            throw new IllegalArgumentException("Source image must have 1 band only.");
         }
 
         this.threshold = threshold;
@@ -225,7 +225,7 @@ public class BinarizeOpImage extends PointOpImage {
                     doubleLoop(sources[0], dest, destRect, roiIter, roiContainsTile);
                     break;
                 default:
-                    throw new RuntimeException(JaiI18N.getString("BinarizeOpImage1"));
+                    throw new RuntimeException("Wrong data type defined");
             }
         }
     }

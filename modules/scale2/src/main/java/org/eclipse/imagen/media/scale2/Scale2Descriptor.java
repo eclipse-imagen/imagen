@@ -351,21 +351,21 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
         {"GlobalName", "Scale2"},
         {"LocalName", "Scale2"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", Scale2I18N.getString("ScaleDescriptor0")},
+        {"Description", "Resizes an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ScaleDescriptor.html"
         },
-        {"Version", Scale2I18N.getString("DescriptorVersion")},
-        {"arg0Desc", Scale2I18N.getString("ScaleDescriptor1")},
-        {"arg1Desc", Scale2I18N.getString("ScaleDescriptor2")},
-        {"arg2Desc", Scale2I18N.getString("ScaleDescriptor3")},
-        {"arg3Desc", Scale2I18N.getString("ScaleDescriptor4")},
-        {"arg4Desc", Scale2I18N.getString("ScaleDescriptor5")},
-        {"arg5Desc", Scale2I18N.getString("ScaleDescriptor6")},
-        {"arg6Desc", Scale2I18N.getString("ScaleDescriptor7")},
-        {"arg7Desc", Scale2I18N.getString("ScaleDescriptor8")},
-        {"arg8Desc", Scale2I18N.getString("ScaleDescriptor9")},
+        {"Version", "1.0"},
+        {"arg0Desc", "The X scale factor."},
+        {"arg1Desc", "The Y scale factor."},
+        {"arg2Desc", "The X translation."},
+        {"arg3Desc", "The Y translation."},
+        {"arg4Desc", "The interpolation method for resampling."},
+        {"arg5Desc", "The ROI to be used for interpolation"},
+        {"arg6Desc", "Whether to use roi RasterAccessor on computations"},
+        {"arg7Desc", "The Nodata parameter to check"},
+        {"arg8Desc", "The destination nodata parameter used to substitute the old nodata one"},
     };
 
     /** The parameter class list for this operation. */
@@ -438,7 +438,7 @@ public class Scale2Descriptor extends OperationDescriptorImpl {
             roi = (ROI) args.getObjectParameter(5);
         }
         if ((xScale <= 0 || yScale <= 0) && roi == null) {
-            msg.append(getName() + " " + Scale2I18N.getString("ScaleDescriptor6"));
+            msg.append(getName() + " " + "The ROI to be used for interpolation");
             return false;
         }
 

@@ -55,7 +55,7 @@ public class MedicalAppState implements ActionListener, ChangeListener, MedicalA
     private int currentImageNum;
 
     /** The current layout of this view pane. */
-    private int currentLayout = (new Integer(JaiI18N.getString("DefaultLayout"))).intValue();
+    private int currentLayout = (new Integer(MedicalAppMessages.getString("DefaultLayout"))).intValue();
 
     /** The operation scope. */
     private int operateScope;
@@ -360,7 +360,8 @@ public class MedicalAppState implements ActionListener, ChangeListener, MedicalA
             public void run() {
 
                 // if the provided file is not a directory
-                if (!file.isDirectory()) throw new IllegalArgumentException(JaiI18N.getString("Not a directory"));
+                if (!file.isDirectory())
+                    throw new IllegalArgumentException(MedicalAppMessages.getString("Not a directory"));
 
                 // get all the files under that directory
                 String[] files = file.list();
@@ -604,6 +605,6 @@ public class MedicalAppState implements ActionListener, ChangeListener, MedicalA
         level = defaultLevel;
 
         cining = false;
-        speed = new Integer(JaiI18N.getString("DefaultCineSpeed")).intValue();
+        speed = new Integer(MedicalAppMessages.getString("DefaultCineSpeed")).intValue();
     }
 }

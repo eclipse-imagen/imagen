@@ -466,7 +466,7 @@ public class ErrorDiffusionOpImage extends UntiledOpImage {
                 maxPixelValue = Float.MAX_VALUE;
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("ErrorDiffusionOpImage0"));
+                throw new RuntimeException("Wrong DataType defined");
         }
 
         // If we use the optimized case and NoData are present, we init the LookupTable for NoData check

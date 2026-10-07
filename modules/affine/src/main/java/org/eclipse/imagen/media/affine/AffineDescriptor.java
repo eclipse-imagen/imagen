@@ -252,19 +252,19 @@ public class AffineDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Affine"},
         {"LocalName", "Affine"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AffineDescriptor0")},
+        {"Description", "Performs interpolated affine transform on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AffineDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("AffineDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("AffineDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("AffineDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("AffineDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("AffineDescriptor5")},
-        {"arg5Desc", JaiI18N.getString("AffineDescriptor6")},
-        {"arg6Desc", JaiI18N.getString("AffineDescriptor7")}
+        {"Version", "1.0"},
+        {"arg0Desc", "The affine transform matrix."},
+        {"arg1Desc", "The interpolation method."},
+        {"arg2Desc", "The user-specified background values."},
+        {"arg3Desc", "The user-specified ROI."},
+        {"arg4Desc", "Whether to use roi RasterAccessor on computations."},
+        {"arg5Desc", "Whether to set or not the destination No Data when computing values outside image bonds."},
+        {"arg6Desc", "operation can not invert the supplied transform parameter."}
     };
 
     /** The parameter class list for this operation. */
@@ -325,7 +325,7 @@ public class AffineDescriptor extends OperationDescriptorImpl {
             // Try to create the inverse transform
             AffineTransform itransform = transform.createInverse();
         } catch (java.awt.geom.NoninvertibleTransformException e) {
-            message.append(getName() + " " + JaiI18N.getString("AffineDescriptor7"));
+            message.append(getName() + " " + "operation can not invert the supplied transform parameter.");
             return false;
         }
 
