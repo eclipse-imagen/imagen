@@ -82,12 +82,12 @@ public class NotDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Not"},
         {"LocalName", "Not"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("NotDescriptor0")},
+        {"Description", "Logically \"nots\" an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/NotDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -118,7 +118,7 @@ public class NotDescriptor extends OperationDescriptorImpl {
                 && dtype != DataBuffer.TYPE_USHORT
                 && dtype != DataBuffer.TYPE_SHORT
                 && dtype != DataBuffer.TYPE_INT) {
-            msg.append(getName() + " " + JaiI18N.getString("NotDescriptor1"));
+            msg.append(getName() + " " + "operation requires its source to have an integral data type.");
             return false;
         }
 

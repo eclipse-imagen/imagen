@@ -89,15 +89,15 @@ public class FileLoadDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "FileLoad"},
         {"LocalName", "FileLoad"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("FileLoadDescriptor0")},
+        {"Description", "Reads an image from a file."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/FileLoadDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("FileLoadDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("FileLoadDescriptor4")},
-        {"arg2Desc", JaiI18N.getString("FileLoadDescriptor5")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The path of the file to read from."},
+        {"arg1Desc", "The ImageDecodeParam to use."},
+        {"arg2Desc", "Boolean specifying if File existence should be checked locally"}
     };
 
     /** The parameter names for the "FileLoad" operation. */
@@ -139,12 +139,12 @@ public class FileLoadDescriptor extends OperationDescriptorImpl {
                 // are packaged in a JAR file
                 InputStream is = this.getClass().getClassLoader().getResourceAsStream(filename);
                 if (is == null) {
-                    msg.append("\"" + filename + "\": " + JaiI18N.getString("FileLoadDescriptor2"));
+                    msg.append("\"" + filename + "\": " + "File not found.");
                     return false;
                 }
             } else { // file exists
                 if (!f.canRead()) {
-                    msg.append("\"" + filename + "\": " + JaiI18N.getString("FileLoadDescriptor3"));
+                    msg.append("\"" + filename + "\": " + "File is not readable.");
                     return false;
                 }
             }

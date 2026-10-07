@@ -146,15 +146,15 @@ public class IIPResolutionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "IIPResolution"},
         {"LocalName", "IIPResolution"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("IIPResolutionDescriptor0")},
+        {"Description", "Provides client support of the Internet Imaging Protocol in the rendered mode."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/IIPResolutionDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("IIPResolutionDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("IIPResolutionDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("IIPResolutionDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The URL of the IIP image."},
+        {"arg1Desc", "The resolution level to request."},
+        {"arg2Desc", "The sub-image to be used by the server."}
     };
 
     /** The parameter class types for this operation. */
@@ -206,7 +206,7 @@ public class IIPResolutionDescriptor extends OperationDescriptorImpl {
             new URL((String) args.getObjectParameter(0));
         } catch (Exception e) {
             /* Use the same error message as IIPDescriptor. */
-            msg.append(getName() + " " + JaiI18N.getString("IIPDescriptor15"));
+            msg.append(getName() + " " + "requires the URL string to specify a valid protocol.");
             return false;
         }
 

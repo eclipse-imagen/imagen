@@ -82,7 +82,7 @@ public class ImageMIPMap implements ImageImageN {
         this();
 
         if (image == null || transform == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         ParameterBlock pb = new ParameterBlock();
@@ -111,7 +111,7 @@ public class ImageMIPMap implements ImageImageN {
     public ImageMIPMap(RenderedImage image, RenderedOp downSampler) {
         this();
         if (image == null || downSampler == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         highestImage = image;
@@ -140,11 +140,11 @@ public class ImageMIPMap implements ImageImageN {
         this();
 
         if (downSampler == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (downSampler.getNumSources() == 0) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("ImageMIPMap0"));
+            throw new IllegalArgumentException("No highest resolution image found in the downSampler chain.");
         }
 
         // Find the highest resolution image from the chain.
@@ -167,7 +167,7 @@ public class ImageMIPMap implements ImageImageN {
                 op.removeSources();
                 break;
             } else {
-                throw new IllegalArgumentException(ImageNLegacy18N.getString("ImageMIPMap1"));
+                throw new IllegalArgumentException("An object other than a RenderedImage is in the downSampler chain.");
             }
         }
 
@@ -328,7 +328,7 @@ public class ImageMIPMap implements ImageImageN {
      */
     protected RenderedOp duplicate(RenderedOp op, Vector images) {
         if (images == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         //

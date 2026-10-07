@@ -104,7 +104,7 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
     private static PlanarImage getSource(Long id) throws RemoteException {
         Object obj = null;
         if (nodes == null || (obj = nodes.get(id)) == null) {
-            throw new RemoteException(JaiI18N.getString("RMIImageImpl2"));
+            throw new RemoteException("Unable to retrieve requested client object from the cache.");
         }
         return (PlanarImage) obj;
     }
@@ -380,14 +380,16 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
             }
 
             if (tef == null) {
-                throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer0"));
+                throw new RuntimeException(
+                        "No suitable TileEncoder could be found to encode the tile before transmission.");
             }
 
             TileCodecDescriptor tcd = (TileCodecDescriptor)
                     ImageN.getDefaultInstance().getOperationRegistry().getDescriptor("tileEncoder", capabilityName);
 
             if (tcd.includesSampleModelInfo() == false || tcd.includesLocationInfo() == false) {
-                throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer1"));
+                throw new RuntimeException(
+                        "Cannot encode according to the specified tile codec scheme which does not include SampleModel or location info in the encoded stream.");
             }
 
             ParameterListDescriptor pld = tcd.getParameterListDescriptor("tileEncoder");
@@ -425,7 +427,8 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
 
             return stream.toByteArray();
         } else {
-            throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer2"));
+            throw new RuntimeException(
+                    "Cannot transmit compressed tile, there is no negotiated result for the \"tileCodec\" category.");
         }
     }
 
@@ -764,7 +767,8 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
         ContextualRenderedImageFactory crif = CRIFRegistry.get(rop.getRegistry(), operationName);
 
         if (crif == null) {
-            throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer3"));
+            throw new RuntimeException(
+                    "No appropriate ContextualRenderedImageFactory exists for the specified operationName. ");
         }
 
         RenderContext rc = crif.mapRenderContext(
@@ -783,7 +787,8 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
         ContextualRenderedImageFactory crif = CRIFRegistry.get(rop.getRegistry(), operationName);
 
         if (crif == null) {
-            throw new RuntimeException(JaiI18N.getString("ImageNRMIImageServer3"));
+            throw new RuntimeException(
+                    "No appropriate ContextualRenderedImageFactory exists for the specified operationName. ");
         }
 
         Rectangle2D r2D = crif.getBounds2D((ParameterBlock) rop.getParameterBlock());
@@ -1264,30 +1269,30 @@ public class ImageNRMIImageServer extends UnicastRemoteObject implements ImageSe
             try {
                 host = InetAddress.getLocalHost().getHostAddress();
             } catch (java.net.UnknownHostException e) {
-                String message = JaiI18N.getString("RMIImageImpl1");
+                String message = "Server: Error: ";
                 sendExceptionToListener(message, new RemoteImagingException(message, e));
                 /*
-                                System.err.println(JaiI18N.getString("RMIImageImpl1") +
+                                System.err.println("Server: Error: " +
                                                    e.getMessage());
                                 e.printStackTrace();
                 */
             }
         }
 
-        System.out.println(JaiI18N.getString("RMIImageImpl3") + " " + host + ":" + rmiRegistryPort);
+        System.out.println("Server: using host/port" + " " + host + ":" + rmiRegistryPort);
 
         try {
             ImageNRMIImageServer im = new ImageNRMIImageServer(serverport);
             String serverName =
                     new String("rmi://" + host + ":" + rmiRegistryPort + "/" + JAIRMIDescriptor.IMAGE_SERVER_BIND_NAME);
-            System.out.println(JaiI18N.getString("RMIImageImpl4") + " \"" + serverName + "\".");
+            System.out.println("Registering image server as" + " \"" + serverName + "\".");
             Naming.rebind(serverName, im);
-            System.out.println(JaiI18N.getString("RMIImageImpl5"));
+            System.out.println("Server: Bound RemoteImageServer into the registry.");
         } catch (Exception e) {
-            String message = JaiI18N.getString("RMIImageImpl1");
+            String message = "Server: Error: ";
             sendExceptionToListener(message, new RemoteImagingException(message, e));
             /*
-                        System.err.println(JaiI18N.getString("RMIImageImpl0") +
+                        System.err.println("Server construction error: " +
                                            e.getMessage());
                         e.printStackTrace();
             */

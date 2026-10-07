@@ -81,7 +81,8 @@ public class BMPImageEncoder extends ImageEncoderImpl {
         this.version = bmpParam.getVersion();
         this.isCompressed = bmpParam.isCompressed();
         if (isCompressed && !(output instanceof SeekableOutputStream)) {
-            throw new IllegalArgumentException(JaiI18N.getString("BMPImageEncoder6"));
+            throw new IllegalArgumentException(
+                    "If Image is to be compressed, then the OutputStream parameter must be a SeekableOutputStream.");
         }
 
         this.isTopDown = bmpParam.isTopDown();
@@ -108,24 +109,25 @@ public class BMPImageEncoder extends ImageEncoderImpl {
         ColorModel cm = im.getColorModel();
 
         if (numBands != 1 && numBands != 3) {
-            throw new IllegalArgumentException(JaiI18N.getString("BMPImageEncoder1"));
+            throw new IllegalArgumentException("Only images with either 1 or 3 bands can be written out as BMP files.");
         }
 
         int sampleSize[] = sm.getSampleSize();
         if (sampleSize[0] > 8) {
-            throw new RuntimeException(JaiI18N.getString("BMPImageEncoder2"));
+            throw new RuntimeException("BMP file format cannot support data with a bitdepth");
         }
 
         for (int i = 1; i < sampleSize.length; i++) {
             if (sampleSize[i] != sampleSize[0]) {
-                throw new RuntimeException(JaiI18N.getString("BMPImageEncoder3"));
+                throw new RuntimeException("All samples must have the same size.");
             }
         }
 
         // Float and Double data cannot be written in a BMP format.
         int dataType = sm.getTransferType();
         if (dataType != DataBuffer.TYPE_BYTE && !CodecUtils.isPackedByteImage(im)) {
-            throw new RuntimeException(JaiI18N.getString("BMPImageEncoder0"));
+            throw new RuntimeException(
+                    "Image to be written has ushort/short/int/float/double data type, unsuitable for BMP file format.");
         }
 
         // Number of bytes that a scanline for the image written out will have.
@@ -231,7 +233,8 @@ public class BMPImageEncoder extends ImageEncoderImpl {
                 headerSize = 12;
                 imageSize = (destScanlineBytes + padding) * h;
                 fileSize = imageSize + offset;
-                throw new RuntimeException(JaiI18N.getString("BMPImageEncoder5"));
+                throw new RuntimeException(
+                        "Encoding of BMP files in any format other than Version 3 is not implemented yet.");
             // break;
 
             case BMPEncodeParam.VERSION_3:
@@ -251,7 +254,8 @@ public class BMPImageEncoder extends ImageEncoderImpl {
 
             case BMPEncodeParam.VERSION_4:
                 headerSize = 108;
-                throw new RuntimeException(JaiI18N.getString("BMPImageEncoder5"));
+                throw new RuntimeException(
+                        "Encoding of BMP files in any format other than Version 3 is not implemented yet.");
                 // break;
         }
 

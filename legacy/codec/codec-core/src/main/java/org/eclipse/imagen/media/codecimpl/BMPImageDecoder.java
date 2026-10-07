@@ -48,7 +48,7 @@ public class BMPImageDecoder extends ImageDecoderImpl {
 
     public RenderedImage decodeAsRenderedImage(int page) throws IOException {
         if (page != 0) {
-            throw new IOException(JaiI18N.getString("BMPImageDecoder8"));
+            throw new IOException("Illegal page requested from a BMP file.");
         }
         try {
             return new BMPImage(input);
@@ -124,7 +124,7 @@ class BMPImage extends SimpleRenderedImage {
 
             // Start File Header
             if (!(readUnsignedByte(inputStream) == 'B' && readUnsignedByte(inputStream) == 'M')) {
-                throw new RuntimeException(JaiI18N.getString("BMPImageDecoder0"));
+                throw new RuntimeException("Invalid magic value for BMP file");
             }
 
             // Read file size
@@ -284,7 +284,7 @@ class BMPImage extends SimpleRenderedImage {
                             break;
 
                         default:
-                            throw new RuntimeException(JaiI18N.getString("BMPImageDecoder1"));
+                            throw new RuntimeException("Invalid compression specified in BMP file.");
                     }
                 } else if (size == 108) {
                     // Windows 4.x BMP
@@ -339,7 +339,7 @@ class BMPImage extends SimpleRenderedImage {
                             properties.put("gamma_blue", new Long(gammaBlue));
 
                             // break;
-                            throw new RuntimeException(JaiI18N.getString("BMPImageDecoder2"));
+                            throw new RuntimeException("Not implemented yet.");
 
                         case LCS_sRGB:
                             // Default Windows color space
@@ -349,7 +349,7 @@ class BMPImage extends SimpleRenderedImage {
                         case LCS_CMYK:
                             properties.put("color_space", "LCS_CMYK");
                             //		    break;
-                            throw new RuntimeException(JaiI18N.getString("BMPImageDecoder2"));
+                            throw new RuntimeException("Not implemented yet.");
                     }
 
                     if (bitsPerPixel == 1) {
@@ -382,13 +382,13 @@ class BMPImage extends SimpleRenderedImage {
                     properties.put("alpha_mask", new Integer(alphaMask));
                 } else {
                     properties.put("bmp_version", "BMP v. 5.x");
-                    throw new RuntimeException(JaiI18N.getString("BMPImageDecoder4"));
+                    throw new RuntimeException("BMP version 5 not implemented yet.");
                 }
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder5");
+            String message = "IOException while reading the BMP file headers.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
-            //	    throw new RuntimeException(JaiI18N.getString("BMPImageDecoder5"));
+            //	    throw new RuntimeException("IOException while reading the BMP file headers.");
         }
 
         if (height > 0) {
@@ -507,7 +507,7 @@ class BMPImage extends SimpleRenderedImage {
             inputStream.reset();
             inputStream.skip(bitmapOffset);
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder9");
+            String message = "IOException while resetting and skipping bytes from InputStream.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
         }
     }
@@ -533,10 +533,10 @@ class BMPImage extends SimpleRenderedImage {
                 bytesRead += inputStream.read(values, bytesRead, imSize - bytesRead);
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
             //	    throw new
-            //		RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //		RuntimeException("Error while reading the BMP file.");
         }
 
         if (isBottomUp) {
@@ -583,10 +583,10 @@ class BMPImage extends SimpleRenderedImage {
                 bytesRead += inputStream.read(values, bytesRead, imSize - bytesRead);
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
             //	    throw new
-            //		RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //		RuntimeException("Error while reading the BMP file.");
         }
 
         if (isBottomUp) {
@@ -632,10 +632,10 @@ class BMPImage extends SimpleRenderedImage {
                 bytesRead += inputStream.read(values, bytesRead, imSize - bytesRead);
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
             //	    throw new
-            //		RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //		RuntimeException("Error while reading the BMP file.");
         }
 
         if (isBottomUp) {
@@ -677,8 +677,8 @@ class BMPImage extends SimpleRenderedImage {
                 bytesRead += inputStream.read(values, bytesRead, imSize - bytesRead);
             }
         } catch (IOException ioe) {
-            // throw new RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
-            String message = JaiI18N.getString("BMPImageDecoder4");
+            // throw new RuntimeException("Error while reading the BMP file.");
+            String message = "BMP version 5 not implemented yet.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
             //	    throw new RuntimeException(ioe.getMessage());
         }
@@ -753,9 +753,9 @@ class BMPImage extends SimpleRenderedImage {
                 }
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
-            //	    throw new RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //	    throw new RuntimeException("Error while reading the BMP file.");
         }
     }
 
@@ -785,9 +785,9 @@ class BMPImage extends SimpleRenderedImage {
                 }
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
-            //	    throw new RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //	    throw new RuntimeException("Error while reading the BMP file.");
         }
     }
 
@@ -815,9 +815,9 @@ class BMPImage extends SimpleRenderedImage {
                 bytesRead += inputStream.read(values, bytesRead, imSize - bytesRead);
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
-            //	    throw new RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //	    throw new RuntimeException("Error while reading the BMP file.");
         }
 
         // Since data is compressed, decompress it
@@ -924,9 +924,9 @@ class BMPImage extends SimpleRenderedImage {
                 values[i] = inputStream.read();
             }
         } catch (IOException ioe) {
-            String message = JaiI18N.getString("BMPImageDecoder6");
+            String message = "Error while reading the BMP file.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, ioe), this, false);
-            //	    throw new RuntimeException(JaiI18N.getString("BMPImageDecoder6"));
+            //	    throw new RuntimeException("Error while reading the BMP file.");
         }
 
         // Decompress the RLE4 compressed data.
@@ -1140,7 +1140,7 @@ class BMPImage extends SimpleRenderedImage {
                         break;
 
                     default:
-                        throw new RuntimeException(JaiI18N.getString("BMPImageDecoder3"));
+                        throw new RuntimeException("Invalid compression specified for BMP file.");
                 }
                 break;
 
@@ -1155,7 +1155,7 @@ class BMPImage extends SimpleRenderedImage {
                         break;
 
                     default:
-                        throw new RuntimeException(JaiI18N.getString("BMPImageDecoder3"));
+                        throw new RuntimeException("Invalid compression specified for BMP file.");
                 }
 
                 break;
@@ -1189,7 +1189,7 @@ class BMPImage extends SimpleRenderedImage {
                         break;
 
                     default:
-                        throw new RuntimeException(JaiI18N.getString("BMPImageDecoder3"));
+                        throw new RuntimeException("Invalid compression specified for BMP file.");
                 }
 
             case VERSION_4_8_BIT:
@@ -1203,7 +1203,7 @@ class BMPImage extends SimpleRenderedImage {
                         break;
 
                     default:
-                        throw new RuntimeException(JaiI18N.getString("BMPImageDecoder3"));
+                        throw new RuntimeException("Invalid compression specified for BMP file.");
                 }
                 break;
 
@@ -1227,7 +1227,7 @@ class BMPImage extends SimpleRenderedImage {
 
     public synchronized Raster getTile(int tileX, int tileY) {
         if ((tileX != 0) || (tileY != 0)) {
-            throw new IllegalArgumentException(JaiI18N.getString("BMPImageDecoder7"));
+            throw new IllegalArgumentException("Illegal tile requested from a BMPImage.");
         }
         return computeTile(tileX, tileY);
     }

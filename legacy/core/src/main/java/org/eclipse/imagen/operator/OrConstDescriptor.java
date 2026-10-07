@@ -100,13 +100,13 @@ public class OrConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "OrConst"},
         {"LocalName", "OrConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("OrConstDescriptor0")},
+        {"Description", "Logically \"ors\" an image with constants."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/OrConstDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("OrConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to logically \"or\" with."}
     };
 
     /**
@@ -150,13 +150,13 @@ public class OrConstDescriptor extends OperationDescriptorImpl {
                 && dtype != DataBuffer.TYPE_USHORT
                 && dtype != DataBuffer.TYPE_SHORT
                 && dtype != DataBuffer.TYPE_INT) {
-            message.append(getName() + " " + JaiI18N.getString("OrConstDescriptor2"));
+            message.append(getName() + " " + "operation requires its source to have an integral data type.");
             return false;
         }
 
         int length = ((int[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("OrConstDescriptor3"));
+            message.append(getName() + " " + "operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

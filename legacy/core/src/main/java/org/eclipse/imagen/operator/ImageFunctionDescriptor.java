@@ -157,19 +157,19 @@ public class ImageFunctionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "ImageFunction"},
         {"LocalName", "ImageFunction"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ImageFunctionDescriptor0")},
+        {"Description", "Generates an image from a functional description."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ImageFunctionDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ImageFunctionDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ImageFunctionDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ImageFunctionDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ImageFunctionDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("ImageFunctionDescriptor5")},
-        {"arg5Desc", JaiI18N.getString("ImageFunctionDescriptor6")},
-        {"arg6Desc", JaiI18N.getString("ImageFunctionDescriptor7")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The functional description."},
+        {"arg1Desc", "The image width."},
+        {"arg2Desc", "The image height."},
+        {"arg3Desc", "The X scale factor."},
+        {"arg4Desc", "The Y scale factor."},
+        {"arg5Desc", "The X translation."},
+        {"arg6Desc", "The Y translation."}
     };
 
     /** The parameter class list for this operation. */

@@ -86,10 +86,11 @@ public class MosaicOpImage extends OpImage {
             // Get SampleModel and ColorModel from layout.
             targetSM = layout.getSampleModel(null);
             if (targetSM == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage7"));
+                throw new IllegalArgumentException("The ImageLayout must contain a non-null SampleModel.");
             }
         } else {
-            throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage8"));
+            throw new IllegalArgumentException(
+                    "The ImageLayout must be non-null and contain valid width, height and SampleModel.");
         }
 
         // Get data type, band count, and sample depth.
@@ -100,7 +101,7 @@ public class MosaicOpImage extends OpImage {
         // Sample size must equal that of first band.
         for (int i = 1; i < numBands; i++) {
             if (targetSM.getSampleSize(i) != sampleSize) {
-                throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage1"));
+                throw new IllegalArgumentException("All bands of all sources images must have the same sample size.");
             }
         }
 
@@ -117,15 +118,16 @@ public class MosaicOpImage extends OpImage {
 
             // Data type and band count must be equal.
             if (sourceSM.getDataType() != dataType) {
-                throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage2"));
+                throw new IllegalArgumentException("All source images must have the same data type.");
             } else if (sourceSM.getNumBands() != numBands) {
-                throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage3"));
+                throw new IllegalArgumentException("All source images must have the same number of bands.");
             }
 
             // Sample size must be equal.
             for (int j = 0; j < numBands; j++) {
                 if (sourceSM.getSampleSize(j) != sampleSize) {
-                    throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage1"));
+                    throw new IllegalArgumentException(
+                            "All bands of all sources images must have the same sample size.");
                 }
             }
         }
@@ -216,11 +218,12 @@ public class MosaicOpImage extends OpImage {
                     SampleModel alphaSM = sourceAlpha[i].getSampleModel();
 
                     if (alphaSM.getNumBands() != 1) {
-                        throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage4"));
+                        throw new IllegalArgumentException("Alpha images must be single-banded.");
                     } else if (alphaSM.getDataType() != sampleModel.getDataType()) {
-                        throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage5"));
+                        throw new IllegalArgumentException("Alpha images must have the same data type as the sources.");
                     } else if (alphaSM.getSampleSize(0) != sampleModel.getSampleSize(0)) {
-                        throw new IllegalArgumentException(JaiI18N.getString("MosaicOpImage6"));
+                        throw new IllegalArgumentException(
+                                "Alpha images must have the same sample size as the sources.");
                     }
                 }
             }
@@ -361,11 +364,12 @@ public class MosaicOpImage extends OpImage {
 
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         return destRect.intersection(getSourceImage(sourceIndex).getBounds());
@@ -373,11 +377,12 @@ public class MosaicOpImage extends OpImage {
 
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         return sourceRect.intersection(getBounds());

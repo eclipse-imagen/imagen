@@ -82,12 +82,12 @@ public class AddDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Add"},
         {"LocalName", "Add"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AddDescriptor0")},
+        {"Description", "Adds two images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AddDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

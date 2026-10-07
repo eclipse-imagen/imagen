@@ -88,15 +88,15 @@ public class MeanDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Mean"},
         {"LocalName", "Mean"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MeanDescriptor0")},
+        {"Description", "Calculates the image-wise mean pixel value for each band of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MeanDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("MeanDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("MeanDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("MeanDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The region of the image to scan."},
+        {"arg1Desc", "The horizontal sampling rate, may not be less than 1."},
+        {"arg2Desc", "The vertical sampling rate, may not be less than 1."}
     };
 
     /** The parameter name list for this operation. */

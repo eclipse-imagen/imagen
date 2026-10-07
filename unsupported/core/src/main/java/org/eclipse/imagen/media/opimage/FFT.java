@@ -109,7 +109,7 @@ public class FFT {
 
         // Ensure that the length is a positive power of two.
         if (!MathJAI.isPositivePowerOf2(length)) {
-            throw new RuntimeException(JaiI18N.getString("FFT0"));
+            throw new RuntimeException("FFT length must be a positive power of 2.");
         }
 
         // Cache the length.
@@ -125,7 +125,7 @@ public class FFT {
         } else {
             // NB: This statement should be unreachable if the scaling
             // type is properly verified in the operation descriptor.
-            throw new RuntimeException(JaiI18N.getString("FFT1"));
+            throw new RuntimeException("Unknown DFT scaling type.");
         }
 
         // Calculate the number of bits required to represent the length.
@@ -290,7 +290,7 @@ public class FFT {
                 // RasterAccessor is supposed to promote the data type of
                 // all rasters to the "minimum" data type of all source
                 // and destination rasters involved.
-                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                throw new RuntimeException(dataType + ": Unexpected data type; should be float or double only.");
         }
 
         // If fewer input than target points fill target with zeros.
@@ -392,7 +392,7 @@ public class FFT {
                 // RasterAccessor is supposed to promote the data type of
                 // all rasters to the "minimum" data type of all source
                 // and destination rasters involved.
-                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                throw new RuntimeException(dataType + ": Unexpected data type; should be float or double only.");
         }
     }
 
@@ -451,7 +451,7 @@ public class FFT {
                 // RasterAccessor is supposed to promote the data type of
                 // all rasters to the "minimum" data type of all source
                 // and destination rasters involved.
-                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                throw new RuntimeException(dataType + ": Unexpected data type; should be float or double only.");
         }
 
         // Always clear imaginary part.
@@ -500,7 +500,7 @@ public class FFT {
                 // RasterAccessor is supposed to promote the data type of
                 // all rasters to the "minimum" data type of all source
                 // and destination rasters involved.
-                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                throw new RuntimeException(dataType + ": Unexpected data type; should be float or double only.");
         }
     }
 
@@ -549,7 +549,7 @@ public class FFT {
                 // RasterAccessor is supposed to promote the data type of
                 // all rasters to the "minimum" data type of all source
                 // and destination rasters involved.
-                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                throw new RuntimeException(dataType + ": Unexpected data type; should be float or double only.");
         }
 
         // If fewer input than target points fill target with zeros.
@@ -601,7 +601,7 @@ public class FFT {
                 // RasterAccessor is supposed to promote the data type of
                 // all rasters to the "minimum" data type of all source
                 // and destination rasters involved.
-                throw new RuntimeException(dataType + JaiI18N.getString("FFT2"));
+                throw new RuntimeException(dataType + ": Unexpected data type; should be float or double only.");
         }
     }
 
@@ -613,7 +613,7 @@ public class FFT {
         NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.getDefault());
 
         if (real.length < length || imag.length < length) {
-            throw new RuntimeException(numberFormatter.format(i18n) + JaiI18N.getString("FFT3"));
+            throw new RuntimeException(numberFormatter.format(i18n) + "Array length must be greater or equal to this.");
         }
 
         int inode = 1;

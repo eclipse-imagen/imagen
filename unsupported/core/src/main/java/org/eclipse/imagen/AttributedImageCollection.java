@@ -49,7 +49,7 @@ public class AttributedImageCollection extends CollectionImage {
         super();
 
         if (images == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("AttributedImageCollection0"));
+            throw new IllegalArgumentException("The collection passed to the constructor cannot be null.");
         }
 
         try {
@@ -200,7 +200,7 @@ public class AttributedImageCollection extends CollectionImage {
     public boolean add(Object o) {
 
         if (o == null || !(o instanceof AttributedImage)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("AttributedImageCollection1"));
+            throw new IllegalArgumentException("The object(s) could not be added to the collection.");
         }
 
         // don't add an object that's there already

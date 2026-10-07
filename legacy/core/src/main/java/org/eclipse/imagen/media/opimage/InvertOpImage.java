@@ -123,7 +123,7 @@ final class InvertOpImage extends ColormapOpImage {
                     break;
                 case DataBuffer.TYPE_FLOAT:
                 case DataBuffer.TYPE_DOUBLE:
-                    throw new RuntimeException(JaiI18N.getString("InvertOpImage0"));
+                    throw new RuntimeException("Float/Double data type handling is not yet implemented.");
             }
 
             d.copyDataToRaster();

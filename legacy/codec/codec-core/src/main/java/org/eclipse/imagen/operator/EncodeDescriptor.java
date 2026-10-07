@@ -84,15 +84,15 @@ public class EncodeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Encode"},
         {"LocalName", "Encode"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("EncodeDescriptor0")},
+        {"Description", "Stores an image to an OutputStream."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/EncodeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("EncodeDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("EncodeDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("EncodeDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The OutputStream to write to."},
+        {"arg1Desc", "The format of the created file."},
+        {"arg2Desc", "The encoding parameters."}
     };
 
     /** The parameter names for the "Encode" operation. */
@@ -142,7 +142,7 @@ public class EncodeDescriptor extends OperationDescriptorImpl {
 
         // Check for null codec.
         if (codec == null) {
-            msg.append(getName() + " " + JaiI18N.getString("EncodeDescriptor4"));
+            msg.append(getName() + " " + "The specified format has no associated registered ImageCodec.");
             return false;
         }
 
@@ -153,7 +153,9 @@ public class EncodeDescriptor extends OperationDescriptorImpl {
 
         // Verify that the image can be encoded with the given parameters.
         if (!codec.canEncodeImage(src, param)) {
-            msg.append(getName() + " " + JaiI18N.getString("EncodeDescriptor5"));
+            msg.append(
+                    getName() + " "
+                            + "No ImageEncoder is available for this format or this image cannot be encoded with the given encoding parameters.");
             return false;
         }
 

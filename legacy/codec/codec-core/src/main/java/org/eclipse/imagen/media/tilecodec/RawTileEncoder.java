@@ -54,7 +54,7 @@ public class RawTileEncoder extends TileEncoderImpl {
      * @throws IllegalArgumentException if ras is null.
      */
     public void encode(Raster ras) throws IOException {
-        if (ras == null) throw new IllegalArgumentException(JaiI18N.getString("TileEncoder1"));
+        if (ras == null) throw new IllegalArgumentException("Raster must not be null.");
 
         ObjectOutputStream oos = new ObjectOutputStream(outputStream);
 

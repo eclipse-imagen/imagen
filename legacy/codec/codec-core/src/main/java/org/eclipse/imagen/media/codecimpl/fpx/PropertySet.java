@@ -112,7 +112,7 @@ class PropertySet {
             stream.seek(offset);
             return stream.readIntLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet1"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get I4.", e, this, false);
             //            e.printStackTrace();
         }
 
@@ -126,7 +126,7 @@ class PropertySet {
             stream.seek(offset);
             return stream.readUnsignedByte();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet1"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get I4.", e, this, false);
             //            e.printStackTrace();
         }
 
@@ -140,7 +140,7 @@ class PropertySet {
             stream.seek(offset);
             return stream.readUnsignedShortLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet2"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get UI1.", e, this, false);
             //            e.printStackTrace();
         }
 
@@ -154,7 +154,7 @@ class PropertySet {
             stream.seek(offset);
             return stream.readUnsignedIntLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet4"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get UI4.", e, this, false);
             //            e.printStackTrace();
         }
 
@@ -172,7 +172,7 @@ class PropertySet {
             stream.seek(offset);
             return stream.readUnsignedIntLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet4"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get UI4.", e, this, false);
             //            e.printStackTrace();
         }
 
@@ -197,7 +197,7 @@ class PropertySet {
 
             return sb.toString();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet5"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get LPSTR/LPWSTR.", e, this, false);
             //            e.printStackTrace();
             return null;
         }
@@ -217,7 +217,7 @@ class PropertySet {
 
             return sb.toString();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet5"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get LPSTR/LPWSTR.", e, this, false);
             //            e.printStackTrace();
             return null;
         }
@@ -230,18 +230,18 @@ class PropertySet {
             stream.seek(offset);
             return stream.readFloatLE();
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet6"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get R4.", e, this, false);
             //            e.printStackTrace();
             return -1.0F;
         }
     }
 
     public Date getDate(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 
     public Date getFiletime(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 
     public byte[] getBlob(int id) {
@@ -257,29 +257,29 @@ class PropertySet {
 
             return buf;
         } catch (IOException e) {
-            ImagingListenerProxy.errorOccurred(JaiI18N.getString("PropertySet7"), e, this, false);
+            ImagingListenerProxy.errorOccurred("IOException occurs when get blob.", e, this, false);
             //            e.printStackTrace();
             return null;
         }
     }
 
     public int[] getUI1Vector(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 
     public int[] getUI2Vector(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 
     public long[] getUI4Vector(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 
     public float[] getR4Vector(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 
     public String[] getLPWSTRVector(int id) {
-        throw new RuntimeException(JaiI18N.getString("PropertySet0"));
+        throw new RuntimeException("Not implemented.");
     }
 }

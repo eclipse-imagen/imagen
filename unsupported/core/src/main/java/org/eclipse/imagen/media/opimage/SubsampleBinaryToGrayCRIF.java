@@ -96,7 +96,7 @@ public class SubsampleBinaryToGrayCRIF extends CRIFImpl {
             return new SubsampleBinaryToGrayOpImage(source, layout, renderHints, xScale, yScale);
 
         } else {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleBinaryToGray3"));
+            throw new IllegalArgumentException("src image must have MultiPixelPackedSampleModel.");
         }
     }
 

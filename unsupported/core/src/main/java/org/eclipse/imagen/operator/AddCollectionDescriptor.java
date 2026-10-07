@@ -87,12 +87,12 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "AddCollection"},
         {"LocalName", "AddCollection"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AddCollectionDescriptor0")},
+        {"Description", "Adds a collection of images."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AddCollectionDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** The source class list for this operation. */
@@ -114,7 +114,7 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
         Collection col = (Collection) args.getSource(0);
 
         if (col.size() < 2) {
-            msg.append(getName() + " " + JaiI18N.getString("AddCollectionDescriptor1"));
+            msg.append(getName() + " " + "operation requires the source collection to have at least 2 elements.");
             return false;
         }
 
@@ -123,7 +123,9 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
             while (iter.hasNext()) {
                 Object o = iter.next();
                 if (!(o instanceof RenderedImage)) {
-                    msg.append(getName() + " " + JaiI18N.getString("AddCollectionDescriptor2"));
+                    msg.append(
+                            getName() + " "
+                                    + "operation requires all elements in the source collection to be of class java.awt.image.RenderedImage.");
                     return false;
                 }
             }
@@ -131,7 +133,9 @@ public class AddCollectionDescriptor extends OperationDescriptorImpl {
             while (iter.hasNext()) {
                 Object o = iter.next();
                 if (!(o instanceof RenderableImage)) {
-                    msg.append(getName() + " " + JaiI18N.getString("AddCollectionDescriptor3"));
+                    msg.append(
+                            getName() + " "
+                                    + "operation requires all elements in the source collection to be of class java.awt.image.renderable.RenderableImage.");
                     return false;
                 }
             }

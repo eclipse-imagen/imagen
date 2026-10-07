@@ -141,7 +141,8 @@ public class RenderableCRIF extends CRIFImpl {
                 RenderedImage nextImage = pyramid.getDownImage();
                 if (nextImage.getWidth() >= currentImage.getWidth()
                         || nextImage.getHeight() >= currentImage.getHeight()) {
-                    throw new IllegalArgumentException(JaiI18N.getString("RenderableCRIF0"));
+                    throw new IllegalArgumentException(
+                            "Downsampler must reduce both the width and height at each invocation.");
                 }
                 sourceVector.add(nextImage);
                 currentImage = nextImage;

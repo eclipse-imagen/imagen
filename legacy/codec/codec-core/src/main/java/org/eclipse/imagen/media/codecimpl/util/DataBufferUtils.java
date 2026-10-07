@@ -91,7 +91,7 @@ public final class DataBufferUtils {
 
         // Throw an exception if no class was found.
         if (dataBufferClass == null) {
-            throw new RuntimeException(JaiI18N.getString("DataBufferUtils0") + " "
+            throw new RuntimeException("Cannot find class for" + " "
                     + (String) (dataType == DataBuffer.TYPE_FLOAT ? "DataBufferFloat" : "DataBufferDouble"));
         }
 
@@ -121,7 +121,7 @@ public final class DataBufferUtils {
             Constructor constructor = dbClass.getConstructor(paramTypes);
             dataBuffer = (DataBuffer) constructor.newInstance(paramValues);
         } catch (Exception e) {
-            throw new RuntimeException(JaiI18N.getString("DataBufferUtils1"));
+            throw new RuntimeException("Cannot construct DataBuffer.");
         }
 
         return dataBuffer;
@@ -144,7 +144,7 @@ public final class DataBufferUtils {
             Method method = dbClass.getMethod(methodName, paramTypes);
             returnValue = method.invoke(dataBuffer, paramValues);
         } catch (Exception e) {
-            throw new RuntimeException(JaiI18N.getString("DataBufferUtils2") + " \"" + methodName + "\".");
+            throw new RuntimeException("Cannot invoke DataBuffer method" + " \"" + methodName + "\".");
         }
 
         return returnValue;

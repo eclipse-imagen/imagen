@@ -416,7 +416,7 @@ final class OrderedDitherOpImage extends PointOpImage {
                 break;
 
             default:
-                throw new RuntimeException(JaiI18N.getString("OrderedDitherOpImage0"));
+                throw new RuntimeException("Unsupported output data type.");
         }
     }
 
@@ -512,7 +512,7 @@ final class OrderedDitherOpImage extends PointOpImage {
                 computeRectDouble(src, dst);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("OrderedDitherOpImage1"));
+                throw new RuntimeException("Unsupported data type specified.");
         }
 
         dst.copyDataToRaster();

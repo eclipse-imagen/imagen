@@ -71,13 +71,13 @@ public class JPEGDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "JPEG"},
         {"LocalName", "JPEG"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("JPEGDescriptor0")},
+        {"Description", "Reads a standard JFIF (JPEG) stream."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/JPEGDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("JPEGDescriptor1")},
+        {"Version", "1.1"},
+        {"arg0Desc", "The SeekableStream to read from."},
     };
 
     /** The parameter names for the "JPEG" operation. */

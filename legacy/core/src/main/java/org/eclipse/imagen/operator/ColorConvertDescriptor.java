@@ -89,13 +89,13 @@ public class ColorConvertDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "ColorConvert"},
         {"LocalName", "ColorConvert"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ColorConvertDescriptor0")},
+        {"Description", "Convert the color space of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ColorConvertDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("ColorConvertDescriptor1")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The destination color space."}
     };
 
     /** The parameter class list for this operation. */

@@ -99,7 +99,7 @@ public class NegotiableNumeric implements Negotiable {
     public NegotiableNumeric(Number n) {
 
         if (n == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableNumeric0"));
+            throw new IllegalArgumentException("The supplied Number argument is null.");
         }
 
         number = n;
@@ -164,7 +164,8 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public byte getNegotiatedValueAsByte() {
-        if (elementClass != Byte.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
+        if (elementClass != Byte.class)
+            throw new ClassCastException("Cannot return value as the requested Class type.");
         return number.byteValue();
     }
 
@@ -174,7 +175,8 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public short getNegotiatedValueAsShort() {
-        if (elementClass != Short.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
+        if (elementClass != Short.class)
+            throw new ClassCastException("Cannot return value as the requested Class type.");
         return number.shortValue();
     }
 
@@ -185,7 +187,7 @@ public class NegotiableNumeric implements Negotiable {
      */
     public int getNegotiatedValueAsInt() {
         if (elementClass != Integer.class)
-            throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
+            throw new ClassCastException("Cannot return value as the requested Class type.");
         return number.intValue();
     }
 
@@ -195,7 +197,8 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public long getNegotiatedValueAsLong() {
-        if (elementClass != Long.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
+        if (elementClass != Long.class)
+            throw new ClassCastException("Cannot return value as the requested Class type.");
         return number.longValue();
     }
 
@@ -205,7 +208,8 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public float getNegotiatedValueAsFloat() {
-        if (elementClass != Float.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
+        if (elementClass != Float.class)
+            throw new ClassCastException("Cannot return value as the requested Class type.");
         return number.floatValue();
     }
 
@@ -215,7 +219,8 @@ public class NegotiableNumeric implements Negotiable {
      * @throws ClassCastException if the value is of a different Class type.
      */
     public double getNegotiatedValueAsDouble() {
-        if (elementClass != Double.class) throw new ClassCastException(ImageNLegacy18N.getString("NegotiableNumeric1"));
+        if (elementClass != Double.class)
+            throw new ClassCastException("Cannot return value as the requested Class type.");
         return number.doubleValue();
     }
 }

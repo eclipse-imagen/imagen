@@ -103,16 +103,19 @@ public class BoxFilterDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "BoxFilter"},
         {"LocalName", "BoxFilter"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BoxFilterDescriptor0")},
+        {
+            "Description",
+            "Performs special case convolution where each source pixel contributes equally to the intensity of the destination pixel."
+        },
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BoxFilterDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BoxFilterDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("BoxFilterDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("BoxFilterDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("BoxFilterDescriptor4")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The width of the box."},
+        {"arg1Desc", "The height of the box."},
+        {"arg2Desc", "The X position of the key element."},
+        {"arg3Desc", "The Y position of the key element."}
     };
 
     /** The parameter class list for this operation. */

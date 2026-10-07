@@ -76,12 +76,12 @@ public class MagnitudeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Magnitude"},
         {"LocalName", "Magnitude"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MagnitudeDescriptor0")},
+        {"Description", "Find the magnitude of each pixel of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MagnitudeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -109,7 +109,7 @@ public class MagnitudeDescriptor extends OperationDescriptorImpl {
         int bands = src.getSampleModel().getNumBands();
 
         if (bands % 2 != 0) {
-            msg.append(getName() + " " + JaiI18N.getString("MagnitudeDescriptor1"));
+            msg.append(getName() + " " + "operation requires its source to have an even number of bands.");
             return false;
         }
 

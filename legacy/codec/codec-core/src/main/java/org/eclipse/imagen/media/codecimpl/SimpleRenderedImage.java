@@ -401,7 +401,7 @@ public abstract class SimpleRenderedImage implements RenderedImage {
         if (bounds == null) {
             bounds = imageBounds;
         } else if (!bounds.intersects(imageBounds)) {
-            throw new IllegalArgumentException(JaiI18N.getString("SimpleRenderedImage0"));
+            throw new IllegalArgumentException("The specified region, if not null, must intersect the image bounds.");
         }
 
         // Determine tile limits for the prescribed bounds.

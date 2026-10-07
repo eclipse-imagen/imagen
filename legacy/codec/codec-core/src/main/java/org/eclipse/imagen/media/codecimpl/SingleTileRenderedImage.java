@@ -45,7 +45,7 @@ public class SingleTileRenderedImage extends SimpleRenderedImage {
     /** Returns the image's Raster as tile (0, 0). */
     public Raster getTile(int tileX, int tileY) {
         if (tileX != 0 || tileY != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SingleTileRenderedImage0"));
+            throw new IllegalArgumentException("Illegal tile requested from a SingleTileRenderedImage.");
         }
         return ras;
     }

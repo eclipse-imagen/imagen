@@ -199,15 +199,15 @@ public class WarpDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Warp"},
         {"LocalName", "Warp"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("WarpDescriptor0")},
+        {"Description", "Warps an image according to a specified Warp object."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/WarpDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("WarpDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("WarpDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("WarpDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The warp object."},
+        {"arg1Desc", "The interpolation method."},
+        {"arg2Desc", "The user-specified background values."}
     };
 
     /** The parameter names for the "Warp" operation. */

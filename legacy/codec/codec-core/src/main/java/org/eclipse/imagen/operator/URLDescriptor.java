@@ -79,14 +79,14 @@ public class URLDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "URL"},
         {"LocalName", "URL"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("URLDescriptor0")},
+        {"Description", "Reads an image from a URL."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/URLDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("URLDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("URLDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The URL to read from."},
+        {"arg1Desc", "The ImageDecodeParam to use."}
     };
 
     /** The parameter names for the "URL" operation. */

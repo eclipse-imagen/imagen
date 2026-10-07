@@ -175,7 +175,7 @@ public class DFTOpImage extends UntiledOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return null;
@@ -189,7 +189,7 @@ public class DFTOpImage extends UntiledOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return null;
@@ -224,7 +224,7 @@ public class DFTOpImage extends UntiledOpImage {
                 }
             } else { // Real -> Real.
                 // NB This statement should be unreachable.
-                throw new RuntimeException(JaiI18N.getString("DFTOpImage1"));
+                throw new RuntimeException("Unsupported DFT type real->real (1x1).");
             }
             return;
         }

@@ -98,15 +98,15 @@ public class ThresholdDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Threshold"},
         {"LocalName", "Threshold"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ThresholdDescriptor0")},
+        {"Description", "Maps the pixels whose value falls between a low value and a high value to a constant."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ThresholdDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ThresholdDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ThresholdDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ThresholdDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The low value."},
+        {"arg1Desc", "The high value."},
+        {"arg2Desc", "The constant the pixels are mapped to."}
     };
 
     /** The parameter name list for this operation. */
@@ -132,7 +132,7 @@ public class ThresholdDescriptor extends OperationDescriptorImpl {
     protected boolean validateParameters(ParameterBlock args, StringBuffer msg) {
         int numParams = args.getNumParameters();
         if (numParams < 3) {
-            msg.append(getName() + " " + JaiI18N.getString("ThresholdDescriptor4"));
+            msg.append(getName() + " " + "operation requires 3 input parameters.");
             return false;
         }
 
@@ -140,17 +140,18 @@ public class ThresholdDescriptor extends OperationDescriptorImpl {
             Object p = args.getObjectParameter(i);
 
             if (p == null) {
-                msg.append(getName() + " " + JaiI18N.getString("ThresholdDescriptor5"));
+                msg.append(
+                        getName() + " " + "operation requires all parameters to be valid input; a null is supplied.");
                 return false;
             }
 
             if (!(p instanceof double[])) {
-                msg.append(getName() + " " + JaiI18N.getString("ThresholdDescriptor6"));
+                msg.append(getName() + " " + "operation requires all parameters to be of type double[].");
                 return false;
             }
 
             if (((double[]) p).length < 1) {
-                msg.append(getName() + " " + JaiI18N.getString("ThresholdDescriptor7"));
+                msg.append(getName() + " " + "operation requires all parameters to have at least 1 array element.");
                 return false;
             }
         }

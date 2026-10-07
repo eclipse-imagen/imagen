@@ -145,7 +145,7 @@ public class RemoteRenderableOp extends RenderableOp {
      */
     public void setServerName(String serverName) {
 
-        if (serverName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic2"));
+        if (serverName == null) throw new IllegalArgumentException("serverName argument is null.");
 
         if (serverName.equalsIgnoreCase(this.serverName)) return;
         String oldServerName = this.serverName;
@@ -172,7 +172,7 @@ public class RemoteRenderableOp extends RenderableOp {
      */
     public void setProtocolName(String protocolName) {
 
-        if (protocolName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+        if (protocolName == null) throw new IllegalArgumentException("protocolName argument is null.");
 
         if (protocolName.equalsIgnoreCase(this.protocolName)) return;
 
@@ -203,9 +203,9 @@ public class RemoteRenderableOp extends RenderableOp {
      */
     public void setProtocolAndServerNames(String protocolName, String serverName) {
 
-        if (serverName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic2"));
+        if (serverName == null) throw new IllegalArgumentException("serverName argument is null.");
 
-        if (protocolName == null) throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+        if (protocolName == null) throw new IllegalArgumentException("protocolName argument is null.");
 
         boolean protocolNotChanged = protocolName.equalsIgnoreCase(this.protocolName);
         boolean serverNotChanged = serverName.equalsIgnoreCase(this.serverName);
@@ -444,7 +444,7 @@ public class RemoteRenderableOp extends RenderableOp {
             remoteCRIF = RemoteCRIFRegistry.get(nodeSupport.getRegistry(), protocolName);
 
             if (remoteCRIF == null) {
-                throw new ImagingException(JaiI18N.getString("RemoteRenderableOp0"));
+                throw new ImagingException("No adequate RemoteCRIF exists in the registry.");
             }
         }
 
@@ -482,7 +482,7 @@ public class RemoteRenderableOp extends RenderableOp {
      */
     public void setRetryInterval(int retryInterval) {
 
-        if (retryInterval < 0) throw new IllegalArgumentException(JaiI18N.getString("Generic3"));
+        if (retryInterval < 0) throw new IllegalArgumentException("The retryInterval argument is negative.");
 
         RenderingHints rh = nodeSupport.getRenderingHints();
         if (rh == null) {
@@ -524,7 +524,7 @@ public class RemoteRenderableOp extends RenderableOp {
      */
     public void setNumRetries(int numRetries) {
 
-        if (numRetries < 0) throw new IllegalArgumentException(JaiI18N.getString("Generic4"));
+        if (numRetries < 0) throw new IllegalArgumentException("The numRetries argument is negative.");
 
         RenderingHints rh = nodeSupport.getRenderingHints();
         if (rh == null) {
@@ -604,7 +604,7 @@ public class RemoteRenderableOp extends RenderableOp {
             Object[] msgArg0 = {new String(protocolName)};
             MessageFormat formatter = new MessageFormat("");
             formatter.setLocale(Locale.getDefault());
-            formatter.applyPattern(JaiI18N.getString("RemoteJAI16"));
+            formatter.applyPattern("There is no RemoteDescriptor registered for the protocol - {0}.");
             throw new RuntimeException(formatter.format(msgArg0));
         }
 
@@ -619,7 +619,7 @@ public class RemoteRenderableOp extends RenderableOp {
                 break;
             } catch (RemoteImagingException rie) {
                 // Print that an Exception occured
-                System.err.println(JaiI18N.getString("RemoteJAI24"));
+                System.err.println("Error occurred during getServerCapabilities()...Retrying");
                 rieSave = rie;
                 // Sleep for retryInterval milliseconds
                 try {
@@ -627,14 +627,15 @@ public class RemoteRenderableOp extends RenderableOp {
                 } catch (InterruptedException ie) {
                     //		    throw new RuntimeException(ie.toString());
                     sendExceptionToListener(
-                            JaiI18N.getString("Generic5"), new ImagingException(JaiI18N.getString("Generic5"), ie));
+                            "The retry to get the server capabilities is interrupted.",
+                            new ImagingException("The retry to get the server capabilities is interrupted.", ie));
                 }
             }
         }
 
         if (serverCap == null && count > numRetries) {
-            sendExceptionToListener(JaiI18N.getString("RemoteJAI18"), rieSave);
-            //	    throw new RemoteImagingException(JaiI18N.getString("RemoteJAI18")
+            sendExceptionToListener("Limit of retries reached when calling getServerCapabilities().", rieSave);
+            //	    throw new RemoteImagingException("Limit of retries reached when calling getServerCapabilities()."
             //					     + "\n" + rieSave.getMessage());
         }
 

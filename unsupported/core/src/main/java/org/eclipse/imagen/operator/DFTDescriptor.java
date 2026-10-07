@@ -151,14 +151,14 @@ public class DFTDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "DFT"},
         {"LocalName", "DFT"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("DFTDescriptor0")},
+        {"Description", "Computes the discrete Fourier transform of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/DFTDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("DFTDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("DFTDescriptor2")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The type of scaling to perform."},
+        {"arg1Desc", "The nature of the data."}
     };
 
     /** The parameter class list for this operation. */
@@ -200,7 +200,7 @@ public class DFTDescriptor extends OperationDescriptorImpl {
             RenderedImage src = args.getRenderedSource(0);
 
             if (src.getSampleModel().getNumBands() % 2 != 0) {
-                msg.append(getName() + " " + JaiI18N.getString("DFTDescriptor5"));
+                msg.append(getName() + " " + "operation requires complex sources to have an even number of bands.");
                 return false;
             }
         }

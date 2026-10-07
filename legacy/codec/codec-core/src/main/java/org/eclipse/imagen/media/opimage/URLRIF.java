@@ -78,7 +78,7 @@ public class URLRIF implements RenderedImageFactory {
             return image == null ? null : new StreamImage(image, src);
         } catch (IOException e) {
             ImagingListener listener = ImageUtil.getImagingListener(renderHints);
-            String message = JaiI18N.getString("URLRIF0");
+            String message = "IOException occurs when create the rendering of the URL operation.";
             listener.errorOccurred(message, e, this, false);
             //            e.printStackTrace();
             return null;

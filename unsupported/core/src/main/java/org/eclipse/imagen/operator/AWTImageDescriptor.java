@@ -69,13 +69,13 @@ public class AWTImageDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "AWTImage"},
         {"LocalName", "AWTImage"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("AWTImageDescriptor0")},
+        {"Description", "Converts a java.awt.Image into a rendered image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/AWTImageDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("AWTImageDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The AWT image to be converted."}
     };
 
     /** The parameter class list for this operation. */

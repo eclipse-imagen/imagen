@@ -108,7 +108,7 @@ public class RMIImageImpl implements RMIImage {
     private static PlanarImage getSource(Long id) throws RemoteException {
         Object obj = null;
         if (sources == null || (obj = sources.get(id)) == null) {
-            throw new RemoteException(JaiI18N.getString("RMIImageImpl2"));
+            throw new RemoteException("Unable to retrieve requested client object from the cache.");
         }
 
         return (PlanarImage) obj;
@@ -123,7 +123,7 @@ public class RMIImageImpl implements RMIImage {
     private static PropertySource getPropertySource(Long id) throws RemoteException {
         Object obj = null;
         if (propertySources == null || (obj = propertySources.get(id)) == null) {
-            throw new RemoteException(JaiI18N.getString("RMIImageImpl2"));
+            throw new RemoteException("Unable to retrieve requested client object from the cache.");
         }
 
         return (PropertySource) obj;
@@ -136,11 +136,11 @@ public class RMIImageImpl implements RMIImage {
             UnicastRemoteObject.exportObject(this);
         } catch (RemoteException e) {
             ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
-            String message = JaiI18N.getString("RMIImageImpl0");
+            String message = "Server construction error: ";
             listener.errorOccurred(message, new RemoteImagingException(message, e), this, false);
             /*
                         e.printStackTrace();
-                        throw new RuntimeException(JaiI18N.getString("RMIImageImpl0") +
+                        throw new RuntimeException("Server construction error: " +
                                                    e.getMessage());
             */
         }
@@ -424,21 +424,21 @@ public class RMIImageImpl implements RMIImage {
             try {
                 host = InetAddress.getLocalHost().getHostAddress();
             } catch (java.net.UnknownHostException e) {
-                System.err.println(JaiI18N.getString("RMIImageImpl1") + e.getMessage());
+                System.err.println("Server: Error: " + e.getMessage());
                 e.printStackTrace();
             }
         }
 
-        System.out.println(JaiI18N.getString("RMIImageImpl3") + " " + host + ":" + port);
+        System.out.println("Server: using host/port" + " " + host + ":" + port);
 
         try {
             RMIImageImpl im = new RMIImageImpl();
             String serverName = new String("rmi://" + host + ":" + port + "/" + RMIImage.RMI_IMAGE_SERVER_NAME);
-            System.out.println(JaiI18N.getString("RMIImageImpl4") + " \"" + serverName + "\".");
+            System.out.println("Registering image server as" + " \"" + serverName + "\".");
             Naming.rebind(serverName, im);
-            System.out.println(JaiI18N.getString("RMIImageImpl5"));
+            System.out.println("Server: Bound RemoteImageServer into the registry.");
         } catch (Exception e) {
-            System.err.println(JaiI18N.getString("RMIImageImpl0") + e.getMessage());
+            System.err.println("Server construction error: " + e.getMessage());
             e.printStackTrace();
         }
     }

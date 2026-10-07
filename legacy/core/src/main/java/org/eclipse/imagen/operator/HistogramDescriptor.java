@@ -112,18 +112,18 @@ public class HistogramDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Histogram"},
         {"LocalName", "Histogram"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("HistogramDescriptor0")},
+        {"Description", "Generates a histogram based on the pixel values within a specific region of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/HistogramDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("HistogramDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("HistogramDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("HistogramDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("HistogramDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("HistogramDescriptor5")},
-        {"arg5Desc", JaiI18N.getString("HistogramDescriptor6")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The region of the image to be scanned."},
+        {"arg1Desc", "The horizontal sampling rate; may not be less than 1."},
+        {"arg2Desc", "The vertical sampling rate; may not be less than 1."},
+        {"arg3Desc", "The number of bins for each band."},
+        {"arg4Desc", "The lowest inclusive pixel value to be checked for each band."},
+        {"arg5Desc", "The highest exclusive pixel value to be checked for each band."}
     };
 
     /** The parameter name list for this operation. */
@@ -178,7 +178,7 @@ public class HistogramDescriptor extends OperationDescriptorImpl {
     protected boolean validateParameters(ParameterBlock args, StringBuffer msg) {
 
         if (args == null || msg == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!super.validateParameters(args, msg)) {
@@ -197,7 +197,7 @@ public class HistogramDescriptor extends OperationDescriptorImpl {
 
         for (int i = 0; i < length; i++) {
             if (i < l1 && numBins[i] <= 0) {
-                msg.append(getName() + " " + JaiI18N.getString("HistogramDescriptor7"));
+                msg.append(getName() + " " + "The numBins must be greater than 0.");
                 return false;
             }
 
@@ -205,7 +205,7 @@ public class HistogramDescriptor extends OperationDescriptorImpl {
             double h = i < l3 ? highValue[i] : highValue[0];
 
             if (l >= h) {
-                msg.append(getName() + " " + JaiI18N.getString("HistogramDescriptor8"));
+                msg.append(getName() + " " + "The lowValue must be less than its corresponding highValue.");
                 return false;
             }
         }

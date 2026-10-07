@@ -86,7 +86,7 @@ public class PNMImageEncoder extends ImageEncoderImpl {
 
         int dataType = sampleModel.getTransferType();
         if ((dataType == DataBuffer.TYPE_FLOAT) || (dataType == DataBuffer.TYPE_DOUBLE)) {
-            throw new RuntimeException(JaiI18N.getString("PNMImageEncoder0"));
+            throw new RuntimeException("Source image has float/double data type, unsuitable for PNM file format.");
         }
 
         // Raw data can only handle bytes, everything greater must be ASCII.
@@ -107,7 +107,8 @@ public class PNMImageEncoder extends ImageEncoderImpl {
 
                 int mapSize = icm.getMapSize();
                 if (mapSize < (1 << sampleSize[0])) {
-                    throw new RuntimeException(JaiI18N.getString("PNMImageEncoder1"));
+                    throw new RuntimeException(
+                            "Image has an IndexColorModel whose map size is to small for the data type obtained from SampleModel.");
                 }
 
                 if (sampleSize[0] == 1) {
@@ -143,7 +144,7 @@ public class PNMImageEncoder extends ImageEncoderImpl {
                 variant = PPM_ASCII;
             }
         } else {
-            throw new RuntimeException(JaiI18N.getString("PNMImageEncoder2"));
+            throw new RuntimeException("Source image has unsuitable number of bands for PNM file format.");
         }
 
         // Read parameters

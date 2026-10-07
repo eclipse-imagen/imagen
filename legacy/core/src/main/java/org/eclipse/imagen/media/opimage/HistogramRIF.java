@@ -62,7 +62,7 @@ public class HistogramRIF implements RenderedImageFactory {
             op = new HistogramOpImage(src, roi, xStart, yStart, xPeriod, yPeriod, numBins, lowValue, highValue);
         } catch (Exception e) {
             ImagingListener listener = ImageUtil.getImagingListener(hints);
-            String message = JaiI18N.getString("HistogramRIF0");
+            String message = "Fails to create the rendering of the Histogram operation";
             listener.errorOccurred(message, e, this, false);
         }
 

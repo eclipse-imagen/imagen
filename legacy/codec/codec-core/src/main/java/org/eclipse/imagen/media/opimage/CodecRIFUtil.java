@@ -77,7 +77,8 @@ public class CodecRIFUtil {
                 try {
                     streamPosition = source.getFilePointer();
                 } catch (IOException ioe) {
-                    listener.errorOccurred(JaiI18N.getString("StreamRIF1"), ioe, CodecRIFUtil.class, false);
+                    listener.errorOccurred(
+                            "IOException occurs when get the stream position.", ioe, CodecRIFUtil.class, false);
                     // Unset the recovery attempt flag but otherwise
                     // ignore the exception.
                     canAttemptRecovery = false;
@@ -109,7 +110,7 @@ public class CodecRIFUtil {
                     image = new DisposableNullOpImage(dec.decodeAsRenderedImage(page), layout, renderHints, bound);
                 } else {
                     // Re-throw the error.
-                    String message = JaiI18N.getString("CodecRIFUtil0");
+                    String message = "Cannot recover the memory error";
                     listener.errorOccurred(
                             message, new ImagingException(message, memoryError), CodecRIFUtil.class, false);
                     //                    throw memoryError;
@@ -118,7 +119,7 @@ public class CodecRIFUtil {
 
             return image;
         } catch (Exception e) {
-            listener.errorOccurred(JaiI18N.getString("CodecRIFUtil1"), e, CodecRIFUtil.class, false);
+            listener.errorOccurred("Cannot decode the image for the type :", e, CodecRIFUtil.class, false);
             //            e.printStackTrace();
             return null;
         }

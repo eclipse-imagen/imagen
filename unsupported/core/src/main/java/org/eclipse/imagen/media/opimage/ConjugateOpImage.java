@@ -138,7 +138,7 @@ final class ConjugateOpImage extends PointOpImage {
             case DataBuffer.TYPE_BYTE:
             case DataBuffer.TYPE_USHORT:
             default:
-                throw new RuntimeException(JaiI18N.getString("ConjugateOpImage0"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         // If the RasterAccessor object set up a temporary buffer for the

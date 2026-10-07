@@ -140,12 +140,12 @@ public class FileLoadRIF implements RenderedImageFactory {
             return image == null ? null : new StreamImage(image, src);
 
         } catch (FileNotFoundException e) {
-            String message = JaiI18N.getString("FileLoadRIF0") + args.getObjectParameter(0);
+            String message = "Cannot find the file :" + args.getObjectParameter(0);
             listener.errorOccurred(message, e, this, false);
             //            e.printStackTrace();
             return null;
         } catch (Exception e) {
-            String message = JaiI18N.getString("FileLoadRIF1");
+            String message = "Cannot create the rendering of the FileLoad operation. ";
             listener.errorOccurred(message, e, this, false);
             //            e.printStackTrace();
             return null;

@@ -86,7 +86,7 @@ public class NullOpImage extends PointOpImage {
                 false);
 
         if (computeType != OP_COMPUTE_BOUND && computeType != OP_IO_BOUND && computeType != OP_NETWORK_BOUND) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NullOpImage0"));
+            throw new IllegalArgumentException("The specified computeType is not among the known values.");
         }
 
         this.computeType = computeType;

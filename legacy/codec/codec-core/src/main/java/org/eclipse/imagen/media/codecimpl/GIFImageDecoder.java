@@ -77,9 +77,9 @@ public class GIFImageDecoder extends ImageDecoderImpl {
                 globalColorTable = null;
             }
         } catch (IOException e) {
-            String message = JaiI18N.getString("GIFImageDecoder0");
+            String message = "Error reading GIF stream header.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), GIFImageDecoder.class, false);
-            //            throw new IOException(JaiI18N.getString("GIFImageDecoder0"));
+            //            throw new IOException("Error reading GIF stream header.");
         }
 
         return globalColorTable;
@@ -111,7 +111,7 @@ public class GIFImageDecoder extends ImageDecoderImpl {
 
         // Verify that the index is in range.
         if (page < 0 || (maxPageFound && page > maxPage)) {
-            throw new IOException(JaiI18N.getString("GIFImageDecoder1"));
+            throw new IOException("Illegal page requested from a GIF file.");
         }
 
         // Attempt to get the image from the cache.
@@ -160,7 +160,7 @@ public class GIFImageDecoder extends ImageDecoderImpl {
             } catch (IOException e) {
                 maxPageFound = true;
                 maxPage = prevPage;
-                String message = JaiI18N.getString("GIFImage3");
+                String message = "Error reading GIF image data.";
                 ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
                 //                throw e;
             }
@@ -295,11 +295,11 @@ class GIFImage extends SimpleRenderedImage {
                         } while (length > 0);
                     }
                 } else {
-                    throw new IOException(JaiI18N.getString("GIFImage0") + " " + blockType + "!");
+                    throw new IOException("Unexpected block type" + " " + blockType + "!");
                 }
             }
         } catch (IOException ioe) {
-            throw new IOException(JaiI18N.getString("GIFImage1"));
+            throw new IOException("Error reading GIF image header.");
         }
 
         // Set the image layout from the header information.
@@ -472,7 +472,7 @@ class GIFImage extends SimpleRenderedImage {
 
         // Should be a unique tile.
         if (tileX != 0 || tileY != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("GIFImage2"));
+            throw new IllegalArgumentException("Illegal tile requested from a GIFImage.");
         }
 
         // Return the tile if it's already computed.
@@ -576,9 +576,9 @@ class GIFImage extends SimpleRenderedImage {
                 oldCode = code;
             }
         } catch (IOException e) {
-            String message = JaiI18N.getString("GIFImage3");
+            String message = "Error reading GIF image data.";
             ImagingListenerProxy.errorOccurred(message, new ImagingException(message, e), this, false);
-            //            throw new RuntimeException(JaiI18N.getString("GIFImage3"));
+            //            throw new RuntimeException("Error reading GIF image data.");
         } finally {
             return theTile;
         }

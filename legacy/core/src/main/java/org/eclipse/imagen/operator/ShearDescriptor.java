@@ -202,18 +202,18 @@ public class ShearDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Shear"},
         {"LocalName", "Shear"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ShearDescriptor0")},
+        {"Description", "Shears an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ShearDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("ShearDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ShearDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ShearDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ShearDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("ShearDescriptor5")},
-        {"arg5Desc", JaiI18N.getString("ShearDescriptor6")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The shear value."},
+        {"arg1Desc", "The shear direction."},
+        {"arg2Desc", "The X translation."},
+        {"arg3Desc", "The Y translation."},
+        {"arg4Desc", "The interpolation method for resampling."},
+        {"arg5Desc", "The user-specified background values."}
     };
 
     /** The parameter names for the "Shear" operation. */

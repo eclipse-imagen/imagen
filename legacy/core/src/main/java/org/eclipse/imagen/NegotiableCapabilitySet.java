@@ -88,11 +88,11 @@ public class NegotiableCapabilitySet implements Serializable {
     public void add(NegotiableCapability capability) {
 
         if (capability == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet0"));
+            throw new IllegalArgumentException("The supplied capability argument is null.");
         }
 
         if (isPreference != capability.isPreference()) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet1"));
+            throw new IllegalArgumentException("The supplied capability has an incompatible preference type.");
         }
 
         SequentialMap map = getCategoryMap(capability.getCategory());
@@ -111,7 +111,7 @@ public class NegotiableCapabilitySet implements Serializable {
     public void remove(NegotiableCapability capability) {
 
         if (capability == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet0"));
+            throw new IllegalArgumentException("The supplied capability argument is null.");
         }
 
         SequentialMap map = getCategoryMap(capability.getCategory());
@@ -130,11 +130,11 @@ public class NegotiableCapabilitySet implements Serializable {
     public List get(String category, String capabilityName) {
 
         if (category == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet3"));
+            throw new IllegalArgumentException("The supplied category argument is null.");
         }
 
         if (capabilityName == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet4"));
+            throw new IllegalArgumentException("The supplied capabilityName argument is null.");
         }
 
         SequentialMap map = getCategoryMap(category);
@@ -151,7 +151,7 @@ public class NegotiableCapabilitySet implements Serializable {
     public List get(String category) {
 
         if (category == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet3"));
+            throw new IllegalArgumentException("The supplied category argument is null.");
         }
 
         SequentialMap map = getCategoryMap(category);
@@ -208,7 +208,7 @@ public class NegotiableCapabilitySet implements Serializable {
     public List getCapabilityNames(String category) {
 
         if (category == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet3"));
+            throw new IllegalArgumentException("The supplied category argument is null.");
         }
 
         SequentialMap map = getCategoryMap(category);
@@ -289,7 +289,7 @@ public class NegotiableCapabilitySet implements Serializable {
     public NegotiableCapability getNegotiatedValue(String category) {
 
         if (category == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet3"));
+            throw new IllegalArgumentException("The supplied category argument is null.");
         }
 
         List thisCapabilities = get(category);
@@ -320,7 +320,7 @@ public class NegotiableCapabilitySet implements Serializable {
         if (other == null) return null;
 
         if (category == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet3"));
+            throw new IllegalArgumentException("The supplied category argument is null.");
         }
 
         List thisCapabilities = get(category);
@@ -429,12 +429,12 @@ public class NegotiableCapabilitySet implements Serializable {
             int index = keys.indexOf(capNameKey);
 
             if (index == -1) {
-                throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet2"));
+                throw new IllegalArgumentException("The supplied capability argument was not added previously.");
             }
 
             Vector v = (Vector) values.elementAt(index);
             if (v.remove(capability) == false) {
-                throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableCapabilitySet2"));
+                throw new IllegalArgumentException("The supplied capability argument was not added previously.");
             }
 
             // If this was the only element in the capabilityName Vector

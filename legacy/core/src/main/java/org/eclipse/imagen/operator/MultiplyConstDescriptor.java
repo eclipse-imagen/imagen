@@ -80,13 +80,13 @@ public class MultiplyConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "MultiplyConst"},
         {"LocalName", "MultiplyConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MultiplyConstDescriptor0")},
+        {"Description", "Multiplies an image by constants."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/MultiplyConstDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("MultiplyConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to be multiplied."}
     };
 
     /**
@@ -125,7 +125,7 @@ public class MultiplyConstDescriptor extends OperationDescriptorImpl {
 
         int length = ((double[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("MultiplyConstDescriptor2"));
+            message.append(getName() + " " + "operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

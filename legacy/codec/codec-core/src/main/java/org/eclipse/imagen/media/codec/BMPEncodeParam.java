@@ -82,7 +82,7 @@ public class BMPEncodeParam implements ImageEncodeParam {
     // Method to check whether we can handle the given version.
     private void checkVersion(int versionNumber) {
         if (!(versionNumber == VERSION_2 || versionNumber == VERSION_3 || versionNumber == VERSION_4)) {
-            throw new RuntimeException(JaiI18N.getString("BMPEncodeParam0"));
+            throw new RuntimeException("Unsupported version number specified for BMP file.");
         }
     }
 }

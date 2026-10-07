@@ -85,12 +85,12 @@ public class DivideDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Divide"},
         {"LocalName", "Divide"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("DivideDescriptor0")},
+        {"Description", "Divides one image by another image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/DivideDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

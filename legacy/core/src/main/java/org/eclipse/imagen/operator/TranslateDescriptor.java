@@ -184,15 +184,15 @@ public class TranslateDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Translate"},
         {"LocalName", "Translate"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("TranslateDescriptor0")},
+        {"Description", "Moves an image to a new location."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/TranslateDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("TranslateDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("TranslateDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("TranslateDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The displacement in X direction."},
+        {"arg1Desc", "The displacement in Y direction."},
+        {"arg2Desc", "The interpolation method."}
     };
 
     /** The parameter names for the "Translate" operation. */

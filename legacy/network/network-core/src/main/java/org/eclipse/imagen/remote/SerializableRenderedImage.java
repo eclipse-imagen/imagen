@@ -331,7 +331,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             TileCodecDescriptor tcd = getTileCodecDescriptor("tileEncoder", formatName);
             encodingParam = tcd.getDefaultParameters("tileEncoder");
         } else if (!formatName.equals(encodingParam.getFormatName())) {
-            throw new IllegalArgumentException(JaiI18N.getString("UseTileCodec0"));
+            throw new IllegalArgumentException(
+                    "The format name in the encoding parameter should be the same as the provided one.");
         }
 
         // Fix 4640094: When the provided decodingParam is null, use the default one
@@ -339,13 +340,14 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             TileCodecDescriptor tcd = getTileCodecDescriptor("tileDecoder", formatName);
             decodingParam = tcd.getDefaultParameters("tileDecoder");
         } else if (!formatName.equals(decodingParam.getFormatName())) {
-            throw new IllegalArgumentException(JaiI18N.getString("UseTileCodec1"));
+            throw new IllegalArgumentException(
+                    "The format name in the decoding parameter should be the same as the provided one.");
         }
 
         tileEncoderFactory = (TileEncoderFactory) registry.getFactory("tileEncoder", formatName);
         tileDecoderFactory = (TileDecoderFactory) registry.getFactory("tileDecoder", formatName);
         if (tileEncoderFactory == null || tileDecoderFactory == null)
-            throw new RuntimeException(JaiI18N.getString("UseTileCodec2"));
+            throw new RuntimeException("The encoder or decoder factory is not registered for the provided format.");
 
         this.encodingParam = encodingParam;
         this.decodingParam = decodingParam;
@@ -394,17 +396,17 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
         UID = ImageUtil.generateID(this);
 
         if (source == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializableRenderedImage0"));
+            throw new IllegalArgumentException("The source parameter cannot be null.");
         }
 
         SampleModel sm = source.getSampleModel();
         if (sm != null && SerializerFactory.getSerializer(sm.getClass()) == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializableRenderedImage2"));
+            throw new IllegalArgumentException("No Serializers available for the SampleModel.");
         }
 
         ColorModel cm = source.getColorModel();
         if (cm != null && SerializerFactory.getSerializer(cm.getClass()) == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializableRenderedImage3"));
+            throw new IllegalArgumentException("No Serializers available for the ColorModel.");
         }
 
         if (checkDataBuffer) {
@@ -412,7 +414,7 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             if (ras != null) {
                 DataBuffer db = ras.getDataBuffer();
                 if (db != null && SerializerFactory.getSerializer(db.getClass()) == null)
-                    throw new IllegalArgumentException(JaiI18N.getString("SerializableRenderedImage4"));
+                    throw new IllegalArgumentException("No Serializers available for the DataBuffer.");
             }
         }
 
@@ -495,13 +497,13 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                     continue;
                 } catch (SocketException e) {
                     sendExceptionToListener(
-                            JaiI18N.getString("SerializableRenderedImage5"),
-                            new ImagingException(JaiI18N.getString("SerializableRenderedImage5"), e));
+                            "SocketException occurs when open the server.",
+                            new ImagingException("SocketException occurs when open the server.", e));
                     //                    throw new RuntimeException(e.getMessage());
                 } catch (IOException e) {
                     sendExceptionToListener(
-                            JaiI18N.getString("SerializableRenderedImage6"),
-                            new ImagingException(JaiI18N.getString("SerializableRenderedImage6"), e));
+                            "IOException occurs when open the server.",
+                            new ImagingException("IOException occurs when open the server.", e));
                 }
 
                 // Get the socket input and output streams and wrap object
@@ -517,8 +519,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                     objectOut = new ObjectOutputStream(out);
                 } catch (IOException e) {
                     sendExceptionToListener(
-                            JaiI18N.getString("SerializableRenderedImage7"),
-                            new ImagingException(JaiI18N.getString("SerializableRenderedImage7"), e));
+                            "IOException occurs when open the streams of the socket.",
+                            new ImagingException("IOException occurs when open the streams of the socket.", e));
                     //                    throw new RuntimeException(e.getMessage());
                 }
 
@@ -528,13 +530,13 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                     obj = objectIn.readObject();
                 } catch (IOException e) {
                     sendExceptionToListener(
-                            JaiI18N.getString("SerializableRenderedImage8"),
-                            new ImagingException(JaiI18N.getString("SerializableRenderedImage8"), e));
+                            "IOException occurs when read objects.",
+                            new ImagingException("IOException occurs when read objects.", e));
                     //                    throw new RuntimeException(e.getMessage());
                 } catch (ClassNotFoundException e) {
                     sendExceptionToListener(
-                            JaiI18N.getString("SerializableRenderedImage9"),
-                            new ImagingException(JaiI18N.getString("SerializableRenderedImage9"), e));
+                            "The class of read object is not found.",
+                            new ImagingException("The class of read object is not found.", e));
                 }
 
                 // Switch according to object class; ignore unsupported types.
@@ -544,8 +546,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                         objectOut.writeObject(CLOSE_ACK);
                     } catch (IOException e) {
                         sendExceptionToListener(
-                                JaiI18N.getString("SerializableRenderedImage17"),
-                                new ImagingException(JaiI18N.getString("SerializableRenderedImage17"), e));
+                                "IOException occured when writing CLOSE_ACK object.",
+                                new ImagingException("IOException occured when writing CLOSE_ACK object.", e));
                         // throw new RuntimeException(e.getMessage());
                     }
 
@@ -564,8 +566,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                             objectOut.writeObject(buf);
                         } catch (IOException e) {
                             sendExceptionToListener(
-                                    JaiI18N.getString("SerializableRenderedImage10"),
-                                    new ImagingException(JaiI18N.getString("SerializableRenderedImage10"), e));
+                                    "IOException occurs when write a raster.",
+                                    new ImagingException("IOException occurs when write a raster.", e));
                             //                            throw new RuntimeException(e.getMessage());
                         }
                     } else {
@@ -573,8 +575,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                             objectOut.writeObject(SerializerFactory.getState(raster, null));
                         } catch (IOException e) {
                             sendExceptionToListener(
-                                    JaiI18N.getString("SerializableRenderedImage10"),
-                                    new ImagingException(JaiI18N.getString("SerializableRenderedImage10"), e));
+                                    "IOException occurs when write a raster.",
+                                    new ImagingException("IOException occurs when write a raster.", e));
                             //                            throw new RuntimeException(e.getMessage());
                         }
                     }
@@ -605,8 +607,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                     socket.close();
                 } catch (IOException e) {
                     sendExceptionToListener(
-                            JaiI18N.getString("SerializableRenderedImage10"),
-                            new ImagingException(JaiI18N.getString("SerializableRenderedImage10"), e));
+                            "IOException occurs when write a raster.",
+                            new ImagingException("IOException occurs when write a raster.", e));
                     //                    throw new RuntimeException(e.getMessage());
                 }
             }
@@ -698,8 +700,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                 objectIn = new ObjectInputStream(in);
             } catch (IOException e) {
                 sendExceptionToListener(
-                        JaiI18N.getString("SerializableRenderedImage7"),
-                        new ImagingException(JaiI18N.getString("SerializableRenderedImage7"), e));
+                        "IOException occurs when open the streams of the socket.",
+                        new ImagingException("IOException occurs when open the streams of the socket.", e));
                 //                throw new RuntimeException(e.getMessage());
             }
 
@@ -708,8 +710,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                 objectOut.writeObject(rect);
             } catch (IOException e) {
                 sendExceptionToListener(
-                        JaiI18N.getString("SerializableRenderedImage10"),
-                        new ImagingException(JaiI18N.getString("SerializableRenderedImage10"), e));
+                        "IOException occurs when write a raster.",
+                        new ImagingException("IOException occurs when write a raster.", e));
                 //                throw new RuntimeException(e.getMessage());
             }
 
@@ -719,13 +721,13 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                 object = objectIn.readObject();
             } catch (IOException e) {
                 sendExceptionToListener(
-                        JaiI18N.getString("SerializableRenderedImage8"),
-                        new ImagingException(JaiI18N.getString("SerializableRenderedImage8"), e));
+                        "IOException occurs when read objects.",
+                        new ImagingException("IOException occurs when read objects.", e));
                 //                throw new RuntimeException(e.getMessage());
             } catch (ClassNotFoundException e) {
                 sendExceptionToListener(
-                        JaiI18N.getString("SerializableRenderedImage9"),
-                        new ImagingException(JaiI18N.getString("SerializableRenderedImage9"), e));
+                        "The class of read object is not found.",
+                        new ImagingException("The class of read object is not found.", e));
             }
 
             if (useTileCodec) {
@@ -752,7 +754,7 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
                 in.close();
                 socket.close();
             } catch (IOException e) {
-                String message = JaiI18N.getString("SerializableRenderedImage11");
+                String message = "IOException occurs when close the socket.";
                 sendExceptionToListener(message, new ImagingException(message, e));
                 //                throw new RuntimeException(e.getMessage());
             }
@@ -969,8 +971,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             objectIn = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage7"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage7"), e));
+                    "IOException occurs when open the streams of the socket.",
+                    new ImagingException("IOException occurs when open the streams of the socket.", e));
             //            throw new RuntimeException(e.getMessage());
         }
 
@@ -979,8 +981,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             objectOut.writeObject(CLOSE_MESSAGE);
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage13"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage13"), e));
+                    "IOException occurs when write the close message.",
+                    new ImagingException("IOException occurs when write the close message.", e));
             //            throw new RuntimeException(e.getMessage());
         }
 
@@ -988,12 +990,12 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             objectIn.readObject();
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage8"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage8"), e));
+                    "IOException occurs when read objects.",
+                    new ImagingException("IOException occurs when read objects.", e));
         } catch (ClassNotFoundException cnfe) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage9"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage9"), cnfe));
+                    "The class of read object is not found.",
+                    new ImagingException("The class of read object is not found.", cnfe));
         }
 
         // Close the streams and the socket.
@@ -1006,8 +1008,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             socket.close();
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage11"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage11"), e));
+                    "IOException occurs when close the socket.",
+                    new ImagingException("IOException occurs when close the socket.", e));
             //            throw new RuntimeException(e.getMessage());
         }
     }
@@ -1024,8 +1026,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             socket.setSoLinger(true, 1);
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage14"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage14"), e));
+                    "IOException occurs when create the socket.",
+                    new ImagingException("IOException occurs when create the socket.", e));
             //            throw new RuntimeException(e.getMessage());
         }
 
@@ -1041,8 +1043,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             return bos.toByteArray();
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage15"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage15"), e));
+                    "IOException occurs when encode a tile.",
+                    new ImagingException("IOException occurs when encode a tile.", e));
             //            throw new RuntimeException(e.getMessage());
         }
         return null;
@@ -1084,8 +1086,8 @@ public final class SerializableRenderedImage implements RenderedImage, Serializa
             return decoder.decode();
         } catch (IOException e) {
             sendExceptionToListener(
-                    JaiI18N.getString("SerializableRenderedImage16"),
-                    new ImagingException(JaiI18N.getString("SerializableRenderedImage16"), e));
+                    "IOException occurs when decode a tile.",
+                    new ImagingException("IOException occurs when decode a tile.", e));
             //            throw new RuntimeException(e.getMessage());
         }
         return null;

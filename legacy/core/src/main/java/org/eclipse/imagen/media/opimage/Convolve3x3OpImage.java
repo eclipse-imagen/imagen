@@ -85,7 +85,7 @@ final class Convolve3x3OpImage extends AreaOpImage {
                 || (kernel.getHeight() != 3)
                 || (kernel.getXOrigin() != 1)
                 || (kernel.getYOrigin() != 1)) {
-            throw new RuntimeException(JaiI18N.getString("Convolve3x3OpImage0"));
+            throw new RuntimeException("Convolve3x3 only works on 3x3 kernels.");
         }
 
         if (sampleModel.getDataType() == DataBuffer.TYPE_BYTE) {
@@ -147,7 +147,7 @@ final class Convolve3x3OpImage extends AreaOpImage {
                 break;
             default:
                 String className = this.getClass().getName();
-                throw new RuntimeException(JaiI18N.getString("Convolve3x3OpImage1"));
+                throw new RuntimeException("Support for ushort/float/double data not implemented yet.");
         }
 
         // If the RasterAccessor object set up a temporary buffer for the

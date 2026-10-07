@@ -90,16 +90,16 @@ public class CropDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Crop"},
         {"LocalName", "Crop"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("CropDescriptor0")},
+        {"Description", "Performs cropping to a specified bounding box."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/CropDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("CropDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("CropDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("CropDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("CropDescriptor4")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The x origin of the cropping operation."},
+        {"arg1Desc", "The y origin of the cropping operation."},
+        {"arg2Desc", "The width of the cropping operation."},
+        {"arg3Desc", "The height of the cropping operation."}
     };
 
     /** The parameter class list for this operation. */
@@ -159,7 +159,7 @@ public class CropDescriptor extends OperationDescriptorImpl {
 
         // Check for an empty rectangle.
         if (rect_req.isEmpty()) {
-            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor5"));
+            msg.append(getName() + " " + "The rectangular crop area must not be empty.");
             return false;
         }
 
@@ -169,7 +169,7 @@ public class CropDescriptor extends OperationDescriptorImpl {
         Rectangle srcBounds = new Rectangle(src.getMinX(), src.getMinY(), src.getWidth(), src.getHeight());
 
         if (!srcBounds.contains(rect_req)) {
-            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor6"));
+            msg.append(getName() + " " + "The rectangular crop area must not be outside the image.");
             return false;
         }
 
@@ -195,7 +195,7 @@ public class CropDescriptor extends OperationDescriptorImpl {
 
         // Check for an empty rectangle.
         if (rect_req.isEmpty()) {
-            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor5"));
+            msg.append(getName() + " " + "The rectangular crop area must not be empty.");
             return false;
         }
 
@@ -205,7 +205,7 @@ public class CropDescriptor extends OperationDescriptorImpl {
         Rectangle2D rect_src = new Rectangle2D.Float(src.getMinX(), src.getMinY(), src.getWidth(), src.getHeight());
 
         if (!rect_src.contains(rect_req)) {
-            msg.append(getName() + " " + JaiI18N.getString("CropDescriptor6"));
+            msg.append(getName() + " " + "The rectangular crop area must not be outside the image.");
             return false;
         }
 

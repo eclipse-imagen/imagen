@@ -116,13 +116,13 @@ public class LookupDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Lookup"},
         {"LocalName", "Lookup"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("LookupDescriptor0")},
+        {"Description", "Performs general table lookup on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/LookupDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("LookupDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The lookup table the source image is passed through."}
     };
 
     /** The parameter class list for this operation. */
@@ -162,7 +162,7 @@ public class LookupDescriptor extends OperationDescriptorImpl {
                 && dtype != DataBuffer.TYPE_USHORT
                 && dtype != DataBuffer.TYPE_SHORT
                 && dtype != DataBuffer.TYPE_INT) {
-            msg.append(getName() + " " + JaiI18N.getString("LookupDescriptor2"));
+            msg.append(getName() + " " + "operation requires its source to have an integral data type.");
             return false;
         }
 

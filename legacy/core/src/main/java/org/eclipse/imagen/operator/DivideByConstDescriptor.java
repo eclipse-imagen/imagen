@@ -89,13 +89,13 @@ public class DivideByConstDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "DivideByConst"},
         {"LocalName", "DivideByConst"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("DivideByConstDescriptor0")},
+        {"Description", "Divides an image by constants."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/DivideByConstDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("DivideByConstDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The constants to be divided by."}
     };
 
     /**
@@ -134,7 +134,7 @@ public class DivideByConstDescriptor extends OperationDescriptorImpl {
 
         int length = ((double[]) args.getObjectParameter(0)).length;
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("DivideByConstDescriptor2"));
+            message.append(getName() + " " + "operation requires its parameter to have at least 1 array element.");
             return false;
         }
 

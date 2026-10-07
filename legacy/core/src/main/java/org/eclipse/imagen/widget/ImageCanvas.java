@@ -112,7 +112,7 @@ public class ImageCanvas extends Canvas {
             // If not, then create one.
             this.colorModel = PlanarImage.createColorModel(im.getSampleModel());
             if (this.colorModel == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("ImageCanvas0"));
+                throw new IllegalArgumentException("Image Canvas is unable to display supplied RenderedImage.");
             }
         }
 
@@ -252,7 +252,7 @@ public class ImageCanvas extends Canvas {
         if (g instanceof Graphics2D) {
             g2D = (Graphics2D) g;
         } else {
-            System.err.println(JaiI18N.getString("ImageCanvas1"));
+            System.err.println("Graphics object passed in is not an instance of Graphics2D.");
             return;
         }
 

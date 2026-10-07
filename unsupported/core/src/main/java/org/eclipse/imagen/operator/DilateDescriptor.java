@@ -173,13 +173,13 @@ public class DilateDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Dilate"},
         {"LocalName", "Dilate"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("DilateDescriptor0")},
+        {"Description", "Performs binary kernel based Dilate operation on the image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/<br>org.eclipse.imagen.operator.DilateDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("DilateDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The binary convolution kernel."}
     };
 
     /** The parameter names for the Dilate operation. */

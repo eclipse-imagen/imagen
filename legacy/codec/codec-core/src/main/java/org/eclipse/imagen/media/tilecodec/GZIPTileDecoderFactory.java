@@ -65,7 +65,7 @@ public class GZIPTileDecoderFactory implements TileDecoderFactory {
      */
     public TileDecoder createDecoder(InputStream input, TileCodecParameterList param) {
 
-        if (input == null) throw new IllegalArgumentException(JaiI18N.getString("TileDecoder0"));
+        if (input == null) throw new IllegalArgumentException("Inputstream must not be null.");
 
         return new GZIPTileDecoder(input, param);
     }

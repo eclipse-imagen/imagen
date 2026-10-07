@@ -72,12 +72,12 @@ public class LogDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Log"},
         {"LocalName", "Log"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("LogDescriptor0")},
+        {"Description", "Computes the natural logarithm of the pixel values of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/LogDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

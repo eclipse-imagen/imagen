@@ -75,12 +75,12 @@ public class ConjugateDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Conjugate"},
         {"LocalName", "Conjugate"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ConjugateDescriptor0")},
+        {"Description", "Computes the complex conjugate of a complex image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ConjugateDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -118,7 +118,7 @@ public class ConjugateDescriptor extends OperationDescriptorImpl {
         RenderedImage src = args.getRenderedSource(0);
 
         if (src.getSampleModel().getNumBands() % 2 != 0) {
-            msg.append(getName() + " " + JaiI18N.getString("ConjugateDescriptor1"));
+            msg.append(getName() + " " + "The source image must have an even number of bands.");
             return false;
         }
 

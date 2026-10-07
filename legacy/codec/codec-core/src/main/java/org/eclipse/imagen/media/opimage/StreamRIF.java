@@ -53,7 +53,7 @@ public class StreamRIF implements RenderedImageFactory {
         try {
             src.seek(0L);
         } catch (IOException e) {
-            listener.errorOccurred(JaiI18N.getString("StreamRIF0"), e, this, false);
+            listener.errorOccurred("IOException occurs when seek the stream head.", e, this, false);
             //            e.printStackTrace();
             return null;
         }
@@ -110,7 +110,7 @@ public class StreamRIF implements RenderedImageFactory {
             try {
                 streamPosition = src.getFilePointer();
             } catch (IOException ioe) {
-                listener.errorOccurred(JaiI18N.getString("StreamRIF1"), ioe, this, false);
+                listener.errorOccurred("IOException occurs when get the stream position.", ioe, this, false);
                 // Unset the recovery attempt flag but otherwise
                 // ignore the exception.
                 canAttemptRecovery = false;
@@ -144,17 +144,17 @@ public class StreamRIF implements RenderedImageFactory {
                         // Retry image decoding.
                         im = dec.decodeAsRenderedImage();
                     } catch (IOException ioe) {
-                        listener.errorOccurred(JaiI18N.getString("StreamRIF2"), ioe, this, false);
+                        listener.errorOccurred("IOException occurs when decode the image.", ioe, this, false);
                         im = null;
                     }
                 } else {
-                    String message = JaiI18N.getString("CodecRIFUtil0");
+                    String message = "Cannot recover the memory error";
                     listener.errorOccurred(message, new ImagingException(message, memoryError), this, false);
                     // Re-throw the error.
                     //                    throw memoryError;
                 }
             } catch (IOException e) {
-                listener.errorOccurred(JaiI18N.getString("StreamRIF2"), e, this, false);
+                listener.errorOccurred("IOException occurs when decode the image.", e, this, false);
                 im = null;
             }
 

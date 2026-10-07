@@ -69,12 +69,12 @@ public class BandMergeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "BandMerge"},
         {"LocalName", "BandMerge"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BandMergeDescriptor0")},
+        {"Description", "Merge (possibly multi-banded)images into a multibanded image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BandMergeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     /** Constructor. */

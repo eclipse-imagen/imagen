@@ -345,9 +345,9 @@ class AffineOpImage extends GeometricOpImage {
         try {
             this.i_transform = transform.createInverse();
         } catch (Exception e) {
-            String message = JaiI18N.getString("AffineOpImage0");
+            String message = "Affine Transform cannot be inverted.";
             listener.errorOccurred(message, new ImagingException(message, e), this, false);
-            //            throw new RuntimeException(JaiI18N.getString("AffineOpImage0"));
+            //            throw new RuntimeException("Affine Transform cannot be inverted.");
         }
         this.f_transform = (AffineTransform) transform.clone();
 
@@ -382,7 +382,7 @@ class AffineOpImage extends GeometricOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Point2D dpt = (Point2D) destPt.clone();
@@ -403,7 +403,7 @@ class AffineOpImage extends GeometricOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Point2D spt = (Point2D) sourcePt.clone();

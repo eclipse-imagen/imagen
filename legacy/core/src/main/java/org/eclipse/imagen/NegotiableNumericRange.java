@@ -40,13 +40,14 @@ public class NegotiableNumericRange implements Negotiable {
     public NegotiableNumericRange(Range range) {
 
         if (range == null) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableNumericRange0"));
+            throw new IllegalArgumentException("The supplied Range argument is null.");
         }
 
         // If the elementClass of the supplied Range is not a subclass of
         // Number, throw an IllegalArgumentException
         if (!(Number.class.isAssignableFrom(range.getElementClass()))) {
-            throw new IllegalArgumentException(ImageNLegacy18N.getString("NegotiableNumericRange1"));
+            throw new IllegalArgumentException(
+                    "The supplied Range argument's elementClass is not a subclass of Number.");
         }
 
         this.range = range;

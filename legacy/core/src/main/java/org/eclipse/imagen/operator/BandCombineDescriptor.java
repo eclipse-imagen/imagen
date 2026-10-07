@@ -98,13 +98,13 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "BandCombine"},
         {"LocalName", "BandCombine"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BandCombineDescriptor0")},
+        {"Description", "Performs arbitrary interband linear combination using a specified matrix."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BandCombineDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BandCombineDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The matrix specifying the band combination."}
     };
 
     /** The parameter class list for this operation. */
@@ -145,13 +145,17 @@ public class BandCombineDescriptor extends OperationDescriptorImpl {
         int rowLength = sm.getNumBands() + 1;
 
         if (matrix.length < 1) {
-            message.append(getName() + ": " + JaiI18N.getString("BandCombineDescriptor2"));
+            message.append(
+                    getName() + ": "
+                            + "a row of the matrix does not have the correct number of entries, should be OpImage.getExpandedNumBands(source0.getSampleModel(), source0.getColorModel()) + 1.");
             return false;
         }
 
         for (int i = 0; i < matrix.length; i++) {
             if (matrix[i].length != rowLength) {
-                message.append(getName() + ": " + JaiI18N.getString("BandCombineDescriptor2"));
+                message.append(
+                        getName() + ": "
+                                + "a row of the matrix does not have the correct number of entries, should be OpImage.getExpandedNumBands(source0.getSampleModel(), source0.getColorModel()) + 1.");
                 return false;
             }
         }

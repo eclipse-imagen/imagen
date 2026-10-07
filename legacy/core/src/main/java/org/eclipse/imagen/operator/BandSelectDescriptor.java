@@ -83,13 +83,13 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "BandSelect"},
         {"LocalName", "BandSelect"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("BandSelectDescriptor0")},
+        {"Description", "Selects n number of bands from an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/BandSelectDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("BandSelectDescriptor1")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The indices of the selected bands."}
     };
 
     /** The parameter class list for this operation. */
@@ -124,7 +124,7 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
 
         int[] indices = (int[]) args.getObjectParameter(0);
         if (indices.length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("BandSelectDescriptor2"));
+            message.append(getName() + " " + "operation requires the band indices to have at least 1 array element.");
             return false;
         }
 
@@ -133,7 +133,8 @@ public class BandSelectDescriptor extends OperationDescriptorImpl {
         int bands = src.getSampleModel().getNumBands();
         for (int i = 0; i < indices.length; i++) {
             if (indices[i] < 0 || indices[i] >= bands) {
-                message.append(getName() + " " + JaiI18N.getString("BandSelectDescriptor3"));
+                message.append(getName() + " "
+                        + "operation requires band indices to be less than the number of bands of the source image.");
                 return false;
             }
         }

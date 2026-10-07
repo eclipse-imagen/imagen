@@ -59,7 +59,7 @@ public class RawTileEncoderFactory implements TileEncoderFactory {
      * @throws IllegalArgumentException if output is null.
      */
     public TileEncoder createEncoder(OutputStream output, TileCodecParameterList paramList, SampleModel sampleModel) {
-        if (output == null) throw new IllegalArgumentException(JaiI18N.getString("TileEncoder0"));
+        if (output == null) throw new IllegalArgumentException("Outputstream must not be null.");
         return new RawTileEncoder(output, paramList);
     }
 

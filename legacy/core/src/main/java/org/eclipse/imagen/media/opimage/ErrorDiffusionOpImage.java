@@ -387,7 +387,7 @@ final class ErrorDiffusionOpImage extends UntiledOpImage {
                 maxPixelValue = Float.MAX_VALUE;
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("ErrorDiffusionOpImage0"));
+                throw new RuntimeException("Unsupported data type.");
         }
     }
 

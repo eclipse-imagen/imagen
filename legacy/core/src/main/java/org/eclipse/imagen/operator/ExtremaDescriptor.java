@@ -132,17 +132,17 @@ public class ExtremaDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Extrema"},
         {"LocalName", "Extrema"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ExtremaDescriptor0")},
+        {"Description", "Finds the maximum and minimum pixel value in each band of an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ExtremaDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ExtremaDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ExtremaDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ExtremaDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ExtremaDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("ExtremaDescriptor5")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The region of the image to scan."},
+        {"arg1Desc", "The horizontal sampling rate, may not be less than 1."},
+        {"arg2Desc", "The vertical sampling rate, may not be less than 1."},
+        {"arg3Desc", "Whether to store extrema locations."},
+        {"arg4Desc", "Maximum number of run length codes to store."}
     };
 
     /** The parameter name list for this operation. */

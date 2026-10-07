@@ -74,10 +74,10 @@ final class AWTImageOpImage extends SourcelessOpImage {
             tracker.waitForID(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            throw new RuntimeException(JaiI18N.getString("AWTImageOpImage0"));
+            throw new RuntimeException("InterruptedException occurred while loading the AWT image using MediaTracker.");
         }
         if (tracker.isErrorID(0)) { // not standard file format
-            throw new RuntimeException(JaiI18N.getString("AWTImageOpImage1"));
+            throw new RuntimeException("MediaTracker is unable to load the AWT image.");
         }
         tracker.removeImage(image);
 
@@ -147,14 +147,14 @@ final class AWTImageOpImage extends SourcelessOpImage {
         try {
             if (!grabber.grabPixels()) {
                 if ((grabber.getStatus() & ImageObserver.ABORT) != 0) {
-                    throw new RuntimeException(JaiI18N.getString("AWTImageOpImage2"));
+                    throw new RuntimeException("Grabbing pixels aborted.");
                 } else {
-                    throw new RuntimeException(grabber.getStatus() + JaiI18N.getString("AWTImageOpImage3"));
+                    throw new RuntimeException(grabber.getStatus() + ": grabbing pixels failed with this status.");
                 }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            throw new RuntimeException(JaiI18N.getString("AWTImageOpImage4"));
+            throw new RuntimeException("InterruptedException occurred while attempting to grab pixels.");
         }
     }
 
