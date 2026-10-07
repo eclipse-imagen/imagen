@@ -78,7 +78,6 @@ descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
 descriptor	org.eclipse.imagen.operator.PhaseDescriptor
 descriptor	org.eclipse.imagen.operator.MagnitudeDescriptor
 descriptor	org.eclipse.imagen.operator.MagnitudeSquaredDescriptor
-descriptor	org.eclipse.imagen.operator.AWTImageDescriptor
 descriptor	org.eclipse.imagen.operator.ColorQuantizerDescriptor
 descriptor	org.eclipse.imagen.operator.CompositeDescriptor
 descriptor	org.eclipse.imagen.operator.ConjugateDescriptor
@@ -94,7 +93,6 @@ descriptor	org.eclipse.imagen.operator.IIPDescriptor
 descriptor	org.eclipse.imagen.operator.IIPResolutionDescriptor
 descriptor	org.eclipse.imagen.operator.MatchCDFDescriptor
 descriptor	org.eclipse.imagen.operator.MultiplyComplexDescriptor
-descriptor	org.eclipse.imagen.operator.PeriodicShiftDescriptor
 descriptor	org.eclipse.imagen.operator.PiecewiseDescriptor
 descriptor	org.eclipse.imagen.operator.PolarToComplexDescriptor
 descriptor	org.eclipse.imagen.operator.SubsampleBinaryToGrayDescriptor
@@ -118,7 +116,6 @@ rendered    org.eclipse.imagen.media.opimage.BoxFilterRIF		org.eclipse.imagen.me
 rendered    org.eclipse.imagen.media.opimage.PhaseCRIF			org.eclipse.imagen.media	phase			sunphaserif
 rendered    org.eclipse.imagen.media.opimage.MagnitudeCRIF		org.eclipse.imagen.media	magnitude		sunmagnituderif
 rendered    org.eclipse.imagen.media.opimage.MagnitudeSquaredCRIF	org.eclipse.imagen.media	magnitudesquared	sunmagnitudesquaredrif
-rendered    org.eclipse.imagen.media.opimage.AWTImageRIF		org.eclipse.imagen.media	awtimage		sunawtimagerif
 rendered    org.eclipse.imagen.media.opimage.ColorQuantizerRIF		org.eclipse.imagen.media	colorquantizer		suncolorquantizerrif
 rendered    org.eclipse.imagen.media.opimage.ConjugateCRIF		org.eclipse.imagen.media	conjugate		sunconjugaterif
 rendered    org.eclipse.imagen.media.opimage.DCTCRIF			org.eclipse.imagen.media	dct			sundctrif

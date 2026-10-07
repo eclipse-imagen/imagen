@@ -253,8 +253,14 @@ class RegistryFileParser {
                 mode = (RegistryMode) getInstance(keys[1]);
 
                 if (mode != null) {
-                    if (RegistryMode.addMode(mode) == false)
+                    RegistryMode existing = RegistryMode.getMode(mode.getName());
+                    if (existing == null) {
+                        if (RegistryMode.addMode(mode) == false)
+                            registryFileError(ImageNI18N.getString("RegistryFileParser10"));
+                    } else if (existing.getClass() != mode.getClass()) {
                         registryFileError(ImageNI18N.getString("RegistryFileParser10"));
+                    }
+                    localNamesTable.putIfAbsent(new CaselessStringKey(mode.getName()), new Hashtable());
                 }
 
                 // Old format operation-descriptor line OR

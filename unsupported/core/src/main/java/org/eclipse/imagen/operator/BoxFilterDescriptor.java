@@ -147,39 +147,29 @@ public class BoxFilterDescriptor extends OperationDescriptorImpl {
     }
 
     protected boolean validateParameters(ParameterBlock args, StringBuffer msg) {
-        // The number of parameters supplied.
-        int argNumParams = args.getNumParameters();
-
-        if (argNumParams == 0) {
-            // set width to default
-            args.add(paramDefaults[0]);
-            argNumParams++;
+        while (args.getNumParameters() < paramNames.length) {
+            args.add((Object) null);
         }
 
-        if (argNumParams > 0 && args.getObjectParameter(0) instanceof Integer) {
-            Object obj;
-            if (argNumParams < 2) {
-                obj = args.getObjectParameter(0);
-                if (obj instanceof Integer) {
-                    // set height to width
-                    args.add(obj);
-                }
-            }
+        if (args.getObjectParameter(0) == null) {
+            // set width to default
+            args.set(paramDefaults[0], 0);
+        }
 
-            if (argNumParams < 3) {
-                obj = args.getObjectParameter(0);
-                if (obj instanceof Integer) {
-                    // set xKey to width/2
-                    args.add(((Integer) obj).intValue() / 2);
-                }
+        Object width = args.getObjectParameter(0);
+        if (width instanceof Integer) {
+            if (args.getObjectParameter(1) == null) {
+                // set height to width
+                args.set(width, 1);
             }
-
-            if (argNumParams < 4) {
-                obj = args.getObjectParameter(1);
-                if (obj instanceof Integer) {
-                    // set yKey to height/2
-                    args.add(((Integer) obj).intValue() / 2);
-                }
+            if (args.getObjectParameter(2) == null) {
+                // set xKey to width/2
+                args.set(Integer.valueOf((Integer) width / 2), 2);
+            }
+            Object height = args.getObjectParameter(1);
+            if (height instanceof Integer && args.getObjectParameter(3) == null) {
+                // set yKey to height/2
+                args.set(Integer.valueOf((Integer) height / 2), 3);
             }
         }
 
