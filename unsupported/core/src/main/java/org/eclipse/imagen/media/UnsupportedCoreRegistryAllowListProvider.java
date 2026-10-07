@@ -21,6 +21,7 @@ public class UnsupportedCoreRegistryAllowListProvider implements RegistryAllowLi
     private static final Set<String> CLASSES = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(
             "org.eclipse.imagen.media.opimage.AWTImageRIF",
             "org.eclipse.imagen.media.opimage.AddCollectionCRIF",
+            "org.eclipse.imagen.media.opimage.AddConstToCollectionCIF",
             "org.eclipse.imagen.media.opimage.BoxFilterRIF",
             "org.eclipse.imagen.media.opimage.ColorQuantizerRIF",
             "org.eclipse.imagen.media.opimage.CompositeCRIF",

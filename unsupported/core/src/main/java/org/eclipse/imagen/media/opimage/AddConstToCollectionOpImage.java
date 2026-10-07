@@ -18,12 +18,13 @@
 package org.eclipse.imagen.media.opimage;
 
 import java.awt.RenderingHints;
-import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.RenderedImage;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 import org.eclipse.imagen.CollectionImage;
-import org.eclipse.imagen.ImageN;
+import org.eclipse.imagen.media.algebra.AlgebraDescriptor.Operator;
+import org.eclipse.imagen.media.algebra.constant.OperationConstDescriptor;
 
 /**
  * An <code>OpImage</code> implementing the "AddConstToCollection" operation.
@@ -54,11 +55,8 @@ final class AddConstToCollectionOpImage extends CollectionImage {
 
         Iterator iter = sourceCollection.iterator();
         while (iter.hasNext()) {
-            ParameterBlock pb = new ParameterBlock();
-            pb.addSource(iter.next());
-            pb.add(constants);
-
-            imageCollection.add(ImageN.create("AddConst", pb, hints));
+            imageCollection.add(OperationConstDescriptor.create(
+                    (RenderedImage) iter.next(), constants, Operator.SUM, null, null, 0d, hints));
         }
     }
 }

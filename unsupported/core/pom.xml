@@ -19,6 +19,12 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.imagen</groupId>
+      <artifactId>imagen-algebra</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.imagen</groupId>
       <artifactId>imagen-translate</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
