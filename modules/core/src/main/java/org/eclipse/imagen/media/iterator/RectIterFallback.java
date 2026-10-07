@@ -248,7 +248,7 @@ public class RectIterFallback implements RectIter {
         int jumpX = x + num;
         if (jumpX < bounds.x || jumpX > lastX) {
             // Jumped outside the image.
-            throw new IndexOutOfBoundsException("jumpPixels jumped outside of the iterator bounding boxs.");
+            throw new IndexOutOfBoundsException("jumpPixels jumped outside of the iterator bounding box.");
         }
 
         x = jumpX;

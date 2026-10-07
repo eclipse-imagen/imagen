@@ -258,8 +258,7 @@ public final class CIFRegistry {
 
         if (op == null) throw new IllegalArgumentException("op - " + "The input argument(s) may not be null.");
 
-        if (op.isRenderable())
-            throw new IllegalArgumentException("op - " + "The CollectionOp must be not be renderable.");
+        if (op.isRenderable()) throw new IllegalArgumentException("op - " + "The CollectionOp must not be renderable.");
 
         return op.getRegistry().getPropertySource((OperationNode) op);
     }

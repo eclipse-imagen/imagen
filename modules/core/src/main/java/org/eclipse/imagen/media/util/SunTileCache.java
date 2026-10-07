@@ -841,7 +841,7 @@ public final class SunTileCache extends Observable implements TileCache, CacheDi
      */
     public void setMemoryThreshold(float mt) {
         if (mt < 0.0F || mt > 1.0F) {
-            throw new IllegalArgumentException("Tile cache memory capacity must be greater than or equal to 0.");
+            throw new IllegalArgumentException("Tile cache memory threshold must be between 0.0 and 1.0.");
         } else {
             memoryThreshold = mt;
             memoryControl();

@@ -204,11 +204,11 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
         if ((paramDefaults != null) && (paramDefaults.length != numParams))
             throw new IllegalArgumentException(
-                    "paramDefaults" + "Number of parameter defaults not the same as number of parameter names.");
+                    "paramDefaults: Number of parameter defaults not the same as number of parameter names.");
 
         if ((validParamValues != null) && (validParamValues.length != numParams))
             throw new IllegalArgumentException(
-                    "validParamValues" + "Number of valid parameter values not the same as number of parameter names.");
+                    "validParamValues: Number of valid parameter values not the same as number of parameter names.");
 
         this.descriptor = descriptor;
 
@@ -216,7 +216,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
             if ((paramClasses != null) && (paramClasses.length != 0))
                 throw new IllegalArgumentException(
-                        "paramClasses" + "Number of parameter classes not the same as number of parameter names.");
+                        "paramClasses: Number of parameter classes not the same as number of parameter names.");
 
             this.numParams = 0;
             this.paramNames = null;
@@ -229,7 +229,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
             if ((paramClasses == null) || (paramClasses.length != numParams))
                 throw new IllegalArgumentException(
-                        "paramClasses" + "Number of parameter classes not the same as number of parameter names.");
+                        "paramClasses: Number of parameter classes not the same as number of parameter names.");
 
             this.numParams = numParams;
             this.paramNames = paramNames;
@@ -410,7 +410,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         int i = paramIndices.indexOf(parameterName);
 
         if (!EnumeratedParameter.class.isAssignableFrom(paramClasses[i]))
-            throw new IllegalArgumentException(parameterName + ":" + "is not an enumerated parameter.");
+            throw new IllegalArgumentException(parameterName + ": is not an enumerated parameter.");
 
         Set enumSet = (Set) getValidParamValue(i);
 

@@ -672,7 +672,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     public void setParameters(Vector parameters) {
         if (parameters == null || parameters.size() != numParameters) {
             throw new IllegalArgumentException(
-                    "The length of the supplied parameter Vector does no match the number of parameters of the corresponding operation.");
+                    "The length of the supplied parameter Vector does not match the number of parameters of the corresponding operation.");
         }
 
         for (int i = 0; i < numParameters; i++) {

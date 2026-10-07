@@ -86,13 +86,13 @@ public class Range implements Serializable {
         this.elementClass = elementClass;
 
         if (minValue != null && minValue.getClass() != this.elementClass) {
-            throw new IllegalArgumentException("Minimum value must of the specified class type.");
+            throw new IllegalArgumentException("Minimum value must be of the specified class type.");
         }
 
         this.minValue = minValue;
 
         if (maxValue != null && maxValue.getClass() != this.elementClass) {
-            throw new IllegalArgumentException("Maximum value must of the specified class type.");
+            throw new IllegalArgumentException("Maximum value must be of the specified class type.");
         }
 
         this.maxValue = maxValue;

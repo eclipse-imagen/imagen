@@ -131,7 +131,7 @@ public final class RCIFRegistry {
 
         if (op == null) throw new IllegalArgumentException("op - " + "The input argument(s) may not be null.");
 
-        if (!op.isRenderable()) throw new IllegalArgumentException("op - " + "The CollectionOp must be be renderable.");
+        if (!op.isRenderable()) throw new IllegalArgumentException("op - " + "The CollectionOp must be renderable.");
 
         return op.getRegistry().getPropertySource((OperationNode) op);
     }

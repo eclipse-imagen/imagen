@@ -131,7 +131,7 @@ public class InterfaceState implements SerializableState {
                     }
                 }
                 if (!interfaceMap.containsKey(key)) {
-                    throw new RuntimeException(key.getName() + "has no compatible implementation.");
+                    throw new RuntimeException(key.getName() + ": has no compatible implementation.");
                 }
             }
 
@@ -140,7 +140,7 @@ public class InterfaceState implements SerializableState {
                 Object impl = interfaceMap.get(key);
                 result = method.invoke(impl, args);
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(method.getName() + "cannot be evaluated by proxy.");
+                throw new RuntimeException(method.getName() + ": cannot be evaluated by proxy.");
             }
 
             return result;
