@@ -253,3 +253,119 @@ The following core classes have been updated:
 
 If your code relies on the classes mentioned above, consider updating it to ensure proper resource cleanup is performed.
  
+
+# JPMS Allowances
+
+ImageN runs on the Java Platform Module System. Each jar is an automatic module, for example `org.eclipse.imagen.core` or `org.eclipse.imagen.legacy.core`. The following improvements allow operations to load on both the classpath and the module path.
+
+## JaiI18N and Message properties removed
+
+The package-private `JaiI18N` helper classes have been removed, and  ImageN no longer reads exception and descriptor text from `org.eclipse.imagen/*.properties` resource bundles.
+
+ *  Operations following the JAI pattern of a `JaiI18N` class should replace their own lookups with string literals.
+ 
+    ```java
+    private static final String[][] resources = {
+        {"GlobalName", "Rotate"},
+        {"Description", "Rotates an image."},
+        ...
+    };
+    ```
+ 
+ *  `PropertyUtil.getString(String, String)` is no longer used and is deprecated, however it still reads `org.eclipse.imagen/<package>.properties` allowing operations that ship their own bundle keep working.
+ *  Legacy codec-core `org.eclipse.imagen.media.codecimpl.util.PropertyUtil` is deprecated. Use imagen-core `org.eclipse.imagen.media.util.PropertyUtil`.
+
+## Allow-list configuration
+
+ImageN only creates classes it trusts when loading by reflection:
+
+* `RegistryFileParser` creates the descriptor and factory classes named in `META-INF/registryFile.imagen`. Other entries are skipped with the warning `Class ... is not in the allow-list`.
+* `Service` creates the `OperationRegistrySpi` providers listed in `META-INF/services`.
+
+Operation libraries contribute trusted classes by implementing `RegistryAllowListProvider` and `ServiceAllowListProvider`:
+
+```java
+public class ExampleRegistryAllowListProvider implements RegistryAllowListProvider {
+    @Override
+    public Set<String> getAllowedRegistryClasses() {
+        return Set.of("org.example.media.ExampleDescriptor", "org.example.media.ExampleCRIF");
+    }
+}
+```
+
+Applications can add additional classes with a System Property or Environment Variable, as comma-separated fully qualified class names:
+
+| Allow-list | System property | Environment variable |
+|---|---|---|
+| Registry classes | `org.eclipse.imagen.allowedRegistryClasses` | `ORG_ECLIPSE_IMAGEN_ALLOWED_REGISTRY_CLASSES` |
+| Service providers | `org.eclipse.imagen.allowedServiceProviderClasses` | `ORG_ECLIPSE_IMAGEN_ALLOWED_SERVICE_PROVIDER_CLASSES` |
+
+Each allow-list is read once per JVM, on first use.
+
+For example, GeoTools palette operations without a contributed provider requires:
+
+```
+-Dorg.eclipse.imagen.allowedRegistryClasses=\
+org.geotools.image.palette.ColorReductionDescriptor,\
+org.geotools.image.palette.ColorInversionDescriptor,\
+org.geotools.image.palette.ColorReductionCRIF,\
+org.geotools.image.palette.ColorInversionCRIF
+```
+
+## Registering operations with OperationRegistrySpi
+
+Operations are normally registered in `META-INF/registryFile.imagen`. Use an `OperationRegistrySpi` only to register an operation conditionally. Providers run after every `registryFile.imagen` has been read, so they can check what is already registered.
+
+To avoid being dependent on classpath order `imagen-legacy-core` uses this approach: allowing any `imagen-*` module operation with the same name to take precedence. From `LegacyCoreSpi`:
+
+```java
+public class LegacyCoreSpi implements OperationRegistrySpi {
+
+    @Override
+    public void updateRegistry(OperationRegistry registry) {
+        register(registry, new AddDescriptor(), PRODUCT, new AddCRIF(), true);
+        ...
+    }
+
+    private static void register(
+            OperationRegistry registry,
+            OperationDescriptor descriptor,
+            String product,
+            RenderedImageFactory factory,
+            boolean renderable) {
+        String name = descriptor.getName();
+        if (registry.getDescriptor(OperationDescriptor.class, name) != null) {
+            LOGGER.log(Level.FINE, "Operation {0} already registered, skipping {1}", new Object[] {
+                name, descriptor.getClass().getName()
+            });
+            return;
+        }
+        registry.registerDescriptor(descriptor);
+        if (factory != null) {
+            registry.registerFactory(RenderedRegistryMode.MODE_NAME, name, product, factory);
+            if (renderable) {
+                registry.registerFactory(
+                        RenderableRegistryMode.MODE_NAME, name, product, (ContextualRenderedImageFactory) factory);
+            }
+        }
+    }
+}
+```
+
+`OperationRegistrySpi` providers must be listed in `META-INF/services/org.eclipse.imagen.OperationRegistrySpi`, and be on the service allow-list, see [Allow-list configuration](#allow-list-configuration).
+
+## Tips for operation implementors
+
+* List each provider in `META-INF/services`. ImageN reads `OperationRegistrySpi` providers from these files on both the classpath and the module path.
+* In a named module, also declare the allow-list providers with `provides`, as they are discovered by `java.util.ServiceLoader`:
+
+  ```java
+  module org.example.media {
+      requires org.eclipse.imagen.core;
+      provides org.eclipse.imagen.spi.RegistryAllowListProvider with org.example.media.ExampleRegistryAllowListProvider;
+      provides org.eclipse.imagen.spi.ServiceAllowListProvider with org.example.media.ExampleServiceAllowListProvider;
+  }
+  ```
+
+* Use a unique operation name; when two jars register the same name, the first `registryFile.imagen` read wins.
+* When shading jars, append `META-INF/registryFile.imagen` with an `AppendingTransformer` and merge `META-INF/services` with the `ServicesResourceTransformer`.
