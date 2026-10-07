@@ -66,6 +66,13 @@
 #
 ############################################################################
 #
+# Tile codec registry modes :
+#
+registryMode	org.eclipse.imagen.registry.TileDecoderRegistryMode
+registryMode	org.eclipse.imagen.registry.TileEncoderRegistryMode
+
+############################################################################
+#
 # Image operation descriptors :
 #
 
