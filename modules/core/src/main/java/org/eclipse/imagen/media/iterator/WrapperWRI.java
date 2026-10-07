@@ -34,11 +34,11 @@ public class WrapperWRI extends WrapperRI implements WritableRenderedImage {
     }
 
     public void addTileObserver(TileObserver to) {
-        throw new RuntimeException(JaiI18N.getString("WrapperWRI0"));
+        throw new RuntimeException("Not implemented yet.");
     }
 
     public void removeTileObserver(TileObserver to) {
-        throw new RuntimeException(JaiI18N.getString("WrapperWRI0"));
+        throw new RuntimeException("Not implemented yet.");
     }
 
     public WritableRaster getWritableTile(int tileX, int tileY) {
@@ -69,6 +69,6 @@ public class WrapperWRI extends WrapperRI implements WritableRenderedImage {
     }
 
     public void setData(Raster r) {
-        throw new RuntimeException(JaiI18N.getString("WrapperWRI0"));
+        throw new RuntimeException("Not implemented yet.");
     }
 }

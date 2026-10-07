@@ -194,7 +194,7 @@ public class RectIterFallback implements RectIter {
         int jumpY = y + num;
         if (jumpY < bounds.y || jumpY > lastY) {
             // Jumped outside the image.
-            throw new IndexOutOfBoundsException(JaiI18N.getString("RectIterFallback1"));
+            throw new IndexOutOfBoundsException("jumpLines jumped outside of the iterator bounding box.");
         }
 
         y = jumpY;
@@ -248,7 +248,7 @@ public class RectIterFallback implements RectIter {
         int jumpX = x + num;
         if (jumpX < bounds.x || jumpX > lastX) {
             // Jumped outside the image.
-            throw new IndexOutOfBoundsException(JaiI18N.getString("RectIterFallback0"));
+            throw new IndexOutOfBoundsException("jumpPixels jumped outside of the iterator bounding boxs.");
         }
 
         x = jumpX;

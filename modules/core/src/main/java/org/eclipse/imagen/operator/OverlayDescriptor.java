@@ -78,12 +78,12 @@ public class OverlayDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Overlay"},
         {"LocalName", "Overlay"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("OverlayDescriptor0")},
+        {"Description", "Overlays one image on top of another."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/OverlayDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")}
+        {"Version", "1.1"}
     };
 
     private static final String[] supportedModes = {"rendered", "renderable"};
@@ -113,7 +113,8 @@ public class OverlayDescriptor extends OperationDescriptorImpl {
         SampleModel s2sm = src2.getSampleModel();
 
         if (s1sm.getNumBands() != s2sm.getNumBands() || s1sm.getTransferType() != s2sm.getTransferType()) {
-            msg.append(getName() + " " + JaiI18N.getString("OverlayDescriptor1"));
+            msg.append(
+                    getName() + " " + "operation requires the two sources to match in number of bands and data type.");
             return false;
         }
 

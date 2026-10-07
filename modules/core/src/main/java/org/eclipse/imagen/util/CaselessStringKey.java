@@ -64,7 +64,7 @@ public final class CaselessStringKey implements Cloneable, Serializable {
      */
     public void setName(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("CaselessStringKey0"));
+            throw new IllegalArgumentException("The name parameter may not be null.");
         }
         this.name = name;
         lowerCaseName = name.toLowerCase(Locale.ENGLISH);

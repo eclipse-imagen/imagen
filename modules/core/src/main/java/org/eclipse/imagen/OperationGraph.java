@@ -120,7 +120,7 @@ class OperationGraph implements java.io.Serializable {
         boolean retval = false;
 
         if ((preferred == null) || (other == null)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (preferred == other) return retval;
@@ -143,7 +143,7 @@ class OperationGraph implements java.io.Serializable {
         boolean retval = false;
 
         if ((preferred == null) || (other == null)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (preferred == other) return retval;

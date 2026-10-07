@@ -350,7 +350,7 @@ public final class JDKWorkarounds {
      */
     public static boolean areCompatibleDataModels(SampleModel sm, ColorModel cm) {
         if (sm == null || cm == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("JDKWorkarounds0"));
+            throw new IllegalArgumentException("SampleModel and ColorModel parameters must be non-null.");
         }
 
         // Call the method we should be using instead of this workaround.

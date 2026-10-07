@@ -307,7 +307,7 @@ public class KernelImageN extends Object implements Serializable {
     public KernelImageN(int width, int height, int xOrigin, int yOrigin, float[] data) {
 
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.width = width;
@@ -316,13 +316,13 @@ public class KernelImageN extends Object implements Serializable {
         this.yOrigin = yOrigin;
         this.data = (float[]) data.clone();
         if (width <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI0"));
+            throw new IllegalArgumentException("Kernel width must be a positive number.");
         }
         if (height <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI1"));
+            throw new IllegalArgumentException("Kernel height must be a positive number.");
         }
         if (width * height != data.length) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI2"));
+            throw new IllegalArgumentException("Kernel data array must have width*height elements.");
         }
         classifyKernel();
     }
@@ -350,23 +350,25 @@ public class KernelImageN extends Object implements Serializable {
     public KernelImageN(int width, int height, int xOrigin, int yOrigin, float[] dataH, float[] dataV) {
 
         if (dataH == null || dataV == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (width <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI0"));
+            throw new IllegalArgumentException("Kernel width must be a positive number.");
         }
 
         if (height <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI1"));
+            throw new IllegalArgumentException("Kernel height must be a positive number.");
         }
 
         if (width != dataH.length) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI3"));
+            throw new IllegalArgumentException(
+                    "Separable KernelJAI constructor argument dataH array must have width elements.");
         }
 
         if (height != dataV.length) {
-            throw new IllegalArgumentException(ImageNI18N.getString("KernelJAI4"));
+            throw new IllegalArgumentException(
+                    "Separable KernelJAI constructor argument dataV array must have height elements.");
         }
 
         this.width = width;

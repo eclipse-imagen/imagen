@@ -70,14 +70,14 @@ public class PatternDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Pattern"},
         {"LocalName", "Pattern"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("PatternDescriptor0")},
+        {"Description", "Defines an image with a repeated pattern."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/PatternDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("PatternDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("PatternDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The width of the image in pixels."},
+        {"arg1Desc", "The height of the image in pixels."}
     };
 
     /** The parameter class list for this operation. */

@@ -148,7 +148,7 @@ public final class SunTileCache extends Observable implements TileCache, CacheDi
      */
     public SunTileCache(long memoryCapacity) {
         if (memoryCapacity < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileCache"));
+            throw new IllegalArgumentException("Tile cache memory capacity must be greater than or equal to 0.");
         }
 
         this.memoryCapacity = memoryCapacity;
@@ -786,7 +786,7 @@ public final class SunTileCache extends Observable implements TileCache, CacheDi
      */
     public void setMemoryCapacity(long memoryCapacity) {
         if (memoryCapacity < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileCache"));
+            throw new IllegalArgumentException("Tile cache memory capacity must be greater than or equal to 0.");
         } else if (memoryCapacity == 0) {
             flush();
         }
@@ -841,7 +841,7 @@ public final class SunTileCache extends Observable implements TileCache, CacheDi
      */
     public void setMemoryThreshold(float mt) {
         if (mt < 0.0F || mt > 1.0F) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileCache"));
+            throw new IllegalArgumentException("Tile cache memory capacity must be greater than or equal to 0.");
         } else {
             memoryThreshold = mt;
             memoryControl();
@@ -931,7 +931,8 @@ public final class SunTileCache extends Observable implements TileCache, CacheDi
                 iter.remove();
             } catch (ConcurrentModificationException e) {
                 ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
-                listener.errorOccurred(JaiI18N.getString("SunTileCache0"), e, this, false);
+                listener.errorOccurred(
+                        "ConcurrentModificationException occurs when remove tiles from cache.", e, this, false);
                 //                e.printStackTrace();
             }
 

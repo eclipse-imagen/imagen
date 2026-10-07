@@ -360,7 +360,7 @@ public class FilteredSubsampleDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "FilteredSubsample"},
         {"LocalName", "FilteredSubsample"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("FilteredSubsampleDescriptor0")},
+        {"Description", "Filters and subsamples an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/FilteredSubsampleDescriptor.html"
@@ -413,7 +413,7 @@ public class FilteredSubsampleDescriptor extends OperationDescriptorImpl {
         int scaleX = args.getIntParameter(0);
         int scaleY = args.getIntParameter(1);
         if (scaleX < 1 || scaleY < 1) {
-            msg.append(getName() + " " + JaiI18N.getString("FilteredSubsampleDescriptor1"));
+            msg.append(getName() + " " + "Subsample scale factors must be positive.");
             return false;
         }
 
@@ -454,7 +454,7 @@ public class FilteredSubsampleDescriptor extends OperationDescriptorImpl {
                 || (interp instanceof InterpolationBilinear)
                 || (interp instanceof InterpolationBicubic)
                 || (interp instanceof InterpolationBicubic2))) {
-            msg.append(getName() + " " + JaiI18N.getString("FilteredSubsampleDescriptor2"));
+            msg.append(getName() + " " + "Interpolation must be one of Nearest, Bilinear, Bicubic, or Bicubic2.");
             return false;
         }
         return true;

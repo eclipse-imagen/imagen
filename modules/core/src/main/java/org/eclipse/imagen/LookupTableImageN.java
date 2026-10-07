@@ -69,7 +69,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(byte[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.data = new DataBufferByte(data, data.length);
@@ -85,7 +85,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(byte[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, offset);
@@ -100,7 +100,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(byte[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, 0);
@@ -116,7 +116,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(byte[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offset);
@@ -132,7 +132,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(byte[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offsets);
@@ -148,7 +148,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(short[] data, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, 0);
@@ -169,7 +169,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(short[] data, int offset, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, offset);
@@ -189,7 +189,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(short[][] data, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, 0);
@@ -210,7 +210,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(short[][] data, int offset, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offset);
@@ -231,7 +231,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(short[][] data, int[] offsets, boolean isUShort) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offsets);
@@ -251,7 +251,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(int[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, 0);
@@ -267,7 +267,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(int[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, offset);
@@ -282,7 +282,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(int[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, 0);
@@ -298,7 +298,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(int[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offset);
@@ -314,7 +314,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(int[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offsets);
@@ -329,7 +329,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(float[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, 0);
@@ -345,7 +345,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(float[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, offset);
@@ -360,7 +360,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(float[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, 0);
@@ -376,7 +376,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(float[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offset);
@@ -392,7 +392,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(float[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offsets);
@@ -407,7 +407,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(double[] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, 0);
@@ -423,7 +423,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(double[] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(1, offset);
@@ -438,7 +438,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(double[][] data) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, 0);
@@ -454,7 +454,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(double[][] data, int offset) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offset);
@@ -470,7 +470,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public LookupTableImageN(double[][] data, int[] offsets) {
         if (data == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.initOffsets(data.length, offsets);
@@ -602,7 +602,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public SampleModel getDestSampleModel(SampleModel srcSampleModel) {
         if (srcSampleModel == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return getDestSampleModel(srcSampleModel, srcSampleModel.getWidth(), srcSampleModel.getHeight());
@@ -621,7 +621,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public SampleModel getDestSampleModel(SampleModel srcSampleModel, int width, int height) {
         if (srcSampleModel == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!isIntegralDataType(srcSampleModel)) {
@@ -639,7 +639,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public boolean isIntegralDataType(SampleModel sampleModel) {
         if (sampleModel == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return isIntegralDataType(sampleModel.getTransferType());
@@ -701,7 +701,7 @@ public class LookupTableImageN extends Object implements Serializable {
      */
     public WritableRaster lookup(WritableRaster src) {
         if (src == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return lookup(src, src, src.getBounds());
@@ -733,12 +733,12 @@ public class LookupTableImageN extends Object implements Serializable {
     public WritableRaster lookup(Raster src, WritableRaster dst, Rectangle rect) {
         // Validate source.
         if (src == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("LookupTableJAI1"));
+            throw new IllegalArgumentException("src argument is null.");
         }
 
         SampleModel srcSampleModel = src.getSampleModel();
         if (!isIntegralDataType(srcSampleModel)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("LookupTableJAI2"));
+            throw new IllegalArgumentException("src must have a SampleModel of integral type.");
         }
 
         // Validate rectangle.
@@ -762,7 +762,7 @@ public class LookupTableImageN extends Object implements Serializable {
 
             if (dstSampleModel.getTransferType() != getDataType()
                     || dstSampleModel.getNumBands() != getDestNumBands(srcSampleModel.getNumBands())) {
-                throw new IllegalArgumentException(ImageNI18N.getString("LookupTableJAI3"));
+                throw new IllegalArgumentException("dst does not have the correct data type or number of bands.");
             }
         }
 
@@ -2199,7 +2199,7 @@ public class LookupTableImageN extends Object implements Serializable {
     public int findNearestEntry(float[] pixel) {
 
         if (pixel == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int dataType = data.getDataType();
@@ -2359,7 +2359,7 @@ public class LookupTableImageN extends Object implements Serializable {
             }
         } else {
             // This can't happen since we control the type of data
-            throw new RuntimeException(ImageNI18N.getString("LookupTableJAI0"));
+            throw new RuntimeException("data.getType() is not one of the legal data types.");
         }
 
         // Return the index of the closest color plus the offset of the

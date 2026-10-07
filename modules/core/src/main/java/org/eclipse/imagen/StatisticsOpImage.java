@@ -141,7 +141,7 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Raster[] getTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return getSource(0).getTiles(tileIndices);
@@ -158,11 +158,12 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) { // there is only 1 source
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
         return new Rectangle(sourceRect);
     }
@@ -178,11 +179,12 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) { // there is only 1 source
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
         return new Rectangle(destRect);
     }
@@ -195,7 +197,7 @@ public abstract class StatisticsOpImage extends OpImage {
      */
     public Object getProperty(String name) {
         if (name == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Is this property already in the Hashtable?

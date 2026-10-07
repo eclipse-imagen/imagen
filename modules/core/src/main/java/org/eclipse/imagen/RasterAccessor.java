@@ -369,13 +369,14 @@ public class RasterAccessor {
     public RasterAccessor(Raster raster, Rectangle rect, RasterFormatTag rft, ColorModel theColorModel) {
 
         if (raster == null || rect == null || rft == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // If requesting a region that lies outside the bounds,
         // throw an exception.
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("RasterAccessor2"));
+            throw new IllegalArgumentException(
+                    "Requested rectangle bounds is not contained in the input raster`s bounds.");
         }
 
         this.raster = raster;
@@ -425,7 +426,7 @@ public class RasterAccessor {
                     bandDataOffsets[i] = bandOffsets[i] + dataBufferOffsets[i] + subRasterOffset;
                 }
             } else {
-                throw new RuntimeException(ImageNI18N.getString("RasterAccessor0"));
+                throw new RuntimeException("DataBuffer must have getOffsets().length equal to 1 or numBands.");
             }
 
             switch (formatTagID & DATATYPE_MASK) {
@@ -1083,7 +1084,7 @@ public class RasterAccessor {
                         // error within this accessor since the only case
                         // wherein byte data should be COPIED is when the
                         // data set is binary.
-                        throw new RuntimeException(ImageNI18N.getString("RasterAccessor1"));
+                        throw new RuntimeException("Binary tag case encountered for non-binary SampleModel.");
                     }
 
                     // This case only occurs for binary src and dst.

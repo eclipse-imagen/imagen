@@ -43,9 +43,9 @@ public class PropertySourceChangeEvent extends PropertyChangeEventImageN {
         // Note: source and propertyName are checked for null in superclass.
 
         if (oldValue == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PropertySourceChangeEvent0"));
+            throw new IllegalArgumentException("The old value of the PropertySourceChangeEvent is null.");
         } else if (newValue == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PropertySourceChangeEvent1"));
+            throw new IllegalArgumentException("The new value of the PropertySourceChangeEvent is null.");
         }
     }
 }

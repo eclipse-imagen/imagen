@@ -381,7 +381,7 @@ public final class ImageUtil {
     public static byte[] getPackedBinaryData(Raster raster, Rectangle rect) {
         SampleModel sm = raster.getSampleModel();
         if (!isBinary(sm)) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageUtil0"));
+            throw new IllegalArgumentException("The supplied Raster does not represent a binary data set.");
         }
 
         int rectX = rect.x;
@@ -550,7 +550,7 @@ public final class ImageUtil {
     public static byte[] getUnpackedBinaryData(Raster raster, Rectangle rect) {
         SampleModel sm = raster.getSampleModel();
         if (!isBinary(sm)) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageUtil0"));
+            throw new IllegalArgumentException("The supplied Raster does not represent a binary data set.");
         }
 
         int rectX = rect.x;
@@ -623,7 +623,7 @@ public final class ImageUtil {
     public static void setPackedBinaryData(byte[] binaryDataArray, WritableRaster raster, Rectangle rect) {
         SampleModel sm = raster.getSampleModel();
         if (!isBinary(sm)) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageUtil0"));
+            throw new IllegalArgumentException("The supplied Raster does not represent a binary data set.");
         }
 
         int rectX = rect.x;
@@ -847,7 +847,7 @@ public final class ImageUtil {
     public static void setUnpackedBinaryData(byte[] bdata, WritableRaster raster, Rectangle rect) {
         SampleModel sm = raster.getSampleModel();
         if (!isBinary(sm)) {
-            throw new IllegalArgumentException(JaiI18N.getString("ImageUtil0"));
+            throw new IllegalArgumentException("The supplied Raster does not represent a binary data set.");
         }
 
         int rectX = rect.x;
@@ -1256,13 +1256,14 @@ public final class ImageUtil {
                 Class[] paramTypes = cmMethod.getParameterTypes();
                 if ((cmMethod.getModifiers() & Modifier.STATIC) != Modifier.STATIC) {
                     // Method must be static.
-                    throw new RuntimeException(JaiI18N.getString("ImageUtil1"));
+                    throw new RuntimeException("Default ColorModel method is non-static.");
                 } else if (cmMethod.getReturnType() != ColorModel.class) {
                     // Method must return a ColorModel.
-                    throw new RuntimeException(JaiI18N.getString("ImageUtil2"));
+                    throw new RuntimeException("Default ColorModel method return type is not ColorModel.");
                 } else if (paramTypes.length != 1 || !paramTypes[0].equals(SampleModel.class)) {
                     // Unique Method parameter must be a SampleModel.
-                    throw new RuntimeException(JaiI18N.getString("ImageUtil3"));
+                    throw new RuntimeException(
+                            "Default ColorModel method does not accept a single parameter of class SampleModel.");
                 }
 
                 // Set the default ColorModel.
@@ -1271,7 +1272,8 @@ public final class ImageUtil {
                     Object[] args = new Object[] {sm};
                     cm = (ColorModel) cmMethod.invoke(null, args);
                 } catch (Exception e) {
-                    String message = JaiI18N.getString("ImageUtil4") + cmMethod.getName();
+                    String message = "Exception occurs when generate a compatible color model for a sample model."
+                            + cmMethod.getName();
                     sendExceptionToListener(message, new ImagingException(message, e));
                     /*
                                         // XXX Is this a reasonable Exception to throw?

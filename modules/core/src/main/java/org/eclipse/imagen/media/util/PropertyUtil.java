@@ -193,6 +193,12 @@ public class PropertyUtil {
                 .orElse(null)));
     }
 
+    /**
+     * Looks up {@code key} in {@code org.eclipse.imagen/<packageName>.properties}.
+     *
+     * @deprecated ImageN no longer ships message properties files; use string literals
+     */
+    @Deprecated
     public static String getString(String packageName, String key) {
         ResourceBundle b = bundles.get(packageName);
         if (b == null) {
@@ -212,7 +218,7 @@ public class PropertyUtil {
         if (propertyNames == null) {
             return null;
         } else if (prefix == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyUtil0"));
+            throw new IllegalArgumentException("The property name prefix may not be null.");
         }
 
         prefix = prefix.toLowerCase();

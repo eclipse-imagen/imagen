@@ -241,14 +241,14 @@ public abstract class ColorSpaceImageN extends ColorSpace {
     protected static void checkParameters(
             Raster src, int[] srcComponentSize, WritableRaster dest, int[] destComponentSize) {
 
-        if (src == null) throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI0"));
-        if (src.getNumBands() != 3) throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI1"));
+        if (src == null) throw new IllegalArgumentException("Source raster should not be null.");
+        if (src.getNumBands() != 3) throw new IllegalArgumentException("Source should have 3 bands.");
         if (dest != null && dest.getNumBands() != 3)
-            throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI2"));
+            throw new IllegalArgumentException("Destination should have 3 bands.");
         if (srcComponentSize != null && srcComponentSize.length != 3)
-            throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI3"));
+            throw new IllegalArgumentException("Length of source component size array should be 3.");
         if (destComponentSize != null && destComponentSize.length != 3)
-            throw new IllegalArgumentException(ImageNI18N.getString("ColorSpaceJAI4"));
+            throw new IllegalArgumentException("Length of Destination component size array should be 3.");
     }
 
     /**

@@ -257,7 +257,7 @@ public abstract class WarpOpImage extends GeometricOpImage {
                 backgroundValues);
 
         if (warp == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         this.warp = warp;
 
@@ -336,9 +336,10 @@ public abstract class WarpOpImage extends GeometricOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex != 0) {
-            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         return warp.mapDestPoint(destPt);
@@ -358,9 +359,10 @@ public abstract class WarpOpImage extends GeometricOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex != 0) {
-            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         return warp.mapSourcePoint(sourcePt);
@@ -381,11 +383,12 @@ public abstract class WarpOpImage extends GeometricOpImage {
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) { // this image only has one source
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         return warp.mapSourceRect(sourceRect);
@@ -405,11 +408,12 @@ public abstract class WarpOpImage extends GeometricOpImage {
      */
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex != 0) { // this image only has one source
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         Rectangle wrect = warp.mapDestRect(destRect);

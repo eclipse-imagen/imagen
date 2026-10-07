@@ -380,13 +380,13 @@ public class ImageN implements AutoCloseable {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
             if (is == null) {
-                return ImageNI18N.getString("ImageN13");
+                return "JAI Build version unavailable.";
             }
 
             return reader.lines().collect(java.util.stream.Collectors.joining("\n"));
 
         } catch (Exception e) {
-            return ImageNI18N.getString("ImageN13");
+            return "JAI Build version unavailable.";
         }
     }
 
@@ -456,7 +456,8 @@ public class ImageN implements AutoCloseable {
      */
     public static final void setDefaultRenderingSize(Dimension defaultSize) {
         if (defaultSize != null && defaultSize.width <= 0 && defaultSize.height <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN8"));
+            throw new IllegalArgumentException(
+                    "At least one of the default rendering size dimensions must be positive.");
         }
 
         defaultRenderingSize = defaultSize == null ? null : new Dimension(defaultSize);
@@ -535,7 +536,7 @@ public class ImageN implements AutoCloseable {
      */
     public void setOperationRegistry(OperationRegistry operationRegistry) {
         if (operationRegistry == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         this.operationRegistry = operationRegistry;
         this.renderingHints.put(KEY_OPERATION_REGISTRY, operationRegistry);
@@ -554,7 +555,7 @@ public class ImageN implements AutoCloseable {
      */
     public void setTileScheduler(TileScheduler tileScheduler) {
         if (tileScheduler == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         this.tileScheduler = tileScheduler;
         renderingHints.put(KEY_TILE_SCHEDULER, tileScheduler);
@@ -573,7 +574,7 @@ public class ImageN implements AutoCloseable {
      */
     public void setTileCache(TileCache tileCache) {
         if (tileCache == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         this.tileCache = tileCache;
         renderingHints.put(KEY_TILE_CACHE, tileCache);
@@ -592,7 +593,7 @@ public class ImageN implements AutoCloseable {
      */
     public static TileCache createTileCache(int tileCapacity, long memCapacity) {
         if (memCapacity < 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN10"));
+            throw new IllegalArgumentException("TileCache capacity must be a non-negative number.");
         }
         return new SunTileCache(memCapacity);
     }
@@ -608,7 +609,7 @@ public class ImageN implements AutoCloseable {
      */
     public static TileCache createTileCache(long memCapacity) {
         if (memCapacity < 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN10"));
+            throw new IllegalArgumentException("TileCache capacity must be a non-negative number.");
         }
         return new SunTileCache(memCapacity);
     }
@@ -720,9 +721,9 @@ public class ImageN implements AutoCloseable {
     public RenderedOp createNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
+            throw new IllegalArgumentException("The operation name parameter may not be null.");
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
+            throw new IllegalArgumentException("The ParameterBlock parameter may not be null.");
         }
 
         String modeName = "rendered";
@@ -731,11 +732,13 @@ public class ImageN implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
+            throw new IllegalArgumentException(opName + ": "
+                    + "No OperationDescriptor is registered in the current operation registry under this name.");
         }
 
         if (!RenderedImage.class.isAssignableFrom(odesc.getDestClass(modeName))) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN2"));
+            throw new IllegalArgumentException(
+                    opName + ": " + "This operation does not produce a java.awt.image.RenderedImage.");
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -851,9 +854,9 @@ public class ImageN implements AutoCloseable {
     public Collection createCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
+            throw new IllegalArgumentException("The operation name parameter may not be null.");
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
+            throw new IllegalArgumentException("The ParameterBlock parameter may not be null.");
         }
 
         String modeName = "collection";
@@ -862,13 +865,16 @@ public class ImageN implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
+            throw new IllegalArgumentException(opName + ": "
+                    + "No OperationDescriptor is registered in the current operation registry under this name.");
         }
 
         Class destClass = odesc.getDestClass(modeName);
 
         if (!RenderedImage.class.isAssignableFrom(destClass) && !CollectionImage.class.isAssignableFrom(destClass)) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN5"));
+            throw new IllegalArgumentException(
+                    opName + ": "
+                            + "This operation does not produce a java.awt.image.RenderedImage or a org.eclipse.imagen.CollectionImage.");
         }
 
         // Merge rendering hints.  Hints passed in take precedence.
@@ -944,7 +950,7 @@ public class ImageN implements AutoCloseable {
                     } catch (Exception e) {
                         // Unable to create this collection type, try next.
                         sendExceptionToListener(
-                                ImageNI18N.getString("ImageN16") + s.getClass().getName(), e);
+                                "Cannot create an instance of : " + s.getClass().getName(), e);
                     }
                 }
             }
@@ -1667,9 +1673,9 @@ public class ImageN implements AutoCloseable {
     public RenderableOp createRenderableNS(String opName, ParameterBlock args, RenderingHints hints) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
+            throw new IllegalArgumentException("The operation name parameter may not be null.");
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
+            throw new IllegalArgumentException("The ParameterBlock parameter may not be null.");
         }
 
         String modeName = "renderable";
@@ -1678,11 +1684,13 @@ public class ImageN implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
+            throw new IllegalArgumentException(opName + ": "
+                    + "No OperationDescriptor is registered in the current operation registry under this name.");
         }
 
         if (!RenderableImage.class.isAssignableFrom(odesc.getDestClass(modeName))) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN4"));
+            throw new IllegalArgumentException(
+                    opName + ": " + "This operation does not produce a java.awt.image.renderable.RenderableImage.");
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -1911,9 +1919,9 @@ public class ImageN implements AutoCloseable {
      */
     public Collection createRenderableCollectionNS(String opName, ParameterBlock args, RenderingHints hints) {
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN14"));
+            throw new IllegalArgumentException("The operation name parameter may not be null.");
         } else if (args == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN15"));
+            throw new IllegalArgumentException("The ParameterBlock parameter may not be null.");
         }
 
         String modeName = "renderableCollection";
@@ -1922,13 +1930,16 @@ public class ImageN implements AutoCloseable {
         OperationDescriptor odesc = (OperationDescriptor) operationRegistry.getDescriptor(modeName, opName);
 
         if (odesc == null) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN0"));
+            throw new IllegalArgumentException(opName + ": "
+                    + "No OperationDescriptor is registered in the current operation registry under this name.");
         }
 
         Class destClass = odesc.getDestClass(modeName);
 
         if (!RenderableImage.class.isAssignableFrom(destClass) && !CollectionImage.class.isAssignableFrom(destClass)) {
-            throw new IllegalArgumentException(opName + ": " + ImageNI18N.getString("ImageN6"));
+            throw new IllegalArgumentException(
+                    opName + ": "
+                            + "This operation does not produce a java.awt.image.renderable.RenderableImage or a org.eclipse.imagen.CollectionImage.");
         }
 
         // Validate input arguments. The ParameterBlock is cloned here
@@ -1999,7 +2010,7 @@ public class ImageN implements AutoCloseable {
                     } catch (Exception e) {
                         // Unable to create this collection type, try next.
                         sendExceptionToListener(
-                                ImageNI18N.getString("ImageN16") + s.getClass().getName(), e);
+                                "Cannot create an instance of : " + s.getClass().getName(), e);
                     }
                 }
             }
@@ -2089,7 +2100,7 @@ public class ImageN implements AutoCloseable {
      */
     public void setRenderingHints(RenderingHints hints) {
         if (hints == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         this.renderingHints = hints;
     }
@@ -2107,7 +2118,7 @@ public class ImageN implements AutoCloseable {
      */
     public Object getRenderingHint(RenderingHints.Key key) {
         if (key == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN7"));
+            throw new IllegalArgumentException("key parameter is null.");
         }
         return renderingHints.get(key);
     }
@@ -2121,10 +2132,10 @@ public class ImageN implements AutoCloseable {
      */
     public void setRenderingHint(RenderingHints.Key key, Object value) {
         if (key == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN7"));
+            throw new IllegalArgumentException("key parameter is null.");
         }
         if (value == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ImageN9"));
+            throw new IllegalArgumentException("value parameter is null.");
         }
         try {
             renderingHints.put(key, value);

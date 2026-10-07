@@ -130,7 +130,7 @@ public class CaselessStringKeyHashtable extends Hashtable implements Cloneable, 
      */
     public Object put(String key, Object value) {
         if (key == null || value == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return super.put(new CaselessStringKey(key), value);
@@ -152,7 +152,7 @@ public class CaselessStringKeyHashtable extends Hashtable implements Cloneable, 
      */
     public Object put(CaselessStringKey key, Object value) {
         if (key == null || value == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return super.put(key, value);

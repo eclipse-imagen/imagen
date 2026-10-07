@@ -253,7 +253,7 @@ public abstract class Interpolation extends Object implements Serializable {
                 }
                 break;
             default:
-                throw new IllegalArgumentException(ImageNI18N.getString("Interpolation0"));
+                throw new IllegalArgumentException("Unrecognized interpolation type.");
         }
 
         return interp;

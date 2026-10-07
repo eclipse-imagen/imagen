@@ -466,7 +466,7 @@ public final class SunTileScheduler implements TileScheduler {
     private static int numInstances = 0;
 
     /** The tile schedular name. It is used to compose the name of the ThreadGroup. */
-    private static String name = JaiI18N.getString("SunTileSchedulerName");
+    private static String name = "SunTileScheduler";
 
     /**
      * The root ThreadGroup, which holds two sub-groups: the ThreadGroup for the standard jobs, and the ThreadGroup for
@@ -797,7 +797,7 @@ public final class SunTileScheduler implements TileScheduler {
     //
     public Raster scheduleTile(OpImage owner, int tileX, int tileY) {
         if (owner == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler1"));
+            throw new IllegalArgumentException("The image parameter must be non-null.");
         }
 
         // Eventual tile to be returned.
@@ -840,10 +840,10 @@ public final class SunTileScheduler implements TileScheduler {
                 if (e instanceof Error) {
                     throw (Error) e;
                 } else if (e instanceof RuntimeException) {
-                    sendExceptionToListener(JaiI18N.getString("SunTileScheduler6"), e);
+                    sendExceptionToListener("Problem occurs when computing a tile by the owner.", e);
                     //                    throw (RuntimeException)e;
                 } else {
-                    String message = JaiI18N.getString("SunTileScheduler6");
+                    String message = "Problem occurs when computing a tile by the owner.";
                     sendExceptionToListener(message, new ImagingException(message, e));
                     /*
                                         throw new RuntimeException(e.getMessage()+"\n"+
@@ -881,7 +881,7 @@ public final class SunTileScheduler implements TileScheduler {
                 if (cache[0] instanceof Raster) {
                     tile = (Raster) cache[0];
                 } else {
-                    throw new RuntimeException(JaiI18N.getString("SunTileScheduler5"));
+                    throw new RuntimeException("Waiting thread received a null tile.");
                 }
             }
         }
@@ -1077,7 +1077,7 @@ public final class SunTileScheduler implements TileScheduler {
                     if (e != null) {
                         // Throw a RuntimeException with the Exception's
                         // message concatenated with the stack trace.
-                        String message = JaiI18N.getString("SunTileScheduler7");
+                        String message = "Exception occurs when computing tiles.";
                         sendExceptionToListener(message, new ImagingException(message, e));
                         /*
                                                 throw new RuntimeException(e.getMessage()+"\n"+
@@ -1099,7 +1099,7 @@ public final class SunTileScheduler implements TileScheduler {
             // Throw a RuntimeException with the Exception's
             // message concatenated with the stack trace.
             if (e != null) {
-                String message = JaiI18N.getString("SunTileScheduler7");
+                String message = "Exception occurs when computing tiles.";
                 sendExceptionToListener(message, new ImagingException(message, e));
                 /*
                                 throw new RuntimeException(e.getMessage()+"\n"+
@@ -1120,7 +1120,7 @@ public final class SunTileScheduler implements TileScheduler {
      */
     public Raster[] scheduleTiles(OpImage owner, Point tileIndices[]) {
         if (owner == null || tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler0"));
+            throw new IllegalArgumentException("All parameters must be non-null.");
         }
         return (Raster[]) scheduleJob(owner, tileIndices, true, false, null);
     }
@@ -1133,7 +1133,7 @@ public final class SunTileScheduler implements TileScheduler {
      */
     public TileRequest scheduleTiles(PlanarImage target, Point[] tileIndices, TileComputationListener[] tileListeners) {
         if (target == null || tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler4"));
+            throw new IllegalArgumentException("The target and tileIndices parameters must be non-null.");
         }
         return (TileRequest) scheduleJob(target, tileIndices, false, false, tileListeners);
     }
@@ -1153,7 +1153,7 @@ public final class SunTileScheduler implements TileScheduler {
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler3"));
+            throw new IllegalArgumentException("The request parameter must be non-null.");
         }
 
         Request req = (Request) request;
@@ -1235,7 +1235,7 @@ public final class SunTileScheduler implements TileScheduler {
      */
     public void prefetchTiles(PlanarImage owner, Point[] tileIndices) {
         if (owner == null || tileIndices == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler0"));
+            throw new IllegalArgumentException("All parameters must be non-null.");
         }
         scheduleJob(owner, tileIndices, false, true, null);
     }
@@ -1258,7 +1258,7 @@ public final class SunTileScheduler implements TileScheduler {
      */
     public void setParallelism(int parallelism) {
         if (parallelism < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler2"));
+            throw new IllegalArgumentException("The parallelism must be non-negative.");
         }
         this.parallelism = parallelism;
     }
@@ -1271,7 +1271,7 @@ public final class SunTileScheduler implements TileScheduler {
     /** Identical to <code>setParallelism()</code> but applies only to <code>prefetchTiles()</code>. */
     public void setPrefetchParallelism(int parallelism) {
         if (parallelism < 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SunTileScheduler2"));
+            throw new IllegalArgumentException("The parallelism must be non-negative.");
         }
         prefetchParallelism = parallelism;
     }

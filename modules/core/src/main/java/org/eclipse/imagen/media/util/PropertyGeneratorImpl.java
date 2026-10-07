@@ -50,16 +50,16 @@ public abstract class PropertyGeneratorImpl implements PropertyGenerator {
      */
     protected PropertyGeneratorImpl(String[] propertyNames, Class[] propertyClasses, Class[] supportedOpClasses) {
         if (propertyNames == null || propertyClasses == null || supportedOpClasses == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl0"));
+            throw new IllegalArgumentException("The parameter(s) may not be null.");
         } else if (propertyNames.length == 0 || propertyClasses.length == 0 || supportedOpClasses.length == 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl1"));
+            throw new IllegalArgumentException("The parameter arrays may not be zero length.");
         } else if (propertyNames.length != propertyClasses.length) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl2"));
+            throw new IllegalArgumentException("The property name and class array lengths must be equal.");
         }
 
         for (int i = 0; i < propertyClasses.length; i++) {
             if (propertyClasses[i].isPrimitive()) {
-                throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl4"));
+                throw new IllegalArgumentException("Property classes cannot correspond to a primitive type.");
             }
         }
 
@@ -90,7 +90,7 @@ public abstract class PropertyGeneratorImpl implements PropertyGenerator {
      */
     public Class getClass(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl0"));
+            throw new IllegalArgumentException("The parameter(s) may not be null.");
         }
 
         // Linear search as there are likely few properties.
@@ -114,7 +114,7 @@ public abstract class PropertyGeneratorImpl implements PropertyGenerator {
      */
     public boolean canGenerateProperties(Object opNode) {
         if (opNode == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl0"));
+            throw new IllegalArgumentException("The parameter(s) may not be null.");
         }
 
         int numClasses = supportedOpClasses.length;
@@ -200,9 +200,9 @@ public abstract class PropertyGeneratorImpl implements PropertyGenerator {
      */
     protected void validate(String name, Object opNode) {
         if (name == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl0"));
+            throw new IllegalArgumentException("The parameter(s) may not be null.");
         } else if (!canGenerateProperties(opNode)) {
-            throw new IllegalArgumentException(JaiI18N.getString("PropertyGeneratorImpl3"));
+            throw new IllegalArgumentException("The class of the operation node is not supported.");
         }
     }
 }

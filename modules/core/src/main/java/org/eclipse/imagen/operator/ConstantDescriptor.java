@@ -82,15 +82,15 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Constant"},
         {"LocalName", "Constant"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ConstantDescriptor0")},
+        {"Description", "Creates an image with constant pixel values."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ConstantDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("ConstantDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ConstantDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ConstantDescriptor3")}
+        {"Version", "1.1"},
+        {"arg0Desc", "Image width in pixels."},
+        {"arg1Desc", "Image height in pixels."},
+        {"arg2Desc", "The constant pixel band values."}
     };
 
     /** The parameter class list for this operation. */
@@ -129,7 +129,7 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
 
         int length = ((Number[]) args.getObjectParameter(2)).length;
         if (length < 1) {
-            message.append(getName() + " " + JaiI18N.getString("ConstantDescriptor4"));
+            message.append(getName() + " " + "operation requires parameter 2 to have at least 1 array element.");
             return false;
         }
 
@@ -138,7 +138,8 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
             int height = Math.round(args.getFloatParameter(1));
 
             if ((width < 1) || (height < 1)) {
-                message.append(getName() + " " + JaiI18N.getString("ConstantDescriptor5"));
+                message.append(getName() + " "
+                        + "The width and height supplied in rendered mode must round to at least unity.");
                 return false;
             }
         } else if (modeName.equalsIgnoreCase("renderable")) {
@@ -146,7 +147,7 @@ public class ConstantDescriptor extends OperationDescriptorImpl {
             float height = args.getFloatParameter(1);
 
             if ((width <= 0.0F) || (height <= 0.0F)) {
-                message.append(getName() + " " + JaiI18N.getString("ConstantDescriptor6"));
+                message.append(getName() + " " + "The width and height supplied in renderable mode must be positive.");
                 return false;
             }
         }

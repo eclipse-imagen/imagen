@@ -98,7 +98,7 @@ public class DataBufferState extends SerializableStateImpl {
                 dataArray = ((java.awt.image.DataBufferDouble) dataBuffer).getBankData();
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
+                throw new RuntimeException("Unsupported data type.");
         }
         out.writeObject(dataArray);
     }
@@ -142,7 +142,7 @@ public class DataBufferState extends SerializableStateImpl {
                 dataBuffer = new DataBufferDouble((double[][]) dataArray, size, offsets);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("DataBufferState0"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         theObject = dataBuffer;

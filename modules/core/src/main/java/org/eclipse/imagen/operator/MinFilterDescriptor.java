@@ -143,14 +143,14 @@ public class MinFilterDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "MinFilter"},
         {"LocalName", "MinFilter"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MinFilterDescriptor0")},
+        {"Description", "Performs min filtering on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/org.eclipse.imagen.operator.MinFilterDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("MinFilterDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("MinFilterDescriptor2")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The shape of the mask to be used for Min Filtering."},
+        {"arg1Desc", "The size (width/height) of the mask to be used in Min Filtering."}
     };
 
     /** The parameter class list for this operation. */

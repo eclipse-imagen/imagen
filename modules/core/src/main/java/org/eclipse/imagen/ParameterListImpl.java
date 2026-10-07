@@ -57,7 +57,7 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
      */
     public ParameterListImpl(ParameterListDescriptor descriptor) {
 
-        if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (descriptor == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         this.pld = descriptor;
 
@@ -107,11 +107,11 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
 
         if ((obj != null) && !paramClasses[index].isInstance(obj))
             throw new IllegalArgumentException(formatMsg(
-                    ImageNI18N.getString("ParameterListImpl0"),
+                    "Object`s class ({0}) is not an instance of the parameter class ({1}) for parameter \"{2}\".",
                     new Object[] {obj.getClass().getName(), paramClasses[index].getName(), paramName}));
 
         if (!pld.isParameterValueValid(paramName, obj))
-            throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterListImpl1"));
+            throw new IllegalArgumentException(paramName + ":" + "parameter value is invalid.");
 
         paramValues[index] = obj;
 
@@ -275,7 +275,8 @@ public class ParameterListImpl implements ParameterList, java.io.Serializable {
         Object obj = paramValues[paramIndices.indexOf(paramName)];
 
         if (obj == ParameterListDescriptor.NO_PARAMETER_DEFAULT)
-            throw new IllegalStateException(paramName + ":" + ImageNI18N.getString("ParameterListImpl2"));
+            throw new IllegalStateException(
+                    paramName + ":" + "the parameter value has not yet been set and has no default value.");
 
         return obj;
     }

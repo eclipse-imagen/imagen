@@ -47,7 +47,7 @@ public abstract class DeferredData extends Observable implements Serializable {
      */
     protected DeferredData(Class dataClass) {
         if (dataClass == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("DeferredData0"));
+            throw new IllegalArgumentException("Null parameter supplied to constructor.");
         }
         this.dataClass = dataClass;
     }
@@ -105,7 +105,7 @@ public abstract class DeferredData extends Observable implements Serializable {
      */
     protected final void setData(Object data) {
         if (data != null && !dataClass.isInstance(data)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("DeferredData1"));
+            throw new IllegalArgumentException("The data object must be null or an instance of dataClass.");
         }
         if (this.data == null || !this.data.equals(data)) {
             Object oldData = this.data;

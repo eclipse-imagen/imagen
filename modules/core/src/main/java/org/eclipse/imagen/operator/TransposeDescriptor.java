@@ -164,13 +164,13 @@ public class TransposeDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Transpose"},
         {"LocalName", "Transpose"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("TransposeDescriptor0")},
+        {"Description", "Reflects an image in a specified direction or rotates an image in multiples of 90 degrees."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/TransposeDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("TransposeDescriptor1")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The The type of flip operation to be performed."}
     };
 
     /** The parameter class list for this operation. */

@@ -70,7 +70,7 @@ public class FilteredSubsampleRIF implements RenderedImageFactory {
                 || (interp instanceof InterpolationBicubic)
                 || (interp instanceof InterpolationBicubic2);
 
-        if (!validInterp) throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample3"));
+        if (!validInterp) throw new IllegalArgumentException("Non-supported interpolation.");
 
         return new FilteredSubsampleOpImage(
                 source, extender, (Map) renderHints, layout, scaleX, scaleY, qsFilter, interp);

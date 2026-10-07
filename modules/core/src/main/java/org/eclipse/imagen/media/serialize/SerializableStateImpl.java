@@ -48,7 +48,7 @@ public abstract class SerializableStateImpl implements SerializableState {
      * STATIC method.
      */
     public static Class[] getSupportedClasses() {
-        throw new RuntimeException(JaiI18N.getString("SerializableStateImpl0"));
+        throw new RuntimeException("SerializableStateImpl subclass must override getSupportedClasses().");
     }
 
     /**
@@ -63,16 +63,17 @@ public abstract class SerializableStateImpl implements SerializableState {
     /** Constructor. All subclasses MUST have exactly ONE constructor with the SAME signature as this constructor. */
     protected SerializableStateImpl(Class c, Object o, RenderingHints h) {
         if (c == null || o == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl1"));
+            throw new IllegalArgumentException("The supplied Class or Object value is null.");
         } else {
             boolean isInterface = c.isInterface();
             if (isInterface && !c.isInstance(o)) {
-                throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl2"));
+                throw new IllegalArgumentException("The supplied Class does not implement the supported interface.");
             } else if (!isInterface) {
                 if (!c.equals(o.getClass())) {
-                    throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl3"));
+                    throw new IllegalArgumentException("The supplied Class does not equal the supported class.");
                 } else if (!c.isAssignableFrom(o.getClass())) {
-                    throw new IllegalArgumentException(JaiI18N.getString("SerializableStateImpl4"));
+                    throw new IllegalArgumentException(
+                            "The supplied Class is not assignable to the supported superclass.");
                 }
             }
         }

@@ -234,7 +234,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
             OperationRegistry registry, String opName, ParameterBlock pb, RenderingHints hints, boolean isRenderable) {
 
         if (opName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (pb == null) {
@@ -588,7 +588,7 @@ public class CollectionOp extends CollectionImage implements OperationNode, Prop
 
         // Throw an error if the rendering is null.
         if (instance == null) {
-            throw new RuntimeException(ImageNI18N.getString("CollectionOp0"));
+            throw new RuntimeException("- Cannot render CollectionOp for this operation.");
         }
 
         // Save the RenderingHints.

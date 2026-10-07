@@ -72,13 +72,13 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      */
     public int indexOf(CaselessStringKey key) {
         if (key == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("CaselessStringArrayTable0"));
+            throw new IllegalArgumentException("Can not look up a null key.");
         }
 
         Integer i = (Integer) indices.get(key);
 
         if (i == null) {
-            throw new IllegalArgumentException(key.getName() + " - " + JaiI18N.getString("CaselessStringArrayTable1"));
+            throw new IllegalArgumentException(key.getName() + " - " + "Could not find the key.");
         }
 
         return i.intValue();
@@ -123,7 +123,7 @@ public class CaselessStringArrayTable implements java.io.Serializable {
      */
     public boolean contains(CaselessStringKey key) {
         if (key == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("CaselessStringArrayTable0"));
+            throw new IllegalArgumentException("Can not look up a null key.");
         }
 
         return indices.get(key) != null;

@@ -328,7 +328,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
                 float[] bicubic2Kernel = {5.0F / 8.0F, -1.0F / 8.0F};
                 return convolveSymmetricKernels(qsParity, resampParity, qsFilter, bicubic2Kernel);
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample0"));
+                throw new IllegalArgumentException("Invalid resampleType.");
         }
     } // combineFilters
 
@@ -366,10 +366,10 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
             RenderedImage source, Interpolation interp, int scaleX, int scaleY, int filterSize, ImageLayout il) {
 
         if (scaleX < 1 || scaleY < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample1"));
+            throw new IllegalArgumentException("Non-positive subsample factor.");
         }
         if (filterSize < 1) {
-            throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample2"));
+            throw new IllegalArgumentException("Non-positive filter size.");
         }
 
         // Set the bounds to the scaled source bounds.
@@ -439,7 +439,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
         } else if (interp instanceof InterpolationBicubic2) {
             resampleType = Interpolation.INTERP_BICUBIC_2;
         } else {
-            throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample3"));
+            throw new IllegalArgumentException("Non-supported interpolation.");
         }
 
         // Construct combined anti-alias and resample kernels.
@@ -461,7 +461,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Point2D pt = (Point2D) destPt.clone();
@@ -480,7 +480,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Point2D pt = (Point2D) sourcePt.clone();
@@ -504,7 +504,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceIndex != 0) { // this image only has one source
-            throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample4"));
+            throw new IllegalArgumentException("Non-zero source index.");
         }
 
         int xOffset = sourceRect.x + hKernel.length - hParity - scaleX / 2;
@@ -585,7 +585,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (sourceIndex != 0) { // this image only has one source
-            throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample4"));
+            throw new IllegalArgumentException("Non-zero source index.");
         }
         int xOffset = destRect.x * scaleX - hKernel.length + hParity + scaleX / 2;
         int yOffset = destRect.y * scaleY - vKernel.length + vParity + scaleY / 2;
@@ -637,7 +637,7 @@ public class FilteredSubsampleOpImage extends GeometricOpImage {
                 computeRectDouble(src, dst);
                 break;
             default:
-                throw new IllegalArgumentException(JaiI18N.getString("FilteredSubsample5"));
+                throw new IllegalArgumentException("Non-supported pixel data type.");
         }
 
         // If the RasterAccessor set up a temporary write buffer for the

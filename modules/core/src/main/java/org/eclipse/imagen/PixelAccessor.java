@@ -178,7 +178,7 @@ public final class PixelAccessor {
      */
     private static SampleModel getSampleModel(RenderedImage image) {
         if (image == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         return image.getSampleModel();
     }
@@ -206,7 +206,7 @@ public final class PixelAccessor {
     public PixelAccessor(SampleModel sm, ColorModel cm) {
 
         if (sm == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         sampleModel = sm;
@@ -320,7 +320,7 @@ public final class PixelAccessor {
     public static int getDestPixelType(Vector sources) {
 
         if (sources == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int type = DataBuffer.TYPE_UNDEFINED;
@@ -372,7 +372,7 @@ public final class PixelAccessor {
     public static int getDestNumBands(Vector sources) {
 
         if (sources == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int bands = 0;
@@ -473,16 +473,19 @@ public final class PixelAccessor {
      */
     public UnpackedImageData getPixels(Raster raster, Rectangle rect, int type, boolean isDest) {
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(
+                    "The specified Rectangle is not completely contained within the Raster`s bounds.");
         }
 
         if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_DOUBLE) { // unknown data type
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor1"));
+            throw new IllegalArgumentException(
+                    "The specified type is not one of the valid data types defined in DataBuffer.");
         }
 
         if (type < sampleType
                 || (sampleType == DataBuffer.TYPE_USHORT && type == DataBuffer.TYPE_SHORT)) { // type not large enough
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor2"));
+            throw new IllegalArgumentException(
+                    "The specified type is not large enough to hold the Raster`s pixel samples.");
         }
 
         if (isComponentSM) {
@@ -877,7 +880,7 @@ public final class PixelAccessor {
     public void setPixels(UnpackedImageData uid) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         setPixels(uid, true);
@@ -896,7 +899,7 @@ public final class PixelAccessor {
     public void setPixels(UnpackedImageData uid, boolean clamp) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!uid.convertToDest) {
@@ -1272,11 +1275,13 @@ public final class PixelAccessor {
      */
     public PackedImageData getPackedPixels(Raster raster, Rectangle rect, boolean isDest, boolean coerceZeroOffset) {
         if (!isPacked) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor3"));
+            throw new IllegalArgumentException(
+                    "The pixel data described by the specified Raster`s SampleModel is not single-band and single-bit.");
         }
 
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(
+                    "The specified Rectangle is not completely contained within the Raster`s bounds.");
         }
 
         byte[] data; // packed pixels
@@ -1404,7 +1409,7 @@ public final class PixelAccessor {
     public void setPackedPixels(PackedImageData pid) {
 
         if (pid == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!pid.convertToDest) {
@@ -1517,21 +1522,25 @@ public final class PixelAccessor {
      */
     public UnpackedImageData getComponents(Raster raster, Rectangle rect, int type) {
         if (!hasCompatibleCM) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor5"));
+            throw new IllegalArgumentException(
+                    "The image does not have a valid ColorModel that is compatible with the image`s SampleModel.");
         }
 
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(
+                    "The specified Rectangle is not completely contained within the Raster`s bounds.");
         }
 
         if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_DOUBLE) { // unknown data type
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor1"));
+            throw new IllegalArgumentException(
+                    "The specified type is not one of the valid data types defined in DataBuffer.");
         }
 
         if (type < componentType
                 || (componentType == DataBuffer.TYPE_USHORT
                         && type == DataBuffer.TYPE_SHORT)) { // type not large enough
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor4"));
+            throw new IllegalArgumentException(
+                    "The specified type is not large enough to hold the image`s color/alpha components.");
         }
 
         // Get color/alpha components in an integer array.
@@ -1626,7 +1635,7 @@ public final class PixelAccessor {
     public void setComponents(UnpackedImageData uid) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!uid.convertToDest) {
@@ -1725,11 +1734,13 @@ public final class PixelAccessor {
      */
     public UnpackedImageData getComponentsRGB(Raster raster, Rectangle rect) {
         if (!hasCompatibleCM) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor5"));
+            throw new IllegalArgumentException(
+                    "The image does not have a valid ColorModel that is compatible with the image`s SampleModel.");
         }
 
         if (!raster.getBounds().contains(rect)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PixelAccessor0"));
+            throw new IllegalArgumentException(
+                    "The specified Rectangle is not completely contained within the Raster`s bounds.");
         }
 
         int size = rect.width * rect.height;
@@ -1841,7 +1852,7 @@ public final class PixelAccessor {
     public void setComponentsRGB(UnpackedImageData uid) {
 
         if (uid == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!uid.convertToDest) {

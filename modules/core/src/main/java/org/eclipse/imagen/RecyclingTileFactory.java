@@ -183,7 +183,7 @@ public class RecyclingTileFactory extends Observable implements TileFactory, Til
                 array = ((DataBufferDouble) db).getBankData();
                 break;
             default:
-                throw new UnsupportedOperationException(ImageNI18N.getString("Generic3"));
+                throw new UnsupportedOperationException("Unsupported data type.");
         }
 
         return new SoftReference(array);
@@ -208,7 +208,7 @@ public class RecyclingTileFactory extends Observable implements TileFactory, Til
                 bytesPerElement = 8;
                 break;
             default:
-                throw new UnsupportedOperationException(ImageNI18N.getString("Generic3"));
+                throw new UnsupportedOperationException("Unsupported data type.");
         }
 
         return numBanks * size * bytesPerElement;
@@ -329,7 +329,7 @@ public class RecyclingTileFactory extends Observable implements TileFactory, Til
                         }
                         break;
                     default:
-                        throw new IllegalArgumentException(ImageNI18N.getString("Generic3"));
+                        throw new IllegalArgumentException("Unsupported data type.");
                 }
 
                 if (DEBUG) {

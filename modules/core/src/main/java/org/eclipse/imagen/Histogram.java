@@ -89,7 +89,7 @@ public class Histogram implements Serializable {
         int[] newArray = null;
 
         if (array == null || array.length == 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (newLength > 0) {
             newArray = new int[newLength];
             int oldLength = array.length;
@@ -113,7 +113,7 @@ public class Histogram implements Serializable {
         double[] newArray = null;
 
         if (array == null || array.length == 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (newLength > 0) {
             newArray = new double[newLength];
             int oldLength = array.length;
@@ -154,26 +154,29 @@ public class Histogram implements Serializable {
     public Histogram(int[] numBins, double[] lowValue, double[] highValue) {
 
         if (numBins == null || lowValue == null || highValue == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         numBands = numBins.length;
 
         if (lowValue.length != numBands || highValue.length != numBands) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram0"));
+            throw new IllegalArgumentException(
+                    "The three arguments, numBins, lowValue, and highValue, do not have the same array length.");
         }
 
         if (numBands == 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram1"));
+            throw new IllegalArgumentException("The array lengths of the three arguments are 0.");
         }
 
         for (int i = 0; i < numBands; i++) {
             if (numBins[i] <= 0) {
-                throw new IllegalArgumentException(ImageNI18N.getString("Histogram2"));
+                throw new IllegalArgumentException(
+                        "The numBins is less than or equal to 0; it should be greater than 0.");
             }
 
             if (lowValue[i] >= highValue[i]) {
-                throw new IllegalArgumentException(ImageNI18N.getString("Histogram3"));
+                throw new IllegalArgumentException(
+                        "The lowValue is greater than or equal to its corresponding highValue; it should be less than the highValue.");
             }
         }
 
@@ -228,15 +231,16 @@ public class Histogram implements Serializable {
      */
     public Histogram(int numBins, double lowValue, double highValue, int numBands) {
         if (numBands <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram1"));
+            throw new IllegalArgumentException("The array lengths of the three arguments are 0.");
         }
 
         if (numBins <= 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram2"));
+            throw new IllegalArgumentException("The numBins is less than or equal to 0; it should be greater than 0.");
         }
 
         if (lowValue >= highValue) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram3"));
+            throw new IllegalArgumentException(
+                    "The lowValue is greater than or equal to its corresponding highValue; it should be less than the highValue.");
         }
 
         this.numBands = numBands;
@@ -420,11 +424,13 @@ public class Histogram implements Serializable {
      */
     public int getSubTotal(int band, int minBin, int maxBin) {
         if (minBin < 0 || maxBin >= numBins[band]) {
-            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("Histogram5"));
+            throw new ArrayIndexOutOfBoundsException(
+                    "The requested bin sub-range falls outside of the overall bin range of the indicated band .");
         }
 
         if (minBin > maxBin) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram10"));
+            throw new IllegalArgumentException(
+                    "minBin is greater than maxBin; it must be less than or equal to maxBin.");
         }
 
         int[] b = getBins(band);
@@ -493,13 +499,14 @@ public class Histogram implements Serializable {
     public void countPixels(Raster raster, ROI roi, int xStart, int yStart, int xPeriod, int yPeriod) {
 
         if (raster == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         SampleModel sampleModel = raster.getSampleModel();
 
         if (sampleModel.getNumBands() != numBands) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram4"));
+            throw new IllegalArgumentException(
+                    "The pixels stored in the Raster and the histogram`s bins do not have the same number of bands.");
         }
 
         Rectangle bounds = raster.getBounds();
@@ -557,7 +564,8 @@ public class Histogram implements Serializable {
                     countPixelsDouble(accessor, raster, r, xPeriod, yPeriod);
                     break;
                 default:
-                    throw new RuntimeException(ImageNI18N.getString("Histogram11"));
+                    throw new RuntimeException(
+                            "data type must be one of the DataBuffer.TYPE_BYTE,..., DataBuff.TYPE_DOUBLE.");
             }
         }
     }
@@ -816,7 +824,7 @@ public class Histogram implements Serializable {
     public double[] getMoment(int moment, boolean isAbsolute, boolean isCentral) {
         // Check for non-positive moment number.
         if (moment < 1) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram6"));
+            throw new IllegalArgumentException("The requested moment number is non-positive.");
         }
 
         // If the mean is required but has not yet been calculated
@@ -966,7 +974,7 @@ public class Histogram implements Serializable {
      */
     public Histogram getSmoothed(boolean isWeighted, int k) {
         if (k < 0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram7"));
+            throw new IllegalArgumentException("The specified smoothing parameter is negative.");
         } else if (k == 0) {
             return this;
         }
@@ -1071,7 +1079,7 @@ public class Histogram implements Serializable {
      */
     public Histogram getGaussianSmoothed(double standardDeviation) {
         if (standardDeviation < 0.0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram8"));
+            throw new IllegalArgumentException("The specified standard deviation is negative.");
         } else if (standardDeviation == 0.0) {
             return this;
         }
@@ -1158,7 +1166,7 @@ public class Histogram implements Serializable {
      */
     public double[] getPTileThreshold(double p) {
         if (p <= 0.0 || p >= 1.0) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Histogram9"));
+            throw new IllegalArgumentException("The specified sample proportion is not in the range (0,1).");
         }
 
         double[] thresholds = new double[numBands];

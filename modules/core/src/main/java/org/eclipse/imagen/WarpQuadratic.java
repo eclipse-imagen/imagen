@@ -56,7 +56,7 @@ public final class WarpQuadratic extends WarpPolynomial {
         super(xCoeffs, yCoeffs, preScaleX, preScaleY, postScaleX, postScaleY);
 
         if (xCoeffs.length != 6 || yCoeffs.length != 6) {
-            throw new IllegalArgumentException(ImageNI18N.getString("WarpQuadratic0"));
+            throw new IllegalArgumentException("WarpQuadratic requires 6 coefficients each for X and Y coordinates.");
         }
 
         c1 = xCoeffs[0];
@@ -182,7 +182,7 @@ public final class WarpQuadratic extends WarpPolynomial {
      */
     public Point2D mapDestPoint(Point2D destPt) {
         if (destPt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         double x1 = (destPt.getX() + 0.5F) * preScaleX;
