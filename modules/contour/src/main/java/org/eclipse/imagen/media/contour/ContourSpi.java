@@ -53,7 +53,9 @@ import org.eclipse.imagen.registry.RenderedRegistryMode;
  * @author Michael Bedward
  * @since 1.1
  * @version $Id$
+ * @deprecated Contour is registered by {@code META-INF/registryFile.imagen}, so this class is not used
  */
+@Deprecated
 public class ContourSpi implements OperationRegistrySpi {
 
     /** The name of the product to which these operations belong. */

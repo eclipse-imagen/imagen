@@ -314,26 +314,45 @@ org.geotools.image.palette.ColorInversionCRIF
 
 ## Registering operations with OperationRegistrySpi
 
-Use an `OperationRegistrySpi` to register an operation conditionally. Providers run after every `registryFile.imagen` has been read, so they can check what is already registered. For example, `CropSpi` from `imagen-crop`:
+Operations are normally registered in `META-INF/registryFile.imagen`. Use an `OperationRegistrySpi` only to register an operation conditionally. Providers run after every `registryFile.imagen` has been read, so they can check what is already registered.
+
+To avoid being dependent on classpath order `imagen-legacy-core` uses this approach: allowing any `imagen-*` module operation with the same name to take precedence. From `LegacyCoreSpi`:
 
 ```java
-public class CropSpi implements OperationRegistrySpi {
+public class LegacyCoreSpi implements OperationRegistrySpi {
 
-    private String productName = "org.eclipse.imagen.media";
-
+    @Override
     public void updateRegistry(OperationRegistry registry) {
-        OperationDescriptor op = new CropDescriptor();
-        if (registry.getDescriptor(OperationDescriptor.class, op.getName()) == null) {
-            registry.registerDescriptor(op);
-            registry.registerFactory(RenderedRegistryMode.MODE_NAME, op.getName(), productName, new CropCRIF());
+        register(registry, new AddDescriptor(), PRODUCT, new AddCRIF(), true);
+        ...
+    }
+
+    private static void register(
+            OperationRegistry registry,
+            OperationDescriptor descriptor,
+            String product,
+            RenderedImageFactory factory,
+            boolean renderable) {
+        String name = descriptor.getName();
+        if (registry.getDescriptor(OperationDescriptor.class, name) != null) {
+            LOGGER.log(Level.FINE, "Operation {0} already registered, skipping {1}", new Object[] {
+                name, descriptor.getClass().getName()
+            });
+            return;
+        }
+        registry.registerDescriptor(descriptor);
+        if (factory != null) {
+            registry.registerFactory(RenderedRegistryMode.MODE_NAME, name, product, factory);
+            if (renderable) {
+                registry.registerFactory(
+                        RenderableRegistryMode.MODE_NAME, name, product, (ContextualRenderedImageFactory) factory);
+            }
         }
     }
 }
 ```
 
-`OperationRegistrySpi` providers must be on the service allow-list, see [Allow-list configuration](#allow-list-configuration).
-
-To avoid being dependent on classpath order `imagen-legacy-core` uses this approach: allowing any `imagen-*` module operation with the same name to take precedence.
+`OperationRegistrySpi` providers must be listed in `META-INF/services/org.eclipse.imagen.OperationRegistrySpi`, and be on the service allow-list, see [Allow-list configuration](#allow-list-configuration).
 
 ## Tips for operation implementors
 
