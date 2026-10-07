@@ -124,7 +124,7 @@ public abstract class SourcelessOpImage extends OpImage {
      */
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         throw new IllegalArgumentException(
-                "Can not perform rectangle mapping between source and destinatioon because the image has no sources.");
+                "Can not perform rectangle mapping between source and destination because the image has no sources.");
     }
 
     /**
@@ -136,6 +136,6 @@ public abstract class SourcelessOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         throw new IllegalArgumentException(
-                "Can not perform rectangle mapping between source and destinatioon because the image has no sources.");
+                "Can not perform rectangle mapping between source and destination because the image has no sources.");
     }
 }

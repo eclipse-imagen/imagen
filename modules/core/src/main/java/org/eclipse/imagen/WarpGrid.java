@@ -162,7 +162,7 @@ public final class WarpGrid extends Warp {
      */
     public WarpGrid(int xStart, int xStep, int xNumCells, int yStart, int yStep, int yNumCells, float[] warpPositions) {
         if (warpPositions.length != 2 * (xNumCells + 1) * (yNumCells + 1)) {
-            throw new IllegalArgumentException("WarpPositions.length != 2*xNumCells + 1*yNumCells + 1.");
+            throw new IllegalArgumentException("warpPositions.length != 2 * (xNumCells + 1) * (yNumCells + 1).");
         }
 
         initialize(xStart, xStep, xNumCells, yStart, yStep, yNumCells, warpPositions);

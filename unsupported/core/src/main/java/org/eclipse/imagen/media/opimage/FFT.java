@@ -18,9 +18,7 @@
 package org.eclipse.imagen.media.opimage;
 
 import java.awt.image.DataBuffer;
-import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Locale;
 import org.eclipse.imagen.media.util.MathJAI;
 import org.eclipse.imagen.operator.DFTDescriptor;
 
@@ -609,11 +607,8 @@ public class FFT {
     public void transform() {
         int i, k, j, l; // Index variables
 
-        Integer i18n = new Integer(length);
-        NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.getDefault());
-
         if (real.length < length || imag.length < length) {
-            throw new RuntimeException(numberFormatter.format(i18n) + "Array length must be greater or equal to this.");
+            throw new RuntimeException("Array length must be greater than or equal to " + length + ".");
         }
 
         int inode = 1;

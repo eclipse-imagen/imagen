@@ -208,7 +208,7 @@ public class SubsampleAverageOpImage extends GeometricOpImage {
                 computeRectDouble(src, dst);
                 break;
             default:
-                throw new RuntimeException("Unkown data type.");
+                throw new RuntimeException("Unknown data type.");
         }
 
         // If the RasterAccessor set up a temporary write buffer for the

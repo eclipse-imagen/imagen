@@ -312,7 +312,7 @@ class TiledImageGraphics extends Graphics2D {
         try {
             method = GRAPHICS2D_CLASS.getMethod(name, argTypes);
         } catch (Exception e) {
-            String message = "Can not find the method:" + name;
+            String message = "Can not find the method: " + name;
             sendExceptionToListener(message, new ImagingException(e));
             //            throw new RuntimeException(e.getMessage());
         }
@@ -370,7 +370,7 @@ class TiledImageGraphics extends Graphics2D {
                         returnValue = ((Boolean) retVal).booleanValue();
                     }
                 } catch (Exception e) {
-                    String message = "The affine transformation is not invertible." + " " + name;
+                    String message = "Fails to invoke the method: " + name;
                     sendExceptionToListener(message, new ImagingException(e));
                     //                    throw new RuntimeException(e.getMessage());
                 }

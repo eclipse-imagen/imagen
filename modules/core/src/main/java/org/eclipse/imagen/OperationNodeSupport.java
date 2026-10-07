@@ -642,7 +642,7 @@ public class OperationNodeSupport implements Serializable {
                     pbClone.setSource(serializableImage, index);
                 } else {
                     throw new RuntimeException(source.getClass().getName()
-                            + "Non-serializable source in this operation`s ParameterBlock.");
+                            + ": Non-serializable source in this operation's ParameterBlock.");
                 }
             }
         }
@@ -666,7 +666,7 @@ public class OperationNodeSupport implements Serializable {
                     pbClone.set(SerializerFactory.getState(ri, hints), index);
                 } else {
                     throw new RuntimeException(parameter.getClass().getName()
-                            + "Non-serializable parameter in this operation`s ParameterBlock.");
+                            + ": Non-serializable parameter in this operation's ParameterBlock.");
                 }
             }
         }

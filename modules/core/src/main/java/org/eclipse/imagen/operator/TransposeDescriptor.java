@@ -170,7 +170,7 @@ public class TransposeDescriptor extends OperationDescriptorImpl {
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/TransposeDescriptor.html"
         },
         {"Version", "1.2"},
-        {"arg0Desc", "The The type of flip operation to be performed."}
+        {"arg0Desc", "The type of flip operation to be performed."}
     };
 
     /** The parameter class list for this operation. */
@@ -214,7 +214,7 @@ public class TransposeDescriptor extends OperationDescriptorImpl {
      * @see ParameterBlockImageN
      * @see RenderedOp
      * @param source0 <code>RenderedImage</code> source 0.
-     * @param type The The type of flip operation to be performed.
+     * @param type The type of flip operation to be performed.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderedOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.
@@ -240,7 +240,7 @@ public class TransposeDescriptor extends OperationDescriptorImpl {
      * @see ParameterBlockImageN
      * @see RenderableOp
      * @param source0 <code>RenderableImage</code> source 0.
-     * @param type The The type of flip operation to be performed.
+     * @param type The type of flip operation to be performed.
      * @param hints The <code>RenderingHints</code> to use. May be <code>null</code>.
      * @return The <code>RenderableOp</code> destination.
      * @throws IllegalArgumentException if <code>source0</code> is <code>null</code>.

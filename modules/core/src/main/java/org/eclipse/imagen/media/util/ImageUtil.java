@@ -1272,7 +1272,7 @@ public final class ImageUtil {
                     Object[] args = new Object[] {sm};
                     cm = (ColorModel) cmMethod.invoke(null, args);
                 } catch (Exception e) {
-                    String message = "Exception occurs when generate a compatible color model for a sample model."
+                    String message = "Exception occurred generating a compatible color model for a sample model: "
                             + cmMethod.getName();
                     sendExceptionToListener(message, new ImagingException(message, e));
                     /*

@@ -87,7 +87,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
         if (name == null || opNode == null) {
             throw new IllegalArgumentException("Neither parameter may be null.");
         } else if (!canGenerateProperties(opNode)) {
-            throw new IllegalArgumentException(opNode.getClass().getName() + "is not a supported class.");
+            throw new IllegalArgumentException(opNode.getClass().getName() + ": is not a supported class.");
         }
 
         return opNode instanceof RenderedOp ? getProperty(name, (RenderedOp) opNode) : null;
