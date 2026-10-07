@@ -98,17 +98,21 @@ public abstract class CRIFImpl implements ContextualRenderedImageFactory {
                 OperationDescriptor odesc =
                         (OperationDescriptor) registry.getDescriptor(OperationDescriptor.class, operationName);
                 if (odesc == null) {
-                    throw new IllegalArgumentException(operationName + ": " + ImageNI18N.getString("JAI0"));
+                    throw new IllegalArgumentException(
+                            operationName + ": "
+                                    + "No OperationDescriptor is registered in the current operation registry under this name.");
                 }
 
                 // Does this operation support rendered mode?
                 if (!odesc.isModeSupported(RenderedRegistryMode.MODE_NAME)) {
-                    throw new IllegalArgumentException(operationName + ": " + ImageNI18N.getString("JAI1"));
+                    throw new IllegalArgumentException(
+                            operationName + ": " + "This operation does not support the rendered mode.");
                 }
 
                 // Check the destination image type.
                 if (!RenderedImage.class.isAssignableFrom(odesc.getDestClass(RenderedRegistryMode.MODE_NAME))) {
-                    throw new IllegalArgumentException(operationName + ": " + ImageNI18N.getString("JAI2"));
+                    throw new IllegalArgumentException(
+                            operationName + ": " + "This operation does not produce a java.awt.image.RenderedImage.");
                 }
 
                 // Validate input arguments. The ParameterBlock is cloned here
@@ -135,7 +139,7 @@ public abstract class CRIFImpl implements ContextualRenderedImageFactory {
                         rendering = ((RenderedOp) rendering).getRendering();
                     } catch (Exception e) {
                         ImagingListener listener = ImageUtil.getImagingListener(renderHints);
-                        String message = ImageNI18N.getString("CRIFImpl0") + operationName;
+                        String message = "Cannot render a node for the operation :" + operationName;
                         listener.errorOccurred(message, e, this, false);
                         //                        e.printStackTrace();
                     }

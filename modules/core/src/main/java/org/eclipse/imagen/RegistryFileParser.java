@@ -256,9 +256,9 @@ class RegistryFileParser {
                     RegistryMode existing = RegistryMode.getMode(mode.getName());
                     if (existing == null) {
                         if (RegistryMode.addMode(mode) == false)
-                            registryFileError(ImageNI18N.getString("RegistryFileParser10"));
+                            registryFileError("Can not add registry mode since it already exists.");
                     } else if (existing.getClass() != mode.getClass()) {
-                        registryFileError(ImageNI18N.getString("RegistryFileParser10"));
+                        registryFileError("Can not add registry mode since it already exists.");
                     }
                     localNamesTable.putIfAbsent(new CaselessStringKey(mode.getName()), new Hashtable());
                 }
@@ -294,7 +294,8 @@ class RegistryFileParser {
                     setFactoryPreference(mode, keys);
 
                 } else {
-                    registryFileError(ImageNI18N.getString("RegistryFileParser4"));
+                    registryFileError(
+                            "Format expected: pref modeName descriptor-name product-name preferred-local-name other-local-name");
                 }
 
                 // For setting product preferences
@@ -309,10 +310,11 @@ class RegistryFileParser {
                     setProductPreference(mode, keys);
 
                 } else {
-                    registryFileError(ImageNI18N.getString("RegistryFileParser5"));
+                    registryFileError(
+                            "Format expected: productPref modeName descriptor-name preferred-product-name other-product-name");
                 }
             } else {
-                registryFileError(ImageNI18N.getString("RegistryFileParser6"));
+                registryFileError("Can not parse line.");
             }
         }
 
@@ -339,7 +341,7 @@ class RegistryFileParser {
             }
 
         } else {
-            registryFileError(ImageNI18N.getString("RegistryFileParser1"));
+            registryFileError("Format expected: descriptor RegistryElementDescriptor-class-name");
         }
     }
 
@@ -364,7 +366,8 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(ImageNI18N.getString("RegistryFileParser2"));
+                registryFileError(
+                        "Format expected: modeName factory-class-name product-name descriptor-name local-name");
             }
 
         } else {
@@ -380,7 +383,7 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(ImageNI18N.getString("RegistryFileParser3"));
+                registryFileError("Format expected: modeName factory-class-name descriptor-name");
             }
         }
     }
@@ -402,11 +405,12 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(ImageNI18N.getString("RegistryFileParser5"));
+                registryFileError(
+                        "Format expected: productPref modeName descriptor-name preferred-product-name other-product-name");
             }
 
         } else {
-            registryFileError(ImageNI18N.getString("RegistryFileParser9"));
+            registryFileError("Can not set product preferences for registry modes that do not support preferences.");
         }
     }
 
@@ -434,11 +438,12 @@ class RegistryFileParser {
                 }
 
             } else {
-                registryFileError(ImageNI18N.getString("RegistryFileParser4"));
+                registryFileError(
+                        "Format expected: pref modeName descriptor-name product-name preferred-local-name other-local-name");
             }
 
         } else {
-            registryFileError(ImageNI18N.getString("RegistryFileParser7"));
+            registryFileError("Can not set factory preferences for registry modes that do not support preferences.");
         }
     }
 
@@ -457,7 +462,8 @@ class RegistryFileParser {
 
         Object obj = modeTable.get(new CaselessStringKey(localName));
 
-        if (obj == null) registryFileError(localName + ": " + ImageNI18N.getString("RegistryFileParser8"));
+        if (obj == null)
+            registryFileError(localName + ": " + "Local name does not map to a registered factory object.");
 
         return obj;
     }
@@ -470,13 +476,13 @@ class RegistryFileParser {
         if (!headerLinePrinted) {
 
             if (url != null) {
-                LOGGER.log(Level.WARNING, ImageNI18N.getString("RegistryFileParser11"), url.getPath());
+                LOGGER.log(Level.WARNING, "Error while parsing JAI registry file \"{0}\" :", url.getPath());
             }
 
             headerLinePrinted = true;
         }
 
-        LOGGER.log(Level.WARNING, ImageNI18N.getString("RegistryFileParser0"), lineno);
+        LOGGER.log(Level.WARNING, "Error in registry file at line number #{0,number,integer}", lineno);
 
         if (msg != null) LOGGER.warning(msg);
     }

@@ -80,7 +80,7 @@ public abstract class CollectionImage implements ImageImageN, Collection {
         this();
 
         if (collection == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         imageCollection = collection;
@@ -146,7 +146,7 @@ public abstract class CollectionImage implements ImageImageN, Collection {
     /** Adds a sink to the set of sinks. */
     public synchronized boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sinks == null) {
@@ -163,7 +163,7 @@ public abstract class CollectionImage implements ImageImageN, Collection {
      */
     public synchronized boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sinks == null) {

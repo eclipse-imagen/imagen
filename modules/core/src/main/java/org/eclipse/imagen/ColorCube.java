@@ -105,7 +105,7 @@ public class ColorCube extends LookupTableImageN {
                 colorCube = createColorCubeDouble(offset, dimension);
                 break;
             default:
-                throw new RuntimeException(ImageNI18N.getString("ColorCube0"));
+                throw new RuntimeException("Unsupported data type requested.");
         }
 
         return colorCube;
@@ -122,7 +122,7 @@ public class ColorCube extends LookupTableImageN {
     public static ColorCube createColorCube(int dataType, int dimension[]) {
 
         if (dimension == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         return createColorCube(dataType, 0, dimension);
@@ -236,13 +236,13 @@ public class ColorCube extends LookupTableImageN {
         // Make sure that the dimension array has non-zero length.
         int nbands = dimension.length;
         if (nbands == 0) {
-            throw new RuntimeException(ImageNI18N.getString("ColorCube1"));
+            throw new RuntimeException("Zero-length dimension array.");
         }
 
         // Ascertain that all dimension are non-zero.
         for (int band = 0; band < nbands; band++) {
             if (dimension[band] == 0) {
-                throw new RuntimeException(ImageNI18N.getString("ColorCube2"));
+                throw new RuntimeException("Zero-valued dimension.");
             }
         }
 
@@ -261,7 +261,7 @@ public class ColorCube extends LookupTableImageN {
             //
             //  Color cube is too large for 32 bit addressability
             //
-            throw new RuntimeException(ImageNI18N.getString("ColorCube3"));
+            throw new RuntimeException("Color cube too large for 32 bit addressability.");
         }
         int size = (int) floatSize;
 
@@ -301,12 +301,12 @@ public class ColorCube extends LookupTableImageN {
                 dataArray = (Object) new double[nbands][size];
                 break;
             default:
-                throw new RuntimeException(ImageNI18N.getString("ColorCube7"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         // Ensure that the parameters don't go out of range.
         if ((double) (size + offset) > dataMax) {
-            throw new RuntimeException(ImageNI18N.getString("ColorCube4"));
+            throw new RuntimeException("Color cube offset + size exceeds type maximum.");
         }
 
         // Initialize the multipliers
@@ -419,7 +419,7 @@ public class ColorCube extends LookupTableImageN {
                     }
                     break;
                 default:
-                    throw new RuntimeException(ImageNI18N.getString("ColorCube5"));
+                    throw new RuntimeException("This statement should be unreachable.");
             }
         }
 
@@ -705,7 +705,7 @@ public class ColorCube extends LookupTableImageN {
                 }
                 break;
             default:
-                throw new RuntimeException(ImageNI18N.getString("ColorCube6"));
+                throw new RuntimeException("Non-byte data types not yet implemented.");
         }
 
         return index;

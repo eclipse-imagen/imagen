@@ -59,11 +59,11 @@ public final class SerializerImpl implements Serializer {
 
     public static void registerSerializers(Class ssi) {
         if (ssi == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
 
         if (!SerializableStateImpl.class.isAssignableFrom(ssi)) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializerImpl0"));
+            throw new IllegalArgumentException("Supplied Class is not a subclass of SerializableStateImpl.");
         }
 
         ImagingListener listener = ImageUtil.getImagingListener((RenderingHints) null);
@@ -72,13 +72,13 @@ public final class SerializerImpl implements Serializer {
             Method m1 = ssi.getMethod("getSupportedClasses", null);
             classes = (Class[]) m1.invoke(null, null);
         } catch (java.lang.NoSuchMethodException e) {
-            String message = JaiI18N.getString("SerializerImpl1");
+            String message = "Unable to retrieve getSupportedClasses() by reflection.";
             listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.IllegalAccessException e) {
-            String message = JaiI18N.getString("SerializerImpl1");
+            String message = "Unable to retrieve getSupportedClasses() by reflection.";
             listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.reflect.InvocationTargetException e) {
-            String message = JaiI18N.getString("SerializerImpl1");
+            String message = "Unable to retrieve getSupportedClasses() by reflection.";
             listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         }
 
@@ -88,13 +88,13 @@ public final class SerializerImpl implements Serializer {
             Boolean b = (Boolean) m2.invoke(null, null);
             supportsSubclasses = b.booleanValue();
         } catch (java.lang.NoSuchMethodException e) {
-            String message = JaiI18N.getString("SerializerImpl4");
+            String message = "Unable to retrieve permitsSubclasses() by reflection.";
             listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.IllegalAccessException e) {
-            String message = JaiI18N.getString("SerializerImpl4");
+            String message = "Unable to retrieve permitsSubclasses() by reflection.";
             listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         } catch (java.lang.reflect.InvocationTargetException e) {
-            String message = JaiI18N.getString("SerializerImpl4");
+            String message = "Unable to retrieve permitsSubclasses() by reflection.";
             listener.errorOccurred(message, new ImagingException(message, e), SerializerImpl.class, false);
         }
 
@@ -122,7 +122,8 @@ public final class SerializerImpl implements Serializer {
             Class[] paramTypes = new Class[] {Class.class, Object.class, RenderingHints.class};
             ctor = ssi.getConstructor(paramTypes);
         } catch (java.lang.NoSuchMethodException e) {
-            String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl2");
+            String message = theClass.getName() + ": "
+                    + "Unable to retrieve SerializableStateImpl subclass constructor by reflection.";
             sendExceptionToListener(message, new ImagingException(message, e));
         }
     }
@@ -136,13 +137,13 @@ public final class SerializerImpl implements Serializer {
         try {
             state = ctor.newInstance(new Object[] {theClass, o, h});
         } catch (InstantiationException e) {
-            String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl3");
+            String message = theClass.getName() + ": " + "Unable to construct SerializableState by reflection.";
             sendExceptionToListener(message, new ImagingException(message, e));
         } catch (IllegalAccessException e) {
-            String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl3");
+            String message = theClass.getName() + ": " + "Unable to construct SerializableState by reflection.";
             sendExceptionToListener(message, new ImagingException(message, e));
         } catch (java.lang.reflect.InvocationTargetException e) {
-            String message = theClass.getName() + ": " + JaiI18N.getString("SerializerImpl3");
+            String message = theClass.getName() + ": " + "Unable to construct SerializableState by reflection.";
             sendExceptionToListener(message, new ImagingException(message, e));
         }
 

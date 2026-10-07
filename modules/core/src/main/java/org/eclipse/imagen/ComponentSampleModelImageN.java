@@ -237,7 +237,7 @@ public class ComponentSampleModelImageN extends ComponentSampleModel {
                 dataBuffer = new DataBufferDouble(size, numBanks);
                 break;
             default:
-                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         return dataBuffer;
@@ -361,7 +361,7 @@ public class ComponentSampleModelImageN extends ComponentSampleModel {
                 break;
 
             default:
-                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         return obj;
@@ -539,7 +539,7 @@ public class ComponentSampleModelImageN extends ComponentSampleModel {
             }
 
             default:
-                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
+                throw new RuntimeException("Unsupported data type.");
         }
 
         return obj;
@@ -632,7 +632,7 @@ public class ComponentSampleModelImageN extends ComponentSampleModel {
                 break;
 
             default:
-                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
+                throw new RuntimeException("Unsupported data type.");
         }
     }
 
@@ -776,7 +776,7 @@ public class ComponentSampleModelImageN extends ComponentSampleModel {
             }
 
             default:
-                throw new RuntimeException(ImageNI18N.getString("RasterFactory3"));
+                throw new RuntimeException("Unsupported data type.");
         }
     }
 

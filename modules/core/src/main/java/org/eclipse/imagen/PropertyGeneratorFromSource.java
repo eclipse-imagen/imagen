@@ -37,7 +37,7 @@ class PropertyGeneratorFromSource extends PropertyGeneratorImpl {
                 new Class[] {OperationNode.class});
 
         if (propertyName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         this.sourceIndex = sourceIndex;
@@ -46,7 +46,7 @@ class PropertyGeneratorFromSource extends PropertyGeneratorImpl {
 
     public Object getProperty(String name, Object opNode) {
         if (name == null || opNode == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex >= 0 && opNode instanceof OperationNode && propertyName.equalsIgnoreCase(name)) {

@@ -47,7 +47,8 @@ public class RenderableRegistryMode extends RegistryMode {
 
         } catch (NoSuchMethodException e) {
             ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
-            String message = JaiI18N.getString("RegistryMode0") + " " + factoryClass.getName() + ".";
+            String message = "The method create(ParamterBlock, RenderingHints) is not found in the class" + " "
+                    + factoryClass.getName() + ".";
             listener.errorOccurred(message, e, RenderableRegistryMode.class, false);
             //	    e.printStackTrace();
         }

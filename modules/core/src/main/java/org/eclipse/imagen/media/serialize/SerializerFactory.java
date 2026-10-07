@@ -125,7 +125,7 @@ public final class SerializerFactory {
      */
     public static synchronized void registerSerializer(Serializer s) {
         if (s == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
 
         Class c = s.getSupportedClass();
@@ -153,7 +153,7 @@ public final class SerializerFactory {
      */
     public static synchronized void unregisterSerializer(Serializer s) {
         if (s == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
 
         Class c = s.getSupportedClass();
@@ -181,7 +181,7 @@ public final class SerializerFactory {
      */
     public static synchronized Serializer[] getSerializers(Class c) {
         if (c == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
         Object value = repository.get(c);
         Serializer[] result = null;
@@ -210,7 +210,7 @@ public final class SerializerFactory {
      */
     public static synchronized Serializer getSerializer(Class c) {
         if (c == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
 
         // Get the value from the repository.
@@ -251,7 +251,7 @@ public final class SerializerFactory {
      */
     public static boolean isSupportedClass(Class c) {
         if (c == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         } else if (Serializable.class.isAssignableFrom(c)) {
             return true;
         }
@@ -285,7 +285,7 @@ public final class SerializerFactory {
      */
     public static Class getDeserializedClass(Class c) {
         if (c == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
 
         Class deserializedClass = null;
@@ -375,7 +375,8 @@ public final class SerializerFactory {
 
                 int numSupportedInterfaces = serializers == null ? 0 : serializers.size();
                 if (numSupportedInterfaces == 0) {
-                    throw new IllegalArgumentException(JaiI18N.getString("SerializerFactory1"));
+                    throw new IllegalArgumentException(
+                            "The supplied Object is not an instance of a supported class and does not implement a supported interface.");
                 } else if (numSupportedInterfaces == 1) {
                     state = ((Serializer) serializers.get(0)).getState(o, h);
                 } else {
@@ -391,7 +392,7 @@ public final class SerializerFactory {
     /** Retrieve the interfaces implemented by the specified class and all its superclasses. */
     private static Class[] getInterfaces(Class c) {
         if (c == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
 
         ArrayList interfaces = new ArrayList();
@@ -434,7 +435,7 @@ class SerSerializer implements Serializer {
         if (o == null) {
             return SerializerFactory.NULL_STATE;
         } else if (!(o instanceof Serializable)) {
-            throw new IllegalArgumentException(JaiI18N.getString("SerializerFactory2"));
+            throw new IllegalArgumentException("The supplied Object is not an instance of Serializable.");
         }
         return new SerState((Serializable) o);
     }
@@ -448,7 +449,7 @@ class SerState implements SerializableState {
 
     SerState(Serializable object) {
         if (object == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
         this.object = object;
     }

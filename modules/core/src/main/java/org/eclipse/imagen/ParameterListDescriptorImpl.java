@@ -19,6 +19,7 @@ package org.eclipse.imagen;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -79,12 +80,13 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
     public static Set getEnumeratedValues(Object descriptor, Class paramClass) {
 
         if ((descriptor == null) || (paramClass == null))
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         // If not an enumerated parameter, return null
         if (!EnumeratedParameter.class.isAssignableFrom(paramClass))
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("ParameterListDescriptorImpl10", new Object[] {paramClass.getName()}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "The input parameter class ({0}) is not an EnumeratedParameter.class",
+                    new Object[] {paramClass.getName()}));
 
         Field[] fields = descriptor.getClass().getDeclaredFields();
 
@@ -116,7 +118,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // which should be caught by the
                         // developer the first time the
                         // bogus descriptor is loaded.
-                        throw new UnsupportedOperationException(ImageNI18N.getString("ParameterListDescriptorImpl0"));
+                        throw new UnsupportedOperationException("EnumeratedParameter with duplicate name or value.");
                     }
                     // Save parameter value in Set.
                     valueSet.add(fieldValue);
@@ -201,11 +203,12 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         int numParams = (paramNames == null) ? 0 : paramNames.length;
 
         if ((paramDefaults != null) && (paramDefaults.length != numParams))
-            throw new IllegalArgumentException("paramDefaults" + ImageNI18N.getString("ParameterListDescriptorImpl1"));
+            throw new IllegalArgumentException(
+                    "paramDefaults" + "Number of parameter defaults not the same as number of parameter names.");
 
         if ((validParamValues != null) && (validParamValues.length != numParams))
             throw new IllegalArgumentException(
-                    "validParamValues" + ImageNI18N.getString("ParameterListDescriptorImpl2"));
+                    "validParamValues" + "Number of valid parameter values not the same as number of parameter names.");
 
         this.descriptor = descriptor;
 
@@ -213,7 +216,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
             if ((paramClasses != null) && (paramClasses.length != 0))
                 throw new IllegalArgumentException(
-                        "paramClasses" + ImageNI18N.getString("ParameterListDescriptorImpl3"));
+                        "paramClasses" + "Number of parameter classes not the same as number of parameter names.");
 
             this.numParams = 0;
             this.paramNames = null;
@@ -226,7 +229,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
             if ((paramClasses == null) || (paramClasses.length != numParams))
                 throw new IllegalArgumentException(
-                        "paramClasses" + ImageNI18N.getString("ParameterListDescriptorImpl3"));
+                        "paramClasses" + "Number of parameter classes not the same as number of parameter names.");
 
             this.numParams = numParams;
             this.paramNames = paramNames;
@@ -251,8 +254,9 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                             || (paramDefaults[i] == ParameterListDescriptor.NO_PARAMETER_DEFAULT)) continue;
 
                     if (!paramClasses[i].isInstance(paramDefaults[i])) {
-                        throw new IllegalArgumentException(
-                                ImageNI18N.formatMsg("ParameterListDescriptorImpl4", new Object[] {
+                        throw new IllegalArgumentException(MessageFormat.format(
+                                "Parameter default`s class \"{0}\" is not an instance of the parameter class \"{1}\" for parameter \"{2}\".",
+                                new Object[] {
                                     paramDefaults[i].getClass().getName(), paramClasses[i].getName(), paramNames[i]
                                 }));
                     }
@@ -275,8 +279,9 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // If paramClass[i] is an enumerated parameter, then
                         // the validParamValues[i] has to be a Set
                         if (!(validParamValues[i] instanceof Set))
-                            throw new IllegalArgumentException(
-                                    ImageNI18N.formatMsg("ParameterListDescriptorImpl5", new Object[] {paramNames[i]}));
+                            throw new IllegalArgumentException(MessageFormat.format(
+                                    "Parameter \"{0}\" is an enumerated parameter, but it`s validParamValue is not a Set.",
+                                    new Object[] {paramNames[i]}));
 
                     } else if (validParamValues[i] instanceof Range) {
 
@@ -285,8 +290,9 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // If the validParamValues[i] is a Range, then
                         // the Range's class must match with paramClass[i]
                         if (!paramClasses[i].isAssignableFrom(range.getElementClass()))
-                            throw new IllegalArgumentException(
-                                    ImageNI18N.formatMsg("ParameterListDescriptorImpl6", new Object[] {
+                            throw new IllegalArgumentException(MessageFormat.format(
+                                    "The element class of Range ({0}) does not match with the parameter class ({1}) for parameter \"{2}\".",
+                                    new Object[] {
                                         range.getElementClass().getName(), paramClasses[i].getName(), paramNames[i]
                                     }));
 
@@ -295,8 +301,9 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
                         // Otherwise, the validParamValues[i] has to be
                         // an instance of the paramClasses[i]
                         if (!paramClasses[i].isInstance(validParamValues[i]))
-                            throw new IllegalArgumentException(
-                                    ImageNI18N.formatMsg("ParameterListDescriptorImpl7", new Object[] {
+                            throw new IllegalArgumentException(MessageFormat.format(
+                                    "Valid parameter value`s class ({0}) is not an instance of the parameter class ({1}) for parameter \"{2}\".",
+                                    new Object[] {
                                         validParamValues[i].getClass().getName(),
                                         paramClasses[i].getName(),
                                         paramNames[i]
@@ -403,8 +410,7 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         int i = paramIndices.indexOf(parameterName);
 
         if (!EnumeratedParameter.class.isAssignableFrom(paramClasses[i]))
-            throw new IllegalArgumentException(
-                    parameterName + ":" + ImageNI18N.getString("ParameterListDescriptorImpl8"));
+            throw new IllegalArgumentException(parameterName + ":" + "is not an enumerated parameter.");
 
         Set enumSet = (Set) getValidParamValue(i);
 
@@ -431,8 +437,8 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
 
         // Make sure the object belongs to the right class
         if ((value != null) && !paramClasses[index].isInstance(value)) {
-            throw new IllegalArgumentException(ImageNI18N.formatMsg(
-                    "ParameterListDescriptorImpl9",
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "Parameter value`s class ({0}) is not an instance of the parameter class ({1}) for parameter \"{2}\".",
                     new Object[] {value.getClass().getName(), paramClasses[index].getName(), parameterName}));
         }
 

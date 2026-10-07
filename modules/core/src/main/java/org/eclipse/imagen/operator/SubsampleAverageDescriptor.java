@@ -60,7 +60,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
      */
     public Class getClass(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAveragePropertyGenerator0"));
+            throw new IllegalArgumentException("propertyName may not be null");
         } else if (propertyName.equalsIgnoreCase("roi")) {
             return ROI.class;
         }
@@ -71,7 +71,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
     /** Determines whether properties can be generated from the supplied node. */
     public boolean canGenerateProperties(Object opNode) {
         if (opNode == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAveragePropertyGenerator1"));
+            throw new IllegalArgumentException("opNode may not be null");
         }
 
         return opNode instanceof RenderedOp;
@@ -85,10 +85,9 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
      */
     public Object getProperty(String name, Object opNode) {
         if (name == null || opNode == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAveragePropertyGenerator2"));
+            throw new IllegalArgumentException("Neither parameter may be null.");
         } else if (!canGenerateProperties(opNode)) {
-            throw new IllegalArgumentException(
-                    opNode.getClass().getName() + JaiI18N.getString("SubsampleAveragePropertyGenerator3"));
+            throw new IllegalArgumentException(opNode.getClass().getName() + "is not a supported class.");
         }
 
         return opNode instanceof RenderedOp ? getProperty(name, (RenderedOp) opNode) : null;
@@ -102,7 +101,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
      */
     public Object getProperty(String name, RenderedOp op) {
         if (name == null || op == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAveragePropertyGenerator4"));
+            throw new IllegalArgumentException("Neither parameter may be null.");
         }
 
         if (name.equals("roi")) {
@@ -169,7 +168,7 @@ class SubsampleAveragePropertyGenerator implements PropertyGenerator {
      */
     public Object getProperty(String name, RenderableOp op) {
         if (name == null || op == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAveragePropertyGenerator2"));
+            throw new IllegalArgumentException("Neither parameter may be null.");
         }
 
         return null;
@@ -255,14 +254,14 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "SubsampleAverage"},
         {"LocalName", "SubsampleAverage"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("SubsampleAverageDescriptor0")},
+        {"Description", "Subsamples an image by averaging over a moving window."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/SubsampleAverageDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("SubsampleAverageDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("SubsampleAverageDescriptor2")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The X scale factor."},
+        {"arg1Desc", "The Y scale factor."}
     };
 
     /** The parameter class list for this operation. */
@@ -298,7 +297,7 @@ public class SubsampleAverageDescriptor extends OperationDescriptorImpl {
      */
     public PropertyGenerator[] getPropertyGenerators(String modeName) {
         if (modeName == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAverageDescriptor3"));
+            throw new IllegalArgumentException("modeName may not be null.");
         }
 
         if (!RenderedRegistryMode.MODE_NAME.equalsIgnoreCase(modeName)) {

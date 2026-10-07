@@ -107,14 +107,14 @@ public class WrapperRI implements RenderedImage {
     }
 
     public Raster getData() {
-        throw new RuntimeException(JaiI18N.getString("WrapperRI0"));
+        throw new RuntimeException("Not implemented yet.");
     }
 
     public Raster getData(Rectangle rect) {
-        throw new RuntimeException(JaiI18N.getString("WrapperRI0"));
+        throw new RuntimeException("Not implemented yet.");
     }
 
     public WritableRaster copyData(WritableRaster raster) {
-        throw new RuntimeException(JaiI18N.getString("WrapperRI0"));
+        throw new RuntimeException("Not implemented yet.");
     }
 }

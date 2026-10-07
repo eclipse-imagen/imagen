@@ -57,7 +57,8 @@ public class RenderingKeyState extends SerializableStateImpl {
 
         predefinedKey = (RenderingHintsState.HintElement) predefinedObjects.get(o);
 
-        if (predefinedKey == null) throw new RuntimeException(JaiI18N.getString("RenderingKeyState0"));
+        if (predefinedKey == null)
+            throw new RuntimeException("This RenderingHints.Key is not predefined and cannot be serialized.");
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

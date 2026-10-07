@@ -143,7 +143,7 @@ public class SampleModelState extends SerializableStateImpl {
             out.writeInt(sm.getScanlineStride());
             out.writeInt(sm.getDataBitOffset());
         } else {
-            throw new RuntimeException(JaiI18N.getString("SampleModelState0"));
+            throw new RuntimeException("Unsupported SampleModel type.");
         }
     }
 
@@ -194,7 +194,7 @@ public class SampleModelState extends SerializableStateImpl {
                         in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readInt());
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("SampleModelState0"));
+                throw new RuntimeException("Unsupported SampleModel type.");
         }
         theObject = sampleModel;
     }

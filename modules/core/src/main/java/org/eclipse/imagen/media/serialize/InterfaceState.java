@@ -41,7 +41,7 @@ public class InterfaceState implements SerializableState {
 
     public InterfaceState(Object o, Serializer[] serializers, RenderingHints h) {
         if (o == null || serializers == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The method parameter(s) may not be null.");
         }
         theObject = o;
         theSerializers = serializers;
@@ -97,9 +97,10 @@ public class InterfaceState implements SerializableState {
 
         public InterfaceHandler(Class[] interfaces, SerializableState[] implementations) {
             if (interfaces == null || implementations == null) {
-                throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+                throw new IllegalArgumentException("The method parameter(s) may not be null.");
             } else if (interfaces.length != implementations.length) {
-                throw new IllegalArgumentException(JaiI18N.getString("InterfaceHandler0"));
+                throw new IllegalArgumentException(
+                        "The number of implementations must equal the number of interfaces.");
             }
 
             int numInterfaces = interfaces.length;
@@ -109,7 +110,7 @@ public class InterfaceState implements SerializableState {
                 SerializableState state = implementations[i];
 
                 if (!iface.isAssignableFrom(state.getObjectClass())) {
-                    throw new RuntimeException(JaiI18N.getString("InterfaceHandler1"));
+                    throw new RuntimeException("Implementations must be compatible with specified interfaces.");
                 }
 
                 Object impl = state.getObject();
@@ -130,7 +131,7 @@ public class InterfaceState implements SerializableState {
                     }
                 }
                 if (!interfaceMap.containsKey(key)) {
-                    throw new RuntimeException(key.getName() + JaiI18N.getString("InterfaceHandler2"));
+                    throw new RuntimeException(key.getName() + "has no compatible implementation.");
                 }
             }
 
@@ -139,7 +140,7 @@ public class InterfaceState implements SerializableState {
                 Object impl = interfaceMap.get(key);
                 result = method.invoke(impl, args);
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(method.getName() + JaiI18N.getString("InterfaceHandler3"));
+                throw new RuntimeException(method.getName() + "cannot be evaluated by proxy.");
             }
 
             return result;

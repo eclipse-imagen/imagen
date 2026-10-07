@@ -129,9 +129,9 @@ public final class RCIFRegistry {
      */
     public static PropertySource getPropertySource(CollectionOp op) {
 
-        if (op == null) throw new IllegalArgumentException("op - " + JaiI18N.getString("Generic0"));
+        if (op == null) throw new IllegalArgumentException("op - " + "The input argument(s) may not be null.");
 
-        if (!op.isRenderable()) throw new IllegalArgumentException("op - " + JaiI18N.getString("CIFRegistry1"));
+        if (!op.isRenderable()) throw new IllegalArgumentException("op - " + "The CollectionOp must be be renderable.");
 
         return op.getRegistry().getPropertySource((OperationNode) op);
     }

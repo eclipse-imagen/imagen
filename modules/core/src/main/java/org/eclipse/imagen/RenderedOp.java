@@ -643,7 +643,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
 
         // Throw an exception if the rendering is null.
         if (rendering == null) {
-            throw new RuntimeException(ImageNI18N.getString("RenderedOp0"));
+            throw new RuntimeException("- Unable to render RenderedOp for this operation.");
         }
 
         // XXX: RenderedImageList - bpb 8 dec 2000
@@ -1414,7 +1414,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
     public synchronized void setRenderingHint(RenderingHints.Key key, Object value) {
 
         if (key == null || value == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         RenderingHints rh = nodeSupport.getRenderingHints();
@@ -1588,7 +1588,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized Object getProperty(String name) {
 
-        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         createPropertySource();
         CaselessStringKey key = new CaselessStringKey(name);
@@ -1638,12 +1638,12 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws RuntimeException if <code>name</code> conflicts with Synthetic property.
      */
     public synchronized void setProperty(String name, Object value) {
-        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
-        if (value == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
+        if (value == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         // Check whether property conflicts with synthetic properties.
         if (synthProps.contains(new CaselessStringKey(name))) {
-            throw new RuntimeException(ImageNI18N.getString("RenderedOp4"));
+            throw new RuntimeException("Attempted to set a synthetic property!");
         }
 
         createPropertySource();
@@ -1658,11 +1658,11 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws RuntimeException if <code>name</code> conflicts with Synthetic property.
      */
     public void removeProperty(String name) {
-        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         // Check whether property conflicts with synthetic properties.
         if (synthProps.contains(new CaselessStringKey(name))) {
-            throw new RuntimeException(ImageNI18N.getString("RenderedOp4"));
+            throw new RuntimeException("Attempted to set a synthetic property!");
         }
 
         createPropertySource();
@@ -1721,10 +1721,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>name</code> conflicts with Synthetic property.
      */
     public synchronized void suppressProperty(String name) {
-        if (name == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (name == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         if (synthProps.contains(new CaselessStringKey(name))) {
-            throw new IllegalArgumentException(ImageNI18N.getString("RenderedOp5"));
+            throw new IllegalArgumentException("Synthetic properties cannot be suppressed.");
         }
 
         nodeSupport.suppressProperty(name);
@@ -1901,7 +1901,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic4"));
+            throw new IllegalArgumentException("The TileRequest parameter may not be null.");
         }
         createRendering();
         theImage.cancelTiles(request, tileIndices);
@@ -2040,7 +2040,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      */
     public synchronized void addSource(Object source) {
-        if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (source == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
         pb.addSource(source);
@@ -2067,7 +2067,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is invalid.
      */
     public synchronized void setSource(Object source, int index) {
-        if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (source == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
 
@@ -2102,7 +2102,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized boolean removeSource(Object source) {
         if (source == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
@@ -2180,7 +2180,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      * @throws IllegalArgumentException if <code>sourceList</code> is <code>null</code>.
      */
     public synchronized void setSources(List sourceList) {
-        if (sourceList == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (sourceList == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
 
@@ -2256,7 +2256,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized void addSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         super.addSink(sink);
     }
@@ -2281,7 +2281,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public synchronized boolean removeSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         return super.removeSink(sink);
     }
@@ -2300,7 +2300,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         return super.addSink(sink);
     }
@@ -2314,7 +2314,7 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
         return super.removeSink(sink);
     }
@@ -2340,9 +2340,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         createRendering();
@@ -2373,9 +2374,10 @@ public class RenderedOp extends PlanarImage implements OperationNode, PropertyCh
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         createRendering();

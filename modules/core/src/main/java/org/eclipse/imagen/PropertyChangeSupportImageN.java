@@ -68,7 +68,7 @@ public final class PropertyChangeSupportImageN extends PropertyChangeSupport {
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 
         if (propertyName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         super.addPropertyChangeListener(propertyName.toLowerCase(), listener);
@@ -83,7 +83,7 @@ public final class PropertyChangeSupportImageN extends PropertyChangeSupport {
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 
         if (propertyName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         super.removePropertyChangeListener(propertyName.toLowerCase(), listener);

@@ -99,7 +99,8 @@ public abstract class AreaOpImage extends OpImage {
 
             // Check for empty intersection.
             if (dstRect.intersection(sourceRect).isEmpty()) {
-                throw new IllegalArgumentException(ImageNI18N.getString("AreaOpImage0"));
+                throw new IllegalArgumentException(
+                        "The user-supplied image bounds do not intersect the source bounds.");
             }
         }
 
@@ -264,11 +265,12 @@ public abstract class AreaOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         int lpad = getLeftPadding();
@@ -297,11 +299,12 @@ public abstract class AreaOpImage extends OpImage {
      */
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         int lpad = getLeftPadding();

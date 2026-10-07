@@ -105,7 +105,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
 
     private static String getDefaultMode(OperationDescriptor odesc) {
 
-        if (odesc == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (odesc == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         return odesc.getSupportedModes()[0];
     }
@@ -151,7 +151,8 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      */
     public ParameterBlockImageN(OperationDescriptor odesc, String modeName) {
 
-        if ((odesc == null) || (modeName == null)) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if ((odesc == null) || (modeName == null))
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         this.odesc = odesc;
         this.modeName = modeName;
@@ -243,13 +244,14 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      */
     public ParameterBlockImageN setSource(String sourceName, Object source) {
         if ((source == null) || (sourceName == null)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int index = indexOfSource(sourceName);
 
         if (!sourceClasses[index].isInstance(source)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ParameterBlockJAI4"));
+            throw new IllegalArgumentException(
+                    "The supplied source does not have the correct class type for either rendered or renderable mode.");
         }
 
         if (index >= odesc.getNumSources()) {
@@ -280,7 +282,8 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
         Object obj = getObjectParameter(indexOfParam(paramName));
 
         if (obj == ParameterListDescriptor.NO_PARAMETER_DEFAULT)
-            throw new IllegalStateException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI6"));
+            throw new IllegalStateException(
+                    paramName + ":" + "the parameter value has not yet been set and has no default value.");
 
         return obj;
     }
@@ -565,26 +568,28 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
         if (obj != null) {
 
             if (obj == ParameterListDescriptor.NO_PARAMETER_DEFAULT) {
-                throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI8"));
+                throw new IllegalArgumentException(paramName + ":" + "can not set parameter to NO_PARAMETER_DEFAULT");
             }
 
             if (obj instanceof DeferredData) {
                 DeferredData dd = (DeferredData) obj;
                 if (!paramClasses[index].isAssignableFrom(dd.getDataClass())) {
-                    throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI0"));
+                    throw new IllegalArgumentException(
+                            paramName + ":" + "The parameter does not have the correct class type.");
                 }
 
                 if (dd.isValid() && !pld.isParameterValueValid(paramName, dd.getData())) {
-                    throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI2"));
+                    throw new IllegalArgumentException(paramName + ":" + "the parameter value is not valid.");
                 }
             } else if (!paramClasses[index].isInstance(obj)) {
-                throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI0"));
+                throw new IllegalArgumentException(
+                        paramName + ":" + "The parameter does not have the correct class type.");
             }
         }
 
         if (obj == null || !(obj instanceof DeferredData)) {
             if (!pld.isParameterValueValid(paramName, obj)) {
-                throw new IllegalArgumentException(paramName + ":" + ImageNI18N.getString("ParameterBlockJAI2"));
+                throw new IllegalArgumentException(paramName + ":" + "the parameter value is not valid.");
             }
         }
 
@@ -627,7 +632,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(Object obj) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -666,7 +671,8 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
      */
     public void setParameters(Vector parameters) {
         if (parameters == null || parameters.size() != numParameters) {
-            throw new IllegalArgumentException(ImageNI18N.getString("ParameterBlockJAI7"));
+            throw new IllegalArgumentException(
+                    "The length of the supplied parameter Vector does no match the number of parameters of the corresponding operation.");
         }
 
         for (int i = 0; i < numParameters; i++) {
@@ -697,7 +703,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(byte b) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -709,7 +715,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(char c) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -721,7 +727,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(short s) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -733,7 +739,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(int i) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -745,7 +751,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(long l) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -757,7 +763,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(float f) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     /**
@@ -769,7 +775,7 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
     @Deprecated
     @Override
     public ParameterBlockImageN add(double d) {
-        throw new IllegalStateException(ImageNI18N.getString("ParameterBlockJAI5"));
+        throw new IllegalStateException("Use the set methods to add parameters to the ParameterBlockJAI");
     }
 
     @Override
@@ -978,7 +984,8 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
                 ImageN.getDefaultInstance().getOperationRegistry().getDescriptor(modeName, operationName);
 
         if (odesc == null) {
-            throw new NotSerializableException(operationName + " " + ImageNI18N.getString("ParameterBlockJAI1"));
+            throw new NotSerializableException(operationName + " "
+                    + "does not have an OperationDescriptor registered with the OperationRegistry.");
         }
     }
 

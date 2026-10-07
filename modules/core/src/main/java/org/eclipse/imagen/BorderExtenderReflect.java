@@ -176,7 +176,7 @@ public final class BorderExtenderReflect extends BorderExtender {
     public final void extend(WritableRaster raster, PlanarImage im) {
 
         if (raster == null || im == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int width = raster.getWidth();

@@ -140,14 +140,14 @@ public class MedianFilterDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "MedianFilter"},
         {"LocalName", "MedianFilter"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MedianFilterDescriptor0")},
+        {"Description", "Performs median filtering on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/org.eclipse.imagen.operator.MedianFilterDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("MedianFilterDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("MedianFilterDescriptor2")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The mask shape to be used for Median Filtering."},
+        {"arg1Desc", "The mask size to be used for Median Filtering."}
     };
 
     /** The parameter class list for this operation. */

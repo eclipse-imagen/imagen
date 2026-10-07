@@ -109,17 +109,17 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "Renderable"},
         {"LocalName", "Renderable"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("RenderableDescriptor0")},
+        {"Description", "Produces a RenderableImage from a RenderedImage."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/RenderableDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion")},
-        {"arg0Desc", JaiI18N.getString("RenderableDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("RenderableDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("RenderableDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("RenderableDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("RenderableDescriptor5")}
+        {"Version", "1.1"},
+        {"arg0Desc", "The operation chain used to derive the lower resolution images."},
+        {"arg1Desc", "The maximum dimension of the lowest resolution pyramid level."},
+        {"arg2Desc", "The minimum rendering-independent X coordinate of the destination."},
+        {"arg3Desc", "The minimum rendering-independent Y coordinate of the destination."},
+        {"arg4Desc", "The rendering-independent height."}
     };
 
     /** The parameter class list for this operation. */
@@ -202,10 +202,10 @@ public class RenderableDescriptor extends OperationDescriptorImpl {
 
         // Make sure the maximum dimension and the height are both positive.
         if (args.getIntParameter(1) <= 0) {
-            msg.append(getName() + " " + JaiI18N.getString("RenderableDescriptor6"));
+            msg.append(getName() + " " + "The maximum dimension of the lowest level must be positive.");
             return false;
         } else if (args.getFloatParameter(4) <= 0.0F) {
-            msg.append(getName() + " " + JaiI18N.getString("RenderableDescriptor7"));
+            msg.append(getName() + " " + "The rendering-independent height must be positive.");
             return false;
         }
 

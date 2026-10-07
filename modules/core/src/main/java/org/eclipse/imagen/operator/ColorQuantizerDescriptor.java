@@ -170,18 +170,21 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "ColorQuantizer"},
         {"LocalName", "ColorQuantizer"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("ColorQuantizerDescriptor0")},
+        {"Description", "Generates optimal lookup table and result image of nearest distance classification"},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jai-apidocs/javax/media/jai/operator/ColorQuantizerDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("ColorQuantizerDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("ColorQuantizerDescriptor2")},
-        {"arg2Desc", JaiI18N.getString("ColorQuantizerDescriptor3")},
-        {"arg3Desc", JaiI18N.getString("ColorQuantizerDescriptor4")},
-        {"arg4Desc", JaiI18N.getString("ColorQuantizerDescriptor5")},
-        {"arg5Desc", JaiI18N.getString("ColorQuantizerDescriptor6")},
+        {"Version", "1.2"},
+        {"arg0Desc", "The quantization algorithm to be used."},
+        {"arg1Desc", "The expected maximum color number."},
+        {
+            "arg2Desc",
+            "The histogram size for median-cut; The train cycle for NeuQuant; The maximum tree size for Oct-Tree."
+        },
+        {"arg3Desc", "The ROI in which the pixels are involved into the color quantization."},
+        {"arg4Desc", "The subsampling rate in x-direction."},
+        {"arg5Desc", "The subsampling rate in y-direction."},
     };
 
     /** The parameter name list for this operation. */
@@ -234,14 +237,14 @@ public class ColorQuantizerDescriptor extends OperationDescriptorImpl {
      */
     protected boolean validateParameters(String modeName, ParameterBlock args, StringBuffer msg) {
         if (args == null || msg == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (!super.validateParameters(modeName, args, msg)) return false;
 
         ColorQuantizerType algorithm = (ColorQuantizerType) args.getObjectParameter(0);
         if (algorithm != MEDIANCUT && algorithm != NEUQUANT && algorithm != OCTTREE) {
-            msg.append(getName() + " " + JaiI18N.getString("ColorQuantizerDescriptor7"));
+            msg.append(getName() + " " + "Invalid color quantization algorithm.");
             return false;
         }
 

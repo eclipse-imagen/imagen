@@ -85,7 +85,7 @@ public abstract class PointOpImage extends OpImage {
         int numSources = sources.size();
 
         if (numSources < 1) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic5"));
+            throw new IllegalArgumentException("Source Vector must contain at least one element.");
         }
 
         RenderedImage source0 = (RenderedImage) sources.get(0);
@@ -103,7 +103,7 @@ public abstract class PointOpImage extends OpImage {
         }
 
         if (isect.isEmpty()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage0"));
+            throw new IllegalArgumentException("The intersection of all the source bounds is empty.");
         }
 
         if (layout == null) {
@@ -128,11 +128,12 @@ public abstract class PointOpImage extends OpImage {
             Rectangle r = new Rectangle(
                     layout.getMinX(null), layout.getMinY(null), layout.getWidth(null), layout.getHeight(null));
             if (r.isEmpty()) {
-                throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage1"));
+                throw new IllegalArgumentException("The user-supplied image bounds is empty.");
             }
 
             if (!isect.contains(r)) {
-                throw new IllegalArgumentException(ImageNI18N.getString("PointOpImage2"));
+                throw new IllegalArgumentException(
+                        "The user-supplied image bounds is not within the intersection of all the source bounds.");
             }
         }
 
@@ -893,11 +894,12 @@ public abstract class PointOpImage extends OpImage {
      */
     public final Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
         return new Rectangle(sourceRect);
     }
@@ -916,11 +918,12 @@ public abstract class PointOpImage extends OpImage {
      */
     public final Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
         return new Rectangle(destRect);
     }

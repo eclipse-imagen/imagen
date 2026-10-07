@@ -143,14 +143,14 @@ public class MaxFilterDescriptor extends OperationDescriptorImpl {
         {"GlobalName", "MaxFilter"},
         {"LocalName", "MaxFilter"},
         {"Vendor", "org.eclipse.imagen.media"},
-        {"Description", JaiI18N.getString("MaxFilterDescriptor0")},
+        {"Description", "Performs max filtering on an image."},
         {
             "DocURL",
             "http://java.sun.com/products/java-media/jai/forDevelopers/jaiapi/org.eclipse.imagen.operator.MaxFilterDescriptor.html"
         },
-        {"Version", JaiI18N.getString("DescriptorVersion2")},
-        {"arg0Desc", JaiI18N.getString("MaxFilterDescriptor1")},
-        {"arg1Desc", JaiI18N.getString("MaxFilterDescriptor2")}
+        {"Version", "1.2"},
+        {"arg0Desc", "The shape of the mask to be used for Max Filtering."},
+        {"arg1Desc", "The size (width/height) of the mask to be used in Max Filtering."}
     };
 
     /** The parameter class list for this operation. */

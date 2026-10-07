@@ -54,9 +54,9 @@ public class SubsampleAverageOpImage extends GeometricOpImage {
     private static ImageLayout layoutHelper(RenderedImage source, double scaleX, double scaleY, ImageLayout il) {
 
         if (scaleX <= 0.0 || scaleX > 1.0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAverageOpImage0"));
+            throw new IllegalArgumentException("scaleX <= 0.0 || scaleX > 1.0.");
         } else if (scaleY <= 0.0 || scaleY > 1.0) {
-            throw new IllegalArgumentException(JaiI18N.getString("SubsampleAverageOpImage1"));
+            throw new IllegalArgumentException("scaleY <= 0.0 || scaleY > 1.0.");
         }
 
         ImageLayout layout = (il == null) ? new ImageLayout() : (ImageLayout) il.clone();
@@ -117,9 +117,10 @@ public class SubsampleAverageOpImage extends GeometricOpImage {
 
     protected Rectangle backwardMapRect(Rectangle destRect, int sourceIndex) {
         if (destRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Map the upper left pixel.
@@ -141,9 +142,10 @@ public class SubsampleAverageOpImage extends GeometricOpImage {
 
     protected Rectangle forwardMapRect(Rectangle sourceRect, int sourceIndex) {
         if (sourceRect == null) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex != 0) {
-            throw new IllegalArgumentException(JaiI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Map the upper left pixel.
@@ -206,7 +208,7 @@ public class SubsampleAverageOpImage extends GeometricOpImage {
                 computeRectDouble(src, dst);
                 break;
             default:
-                throw new RuntimeException(JaiI18N.getString("Generic3"));
+                throw new RuntimeException("Unkown data type.");
         }
 
         // If the RasterAccessor set up a temporary write buffer for the

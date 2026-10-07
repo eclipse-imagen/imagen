@@ -98,7 +98,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      */
     public Object getProperty(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         synchronized (properties) {
@@ -149,7 +149,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      */
     public void setProperty(String propertyName, Object propertyValue) {
         if (propertyName == null || propertyValue == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         synchronized (properties) {
@@ -189,7 +189,7 @@ public class WritablePropertySourceImpl extends PropertySourceImpl implements Wr
      */
     public void removeProperty(String propertyName) {
         if (propertyName == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         synchronized (properties) {

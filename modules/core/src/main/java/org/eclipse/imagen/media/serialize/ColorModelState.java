@@ -249,7 +249,7 @@ public class ColorModelState extends SerializableStateImpl {
                 out.writeInt(sm.getTransferType());
             }
         } else {
-            throw new RuntimeException(JaiI18N.getString("ColorModelState0"));
+            throw new RuntimeException("Unknown ColorModel class.");
         }
     }
 
@@ -317,7 +317,7 @@ public class ColorModelState extends SerializableStateImpl {
                 break;
             default:
                 // NB: Should never get here.
-                throw new RuntimeException(JaiI18N.getString("ColorModelState1"));
+                throw new RuntimeException("Unknown ColorModel type.");
         }
 
         theObject = colorModel;

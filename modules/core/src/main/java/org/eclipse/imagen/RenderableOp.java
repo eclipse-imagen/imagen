@@ -373,7 +373,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
             crif = CRIFRegistry.get(getRegistry(), getOperationName());
         }
         if (crif == null) {
-            throw new RuntimeException(ImageNI18N.getString("RenderableOp2"));
+            throw new RuntimeException("No adequate CRIF exists in the registry.");
         }
 
         return crif;
@@ -502,7 +502,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      */
     public RenderedImage createScaledRendering(int w, int h, RenderingHints hints) {
         if ((w == 0) && (h == 0)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("RenderableOp3"));
+            throw new IllegalArgumentException("One of w or h must be non-zero.");
         }
 
         if (w == 0) {
@@ -829,7 +829,7 @@ public class RenderableOp implements RenderableImage, OperationNode, WritablePro
      * @throws IllegalArgumentException if <code>source</code> is <code>null</code>.
      */
     public void setSource(Object source, int index) {
-        if (source == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (source == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         ParameterBlock pb = (ParameterBlock) nodeSupport.getParameterBlock().clone();
         pb.setSource(source, index);

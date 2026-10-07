@@ -128,7 +128,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                 transferType);
 
         if (transferType != DataBuffer.TYPE_FLOAT && transferType != DataBuffer.TYPE_DOUBLE) {
-            throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel0"));
+            throw new IllegalArgumentException("transferType must be DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.");
         }
 
         this.colorSpace = colorSpace;
@@ -147,7 +147,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getRed(int pixel) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel1"));
+        throw new IllegalArgumentException("getRed(int) not supported by this ColorModel.");
     }
 
     /**
@@ -155,7 +155,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getGreen(int pixel) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel2"));
+        throw new IllegalArgumentException("getGreen(int) not supported by this ColorModel.");
     }
 
     /**
@@ -163,7 +163,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getBlue(int pixel) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel3"));
+        throw new IllegalArgumentException("getBlue(int) not supported by this ColorModel.");
     }
 
     /**
@@ -171,7 +171,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getAlpha(int pixel) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel4"));
+        throw new IllegalArgumentException("getAlpha(int) not supported by this ColorModel.");
     }
 
     /**
@@ -179,7 +179,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getRGB(int pixel) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel5"));
+        throw new IllegalArgumentException("getRGB(int) not supported by this ColorModel.");
     }
 
     private final int clamp(float value) {
@@ -335,7 +335,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      */
     public int getAlpha(Object inData) {
         if (inData == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (hasAlpha == false) {
@@ -491,11 +491,12 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                 floatPixel = new float[numComponents];
             } else {
                 if (!(pixel instanceof float[])) {
-                    throw new ClassCastException(ImageNI18N.getString("FloatDoubleColorModel7"));
+                    throw new ClassCastException("Type of pixel does not match transfer type.");
                 }
                 floatPixel = (float[]) pixel;
                 if (floatPixel.length < numComponents) {
-                    throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("FloatDoubleColorModel8"));
+                    throw new ArrayIndexOutOfBoundsException(
+                            "pixel array is not large enough to hold all color/alpha components.");
                 }
             }
 
@@ -551,11 +552,12 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                 doublePixel = new double[numComponents];
             } else {
                 if (!(pixel instanceof double[])) {
-                    throw new ClassCastException(ImageNI18N.getString("FloatDoubleColorModel7"));
+                    throw new ClassCastException("Type of pixel does not match transfer type.");
                 }
                 doublePixel = (double[]) pixel;
                 if (doublePixel.length < numComponents) {
-                    throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("FloatDoubleColorModel8"));
+                    throw new ArrayIndexOutOfBoundsException(
+                            "pixel array is not large enough to hold all color/alpha components.");
                 }
             }
 
@@ -614,7 +616,8 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int[] getComponents(int pixel, int[] components, int offset) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel9"));
+        throw new IllegalArgumentException(
+                "Pixel values for FloatDoubleColorModel cannot be represented as a single integer.");
     }
 
     /**
@@ -622,7 +625,8 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * array.
      */
     public int[] getComponents(Object pixel, int[] components, int offset) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel9"));
+        throw new IllegalArgumentException(
+                "Pixel values for FloatDoubleColorModel cannot be represented as a single integer.");
     }
 
     /**
@@ -630,7 +634,8 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      * conveniently representable as a single <code>int</code>.
      */
     public int getDataElement(int[] components, int offset) {
-        throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel9"));
+        throw new IllegalArgumentException(
+                "Pixel values for FloatDoubleColorModel cannot be represented as a single integer.");
     }
 
     /**
@@ -654,7 +659,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
      */
     public Object getDataElements(int[] components, int offset, Object obj) {
         if ((components.length - offset) < numComponents) {
-            throw new IllegalArgumentException(numComponents + " " + ImageNI18N.getString("FloatDoubleColorModel10"));
+            throw new IllegalArgumentException(numComponents + " " + "elements required in the components array.");
         }
         if (transferType == DataBuffer.TYPE_FLOAT) {
             float[] pixel;
@@ -707,7 +712,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
         int rX;
 
         if (raster.getTransferType() != transferType) {
-            throw new IllegalArgumentException(ImageNI18N.getString("FloatDoubleColorModel6"));
+            throw new IllegalArgumentException("raster transfer type must match that of this ColorModel.");
         }
 
         if (isAlphaPremultiplied) {
@@ -751,7 +756,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                     break;
 
                 default:
-                    throw new RuntimeException(ImageNI18N.getString("FloatDoubleColorModel0"));
+                    throw new RuntimeException("transferType must be DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.");
             }
 
             if (isAlphaPremultiplied) {}
@@ -799,7 +804,7 @@ public class FloatDoubleColorModel extends ComponentColorModel {
                     break;
 
                 default:
-                    throw new RuntimeException(ImageNI18N.getString("FloatDoubleColorModel0"));
+                    throw new RuntimeException("transferType must be DataBuffer.TYPE_FLOAT or DataBuffer.TYPE_DOUBLE.");
             }
         }
 

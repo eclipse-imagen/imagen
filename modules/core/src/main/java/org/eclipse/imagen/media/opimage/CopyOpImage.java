@@ -89,7 +89,7 @@ public final class CopyOpImage extends PointOpImage {
                     break;
                 default:
                     String className = this.getClass().getName();
-                    throw new RuntimeException(JaiI18N.getString("Convolve3x3OpImage1"));
+                    throw new RuntimeException("Support for ushort/float/double data not implemented yet.");
             }
 
             // If the RasterAccessor object set up a temporary buffer for the

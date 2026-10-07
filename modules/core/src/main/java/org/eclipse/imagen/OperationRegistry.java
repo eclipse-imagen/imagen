@@ -32,6 +32,7 @@ import java.io.ObjectOutput;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -222,7 +223,8 @@ public class OperationRegistry implements Externalizable {
                 factories.put(key, fc = new FactoryCache(modeName));
 
             } else {
-                throw new IllegalArgumentException(ImageNI18N.formatMsg("OperationRegistry0", new Object[] {modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "Mode name \"{0}\" is not a valid (registered) registry mode.", new Object[] {modeName}));
             }
         }
 
@@ -245,7 +247,8 @@ public class OperationRegistry implements Externalizable {
                 descriptors.put(key, dc = new DescriptorCache(modeName));
 
             } else {
-                throw new IllegalArgumentException(ImageNI18N.formatMsg("OperationRegistry0", new Object[] {modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "Mode name \"{0}\" is not a valid (registered) registry mode.", new Object[] {modeName}));
             }
         }
 
@@ -301,7 +304,7 @@ public class OperationRegistry implements Externalizable {
             InputStream url = PropertyUtil.getFileFromClasspath(JAI_REGISTRY_FILE);
 
             if (url == null) {
-                throw new RuntimeException(ImageNI18N.getString("OperationRegistry1"));
+                throw new RuntimeException("Registry initialization file not found.");
             }
 
             OperationRegistry registry = new ThreadSafeOperationRegistry();
@@ -313,13 +316,13 @@ public class OperationRegistry implements Externalizable {
 
         } catch (IOException ioe) {
             ImagingListener listener = ImageN.getDefaultInstance().getImagingListener();
-            String message = ImageNI18N.getString("OperationRegistry2");
+            String message = "Error in parsing registry initialization file.";
             listener.errorOccurred(message, new ImagingException(message, ioe), OperationRegistry.class, false);
             return null;
 
             //	    ioe.printStackTrace();
             //	    throw new RuntimeException(
-            //			ImageNI18N.getString("OperationRegistry2"));
+            //			"Error in parsing registry initialization file.");
         }
     }
 
@@ -351,7 +354,7 @@ public class OperationRegistry implements Externalizable {
      * @see #writeExternal
      */
     public void writeToStream(OutputStream out) throws IOException {
-        if (out == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (out == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         RegistryFileParser.writeOperationRegistry(this, out);
     }
@@ -374,7 +377,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void initializeFromStream(InputStream in) throws IOException {
 
-        if (in == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (in == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         initialize();
         updateFromStream(in);
@@ -399,7 +402,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void updateFromStream(InputStream in) throws IOException {
 
-        if (in == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (in == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         RegistryFileParser.loadOperationRegistry(this, null, in);
     }
@@ -421,7 +424,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
-        if (in == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (in == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         byte barray[] = (byte[]) in.readObject();
         InputStream s = new ByteArrayInputStream(barray);
@@ -495,7 +498,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void writeExternal(ObjectOutput out) throws IOException {
 
-        if (out == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (out == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         ByteArrayOutputStream bstream = new ByteArrayOutputStream();
         writeToStream(bstream);
@@ -558,7 +561,7 @@ public class OperationRegistry implements Externalizable {
      *     of the modes supported by this descriptor.
      */
     public void registerDescriptor(RegistryElementDescriptor descriptor) {
-        if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (descriptor == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         String[] supportedModes = descriptor.getSupportedModes();
 
@@ -568,8 +571,9 @@ public class OperationRegistry implements Externalizable {
         // modes.
         for (int i = 0; i < supportedModes.length; i++) {
             if (RegistryMode.getMode(supportedModes[i]) == null)
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry3", new Object[] {descriptorName, supportedModes[i]}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "Can not descriptor \"{0}\" under mode \"{1}\". Mode \"{1}\" is not a valid registry mode.",
+                        new Object[] {descriptorName, supportedModes[i]}));
         }
 
         // Now register the descriptor against each supported mode.
@@ -594,7 +598,7 @@ public class OperationRegistry implements Externalizable {
      */
     public void unregisterDescriptor(RegistryElementDescriptor descriptor) {
 
-        if (descriptor == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (descriptor == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         String descriptorName = descriptor.getName();
 
@@ -604,8 +608,9 @@ public class OperationRegistry implements Externalizable {
         // modes.
         for (int i = 0; i < supportedModes.length; i++) {
             if (RegistryMode.getMode(supportedModes[i]) == null)
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry3", new Object[] {descriptorName, supportedModes[i]}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "Can not descriptor \"{0}\" under mode \"{1}\". Mode \"{1}\" is not a valid registry mode.",
+                        new Object[] {descriptorName, supportedModes[i]}));
         }
 
         // Now unregister the descriptor against each supported mode.
@@ -633,13 +638,14 @@ public class OperationRegistry implements Externalizable {
     public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
 
         if ((descriptorClass == null) || (descriptorName == null))
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         String supportedModes[] = RegistryMode.getModeNames(descriptorClass);
 
         if (supportedModes == null)
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry4", new Object[] {descriptorClass.getName()}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "There no registry modes associated with descriptor class \"{0}\".",
+                    new Object[] {descriptorClass.getName()}));
 
         RegistryElementDescriptor red;
 
@@ -665,13 +671,14 @@ public class OperationRegistry implements Externalizable {
      */
     public List getDescriptors(Class descriptorClass) {
 
-        if (descriptorClass == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (descriptorClass == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         String supportedModes[] = RegistryMode.getModeNames(descriptorClass);
 
         if (supportedModes == null)
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry4", new Object[] {descriptorClass.getName()}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "There no registry modes associated with descriptor class \"{0}\".",
+                    new Object[] {descriptorClass.getName()}));
 
         List list;
         HashSet set = new HashSet();
@@ -921,12 +928,13 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         if (factory == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (dc.arePreferencesSupported) {
@@ -934,8 +942,9 @@ public class OperationRegistry implements Externalizable {
             OperationGraph og = dc.addProduct(descriptorName, productName);
 
             if (og == null) {
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                        new Object[] {descriptorName, modeName}));
             }
 
             og.addOp(new PartialOrderNode(factory, factory.getClass().getName()));
@@ -966,12 +975,13 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         if (factory == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         fc.removeFactory(descriptorName, productName, factory);
@@ -981,8 +991,9 @@ public class OperationRegistry implements Externalizable {
             OperationGraph og = dc.lookupProduct(descriptorName, productName);
 
             if (og == null) {
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                        new Object[] {descriptorName, modeName}));
             }
 
             og.removeOp(factory);
@@ -1012,8 +1023,9 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         // This should throw an exception if preferences are not
@@ -1025,8 +1037,9 @@ public class OperationRegistry implements Externalizable {
             OperationGraph og = dc.lookupProduct(descriptorName, productName);
 
             if (og == null) {
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                        new Object[] {descriptorName, modeName}));
             }
 
             og.setPreference(preferredOp, otherOp);
@@ -1056,8 +1069,9 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         // This should throw an exception if preferences are not
@@ -1069,8 +1083,9 @@ public class OperationRegistry implements Externalizable {
             OperationGraph og = dc.lookupProduct(descriptorName, productName);
 
             if (og == null) {
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                        new Object[] {descriptorName, modeName}));
             }
 
             og.unsetPreference(preferredOp, otherOp);
@@ -1095,8 +1110,9 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         Object prefs[][] = fc.getPreferences(descriptorName, productName);
@@ -1106,8 +1122,9 @@ public class OperationRegistry implements Externalizable {
             OperationGraph og = dc.lookupProduct(descriptorName, productName);
 
             if (og == null) {
-                throw new IllegalArgumentException(
-                        ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+                throw new IllegalArgumentException(MessageFormat.format(
+                        "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                        new Object[] {descriptorName, modeName}));
             }
 
             for (int i = 0; i < prefs.length; i++) {
@@ -1136,8 +1153,9 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         return fc.getPreferences(descriptorName, productName);
@@ -1167,8 +1185,9 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         if (dc.arePreferencesSupported) {
@@ -1215,8 +1234,9 @@ public class OperationRegistry implements Externalizable {
         FactoryCache fc = getFactoryCache(modeName);
 
         if (dc.getDescriptor(descriptorName) == null) {
-            throw new IllegalArgumentException(
-                    ImageNI18N.formatMsg("OperationRegistry5", new Object[] {descriptorName, modeName}));
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "No descriptor by name \"{0}\" is registered under mode \"{1}\".",
+                    new Object[] {descriptorName, modeName}));
         }
 
         if (dc.arePreferencesSupported) {
@@ -1298,7 +1318,7 @@ public class OperationRegistry implements Externalizable {
                 savedOne = null;
             } catch (Exception e) {
                 listener.errorOccurred(
-                        ImageNI18N.getString("OperationRegistry6") + " \"" + descriptorName + "\"", e, this, false);
+                        "One factory fails for the operation" + " \"" + descriptorName + "\"", e, this, false);
                 savedOne = e;
                 //		e.printStackTrace();
             }
@@ -1306,7 +1326,7 @@ public class OperationRegistry implements Externalizable {
 
         if (savedOne != null)
             throw new ImagingException(
-                    ImageNI18N.getString("OperationRegistry7") + " \"" + descriptorName + "\"", savedOne);
+                    "All factories fail for the operation" + " \"" + descriptorName + "\"", savedOne);
 
         return null;
     }
@@ -1497,7 +1517,7 @@ public class OperationRegistry implements Externalizable {
      */
     public PropertySource getPropertySource(OperationNode op) {
 
-        if (op == null) throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+        if (op == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         // Get the source Vector from the ParameterBlock.
         ParameterBlock pb = op.getParameterBlock();

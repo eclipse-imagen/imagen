@@ -275,9 +275,10 @@ public abstract class GeometricOpImage extends OpImage {
      */
     public Point2D mapDestPoint(Point2D destPt, int sourceIndex) {
         if (destPt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         Rectangle destRect = new Rectangle((int) destPt.getX(), (int) destPt.getY(), 1, 1);
@@ -321,9 +322,10 @@ public abstract class GeometricOpImage extends OpImage {
      */
     public Point2D mapSourcePoint(Point2D sourcePt, int sourceIndex) {
         if (sourcePt == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IndexOutOfBoundsException(ImageNI18N.getString("Generic1"));
+            throw new IndexOutOfBoundsException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         Rectangle sourceRect = new Rectangle((int) sourcePt.getX(), (int) sourcePt.getY(), 1, 1);
@@ -411,11 +413,12 @@ public abstract class GeometricOpImage extends OpImage {
     public Rectangle mapSourceRect(Rectangle sourceRect, int sourceIndex) {
 
         if (sourceRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Cache left and top padding.
@@ -454,11 +457,12 @@ public abstract class GeometricOpImage extends OpImage {
     public Rectangle mapDestRect(Rectangle destRect, int sourceIndex) {
 
         if (destRect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sourceIndex < 0 || sourceIndex >= getNumSources()) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic1"));
+            throw new IllegalArgumentException(
+                    "The sourceIndex must be non-negative and less than the number of sources this image has.");
         }
 
         // Map the destination Rectangle into the appropriate source space.

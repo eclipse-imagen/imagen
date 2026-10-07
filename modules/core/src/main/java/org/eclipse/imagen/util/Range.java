@@ -79,19 +79,20 @@ public class Range implements Serializable {
             } catch (ClassNotFoundException e) {
             }
 
-            if (!c.isAssignableFrom(elementClass)) throw new IllegalArgumentException(JaiI18N.getString("Range0"));
+            if (!c.isAssignableFrom(elementClass))
+                throw new IllegalArgumentException("The class type must be one of subclasses of Comparable.");
         }
 
         this.elementClass = elementClass;
 
         if (minValue != null && minValue.getClass() != this.elementClass) {
-            throw new IllegalArgumentException(JaiI18N.getString("Range1"));
+            throw new IllegalArgumentException("Minimum value must of the specified class type.");
         }
 
         this.minValue = minValue;
 
         if (maxValue != null && maxValue.getClass() != this.elementClass) {
-            throw new IllegalArgumentException(JaiI18N.getString("Range2"));
+            throw new IllegalArgumentException("Maximum value must of the specified class type.");
         }
 
         this.maxValue = maxValue;
@@ -180,7 +181,7 @@ public class Range implements Serializable {
     public boolean contains(Comparable value) {
 
         if (value != null && value.getClass() != elementClass) {
-            throw new IllegalArgumentException(JaiI18N.getString("Range3"));
+            throw new IllegalArgumentException("Value of incorrect Class provided.");
         }
 
         // First check if the Range is empty
@@ -234,8 +235,9 @@ public class Range implements Serializable {
      */
     public boolean contains(Range range) {
 
-        if (range == null) throw new IllegalArgumentException(JaiI18N.getString("Range5"));
-        if (elementClass != range.getElementClass()) throw new IllegalArgumentException(JaiI18N.getString("Range4"));
+        if (range == null) throw new IllegalArgumentException("The supplied range parameter is null.");
+        if (elementClass != range.getElementClass())
+            throw new IllegalArgumentException("The element classes must be same.");
 
         if (range.isEmpty()) return true;
 
@@ -259,8 +261,9 @@ public class Range implements Serializable {
      * @throws IllegalArgumentException if the given <code>Range</code> is null
      */
     public boolean intersects(Range range) {
-        if (range == null) throw new IllegalArgumentException(JaiI18N.getString("Range5"));
-        if (elementClass != range.getElementClass()) throw new IllegalArgumentException(JaiI18N.getString("Range4"));
+        if (range == null) throw new IllegalArgumentException("The supplied range parameter is null.");
+        if (elementClass != range.getElementClass())
+            throw new IllegalArgumentException("The element classes must be same.");
 
         return !intersect(range).isEmpty();
     }
@@ -277,8 +280,9 @@ public class Range implements Serializable {
      */
     public Range union(Range range) {
 
-        if (range == null) throw new IllegalArgumentException(JaiI18N.getString("Range5"));
-        if (elementClass != range.getElementClass()) throw new IllegalArgumentException(JaiI18N.getString("Range4"));
+        if (range == null) throw new IllegalArgumentException("The supplied range parameter is null.");
+        if (elementClass != range.getElementClass())
+            throw new IllegalArgumentException("The element classes must be same.");
 
         if (this.isEmpty())
             return new Range(
@@ -314,8 +318,9 @@ public class Range implements Serializable {
      */
     public Range intersect(Range range) {
 
-        if (range == null) throw new IllegalArgumentException(JaiI18N.getString("Range5"));
-        if (elementClass != range.getElementClass()) throw new IllegalArgumentException(JaiI18N.getString("Range4"));
+        if (range == null) throw new IllegalArgumentException("The supplied range parameter is null.");
+        if (elementClass != range.getElementClass())
+            throw new IllegalArgumentException("The element classes must be same.");
 
         if (this.isEmpty()) {
             Comparable temp = this.minValue;
@@ -368,8 +373,9 @@ public class Range implements Serializable {
      */
     public Range[] subtract(Range range) {
 
-        if (range == null) throw new IllegalArgumentException(JaiI18N.getString("Range5"));
-        if (elementClass != range.getElementClass()) throw new IllegalArgumentException(JaiI18N.getString("Range4"));
+        if (range == null) throw new IllegalArgumentException("The supplied range parameter is null.");
+        if (elementClass != range.getElementClass())
+            throw new IllegalArgumentException("The element classes must be same.");
 
         // if this range is empty, return an empty range by copying this range;
         // if the given range is empty, return this range

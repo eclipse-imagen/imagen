@@ -365,7 +365,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected void setImageLayout(ImageLayout layout) {
         if (layout == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         } else {
             // Set image bounds.
             if (layout.isValid(ImageLayout.MIN_X_MASK)) {
@@ -418,10 +418,11 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
             }
             if (colorModel != null && sampleModel != null) {
                 if (!JDKWorkarounds.areCompatibleDataModels(sampleModel, colorModel)) {
-                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage5"));
+                    throw new IllegalArgumentException(
+                            "The specified ColorModel is incompatible with the image SampleModel.");
                     /* XXX Begin debugging statements: to be deleted
                     System.err.println("\n----- ERROR: "+
-                                       ImageNI18N.getString("PlanarImage5"));
+                                       "The specified ColorModel is incompatible with the image SampleModel.");
                     System.err.println(getClass().getName());
                     System.err.println(sampleModel.getClass().getName()+": "+
                                        sampleModel);
@@ -450,7 +451,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public static PlanarImage wrapRenderedImage(RenderedImage image) {
         if (image == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (image instanceof PlanarImage) {
@@ -878,7 +879,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public static ColorModel createColorModel(SampleModel sm) {
         if (sm == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int bands = sm.getNumBands();
@@ -971,7 +972,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public PlanarImage getSource(int index) {
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException("There is no source corresponding to the specified index value.");
         }
 
         synchronized (sources) {
@@ -992,7 +993,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected void setSources(List sourceList) {
         if (sourceList == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int size = sourceList.size();
@@ -1015,7 +1016,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
             for (int i = 0; i < size; i++) {
                 Object sourceElement = sourceList.get(i);
                 if (sourceElement == null) {
-                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage7"));
+                    throw new IllegalArgumentException("Null element encountered in sources Vector.");
                 }
 
                 sources.add(
@@ -1064,7 +1065,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public PlanarImage getSourceImage(int index) {
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException("There is no source corresponding to the specified index value.");
         }
 
         synchronized (sources) {
@@ -1083,7 +1084,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public Object getSourceObject(int index) {
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException("There is no source corresponding to the specified index value.");
         }
 
         synchronized (sources) {
@@ -1101,7 +1102,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected void addSource(Object source) {
         if (source == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sources == null) {
@@ -1135,11 +1136,11 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected void setSource(Object source, int index) {
         if (source == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sources == null) {
-            throw new ArrayIndexOutOfBoundsException(ImageNI18N.getString("PlanarImage0"));
+            throw new ArrayIndexOutOfBoundsException("There is no source corresponding to the specified index value.");
         }
 
         synchronized (sources) {
@@ -1163,7 +1164,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected boolean removeSource(Object source) {
         if (source == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sources == null) {
@@ -1222,7 +1223,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public synchronized boolean addSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sinks == null) {
@@ -1247,7 +1248,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public synchronized boolean removeSink(Object sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sinks == null) {
@@ -1285,7 +1286,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected void addSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sinks == null) {
@@ -1310,7 +1311,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     protected boolean removeSink(PlanarImage sink) {
         if (sink == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (sinks == null) {
@@ -1457,7 +1458,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public synchronized void addTileComputationListener(TileComputationListener listener) {
         if (listener == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Set listeners = getTileComputationListeners(true);
@@ -1473,7 +1474,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public synchronized void removeTileComputationListener(TileComputationListener listener) {
         if (listener == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         Set listeners = getTileComputationListeners(false);
@@ -1512,7 +1513,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public void getSplits(IntegerSequence xSplits, IntegerSequence ySplits, Rectangle rect) {
         if (xSplits == null || ySplits == null || rect == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int minTileX = XToTileX(rect.x);
@@ -1682,7 +1683,8 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
         if (region == null) {
             region = b;
         } else if (!region.intersects(b)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage4"));
+            throw new IllegalArgumentException(
+                    "The specified region, if not null, must intersect with the image`s bounds.");
         }
 
         // Get the intersection of the region and the image bounds.
@@ -1761,7 +1763,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
                             dataType, region.width, region.height, nbands, region.width * nbands, bandOffs);
                     dstRaster = createWritableRaster(interleavedSM, region.getLocation());
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage2"));
+                    throw new IllegalArgumentException("Requested region cannot be represented by a single Raster.");
                 }
 
                 switch (dataType) {
@@ -1795,7 +1797,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
                 try {
                     dstRaster = createWritableRaster(sm, region.getLocation());
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage2"));
+                    throw new IllegalArgumentException("Requested region cannot be represented by a single Raster.");
                 }
 
                 for (int j = startTileY; j <= endTileY; j++) {
@@ -1943,7 +1945,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public void copyExtendedData(WritableRaster dest, BorderExtender extender) {
         if (dest == null || extender == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // If the Raster is within the image just copy directly.
@@ -1990,7 +1992,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public Raster getExtendedData(Rectangle region, BorderExtender extender) {
         if (region == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (getBounds().contains(region)) {
@@ -1998,7 +2000,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
         }
 
         if (extender == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         // Create a WritableRaster of the desired size
@@ -2037,12 +2039,13 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
         if (cm == null) {
             cm = getColorModel();
             if (cm == null) {
-                throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage6"));
+                throw new IllegalArgumentException("No ColorModel is supplied and the image ColorModel is null.");
             }
         }
 
         if (!JDKWorkarounds.areCompatibleDataModels(sampleModel, cm)) {
-            throw new IllegalArgumentException(ImageNI18N.getString("PlanarImage3"));
+            throw new IllegalArgumentException(
+                    "The supplied ColorModel is not compatible with this image`s SampleModel.");
         }
 
         if (rect == null) {
@@ -2082,7 +2085,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      * override this method to return a suitable <code>Graphics</code> object.
      */
     public Graphics getGraphics() {
-        throw new IllegalAccessError(ImageNI18N.getString("PlanarImage1"));
+        throw new IllegalAccessError("getGraphics() is not implemented in this class.");
     }
 
     /**
@@ -2109,7 +2112,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public Raster[] getTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         int size = tileIndices.length;
@@ -2145,7 +2148,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public TileRequest queueTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         TileComputationListener[] listeners = getTileComputationListeners();
@@ -2166,7 +2169,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public void cancelTiles(TileRequest request, Point[] tileIndices) {
         if (request == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic4"));
+            throw new IllegalArgumentException("The TileRequest parameter may not be null.");
         }
 
         ImageN.getDefaultInstance().getTileScheduler().cancelTiles(request, tileIndices);
@@ -2185,7 +2188,7 @@ public abstract class PlanarImage implements ImageImageN, RenderedImage {
      */
     public void prefetchTiles(Point[] tileIndices) {
         if (tileIndices == null) {
-            throw new IllegalArgumentException(ImageNI18N.getString("Generic0"));
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         ImageN.getDefaultInstance().getTileScheduler().prefetchTiles(this, tileIndices);
