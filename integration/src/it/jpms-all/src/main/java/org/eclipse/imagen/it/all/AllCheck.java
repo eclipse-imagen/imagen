@@ -14,16 +14,19 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
+import java.util.Map;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.OperationDescriptor;
 import org.eclipse.imagen.OperationRegistry;
 import org.eclipse.imagen.RenderedOp;
+import org.eclipse.imagen.media.jiffle.Jiffle;
+import org.eclipse.imagen.media.jiffle.runtime.JiffleDirectRuntime;
 import org.eclipse.imagen.media.jiffleop.JiffleDescriptor;
 
 /** Uses imagen-all from a named module, printing each result for postbuild.bsh to check. */
 public class AllCheck {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         check("module", AllCheck.class.getModule().getName(), "org.eclipse.imagen.it.all");
         check("imagen module", ImageN.class.getModule().getName(), "org.eclipse.imagen.all");
 
@@ -51,6 +54,15 @@ public class AllCheck {
         RenderedOp jiffle = JiffleDescriptor.create(
                 new RenderedImage[] {source}, null, null, "dest = src * 2 + x();", null, null, null, null, null);
         check("Jiffle sample", jiffle.getData().getSampleDouble(3, 4, 0), 17.0);
+
+        Jiffle script = new Jiffle("init { n = 0; } dest = n;", Map.of("dest", Jiffle.ImageRole.DEST));
+        JiffleDirectRuntime runtime = script.getRuntimeInstance();
+        runtime.setVar("n", 42.0);
+        check("Jiffle var", runtime.getVar("n"), 42.0);
+        BufferedImage dest = new BufferedImage(8, 8, BufferedImage.TYPE_BYTE_GRAY);
+        runtime.setDestinationImage("dest", dest);
+        runtime.evaluateAll(null);
+        check("Jiffle runtime sample", dest.getRaster().getSample(3, 4, 0), 42);
 
         System.out.println("JPMS jpms-all: all checks passed");
     }

@@ -11,6 +11,8 @@ String[] expected = new String[] {
     "JPMS jpms-modules: imagen module org.eclipse.imagen.core",
     "JPMS jpms-modules: Scale2 width 32",
     "JPMS jpms-modules: Jiffle sample 17.0",
+    "JPMS jpms-modules: Jiffle var 42.0",
+    "JPMS jpms-modules: Jiffle runtime sample 42",
     "JPMS jpms-modules: all checks passed"
 };
 for (String line : expected) {
