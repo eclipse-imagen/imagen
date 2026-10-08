@@ -209,6 +209,27 @@ Scale2 has been moved to a new package in ImageN 0.9.3:
 |------------------------------------------------|-------------------------------------------------|
 | `org.eclipse.imagen.media.scale.Scale2*`       | `org.eclipse.imagen.media.scale2.Scale2*`       |
 
+# Shaded Jars
+
+ImageN operations are registered from `META-INF/registryFile.imagen` in each module jar, and from `META-INF/services` provider files. When building a fat jar with the `maven-shade-plugin`, these files must be merged rather than overwritten, otherwise operations go missing at runtime:
+
+```
+java.lang.IllegalArgumentException: ImageRead: No OperationDescriptor is registered in the current operation registry under this name.
+```
+
+Configure the shade plugin transformers:
+
+```xml
+<transformers>
+  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+  <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+    <resource>META-INF/registryFile.imagen</resource>
+  </transformer>
+</transformers>
+```
+
+When migrating replace any `AppendingTransformer` for `META-INF/registryFile.jai` or `META-INF/registryFile.jaiext` with `META-INF/registryFile.imagen`.
+
 # Java Image Formats
 
 Both the Java platform and ImageN include encoding/decoding codecs for image formats:
