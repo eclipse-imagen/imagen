@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -35,38 +38,54 @@ public class RegistryFileCheck {
         "TileCodecDescriptor.java"
     );
     public static void main(String[] args) throws IOException {
-        checkRegistryFile("../modules/core","org.eclipse.imagen.registryFile.imagen");
-        checkRegistryFile("../legacy/core","registryFile.imagen");
-        checkRegistryFile("../unsupported/core","registryFile.imagen");
+        List<Path> registryFiles;
+        try (Stream<Path> paths = Files.walk(Paths.get(".."))) {
+            registryFiles = paths.filter(RegistryFileCheck::isRegistryFile).sorted().collect(Collectors.toList());
+        }
+        for (Path registryFile : registryFiles) {
+            checkRegistryFile(registryFile);
+        }
 
         if (missing > 0) {
             throw new IOException("registryFile descriptor missing: " + missing + " files");
         }
 
     }
-    public static void checkRegistryFile(String module, String registryFileName) throws IOException {
-        Path registryFile = Paths.get(module, "src/main/resources/META-INF/", registryFileName);
-        String registry = Files.readString(registryFile);
+
+    static boolean isRegistryFile(Path path) {
+        return path.getFileName().toString().endsWith("registryFile.imagen")
+                && path.getParent().endsWith(Paths.get("src", "main", "resources", "META-INF"));
+    }
+
+    public static void checkRegistryFile(Path registryFile) throws IOException {
+        Path module = registryFile.getParent().getParent().getParent().getParent().getParent();
+        Set<String> descriptors = new HashSet<>();
+        for (String line : Files.readAllLines(registryFile)) {
+            String[] keys = line.replaceFirst("^\\s*#", "").trim().split("\\s+");
+            if (keys.length > 1 && keys[0].equals("descriptor")) {
+                descriptors.add(keys[1]);
+            }
+        }
 
         System.out.println("Check " + registryFile);
-        checkRegistryFile(module,registry,"Descriptor.java");
+        checkRegistryFile(module, descriptors, "Descriptor.java");
     }
-    
-    public static void checkRegistryFile(String module, String registry, String suffix) throws IOException {
-        Path java = Paths.get(module, "src/main/java");
+
+    public static void checkRegistryFile(Path module, Set<String> descriptors, String suffix) throws IOException {
+        Path java = module.resolve("src/main/java");
 
         try (Stream<Path> paths = Files.walk(java)) {
-        paths.filter((Path path) -> {
-            return path.getFileName().toString().endsWith(suffix) && !skip.contains(path.getFileName().toString());
-        }).forEach((path) -> {
-            String fileName = path.getFileName().toString();
-            String className = fileName.substring(0,fileName.length() - suffix.length());
-            if (!registry.contains(className)) {
-                ++missing;
-                System.out.println("    missing: " + className);
-            }
-        });
+            paths.filter((Path path) -> {
+                return path.getFileName().toString().endsWith(suffix) && !skip.contains(path.getFileName().toString());
+            }).forEach((path) -> {
+                String relative = java.relativize(path).toString();
+                String className = relative.substring(0, relative.length() - ".java".length())
+                        .replace(path.getFileSystem().getSeparator(), ".");
+                if (!descriptors.contains(className)) {
+                    ++missing;
+                    System.out.println("    missing: " + className);
+                }
+            });
+        }
     }
-}
-    
 }
