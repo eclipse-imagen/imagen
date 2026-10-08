@@ -1,0 +1,17 @@
+#
+# Image descriptors
+#
+
+descriptor  org.eclipse.imagen.media.contrastenhancement.SquareRootStretchDescriptor
+
+#
+# RenderedImageFactories
+#
+
+rendered  org.eclipse.imagen.media.contrastenhancement.SquareRootStretchCRIF  org.eclipse.imagen.media  SquareRootStretch SquareRootStretch
+
+#
+# ContextualRenderedImageFactories
+#
+
+renderable  org.eclipse.imagen.media.contrastenhancement.SquareRootStretchCRIF  SquareRootStretch

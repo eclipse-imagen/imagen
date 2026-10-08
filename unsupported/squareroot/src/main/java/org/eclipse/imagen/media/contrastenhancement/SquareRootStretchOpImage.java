@@ -35,7 +35,9 @@ import org.eclipse.imagen.media.util.ImageUtil;
  *
  * <p>This <code>OpImage</code> does this operation on the pixels values:
  *
- * <p>dest = SQRT(((src/(inMax - inMin)) * outMax) + outMin)
+ * <p>dest = outMin + (outMax - outMin) * SQRT((src - inMin) / (inMax - inMin))
+ *
+ * <p>with src clamped to [inMin, inMax].
  */
 final class SquareRootStretchOpImage extends PointOpImage {
 
@@ -156,6 +158,16 @@ final class SquareRootStretchOpImage extends PointOpImage {
         dst.copyDataToRaster();
     }
 
+    private static double stretch(int value, int inMin, int inMax, int outMin, int outMax) {
+        if (value <= inMin) {
+            return outMin;
+        }
+        if (value >= inMax) {
+            return outMax;
+        }
+        return outMin + ((double) outMax - outMin) * Math.sqrt(((double) value - inMin) / ((double) inMax - inMin));
+    }
+
     private void computeRectByte(RasterAccessor src, RasterAccessor dst) {
         int dstWidth = dst.getWidth();
         int dstHeight = dst.getHeight();
@@ -172,7 +184,11 @@ final class SquareRootStretchOpImage extends PointOpImage {
         byte[][] srcData = src.getByteDataArrays();
 
         for (int b = 0; b < dstBands; b++) {
-            float c = (float) inputMin[b];
+            int inMin = inputMin[b];
+            int inMax = inputMax[b];
+            int outMin = outputMin[b];
+            int outMax = outputMax[b];
+
             byte[] d = dstData[b];
             byte[] s = srcData[b];
 
@@ -187,7 +203,8 @@ final class SquareRootStretchOpImage extends PointOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    d[dstPixelOffset] = ImageUtil.clampRoundByte((s[srcPixelOffset] & 0xFF) * c);
+                    d[dstPixelOffset] =
+                            ImageUtil.clampRoundByte(stretch(s[srcPixelOffset] & 0xFF, inMin, inMax, outMin, outMax));
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -211,7 +228,6 @@ final class SquareRootStretchOpImage extends PointOpImage {
         int[] srcBandOffsets = src.getBandOffsets();
         short[][] srcData = src.getShortDataArrays();
 
-        int val = 0;
         for (int b = 0; b < dstBands; b++) {
             short[] d = dstData[b];
             short[] s = srcData[b];
@@ -232,9 +248,8 @@ final class SquareRootStretchOpImage extends PointOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    val = ((s[srcPixelOffset] >= inMin) ? (s[srcPixelOffset] - inMin) : 0);
-                    d[dstPixelOffset] =
-                            ImageUtil.clampRoundUShort((Math.sqrt((val / (inMax - inMin))) * outMax) + outMin);
+                    d[dstPixelOffset] = ImageUtil.clampRoundUShort(
+                            stretch(s[srcPixelOffset] & 0xFFFF, inMin, inMax, outMin, outMax));
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
                 }
@@ -256,7 +271,7 @@ final class SquareRootStretchOpImage extends PointOpImage {
         int srcPixelStride = src.getPixelStride();
         int[] srcBandOffsets = src.getBandOffsets();
         short[][] srcData = src.getShortDataArrays();
-        double val = 0;
+
         for (int b = 0; b < dstBands; b++) {
             int inMin = inputMin[b];
             int inMax = inputMax[b];
@@ -277,10 +292,8 @@ final class SquareRootStretchOpImage extends PointOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    val = ((s[srcPixelOffset] >= inMin) ? (s[srcPixelOffset] - inMin) : 0);
-
                     d[dstPixelOffset] =
-                            ImageUtil.clampRoundShort((Math.sqrt((val / (inMax - inMin))) * outMax) + outMin);
+                            ImageUtil.clampRoundShort(stretch(s[srcPixelOffset], inMin, inMax, outMin, outMax));
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
@@ -304,7 +317,6 @@ final class SquareRootStretchOpImage extends PointOpImage {
         int[] srcBandOffsets = src.getBandOffsets();
         int[][] srcData = src.getIntDataArrays();
 
-        double val = 0;
         for (int b = 0; b < dstBands; b++) {
             int inMin = inputMin[b];
             int inMax = inputMax[b];
@@ -325,9 +337,8 @@ final class SquareRootStretchOpImage extends PointOpImage {
                 srcLineOffset += srcLineStride;
 
                 for (int w = 0; w < dstWidth; w++) {
-                    val = ((s[srcPixelOffset] >= inMin) ? (s[srcPixelOffset] - inMin) : 0);
-
-                    d[dstPixelOffset] = ImageUtil.clampRoundInt((Math.sqrt((val / (inMax - inMin))) * outMax) + outMin);
+                    d[dstPixelOffset] =
+                            ImageUtil.clampRoundInt(stretch(s[srcPixelOffset], inMin, inMax, outMin, outMax));
 
                     dstPixelOffset += dstPixelStride;
                     srcPixelOffset += srcPixelStride;
