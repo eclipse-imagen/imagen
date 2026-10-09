@@ -38,4 +38,4 @@ jobs:
         mvn --% -B -ntp -U -T2 -Dspotless.apply.skip=true -Dpom.fmt.skip=true clean install
     - name: Remove SNAPSHOT jars from repository
       run: |
-        cmd --% /c for /f %i in ('dir /a:d /s /b %userprofile%\*SNAPSHOT*') do rd /s /q %i
+        Get-ChildItem -Path ~/.m2/repository -Directory -Recurse -Filter '*SNAPSHOT*' -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
