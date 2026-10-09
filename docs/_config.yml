@@ -23,7 +23,7 @@ footer_content: Copyright (c) 2026, Oracle, GeoSolutions, and Others. All rights
 # site configuration
 baseurl: "/imagen"
 
-imagen_version: "0.9.3"
+imagen_version: "0.9.4-SNAPSHOT"
 
 
 defaults:
