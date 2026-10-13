@@ -10,6 +10,7 @@
 package org.eclipse.imagen.media.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -20,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import org.eclipse.imagen.OperationRegistrySpi;
 import org.junit.After;
@@ -47,14 +49,27 @@ public class ServiceAllowListTest {
     }
 
     @Test
-    public void rejectsBlockedServiceProviderClass() throws Exception {
+    public void skipsBlockedServiceProviderClass() throws Exception {
+        try (ProviderLookup providerLookup =
+                providersFor(BlockedOperationRegistrySpi.class.getName(), CustomOperationRegistrySpi.class.getName())) {
+            Iterator providers = providerLookup.getProviders();
+            assertTrue(providers.hasNext());
+            assertEquals(
+                    CustomOperationRegistrySpi.class.getName(),
+                    providers.next().getClass().getName());
+            assertFalse(providers.hasNext());
+        }
+    }
+
+    @Test
+    public void skipsOnlyBlockedServiceProviderClass() throws Exception {
         try (ProviderLookup providerLookup = providersFor(BlockedOperationRegistrySpi.class.getName())) {
+            Iterator providers = providerLookup.getProviders();
+            assertFalse(providers.hasNext());
             try {
-                providerLookup.getProviders().next();
-                fail("Expected ServiceConfigurationError");
-            } catch (ServiceConfigurationError e) {
-                assertTrue(e.getMessage().contains("allow-list"));
-                assertTrue(e.getMessage().contains(BlockedOperationRegistrySpi.class.getName()));
+                providers.next();
+                fail("Expected NoSuchElementException");
+            } catch (NoSuchElementException e) {
             }
         }
     }
@@ -96,13 +111,14 @@ public class ServiceAllowListTest {
         assertTrue(!cached.contains("org.example.UnusedProvider"));
     }
 
-    private ProviderLookup providersFor(String providerClassName) throws IOException {
+    private ProviderLookup providersFor(String... providerClassNames) throws IOException {
         Path dir = Files.createTempDirectory("service-allowlist-");
         Path servicesDir = dir.resolve("META-INF/services");
         Files.createDirectories(servicesDir);
         Files.write(
                 servicesDir.resolve(OperationRegistrySpi.class.getName()),
-                (providerClassName + System.lineSeparator()).getBytes(StandardCharsets.UTF_8));
+                (String.join(System.lineSeparator(), providerClassNames) + System.lineSeparator())
+                        .getBytes(StandardCharsets.UTF_8));
         URL[] urls = {dir.toUri().toURL()};
         URLClassLoader loader = new URLClassLoader(urls, getClass().getClassLoader());
         return new ProviderLookup(loader, Service.providers(OperationRegistrySpi.class, loader));

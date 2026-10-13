@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -215,13 +214,31 @@ public final class Service {
                     fail(service, ": " + x);
                 }
             }
-            while ((pending == null) || !pending.hasNext()) {
-                if (!configs.hasMoreElements()) {
-                    return false;
+            Set<String> allowedServiceProviderClasses = AllowedServiceProviderClasses.allowedClasses();
+            while (nextName == null) {
+                while ((pending == null) || !pending.hasNext()) {
+                    if (!configs.hasMoreElements()) {
+                        return false;
+                    }
+                    pending = parse(service, (URL) configs.nextElement(), returned);
                 }
-                pending = parse(service, (URL) configs.nextElement(), returned);
+                String cn = (String) pending.next();
+                if (allowedServiceProviderClasses.contains(cn)) {
+                    nextName = cn;
+                } else {
+                    LOGGER.log(
+                            Level.WARNING,
+                            "Skipped service provider {0} for service {1}: not in the allow-list. Allow it with a"
+                                    + " ServiceAllowListProvider, the {2} system property or the {3} environment"
+                                    + " variable",
+                            new Object[] {
+                                cn,
+                                service.getName(),
+                                AllowedServiceProviderClasses.PROPERTY_NAME,
+                                AllowedServiceProviderClasses.ENV_NAME
+                            });
+                }
             }
-            nextName = (String) pending.next();
             return true;
         }
 
@@ -231,13 +248,6 @@ public final class Service {
             }
             String cn = nextName;
             nextName = null;
-            Set<String> allowedServiceProviderClasses = AllowedServiceProviderClasses.allowedClasses();
-            if (!allowedServiceProviderClasses.contains(cn)) {
-                LOGGER.log(Level.WARNING, "Rejected service provider {0} for service {1}", new Object[] {
-                    cn, service.getName()
-                });
-                fail(service, MessageFormat.format("Provider {0} is not in the allow-list", cn));
-            }
             try {
                 return Class.forName(cn, true, loader).getDeclaredConstructor().newInstance();
             } catch (ClassNotFoundException x) {

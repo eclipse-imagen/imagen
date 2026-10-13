@@ -236,8 +236,8 @@ public class ExampleServiceAllowListProvider implements ServiceAllowListProvider
 }
 ```
 
-Without the service allow-list ImageN stops with
-`ServiceConfigurationError: ... Provider org.example.media.ExampleSpi is not in the allow-list`.
+Without the service allow-list ImageN skips the provider with the warning
+`Skipped service provider org.example.media.ExampleSpi for service org.eclipse.imagen.OperationRegistrySpi: not in the allow-list`.
 
 See [Registering operations with OperationRegistrySpi](../../migration/#registering-operations-with-operationregistryspi)
 for registering an operation only when it is not already registered.
