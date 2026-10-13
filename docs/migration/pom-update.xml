@@ -4,10 +4,11 @@
 <project name="imagen-pom-update" default="update">
     <!-- Use this property to run script on your project location -->
     <property name="project.dir" location="."/>
+    <property name="imagen.release" value="0.9.3"/>
 
     <target name="pom1" description="Update pom.xml to migrate jai to imagen">
         <echo level="info"/>
-        <echo level="info" message="Update jai to imagen 0.4.0 in pom.xml files"/>
+        <echo level="info" message="Update jai to imagen ${imagen.release} in pom.xml files"/>
         <!-- Replace jai_core dependency with imagen-core -->
         <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
         <replaceregexp byline="false" flags="s">
@@ -32,40 +33,51 @@
         </replaceregexp>
         <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.jiffle\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jt\-jiffle(-[a-z0-9\-]+)?\s*&lt;/artifactId&gt;(?:(?!&lt;/dependency&gt;).)*?&lt;/dependency&gt;"/>
-            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;jiffle\1&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;imagen-jiffle\1&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
             <fileset refid="pom.files"/>
         </replaceregexp>
         <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;dependency&gt;\s*&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.([a-z0-9\-]+)\s*&lt;/groupId&gt;\s*&lt;artifactId&gt;\s*jt-([a-z0-9\-]+)\s*&lt;/artifactId&gt;\s*&lt;version&gt;\s*\$\{jaiext.version\}\s*&lt;/version&gt;\s*&lt;/dependency&gt;"/>
-            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;\1&lt;/artifactId&gt;&#10;  &lt;version&gt;${imagen.version}&lt;/version&gt;&#10;&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;imagen-\1&lt;/artifactId&gt;&#10;  &lt;version&gt;${imagen.version}&lt;/version&gt;&#10;&lt;/dependency&gt;"/>
             <fileset refid="pom.files"/>
         </replaceregexp>
         <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;dependency&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;groupId&gt;\s*it\.geosolutions\.jaiext\.([a-z0-9\-]+)\s*&lt;/groupId&gt;(?:(?!&lt;/dependency&gt;).){0,500}?&lt;artifactId&gt;\s*jt-\1\s*&lt;/artifactId&gt;(?:(?!&lt;version&gt;).)*?&lt;/dependency&gt;"/>
-            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;\1&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
+            <substitution expression="&lt;dependency&gt;&#10;  &lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;&#10;  &lt;artifactId&gt;imagen-\1&lt;/artifactId&gt;&#10;&lt;/dependency&gt;"/>
             <fileset refid="pom.files"/>
         </replaceregexp>
         <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;jaiext\.version&gt;.*&lt;/jaiext\.version&gt;"/>
             <substitution
-                    expression="&lt;imagen\.version&gt;0.4-SNAPSHOT&lt;/imagen\.version&gt;"/>
+                    expression="&lt;imagen\.version&gt;${imagen.release}&lt;/imagen\.version&gt;"/>
             <fileset refid="pom.files"/>
         </replaceregexp>
     </target>
 
-    <target name="pom2" description="Update pom.xml to upgrade imagen from 0.4.0 to 0.9">
+    <target name="pom2" description="Update pom.xml imagen.version to imagen.release">
         <echo level="info"/>
-        <echo level="info" message="Update imagen 0.9.0 in pom.xml files"/>
+        <echo level="info" message="Update imagen.version to ${imagen.release} in pom.xml files"/>
         <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
         <replaceregexp byline="false" flags="gs">
             <regexp pattern="&lt;imagen\.version&gt;.*&lt;/imagen\.version&gt;"/>
             <substitution
-                    expression="&lt;imagen\.version&gt;0.9.0-SNAPSHOT&lt;/imagen\.version&gt;"/>
+                    expression="&lt;imagen\.version&gt;${imagen.release}&lt;/imagen\.version&gt;"/>
             <fileset refid="pom.files"/>
         </replaceregexp>
     </target>
 
-    <target name="update" depends="pom1,pom2" description="Update project in current directory from jai to imagen">
+    <target name="pom3" description="Update pom.xml to imagen- prefixed artifacts from imagen 0.9.3">
+        <echo level="info"/>
+        <echo level="info" message="Update imagen artifactId with imagen- prefix in pom.xml files"/>
+        <fileset id="pom.files" dir="${project.dir}" includes="**/pom.xml"/>
+        <replaceregexp byline="false" flags="gs">
+            <regexp pattern="&lt;groupId&gt;\s*org\.eclipse\.imagen\s*&lt;/groupId&gt;(\s*)&lt;artifactId&gt;\s*(?!imagen)([a-z0-9\-]+)\s*&lt;/artifactId&gt;"/>
+            <substitution expression="&lt;groupId&gt;org.eclipse.imagen&lt;/groupId&gt;\1&lt;artifactId&gt;imagen-\2&lt;/artifactId&gt;"/>
+            <fileset refid="pom.files"/>
+        </replaceregexp>
+    </target>
+
+    <target name="update" depends="pom1,pom2,pom3" description="Update project in current directory from jai to imagen">
         <echo level="warning">UPDATE COMPLETED: ${project.dir}</echo>
         <echo level="info">The update is partial, you might have to fix version numbers and the like</echo>
     </target>
