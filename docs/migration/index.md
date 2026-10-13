@@ -319,8 +319,10 @@ The package-private `JaiI18N` helper classes have been removed, and  ImageN no l
 
 ImageN only creates classes it trusts when loading by reflection:
 
-* `RegistryFileParser` creates the descriptor and factory classes named in `META-INF/registryFile.imagen`. Other entries are skipped with the warning `Class ... is not in the allow-list`.
-* `Service` creates the `OperationRegistrySpi` providers listed in `META-INF/services`.
+* `RegistryFileParser` creates the descriptor and factory classes named in `META-INF/registryFile.imagen`.  
+   Other entries are skipped with the warning `Class ... is not in the allow-list`.
+* `Service` creates the `OperationRegistrySpi` providers listed in `META-INF/services`.  
+   Other providers are skipped with the warning `Skipped service provider ... not in the allow-list`.
 
 Operation libraries contribute trusted classes by implementing `RegistryAllowListProvider` and `ServiceAllowListProvider`:
 
