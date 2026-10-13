@@ -136,31 +136,24 @@ described in [Table 14-1](../extension).
 ### 14.3.2 Extending the OperationDescriptor Interface <a name="operationdescriptor"></a>
 
 Operations that are to be created using one of the `ImageN.create`
-methods must be defined in the `registryFile`, which is included in
-the `core` module. Each operation has an OperationDescriptor (denoted
-as \"`odesc`\" in the `registryFile`), which provides a textual
-description of the operation and specifies the number and type of its
-sources and parameters. The OperationDescriptor also specifies whether
-the operation supports rendered mode, renderable mode, or both.
+methods must be registered with the `OperationRegistry`. Each jar
+lists its operations in a `META-INF/registryFile.imagen` file, which
+is read when the default `OperationRegistry` is created. Each operation
+has an OperationDescriptor (a `descriptor` entry in the
+`registryFile.imagen`), which provides a textual description of the
+operation and specifies the number and type of its sources and
+parameters. The OperationDescriptor also specifies whether the
+operation supports rendered mode, renderable mode, or both.
 
-[Listing 14-1](#listing-14-1) shows a sample of the
-`registryFile` contents. Note that this is not the entire
-`registryFile`, only a small sample showing two operators (absolute
-and addconst).
+[Listing 14-1](#listing-14-1) shows the `registryFile.imagen` from
+the `imagen-clamp` module, registering the Clamp operation described
+in [Listing 14-2](#listing-14-2).
 
-***Listing 14-1* registryFile Example** <a name="listing-14-1"></a>
+***Listing 14-1* registryFile.imagen Example** <a name="listing-14-1"></a>
 
 ```
-odesc   org.eclipse.imagen.operator.AbsoluteDescriptor     absolute
-odesc   org.eclipse.imagen.operator.AddConstDescriptor     addconst
-
-rif org.eclipse.imagen.media.opimage.AbsoluteCRIF
-               org.eclipse.imagen.media   absolute   sunabsoluterif
-rif org.eclipse.imagen.media.opimage.AddConstCRIF
-               org.eclipse.imagen.media   addconst   sunaddconstrif
-
-crif    org.eclipse.imagen.media.opimage.AbsoluteCRIF      absolute
-crif    org.eclipse.imagen.media.opimage.AddConstCRIF      addconst
+descriptor  org.eclipse.imagen.media.clamp.ClampDescriptor
+rendered    org.eclipse.imagen.media.clamp.ClampCRIF  org.eclipse.imagen.media  Clamp  Clamp
 ```
 
 All high-level operation names in ImageN (such as `Rotate`, `Convolve`,
@@ -170,34 +163,84 @@ of instantiating `OpImage` chains to perform the named operation. The
 RIF is for rendered mode operations only; the CRIF is for operations
 that can handle renderable mode or both rendered and renderable modes.
 
-To avoid the problems associated with directly editing the
-`registryFile` and then repackaging it, you can register
-OperationDescriptors and RIFs and CRIFs using the OperationRegistry\'s
-`registerOperationDescription`, and `registerRIF` and `registerCRIF`
-methods. The only drawback to this method of registration is that the
-new operator will not be automatically reloaded every time a
-program is executed., since the operation is not actually present in
-the `registryFile`. This means that to use the new operation, the
-operation will always have to be invoked beforehand.
+ImageN only creates the classes named in a `registryFile.imagen` when
+they are on the allow-list. A library providing new operations
+contributes its descriptor and factory classes with a
+`RegistryAllowListProvider`, listed in
+`META-INF/services/org.eclipse.imagen.spi.RegistryAllowListProvider`:
 
-To temporarily register a new operation:
+```java
+public class ExampleRegistryAllowListProvider implements RegistryAllowListProvider {
+    @Override
+    public Set<String> getAllowedRegistryClasses() {
+        return Set.of("org.example.media.ExampleDescriptor", "org.example.media.ExampleCRIF");
+    }
+}
+```
 
-1. **Register the operation name**.
+See [Allow-list configuration](../../migration/#allow-list-configuration)
+for module path setup, and the system properties applications can use
+to allow additional classes.
 
-   The high-level operation name, called an *operation descriptor*,
-   is registered by calling the `registerOperationByName()` method or
-   the `registerOperationDescriptor()` method. The operation
-   descriptor name must be unique.
-    
+Operations can also be registered directly with an `OperationRegistry`,
+which does not require the allow-list:
+
+1. **Register the operation descriptor**.
+
+   The operation descriptor is registered by calling the
+   `registerDescriptor()` method. The operation name must be unique.
+
    Once an operation descriptor is registered, it may be obtained by
-  name by calling the `getOperationDescriptor()` method.
+   name by calling the `getDescriptor()` method.
 
-2. **Register the set of rendered image factory objects.**
+2. **Register the image factories.**
 
-   The rendered image factory (RIF) is registered using the
-   `registerRIF` method. Each RIF is registered with a specific
-   operation name and is given a product name. Similar methods exist
-   for registering a contextual image factory (CRIF).
+   The rendered image factory (RIF) is registered with
+   `RIFRegistry.register()`, using the operation name and a product
+   name. For operations supporting renderable mode, the contextual
+   rendered image factory (CRIF) is also registered with
+   `CRIFRegistry.register()`.
+
+```java
+OperationRegistry registry = ImageN.getDefaultInstance().getOperationRegistry();
+registry.registerDescriptor(new ExampleDescriptor());
+RIFRegistry.register(registry, "Example", "org.example.media", new ExampleCRIF());
+```
+
+To register operations from code each time ImageN starts, implement an
+`OperationRegistrySpi`. Providers are called after every
+`registryFile.imagen` has been read, so they can also check what is
+already registered:
+
+```java
+public class ExampleSpi implements OperationRegistrySpi {
+    @Override
+    public void updateRegistry(OperationRegistry registry) {
+        registry.registerDescriptor(new ExampleDescriptor());
+        RIFRegistry.register(registry, "Example", "org.example.media", new ExampleCRIF());
+    }
+}
+```
+
+The provider is listed in
+`META-INF/services/org.eclipse.imagen.OperationRegistrySpi`, and
+contributed to the service allow-list with a `ServiceAllowListProvider`,
+listed in `META-INF/services/org.eclipse.imagen.spi.ServiceAllowListProvider`:
+
+```java
+public class ExampleServiceAllowListProvider implements ServiceAllowListProvider {
+    @Override
+    public Set<String> getAllowedServiceProviderClasses() {
+        return Set.of("org.example.media.ExampleSpi");
+    }
+}
+```
+
+Without the service allow-list ImageN stops with
+`ServiceConfigurationError: ... Provider org.example.media.ExampleSpi is not in the allow-list`.
+
+See [Registering operations with OperationRegistrySpi](../../migration/#registering-operations-with-operationregistryspi)
+for registering an operation only when it is not already registered.
 
 The `OperationDescriptor` interface provides a comprehensive
 description of a specific image operation. All of the information
@@ -258,7 +301,7 @@ private static final String[][] resources = {
     {"LocalName",   "Clamp"},
     {"Vendor",      "org.eclipse.imagen.media"},
     {"Description", "Clamps the pixel values of a rendered image"},
-    {"DocURL",      "https://projects.eclipse.org/projects/technology.imagen/jaiapi/org.eclipse.imagen.operator.ClampDescriptor.html"},
+    {"DocURL",      "https://eclipse-imagen.github.io/imagen/javadocs/org/eclipse/imagen/media/clamp/ClampDescriptor.html"},
     {"Version",     "Beta"},
     {"arg0Desc",    "The lower boundary for each band."},
     {"arg1Desc",    "The upper boundary for each band."}
@@ -321,11 +364,46 @@ relative to operation parameters.
 
 **API:** `org.eclipse.imagen.OperationRegistry`
 
-* `void registerOperationDescriptor(OperationDescriptor odesc,  String operationName)`
-* `void registerOperationByName(String odescClassName, String  operationName)`
-* `void unregisterOperationDescriptor(String operationName)`
-* `void registerRIF(String operationName, String productName,  RenderedImageFactory RIF)`
-* `void registerRIFByClassName(String operationName,  String  productName, String RIFClassName)`
+* `void registerDescriptor(RegistryElementDescriptor descriptor)`
+* `void unregisterDescriptor(RegistryElementDescriptor descriptor)`
+* `void registerFactory(String modeName, String descriptorName, String productName, Object factory)`
+
+**API:** `org.eclipse.imagen.registry.RIFRegistry`
+
+* `static void register(OperationRegistry registry, String operationName, String productName, RenderedImageFactory rif)`
+
+**API:** `org.eclipse.imagen.registry.CRIFRegistry`
+
+* `static void register(OperationRegistry registry, String operationName, ContextualRenderedImageFactory crif)`
+
+### 14.3.3 Packaging Operators <a name="packaging"></a>
+
+Each ImageN jar registers its operations with its own
+`META-INF/registryFile.imagen`, and its allow-list and
+`OperationRegistrySpi` providers with `META-INF/services` files.
+A library providing new operations includes these files in its own jar.
+
+When an application combines jars into a single jar with the
+`maven-shade-plugin`, these files must be merged rather than
+overwritten, otherwise operations go missing at runtime:
+
+```
+java.lang.IllegalArgumentException: ImageRead: No OperationDescriptor is registered in the current operation registry under this name.
+```
+
+Configure the shade plugin transformers to append each
+`registryFile.imagen`, and merge the `META-INF/services` files:
+
+```xml
+<transformers>
+  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+  <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+    <resource>META-INF/registryFile.imagen</resource>
+  </transformer>
+</transformers>
+```
+
+See [Shaded Jars](../../migration/#shaded-jars) in the migration guide.
 
 ## 14.4 Iterators
 

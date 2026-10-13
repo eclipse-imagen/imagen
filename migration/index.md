@@ -44,6 +44,18 @@ Eclipse ImageN offers a migration path for developers migrating from the Java Ad
    ```
    
    This is a best-effort script recognizing ``jai_core``, ``jai_codec`` dependencies used with ``jai.version``.
+
+   The default ``update`` target runs each step in order:
+
+   * ``pom1``: JAI and JAI-Ext dependencies to ImageN
+   * ``pom2``: ``imagen.version`` property to ImageN 0.9.3 (use ``-Dimagen.release`` for another version)
+   * ``pom3``: ``imagen-`` prefix for artifacts in ImageN 0.9.3
+
+   To update a project using ImageN 0.9.2 to ImageN 0.9.3:
+
+   ```bash
+   ant -f pom-update.xml -Dproject.dir=/home/user/dev/myproject pom2 pom3
+   ```
    
 3. And refactoring script for ``java`` files.
    
@@ -55,7 +67,7 @@ Eclipse ImageN offers a migration path for developers migrating from the Java Ad
    
    * ``update1``: JAI and JAI-Ext imports to ImageN 0.4.0
    * ``update2``: JAI class names and constants to ImageN 0.9.0
-   * ``update3``: scale2 package changes in ImageN 0.9.3.3
+   * ``update3``: scale2 package changes in ImageN 0.9.3
    
    ImageN projects can run only the steps needed for their upgrade.
    To update a project using ImageN 0.9.2 to ImageN 0.9.3:
@@ -202,6 +214,13 @@ The registry files have been renamed
 | JAI or JAI-Ext              | ImageN                         |
 |-----------------------------|--------------------------------|
 | `META-INF/registryFile.jai` | `META-INF/registryFile.imagen` | 
+
+Module artifacts use the `imagen-` prefix in ImageN 0.9.3:
+
+| ImageN 0.9.2                              | ImageN 0.9.3                                   |
+|-------------------------------------------|------------------------------------------------|
+| `org.eclipse.imagen:affine`               | `org.eclipse.imagen:imagen-affine`             |
+| `org.eclipse.imagen:jiffle-op`            | `org.eclipse.imagen:imagen-jiffle-op`          |
 
 Scale2 has been moved to a new package in ImageN 0.9.3:
 
