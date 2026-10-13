@@ -757,6 +757,8 @@ Release 1.0.1, November 1999
 
     [](../extension)
 
+    :   14.3.3 Packaging Operators [](../extension)
+
 :   14.4 Iterators
 
     :   14.4.1 RectIter [](../extension)
