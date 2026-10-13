@@ -38,4 +38,4 @@ jobs:
         mvn -B -ntp -U -T2 -Dspotless.apply.skip=true -Dpom.fmt.skip=true clean install
     - name: Remove SNAPSHOT jars from repository
       run: |
-        find .m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
+        find ~/.m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
