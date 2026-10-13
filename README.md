@@ -92,12 +92,17 @@ Prep:
     
    This takes about 2 weeks, schuedled for 1st and 15th each month.
 
+ImageN 0.x releases are [pre-release milestone builds](https://www.eclipse.org/projects/handbook/#release-milestones):
+no release record or review is required, but they must be clearly described as pre-release software.
+
 Release artifacts are published to two repositories:
 
-* **repo.osgeo.org** - deployed by a release manager from their own machine (see [Deploy to OSGeo](#deploy-to-osgeo)).
 * **Maven Central** - built, signed and published by the [Publish release to Maven Central](.github/workflows/central.yml)
   workflow from a release tag, using the Eclipse Foundation managed signing key and Central credentials
   (see [Publish to Maven Central](#publish-to-maven-central)). This cannot be done locally.
+* **repo.osgeo.org** - deployed by a release manager from their own machine (see [Deploy to OSGeo](#deploy-to-osgeo)).
+
+Publish to Maven Central first: a Central release cannot be changed, while a failed deployment can be fixed and re-tagged.
 
 ### Update Version
 
@@ -108,32 +113,81 @@ Release artifacts are published to two repositories:
    mvn clean install
    ```
 
-2. On a release branch update version number in Maven POMs:
+2. On a release branch update version number in Maven POMs, and `imagen_version` in `docs/_config.yml`:
 
    ```
    git fetch upstream
-   git checkout -b release-0.9.3 upstream/main
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.3
+   git switch -c release-0.9.4 --no-track upstream/main
+   mvn versions:set -DgenerateBackupPoms=false -DprocessAllModules=true -DnewVersion=0.9.4
+   sed -i '' 's/^imagen_version: .*/imagen_version: "0.9.4"/' docs/_config.yml
    ```
 
-3. Commit this change and open a pull request, merge once the build passes.
+   Use `--no-track` so the branch is not pushed to `upstream/main` by mistake.
 
-4. Tag the merged commit on `main`, and push the tag to `eclipse-imagen/imagen`:
+3. Commit this change, and push the branch to your fork:
+
+   ```
+   git add -u
+   git commit -m "Release version 0.9.4"
+   git push -u origin release-0.9.4
+   ```
+
+   Open a pull request against `eclipse-imagen/imagen` `main`, merge once the build passes.
+
+   For reference, to merge manually from the command line:
+
+   ```
+   git switch main
+   git pull
+   git merge --ff-only release-0.9.4
+   git push upstream main
+   ```
+
+   The `--ff-only` merge lands the exact commit from the pull request, and refuses if `main` has moved on
+   (rebase `release-0.9.4` onto `upstream/main` and let the build run again). GitHub marks the pull request as merged.
+
+4. Find the release commit on `upstream/main` (example `ff46078d2 Release version 0.9.4`), and check its version:
 
    ```
    git fetch upstream
-   git tag -a 0.9.3 -m "Release version 0.9.3" upstream/main
-   git push upstream 0.9.3
+   git log --oneline -3 upstream/main
+   git show ff46078d2:pom.xml | grep -m1 "<sha>"
+   ```
+
+   Then tag that commit, and push the tag to `eclipse-imagen/imagen`:
+
+   ```
+   git tag -a 0.9.4 -m "Release version 0.9.4" <sha>
+   git push upstream 0.9.4
    ```
 
    The tag must match the POM version exactly, the Maven Central workflow checks this before publishing.
+
+### Publish to Maven Central
+
+1. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases):
+
+   1. Use "Draft a new release" and choose your tag.
+   2. Copy the release notes (example: [0.9.3](https://github.com/eclipse-imagen/imagen/releases/tag/0.9.3)),
+      you may also wish to hit "Generate release notes".
+   3. Check "Set as a pre-release".
+
+2. Publish the release, this starts the
+   [Publish release to Maven Central](https://github.com/eclipse-imagen/imagen/actions/workflows/central.yml) workflow.
+
+3. Check the workflow completes (publishing takes around 20 minutes), and the artifacts appear on
+   [Maven Central](https://central.sonatype.com/namespace/org.eclipse.imagen).
+   If Maven Central rejects the deployment, the validation errors are shown in the workflow log.
+
+   To try again after a fix is merged, use "Run workflow" on `main` and enter the tag. Re-running the failed job
+   uses the workflow file from the tag, without the fix.
 
 ### Deploy to OSGeo
 
 1. Checkout the tag:
 
    ```
-   git checkout 0.9.3
+   git checkout 0.9.4
    ```
 
 2. Deploy to repo.osgeo.org, using your OSGeo credentials in `~/.m2/settings.xml`:
@@ -162,27 +216,11 @@ Release artifacts are published to two repositories:
      mvn clean deploy -DskipTests
      ```
 
-### Publish to Maven Central
+3. Edit the GitHub release and add release artifacts from the `target` folders:
 
-1. Create a [GitHub release](https://github.com/eclipse-imagen/imagen/releases):
-
-   1. Use "Draft a new release" and choose your tag.
-   2. Copy the release notes (example: [0.9.3](https://github.com/eclipse-imagen/imagen/releases/tag/0.9.3),
-      you may also wish to hit "Generate release notes".
-   3. Add release artifacts (from the `target` folders of the OSGeo deploy above):
-
-      * `modules/all/target/imagen-all-0.9.3.jar`
-      * `legacy/all/target/imagen-legacy-all-0.9.3.jar`
-
-2. Publish the release, this starts the
-   [Publish release to Maven Central](https://github.com/eclipse-imagen/imagen/actions/workflows/central.yml) workflow.
-
-   To keep the GitHub release as a draft (while an Eclipse release review completes), run the workflow manually
-   with "Run workflow" and enter the tag instead.
-
-3. Check the workflow completes, and the artifacts appear on
-   [Maven Central](https://central.sonatype.com/namespace/org.eclipse.imagen) (this may take a while).
-   If Maven Central rejects the deployment, the validation errors are shown in the workflow log.
+   * `modules/all/target/imagen-all-0.9.4.jar`
+   * `legacy/all/target/imagen-legacy-all-0.9.4.jar`
+   * `unsupported/all/target/imagen-unsupported-all-0.9.4.jar`
 
 References:
 
@@ -194,24 +232,26 @@ References:
 
 Update main to the next release version:
 
-1. On a branch update version number in Maven POMs:
+1. On a branch update version number in Maven POMs, and `imagen_version` in `docs/_config.yml`:
 
    ```
-   git checkout -b version-0.9.4-SNAPSHOT upstream/main
-   mvn versions:set -DgenerateBackupPoms=false -DnewVersion=0.9.4-SNAPSHOT
+   git switch -c version-0.9.5-SNAPSHOT --no-track upstream/main
+   mvn versions:set -DgenerateBackupPoms=false -DprocessAllModules=true -DnewVersion=0.9.5-SNAPSHOT
+   sed -i '' 's/^imagen_version: .*/imagen_version: "0.9.5-SNAPSHOT"/' docs/_config.yml
    ```
 
-2. Update version number in `docs/_config.yml`:
-
-   ```
-   imagen_version: "0.9.4-SNAPSHOT"
-   ```
-
-3. Compile to test, commit this change and open a pull request:
+2. Compile to test, commit this change, and push the branch to your fork:
 
    ```
    mvn clean install
+   git add -u
+   git commit -m "Version 0.9.5-SNAPSHOT"
+   git push -u origin version-0.9.5-SNAPSHOT
    ```
+
+   Open a pull request against `eclipse-imagen/imagen` `main`, merge once the build passes.
+
+3. Close the release milestone, moving any open issues to the next milestone.
 
 ### Announcing
 
