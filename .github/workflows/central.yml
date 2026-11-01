@@ -35,7 +35,7 @@ jobs:
         with:
           ref: refs/tags/${{ env.RELEASE_TAG }}
       - name: Set up JDK 17 and Maven Central credentials
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           java-version: 17
           distribution: 'temurin'
