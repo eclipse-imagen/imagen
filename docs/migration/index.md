@@ -410,4 +410,5 @@ public class LegacyCoreSpi implements OperationRegistrySpi {
   ```
 
 * Use a unique operation name; when two jars register the same name, the first `registryFile.imagen` read wins.
+* When an operation is installed, register its descriptor, factories and any `PropertyGenerator` up front, not lazily from a factory `create` method or a property source. The ImageN thread-safe registry does not allow a thread holding its read lock to perform a write, resulting in an `IllegalStateException`. This is a change from JAI, which allowed an upgrade from the registry read lock to the write lock.
 * When shading jars, append `META-INF/registryFile.imagen` with an `AppendingTransformer` and merge `META-INF/services` with the `ServicesResourceTransformer`.
