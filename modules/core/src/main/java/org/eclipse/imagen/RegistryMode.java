@@ -20,7 +20,6 @@ package org.eclipse.imagen;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +42,7 @@ public class RegistryMode {
      * Cache of known RegistryMode-s hashed by <code>CaselessStringKey</code>s which wraps a String and performs
      * case-insensitive equals()
      */
-    private static Hashtable registryModes;
+    private static ConcurrentHashMap registryModes;
 
     /** Set of <code>CaselessStringKey</code>s of registryModes which cannot be replaced or removed. */
     private static HashSet immutableNames;
@@ -61,7 +60,7 @@ public class RegistryMode {
 
     // Load all ImageN-defined registryModes.
     static {
-        registryModes = new Hashtable(4);
+        registryModes = new ConcurrentHashMap(4);
         immutableNames = new HashSet();
 
         // operation modes

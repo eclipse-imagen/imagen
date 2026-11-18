@@ -42,6 +42,8 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicLong;
 import org.eclipse.imagen.DeferredData;
 import org.eclipse.imagen.ImageN;
 import org.eclipse.imagen.KernelImageN;
@@ -58,7 +60,7 @@ public final class ImageUtil {
     private static final float FLOAT_MIN = -Float.MAX_VALUE;
 
     /** The counter for images that use the method generateID to create a UID. */
-    private static long counter;
+    private static final AtomicLong COUNTER = new AtomicLong();
 
     /** A constant used to extract a byte from a short or an int. */
     public static final int BYTE_MASK = 0xFF;
@@ -1319,9 +1321,9 @@ public final class ImageUtil {
      * seconds, and a random number are concatenated together in a <code>BigInteger</code>. This <code>BigInteger</code>
      * is returned as the unique ID.
      */
-    public static synchronized Object generateID(Object owner) {
+    public static Object generateID(Object owner) {
         Class c = owner.getClass();
-        counter++;
+        long counter = COUNTER.incrementAndGet();
 
         byte[] uid = new byte[32];
         int k = 0;
@@ -1332,7 +1334,7 @@ public final class ImageUtil {
         for (int i = 3, j = 0; i >= 0; i--, j += 8) uid[k++] = (byte) (hash >> j);
         long time = System.currentTimeMillis();
         for (int i = 7, j = 0; i >= 0; i--, j += 8) uid[k++] = (byte) (time >> j);
-        long rand = Double.doubleToLongBits(new Double(Math.random()).doubleValue());
+        long rand = ThreadLocalRandom.current().nextLong();
         for (int i = 7, j = 0; i >= 0; i--, j += 8) uid[k++] = (byte) (rand >> j);
         return new BigInteger(uid);
     }
