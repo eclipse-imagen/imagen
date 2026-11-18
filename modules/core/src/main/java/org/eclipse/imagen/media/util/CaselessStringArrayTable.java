@@ -17,7 +17,7 @@
  */
 package org.eclipse.imagen.media.util;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
@@ -28,8 +28,8 @@ import org.eclipse.imagen.util.CaselessStringKey;
  */
 public class CaselessStringArrayTable implements java.io.Serializable {
 
-    private CaselessStringKey[] keys;
-    private Hashtable indices;
+    private final CaselessStringKey[] keys;
+    private final HashMap indices;
 
     /** Constructor for an array of <code>CaselessStringKey</code>s. */
     public CaselessStringArrayTable() {
@@ -40,7 +40,7 @@ public class CaselessStringArrayTable implements java.io.Serializable {
     public CaselessStringArrayTable(CaselessStringKey[] keys) {
 
         this.keys = keys;
-        this.indices = new Hashtable();
+        this.indices = new HashMap();
 
         if (keys != null)
             for (int i = 0; i < keys.length; i++) {

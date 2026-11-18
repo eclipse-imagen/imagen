@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * A wrapper class on <code>OperationRegistry</code> which is thread safe. Every method is wrapped with an appropriate
- * read or a write lock.
+ * read or a write lock, except the descriptor lookups by name, which read concurrent maps.
  */
 final class ThreadSafeOperationRegistry extends OperationRegistry {
 
@@ -124,24 +124,6 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
             super.unregisterDescriptor(descriptor);
         } finally {
             lock.writeLock().unlock();
-        }
-    }
-
-    public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
-        lock.readLock().lock();
-        try {
-            return super.getDescriptor(descriptorClass, descriptorName);
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    public RegistryElementDescriptor getDescriptor(String modeName, String descriptorName) {
-        lock.readLock().lock();
-        try {
-            return super.getDescriptor(modeName, descriptorName);
-        } finally {
-            lock.readLock().unlock();
         }
     }
 
