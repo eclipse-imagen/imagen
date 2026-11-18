@@ -24,6 +24,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.imagen.util.CaselessStringKey;
 
 /**
@@ -44,8 +45,8 @@ class DescriptorCache {
     /** Does the registry mode for this cache support properties. */
     final boolean arePropertiesSupported;
 
-    /** A Hashtable of all the <code>RegistryElementDescriptor</code>s, hashed by their name. */
-    private Hashtable descriptorNames;
+    /** A map of all the <code>RegistryElementDescriptor</code>s, hashed by their name. */
+    private ConcurrentHashMap descriptorNames;
 
     /**
      * A Hashtable of all the products, hashed by the name of the <code>RegistryElementDescriptor</code> to which they
@@ -105,7 +106,7 @@ class DescriptorCache {
         arePreferencesSupported = mode.arePreferencesSupported();
         arePropertiesSupported = mode.arePropertiesSupported();
 
-        descriptorNames = new Hashtable();
+        descriptorNames = new ConcurrentHashMap();
         products = new Hashtable();
 
         if (arePreferencesSupported) productPrefs = new Hashtable();
