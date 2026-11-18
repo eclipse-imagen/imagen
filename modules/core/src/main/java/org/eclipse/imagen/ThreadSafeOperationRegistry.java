@@ -25,535 +25,408 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-import org.eclipse.imagen.media.util.RWLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * A wrapper class on <code>OperationRegistry</code> which is thread safe. Every method is wrapped with an appropriate
- * read or a write lock. Exceptions are caught and the lock is released before the exception is re-thrown.
+ * read or a write lock.
  */
 final class ThreadSafeOperationRegistry extends OperationRegistry {
 
-    /** The reader/writer lock for this class. */
-    private RWLock lock;
-
-    public ThreadSafeOperationRegistry() {
-        super();
-
-        // Create an upgradable reader/writer lock.
-        lock = new RWLock(true);
-    }
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     public String toString() {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            String t = super.toString();
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.toString();
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void writeToStream(OutputStream out) throws IOException {
+        lock.readLock().lock();
         try {
-            lock.forReading();
             super.writeToStream(out);
-            lock.release();
-        } catch (IOException ioe) {
-            lock.release();
-            throw ioe;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void initializeFromStream(InputStream in) throws IOException {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.initializeFromStream(in);
-            lock.release();
-        } catch (IOException ioe) {
-            lock.release();
-            throw ioe;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void updateFromStream(InputStream in) throws IOException {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.updateFromStream(in);
-            lock.release();
-        } catch (IOException ioe) {
-            lock.release();
-            throw ioe;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.readExternal(in);
-            lock.release();
-        } catch (IOException ioe) {
-            lock.release();
-            throw ioe;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
+        lock.readLock().lock();
         try {
-            lock.forReading();
             super.writeExternal(out);
-            lock.release();
-        } catch (IOException ioe) {
-            lock.release();
-            throw ioe;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     /** ******************** NEW ImageN methods ************************ */
     public void removeRegistryMode(String modeName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.removeRegistryMode(modeName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public String[] getRegistryModes() {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            String[] t = super.getRegistryModes();
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getRegistryModes();
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void registerDescriptor(RegistryElementDescriptor descriptor) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.registerDescriptor(descriptor);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void unregisterDescriptor(RegistryElementDescriptor descriptor) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.unregisterDescriptor(descriptor);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            RegistryElementDescriptor t = super.getDescriptor(descriptorClass, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
-        }
-    }
-
-    public List getDescriptors(Class descriptorClass) {
-        try {
-            lock.forReading();
-            List t = super.getDescriptors(descriptorClass);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
-        }
-    }
-
-    public String[] getDescriptorNames(Class descriptorClass) {
-        try {
-            lock.forReading();
-            String[] t = super.getDescriptorNames(descriptorClass);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getDescriptor(descriptorClass, descriptorName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public RegistryElementDescriptor getDescriptor(String modeName, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            RegistryElementDescriptor t = super.getDescriptor(modeName, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getDescriptor(modeName, descriptorName);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public List getDescriptors(Class descriptorClass) {
+        lock.readLock().lock();
+        try {
+            return super.getDescriptors(descriptorClass);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public String[] getDescriptorNames(Class descriptorClass) {
+        lock.readLock().lock();
+        try {
+            return super.getDescriptorNames(descriptorClass);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public List getDescriptors(String modeName) {
 
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            List t = super.getDescriptors(modeName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getDescriptors(modeName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public String[] getDescriptorNames(String modeName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            String[] t = super.getDescriptorNames(modeName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getDescriptorNames(modeName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void setProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.setProductPreference(modeName, descriptorName, preferredProductName, otherProductName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void unsetProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.unsetProductPreference(modeName, descriptorName, preferredProductName, otherProductName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void clearProductPreferences(String modeName, String descriptorName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.clearProductPreferences(modeName, descriptorName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public String[][] getProductPreferences(String modeName, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            String[][] t = super.getProductPreferences(modeName, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getProductPreferences(modeName, descriptorName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public Vector getOrderedProductList(String modeName, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            Vector t = super.getOrderedProductList(modeName, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getOrderedProductList(modeName, descriptorName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void registerFactory(String modeName, String descriptorName, String productName, Object factory) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.registerFactory(modeName, descriptorName, productName, factory);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void unregisterFactory(String modeName, String descriptorName, String productName, Object factory) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.unregisterFactory(modeName, descriptorName, productName, factory);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void setFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.setFactoryPreference(modeName, descriptorName, productName, preferredOp, otherOp);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void unsetFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.unsetFactoryPreference(modeName, descriptorName, productName, preferredOp, otherOp);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void clearFactoryPreferences(String modeName, String descriptorName, String productName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.clearFactoryPreferences(modeName, descriptorName, productName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public Object[][] getFactoryPreferences(String modeName, String descriptorName, String productName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            Object[][] t = super.getFactoryPreferences(modeName, descriptorName, productName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getFactoryPreferences(modeName, descriptorName, productName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public List getOrderedFactoryList(String modeName, String descriptorName, String productName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            List t = super.getOrderedFactoryList(modeName, descriptorName, productName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getOrderedFactoryList(modeName, descriptorName, productName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public Iterator getFactoryIterator(String modeName, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            Iterator t = super.getFactoryIterator(modeName, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getFactoryIterator(modeName, descriptorName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public Object getFactory(String modeName, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            Object t = super.getFactory(modeName, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getFactory(modeName, descriptorName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public Object invokeFactory(String modeName, String descriptorName, Object[] args) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            Object t = super.invokeFactory(modeName, descriptorName, args);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.invokeFactory(modeName, descriptorName, args);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void addPropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.addPropertyGenerator(modeName, descriptorName, generator);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void removePropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.removePropertyGenerator(modeName, descriptorName, generator);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void copyPropertyFromSource(String modeName, String descriptorName, String propertyName, int sourceIndex) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.copyPropertyFromSource(modeName, descriptorName, propertyName, sourceIndex);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void suppressProperty(String modeName, String descriptorName, String propertyName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.suppressProperty(modeName, descriptorName, propertyName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void suppressAllProperties(String modeName, String descriptorName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.suppressAllProperties(modeName, descriptorName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void clearPropertyState(String modeName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.clearPropertyState(modeName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public String[] getGeneratedPropertyNames(String modeName, String descriptorName) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            String[] t = super.getGeneratedPropertyNames(modeName, descriptorName);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getGeneratedPropertyNames(modeName, descriptorName);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public PropertySource getPropertySource(String modeName, String descriptorName, Object op, Vector sources) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            PropertySource t = super.getPropertySource(modeName, descriptorName, op, sources);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getPropertySource(modeName, descriptorName, op, sources);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public PropertySource getPropertySource(OperationNode op) {
+        lock.readLock().lock();
         try {
-            lock.forReading();
-            PropertySource t = super.getPropertySource(op);
-            lock.release();
-            return t;
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+            return super.getPropertySource(op);
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
     public void registerServices(ClassLoader cl) throws IOException {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.registerServices(cl);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     /** ******************** DEPRECATED METHODS ************************ */
     public void unregisterOperationDescriptor(String operationName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.unregisterOperationDescriptor(operationName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
     public void clearOperationPreferences(String operationName, String productName) {
+        lock.writeLock().lock();
         try {
-            lock.forWriting();
             super.clearOperationPreferences(operationName, productName);
-            lock.release();
-        } catch (RuntimeException e) {
-            lock.release();
-            throw e;
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 }
