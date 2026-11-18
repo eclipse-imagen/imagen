@@ -261,17 +261,6 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
         }
     }
 
-    public RegistryElementDescriptor getDescriptor(Class descriptorClass, String descriptorName) {
-        Lock readLock = lock.readLock();
-        try {
-            readLock.lock();
-
-            return super.getDescriptor(descriptorClass, descriptorName);
-        } finally {
-            readLock.unlock();
-        }
-    }
-
     public List getDescriptors(Class descriptorClass) {
         Lock readLock = lock.readLock();
         try {
@@ -289,18 +278,6 @@ public final class ConcurrentOperationRegistry extends OperationRegistry {
             readLock.lock();
 
             return super.getDescriptorNames(descriptorClass);
-        } finally {
-            readLock.unlock();
-        }
-    }
-
-    public RegistryElementDescriptor getDescriptor(String modeName, String descriptorName) {
-
-        Lock readLock = lock.readLock();
-        try {
-            readLock.lock();
-
-            return super.getDescriptor(modeName, descriptorName);
         } finally {
             readLock.unlock();
         }

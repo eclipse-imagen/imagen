@@ -35,6 +35,14 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
+    /** Fails fast where the legacy RWLock allowed a read to write upgrade, which would deadlock here. */
+    private void lockForWriting() {
+        if (lock.getReadHoldCount() > 0 && !lock.isWriteLockedByCurrentThread()) {
+            throw new IllegalStateException("Cannot modify the operation registry while holding its read lock");
+        }
+        lock.writeLock().lock();
+    }
+
     public String toString() {
         lock.readLock().lock();
         try {
@@ -54,7 +62,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void initializeFromStream(InputStream in) throws IOException {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.initializeFromStream(in);
         } finally {
@@ -63,7 +71,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void updateFromStream(InputStream in) throws IOException {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.updateFromStream(in);
         } finally {
@@ -73,7 +81,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.readExternal(in);
         } finally {
@@ -92,7 +100,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     /** ******************** NEW ImageN methods ************************ */
     public void removeRegistryMode(String modeName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.removeRegistryMode(modeName);
         } finally {
@@ -110,7 +118,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void registerDescriptor(RegistryElementDescriptor descriptor) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.registerDescriptor(descriptor);
         } finally {
@@ -119,7 +127,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void unregisterDescriptor(RegistryElementDescriptor descriptor) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.unregisterDescriptor(descriptor);
         } finally {
@@ -166,7 +174,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     public void setProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.setProductPreference(modeName, descriptorName, preferredProductName, otherProductName);
         } finally {
@@ -176,7 +184,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     public void unsetProductPreference(
             String modeName, String descriptorName, String preferredProductName, String otherProductName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.unsetProductPreference(modeName, descriptorName, preferredProductName, otherProductName);
         } finally {
@@ -185,7 +193,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void clearProductPreferences(String modeName, String descriptorName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.clearProductPreferences(modeName, descriptorName);
         } finally {
@@ -212,7 +220,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void registerFactory(String modeName, String descriptorName, String productName, Object factory) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.registerFactory(modeName, descriptorName, productName, factory);
         } finally {
@@ -221,7 +229,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void unregisterFactory(String modeName, String descriptorName, String productName, Object factory) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.unregisterFactory(modeName, descriptorName, productName, factory);
         } finally {
@@ -231,7 +239,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     public void setFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.setFactoryPreference(modeName, descriptorName, productName, preferredOp, otherOp);
         } finally {
@@ -241,7 +249,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     public void unsetFactoryPreference(
             String modeName, String descriptorName, String productName, Object preferredOp, Object otherOp) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.unsetFactoryPreference(modeName, descriptorName, productName, preferredOp, otherOp);
         } finally {
@@ -250,7 +258,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void clearFactoryPreferences(String modeName, String descriptorName, String productName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.clearFactoryPreferences(modeName, descriptorName, productName);
         } finally {
@@ -304,7 +312,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void addPropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.addPropertyGenerator(modeName, descriptorName, generator);
         } finally {
@@ -313,7 +321,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void removePropertyGenerator(String modeName, String descriptorName, PropertyGenerator generator) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.removePropertyGenerator(modeName, descriptorName, generator);
         } finally {
@@ -322,7 +330,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void copyPropertyFromSource(String modeName, String descriptorName, String propertyName, int sourceIndex) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.copyPropertyFromSource(modeName, descriptorName, propertyName, sourceIndex);
         } finally {
@@ -331,7 +339,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void suppressProperty(String modeName, String descriptorName, String propertyName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.suppressProperty(modeName, descriptorName, propertyName);
         } finally {
@@ -340,7 +348,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void suppressAllProperties(String modeName, String descriptorName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.suppressAllProperties(modeName, descriptorName);
         } finally {
@@ -349,7 +357,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void clearPropertyState(String modeName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.clearPropertyState(modeName);
         } finally {
@@ -385,7 +393,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void registerServices(ClassLoader cl) throws IOException {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.registerServices(cl);
         } finally {
@@ -395,7 +403,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
 
     /** ******************** DEPRECATED METHODS ************************ */
     public void unregisterOperationDescriptor(String operationName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.unregisterOperationDescriptor(operationName);
         } finally {
@@ -404,7 +412,7 @@ final class ThreadSafeOperationRegistry extends OperationRegistry {
     }
 
     public void clearOperationPreferences(String operationName, String productName) {
-        lock.writeLock().lock();
+        lockForWriting();
         try {
             super.clearOperationPreferences(operationName, productName);
         } finally {
