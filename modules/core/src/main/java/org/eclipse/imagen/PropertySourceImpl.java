@@ -92,17 +92,8 @@ public class PropertySourceImpl implements PropertySource, Serializable {
 
         // If both parameters are null throw an exception if this constructor
         // is not invoked from within a subclass constructor.
-        if (propertyMap == null && propertySource == null) {
-            boolean throwException = false;
-            try {
-                Class rootClass = Class.forName("org.eclipse.imagen.PropertySourceImpl");
-                throwException = this.getClass().equals(rootClass);
-            } catch (Exception e) {
-                // Ignore it.
-            }
-            if (throwException) {
-                throw new IllegalArgumentException("The input argument(s) may not be null.");
-            }
+        if (propertyMap == null && propertySource == null && getClass() == PropertySourceImpl.class) {
+            throw new IllegalArgumentException("The input argument(s) may not be null.");
         }
 
         if (propertyMap != null) {
