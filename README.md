@@ -14,8 +14,8 @@ ImageN provides:
 
 Long term continuation of JAI and JAI-Ext:
 
-* Migration refactoring planned
-* Modernize Java API planned
+* Migration refactoring
+* Modernize Java API
 
 This is a [Eclipse Foundation](https://www.eclipse.org) open source project using the [Apache License v 2.0](LICENSE.md).
 
