@@ -647,6 +647,10 @@ public abstract class OperationDescriptorImpl implements OperationDescriptor, ja
         return sc;
     }
 
+    CaselessStringArrayTable getSourceIndices() {
+        return sourceIndices;
+    }
+
     /**
      * Returns an array of <code>String</code>s that are the names of the sources of this operation. If this operation
      * has no sources, this method returns <code>null</code>. If this operation has sources but their names were not

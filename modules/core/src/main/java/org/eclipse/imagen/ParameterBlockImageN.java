@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Map;
 import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.imagen.media.util.CaselessStringArrayTable;
 
 /**
@@ -71,11 +69,6 @@ import org.eclipse.imagen.media.util.CaselessStringArrayTable;
  * version of ImageN.
  */
 public class ParameterBlockImageN extends ParameterBlock implements ParameterList {
-
-    private static final Map<ParameterListDescriptor, CaselessStringArrayTable> PARAM_INDICES =
-            new ConcurrentHashMap<>();
-
-    private static final Map<OperationDescriptor, CaselessStringArrayTable> SOURCE_INDICES = new ConcurrentHashMap<>();
 
     /** The <code>OperationDescriptor</code> associated with this <code>ParameterBlockImageN</code>. */
     private transient OperationDescriptor odesc;
@@ -169,8 +162,12 @@ public class ParameterBlockImageN extends ParameterBlock implements ParameterLis
         numParameters = pld.getNumParameters();
         paramNames = pld.getParamNames();
 
-        paramIndices = PARAM_INDICES.computeIfAbsent(pld, p -> new CaselessStringArrayTable(p.getParamNames()));
-        sourceIndices = SOURCE_INDICES.computeIfAbsent(odesc, d -> new CaselessStringArrayTable(d.getSourceNames()));
+        paramIndices = pld instanceof ParameterListDescriptorImpl
+                ? ((ParameterListDescriptorImpl) pld).getParamIndices()
+                : new CaselessStringArrayTable(pld.getParamNames());
+        sourceIndices = odesc instanceof OperationDescriptorImpl
+                ? ((OperationDescriptorImpl) odesc).getSourceIndices()
+                : new CaselessStringArrayTable(odesc.getSourceNames());
 
         paramClasses = pld.getParamClasses();
         sourceClasses = odesc.getSourceClasses(modeName);

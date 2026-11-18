@@ -316,6 +316,10 @@ public class ParameterListDescriptorImpl implements ParameterListDescriptor, jav
         }
     }
 
+    CaselessStringArrayTable getParamIndices() {
+        return paramIndices;
+    }
+
     /** Returns the total number of parameters. */
     public int getNumParameters() {
         return numParams;
