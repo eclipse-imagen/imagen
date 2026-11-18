@@ -203,7 +203,7 @@ public class OperationRegistry implements Externalizable {
     static String USR_REGISTRY_FILE = "META-INF/registryFile.imagen";
 
     /** A <code>ConcurrentHashMap</code> of <code>DescriptorCache</code>s for each registry mode. */
-    private ConcurrentHashMap descriptors;
+    private final ConcurrentHashMap descriptors = new ConcurrentHashMap();
 
     /** A <code>Hashtable</code> of <code>FactoryCache</code>s for each registry mode. */
     private Hashtable factories;
@@ -266,9 +266,7 @@ public class OperationRegistry implements Externalizable {
      */
     private void initialize() {
 
-        // Create a map to hold a DescriptorCache for each
-        // known registry mode.
-        descriptors = new ConcurrentHashMap();
+        descriptors.clear();
 
         // Create a Hashtable to hold a FactoryCache for each
         // known registry mode.
