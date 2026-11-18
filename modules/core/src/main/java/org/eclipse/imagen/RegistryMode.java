@@ -21,7 +21,9 @@ import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.imagen.registry.CollectionRegistryMode;
 import org.eclipse.imagen.registry.RenderableCollectionRegistryMode;
 import org.eclipse.imagen.registry.RenderableRegistryMode;
@@ -45,6 +47,9 @@ public class RegistryMode {
 
     /** Set of <code>CaselessStringKey</code>s of registryModes which cannot be replaced or removed. */
     private static HashSet immutableNames;
+
+    /** Mode names matching each descriptor class, an empty array when none match. */
+    private static final Map<Class, String[]> modeNamesByClass = new ConcurrentHashMap<>();
 
     // Instance variables.
     private CaselessStringKey name;
@@ -81,6 +86,7 @@ public class RegistryMode {
         if (registryModes.containsKey(mode.name)) return false;
 
         registryModes.put(mode.name, mode);
+        modeNamesByClass.clear();
 
         if (immutable) immutableNames.add(mode.name);
 
@@ -113,6 +119,7 @@ public class RegistryMode {
 
         if (immutableNames.contains(key)) return false;
 
+        modeNamesByClass.clear();
         return registryModes.remove(key) != null;
     }
 
@@ -146,7 +153,16 @@ public class RegistryMode {
      * @return <code>null</code> if there are no modes registered against the specified descriptorClass. Otherwise
      *     returns an array of <code>String</code>s of mode names associated with the descriptorClass.
      */
-    public static synchronized String[] getModeNames(Class descriptorClass) {
+    public static String[] getModeNames(Class descriptorClass) {
+        if (descriptorClass == null) return null;
+
+        String[] names = modeNamesByClass.get(descriptorClass);
+        if (names == null) names = findModeNames(descriptorClass);
+
+        return names.length == 0 ? null : names.clone();
+    }
+
+    private static synchronized String[] findModeNames(Class descriptorClass) {
 
         String names[] = new String[registryModes.size()];
 
@@ -158,12 +174,11 @@ public class RegistryMode {
             if (mode.getDescriptorClass() == descriptorClass) names[i++] = mode.getName();
         }
 
-        if (i <= 0) return null;
-
         String matchedNames[] = new String[i];
 
         for (int j = 0; j < i; j++) matchedNames[j] = names[j];
 
+        modeNamesByClass.put(descriptorClass, matchedNames);
         return matchedNames;
     }
 

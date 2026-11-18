@@ -40,6 +40,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.imagen.media.util.PropertyUtil;
 import org.eclipse.imagen.media.util.Service;
 import org.eclipse.imagen.registry.CIFRegistry;
@@ -201,8 +202,8 @@ public class OperationRegistry implements Externalizable {
     /** The user defined registry files that are automatically loaded */
     static String USR_REGISTRY_FILE = "META-INF/registryFile.imagen";
 
-    /** A <code>Hashtable</code> of <code>DescritptorCache</code>s for each registry mode. */
-    private Hashtable descriptors;
+    /** A <code>ConcurrentHashMap</code> of <code>DescriptorCache</code>s for each registry mode. */
+    private ConcurrentHashMap descriptors;
 
     /** A <code>Hashtable</code> of <code>FactoryCache</code>s for each registry mode. */
     private Hashtable factories;
@@ -244,7 +245,9 @@ public class OperationRegistry implements Externalizable {
         if (dc == null) {
 
             if (RegistryMode.getMode(modeName) != null) {
-                descriptors.put(key, dc = new DescriptorCache(modeName));
+                dc = new DescriptorCache(modeName);
+                DescriptorCache existing = (DescriptorCache) descriptors.putIfAbsent(key, dc);
+                if (existing != null) dc = existing;
 
             } else {
                 throw new IllegalArgumentException(MessageFormat.format(
@@ -263,9 +266,9 @@ public class OperationRegistry implements Externalizable {
      */
     private void initialize() {
 
-        // Create a Hashtable to hold a DescriptorCache for each
+        // Create a map to hold a DescriptorCache for each
         // known registry mode.
-        descriptors = new Hashtable();
+        descriptors = new ConcurrentHashMap();
 
         // Create a Hashtable to hold a FactoryCache for each
         // known registry mode.
