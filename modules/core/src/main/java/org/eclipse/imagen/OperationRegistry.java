@@ -39,6 +39,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.imagen.media.util.PropertyUtil;
@@ -203,10 +204,10 @@ public class OperationRegistry implements Externalizable {
     static String USR_REGISTRY_FILE = "META-INF/registryFile.imagen";
 
     /** A <code>ConcurrentHashMap</code> of <code>DescriptorCache</code>s for each registry mode. */
-    private final ConcurrentHashMap descriptors = new ConcurrentHashMap();
+    private final ConcurrentHashMap<CaselessStringKey, DescriptorCache> descriptors = new ConcurrentHashMap<>();
 
     /** A <code>Hashtable</code> of <code>FactoryCache</code>s for each registry mode. */
-    private Hashtable factories;
+    private Hashtable<CaselessStringKey, FactoryCache> factories;
 
     /**
      * Get the <code>FactoryCache</code> associated with a specified mode. If it does not exist but the mode is a valid
@@ -216,7 +217,7 @@ public class OperationRegistry implements Externalizable {
 
         CaselessStringKey key = new CaselessStringKey(modeName);
 
-        FactoryCache fc = (FactoryCache) factories.get(key);
+        FactoryCache fc = factories.get(key);
 
         if (fc == null) {
 
@@ -240,13 +241,13 @@ public class OperationRegistry implements Externalizable {
 
         CaselessStringKey key = new CaselessStringKey(modeName);
 
-        DescriptorCache dc = (DescriptorCache) descriptors.get(key);
+        DescriptorCache dc = descriptors.get(key);
 
         if (dc == null) {
 
             if (RegistryMode.getMode(modeName) != null) {
                 dc = new DescriptorCache(modeName);
-                DescriptorCache existing = (DescriptorCache) descriptors.putIfAbsent(key, dc);
+                DescriptorCache existing = descriptors.putIfAbsent(key, dc);
                 if (existing != null) dc = existing;
 
             } else {
@@ -270,7 +271,7 @@ public class OperationRegistry implements Externalizable {
 
         // Create a Hashtable to hold a FactoryCache for each
         // known registry mode.
-        factories = new Hashtable();
+        factories = new Hashtable<>();
     }
 
     /**
@@ -531,12 +532,12 @@ public class OperationRegistry implements Externalizable {
      */
     public String[] getRegistryModes() {
 
-        Enumeration e = descriptors.keys();
+        Enumeration<CaselessStringKey> e = descriptors.keys();
         int size = descriptors.size();
         String names[] = new String[size];
 
         for (int i = 0; i < size; i++) {
-            CaselessStringKey key = (CaselessStringKey) e.nextElement();
+            CaselessStringKey key = e.nextElement();
             names[i] = key.getName();
         }
 
@@ -681,8 +682,8 @@ public class OperationRegistry implements Externalizable {
                     "There no registry modes associated with descriptor class \"{0}\".",
                     new Object[] {descriptorClass.getName()}));
 
-        List list;
-        HashSet set = new HashSet();
+        List<RegistryElementDescriptor> list;
+        Set<RegistryElementDescriptor> set = new HashSet<>();
 
         // Now unregister the descriptor against each supported mode.
         for (int i = 0; i < supportedModes.length; i++) {
@@ -692,7 +693,7 @@ public class OperationRegistry implements Externalizable {
             if ((list = dc.getDescriptors()) != null) set.addAll(list);
         }
 
-        return new ArrayList(set);
+        return new ArrayList<>(set);
     }
 
     /**
@@ -705,11 +706,11 @@ public class OperationRegistry implements Externalizable {
      */
     public String[] getDescriptorNames(Class descriptorClass) {
 
-        List dlist = getDescriptors(descriptorClass);
+        List<?> dlist = getDescriptors(descriptorClass);
 
         if (dlist != null) {
 
-            Iterator diter = dlist.iterator();
+            Iterator<?> diter = dlist.iterator();
 
             String[] names = new String[dlist.size()];
             int i = 0;
@@ -1197,14 +1198,14 @@ public class OperationRegistry implements Externalizable {
 
             if (og == null) return null;
 
-            Vector v = og.getOrderedOperationList();
+            Vector<PartialOrderNode> v = og.getOrderedOperationList();
 
             if ((v == null) || (v.size() <= 0)) return null;
 
-            ArrayList list = new ArrayList(v.size());
+            List<Object> list = new ArrayList<>(v.size());
 
-            for (int i = 0; i < v.size(); i++) {
-                list.add(((PartialOrderNode) v.elementAt(i)).getData());
+            for (PartialOrderNode node : v) {
+                list.add(node.getData());
             }
 
             return list;
@@ -1241,23 +1242,21 @@ public class OperationRegistry implements Externalizable {
         }
 
         if (dc.arePreferencesSupported) {
-            Vector v = getOrderedProductList(modeName, descriptorName);
+            Vector<?> v = getOrderedProductList(modeName, descriptorName);
 
             if ((v == null) || (v.size() <= 0)) return null;
 
-            ArrayList list = new ArrayList();
+            List<Object> list = new ArrayList<>();
 
-            List plist;
-
-            for (int i = 0; i < v.size(); i++) {
-                plist = getOrderedFactoryList(modeName, descriptorName, (String) v.get(i));
+            for (Object product : v) {
+                List<?> plist = getOrderedFactoryList(modeName, descriptorName, (String) product);
                 if (plist != null) list.addAll(plist);
             }
 
             return list.iterator();
 
         } else {
-            List list = fc.getFactoryList(descriptorName, null);
+            List<Object> list = fc.getFactoryList(descriptorName, null);
 
             if (list != null) return list.iterator();
         }
@@ -1522,7 +1521,7 @@ public class OperationRegistry implements Externalizable {
 
         // Get the source Vector from the ParameterBlock.
         ParameterBlock pb = op.getParameterBlock();
-        Vector pv = (pb == null) ? null : pb.getSources();
+        Vector<Object> pv = (pb == null) ? null : pb.getSources();
 
         // If the source Vector is null, replace it by a zero-length
         // Vector. This tricks the DescriptorCache into accepting the
@@ -1530,7 +1529,7 @@ public class OperationRegistry implements Externalizable {
         // the DescriptorCache works with either a null or zero-length
         // source Vector.
         if (pv == null) {
-            pv = new Vector();
+            pv = new Vector<>();
         }
 
         return getPropertySource(op.getRegistryModeName(), op.getOperationName(), op, pv);
@@ -1553,20 +1552,20 @@ public class OperationRegistry implements Externalizable {
 
         // First load all the REGISTRY_FILEs that are found in
         // the specified class loader.
-        Enumeration en;
+        Enumeration<URL> en;
 
         if (cl == null) en = getClass().getClassLoader().getResources(USR_REGISTRY_FILE);
         else en = cl.getResources(USR_REGISTRY_FILE);
 
         while (en.hasMoreElements()) {
-            URL url = (URL) en.nextElement();
+            URL url = en.nextElement();
 
             RegistryFileParser.loadOperationRegistry(this, cl, url);
         }
 
         // Now call the "updateRegistry" method for all OperationRegistry
         // service providers.
-        Iterator spitr;
+        Iterator<?> spitr;
 
         if (cl == null) spitr = Service.providers(OperationRegistrySpi.class);
         else spitr = Service.providers(OperationRegistrySpi.class, cl);
@@ -1640,9 +1639,9 @@ public class OperationRegistry implements Externalizable {
      * @see #getDescriptors(Class)
      */
     public Vector getOperationDescriptors() {
-        List list = getDescriptors(OperationDescriptor.class);
+        List<?> list = getDescriptors(OperationDescriptor.class);
 
-        return list == null ? null : new Vector(list);
+        return list == null ? null : new Vector<>(list);
     }
 
     /**
@@ -2020,9 +2019,9 @@ public class OperationRegistry implements Externalizable {
      */
     public Vector getOrderedRIFList(String operationName, String productName) {
 
-        List list = getOrderedFactoryList(RenderedRegistryMode.MODE_NAME, operationName, productName);
+        List<?> list = getOrderedFactoryList(RenderedRegistryMode.MODE_NAME, operationName, productName);
 
-        return list == null ? null : new Vector(list);
+        return list == null ? null : new Vector<>(list);
     }
 
     /**
@@ -2043,9 +2042,9 @@ public class OperationRegistry implements Externalizable {
      */
     public Vector getOrderedCIFList(String operationName, String productName) {
 
-        List list = getOrderedFactoryList(CollectionRegistryMode.MODE_NAME, operationName, productName);
+        List<?> list = getOrderedFactoryList(CollectionRegistryMode.MODE_NAME, operationName, productName);
 
-        return list == null ? null : new Vector(list);
+        return list == null ? null : new Vector<>(list);
     }
 
     // Create methods

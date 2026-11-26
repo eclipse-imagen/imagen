@@ -18,7 +18,6 @@
 package org.eclipse.imagen;
 
 import java.lang.reflect.Method;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -42,26 +41,26 @@ public class RegistryMode {
      * Cache of known RegistryMode-s hashed by <code>CaselessStringKey</code>s which wraps a String and performs
      * case-insensitive equals()
      */
-    private static ConcurrentHashMap registryModes;
+    private static ConcurrentHashMap<CaselessStringKey, RegistryMode> registryModes;
 
     /** Set of <code>CaselessStringKey</code>s of registryModes which cannot be replaced or removed. */
-    private static HashSet immutableNames;
+    private static HashSet<CaselessStringKey> immutableNames;
 
     /** Mode names matching each descriptor class, an empty array when none match. */
-    private static final Map<Class, String[]> modeNamesByClass = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, String[]> modeNamesByClass = new ConcurrentHashMap<>();
 
     // Instance variables.
     private CaselessStringKey name;
-    private Class descriptorClass;
-    private Class productClass;
+    private Class<?> descriptorClass;
+    private Class<?> productClass;
     private Method factoryMethod;
     private boolean arePreferencesSupported;
     private boolean arePropertiesSupported;
 
     // Load all ImageN-defined registryModes.
     static {
-        registryModes = new ConcurrentHashMap(4);
-        immutableNames = new HashSet();
+        registryModes = new ConcurrentHashMap<>(4);
+        immutableNames = new HashSet<>();
 
         // operation modes
         addMode(new RenderedRegistryMode(), true);
@@ -134,9 +133,7 @@ public class RegistryMode {
 
         int i = 0;
 
-        for (Enumeration e = registryModes.keys(); e.hasMoreElements(); ) {
-            CaselessStringKey key = (CaselessStringKey) e.nextElement();
-
+        for (CaselessStringKey key : registryModes.keySet()) {
             names[i++] = key.getName();
         }
 
@@ -161,15 +158,13 @@ public class RegistryMode {
         return names.length == 0 ? null : names.clone();
     }
 
-    private static synchronized String[] findModeNames(Class descriptorClass) {
+    private static synchronized String[] findModeNames(Class<?> descriptorClass) {
 
         String names[] = new String[registryModes.size()];
 
         int i = 0;
 
-        for (Enumeration e = registryModes.elements(); e.hasMoreElements(); ) {
-            RegistryMode mode = (RegistryMode) e.nextElement();
-
+        for (RegistryMode mode : registryModes.values()) {
             if (mode.getDescriptorClass() == descriptorClass) names[i++] = mode.getName();
         }
 
@@ -186,16 +181,14 @@ public class RegistryMode {
 
         CaselessStringKey key = new CaselessStringKey(name);
 
-        return (RegistryMode) registryModes.get(key);
+        return registryModes.get(key);
     }
 
     /** Get a <code>Set</code> of all descriptor classes over all registry modes. */
     public static synchronized Set getDescriptorClasses() {
-        HashSet set = new HashSet();
+        Set<Class<?>> set = new HashSet<>();
 
-        for (Enumeration e = registryModes.elements(); e.hasMoreElements(); ) {
-            RegistryMode mode = (RegistryMode) e.nextElement();
-
+        for (RegistryMode mode : registryModes.values()) {
             set.add(mode.descriptorClass);
         }
 

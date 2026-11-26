@@ -36,10 +36,10 @@ public class RenderableRegistryMode extends RegistryMode {
         if (factoryMethod != null) return factoryMethod;
 
         // The factory Class that this registry mode represents.
-        Class factoryClass = java.awt.image.renderable.ContextualRenderedImageFactory.class;
+        Class<?> factoryClass = java.awt.image.renderable.ContextualRenderedImageFactory.class;
 
         try {
-            Class[] paramTypes = new Class[] {
+            Class<?>[] paramTypes = new Class<?>[] {
                 java.awt.image.renderable.RenderContext.class, java.awt.image.renderable.ParameterBlock.class
             };
 

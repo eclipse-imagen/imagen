@@ -19,7 +19,6 @@ package org.eclipse.imagen;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Vector;
 import org.eclipse.imagen.media.util.CaselessStringKeyHashtable;
 import org.eclipse.imagen.media.util.PropertyUtil;
@@ -34,10 +33,10 @@ import org.eclipse.imagen.util.CaselessStringKey;
 class PropertyEnvironment implements PropertySource {
 
     /** The local PropertyGenerators of this PropertyEnvironment. */
-    Vector pg;
+    Vector<PropertyGenerator> pg;
 
     /** The sources of the associated node. The elements should be PropertySources. */
-    Vector sources;
+    Vector<?> sources;
 
     // Dummy value to associate with a key in "suppressed"
     private static final Object PRESENT = new Object();
@@ -80,18 +79,20 @@ class PropertyEnvironment implements PropertySource {
      * @param op The operation node.
      */
     public PropertyEnvironment(
-            Vector sources, Vector generators, Vector suppressed, Hashtable sourceForProp, Object op) {
+            Vector<?> sources,
+            Vector<PropertyGenerator> generators,
+            Vector<CaselessStringKey> suppressed,
+            Hashtable<CaselessStringKey, Integer> sourceForProp,
+            Object op) {
         this.sources = sources;
-        this.pg = generators == null ? null : (Vector) generators.clone();
+        this.pg = generators == null ? null : new Vector<>(generators);
 
         // "suppressed" should never be null
         this.suppressed = new CaselessStringKeyHashtable();
 
         if (suppressed != null) {
-            Enumeration e = suppressed.elements();
-
-            while (e.hasMoreElements()) {
-                this.suppressed.put(e.nextElement(), PRESENT);
+            for (CaselessStringKey key : suppressed) {
+                this.suppressed.put(key, PRESENT);
             }
         }
 
@@ -112,7 +113,7 @@ class PropertyEnvironment implements PropertySource {
 
         int count = 0;
         String names[] = new String[propNames.size()];
-        for (Enumeration e = propNames.keys(); e.hasMoreElements(); ) {
+        for (Enumeration<?> e = propNames.keys(); e.hasMoreElements(); ) {
             names[count++] = ((CaselessStringKey) e.nextElement()).getName();
         }
 
@@ -195,7 +196,7 @@ class PropertyEnvironment implements PropertySource {
 
     public void addPropertyGenerator(PropertyGenerator generator) {
         if (pg == null) {
-            pg = new Vector();
+            pg = new Vector<>();
         }
         pg.addElement(generator);
 
@@ -299,10 +300,7 @@ class PropertyEnvironment implements PropertySource {
         // Get non-suppressed properties from PropertyGenerators.
         // The propNames values are PropertyGenerator instances.
         if (pg != null) {
-            PropertyGenerator generator;
-
-            for (Iterator it = pg.iterator(); it.hasNext(); ) {
-                generator = (PropertyGenerator) it.next();
+            for (PropertyGenerator generator : pg) {
                 if (generator.canGenerateProperties(op)) {
                     String[] propertyNames = generator.getPropertyNames();
                     if (propertyNames != null) {
@@ -320,7 +318,7 @@ class PropertyEnvironment implements PropertySource {
         // Lastly, honor all the copyPropertyFromSource directives
         // The propNames values are PropertySource instances.
         if (sourceForProp != null) {
-            for (Enumeration e = sourceForProp.keys(); e.hasMoreElements(); ) {
+            for (Enumeration<?> e = sourceForProp.keys(); e.hasMoreElements(); ) {
                 CaselessStringKey name = (CaselessStringKey) e.nextElement();
 
                 if (!suppressed.containsKey(name)) {
