@@ -1165,7 +1165,7 @@ public final class SunTileScheduler implements TileScheduler {
             Point[] indices;
             if (tileIndices != null && tileIndices.length > 0) {
                 // Create a Set from the supplied indices.
-                List tileIndexList = Arrays.asList(tileIndices);
+                List tileIndexList = new ArrayList(Arrays.asList(tileIndices));
 
                 // Retain only indices which were actually in the request.
                 tileIndexList.retainAll(reqIndexList);
