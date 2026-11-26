@@ -35,11 +35,11 @@ public class CollectionRegistryMode extends RegistryMode {
         if (factoryMethod != null) return factoryMethod;
 
         // The factory Class that this registry mode represents.
-        Class factoryClass = org.eclipse.imagen.CollectionImageFactory.class;
+        Class<?> factoryClass = org.eclipse.imagen.CollectionImageFactory.class;
 
         try {
-            Class[] paramTypes =
-                    new Class[] {java.awt.image.renderable.ParameterBlock.class, java.awt.RenderingHints.class};
+            Class<?>[] paramTypes =
+                    new Class<?>[] {java.awt.image.renderable.ParameterBlock.class, java.awt.RenderingHints.class};
 
             factoryMethod = factoryClass.getMethod("create", paramTypes);
 

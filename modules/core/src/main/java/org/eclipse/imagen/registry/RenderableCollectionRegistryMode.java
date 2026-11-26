@@ -35,10 +35,10 @@ public class RenderableCollectionRegistryMode extends RegistryMode {
         if (factoryMethod != null) return factoryMethod;
 
         // The factory Class that this registry mode represents.
-        Class factoryClass = org.eclipse.imagen.RenderableCollectionImageFactory.class;
+        Class<?> factoryClass = org.eclipse.imagen.RenderableCollectionImageFactory.class;
 
         try {
-            Class[] paramTypes = new Class[] {java.awt.image.renderable.ParameterBlock.class};
+            Class<?>[] paramTypes = new Class<?>[] {java.awt.image.renderable.ParameterBlock.class};
 
             factoryMethod = factoryClass.getMethod("create", paramTypes);
 

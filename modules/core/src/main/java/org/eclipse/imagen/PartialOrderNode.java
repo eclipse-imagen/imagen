@@ -55,7 +55,7 @@ final class PartialOrderNode implements Cloneable, java.io.Serializable {
     protected PartialOrderNode zeroLink = null;
 
     /** A Vector of neighboring nodes. */
-    Vector neighbors = new Vector();
+    Vector<PartialOrderNode> neighbors = new Vector<>();
 
     /**
      * Constructs an <code>PartialOrderNode</code> with given associated data.
@@ -103,7 +103,7 @@ final class PartialOrderNode implements Cloneable, java.io.Serializable {
     }
 
     /** Returns the neighbors of this node as an <code>Enumeration</code>. */
-    Enumeration getNeighbors() {
+    Enumeration<PartialOrderNode> getNeighbors() {
         return neighbors.elements();
     }
 

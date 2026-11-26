@@ -75,7 +75,7 @@ class RegistryFileParser {
 
     // Table used to map local-factory names to factory instances
     // on a per mode basis.
-    private Hashtable localNamesTable;
+    private Hashtable<CaselessStringKey, Hashtable<CaselessStringKey, Object>> localNamesTable;
 
     /** Create a ImageN registry file parser from an <code>URL</code> */
     private RegistryFileParser(OperationRegistry or, ClassLoader cl, URL url) throws IOException {
@@ -109,12 +109,12 @@ class RegistryFileParser {
 
         // Initialize a table to map local names to factories.
 
-        localNamesTable = new Hashtable();
+        localNamesTable = new Hashtable<>();
 
         String modeNames[] = RegistryMode.getModeNames();
 
         for (int i = 0; i < modeNames.length; i++)
-            localNamesTable.put(new CaselessStringKey(modeNames[i]), new Hashtable());
+            localNamesTable.put(new CaselessStringKey(modeNames[i]), new Hashtable<>());
     }
 
     /** Skip all the empty tokens generated due to empty lines and comments. */
@@ -134,7 +134,7 @@ class RegistryFileParser {
 
         if (skipEmptyTokens() == StreamTokenizer.TT_EOF) return null;
 
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
 
         lineno = st.lineno();
 
@@ -147,7 +147,7 @@ class RegistryFileParser {
 
         if (v.size() == 0) return null;
 
-        return (String[]) v.toArray(new String[0]);
+        return v.toArray(new String[0]);
     }
 
     // Aliases for backward compatibility
@@ -178,7 +178,7 @@ class RegistryFileParser {
         }
 
         try {
-            Class descriptorClass = null;
+            Class<?> descriptorClass = null;
             String errorMsg = null;
 
             // Since the classes listed in the registryFile can
@@ -260,7 +260,7 @@ class RegistryFileParser {
                     } else if (existing.getClass() != mode.getClass()) {
                         registryFileError("Can not add registry mode since it already exists.");
                     }
-                    localNamesTable.putIfAbsent(new CaselessStringKey(mode.getName()), new Hashtable());
+                    localNamesTable.putIfAbsent(new CaselessStringKey(mode.getName()), new Hashtable<>());
                 }
 
                 // Old format operation-descriptor line OR
@@ -450,7 +450,7 @@ class RegistryFileParser {
     /** Map local names to factory instances, so that they can be used to directly set preferences later. */
     private void mapLocalNameToObject(String modeName, String localName, Object factory) {
 
-        Hashtable modeTable = (Hashtable) localNamesTable.get(new CaselessStringKey(modeName));
+        Hashtable<CaselessStringKey, Object> modeTable = localNamesTable.get(new CaselessStringKey(modeName));
 
         modeTable.put(new CaselessStringKey(localName), factory);
     }
@@ -458,7 +458,7 @@ class RegistryFileParser {
     /** Get object registered under the local name for under the mode. */
     private Object getObjectFromLocalName(String modeName, String localName) {
 
-        Hashtable modeTable = (Hashtable) localNamesTable.get(new CaselessStringKey(modeName));
+        Hashtable<CaselessStringKey, Object> modeTable = localNamesTable.get(new CaselessStringKey(modeName));
 
         Object obj = modeTable.get(new CaselessStringKey(localName));
 
@@ -497,15 +497,15 @@ class RegistryFileParser {
     static void writeOperationRegistry(OperationRegistry or, BufferedWriter bw) throws IOException {
 
         // First cycle through all the descriptor classes
-        Iterator dcit = RegistryMode.getDescriptorClasses().iterator();
+        Iterator<?> dcit = RegistryMode.getDescriptorClasses().iterator();
 
         String tab = "  ";
 
         while (dcit.hasNext()) {
 
-            Class descriptorClass = (Class) dcit.next();
+            Class<?> descriptorClass = (Class<?>) dcit.next();
 
-            List descriptors = or.getDescriptors(descriptorClass);
+            List<?> descriptors = or.getDescriptors(descriptorClass);
 
             // First write all the descriptors corresponding
             // to this descriptorClass
@@ -521,11 +521,9 @@ class RegistryFileParser {
                 bw.newLine();
             } else {
 
-                Iterator it = descriptors.iterator();
-
-                while (it.hasNext()) {
+                for (Object descriptor : descriptors) {
                     bw.write("descriptor" + tab);
-                    bw.write(it.next().getClass().getName());
+                    bw.write(descriptor.getClass().getName());
                     bw.newLine();
                 }
             }
@@ -558,24 +556,20 @@ class RegistryFileParser {
                 for (j = 0, empty = true; j < descriptorNames.length; j++) {
 
                     if (prefs) {
-                        Vector productVector = or.getOrderedProductList(modeNames[i], descriptorNames[j]);
+                        Vector<?> productVector = or.getOrderedProductList(modeNames[i], descriptorNames[j]);
 
                         if (productVector == null) continue;
 
-                        String[] productNames = (String[]) productVector.toArray(new String[0]);
+                        String[] productNames = productVector.toArray(new String[0]);
 
                         // Over all products under which there are
                         // factories registered under this descriptor name
                         for (k = 0; k < productNames.length; k++) {
 
-                            List factoryList =
+                            List<?> factoryList =
                                     or.getOrderedFactoryList(modeNames[i], descriptorNames[j], productNames[k]);
 
-                            Iterator fit = factoryList.iterator();
-
-                            while (fit.hasNext()) {
-                                Object instance = fit.next();
-
+                            for (Object instance : factoryList) {
                                 if (instance == null) continue;
 
                                 bw.write(modeNames[i] + tab);
@@ -589,7 +583,7 @@ class RegistryFileParser {
                             }
                         }
                     } else {
-                        Iterator fit = or.getFactoryIterator(modeNames[i], descriptorNames[j]);
+                        Iterator<?> fit = or.getFactoryIterator(modeNames[i], descriptorNames[j]);
 
                         while (fit.hasNext()) {
                             Object instance = fit.next();
@@ -668,11 +662,11 @@ class RegistryFileParser {
                 for (j = 0, empty = true; j < descriptorNames.length; j++) {
 
                     if (prefs) {
-                        Vector productVector = or.getOrderedProductList(modeNames[i], descriptorNames[j]);
+                        Vector<?> productVector = or.getOrderedProductList(modeNames[i], descriptorNames[j]);
 
                         if (productVector == null) continue;
 
-                        String[] productNames = (String[]) productVector.toArray(new String[0]);
+                        String[] productNames = productVector.toArray(new String[0]);
 
                         // Over all products under which there are
                         // factories registered under this descriptor name

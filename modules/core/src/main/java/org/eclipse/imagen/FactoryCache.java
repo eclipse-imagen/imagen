@@ -41,7 +41,7 @@ class FactoryCache {
     final RegistryMode mode;
 
     /** The Class corresponding to the factory. */
-    final Class factoryClass;
+    final Class<?> factoryClass;
 
     /** The name of the method in this factory used to do a "create" */
     final Method factoryMethod;
@@ -53,10 +53,10 @@ class FactoryCache {
     final boolean arePreferencesSupported;
 
     /** A Hashtable of all the instances, hashed by a filename that uniquely identifies each registered factory. */
-    private Hashtable instances;
+    private Hashtable<CaselessStringKey, Object> instances;
 
     /** A Hashtable of all the unique factory filenames, hashed by the factory they represent. */
-    private Hashtable instancesByName;
+    private Hashtable<Object, CaselessStringKey> instancesByName;
 
     /** A count to give a number to each registered factory. */
     private int count = 0;
@@ -66,7 +66,7 @@ class FactoryCache {
      * product name that the factory belongs to. Each element of the per product Hashtable is a Vector which contains a
      * list of pairwise factory preferences stored as Vectors.
      */
-    private Hashtable prefs;
+    private Hashtable<CaselessStringKey, Hashtable<CaselessStringKey, Vector<Object[]>>> prefs;
 
     /**
      * Constructor. Create a FactoryCache to hold factory objects for a specific mode.
@@ -82,11 +82,11 @@ class FactoryCache {
         factoryMethod = mode.getFactoryMethod();
         arePreferencesSupported = mode.arePreferencesSupported();
 
-        instances = new Hashtable();
+        instances = new Hashtable<>();
 
         if (arePreferencesSupported) {
-            instancesByName = new Hashtable();
-            prefs = new Hashtable();
+            instancesByName = new Hashtable<>();
+            prefs = new Hashtable<>();
         }
     }
 
@@ -125,7 +125,7 @@ class FactoryCache {
 
             // Update structures to reflect the addition of
             // this factory instance.
-            Vector v = new Vector();
+            Vector<String> v = new Vector<>();
 
             v.add(factoryInstance.getClass().getName());
             v.add(productName);
@@ -156,7 +156,7 @@ class FactoryCache {
 
             // Update structures to reflect the removal of
             // this factoryInstance.
-            CaselessStringKey fileName = (CaselessStringKey) instancesByName.get(factoryInstance);
+            CaselessStringKey fileName = instancesByName.get(factoryInstance);
 
             instancesByName.remove(factoryInstance);
             instances.remove(fileName);
@@ -197,16 +197,16 @@ class FactoryCache {
         CaselessStringKey dn = new CaselessStringKey(descriptorName);
         CaselessStringKey pn = new CaselessStringKey(productName);
 
-        Hashtable dht = (Hashtable) prefs.get(dn);
+        Hashtable<CaselessStringKey, Vector<Object[]>> dht = prefs.get(dn);
 
         if (dht == null) {
-            prefs.put(dn, dht = new Hashtable());
+            prefs.put(dn, dht = new Hashtable<>());
         }
 
-        Vector pv = (Vector) dht.get(pn);
+        Vector<Object[]> pv = dht.get(pn);
 
         if (pv == null) {
-            dht.put(pn, pv = new Vector());
+            dht.put(pn, pv = new Vector<>());
         }
 
         pv.addElement(new Object[] {preferredOp, otherOp});
@@ -241,19 +241,19 @@ class FactoryCache {
         checkInstance(otherOp);
 
         // Update structures to reflect removal of this pref.
-        Hashtable dht = (Hashtable) prefs.get(new CaselessStringKey(descriptorName));
+        Hashtable<CaselessStringKey, Vector<Object[]>> dht = prefs.get(new CaselessStringKey(descriptorName));
 
         boolean found = false;
 
         if (dht != null) {
 
-            Vector pv = (Vector) dht.get(new CaselessStringKey(productName));
+            Vector<Object[]> pv = dht.get(new CaselessStringKey(productName));
 
             if (pv != null) {
-                Iterator it = pv.iterator();
+                Iterator<Object[]> it = pv.iterator();
 
                 while (it.hasNext()) {
-                    Object[] objs = (Object[]) it.next();
+                    Object[] objs = it.next();
 
                     if ((objs[0] == preferredOp) && (objs[1] == otherOp)) {
 
@@ -294,14 +294,14 @@ class FactoryCache {
             throw new IllegalArgumentException("The input argument(s) may not be null.");
 
         // Update structures to reflect removal of this pref.
-        Hashtable dht = (Hashtable) prefs.get(new CaselessStringKey(descriptorName));
+        Hashtable<CaselessStringKey, Vector<Object[]>> dht = prefs.get(new CaselessStringKey(descriptorName));
 
         if (dht != null) {
 
-            Vector pv = (Vector) dht.get(new CaselessStringKey(productName));
+            Vector<Object[]> pv = dht.get(new CaselessStringKey(productName));
 
             if (pv != null) {
-                return (Object[][]) pv.toArray(new Object[0][]);
+                return pv.toArray(new Object[0][]);
             }
         }
 
@@ -323,25 +323,25 @@ class FactoryCache {
         }
 
         // Update structures to reflect removal of this pref.
-        Hashtable dht = (Hashtable) prefs.get(new CaselessStringKey(descriptorName));
+        Hashtable<CaselessStringKey, Vector<Object[]>> dht = prefs.get(new CaselessStringKey(descriptorName));
 
         if (dht != null) dht.remove(new CaselessStringKey(productName));
     }
 
     /** Get a list of factory objects registered under the descriptor and the product (in no particular order). */
-    List getFactoryList(String descriptorName, String productName) {
+    List<Object> getFactoryList(String descriptorName, String productName) {
 
         if (arePreferencesSupported) {
 
-            ArrayList list = new ArrayList();
+            List<Object> list = new ArrayList<>();
 
-            Enumeration keys = instancesByName.keys();
+            Enumeration<Object> keys = instancesByName.keys();
 
             while (keys.hasMoreElements()) {
                 Object instance = keys.nextElement();
-                CaselessStringKey fileName = (CaselessStringKey) instancesByName.get(instance);
+                CaselessStringKey fileName = instancesByName.get(instance);
 
-                Vector v = (Vector) instances.get(fileName);
+                Vector<?> v = (Vector<?>) instances.get(fileName);
 
                 String dn = (String) v.get(2);
                 String pn = (String) v.get(1);
@@ -354,7 +354,7 @@ class FactoryCache {
         } else {
             Object obj = instances.get(new CaselessStringKey(descriptorName));
 
-            ArrayList list = new ArrayList(1);
+            List<Object> list = new ArrayList<>(1);
 
             list.add(obj);
             return list;
@@ -363,7 +363,7 @@ class FactoryCache {
 
     /** Get the local name of a factoryInstance */
     String getLocalName(Object factoryInstance) {
-        CaselessStringKey fileName = (CaselessStringKey) instancesByName.get(factoryInstance);
+        CaselessStringKey fileName = instancesByName.get(factoryInstance);
 
         if (fileName != null) return fileName.getName();
 
@@ -392,11 +392,11 @@ class FactoryCache {
             if (productName == null)
                 throw new IllegalArgumentException("productName : " + "The input argument(s) may not be null.");
 
-            CaselessStringKey fileName = (CaselessStringKey) instancesByName.get(factoryInstance);
+            CaselessStringKey fileName = instancesByName.get(factoryInstance);
 
             if (fileName != null) {
 
-                Vector v = (Vector) instances.get(fileName);
+                Vector<?> v = (Vector<?>) instances.get(fileName);
 
                 String pn = (String) v.get(1);
                 String dn = (String) v.get(2);

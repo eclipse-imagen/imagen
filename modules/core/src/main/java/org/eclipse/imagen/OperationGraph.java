@@ -40,10 +40,10 @@ class OperationGraph implements java.io.Serializable {
      * A Vector of <code>PartialOrderNode</code>s, each <code>PartialOrderNode</code> contains the name of the operation
      * and the <code>OperationGraph</code> that contains the image factories implementing that operation.
      */
-    Vector operations = new Vector();
+    Vector<PartialOrderNode> operations = new Vector<>();
 
     /** A cached version of the ordered product list */
-    Vector orderedOperations;
+    Vector<PartialOrderNode> orderedOperations;
 
     /** Signifies whether the cached copy is out of date. */
     boolean isChanged = true;
@@ -104,7 +104,7 @@ class OperationGraph implements java.io.Serializable {
         int num = operations.size();
 
         for (int i = 0; i < num; i++) {
-            PartialOrderNode poNode = (PartialOrderNode) operations.elementAt(i);
+            PartialOrderNode poNode = operations.elementAt(i);
 
             if (compare(poNode, op)) {
                 PartialOrderNode tempNode = poNode;
@@ -162,24 +162,24 @@ class OperationGraph implements java.io.Serializable {
     }
 
     /** Performs a topological sort on the set of <code>PartialOrderNodes</code>. */
-    public synchronized Vector getOrderedOperationList() {
+    public synchronized Vector<PartialOrderNode> getOrderedOperationList() {
 
         // If the cached copy is still current, return it
         if (isChanged == false) {
 
-            Vector ordered = orderedOperations;
+            Vector<PartialOrderNode> ordered = orderedOperations;
             return ordered;
         }
 
         int num = operations.size(); // The number of nodes in the digraph
         for (int i = 0; i < num; i++) {
-            PartialOrderNode pon = (PartialOrderNode) operations.elementAt(i);
+            PartialOrderNode pon = operations.elementAt(i);
             pon.setCopyInDegree(pon.getInDegree());
         }
 
         // Cache the ordered list in orderedOperations, and update the
         // isChanged variable to reflect that this is a newly computed list.
-        orderedOperations = new Vector(num);
+        orderedOperations = new Vector<>(num);
         isChanged = false;
 
         // A linked list of nodes with zero in-degree
@@ -189,7 +189,7 @@ class OperationGraph implements java.io.Serializable {
 
         // Scan for elements with 0 in-degree
         for (i = 0; i < num; i++) {
-            poNode = (PartialOrderNode) operations.elementAt(i);
+            poNode = operations.elementAt(i);
             if (poNode.getCopyInDegree() == 0) {
                 poNode.setZeroLink(zeroList);
                 zeroList = poNode;
@@ -213,9 +213,9 @@ class OperationGraph implements java.io.Serializable {
             // Bump the free list pointer
             zeroList = zeroList.getZeroLink();
             // For each neighbor of the output node, decrement its in-degree
-            Enumeration neighbors = firstNode.getNeighbors();
+            Enumeration<PartialOrderNode> neighbors = firstNode.getNeighbors();
             while (neighbors.hasMoreElements()) {
-                poNode = (PartialOrderNode) neighbors.nextElement();
+                poNode = neighbors.nextElement();
                 poNode.decrementCopyInDegree();
 
                 // If the in-degree has fallen to 0,
@@ -227,7 +227,7 @@ class OperationGraph implements java.io.Serializable {
             }
         }
 
-        Vector ordered = orderedOperations;
+        Vector<PartialOrderNode> ordered = orderedOperations;
         return ordered;
     }
 }

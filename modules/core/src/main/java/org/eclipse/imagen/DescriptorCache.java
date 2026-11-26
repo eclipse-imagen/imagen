@@ -46,13 +46,13 @@ class DescriptorCache {
     final boolean arePropertiesSupported;
 
     /** A map of all the <code>RegistryElementDescriptor</code>s, hashed by their name. */
-    private ConcurrentHashMap descriptorNames;
+    private ConcurrentHashMap<CaselessStringKey, RegistryElementDescriptor> descriptorNames;
 
     /**
      * A Hashtable of all the products, hashed by the name of the <code>RegistryElementDescriptor</code> to which they
      * belong.
      */
-    private Hashtable products;
+    private Hashtable<CaselessStringKey, ProductOperationGraph> products;
 
     /**
      * A Hashtable of all the product preferences, hashed by the descriptor name that the products belong to. The
@@ -60,7 +60,7 @@ class DescriptorCache {
      * <code>String[2]</code> objects, each storing the preferred product's name, and the other product's name within
      * it.
      */
-    private Hashtable productPrefs;
+    private Hashtable<CaselessStringKey, Vector<String[]>> productPrefs;
 
     //
     // Property related tables...
@@ -70,27 +70,27 @@ class DescriptorCache {
      * A Hashtable of <code>Vector</code>s containing all the <code>PropertyGenerator</code>s, hashed by the descriptor
      * name that the <code>PropertyGenerator</code>s belong to.
      */
-    private Hashtable properties;
+    private Hashtable<CaselessStringKey, Vector<PropertyGenerator>> properties;
 
     /**
      * A Hashtable of <code>Vector</code>s containing the names of all the properties to be suppressed, hashed by the
      * descriptor name whose properties are to be suppressed.
      */
-    private Hashtable suppressed;
+    private Hashtable<CaselessStringKey, Vector<CaselessStringKey>> suppressed;
 
     /**
      * A Hashtable containing information about which source a property should be copied from, hashed by the descriptor
      * name to which the property belongs. The information about which source a property should be copied from is stored
      * in a Hashtable containing the index of the source, hashed by the property name.
      */
-    private Hashtable sourceForProp;
+    private Hashtable<CaselessStringKey, Hashtable<CaselessStringKey, Integer>> sourceForProp;
 
     /**
      * A Hashtable that stores the <code>PropertySource</code>s for all the properties, hashed by the descriptor name
      * that the properties belong to. The <code>PropertySource</code>s are stored in a Hashtable, hashed by the name of
      * the property.
      */
-    private Hashtable propNames;
+    private Hashtable<CaselessStringKey, Hashtable<CaselessStringKey, PropertyGenerator>> propNames;
 
     /**
      * The Constructor. Create a <code>RegistryElementDescriptor</code> cache for maintaining descriptors for the
@@ -106,16 +106,16 @@ class DescriptorCache {
         arePreferencesSupported = mode.arePreferencesSupported();
         arePropertiesSupported = mode.arePropertiesSupported();
 
-        descriptorNames = new ConcurrentHashMap();
-        products = new Hashtable();
+        descriptorNames = new ConcurrentHashMap<>();
+        products = new Hashtable<>();
 
-        if (arePreferencesSupported) productPrefs = new Hashtable();
+        if (arePreferencesSupported) productPrefs = new Hashtable<>();
 
         // Property related tables.
-        properties = new Hashtable();
-        suppressed = new Hashtable();
-        sourceForProp = new Hashtable();
-        propNames = new Hashtable();
+        properties = new Hashtable<>();
+        suppressed = new Hashtable<>();
+        sourceForProp = new Hashtable<>();
+        propNames = new Hashtable<>();
     }
 
     /**
@@ -164,23 +164,23 @@ class DescriptorCache {
         if (props != null) {
             for (int i = 0; i < props.length; i++) {
 
-                Vector v = (Vector) properties.get(key);
+                Vector<PropertyGenerator> v = properties.get(key);
                 if (v == null) {
-                    v = new Vector();
+                    v = new Vector<>();
                     v.addElement(props[i]);
                     properties.put(key, v);
                 } else {
                     v.addElement(props[i]);
                 }
 
-                v = (Vector) suppressed.get(key);
-                Hashtable h = (Hashtable) sourceForProp.get(key);
+                Vector<CaselessStringKey> s = suppressed.get(key);
+                Hashtable<CaselessStringKey, Integer> h = sourceForProp.get(key);
                 String names[] = props[i].getPropertyNames();
 
                 for (int j = 0; j < names.length; j++) {
                     CaselessStringKey name = new CaselessStringKey(names[j]);
 
-                    if (v != null) v.remove(name);
+                    if (s != null) s.remove(name);
                     if (h != null) h.remove(name);
                 }
             }
@@ -210,7 +210,7 @@ class DescriptorCache {
                     new Object[] {descriptorName, modeName}));
         }
 
-        RegistryElementDescriptor rdesc = (RegistryElementDescriptor) descriptorNames.get(key);
+        RegistryElementDescriptor rdesc = descriptorNames.get(key);
 
         PropertyGenerator props[] = null;
 
@@ -227,7 +227,7 @@ class DescriptorCache {
                             new Object[] {new Integer(i), descriptorName, modeName}));
                 }
 
-                Vector v = (Vector) properties.get(key);
+                Vector<PropertyGenerator> v = properties.get(key);
                 if (v != null) {
                     v.removeElement(props[i]);
                 }
@@ -271,7 +271,7 @@ class DescriptorCache {
         // Use a caseless version of the key.
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        return (RegistryElementDescriptor) descriptorNames.get(key);
+        return descriptorNames.get(key);
     }
 
     /**
@@ -279,15 +279,8 @@ class DescriptorCache {
      *
      * @return a List of <code>RegistryElementDescriptor</code>s.
      */
-    List getDescriptors() {
-
-        ArrayList list = new ArrayList();
-
-        for (Enumeration en = descriptorNames.elements(); en.hasMoreElements(); ) {
-            list.add(en.nextElement());
-        }
-
-        return list;
+    List<RegistryElementDescriptor> getDescriptors() {
+        return new ArrayList<>(descriptorNames.values());
     }
 
     /**
@@ -298,12 +291,12 @@ class DescriptorCache {
      */
     String[] getDescriptorNames() {
 
-        Enumeration e = descriptorNames.keys();
+        Enumeration<CaselessStringKey> e = descriptorNames.keys();
         int size = descriptorNames.size();
         String names[] = new String[size];
 
         for (int i = 0; i < size; i++) {
-            CaselessStringKey key = (CaselessStringKey) e.nextElement();
+            CaselessStringKey key = e.nextElement();
             names[i] = key.getName();
         }
 
@@ -325,7 +318,7 @@ class DescriptorCache {
 
         if (productName == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
-        ProductOperationGraph pog = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph pog = products.get(key);
 
         if (pog == null) return null;
 
@@ -355,7 +348,7 @@ class DescriptorCache {
 
         if (productName == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
-        ProductOperationGraph pog = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph pog = products.get(key);
 
         if (pog == null) return false;
 
@@ -383,7 +376,7 @@ class DescriptorCache {
 
         if (productName == null) throw new IllegalArgumentException("The input argument(s) may not be null.");
 
-        ProductOperationGraph pog = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph pog = products.get(key);
 
         if (pog == null) return null;
 
@@ -433,7 +426,7 @@ class DescriptorCache {
                     new Object[] {descriptorName, modeName}));
         }
 
-        ProductOperationGraph og = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph og = products.get(key);
 
         if (og == null) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -459,13 +452,13 @@ class DescriptorCache {
 
         // Update structures to reflect this new product preference.
         if (productPrefs.containsKey(key) == false) {
-            Vector v = new Vector();
+            Vector<String[]> v = new Vector<>();
             v.addElement(prefs);
 
             productPrefs.put(key, v);
 
         } else {
-            Vector v = (Vector) productPrefs.get(key);
+            Vector<String[]> v = productPrefs.get(key);
             v.addElement(prefs);
         }
 
@@ -510,7 +503,7 @@ class DescriptorCache {
                     new Object[] {descriptorName, modeName}));
         }
 
-        ProductOperationGraph og = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph og = products.get(key);
 
         if (og == null) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -539,10 +532,10 @@ class DescriptorCache {
                     new Object[] {descriptorName, modeName}));
         }
 
-        Vector v = (Vector) productPrefs.get(key);
-        Iterator it = v.iterator();
+        Vector<String[]> v = productPrefs.get(key);
+        Iterator<String[]> it = v.iterator();
         while (it.hasNext()) {
-            String[] prefs = (String[]) it.next();
+            String[] prefs = it.next();
 
             if (prefs[0].equalsIgnoreCase(preferredProductName) && prefs[1].equalsIgnoreCase(otherProductName)) {
                 it.remove();
@@ -578,7 +571,7 @@ class DescriptorCache {
                     new Object[] {descriptorName, modeName}));
         }
 
-        ProductOperationGraph og = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph og = products.get(key);
 
         if (og == null) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -589,11 +582,11 @@ class DescriptorCache {
         // if there are no preferences to clear..
         if (productPrefs.containsKey(key) == false) return true;
 
-        Vector v = (Vector) productPrefs.get(key);
-        Enumeration e = v.elements();
+        Vector<String[]> v = productPrefs.get(key);
+        Enumeration<String[]> e = v.elements();
 
         while (e.hasMoreElements()) {
-            String prefs[] = (String[]) e.nextElement();
+            String prefs[] = e.nextElement();
 
             String pref = prefs[0];
             String other = prefs[1];
@@ -636,22 +629,22 @@ class DescriptorCache {
         // Use a caseless version of the key.
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        Vector v;
+        Vector<String[]> v;
 
         if (productPrefs.containsKey(key) == false) {
             // No product preferences have been set.
             return null;
         } else {
-            v = (Vector) productPrefs.get(key);
+            v = productPrefs.get(key);
             int s = v.size();
             if (s == 0) {
                 return null;
             }
             String productPreferences[][] = new String[s][2];
             int count = 0;
-            Enumeration e = v.elements();
+            Enumeration<String[]> e = v.elements();
             while (e.hasMoreElements()) {
-                String[] o = (String[]) e.nextElement();
+                String[] o = e.nextElement();
                 productPreferences[count][0] = o[0];
                 productPreferences[count++][1] = o[1];
             }
@@ -671,7 +664,7 @@ class DescriptorCache {
      *     preferences.
      * @throws IllegalArgumentException if descriptorName is null.
      */
-    Vector getOrderedProductList(String descriptorName) {
+    Vector<String> getOrderedProductList(String descriptorName) {
 
         if (!arePreferencesSupported) return null;
 
@@ -682,7 +675,7 @@ class DescriptorCache {
             return null;
         }
 
-        ProductOperationGraph productGraph = (ProductOperationGraph) products.get(key);
+        ProductOperationGraph productGraph = products.get(key);
 
         // If no products exist under this Operation Name
         if (productGraph == null) {
@@ -690,7 +683,7 @@ class DescriptorCache {
         }
 
         // Get the ordered vector of PartialOrderNodes
-        Vector v1 = productGraph.getOrderedOperationList();
+        Vector<PartialOrderNode> v1 = productGraph.getOrderedOperationList();
 
         if (v1 == null) return null;
 
@@ -699,9 +692,9 @@ class DescriptorCache {
         if (size == 0) { // no element
             return null;
         } else {
-            Vector v2 = new Vector();
-            for (int i = 0; i < size; i++) {
-                v2.addElement(((PartialOrderNode) v1.elementAt(i)).getName());
+            Vector<String> v2 = new Vector<>();
+            for (PartialOrderNode node : v1) {
+                v2.addElement(node.getName());
             }
 
             return v2;
@@ -714,7 +707,7 @@ class DescriptorCache {
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        RegistryElementDescriptor rdesc = (RegistryElementDescriptor) descriptorNames.get(key);
+        RegistryElementDescriptor rdesc = descriptorNames.get(key);
 
         if (rdesc == null) {
             throw new IllegalArgumentException(MessageFormat.format(
@@ -733,8 +726,8 @@ class DescriptorCache {
                     "Registry mode \"{0}\" does not support properties.", new Object[] {modeName}));
         }
 
-        properties = new Hashtable();
-        suppressed = new Hashtable();
+        properties = new Hashtable<>();
+        suppressed = new Hashtable<>();
     }
 
     /**
@@ -755,24 +748,24 @@ class DescriptorCache {
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        Vector v = (Vector) properties.get(key);
+        Vector<PropertyGenerator> v = properties.get(key);
 
         if (v == null) {
-            v = new Vector();
+            v = new Vector<>();
             properties.put(key, v);
         }
 
         v.addElement(generator);
 
-        v = (Vector) suppressed.get(key);
-        Hashtable h = (Hashtable) sourceForProp.get(key);
+        Vector<CaselessStringKey> s = suppressed.get(key);
+        Hashtable<CaselessStringKey, Integer> h = sourceForProp.get(key);
 
         String names[] = generator.getPropertyNames();
 
         for (int j = 0; j < names.length; j++) {
             CaselessStringKey name = new CaselessStringKey(names[j]);
 
-            if (v != null) v.remove(name);
+            if (s != null) s.remove(name);
             if (h != null) h.remove(name);
         }
     }
@@ -780,19 +773,15 @@ class DescriptorCache {
     private void hashNames(String descriptorName) {
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        Vector c = (Vector) properties.get(key);
-        Vector s = (Vector) suppressed.get(key);
+        Vector<PropertyGenerator> c = properties.get(key);
+        Vector<CaselessStringKey> s = suppressed.get(key);
 
-        Hashtable h = new Hashtable();
+        Hashtable<CaselessStringKey, PropertyGenerator> h = new Hashtable<>();
         propNames.put(key, h);
 
         if (c != null) {
-            PropertyGenerator pg;
-            String names[];
-
-            for (Iterator it = c.iterator(); it.hasNext(); ) {
-                pg = (PropertyGenerator) it.next();
-                names = pg.getPropertyNames();
+            for (PropertyGenerator pg : c) {
+                String[] names = pg.getPropertyNames();
 
                 for (int i = 0; i < names.length; i++) {
                     CaselessStringKey name = new CaselessStringKey(names[i]);
@@ -805,13 +794,13 @@ class DescriptorCache {
             }
         }
 
-        Hashtable htable = (Hashtable) sourceForProp.get(key);
+        Hashtable<CaselessStringKey, Integer> htable = sourceForProp.get(key);
 
         if (htable != null) {
-            for (Enumeration e = htable.keys(); e.hasMoreElements(); ) {
-                CaselessStringKey name = (CaselessStringKey) e.nextElement();
+            for (Enumeration<CaselessStringKey> e = htable.keys(); e.hasMoreElements(); ) {
+                CaselessStringKey name = e.nextElement();
 
-                int i = ((Integer) htable.get(name)).intValue();
+                int i = htable.get(name).intValue();
 
                 PropertyGenerator generator = new PropertyGeneratorFromSource(i, name.getName());
 
@@ -842,7 +831,7 @@ class DescriptorCache {
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        Vector v = (Vector) properties.get(key);
+        Vector<PropertyGenerator> v = properties.get(key);
 
         if (v != null) {
             v.removeElement(generator);
@@ -873,16 +862,16 @@ class DescriptorCache {
         CaselessStringKey propertyKey = new CaselessStringKey(propertyName);
 
         // Mark the property name as suppressed.
-        Vector v = (Vector) suppressed.get(key);
+        Vector<CaselessStringKey> v = suppressed.get(key);
 
         if (v == null) {
-            v = new Vector();
+            v = new Vector<>();
             suppressed.put(key, v);
         }
 
         v.addElement(propertyKey);
 
-        Hashtable h = (Hashtable) sourceForProp.get(key);
+        Hashtable<CaselessStringKey, Integer> h = sourceForProp.get(key);
 
         if (h != null) {
             h.remove(propertyKey);
@@ -911,13 +900,10 @@ class DescriptorCache {
 
         // Get names of all properties that this descriptorName
         // is associated with
-        Vector v = (Vector) properties.get(key);
+        Vector<PropertyGenerator> v = properties.get(key);
 
         if (v != null) {
-            PropertyGenerator pg;
-
-            for (Iterator it = v.iterator(); it.hasNext(); ) {
-                pg = (PropertyGenerator) it.next();
+            for (PropertyGenerator pg : v) {
                 String propertyNames[] = pg.getPropertyNames();
                 for (int i = 0; i < propertyNames.length; i++) {
                     suppressProperty(descriptorName, propertyNames[i]);
@@ -951,16 +937,16 @@ class DescriptorCache {
         CaselessStringKey key = new CaselessStringKey(descriptorName);
         CaselessStringKey propertyKey = new CaselessStringKey(propertyName);
 
-        Hashtable h = (Hashtable) sourceForProp.get(key);
+        Hashtable<CaselessStringKey, Integer> h = sourceForProp.get(key);
 
         if (h == null) {
-            h = new Hashtable();
+            h = new Hashtable<>();
             sourceForProp.put(key, h);
         }
 
         h.put(propertyKey, new Integer(sourceIndex));
 
-        Vector v = (Vector) suppressed.get(key);
+        Vector<CaselessStringKey> v = suppressed.get(key);
 
         if (v != null) {
             v.remove(propertyKey);
@@ -986,13 +972,12 @@ class DescriptorCache {
 
         hashNames(descriptorName);
 
-        Hashtable h = (Hashtable) propNames.get(key);
+        Hashtable<CaselessStringKey, PropertyGenerator> h = propNames.get(key);
 
         if (h != null && h.size() > 0) {
             String names[] = new String[h.size()];
             int count = 0;
-            for (Enumeration e = h.keys(); e.hasMoreElements(); ) {
-                CaselessStringKey str = (CaselessStringKey) e.nextElement();
+            for (CaselessStringKey str : h.keySet()) {
                 names[count++] = str.getName();
             }
 
@@ -1018,7 +1003,7 @@ class DescriptorCache {
      *             RegistryElementDescriptor</code> registered against the <code>descriptorName</code>
      * @throws IllegalArgumentException if the specified mode does not support properties.
      */
-    PropertySource getPropertySource(String descriptorName, Object op, Vector sources) {
+    PropertySource getPropertySource(String descriptorName, Object op, Vector<?> sources) {
 
         if ((descriptorName == null) || (op == null) || (sources == null)) {
             throw new IllegalArgumentException("The input argument(s) may not be null.");
@@ -1031,10 +1016,10 @@ class DescriptorCache {
 
         CaselessStringKey key = new CaselessStringKey(descriptorName);
 
-        Vector pg = (Vector) properties.get(key);
-        Vector sp = (Vector) suppressed.get(key);
+        Vector<PropertyGenerator> pg = properties.get(key);
+        Vector<CaselessStringKey> sp = suppressed.get(key);
 
-        Hashtable sfp = (Hashtable) sourceForProp.get(key);
+        Hashtable<CaselessStringKey, Integer> sfp = sourceForProp.get(key);
 
         return new PropertyEnvironment(sources, pg, sp, sfp, op);
     }

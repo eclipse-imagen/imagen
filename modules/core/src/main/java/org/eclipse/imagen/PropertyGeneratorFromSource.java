@@ -33,8 +33,8 @@ class PropertyGeneratorFromSource extends PropertyGeneratorImpl {
     PropertyGeneratorFromSource(int sourceIndex, String propertyName) {
         super(
                 new String[] {propertyName},
-                new Class[] {Object.class}, // could be anything
-                new Class[] {OperationNode.class});
+                new Class<?>[] {Object.class}, // could be anything
+                new Class<?>[] {OperationNode.class});
 
         if (propertyName == null) {
             throw new IllegalArgumentException("The input argument(s) may not be null.");
@@ -51,7 +51,7 @@ class PropertyGeneratorFromSource extends PropertyGeneratorImpl {
 
         if (sourceIndex >= 0 && opNode instanceof OperationNode && propertyName.equalsIgnoreCase(name)) {
             OperationNode op = (OperationNode) opNode;
-            Vector sources = op.getParameterBlock().getSources();
+            Vector<?> sources = op.getParameterBlock().getSources();
             if (sources != null && sourceIndex < sources.size()) {
                 Object src = sources.elementAt(sourceIndex);
                 if (src instanceof PropertySource) {
